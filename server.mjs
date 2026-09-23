@@ -4,12 +4,13 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import pg from 'pg';
+import {getLesson,gradeLesson,validAnswer} from './course.mjs';
 
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dist=path.join(root,'dist');
 const pool=new pg.Pool({connectionString:process.env.DATABASE_URL,max:6,connectionTimeoutMillis:8000});
 const sessionDays=30;
-const answerKey=[1,1,1,1,1];
+
 const attempts=new Map();
 const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.ico':'image/x-icon','.woff2':'font/woff2'};
 const hash=text=>crypto.createHash('sha256').update(text).digest('hex');
@@ -21,6 +22,9 @@ async function migrate(){
  await pool.query(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), email text UNIQUE NOT NULL, name text NOT NULL, role text NOT NULL CHECK(role IN ('learner','teacher')), password_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
  CREATE TABLE IF NOT EXISTS sessions (token_hash text PRIMARY KEY, user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL);
  CREATE TABLE IF NOT EXISTS practice_attempts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, score integer NOT NULL CHECK(score BETWEEN 0 AND 100), total integer NOT NULL CHECK(total BETWEEN 1 AND 100), source text NOT NULL CHECK(source IN ('exercise','imported')), created_at timestamptz NOT NULL DEFAULT now());
+ ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS submission_key text;
+ CREATE UNIQUE INDEX IF NOT EXISTS practice_submission ON practice_attempts(user_id,submission_key);
+ CREATE TABLE IF NOT EXISTS lesson_drafts (user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, answers jsonb NOT NULL DEFAULT '[]', updated_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(user_id,lesson_id));
  CREATE INDEX IF NOT EXISTS practice_user_time ON practice_attempts(user_id,created_at DESC);
  CREATE TABLE IF NOT EXISTS share_codes (code_hash text PRIMARY KEY, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL, redeemed_at timestamptz);
  CREATE TABLE IF NOT EXISTS teacher_links (teacher_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(teacher_id,learner_id));
@@ -29,7 +33,7 @@ async function migrate(){
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
 function limited(req,key,limit=12){const address=(req.headers['x-forwarded-for']||req.socket.remoteAddress||'unknown').toString().split(',')[0];const id=address+':'+key;const now=Date.now(),record=attempts.get(id)||{count:0,until:now+15*60e3};if(record.until<now){record.count=0;record.until=now+15*60e3}record.count++;attempts.set(id,record);if(record.count>limit)fail(429,'Too many attempts. Please try again later.')}
-async function json(req){let body='';for await(const chunk of req){body+=chunk;if(body.length>25000)fail(413,'Request too large')}try{return JSON.parse(body||'{}')}catch{fail(400,'Invalid JSON')}}
+async function json(req){let body='';for await(const chunk of req){body+=chunk;if(body.length>300000)fail(413,'Request too large')}try{return JSON.parse(body||'{}')}catch{fail(400,'Invalid JSON')}}
 async function currentUser(req){const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(!token)return null;const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',[hash(token)]);return result.rows[0]||null}
 async function required(req,role){const user=await currentUser(req);if(!user)fail(401,'Sign in to continue');if(role&&user.role!==role)fail(403,'Not allowed for this account');return user}
 async function linked(teacherId,learnerId){const r=await pool.query('SELECT 1 FROM teacher_links WHERE teacher_id=$1 AND learner_id=$2',[teacherId,learnerId]);if(!r.rowCount)fail(403,'This learner has not shared access with you')}
@@ -57,16 +61,36 @@ async function handle(req,res){
  if(route==='/api/practice'&&req.method==='GET'){
   const user=await required(req,'learner');const r=await pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[user.id]);return send(res,200,{attempts:r.rows});
  }
+ if(route==='/api/learning'&&req.method==='GET'){
+  const user=await required(req,'learner');
+  const [progress,drafts]=await Promise.all([pool.query("SELECT lesson_id AS lesson,MAX(score)::int AS best,COUNT(*)::int AS count,(ARRAY_AGG(score ORDER BY created_at DESC,id DESC))[1] AS latest FROM practice_attempts WHERE user_id=$1 GROUP BY lesson_id",[user.id]),pool.query('SELECT lesson_id AS lesson,answers,updated_at AS at FROM lesson_drafts WHERE user_id=$1',[user.id])]);
+  return send(res,200,{progress:progress.rows,drafts:drafts.rows});
+ }
+ const draftMatch=route.match(/^\/api\/learning\/([a-z0-9-]+)$/);
+ if(draftMatch&&req.method==='PUT'){
+  const user=await required(req,'learner'),data=await json(req),lesson=getLesson(draftMatch[1]);
+  if(!lesson||!Array.isArray(data.answers)||data.answers.length>=lesson.questions.length||!data.answers.every((a,i)=>validAnswer(lesson.questions[i],a)))fail(400,'Invalid lesson progress');
+  await pool.query('INSERT INTO lesson_drafts(user_id,lesson_id,answers) VALUES($1,$2,$3::jsonb) ON CONFLICT(user_id,lesson_id) DO UPDATE SET answers=EXCLUDED.answers,updated_at=now()',[user.id,lesson.id,JSON.stringify(data.answers)]);
+  return send(res,200,{ok:true});
+ }
  if(route==='/api/practice'&&req.method==='POST'){
-  const user=await required(req,'learner'),data=await json(req);if(data.lesson!=='subjunctive'||!Array.isArray(data.answers)||data.answers.length!==answerKey.length||!data.answers.every(x=>Number.isInteger(x)&&x>=0&&x<=2))fail(400,'Invalid completed exercise');
-  const score=Math.round(data.answers.filter((x,i)=>x===answerKey[i]).length/answerKey.length*100);
-  const r=await pool.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source) VALUES($1,'subjunctive',$2,$3,'exercise') RETURNING id,lesson_id AS lesson,score,total,source,created_at AS at",[user.id,score,answerKey.length]);return send(res,201,{attempt:r.rows[0]});
+  const user=await required(req,'learner'),data=await json(req);let result;
+  try{result=gradeLesson(data.lesson,data.answers)}catch{fail(400,'Invalid completed exercise')}
+  const key=data.submissionKey||null;if(key!==null&&(typeof key!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(key)))fail(400,'Invalid submission key');
+  const c=await pool.connect();try{
+   await c.query('BEGIN');
+   const r=await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,submission_key) VALUES($1,$2,$3,$4,'exercise',$5) ON CONFLICT(user_id,submission_key) DO UPDATE SET submission_key=EXCLUDED.submission_key RETURNING id,lesson_id AS lesson,score,total,source,created_at AS at",[user.id,data.lesson,result.score,result.total,key]);
+   if(r.rows[0].lesson!==data.lesson)fail(409,'Submission key already used');
+   await c.query('DELETE FROM lesson_drafts WHERE user_id=$1 AND lesson_id=$2',[user.id,data.lesson]);await c.query('COMMIT');return send(res,201,{attempt:r.rows[0]});
+  }catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
  }
  if(route==='/api/practice/import'&&req.method==='POST'){
-  const user=await required(req,'learner'),data=await json(req);if(!Array.isArray(data.attempts)||data.attempts.length>20)fail(400,'Invalid import');
-  const existing=await pool.query('SELECT 1 FROM practice_attempts WHERE user_id=$1 LIMIT 1',[user.id]);if(existing.rowCount)fail(409,'This account already has saved practice');
-  for(const attempt of data.attempts){if(!Number.isInteger(attempt.score)||attempt.score<0||attempt.score>100||!Number.isInteger(attempt.total)||attempt.total<1||attempt.total>100)fail(400,'Invalid score')}
-  for(const attempt of [...data.attempts].reverse()){const date=attempt.at&&Number.isFinite(Date.parse(attempt.at))?new Date(attempt.at):new Date();await pool.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,created_at) VALUES($1,'subjunctive',$2,$3,'imported',$4)",[user.id,attempt.score,attempt.total,date])}
+  const user=await required(req,'learner'),data=await json(req);if(!Array.isArray(data.attempts)||data.attempts.length>2000)fail(400,'Invalid import');
+  for(const attempt of data.attempts){if(!Number.isInteger(attempt.score)||attempt.score<0||attempt.score>100||!Number.isInteger(attempt.total)||attempt.total<1||attempt.total>100||!getLesson(attempt.lesson||'subjunctive'))fail(400,'Invalid score')}
+  const c=await pool.connect();try{await c.query('BEGIN');await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[user.id]);
+  const existing=await c.query('SELECT 1 FROM practice_attempts WHERE user_id=$1 LIMIT 1',[user.id]);if(existing.rowCount)fail(409,'This account already has saved practice');
+  for(const attempt of [...data.attempts].reverse()){const date=attempt.at&&Number.isFinite(Date.parse(attempt.at))?new Date(attempt.at):new Date();await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,created_at) VALUES($1,$5,$2,$3,'imported',$4)",[user.id,attempt.score,attempt.total,date,attempt.lesson||'subjunctive'])}
+  await c.query('COMMIT')}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
   return send(res,200,{imported:data.attempts.length});
  }
  if(route==='/api/share-code'&&req.method==='POST'){
@@ -95,3 +119,4 @@ async function serve(req,res,route){if(req.method!=='GET'&&req.method!=='HEAD')r
 if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
 await migrate();
 http.createServer((req,res)=>handle(req,res).catch(err=>{if(err.status<500)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));
+
