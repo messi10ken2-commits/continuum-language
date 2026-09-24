@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import pg from 'pg';
 import {getLesson,gradeLesson,validAnswer} from './course.mjs';
+import {migrateAssessments,handleAssessment,assessmentHistory} from './assessment-api.mjs';
 
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dist=path.join(root,'dist');
@@ -30,6 +31,7 @@ async function migrate(){
  CREATE TABLE IF NOT EXISTS share_codes (code_hash text PRIMARY KEY, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL, redeemed_at timestamptz);
  CREATE TABLE IF NOT EXISTS teacher_links (teacher_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(teacher_id,learner_id));
  CREATE TABLE IF NOT EXISTS class_notes (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, teacher_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, focus text NOT NULL, note text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());`);
+ await migrateAssessments(pool);
 }
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
@@ -46,6 +48,7 @@ async function handle(req,res){
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)fail(403,'Invalid request origin')}
+ if(await handleAssessment({route,req,res,pool,required,json,send,fail}))return;
  if(route==='/api/health'&&req.method==='GET'){await pool.query('SELECT 1');return send(res,200,{ok:true})}
  if(route==='/api/auth/me'&&req.method==='GET')return send(res,200,{user:await currentUser(req)});
  if(route==='/api/auth/register'&&req.method==='POST'){
@@ -116,7 +119,7 @@ async function handle(req,res){
  }
  const match=route.match(/^\/api\/teacher\/learners\/([a-f0-9-]{36})(?:\/(notes))?$/);
  if(match){const teacher=await required(req,'teacher'),learnerId=match[1];await linked(teacher.id,learnerId);
-  if(!match[2]&&req.method==='GET'){const learner=await pool.query('SELECT id,name,share_self_learning FROM users WHERE id=$1',[learnerId]);const shared=learner.rows[0].share_self_learning;const r=shared?await pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[learnerId]):{rows:[]};return send(res,200,{learner:{id:learner.rows[0].id,name:learner.rows[0].name},attempts:r.rows,sharing:{selfLearning:shared}})}
+  if(!match[2]&&req.method==='GET'){const learner=await pool.query('SELECT id,name,share_self_learning FROM users WHERE id=$1',[learnerId]);const shared=learner.rows[0].share_self_learning;const r=shared?await pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[learnerId]):{rows:[]};const assessments=shared?await assessmentHistory(pool,learnerId):[];return send(res,200,{learner:{id:learner.rows[0].id,name:learner.rows[0].name},attempts:r.rows,assessment:assessments[0]||null,sharing:{selfLearning:shared}})}
   if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[learnerId]);return send(res,200,{notes:r.rows})}
   if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim();if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note) VALUES($1,$2,$3,$4) RETURNING id,focus,note,created_at AS at',[learnerId,teacher.id,focus,note]);return send(res,201,{note:r.rows[0]})}
  }
