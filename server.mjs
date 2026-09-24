@@ -20,6 +20,7 @@ const cookieAttrs=`HttpOnly; SameSite=Lax; Path=/; Max-Age=${sessionDays*86400}$
 
 async function migrate(){
  await pool.query(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), email text UNIQUE NOT NULL, name text NOT NULL, role text NOT NULL CHECK(role IN ('learner','teacher')), password_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+ ALTER TABLE users ADD COLUMN IF NOT EXISTS share_self_learning boolean NOT NULL DEFAULT true;
  CREATE TABLE IF NOT EXISTS sessions (token_hash text PRIMARY KEY, user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL);
  CREATE TABLE IF NOT EXISTS practice_attempts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, score integer NOT NULL CHECK(score BETWEEN 0 AND 100), total integer NOT NULL CHECK(total BETWEEN 1 AND 100), source text NOT NULL CHECK(source IN ('exercise','imported')), created_at timestamptz NOT NULL DEFAULT now());
  ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS submission_key text;
@@ -57,6 +58,13 @@ async function handle(req,res){
  }
  if(route==='/api/auth/logout'&&req.method==='POST'){
   const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(token)await pool.query('DELETE FROM sessions WHERE token_hash=$1',[hash(token)]);return send(res,200,{ok:true},{'Set-Cookie':`${cookieName}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${process.env.NODE_ENV==='production'?'; Secure':''}`});
+ }
+ if(route==='/api/privacy'&&req.method==='GET'){
+  const user=await required(req,'learner');const r=await pool.query('SELECT share_self_learning FROM users WHERE id=$1',[user.id]);return send(res,200,{shareSelfLearning:r.rows[0].share_self_learning});
+ }
+ if(route==='/api/privacy'&&req.method==='PUT'){
+  const user=await required(req,'learner'),data=await json(req);if(typeof data.shareSelfLearning!=='boolean')fail(400,'Choose whether to share self-study activity');
+  await pool.query('UPDATE users SET share_self_learning=$2 WHERE id=$1',[user.id,data.shareSelfLearning]);return send(res,200,{shareSelfLearning:data.shareSelfLearning});
  }
  if(route==='/api/practice'&&req.method==='GET'){
   const user=await required(req,'learner');const r=await pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[user.id]);return send(res,200,{attempts:r.rows});
@@ -108,7 +116,7 @@ async function handle(req,res){
  }
  const match=route.match(/^\/api\/teacher\/learners\/([a-f0-9-]{36})(?:\/(notes))?$/);
  if(match){const teacher=await required(req,'teacher'),learnerId=match[1];await linked(teacher.id,learnerId);
-  if(!match[2]&&req.method==='GET'){const r=await pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[learnerId]);const learner=await pool.query('SELECT id,name FROM users WHERE id=$1',[learnerId]);return send(res,200,{learner:learner.rows[0],attempts:r.rows})}
+  if(!match[2]&&req.method==='GET'){const learner=await pool.query('SELECT id,name,share_self_learning FROM users WHERE id=$1',[learnerId]);const shared=learner.rows[0].share_self_learning;const r=shared?await pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[learnerId]):{rows:[]};return send(res,200,{learner:{id:learner.rows[0].id,name:learner.rows[0].name},attempts:r.rows,sharing:{selfLearning:shared}})}
   if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[learnerId]);return send(res,200,{notes:r.rows})}
   if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim();if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note) VALUES($1,$2,$3,$4) RETURNING id,focus,note,created_at AS at',[learnerId,teacher.id,focus,note]);return send(res,201,{note:r.rows[0]})}
  }
@@ -119,4 +127,3 @@ async function serve(req,res,route){if(req.method!=='GET'&&req.method!=='HEAD')r
 if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
 await migrate();
 http.createServer((req,res)=>handle(req,res).catch(err=>{if(err.status<500)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));
-
