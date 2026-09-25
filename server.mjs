@@ -27,6 +27,8 @@ async function migrate(){
  ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS submission_key text;
  CREATE UNIQUE INDEX IF NOT EXISTS practice_submission ON practice_attempts(user_id,submission_key);
  CREATE TABLE IF NOT EXISTS lesson_drafts (user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, answers jsonb NOT NULL DEFAULT '[]', updated_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(user_id,lesson_id));
+ CREATE TABLE IF NOT EXISTS pronunciation_attempts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, target_version text NOT NULL, score integer NOT NULL CHECK(score BETWEEN 0 AND 100), duration_ms integer NOT NULL CHECK(duration_ms BETWEEN 250 AND 120000), method text NOT NULL DEFAULT 'browser-speech-match-v1', submission_key text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(user_id,submission_key));
+ CREATE INDEX IF NOT EXISTS pronunciation_user_time ON pronunciation_attempts(user_id,created_at DESC);
  CREATE INDEX IF NOT EXISTS practice_user_time ON practice_attempts(user_id,created_at DESC);
  CREATE TABLE IF NOT EXISTS share_codes (code_hash text PRIMARY KEY, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL, redeemed_at timestamptz);
  CREATE TABLE IF NOT EXISTS teacher_links (teacher_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(teacher_id,learner_id));
@@ -71,6 +73,15 @@ async function handle(req,res){
  }
  if(route==='/api/practice'&&req.method==='GET'){
   const user=await required(req,'learner');const r=await pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[user.id]);return send(res,200,{attempts:r.rows});
+ }
+ if(route==='/api/pronunciation'&&req.method==='GET'){
+  const user=await required(req,'learner');const r=await pool.query('SELECT id,lesson_id AS lesson,target_version AS "targetVersion",score,duration_ms AS "durationMs",method,created_at AS at FROM pronunciation_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[user.id]);return send(res,200,{attempts:r.rows});
+ }
+ if(route==='/api/pronunciation'&&req.method==='POST'){
+  const user=await required(req,'learner'),data=await json(req),lesson=getLesson(data.lesson),expected=data.lesson+'-model-v1';limited(req,'pronunciation',60);
+  if(!lesson?.pronunciationTarget||data.targetVersion!==expected||!Number.isInteger(data.score)||data.score<0||data.score>100||!Number.isInteger(data.durationMs)||data.durationMs<250||data.durationMs>120000||typeof data.submissionKey!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(data.submissionKey))fail(400,'Invalid pronunciation result');
+  const r=await pool.query("INSERT INTO pronunciation_attempts(user_id,lesson_id,target_version,score,duration_ms,method,submission_key) VALUES($1,$2,$3,$4,$5,'browser-speech-match-v1',$6) ON CONFLICT(user_id,submission_key) DO UPDATE SET submission_key=EXCLUDED.submission_key RETURNING id,lesson_id AS lesson,target_version AS \"targetVersion\",score,duration_ms AS \"durationMs\",method,created_at AS at",[user.id,lesson.id,expected,data.score,data.durationMs,data.submissionKey]);
+  if(r.rows[0].lesson!==lesson.id)fail(409,'Submission key already used');return send(res,201,{attempt:r.rows[0]});
  }
  if(route==='/api/learning'&&req.method==='GET'){
   const user=await required(req,'learner');
@@ -119,7 +130,7 @@ async function handle(req,res){
  }
  const match=route.match(/^\/api\/teacher\/learners\/([a-f0-9-]{36})(?:\/(notes))?$/);
  if(match){const teacher=await required(req,'teacher'),learnerId=match[1];await linked(teacher.id,learnerId);
-  if(!match[2]&&req.method==='GET'){const learner=await pool.query('SELECT id,name,share_self_learning FROM users WHERE id=$1',[learnerId]);const shared=learner.rows[0].share_self_learning;const r=shared?await pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[learnerId]):{rows:[]};const assessments=shared?await assessmentHistory(pool,learnerId):[];return send(res,200,{learner:{id:learner.rows[0].id,name:learner.rows[0].name},attempts:r.rows,assessment:assessments[0]||null,sharing:{selfLearning:shared}})}
+  if(!match[2]&&req.method==='GET'){const learner=await pool.query('SELECT id,name,share_self_learning FROM users WHERE id=$1',[learnerId]);const shared=learner.rows[0].share_self_learning;const [r,assessments,pronunciation]=shared?await Promise.all([pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[learnerId]),assessmentHistory(pool,learnerId),pool.query('SELECT id,lesson_id AS lesson,target_version AS "targetVersion",score,duration_ms AS "durationMs",method,created_at AS at FROM pronunciation_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 20',[learnerId])]):[{rows:[]},[],{rows:[]}];return send(res,200,{learner:{id:learner.rows[0].id,name:learner.rows[0].name},attempts:r.rows,assessment:assessments[0]||null,pronunciation:pronunciation.rows,sharing:{selfLearning:shared}})}
   if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[learnerId]);return send(res,200,{notes:r.rows})}
   if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim();if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note) VALUES($1,$2,$3,$4) RETURNING id,focus,note,created_at AS at',[learnerId,teacher.id,focus,note]);return send(res,201,{note:r.rows[0]})}
  }

@@ -18,7 +18,7 @@ export const lessonList=[
  entry('introductions','A1','a1-hello','Meeting new people','Speaking','Use me llamo for your name, soy de for origin and vivo en for where you live. Practise the example aloud before checking the expressions.','Hola, me llamo Ana. Soy de México y vivo en Madrid.',[
  q('Choose: “My name is Ana.”',['Me llama Ana.','Me llamo Ana.','Soy en Ana.'],1,'Me llamo literally means “I call myself”.'),
  q('Soy ___ México.',['a','en','de'],2,'Use ser de to give your place of origin.'),
- q('Someone says “Mucho gusto”. A natural reply is…',['Igualmente.','Tengo veinte.','Hasta ayer.'],0,'Igualmente means “likewise” and returns the greeting.')],{speak:'Introduce yourself: say your name, where you are from and where you live.'}),
+ q('Someone says “Mucho gusto”. A natural reply is…',['Igualmente.','Tengo veinte.','Hasta ayer.'],0,'Igualmente means “likewise” and returns the greeting.')],{speak:'Introduce yourself: say your name, where you are from and where you live.',pronunciationTarget:'Hola, me llamo Ana. Soy de México y vivo en Madrid.'}),
  entry('ser-estar','A1','a1-hello','Ser and estar','Grammar','Use ser for identity and characteristics; use estar for location and current states. This is a starting pattern, not simply “permanent versus temporary”.','Lucía es médica. Hoy está cansada. Está en casa.',[
  q('Lucía ___ médica.',['está','es','hay'],1,'A profession identifies someone: Lucía es médica.'),
  q('Las llaves ___ en la mesa.',['son','es','están'],2,'Use estar for the location of objects.'),
@@ -38,11 +38,11 @@ export const lessonList=[
  entry('future-plans','A2','a2-stories','Make a plan','Speaking','Use ir a + infinitive for a plan: voy a estudiar. To invite someone, try ¿Quieres…? and add a time or place.','¿Quieres tomar un café mañana? Voy a estar en el centro.',[
  q('Mañana voy a ___ español.',['estudio','estudiar','estudié'],1,'After ir a, keep the next verb in the infinitive.'),
  q('Choose: “We are going to travel.”',['Vamos a viajar.','Voy a viajamos.','Vamos viajé.'],0,'Vamos a + infinitive describes our plan.'),
- q('A friend invites you. Accept and suggest a time.',['No sé dónde está.','Ayer fui al cine.','Sí, ¿a las cinco?'],2,'Sí accepts; ¿a las cinco? proposes a time.')],{speak:'Invite a friend for coffee tomorrow. Suggest a place and a time.'}),
- entry('pronunciation','A2','a2-sound','Spanish rhythm workout','Pronunciation','Words ending in a vowel, n or s usually stress the next-to-last syllable; other endings usually stress the last. A written accent marks a different pattern. Listen, repeat and optionally record yourself. This checks stress knowledge, not pronunciation quality.','teléfono · ciudad · música',[
+ q('A friend invites you. Accept and suggest a time.',['No sé dónde está.','Ayer fui al cine.','Sí, ¿a las cinco?'],2,'Sí accepts; ¿a las cinco? proposes a time.')],{speak:'Invite a friend for coffee tomorrow. Suggest a place and a time.',pronunciationTarget:'¿Quieres tomar un café mañana? Voy a estar en el centro.'}),
+ entry('pronunciation','A2','a2-sound','Spanish rhythm workout','Pronunciation','Words ending in a vowel, n or s usually stress the next-to-last syllable; other endings usually stress the last. A written accent marks a different pattern. Listen, repeat and optionally record yourself. The recording check measures how closely speech recognition matches the model, not phoneme or accent quality.','Tengo el teléfono en casa.',[
  q('Which syllable is stressed in teléfono?',['te','lé','fo'],1,'The accent on é marks the stressed syllable: te-LÉ-fo-no.',{audio:'teléfono'}),
  q('Which syllable is stressed in ciudad?',['ciu','Both equally.','dad'],2,'Ciudad ends in d, so the last syllable is stressed: ciu-DAD.',{audio:'ciudad'}),
- q('Which syllable is stressed in música?',['mú','si','ca'],0,'The written accent marks MÚ-si-ca.',{audio:'música'})],{speak:'Repeat “Tengo el teléfono en casa” three times, keeping the vowels clear. Record and compare with the model.'}),
+ q('Which syllable is stressed in música?',['mú','si','ca'],0,'The written accent marks MÚ-si-ca.',{audio:'música'})],{speak:'Repeat the model once, keeping the vowels clear.',pronunciationTarget:'Tengo el teléfono en casa.'}),
  entry('directions','A2','a2-sound','Find your way','Listening','Listen for direction words: derecha, izquierda and todo recto. Sequence words such as luego help you follow more than one instruction.','Sigue todo recto y luego gira a la izquierda.',[
  q('Which way should you turn?',['Right.','Left.','Back.'],1,'A la izquierda means to the left.',{audio:'En la próxima calle, gira a la izquierda.'}),
  q('What should you do first?',['Turn right.','Cross the bridge.','Go straight.'],2,'Sigue todo recto comes before luego gira.',{audio:'Sigue todo recto y luego gira a la derecha.'}),
@@ -57,7 +57,7 @@ export const lessonList=[
  q('No creo que ellos ___ la respuesta.',['saben','sepan','sabrán'],1,'No creo que expresses doubt: sepan.'),
  q('Quizás ___ más tiempo esta tarde. (Treat it as uncertain.)',['tenemos','tengamos','tuvimos'],1,'The subjunctive tengamos presents the possibility as uncertain; quizás can also take the indicative in other contexts.'),
  q('Dudo que el vuelo ___ a tiempo.',['sale','salga','salió'],1,'Dudo que triggers the subjunctive: salga.'),
- q('Puede que no ___ suficiente.',['es','sea','será'],1,'Puede que takes the subjunctive: sea.')],{speak:'Say two uncertain plans using es posible que and puede que.'}),
+ q('Puede que no ___ suficiente.',['es','sea','será'],1,'Puede que takes the subjunctive: sea.')],{speak:'Say two uncertain plans using es posible que and puede que.',pronunciationTarget:'Es posible que María venga mañana.'}),
  entry('connectors','B1','b1-express','Connect your ideas','Reading','Porque gives a reason, por eso gives a result, and sin embargo introduces a contrast. Follow the relationship between ideas, not just the individual words.','Llovía mucho. Sin embargo, salimos a pasear.',[
  q('“Llovía mucho. Sin embargo, salimos.” What relationship is expressed?',['Cause.','Contrast.','Sequence.'],1,'Sin embargo contrasts the rain with the decision to go out.'),
  q('No había trenes. ___, tomamos un autobús.',['Aunque','Mientras','Por eso'],2,'Taking the bus is the result: por eso.'),
@@ -65,7 +65,7 @@ export const lessonList=[
  entry('travel-message','B1','b1-express','Write a clear travel message','Writing','Give your reason for writing, the relevant detail, and a clear request. Practise short controlled phrases before writing a longer message on your own.','Hola, llego a las ocho. ¿Podrías decirme cómo llegar al apartamento?',[
  q('Complete the polite request: “¿___ decirme la dirección?”',['Podrías','Podías ayer','Pudiste ayer'],0,'Podrías softens a request in the present.'),
  q('Type the missing word: “Llego ___ las ocho.”',null,'a','A introduces a clock time.',{type:'text',accepted:['a']}),
- q('Which closing fits a friendly request?',['Aunque no existe.','Gracias por tu ayuda.','No obstante el cual.'],1,'Gracias por tu ayuda closes the request politely.')],{speak:'Compose a short message aloud: give your arrival time and ask how to get to the apartment.'}),
+ q('Which closing fits a friendly request?',['Aunque no existe.','Gracias por tu ayuda.','No obstante el cual.'],1,'Gracias por tu ayuda closes the request politely.')],{speak:'Compose a short message aloud: give your arrival time and ask how to get to the apartment.',pronunciationTarget:'Hola, llego a las ocho. ¿Podrías decirme cómo llegar al apartamento?'}),
  entry('airport','B2','b2-travel','Airport conversations','Listening','Announcements often contain a correction or a change. Listen for the final gate, the revised time, and what passengers should do. You can replay or reveal the transcript.','El vuelo ha cambiado de puerta. Embarquen por la B dieciséis.',[
  q('What is the new gate?',['B12.','B16.','A16.'],1,'La nueva puerta es la B dieciséis.',{audio:'Atención, pasajeros. El vuelo a Madrid ya no sale por la puerta B doce. La nueva puerta es la B dieciséis.'}),
  q('When does boarding begin?',['18:20.','18:50.','19:20.'],1,'A las dieciocho cincuenta means 18:50.',{audio:'El embarque, previsto para las dieciocho veinte, comenzará finalmente a las dieciocho cincuenta.'}),
