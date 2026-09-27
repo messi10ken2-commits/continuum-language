@@ -106,6 +106,16 @@ lessonList.push(...foundationLessons);
 chapters.push(...expressionChapters);
 lessonList.push(...expressionLessons);
 for(const chapter of chapters){const children=lessonList.filter(l=>l.chapter===chapter.id);lessonList.push(entry(chapter.id+'-checkpoint',chapter.level,chapter.id,'Chapter checkpoint','Checkpoint','Review both lessons, then check what you can recall. A score of 80% marks this checkpoint as mastered. You can retry any time.','Take your time and use the explanations after each answer.',children.flatMap(l=>l.questions),{checkpoint:true,minutes:8}));}
+// One cumulative review at the end of each level. It samples two questions
+// from every lesson in that level so the result reflects the whole roadmap.
+for(const level of levels){
+ const id=level.id.toLowerCase()+'-summary-test';
+ const chapter={id,level:level.id,title:`${level.id} summary test`,goal:`Review the complete ${level.id} pathway before moving on.`,kind:'Level test',summaryTest:true};
+ chapters.push(chapter);
+ const source=lessonList.filter(l=>l.level===level.id&&!l.checkpoint&&!l.summaryTest);
+ const questions=source.flatMap(l=>l.questions.filter(q=>q.type!=='text').slice(0,2));
+ lessonList.push(entry(id,level.id,id,`${level.id} level summary test`,'Level test',`A cumulative ${level.id} review across grammar, vocabulary, expressions and communication. Score 85% or higher to receive a completion recommendation for the next level.`,`Take the ${level.id} review when you are ready to check the whole level.`,questions,{summaryTest:true,passScore:85,minutes:15}));
+}
 export const getLesson=id=>lessonList.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
 export const forLesson=(attempts,id='subjunctive')=>attempts.filter(a=>(a.lesson||'subjunctive')===id);
