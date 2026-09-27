@@ -4,6 +4,7 @@ import {ArrowLeft,Award,BookOpen,CalendarDays,Check,CheckCircle2,ChevronRight,Ci
 import './styles.css';
 import './features.css';
 import SelfStudy from './SelfStudy.jsx';
+import LessonSuggestion from './LessonSuggestion.jsx';
 import Assessment,{AssessmentSummary,AssessmentReport} from './Assessment.jsx';
 import {lessonTitle,forLesson,getLesson} from './course.mjs';
 
@@ -223,7 +224,7 @@ function TeacherNotesLive({record,notes,focus,setFocus,note,setNote,onSave,onNav
  return <><PageIntro eyebrow="CLASS COPILOT" title="Class notes" text={'Capture what happens in '+learner+'’s live speech. Saved observations join their learning memory.'}/>
  <section className="note-workspace"><div className="note-head"><div><span className="eyebrow">CONNECTED LEARNER</span><h2>Conversation coaching with {learner}</h2><p>{notes.length} saved class {notes.length===1?'note':'notes'} · shared with this learner</p></div><span className="teacher-connected-badge"><Check size={14}/>Connected</span></div>
  <div className="note-columns"><form onSubmit={onSave} className="teacher-note-form"><label htmlFor="teacher-focus">Primary focus</label><div className="choice-row">{['Subjunctive','Por vs. para','Pronunciation'].map(x=><button type="button" className={focus===x?'selected':''} onClick={()=>setFocus(x)} key={x}>{x}</button>)}</div><input id="teacher-focus" value={focus} onChange={e=>setFocus(e.target.value)} maxLength={100} required aria-label="Class focus"/><label htmlFor="teacher-observation">What did you notice?</label><textarea id="teacher-observation" value={note} onChange={e=>setNote(e.target.value)} maxLength={3000} minLength={3} required placeholder="Describe what the learner said and where they needed help."/><div className="note-actions"><button className="primary" disabled={saving}><NotebookPen size={16}/>{saving?'Saving…':'Save class note'}</button><span>{note.length} characters · saved to the learner’s record</span></div></form>
- <div className="ai-note-card"><Sparkles size={22}/><span className="eyebrow">NEXT CLASS IDEA</span><h3>Check {focus.toLowerCase()} in conversation</h3><p>Use the saved observation to prepare a short unrehearsed speaking prompt. Compare what happens in class with the learner’s exercise results.</p><div><b>Latest exercise</b><span>{record.attempts[0]?record.attempts[0].score+'% on '+record.attempts[0].total+' questions · '+lessonTitle(record.attempts[0].lesson):'No saved exercise yet'}</span></div><button type="button" className="outline-button" onClick={()=>onNavigate('Learning memory')}>Review learning memory <ChevronRight size={16}/></button></div></div></section>
+ <LessonSuggestion record={record} notes={notes} onNavigate={onNavigate} hasDraft={!!note.trim()} onUseDraft={(nextFocus,nextNote)=>{setFocus(nextFocus);setNote(nextNote);document.getElementById('teacher-observation')?.focus()}}/></div></section>
  <div className="section-title"><div><h2>Previous class notes</h2><p>Every saved observation stays with the learner.</p></div></div><section className="panel note-history">{notes.length?notes.map(n=><article key={n.id}><span>{new Date(n.at).toLocaleDateString()}</span><div><b>{n.focus} · {n.teacher}</b><p>{n.note}</p></div></article>):<p>No class notes saved yet.</p>}</section></>;
 }
 function ConnectedTeacher({section='Overview',onNavigate}){
