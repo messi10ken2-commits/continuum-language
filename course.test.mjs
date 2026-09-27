@@ -18,7 +18,7 @@ test('Expression curriculum covers every level with distinct phrases and playabl
  assert.match(expressionGuidance.note,/not official CEFR/);
 });
 test('Every roadmap item is playable and grades right/wrong answers',()=>{
- assert.equal(new Set(lessonList.map(l=>l.id)).size,84);
+ assert.equal(new Set(lessonList.map(l=>l.id)).size,89);
  for(const l of lessonList){
   assert.ok(levels.some(x=>x.id===l.level));assert.ok(chapters.some(x=>x.id===l.chapter));
   assert.ok(l.questions.length>=3);
@@ -28,8 +28,11 @@ test('Every roadmap item is playable and grades right/wrong answers',()=>{
   assert.throws(()=>gradeLesson(l.id,l.questions.map(()=>null)));
  }
 });
+test('Each CEFR course level ends with an 85-percent summary test',()=>{
+ for(const level of levels){const chapter=chapters.find(c=>c.id===level.id.toLowerCase()+'-summary-test');const lesson=getLesson(chapter.id);assert.ok(chapter.summaryTest);assert.ok(lesson.summaryTest);assert.equal(lesson.passScore,85);assert.ok(lesson.questions.length>=10);assert.equal(gradeLesson(lesson.id,lesson.questions.map(q=>q.answer)).score,100);}
+});
 test('Each chapter has two lessons and a checkpoint covering both',()=>{
- for(const c of chapters){const units=lessonList.filter(l=>l.chapter===c.id);assert.equal(units.length,3);assert.equal(units.find(x=>x.checkpoint).questions.length,units.filter(x=>!x.checkpoint).reduce((n,x)=>n+x.questions.length,0));}
+ for(const c of chapters.filter(c=>!c.summaryTest)){const units=lessonList.filter(l=>l.chapter===c.id);assert.equal(units.length,3);assert.equal(units.find(x=>x.checkpoint).questions.length,units.filter(x=>!x.checkpoint).reduce((n,x)=>n+x.questions.length,0));}
 });
 test('Legacy results stay attached to subjunctive, not other lessons',()=>{
  assert.equal(gradeLesson('subjunctive',[1,1,1,1,1]).score,100);
