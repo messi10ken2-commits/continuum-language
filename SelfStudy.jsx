@@ -1,4 +1,4 @@
-import React,{useEffect,useRef,useState} from 'react';
+import React,{useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {ArrowLeft,ArrowRight,Award,BookOpen,Check,CheckCircle2,ChevronRight,Clock3,Flag,Headphones,Mic2,Play,RotateCcw,Sparkles,Target,Volume2} from 'lucide-react';
 import {levels,chapters,lessonList,getLesson,gradeLesson,isCorrect,summarize,validAnswer} from './course.mjs';
 import {scorePronunciation} from './pronunciation-score.mjs';
@@ -50,6 +50,16 @@ export default function SelfStudy({user,attempts,notes=[],activeLesson,onStart,o
 function LessonPlayer({lesson,user,initialAnswers,onDraft,onComplete,onExit}){
  const restored=Array.isArray(initialAnswers)?initialAnswers:[];
  const [phase,setPhase]=useState(initialAnswers?'exercise':'intro'),[answers,setAnswers]=useState(restored),[choice,setChoice]=useState(null),[checked,setChecked]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[result,setResult]=useState(null),[submission,setSubmission]=useState(()=>crypto.randomUUID());
+ // Reset after the new screen is committed, not while the old roadmap is
+ // still mounted. Instant scrolling also cancels the parent's smooth scroll.
+ // Recheck on the next frame for mobile layout/scroll anchoring, and cancel
+ // that callback when leaving. Answer selection/feedback must not reset scroll.
+ useLayoutEffect(()=>{
+  const reset=()=>window.scrollTo({top:0,left:0,behavior:'instant'});
+  reset();
+  const frame=requestAnimationFrame(reset);
+  return()=>cancelAnimationFrame(frame);
+ },[lesson.id,phase,answers.length]);
  const q=lesson.questions[answers.length],good=q&&choice!==null&&isCorrect(q,choice);
  const start=async()=>{if(busy)return;setBusy(true);setError('');try{await onDraft([]);setAnswers([]);setChoice(null);setChecked(false);setSubmission(crypto.randomUUID());setPhase('exercise')}catch(e){setError(e.message)}finally{setBusy(false)}};
  const next=async()=>{if(busy||!checked)return;const full=[...answers,choice];setBusy(true);setError('');try{if(full.length===lesson.questions.length){const grade=gradeLesson(lesson.id,full);const saved=await onComplete({...grade,lesson:lesson.id,answers:full,at:new Date().toISOString(),submissionKey:submission});setAnswers(full);setResult(saved);setPhase('result')}else{await onDraft(full);setAnswers(full);setChoice(null);setChecked(false)}}catch(e){setError(e.message)}finally{setBusy(false)}};
