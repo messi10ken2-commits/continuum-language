@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {levels,chapters,lessonList,getLesson,gradeLesson,summarize,forLesson} from './course.mjs';
 test('Every roadmap item is playable and grades right/wrong answers',()=>{
- assert.equal(new Set(lessonList.map(l=>l.id)).size,30);
+ assert.equal(new Set(lessonList.map(l=>l.id)).size,54);
  for(const l of lessonList){
   assert.ok(levels.some(x=>x.id===l.level));assert.ok(chapters.some(x=>x.id===l.chapter));
   assert.ok(l.questions.length>=3);
@@ -25,3 +25,14 @@ test('Legacy results stay attached to subjunctive, not other lessons',()=>{
 test('Written answers accept capitalization and surrounding spaces',()=>{
  const l=getLesson('travel-message'),answers=l.questions.map(q=>q.type==='text'?' A. ':q.answer);assert.equal(gradeLesson(l.id,answers).score,100);
 });
+
+ test('Expanded curriculum has full conjugation tables, vocabulary contexts and recall practice',()=>{
+ const grammar=lessonList.filter(l=>l.breakdown),vocab=lessonList.filter(l=>l.vocabulary);
+ assert.equal(grammar.length,12);assert.equal(vocab.length,4);
+ for(const l of grammar){assert.ok(l.breakdown.steps.length>=3);assert.ok(l.breakdown.pitfall);assert.ok(l.breakdown.examples.length>=2);for(const t of l.breakdown.tables){assert.equal(t.rows.length,6);for(const r of t.rows)assert.equal(r.length,t.headers.length);}assert.ok(l.questions.some(q=>q.type==='text'));}
+ for(const l of vocab){assert.equal(l.vocabulary.length,6);assert.ok(l.vocabulary.every(w=>w.term&&w.meaning&&w.phrase&&w.example&&w.translation));}
+ });
+ test('Written conjugation practice keeps meaningful accents and accepts surrounding space',()=>{
+ const l=getLesson('preterite-lab'),answers=l.questions.map(q=>q.answer);
+ assert.equal(gradeLesson(l.id,answers).score,100);answers[0]='hable';assert.equal(gradeLesson(l.id,answers).score,75);answers[0]=' HABLÉ ';assert.equal(gradeLesson(l.id,answers).score,100);
+ });
