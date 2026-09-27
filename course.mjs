@@ -1,5 +1,6 @@
 // Shared curriculum and scoring contract. Content levels describe lesson difficulty, not learner certification.
 import {foundationChapters,foundationLessons} from './curriculum-foundations.mjs';
+import {expressionChapters,expressionLessons} from './curriculum-expressions.mjs';
 const q=(prompt,options,answer,note,extra={})=>({prompt,options,answer,note,...extra});
 const entry=(id,level,chapter,title,skill,explanation,example,questions,extra={})=>({id,level,chapter,title,skill,explanation,example,questions,minutes:6,...extra});
 export const levels=[{id:'A1',name:'First conversations',description:'Introduce yourself, describe your world and order with confidence.'},{id:'A2',name:'Everyday independence',description:'Tell a short story, make plans and develop your ear for Spanish.'},{id:'B1',name:'Connected conversations',description:'Express uncertainty, explain reasons and connect your ideas.'},{id:'B2',name:'Nuance & real life',description:'Understand announcements, weigh arguments and discuss possibilities.'},{id:'C1',name:'Precision & perspective',description:'Interpret stance and choose language to suit your audience.'}];
@@ -102,6 +103,8 @@ export const lessonList=[
 ];
 chapters.push(...foundationChapters);
 lessonList.push(...foundationLessons);
+chapters.push(...expressionChapters);
+lessonList.push(...expressionLessons);
 for(const chapter of chapters){const children=lessonList.filter(l=>l.chapter===chapter.id);lessonList.push(entry(chapter.id+'-checkpoint',chapter.level,chapter.id,'Chapter checkpoint','Checkpoint','Review both lessons, then check what you can recall. A score of 80% marks this checkpoint as mastered. You can retry any time.','Take your time and use the explanations after each answer.',children.flatMap(l=>l.questions),{checkpoint:true,minutes:8}));}
 export const getLesson=id=>lessonList.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';

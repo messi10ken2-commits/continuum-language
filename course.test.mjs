@@ -1,8 +1,24 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {levels,chapters,lessonList,getLesson,gradeLesson,summarize,forLesson} from './course.mjs';
+import {expressionChapters,expressionLessons,expressionGuidance} from './curriculum-expressions.mjs';
+test('Expression curriculum covers every level with distinct phrases and playable checkpoints',()=>{
+ assert.equal(expressionChapters.length,10);assert.equal(expressionLessons.length,20);
+ const terms=[];
+ for(const level of levels){assert.equal(expressionChapters.filter(c=>c.level===level.id).length,2);assert.equal(expressionLessons.filter(l=>l.level===level.id).length,4);}
+ for(const l of expressionLessons){
+  assert.equal(l.expressions.length,3);assert.equal(l.questions.length,5);assert.ok(l.priority);
+  for(const x of l.expressions){for(const key of ['term','type','meaning','register','use','example','translation','pitfall','region'])assert.ok(x[key],`${l.id}: ${key}`);terms.push(x.term);}
+  for(const q of l.questions){if(q.type==='text'){assert.ok(q.prompt.includes('___'));assert.ok(q.accepted.includes(q.answer));}else{assert.equal(new Set(q.options).size,3);assert.ok(q.options[q.answer]);}assert.ok(q.note);}
+  assert.equal(gradeLesson(l.id,l.questions.map(q=>q.answer)).score,100);
+  const checkpoint=getLesson(l.chapter+'-checkpoint');assert.ok(checkpoint);assert.equal(checkpoint.questions.length,10);
+ }
+ assert.equal(new Set(terms).size,60);
+ assert.match(expressionGuidance.note,/not measured frequency/);
+ assert.match(expressionGuidance.note,/not official CEFR/);
+});
 test('Every roadmap item is playable and grades right/wrong answers',()=>{
- assert.equal(new Set(lessonList.map(l=>l.id)).size,54);
+ assert.equal(new Set(lessonList.map(l=>l.id)).size,84);
  for(const l of lessonList){
   assert.ok(levels.some(x=>x.id===l.level));assert.ok(chapters.some(x=>x.id===l.chapter));
   assert.ok(l.questions.length>=3);
