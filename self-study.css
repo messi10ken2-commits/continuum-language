@@ -150,3 +150,4 @@
 .study-lesson .result-card{padding:28px 18px}
 .study-lesson .result-card h2{font-size:21px}
 }
+.level-result{border:2px solid #d8b24c;background:linear-gradient(145deg,#fffefa,#f4f2ff)}.level-certificate{display:flex;align-items:center;gap:12px;text-align:left;background:#fff7dd;border:1px solid #ebd28a;border-radius:12px;padding:13px 15px;margin:18px auto;max-width:420px;color:#7c5b15}.level-certificate b,.level-certificate small{display:block}.level-certificate small{font-size:11px;margin-top:3px;color:#91763e}
