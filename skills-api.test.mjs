@@ -8,11 +8,22 @@ async function account(name,role='learner'){const r=await call('/auth/register',
 try{
  const a=await account('SkillsOne'),b=await account('SkillsTwo'),t=await account('SkillsTeacher','teacher');
  assert.equal((await call('/skills')).status,401);
- for(const task of skillTasks){let response=task.skill==='Listening'?task.questions.map(q=>q.answer):task.skill==='Writing'?'Hola, me gustaría cambiar la clase al lunes. ¿Sería posible?':{audio:'data:audio/webm;base64,'+Buffer.alloc(150,1).toString('base64'),seconds:15};const body={task:task.id,response,submissionKey:crypto.randomUUID()};const r=await call('/skills','POST',body,a.cookie);assert.equal(r.status,201,JSON.stringify(r.data));assert.equal(typeof r.data.submission.result.score,'number');assert.equal((await call('/skills','POST',body,a.cookie)).data.submission.id,r.data.submission.id);if(task.skill==='Writing'){
+ for(const task of skillTasks){let response=task.skill==='Listening'?task.questions.map(q=>q.answer):task.skill==='Writing'?'Hola, me gustaría cambiar la clase al lunes. ¿Sería posible?':{audio:'data:audio/webm;base64,'+Buffer.alloc(150,1).toString('base64'),seconds:15};const body={task:task.id,response,submissionKey:crypto.randomUUID()};const r=await call('/skills','POST',body,a.cookie);assert.equal(r.status,201,JSON.stringify(r.data));if(task.skill==='Listening')assert.equal(typeof r.data.submission.result.score,'number');else assert.equal(r.data.submission.result.score,null);assert.equal((await call('/skills','POST',body,a.cookie)).data.submission.id,r.data.submission.id);if(task.skill==='Writing'){
  assert.equal((await call('/skills/'+r.data.submission.id,'GET',null,b.cookie)).status,403);
  assert.equal((await call('/skills/'+r.data.submission.id+'/review','PUT',{ratings:[4,4,4,4],feedback:'Very clear response.'},a.cookie)).status,403);
  }}
  const list=await call('/skills','GET',null,a.cookie);assert.equal(list.data.submissions.length,15);assert.ok(list.data.submissions.every(s=>!('response' in s)));
+ // Safari codec metadata and absent speech recognition must not prevent saving audio.
+ const speaking=skillTasks.find(t=>t.skill==='Speaking');
+ for(const mime of ['audio/mp4;codecs="mp4a.40.2"','audio/webm;codecs=opus','audio/mp4']){
+ const response={audio:'data:'+mime+';base64,'+Buffer.alloc(150,1).toString('base64'),seconds:12};
+ const saved=await call('/skills','POST',{task:speaking.id,response,submissionKey:crypto.randomUUID()},a.cookie);
+ assert.equal(saved.status,201,JSON.stringify(saved.data));
+ assert.equal(saved.data.submission.result.score,null);
+ const restored=await call('/skills/'+saved.data.submission.id,'GET',null,a.cookie);
+ assert.deepEqual(restored.data.submission.response,response);
+ assert.ok((await call('/skills','GET',null,a.cookie)).data.submissions.some(s=>s.id===saved.data.submission.id));
+ }
  const writing=list.data.submissions.find(s=>s.task.endsWith('writing'));
  assert.equal((await call('/skills/learner/'+a.data.user.id,'GET',null,t.cookie)).status,403);
  const share=await call('/share-code','POST',{},a.cookie);await call('/teacher/connect','POST',{code:share.data.code},t.cookie);
