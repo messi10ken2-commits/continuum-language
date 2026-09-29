@@ -33,7 +33,7 @@ async function requestGemini({task,context,instruction,response,convert,fetchImp
  const speaking=task.skill==='Speaking';
  const model=process.env.GEMINI_ASSESSMENT_MODEL||'gemini-2.5-flash';
  const parts=[{text:instruction+'\nTask context:\n'+context}];
- if(speaking){const data=await convert(response);parts.push({inlineData:{mimeType:'audio/wav',data}});}
+ if(speaking){const data=await convert(response);parts.push({inline_data:{mime_type:'audio/wav',data}});}
  else parts[0].text+='\nLearner response:\n'+response;
  const url=`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(process.env.GEMINI_API_KEY)}`;
  let r;try{r=await fetchImpl(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{role:'user',parts}],generationConfig:{temperature:0.2,responseMimeType:'application/json'}}),signal:AbortSignal.timeout(60000)});}catch{throw Error('AI assessment timed out or could not connect. Your response is saved; please try again.');}
