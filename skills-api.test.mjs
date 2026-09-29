@@ -25,6 +25,21 @@ try{
  assert.ok((await call('/skills','GET',null,a.cookie)).data.submissions.some(s=>s.id===saved.data.submission.id));
  }
  const writing=list.data.submissions.find(s=>s.task.endsWith('writing'));
+ assert.equal((await call('/skills/ai-status','GET',null,a.cookie)).data.available,false);
+ assert.equal((await call('/skills/'+writing.id+'/assess','POST',{aiConsent:true},b.cookie)).status,403);
+ assert.equal((await call('/skills/'+writing.id+'/assess','POST',{},a.cookie)).status,400);
+ assert.equal((await call('/skills/'+writing.id+'/assess','POST',{aiConsent:true},a.cookie)).status,503);
+ assert.equal((await call('/skills/'+writing.id,'GET',null,a.cookie)).status,200);
+ // Successful AI assessment persists and retries reuse it without another provider charge.
+ const originalFetch=globalThis.fetch;let providerCalls=0;
+ process.env.OPENAI_API_KEY='isolated-test-key';
+ globalThis.fetch=async(url,options)=>String(url).startsWith('https://api.openai.com/')?(providerCalls++,{ok:true,json:async()=>({output_text:JSON.stringify({assessable:true,ratings:[3,3,3,3],evidence:['a','b','c','d'],feedback:'Clear request.',nextStep:'Add a reason.',strengths:['Clear'],corrections:[],transcript:''})})}):originalFetch(url,options);
+ try{
+  const ai=await call('/skills/'+writing.id+'/assess','POST',{aiConsent:true},a.cookie);assert.equal(ai.status,200);assert.equal(ai.data.result.aiAssessment.score,75);
+  assert.equal((await call('/skills/'+writing.id+'/assess','POST',{aiConsent:true},a.cookie)).status,200);assert.equal(providerCalls,1);
+ }finally{globalThis.fetch=originalFetch;delete process.env.OPENAI_API_KEY;}
+
+
  assert.equal((await call('/skills/learner/'+a.data.user.id,'GET',null,t.cookie)).status,403);
  const share=await call('/share-code','POST',{},a.cookie);await call('/teacher/connect','POST',{code:share.data.code},t.cookie);
  assert.equal((await call('/skills/'+writing.id,'GET',null,t.cookie)).status,200);

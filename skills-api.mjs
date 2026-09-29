@@ -1,3 +1,5 @@
+import {aiConfigured,savedSkillResult} from './ai-assessment.mjs';
+const pendingAI=new Set();
 import {isDeepStrictEqual} from 'node:util';
 import {getSkillTask,rubricFor} from './skills-content.mjs';
 export async function migrateSkills(pool){await pool.query(`CREATE TABLE IF NOT EXISTS skill_submissions (
@@ -11,6 +13,7 @@ export async function skillAccess(pool,user,row,fail){if(user.id===row.user_id)r
 export async function handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}){
  if(!route.startsWith('/api/skills'))return false;
  const user=await required(req);
+ if(route==='/api/skills/ai-status'&&req.method==='GET'){send(res,200,{available:aiConfigured()});return true;}
  if(route==='/api/skills'&&req.method==='GET'){if(user.role!=='learner')fail(403,'Learner account required');const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 ORDER BY created_at DESC LIMIT 100`,[user.id]);send(res,200,{submissions:r.rows});return true;}
  const list=route.match(/^\/api\/skills\/learner\/([a-f0-9-]{36})$/);
  if(list&&req.method==='GET'){if(user.role!=='teacher')fail(403,'Teacher account required');await skillAccess(pool,user,{user_id:list[1]},fail);const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 ORDER BY created_at DESC LIMIT 100`,[list[1]]);send(res,200,{submissions:r.rows});return true;}
@@ -24,14 +27,31 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
   if(data.assessment){const r=await pool.query('SELECT * FROM assessments WHERE id=$1 AND user_id=$2',[data.assessment,user.id]);const a=r.rows[0];if(!a||a.completed_at||a.version!=='es-diagnostic-2')fail(400,'Active test not found');const {publicAssessment}=await import('./assessment-bank.mjs');const current=publicAssessment(a).question;taskPrompt=current?.task?.prompt; if(current?.task?.id!==task.id)fail(409,'This task is not the current assessment section');}
   const response=data.response;let result;
   if(task.skill==='Listening'){if(data.assessment)fail(400,'Use the test answer endpoint');if(!Array.isArray(response)||response.length!==task.questions.length||response.some((a,i)=>!Number.isInteger(a)||a<0||a>=task.questions[i].options.length))fail(400,'Answer every listening question');const correct=response.filter((a,i)=>a===task.questions[i].answer).length;result={status:'scored',score:Math.round(correct/response.length*100),correct,total:response.length,method:'listening-answer-key'};}
-  else if(task.skill==='Writing'){if(typeof response!=='string'||response.trim().length<10||response.length>6000)fail(400,'Write between 10 and 6000 characters');result=await assessSkill(task,response);result.wordCount=response.trim().split(/\s+/).length;}
-  else {if(!response||typeof response.audio!=='string'||response.audio.length>1400000||!/^data:audio\/(webm|mp4|ogg|wav)(;codecs=(?:[a-zA-Z0-9.,-]+|"[a-zA-Z0-9., -]+"))?;base64,[A-Za-z0-9+/]+=*$/.test(response.audio)||!Number.isFinite(response.seconds)||response.seconds<1||response.seconds>95)fail(400,'Record a valid audio clip (up to 90 seconds / 1 MB)');const encoded=response.audio.split(',')[1];if(Buffer.from(encoded,'base64').length<100)fail(400,'Recording is empty');result=await assessSkill(task,response);result.duration=response.seconds;}
+  else if(task.skill==='Writing'){if(typeof response!=='string'||response.trim().length<10||response.length>6000)fail(400,'Write between 10 and 6000 characters');result=savedSkillResult();result.wordCount=response.trim().split(/\s+/).length;}
+  else {if(!response||typeof response.audio!=='string'||response.audio.length>1400000||!/^data:audio\/(webm|mp4|ogg|wav)(;codecs=(?:[a-zA-Z0-9.,-]+|"[a-zA-Z0-9., -]+"))?;base64,[A-Za-z0-9+/]+=*$/.test(response.audio)||!Number.isFinite(response.seconds)||response.seconds<1||response.seconds>95)fail(400,'Record a valid audio clip (up to 90 seconds / 1 MB)');const encoded=response.audio.split(',')[1];if(Buffer.from(encoded,'base64').length<100)fail(400,'Recording is empty');result=savedSkillResult();result.duration=response.seconds;}
   result={...result,taskPrompt};
   const r=await pool.query(`INSERT INTO skill_submissions(user_id,task_id,assessment_id,response,result,submission_key) VALUES($1,$2,$3,$4::jsonb,$5::jsonb,$6) ON CONFLICT(user_id,submission_key) DO NOTHING RETURNING ${fields}`,[user.id,task.id,data.assessment||null,JSON.stringify(response),JSON.stringify(result),data.submissionKey]);
   if(!r.rows.length)fail(409,'A submission with this key is already saved. Reload your record.');send(res,201,{submission:r.rows[0]});return true;
  }
- const match=route.match(/^\/api\/skills\/([a-f0-9-]{36})(?:\/(review))?$/);
+ const match=route.match(/^\/api\/skills\/([a-f0-9-]{36})(?:\/(review|assess))?$/);
  if(match){const r=await pool.query('SELECT * FROM skill_submissions WHERE id=$1',[match[1]]);const row=r.rows[0];if(!row)fail(404,'Submission not found');await skillAccess(pool,user,row,fail);const task=getSkillTask(row.task_id);
+  if(match[2]==='assess'&&req.method==='POST'){
+   if(user.role!=='learner'||user.id!==row.user_id||!task||task.skill==='Listening')fail(403,'Only the learner can request AI assessment of their writing or recording');
+   const data=await json(req);if(data.aiConsent!==true)fail(400,'Confirm sending this response to OpenAI for assessment');
+   if(row.result.aiAssessment||row.result.method?.endsWith('-rubric-v2')){send(res,200,{result:row.result});return true;}
+   if(!aiConfigured()){send(res,503,{error:'AI assessment is not connected yet. Your response is saved.'});return true;}
+   limited(req,'ai-assessment',10);if(pendingAI.has(user.id))fail(409,'An AI assessment is already running. Please wait.');
+   pendingAI.add(user.id);
+   try{
+    const ai=await assessSkill({...task,prompt:row.result.taskPrompt||task.prompt},row.response);
+    const fresh=await pool.query('SELECT result FROM skill_submissions WHERE id=$1',[row.id]);
+    const previous=fresh.rows[0].result;
+    const result=previous.status==='reviewed'?{...previous,aiAssessment:ai}:{...previous,...ai,aiAssessment:ai};
+    await pool.query('UPDATE skill_submissions SET result=$2::jsonb WHERE id=$1',[row.id,JSON.stringify(result)]);
+    send(res,200,{result});return true;
+   }catch(e){send(res,502,{error:e.message||'AI assessment unavailable. Your response is saved.'});return true;}
+   finally{pendingAI.delete(user.id);}
+  }
   if(!match[2]&&req.method==='GET'){send(res,200,{submission:{id:row.id,task:row.task_id,assessment:row.assessment_id,response:row.response,result:row.result,at:row.created_at}});return true;}
   if(match[2]&&req.method==='PUT'){if(user.role!=='teacher'||task.skill==='Listening')fail(403,'Teacher review required');const data=await json(req),criteria=rubricFor(task.skill);if(!Array.isArray(data.ratings)||data.ratings.length!==criteria.length||data.ratings.some(n=>!Number.isInteger(n)||n<0||n>4)||typeof data.feedback!=='string'||data.feedback.trim().length<10||data.feedback.length>3000)fail(400,'Rate all four criteria and add specific feedback');const result={...row.result,status:'reviewed',score:Math.round(data.ratings.reduce((a,b)=>a+b,0)/16*100),criteria,ratings:data.ratings,feedback:data.feedback,reviewer:user.name,reviewedAt:new Date().toISOString()};await pool.query('UPDATE skill_submissions SET result=$2::jsonb WHERE id=$1',[row.id,JSON.stringify(result)]);send(res,200,{result});return true;}
  }
