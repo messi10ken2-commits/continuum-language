@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import pg from 'pg';
 import {getLesson,gradeLesson,validAnswer} from './course.mjs';
+import {assessSkill} from './ai-assessment.mjs';
 import {migrateSkills,handleSkills} from './skills-api.mjs';
 import {migrateAssessments,handleAssessment,assessmentHistory} from './assessment-api.mjs';
 
@@ -52,7 +53,7 @@ async function handle(req,res){
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)fail(403,'Invalid request origin')}
- if(await handleSkills({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}))return;
  if(await handleAssessment({route,req,res,pool,required,json,send,fail}))return;
  if(route==='/api/health'&&req.method==='GET'){await pool.query('SELECT 1');return send(res,200,{ok:true})}
  if(route==='/api/auth/me'&&req.method==='GET')return send(res,200,{user:await currentUser(req)});

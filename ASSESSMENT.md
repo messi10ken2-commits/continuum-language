@@ -25,3 +25,7 @@ Reference: Council of Europe CEFR Companion Volume and descriptors: https://www.
 ## Verification
 
 `npm test` covers original scoring, v1/v2 compatibility, lesson API, assessment API, listening grading, response ownership, immutable retries, submitted-writing/audio records, four-criterion teacher evaluation, privacy revocation, and teacher result visibility, using the actual server against isolated PGlite. It never uses production accounts. `npm run build` checks the production bundle.
+
+## AI-assisted self-study assessment
+
+Writing and speaking submissions now receive an immediate structured learning estimate. When `OPENAI_API_KEY` is configured on the server, the app sends the task and response to the OpenAI Responses API with a strict JSON schema; otherwise the same interface uses the local rubric fallback so self-study remains usable. Scores are task estimates and never claim official CEFR placement. The API key is server-only and is never sent to the browser.

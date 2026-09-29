@@ -9,6 +9,7 @@ const db=new PGlite();
 const pg={Pool:class{async query(sql,args){if(!args&&sql.includes('CREATE TABLE'))return db.exec(sql);const r=await db.query(sql,args);return {...r,rowCount:r.rows.length||r.affectedRows||0}}async connect(){return {query:this.query.bind(this),release(){}}}}};`)
  .replace("const root=path.dirname(fileURLToPath(import.meta.url));",`const root=${JSON.stringify(root)};`)
  .replaceAll("'./course.mjs'",JSON.stringify(new URL('./course.mjs',import.meta.url).href))
+ .replaceAll("'./ai-assessment.mjs'",JSON.stringify(new URL('./ai-assessment.mjs',import.meta.url).href))
  .replaceAll("'./skills-api.mjs'",JSON.stringify(new URL('./skills-api.mjs',import.meta.url).href))
  .replaceAll("'./assessment-api.mjs'",JSON.stringify(new URL('./assessment-api.mjs',import.meta.url).href))
  .replace("if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');",'')

@@ -8,7 +8,7 @@ async function account(name,role='learner'){const r=await call('/auth/register',
 try{
  const a=await account('SkillsOne'),b=await account('SkillsTwo'),t=await account('SkillsTeacher','teacher');
  assert.equal((await call('/skills')).status,401);
- for(const task of skillTasks){let response=task.skill==='Listening'?task.questions.map(q=>q.answer):task.skill==='Writing'?'Hola, me gustaría cambiar la clase al lunes. ¿Sería posible?':{audio:'data:audio/webm;base64,'+Buffer.alloc(150,1).toString('base64'),seconds:15};const body={task:task.id,response,submissionKey:crypto.randomUUID()};const r=await call('/skills','POST',body,a.cookie);assert.equal(r.status,201,JSON.stringify(r.data));assert.equal(r.data.submission.result.score,task.skill==='Listening'?100:null);assert.equal((await call('/skills','POST',body,a.cookie)).data.submission.id,r.data.submission.id);if(task.skill==='Writing'){
+ for(const task of skillTasks){let response=task.skill==='Listening'?task.questions.map(q=>q.answer):task.skill==='Writing'?'Hola, me gustaría cambiar la clase al lunes. ¿Sería posible?':{audio:'data:audio/webm;base64,'+Buffer.alloc(150,1).toString('base64'),seconds:15};const body={task:task.id,response,submissionKey:crypto.randomUUID()};const r=await call('/skills','POST',body,a.cookie);assert.equal(r.status,201,JSON.stringify(r.data));assert.equal(typeof r.data.submission.result.score,'number');assert.equal((await call('/skills','POST',body,a.cookie)).data.submission.id,r.data.submission.id);if(task.skill==='Writing'){
  assert.equal((await call('/skills/'+r.data.submission.id,'GET',null,b.cookie)).status,403);
  assert.equal((await call('/skills/'+r.data.submission.id+'/review','PUT',{ratings:[4,4,4,4],feedback:'Very clear response.'},a.cookie)).status,403);
  }}
