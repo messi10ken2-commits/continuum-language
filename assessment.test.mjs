@@ -10,3 +10,8 @@ for(const form of [0,1]){
  test(`form ${form}: public session has no answer key`,()=>{const r=publicAssessment({id:'test',form,answers:[],result:null});assert.equal('answer' in r.question,false);assert.equal('level' in r.question,false);assert.equal('answers' in r,false);});
 }
 test('alternate forms contain different passages',()=>{assert.notEqual(assessmentItems(0)[0].passage,assessmentItems(1)[0].passage);});
+for(const form of [0,1])test(`new form ${form}: listening is separately scored and productive tasks stay ungraded`,()=>{
+ const version='es-diagnostic-2',items=assessmentItems(form,version);assert.equal(items.length,45);assert.equal(items.filter(q=>q.skill==='Listening').length,15);
+ const answers=items.map(q=>q.skill==='Listening'?null:q.answer),r=gradeAssessment(form,answers,version);assert.equal(r.level,'C1');assert.equal(r.skills.find(s=>s.name==='Listening').level,'Below A1');assert.equal(r.overallCefr,null);
+ const s=publicAssessment({id:'example',version,form,answers});assert.equal(s.total,47);assert.equal(s.question.skill,'Writing');assert.equal(s.question.task.model,undefined);assert.equal(s.question.task.questions,undefined);
+});

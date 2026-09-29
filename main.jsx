@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client';
 import {ArrowLeft,Award,BookOpen,CalendarDays,Check,CheckCircle2,ChevronRight,CirclePlay,Clock3,Flame,Headphones,LayoutDashboard,MessageCircle,Mic2,NotebookPen,Play,RotateCcw,Search,Sparkles,Target,TrendingUp,Users,Video,WandSparkles} from 'lucide-react';
 import './styles.css';
 import './features.css';
+import {SkillRecord} from './SkillsWorkshop.jsx';
 import SelfStudy from './SelfStudy.jsx';
 import LessonSuggestion from './LessonSuggestion.jsx';
 import Assessment,{AssessmentSummary,AssessmentReport} from './Assessment.jsx';
@@ -241,6 +242,7 @@ function ConnectedTeacher({section='Overview',onNavigate}){
  <div className="learner-picker"><label htmlFor="choose-learner">Viewing learner</label><select id="choose-learner" disabled={saving} value={selected} onChange={e=>{setMessage('');setError('');setNote('');setFocus('Subjunctive');setSelected(e.target.value)}}>{learners.map(x=><option value={x.id} key={x.id}>{x.name}</option>)}</select></div>
  {record?.sharing?.selfLearning===false&&<div className="privacy-banner"><Users size={18}/><div><b>Self-study activity is private</b><p>This learner has hidden lesson activity, scores and assessment results. Class notes and your connection are still available.</p></div></div>}
  {!record?<section className="panel account-loading">Loading learner record…</section>:section==='Full report'?<TeacherReportLive record={record} onNavigate={onNavigate}/>:section==='Assignments'?<TeacherAssignmentLive key={selected} record={record} notes={notes} onSave={async(focus,note)=>{const r=await api('/teacher/learners/'+selected+'/notes',{method:'POST',body:JSON.stringify({focus,note})});setNotes(list=>[{...r.note,teacher:'You'},...list])}}/>:section==='Learning memory'?<TeacherMemoryLive key={selected} record={record} notes={notes} onNavigate={onNavigate}/>:section==='Class notes'?<TeacherNotesLive record={record} notes={notes} focus={focus} setFocus={setFocus} note={note} setNote={setNote} onSave={save} onNavigate={onNavigate} saving={saving}/>:<TeacherOverviewLive record={record} notes={notes} onNavigate={onNavigate}/>} 
+ {record&&record.sharing?.selfLearning!==false&&['Class notes','Learning memory','Full report'].includes(section)&&<SkillRecord key={selected+'-'+section} learnerId={selected}/>}
  </>}</>;
 }
 

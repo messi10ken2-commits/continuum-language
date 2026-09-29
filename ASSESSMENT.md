@@ -1,31 +1,27 @@
-# Spanish placement and reassessment
+# Spanish diagnostic and communication workshops
 
-This feature provides an experimental **reading and language-use course placement**, not an overall CEFR rating, validated examination, or certificate. Listening, speaking, and writing remain unassessed. C2 is outside the bank. Do not use these results for admissions, employment, or other high-stakes decisions.
+The current version (`es-diagnostic-2`) has 45 objective questions: three reading, three language-use and three listening questions per A1–C1 band. It then presents a writing task and a recorded speaking task at the reading/language-use recommended course band. Original task difficulty is editorial and CEFR-inspired, not externally validated or statistically calibrated. C2 is not tested.
 
-## User flow
+The original reading/language-use placement rule is retained: highest consecutive band with at least 2/3 in each area. Listening has its own consecutive-band threshold of 2/3 and does not silently change the existing placement. Listening uses device-generated Spanish speech, with transcript hidden during tests, replay allowed and no timed limit. The synthetic delivery is a limited sample of listening, not a full real-world listening examination.
 
-- A learner opens **Level test** from navigation, Overview, or Learn.
-- First completion is placement; later completions are reassessments.
-- Each form contains 30 original questions: 3 reading and 3 language-use questions in each A1–C1 difficulty band.
-- Answers save one at a time. The learner can pause, refresh, and resume across devices. Saved answers cannot be changed. Skips count as incorrect.
-- Only a fully completed test updates placement. The latest completed result, not the best result, is current. The most recent 20 results are displayed; all completed records remain in the database.
-- The learning path is a recommendation the learner can explicitly open; no lessons are locked or marked complete by testing.
-- Test results follow the existing learner-controlled self-study sharing preference. Hidden results are not returned by teacher APIs. Teacher links and class notes remain unchanged.
+Writing and speaking are submitted evidence, not multiple-choice proxies. Submitted work awaits a connected teacher's review; it has no automatic proficiency score. Four criteria are rated 0–4 and reported as a task rubric percentage. This does not determine an overall CEFR level or constitute certification. Skipped skills remain unassessed. Receptive scores exclude productive tasks from their denominator. There is no automatic essay or phoneme scoring in this release.
 
-## Scoring and limits
+## Lessons and records
 
-Version `es-diagnostic-1` requires at least 2/3 reading AND 2/3 language-use answers in every consecutive band from A1. The highest such band determines the provisional placement. If A1 does not meet the threshold, the display is “Below A1” and the recommended course is A1. This is not proof of a Pre-A1 skill rating. All-correct results cap at C1 task difficulty, not a confirmed C1 proficiency.
+Learn includes three communication workshops per level (15 total): listening with three scored questions and explanations, writing with planning guidance and an original model, and speaking with an original prompt and recording/replay. These have a separate submissions and feedback record; they are not added to the existing multiple-choice mastery count or 85% summary-test certificate. Model texts illustrate structure; they are not prescribed answers.
 
-These thresholds and task levels are author judgments. The forms have not been piloted, calibrated, statistically equated, or externally validated. Three questions per area per band provide limited evidence; reading items within a band share a passage. Two alternating forms reduce immediate repetition but repeat on later attempts. There is no retake lock; learners are advised to wait several weeks. A score difference should not be interpreted as a precise measure of growth.
+Draft writing is stored per account/task on the device. Audio remains on the current page until the learner explicitly consents and submits. Submitted audio (up to 90 seconds / 1 MB) and writing persist in PostgreSQL, accessible only to the owner or connected teachers while self-study sharing is enabled. Teacher list, response playback and review routes all recheck this setting. Disconnecting a teacher also revokes access. No speech-recognition provider is invoked for the new speaking tasks. Audio is delivered through authenticated JSON, with no public media URL.
 
-Answer keys are kept in the server-only `assessment-bank.mjs`. The assessment UI receives the current question without keys or future items. Scoring uses server-held answers, not a submitted client score. Idempotent retries and row locks avoid double finalization. This is an unproctored learning tool, not cheat-proof testing.
+Teachers review submissions from Learning memory, Class notes or Full report, using task fulfilment, organisation/coherence, language control and intelligibility criteria as applicable. Feedback requires a specific written comment. Updated reviews appear in learner records and assessment reports on reload/refresh. A reading/language-use result stays distinct from reviewed productive evidence.
 
-## Reference and next validation work
+## Persistence and compatibility
 
-Council of Europe: [Relating language examinations to CEFR](https://www.coe.int/en/web/common-european-framework-reference-languages/relating-examinations-to-the-cefr). The original passages are not official or endorsed CEFR exam material.
+Each continued test answer is saved server-side, owned by the learner and immutable. Identical retries are safe. Production samples are separately saved and recovered on resume if submission succeeded before the next test step was saved. Only finishing the assessment updates course placement. The latest completed result replaces previous placement, even if lower. Earlier `es-diagnostic-1` tests remain resumable with 30 original items, and historical records retain their scope.
 
-Before making stronger CEFR claims: have language-assessment specialists review descriptors and items, pilot on a diverse learner sample, perform item analysis and standard setting, equate forms, and add validated listening plus rated speaking/writing samples. Never infer an overall CEFR result from lesson completion or this grammar/reading sample alone.
+Schemas are additive; no existing attempts, users, privacy settings or class notes are removed. Answer keys for placement listening are server-only in assessment-listening.mjs. Practice keys are client-visible as with existing lessons. This is an unproctored learning product, not cheat-proof testing.
+
+Reference: Council of Europe CEFR Companion Volume and descriptors: https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors . Before stronger claims, expert review, diverse learner pilots, item analysis, standard setting and validation are needed.
 
 ## Verification
 
-Run `npm ci` then `npm test` and `npm run build`. The API integration test executes the actual server source against an isolated in-memory PostgreSQL engine (PGlite); it does not connect to production. It covers ownership, role checks, resume, idempotent retries, scoring, reassessment downgrades, privacy, and independence from lesson scores. Test adapters are not used by `npm start`.
+`npm test` covers original scoring, v1/v2 compatibility, lesson API, assessment API, listening grading, response ownership, immutable retries, submitted-writing/audio records, four-criterion teacher evaluation, privacy revocation, and teacher result visibility, using the actual server against isolated PGlite. It never uses production accounts. `npm run build` checks the production bundle.

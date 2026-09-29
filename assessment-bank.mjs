@@ -1,6 +1,8 @@
 // SERVER ONLY. Original Spanish diagnostic items, versioned independently of lessons.
 // CEFR-inspired course placement, NOT an empirically calibrated CEFR examination.
-export const assessmentVersion='es-diagnostic-1';
+import {listeningItems} from './assessment-listening.mjs';
+import {getSkillTask} from './skills-content.mjs';
+export const assessmentVersion='es-diagnostic-2';
 const tiers=['A1','A2','B1','B2','C1'];
 // Each tier: a short passage, three reading items, three language-use items.
 // In source tuples the first option is correct; options are rotated before use.
@@ -97,24 +99,35 @@ const forms=[[
   ['Elige una objeción formal que reconozca primero el mérito de una propuesta.','Si bien la iniciativa es pertinente, su aplicación exige mayores garantías.','La idea es pésima y punto.','No he leído la propuesta, por tanto queda validada.','La iniciativa es pertinente porque no lo es.']
  ]]
 ]];
-export function assessmentItems(form=0){
+export function assessmentItems(form=0,version='es-diagnostic-1'){
  if(!Number.isInteger(form)||form<0||form>=forms.length)throw Error('Unknown test form');
- return forms[form].flatMap(([level,passage,reading,language])=>[...reading.map(q=>({q,skill:'Reading',passage})),...language.map(q=>({q,skill:'Language use',passage:null}))].map(({q,skill,passage},i)=>{
+ const base=forms[form].flatMap(([level,passage,reading,language])=>[...reading.map(q=>({q,skill:'Reading',passage})),...language.map(q=>({q,skill:'Language use',passage:null}))].map(({q,skill,passage},i)=>{
   const [prompt,...options]=q,offset=(tiers.indexOf(level)+i+form)%4;
   return {id:`${form}-${level}-${i}`,level,skill,passage,prompt,options:[...options.slice(offset),...options.slice(0,offset)],answer:(4-offset)%4};
  }));
+ return version==='es-diagnostic-2'?[...base,...listeningItems(form)]:base;
 }
 export function publicAssessment(row){
- const items=assessmentItems(row.form),index=row.answers.length;
- const item=items[index];
- return {id:row.id,kind:row.kind,version:row.version,form:row.form,startedAt:row.started_at,index,total:items.length,result:row.result,completedAt:row.completed_at,question:item?{id:item.id,skill:item.skill,passage:item.passage,prompt:item.prompt,options:item.options}:null};
+ const version=row.version||'es-diagnostic-1',items=assessmentItems(row.form,version),index=row.answers.length,extended=version==='es-diagnostic-2';
+ let item=items[index],question=item?{id:item.id,skill:item.skill,passage:item.passage,prompt:item.prompt,options:item.options,...(item.audio?{audio:item.audio}:{})}:null;
+ if(extended&&index>=items.length&&index<items.length+2){const partial=gradeAssessment(row.form,row.answers.slice(0,items.length),version);const skill=index===items.length?'Writing':'Speaking';const task=getSkillTask(`skills-${partial.courseLevel.toLowerCase()}-${skill.toLowerCase()}`);const {model,tips,audio,questions,...publicTask}=task;const prompts={
+ A1:['Write to a language partner. Give your name, city and one interest, then ask about theirs.','Introduce a person you know: their name, where they live and something they enjoy.'],
+ A2:['Write about a recent outing. Say where you went, what happened and what you would do differently next time.','Describe a recent outing, a small problem and how you solved it.'],
+ B1:['Write to a course organiser requesting a change of schedule. Explain your circumstances, propose a solution and ask for confirmation.','Explain to a course organiser why you need to change your class schedule. Propose two solutions and give your preference.'],
+ B2:['Write a proposal comparing public transport and cycling for commuting. Weigh benefits and drawbacks, address an objection and recommend a policy.','Your workplace is considering a four-day week. Weigh the advantages and risks, address a colleague’s objection and recommend a trial policy.'],
+ C1:['Write a briefing: a school reports higher grades after banning phones, but teaching hours also increased. Analyse what can be concluded, consider alternative explanations and recommend what evidence to collect next.','A city reports less traffic after increasing bus services, but fuel prices rose at the same time. Evaluate the evidence, consider another explanation and give a qualified recommendation.']};
+ const variation=row.form?' Address someone unfamiliar with your situation and make your purpose explicit.':' Make the final request or recommendation clear.';
+ publicTask.prompt=prompts[partial.courseLevel][skill==='Writing'?0:1]+variation;
+ question={id:`${row.id}-${skill}`,skill,prompt:publicTask.prompt,task:publicTask};}
+ return {id:row.id,kind:row.kind,version,form:row.form,startedAt:row.started_at,index,total:items.length+(extended?2:0),result:row.result,completedAt:row.completed_at,question};
 }
-export function gradeAssessment(form,answers){
- const items=assessmentItems(form);
+export function gradeAssessment(form,answers,version='es-diagnostic-1'){
+ const items=assessmentItems(form,version);
  if(!Array.isArray(answers)||answers.length!==items.length||answers.some(a=>a!==null&&(!Number.isInteger(a)||a<0||a>3)))throw Error('Invalid complete assessment');
- const bands=tiers.map(level=>{const indices=items.flatMap((q,i)=>q.level===level?[i]:[]);const score=skill=>indices.filter(i=>items[i].skill===skill&&answers[i]===items[i].answer).length;return {level,correct:score('Reading')+score('Language use'),total:6,reading:score('Reading'),languageUse:score('Language use')};});
+ const bands=tiers.map(level=>{const indices=items.flatMap((q,i)=>q.level===level?[i]:[]);const score=skill=>indices.filter(i=>items[i].skill===skill&&answers[i]===items[i].answer).length;return {level,correct:score('Reading')+score('Language use')+score('Listening'),total:version==='es-diagnostic-2'?9:6,reading:score('Reading'),languageUse:score('Language use'),...(version==='es-diagnostic-2'?{listening:score('Listening')}:{})};});
  let level='Below A1';
  for(const band of bands){if(band.correct<4||band.reading<2||band.languageUse<2)break;level=band.level;}
- const skills=['Reading','Language use'].map(name=>({name,correct:items.filter((q,i)=>q.skill===name&&answers[i]===q.answer).length,total:15}));
- return {level,courseLevel:level==='Below A1'?'A1':level,correct:bands.reduce((n,b)=>n+b.correct,0),total:items.length,skipped:answers.filter(a=>a===null).length,bands,skills,scope:'Reading and language use only',method:assessmentVersion,overallCefr:null};
+ const skills=(version==='es-diagnostic-2'?['Reading','Language use','Listening']:['Reading','Language use']).map(name=>({name,correct:items.filter((q,i)=>q.skill===name&&answers[i]===q.answer).length,total:15}));
+ if(version==='es-diagnostic-2'){let listeningLevel='Below A1';for(const band of bands){if(band.listening<2)break;listeningLevel=band.level;}skills.find(s=>s.name==='Listening').level=listeningLevel;}
+ return {level,courseLevel:level==='Below A1'?'A1':level,correct:bands.reduce((n,b)=>n+b.correct,0),total:items.length,skipped:answers.filter(a=>a===null).length,bands,skills,scope:version==='es-diagnostic-2'?'Reading, language use and listening; productive tasks separately reviewed':'Reading and language use only',method:version,overallCefr:null};
 }
