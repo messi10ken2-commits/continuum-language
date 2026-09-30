@@ -18,8 +18,20 @@ export async function audioWav(response){
    child.on('error',()=>reject(Error('Audio conversion unavailable. Your recording remains saved.')));
    child.on('close',code=>code===0?resolve():reject(Error('Could not read the audio. Please record again.')));
   });
-  const wav=await readFile(output);if(wav.length<3200||wav.length>3000000)throw Error('The recording is too short or could not be read.');return wav.toString('base64');
+  const wav=await readFile(output);if(wav.length<3200||wav.length>3000000)throw Error('The recording is too short or could not be read.');validateAudioSignal(wav);return wav.toString('base64');
  }finally{await rm(dir,{recursive:true,force:true});}
+}
+export function validateAudioSignal(wav){
+ // audioWav normalizes to mono 16-bit PCM. Inspect the data chunk, not headers.
+ let samples=0,energy=0;
+ for(let offset=12;offset+8<=wav.length;){
+  const size=wav.readUInt32LE(offset+4),start=offset+8,end=Math.min(start+size,wav.length);
+  if(wav.toString('ascii',offset,offset+4)==='data'){
+   for(let i=start;i+1<end;i+=2){const value=wav.readInt16LE(i);energy+=value*value;samples++;}break;
+  }
+  offset=start+size+(size%2);
+ }
+ if(!samples||Math.sqrt(energy/samples)<20)throw Error('The recording is silent or too quiet to assess. Please record again closer to the microphone.');
 }
 const item={type:'object',additionalProperties:false,properties:{original:{type:'string'},improved:{type:'string'},explanation:{type:'string'}},required:['original','improved','explanation']};
 export const evaluationSchema={type:'object',additionalProperties:false,properties:{assessable:{type:'boolean'},ratings:{type:'array',items:{type:'integer',minimum:0,maximum:4},minItems:4,maxItems:4},evidence:{type:'array',items:{type:'string'},minItems:4,maxItems:4},feedback:{type:'string'},nextStep:{type:'string'},strengths:{type:'array',items:{type:'string'},maxItems:3},corrections:{type:'array',items:item,maxItems:3},transcript:{type:'string'}},required:['assessable','ratings','evidence','feedback','nextStep','strengths','corrections','transcript']};
