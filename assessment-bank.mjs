@@ -1,5 +1,6 @@
 // SERVER ONLY. Original Spanish diagnostic items, versioned independently of lessons.
 // CEFR-inspired course placement, NOT an empirically calibrated CEFR examination.
+import {extraForm,extraProduction} from './assessment-extra.mjs';
 import {listeningItems} from './assessment-listening.mjs';
 import {getSkillTask} from './skills-content.mjs';
 export const assessmentVersion='es-diagnostic-2';
@@ -99,6 +100,8 @@ const forms=[[
   ['Elige una objeción formal que reconozca primero el mérito de una propuesta.','Si bien la iniciativa es pertinente, su aplicación exige mayores garantías.','La idea es pésima y punto.','No he leído la propuesta, por tanto queda validada.','La iniciativa es pertinente porque no lo es.']
  ]]
 ]];
+forms.push(extraForm);
+export const assessmentFormCount=forms.length;
 export function assessmentItems(form=0,version='es-diagnostic-1'){
  if(!Number.isInteger(form)||form<0||form>=forms.length)throw Error('Unknown test form');
  const base=forms[form].flatMap(([level,passage,reading,language])=>[...reading.map(q=>({q,skill:'Reading',passage})),...language.map(q=>({q,skill:'Language use',passage:null}))].map(({q,skill,passage},i)=>{
@@ -117,7 +120,7 @@ export function publicAssessment(row){
  B2:['Write a proposal comparing public transport and cycling for commuting. Weigh benefits and drawbacks, address an objection and recommend a policy.','Your workplace is considering a four-day week. Weigh the advantages and risks, address a colleague’s objection and recommend a trial policy.'],
  C1:['Write a briefing: a school reports higher grades after banning phones, but teaching hours also increased. Analyse what can be concluded, consider alternative explanations and recommend what evidence to collect next.','A city reports less traffic after increasing bus services, but fuel prices rose at the same time. Evaluate the evidence, consider another explanation and give a qualified recommendation.']};
  const variation=row.form?' Address someone unfamiliar with your situation and make your purpose explicit.':' Make the final request or recommendation clear.';
- publicTask.prompt=prompts[partial.courseLevel][skill==='Writing'?0:1]+variation;
+ publicTask.prompt=(row.form===2?extraProduction:prompts)[partial.courseLevel][skill==='Writing'?0:1]+variation;
  question={id:`${row.id}-${skill}`,skill,prompt:publicTask.prompt,task:publicTask};}
  return {id:row.id,kind:row.kind,version,form:row.form,startedAt:row.started_at,index,total:items.length+(extended?2:0),result:row.result,completedAt:row.completed_at,question};
 }
