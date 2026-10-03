@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {testServer,db} from './test-server.mjs';
 import {assessmentItems} from './assessment-bank.mjs';
+import {migrateAssessments} from './assessment-api.mjs';
 const base='http://127.0.0.1:'+testServer.address().port;
 async function call(path,method='GET',body,cookie){const r=await fetch(base+'/api'+path,{method,headers:{'Content-Type':'application/json',...(cookie?{cookie}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,data:await r.json(),cookie:r.headers.get('set-cookie')?.split(';')[0]}}
 async function account(name,role='learner'){const r=await call('/auth/register','POST',{name,email:name+'@example.test',password:'synthetic-test-password',role,adult:true});assert.equal(r.status,200);return r}
@@ -40,5 +41,15 @@ try{
  assert.equal((await call('/teacher/learners/'+learner,'GET',null,t.cookie)).data.assessment.result.level,'Below A1');
  await call('/practice','POST',{lesson:'subjunctive',answers:[1,1,1,1,1]},a.cookie);
  assert.equal((await call('/assessments','GET',null,a.cookie)).data.history[0].result.level,'Below A1');
+ await db.exec('ALTER TABLE assessments DROP CONSTRAINT assessments_form_check; ALTER TABLE assessments ADD CONSTRAINT assessments_form_check CHECK(form IN (0,1));');
+ await migrateAssessments({query:s=>db.exec(s)});await migrateAssessments({query:s=>db.exec(s)});
+ const third=(await call('/assessments','POST',{},a.cookie)).data.session;
+ assert.equal(third.form,2);assert.equal(third.total,47);
+ assert.equal((await call('/assessments','POST',{},a.cookie)).data.session.id,third.id);
+ const thirdKeys=assessmentItems(2,third.version).map(q=>q.answer);
+ for(let index=0;index<47;index++)assert.equal((await call('/assessments/'+third.id,'PUT',{index,answer:thirdKeys[index]??null},a.cookie)).status,200);
+ const thirdHistory=(await call('/assessments','GET',null,a.cookie)).data.history;
+ assert.equal(thirdHistory[0].result.correct,45);assert.equal(thirdHistory.length,3);
+ assert.equal((await call('/assessments','POST',{},a.cookie)).data.session.form,0);
  console.log('PASS: placement, reassessment downgrade, saved resume, server scoring, retries, ownership, teacher privacy, notes preserved, lesson/assessment separation.');
 }finally{await new Promise(r=>testServer.close(r));await db.close();}
