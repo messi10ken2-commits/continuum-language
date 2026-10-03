@@ -1,10 +1,12 @@
-import {assessmentVersion,assessmentItems,publicAssessment,gradeAssessment} from './assessment-bank.mjs';
+import {assessmentVersion,assessmentFormCount,assessmentItems,publicAssessment,gradeAssessment} from './assessment-bank.mjs';
 
 export async function migrateAssessments(pool){
  await pool.query(`CREATE TABLE IF NOT EXISTS assessments (
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
- kind text NOT NULL CHECK(kind IN ('placement','reassessment')), version text NOT NULL, form integer NOT NULL CHECK(form IN (0,1)),
+ kind text NOT NULL CHECK(kind IN ('placement','reassessment')), version text NOT NULL, form integer NOT NULL CHECK(form IN (0,1,2)),
  answers jsonb NOT NULL DEFAULT '[]', result jsonb, started_at timestamptz NOT NULL DEFAULT now(), completed_at timestamptz);
+ ALTER TABLE assessments DROP CONSTRAINT IF EXISTS assessments_form_check;
+ ALTER TABLE assessments ADD CONSTRAINT assessments_form_check CHECK(form IN (0,1,2));
  CREATE UNIQUE INDEX IF NOT EXISTS assessment_active_user ON assessments(user_id) WHERE completed_at IS NULL;
  CREATE INDEX IF NOT EXISTS assessment_user_history ON assessments(user_id,completed_at DESC);`);
 }
@@ -25,7 +27,7 @@ export async function handleAssessment({route,req,res,pool,required,json,send,fa
    await c.query('BEGIN');await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[user.id]);
    const active=await c.query('SELECT * FROM assessments WHERE user_id=$1 AND completed_at IS NULL',[user.id]);
    let row=active.rows[0];
-   if(!row){const count=await c.query('SELECT COUNT(*)::int AS count FROM assessments WHERE user_id=$1 AND completed_at IS NOT NULL',[user.id]);const n=count.rows[0].count;const r=await c.query('INSERT INTO assessments(user_id,kind,version,form) VALUES($1,$2,$3,$4) RETURNING *',[user.id,n?'reassessment':'placement',assessmentVersion,n%2]);row=r.rows[0];}
+   if(!row){const count=await c.query('SELECT COUNT(*)::int AS count FROM assessments WHERE user_id=$1 AND completed_at IS NOT NULL',[user.id]);const n=count.rows[0].count;const previous=await c.query('SELECT form FROM assessments WHERE user_id=$1 AND completed_at IS NOT NULL ORDER BY completed_at DESC,id DESC LIMIT 1',[user.id]);const nextForm=previous.rows.length?(previous.rows[0].form+1)%assessmentFormCount:0;const r=await c.query('INSERT INTO assessments(user_id,kind,version,form) VALUES($1,$2,$3,$4) RETURNING *',[user.id,n?'reassessment':'placement',assessmentVersion,nextForm]);row=r.rows[0];}
    await c.query('COMMIT');send(res,200,{session:publicAssessment(row)});
   }catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
   return true;
