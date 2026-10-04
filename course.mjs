@@ -1,4 +1,5 @@
 // Shared curriculum and scoring contract. Content levels describe lesson difficulty, not learner certification.
+import {transferBank} from './transfer-bank.mjs';
 import {foundationChapters,foundationLessons} from './curriculum-foundations.mjs';
 import {expressionChapters,expressionLessons} from './curriculum-expressions.mjs';
 const q=(prompt,options,answer,note,extra={})=>({prompt,options,answer,note,...extra});
@@ -122,5 +123,20 @@ export const forLesson=(attempts,id='subjunctive')=>attempts.filter(a=>(a.lesson
 export function validAnswer(q,a){return q.type==='text'?typeof a==='string'&&a.length<=150:Number.isInteger(a)&&a>=0&&a<q.options.length;}
 const normal=s=>String(s).trim().toLocaleLowerCase('es').replace(/[.!?¿¡]+$/g,'').trim();
 export function isCorrect(q,a){return q.type==='text'?(q.accepted||[q.answer]).some(x=>normal(x)===normal(a)):a===q.answer;}
-export function gradeLesson(id,answers){const l=getLesson(id);if(!l||!Array.isArray(answers)||answers.length!==l.questions.length||!answers.every((a,i)=>validAnswer(l.questions[i],a)))throw new Error('Invalid completed exercise');const correct=answers.filter((a,i)=>isCorrect(l.questions[i],a)).length;return {score:Math.round(correct/l.questions.length*100),total:l.questions.length,correct};}
+export function gradeLesson(id,answers,seed){const l=getLessonVariant(id,seed);if(!l||!Array.isArray(answers)||answers.length!==l.questions.length||!answers.every((a,i)=>validAnswer(l.questions[i],a)))throw new Error('Invalid completed exercise');const correct=answers.filter((a,i)=>isCorrect(l.questions[i],a)).length;return {score:Math.round(correct/l.questions.length*100),total:l.questions.length,correct};}
 export function summarize(attempts){const out={};for(const a of attempts){const id=a.lesson||'subjunctive';const row=out[id]||(out[id]={lesson:id,best:0,latest:a.score,count:0});row.best=Math.max(row.best,a.score);row.count++;}return Object.values(out);}
+
+// A saved seed identifies the v1 question selection and option order.
+export function getLessonVariant(id,seed){
+ const base=getLesson(id);
+ if(seed==null)return base; // Legacy drafts retain their original question set.
+ if(typeof seed!=='string'||!/^v1-[a-zA-Z0-9-]{10,100}$/.test(seed))throw Error('Invalid test version');
+ if(!base?.checkpoint&&!base?.summaryTest)throw Error('This lesson has no test variants');
+ let state=2166136261;for(const c of seed+id){state^=c.charCodeAt(0);state=Math.imul(state,16777619)>>>0;}
+ const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
+ const shuffle=xs=>{const a=[...xs];for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+ const groups=base.summaryTest?chapters.filter(c=>c.level===base.level&&!c.summaryTest):chapters.filter(c=>c.id===base.chapter);
+ const chosen=groups.flatMap(c=>{const pool=transferBank[c.id];if(!pool?.length)throw Error('Missing transfer questions');return shuffle(pool).slice(0,base.summaryTest?3:4).map(q=>({...q,topic:c.title}));});
+ const questions=shuffle(chosen).map(q=>{const order=shuffle(q.options.map((_,i)=>i));return {...q,options:order.map(i=>q.options[i]),answer:order.indexOf(q.answer)};});
+ return {...base,questions,explanation:base.summaryTest?`Apply ${base.level} grammar, vocabulary and expressions in new situations. Questions are mixed across every chapter. Score 85% to earn a completion recommendation.`:'Apply this chapter in new situations. Each attempt draws four questions and mixes the answer choices. Score 80% to master this checkpoint.',example:'Read the situation carefully and choose the response that fits its meaning. A new attempt may ask different questions.',transferTest:true};
+}
