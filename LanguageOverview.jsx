@@ -1,0 +1,9 @@
+import React from 'react';
+import {languageInfo} from './languages.mjs';
+import {lessonList,lessonTitle} from './course.mjs';
+import {AssessmentSummary} from './Assessment.jsx';
+import {SkillRecord} from './SkillsWorkshop.jsx';
+export default function LanguageOverview({language,user,attempts,assessment,onNavigate,onPractice,memory=false}){
+ const name=languageInfo(language).name,lessons=lessonList.filter(l=>l.language===language),done=new Set(attempts.filter(a=>a.score>=(lessons.find(l=>l.id===a.lesson)?.passScore||80)).map(a=>a.lesson));
+ return <div><span className="eyebrow">{name.toUpperCase()} · YOUR LEARNING RECORD</span><h1>{memory?'Learning memory':`${name}: your next step`}</h1><p>Your lessons, skill submissions and test results belong to this language. Course completion and assessed proficiency are separate.</p><AssessmentSummary language={language} assessment={assessment} profile onOpen={()=>onNavigate('Level test')}/><section className="panel"><h2>{done.size} / {lessons.length} course activities mastered</h2><p>Initial A1–C1 pathway: grammar, useful expressions, chapter checkpoints and level reviews.</p><button className="primary" onClick={()=>onNavigate('Learn')}>Continue learning</button></section><section className="panel"><h2>{memory?'Saved lesson evidence':'Recent practice'}</h2>{!attempts.length?<p>No completed lessons in this language yet.</p>:attempts.slice(0,memory?50:5).map((a,i)=><button className="outline-button" style={{display:'flex',width:'100%',justifyContent:'space-between',marginBottom:8}} key={a.id||i} onClick={()=>onPractice(a.lesson)}><span>{lessonTitle(a.lesson)} · {new Date(a.at).toLocaleDateString()}</span><b>{a.score}%</b></button>)}</section>{user&&<SkillRecord language={language} user={user}/>}<p>Teacher visibility follows “Share self-study activity” in Account.</p></div>;
+}
