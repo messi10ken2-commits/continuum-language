@@ -4,7 +4,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import pg from 'pg';
-import {getLesson,gradeLesson,validAnswer} from './course.mjs';
+import {getLesson,getLessonVariant,gradeLesson,validAnswer} from './course.mjs';
 import {assessSkill} from './ai-assessment.mjs';
 import {migrateSkills,handleSkills} from './skills-api.mjs';
 import {migrateAssessments,handleAssessment,assessmentHistory} from './assessment-api.mjs';
@@ -29,6 +29,8 @@ async function migrate(){
  ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS submission_key text;
  CREATE UNIQUE INDEX IF NOT EXISTS practice_submission ON practice_attempts(user_id,submission_key);
  CREATE TABLE IF NOT EXISTS lesson_drafts (user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, answers jsonb NOT NULL DEFAULT '[]', updated_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(user_id,lesson_id));
+ ALTER TABLE lesson_drafts ADD COLUMN IF NOT EXISTS variant_seed text;
+ ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS variant_seed text;
  CREATE TABLE IF NOT EXISTS pronunciation_attempts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, target_version text NOT NULL, score integer NOT NULL CHECK(score BETWEEN 0 AND 100), duration_ms integer NOT NULL CHECK(duration_ms BETWEEN 250 AND 120000), method text NOT NULL DEFAULT 'browser-speech-match-v1', submission_key text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(user_id,submission_key));
  CREATE INDEX IF NOT EXISTS pronunciation_user_time ON pronunciation_attempts(user_id,created_at DESC);
  CREATE INDEX IF NOT EXISTS practice_user_time ON practice_attempts(user_id,created_at DESC);
@@ -89,23 +91,23 @@ async function handle(req,res){
  }
  if(route==='/api/learning'&&req.method==='GET'){
   const user=await required(req,'learner');
-  const [progress,drafts]=await Promise.all([pool.query("SELECT lesson_id AS lesson,MAX(score)::int AS best,COUNT(*)::int AS count,(ARRAY_AGG(score ORDER BY created_at DESC,id DESC))[1] AS latest FROM practice_attempts WHERE user_id=$1 GROUP BY lesson_id",[user.id]),pool.query('SELECT lesson_id AS lesson,answers,updated_at AS at FROM lesson_drafts WHERE user_id=$1',[user.id])]);
+  const [progress,drafts]=await Promise.all([pool.query("SELECT lesson_id AS lesson,MAX(score)::int AS best,COUNT(*)::int AS count,(ARRAY_AGG(score ORDER BY created_at DESC,id DESC))[1] AS latest FROM practice_attempts WHERE user_id=$1 GROUP BY lesson_id",[user.id]),pool.query('SELECT lesson_id AS lesson,answers,variant_seed AS seed,updated_at AS at FROM lesson_drafts WHERE user_id=$1',[user.id])]);
   return send(res,200,{progress:progress.rows,drafts:drafts.rows});
  }
  const draftMatch=route.match(/^\/api\/learning\/([a-z0-9-]+)$/);
  if(draftMatch&&req.method==='PUT'){
-  const user=await required(req,'learner'),data=await json(req),lesson=getLesson(draftMatch[1]);
+  const user=await required(req,'learner'),data=await json(req);let lesson;try{lesson=getLessonVariant(draftMatch[1],data.seed)}catch{fail(400,'Invalid test version')}
   if(!lesson||!Array.isArray(data.answers)||data.answers.length>=lesson.questions.length||!data.answers.every((a,i)=>validAnswer(lesson.questions[i],a)))fail(400,'Invalid lesson progress');
-  await pool.query('INSERT INTO lesson_drafts(user_id,lesson_id,answers) VALUES($1,$2,$3::jsonb) ON CONFLICT(user_id,lesson_id) DO UPDATE SET answers=EXCLUDED.answers,updated_at=now()',[user.id,lesson.id,JSON.stringify(data.answers)]);
+  await pool.query('INSERT INTO lesson_drafts(user_id,lesson_id,answers,variant_seed) VALUES($1,$2,$3::jsonb,$4) ON CONFLICT(user_id,lesson_id) DO UPDATE SET answers=EXCLUDED.answers,variant_seed=EXCLUDED.variant_seed,updated_at=now()',[user.id,lesson.id,JSON.stringify(data.answers),data.seed||null]);
   return send(res,200,{ok:true});
  }
  if(route==='/api/practice'&&req.method==='POST'){
   const user=await required(req,'learner'),data=await json(req);let result;
-  try{result=gradeLesson(data.lesson,data.answers)}catch{fail(400,'Invalid completed exercise')}
+  try{result=gradeLesson(data.lesson,data.answers,data.seed)}catch{fail(400,'Invalid completed exercise')}
   const key=data.submissionKey||null;if(key!==null&&(typeof key!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(key)))fail(400,'Invalid submission key');
   const c=await pool.connect();try{
    await c.query('BEGIN');
-   const r=await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,submission_key) VALUES($1,$2,$3,$4,'exercise',$5) ON CONFLICT(user_id,submission_key) DO UPDATE SET submission_key=EXCLUDED.submission_key RETURNING id,lesson_id AS lesson,score,total,source,created_at AS at",[user.id,data.lesson,result.score,result.total,key]);
+   const r=await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,submission_key,variant_seed) VALUES($1,$2,$3,$4,'exercise',$5,$6) ON CONFLICT(user_id,submission_key) DO UPDATE SET submission_key=EXCLUDED.submission_key RETURNING id,lesson_id AS lesson,score,total,source,created_at AS at",[user.id,data.lesson,result.score,result.total,key,data.seed||null]);
    if(r.rows[0].lesson!==data.lesson)fail(409,'Submission key already used');
    await c.query('DELETE FROM lesson_drafts WHERE user_id=$1 AND lesson_id=$2',[user.id,data.lesson]);await c.query('COMMIT');return send(res,201,{attempt:r.rows[0]});
   }catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
