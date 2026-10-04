@@ -26,8 +26,8 @@ export default function SentenceAudio({text,lang='auto',compact=false,onPlayed})
   };next();
  };
  if(!String(text||'').trim())return null;
- return <span className={`sentence-audio ${compact?'compact':''}`}><button type="button" className="sentence-play" aria-label={playing?'Stop audio':'Listen to this text'} aria-pressed={playing} onClick={e=>{e.preventDefault();e.stopPropagation();play();}}>{playing?<Square size={16}/>:<Volume2 size={16}/>}<span>{playing?'Stop':'Listen'}</span></button><button type="button" className="sentence-speed" aria-label={slow?'Use normal playback speed':'Use slower playback speed'} onClick={e=>{e.preventDefault();e.stopPropagation();stop();setSlow(v=>!v);}}>{slow?'0.75×':'1×'}</button>{!compact&&<small>Device-generated audio</small>}{error&&<span role="status" className="sentence-audio-error">{error}</span>}</span>;
+ return <span className={`sentence-audio ${compact?'compact':''}`}><button type="button" className="sentence-play" aria-label={playing?'Stop audio':'Listen to this text'} aria-pressed={playing} onClick={e=>{e.preventDefault();e.stopPropagation();play();}}>{playing?<Square size={16}/>:<Volume2 size={16}/>}{!compact&&<span>{playing?'Stop':'Listen'}</span>}</button>{playing&&<button type="button" className="sentence-speed" aria-label={slow?'Use normal playback speed':'Use slower playback speed'} onClick={e=>{e.preventDefault();e.stopPropagation();stop();setSlow(v=>!v);}}>{slow?'0.75×':'1×'}</button>}{error&&<span role="status" className="sentence-audio-error">{error}</span>}</span>;
 }
 export function SpokenText({text,lang='auto'}){
- return <>{String(text||'').split(/(?<=[.!?])\s+(?=[A-ZÁÉÍÓÚÜÑ¿¡])/u).map((sentence,i)=><span className="spoken-sentence" key={i}>{sentence} <SentenceAudio text={sentence} lang={lang} compact/>{' '}</span>)}</>;
+ return <span className="spoken-sentence">{text} <SentenceAudio text={text} lang={lang} compact/></span>;
 }
