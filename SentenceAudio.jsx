@@ -1,9 +1,12 @@
-import React,{useEffect,useRef,useState} from 'react';
+import {LanguageContext} from './LanguageContext.jsx';
+import {languageInfo} from './languages.mjs';
+import React,{useEffect,useRef,useState,useContext} from 'react';
 import {Volume2,Square} from 'lucide-react';
 import {speechParts} from './sentence-audio.mjs';
 import './sentence-audio.css';
 let active=null;
 export default function SentenceAudio({text,lang='auto',compact=false,onPlayed}){
+ const language=useContext(LanguageContext),locale=languageInfo(language).locale;
  const [playing,setPlaying]=useState(false),[slow,setSlow]=useState(false),[error,setError]=useState('');
  const owner=useRef({}),mounted=useRef(true),utterance=useRef(null);
  const stop=()=>{if(active?.owner===owner.current){active=null;window.speechSynthesis?.cancel();}if(mounted.current)setPlaying(false);};
@@ -13,7 +16,7 @@ export default function SentenceAudio({text,lang='auto',compact=false,onPlayed})
   const synth=window.speechSynthesis;setError('');
   if(!synth||!window.SpeechSynthesisUtterance){setError('Audio is unavailable on this device. The text is still available.');return;}
   active?.stop();synth.cancel();active={owner:owner.current,stop};setPlaying(true);
-  const parts=speechParts(text,lang);let index=0;
+  const parts=speechParts(text,lang==='es-ES'&&language!=='es'?locale:lang,locale);let index=0;
   const next=()=>{
    if(active?.owner!==owner.current)return;
    if(index>=parts.length){active=null;setPlaying(false);return;}
