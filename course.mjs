@@ -1,3 +1,4 @@
+import {internationalChapters,internationalLessons,internationalTransfer} from './international-course.mjs';
 // Shared curriculum and scoring contract. Content levels describe lesson difficulty, not learner certification.
 import {transferBank} from './transfer-bank.mjs';
 import {foundationChapters,foundationLessons} from './curriculum-foundations.mjs';
@@ -117,6 +118,8 @@ for(const level of levels){
  const questions=source.flatMap(l=>l.questions.filter(q=>q.type!=='text').slice(0,2));
  lessonList.push(entry(id,level.id,id,`${level.id} level summary test`,'Level test',`A cumulative ${level.id} review across grammar, vocabulary, expressions and communication. Score 85% or higher to receive a completion recommendation for the next level.`,`Take the ${level.id} review when you are ready to check the whole level.`,questions,{summaryTest:true,passScore:85,minutes:15}));
 }
+chapters.push(...internationalChapters);
+lessonList.push(...internationalLessons);
 export const getLesson=id=>lessonList.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
 export const forLesson=(attempts,id='subjunctive')=>attempts.filter(a=>(a.lesson||'subjunctive')===id);
@@ -135,8 +138,8 @@ export function getLessonVariant(id,seed){
  let state=2166136261;for(const c of seed+id){state^=c.charCodeAt(0);state=Math.imul(state,16777619)>>>0;}
  const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
  const shuffle=xs=>{const a=[...xs];for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
- const groups=base.summaryTest?chapters.filter(c=>c.level===base.level&&!c.summaryTest):chapters.filter(c=>c.id===base.chapter);
- const chosen=groups.flatMap(c=>{const pool=transferBank[c.id];if(!pool?.length)throw Error('Missing transfer questions');return shuffle(pool).slice(0,base.summaryTest?3:4).map(q=>({...q,topic:c.title}));});
+ const groups=base.summaryTest?chapters.filter(c=>c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest):chapters.filter(c=>c.id===base.chapter);
+ const chosen=groups.flatMap(c=>{const pool=transferBank[c.id]||internationalTransfer[c.id];if(!pool?.length)throw Error('Missing transfer questions');return shuffle(pool).slice(0,base.summaryTest?(base.language?7:3):4).map(q=>({...q,topic:c.title}));});
  const questions=shuffle(chosen).map(q=>{const order=shuffle(q.options.map((_,i)=>i));return {...q,options:order.map(i=>q.options[i]),answer:order.indexOf(q.answer)};});
  return {...base,questions,explanation:base.summaryTest?`Apply ${base.level} grammar, vocabulary and expressions in new situations. Questions are mixed across every chapter. Score 85% to earn a completion recommendation.`:'Apply this chapter in new situations. Each attempt draws four questions and mixes the answer choices. Score 80% to master this checkpoint.',example:'Read the situation carefully and choose the response that fits its meaning. A new attempt may ask different questions.',transferTest:true};
 }
