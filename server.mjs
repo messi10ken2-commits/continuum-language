@@ -5,6 +5,8 @@ import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import pg from 'pg';
 import {getLesson,getLessonVariant,gradeLesson,validAnswer} from './course.mjs';
+import {migratePatterns,handlePatterns} from './patterns-api.mjs';
+import {questionEvidence} from './learning-patterns.mjs';
 import {assessSkill} from './ai-assessment.mjs';
 import {migrateSkills,handleSkills} from './skills-api.mjs';
 import {migrateAssessments,handleAssessment,assessmentHistory} from './assessment-api.mjs';
@@ -37,6 +39,9 @@ async function migrate(){
  CREATE TABLE IF NOT EXISTS share_codes (code_hash text PRIMARY KEY, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL, redeemed_at timestamptz);
  CREATE TABLE IF NOT EXISTS teacher_links (teacher_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(teacher_id,learner_id));
  CREATE TABLE IF NOT EXISTS class_notes (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, teacher_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, focus text NOT NULL, note text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());`);
+ await pool.query(`ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS evidence jsonb;`);
+ await pool.query(`ALTER TABLE class_notes ADD COLUMN IF NOT EXISTS language text NOT NULL DEFAULT 'es';`);
+ await migratePatterns(pool);
  await migrateAssessments(pool);
  await migrateSkills(pool);
 }
@@ -55,6 +60,7 @@ async function handle(req,res){
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)fail(403,'Invalid request origin')}
+ if(await handlePatterns({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}))return;
  if(await handleAssessment({route,req,res,pool,required,json,send,fail}))return;
  if(route==='/api/health'&&req.method==='GET'){await pool.query('SELECT 1');return send(res,200,{ok:true})}
@@ -107,7 +113,7 @@ async function handle(req,res){
   const key=data.submissionKey||null;if(key!==null&&(typeof key!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(key)))fail(400,'Invalid submission key');
   const c=await pool.connect();try{
    await c.query('BEGIN');
-   const r=await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,submission_key,variant_seed) VALUES($1,$2,$3,$4,'exercise',$5,$6) ON CONFLICT(user_id,submission_key) DO UPDATE SET submission_key=EXCLUDED.submission_key RETURNING id,lesson_id AS lesson,score,total,source,created_at AS at",[user.id,data.lesson,result.score,result.total,key,data.seed||null]);
+   const r=await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,submission_key,variant_seed,evidence) VALUES($1,$2,$3,$4,'exercise',$5,$6,$7::jsonb) ON CONFLICT(user_id,submission_key) DO UPDATE SET submission_key=EXCLUDED.submission_key RETURNING id,lesson_id AS lesson,score,total,source,created_at AS at",[user.id,data.lesson,result.score,result.total,key,data.seed||null,JSON.stringify(questionEvidence(data.lesson,data.answers,data.seed))]);
    if(r.rows[0].lesson!==data.lesson)fail(409,'Submission key already used');
    await c.query('DELETE FROM lesson_drafts WHERE user_id=$1 AND lesson_id=$2',[user.id,data.lesson]);await c.query('COMMIT');return send(res,201,{attempt:r.rows[0]});
   }catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
@@ -137,10 +143,10 @@ async function handle(req,res){
  const match=route.match(/^\/api\/teacher\/learners\/([a-f0-9-]{36})(?:\/(notes))?$/);
  if(match){const teacher=await required(req,'teacher'),learnerId=match[1];await linked(teacher.id,learnerId);
   if(!match[2]&&req.method==='GET'){const learner=await pool.query('SELECT id,name,share_self_learning FROM users WHERE id=$1',[learnerId]);const shared=learner.rows[0].share_self_learning;const [r,assessments,pronunciation]=shared?await Promise.all([pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[learnerId]),assessmentHistory(pool,learnerId),pool.query('SELECT id,lesson_id AS lesson,target_version AS "targetVersion",score,duration_ms AS "durationMs",method,created_at AS at FROM pronunciation_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 20',[learnerId])]):[{rows:[]},[],{rows:[]}];return send(res,200,{learner:{id:learner.rows[0].id,name:learner.rows[0].name},attempts:r.rows,assessment:assessments[0]||null,pronunciation:pronunciation.rows,sharing:{selfLearning:shared}})}
-  if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[learnerId]);return send(res,200,{notes:r.rows})}
-  if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim();if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note) VALUES($1,$2,$3,$4) RETURNING id,focus,note,created_at AS at',[learnerId,teacher.id,focus,note]);return send(res,201,{note:r.rows[0]})}
+  if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[learnerId]);return send(res,200,{notes:r.rows})}
+  if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim();if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const language=data.language||'es';if(!['es','ja','pt','en'].includes(language))fail(400,'Unknown language');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note,language) VALUES($1,$2,$3,$4,$5) RETURNING id,language,focus,note,created_at AS at',[learnerId,teacher.id,focus,note,language]);return send(res,201,{note:r.rows[0]})}
  }
- if(route==='/api/notes'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT n.id,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[user.id]);return send(res,200,{notes:r.rows})}
+ if(route==='/api/notes'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT n.id,n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[user.id]);return send(res,200,{notes:r.rows})}
  fail(404,'Not found');
 }
 async function serve(req,res,route){if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});let filename=path.resolve(dist,'.'+route);if(!filename.startsWith(dist+path.sep)&&filename!==dist)return send(res,404,{error:'Not found'});if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');try{const data=await fs.readFile(filename);res.writeHead(200,{'Content-Type':mime[path.extname(filename)]||'application/octet-stream','Cache-Control':filename.endsWith('index.html')?'no-cache':'public, max-age=31536000, immutable'});res.end(req.method==='HEAD'?undefined:data)}catch{send(res,404,{error:'Not found'})}}
