@@ -1,4 +1,4 @@
-import {internationalSkills} from './international-course.mjs';
+import {internationalSkills,internationalProductionSkills} from './international-course.mjs';
 // Original CEFR-inspired tasks. Course bands are editorial, not validated cut scores.
 export const skillLevels=['A1','A2','B1','B2','C1'];
 const units=[
@@ -39,7 +39,7 @@ const units=[
   items:[['¿Qué cuestiona la investigadora?',['Que el consumo haya bajado.','La atribución de toda la caída a las ayudas.','Que el invierno fuera suave.'],1,'She disputes the causal attribution, not the observed decrease.'],['¿Qué función tiene comparar hogares?',['Anunciar el éxito definitivo.','Eliminar todos los datos.','Distinguir el efecto de las ayudas de otros factores.'],2,'Comparable households provide evidence about alternative explanations.'],['¿Qué recomienda implícitamente?',['Seguir evaluando antes de una decisión definitiva.','Retirar de inmediato el programa.','Ignorar el clima.'],0,'Both immediate withdrawal and definitive success are called premature.']]}
 ];
 export const skillTasks=units.flatMap(u=>['Listening','Writing','Speaking'].map(skill=>({id:`skills-${u.level.toLowerCase()}-${skill.toLowerCase()}`,level:u.level,skill,title:skill==='Listening'?`Listen for meaning · ${u.level}`:skill==='Writing'?`Write with purpose · ${u.level}`:`Speak in your own words · ${u.level}`,topic:u.topic,prompt:u[skill.toLowerCase()]||'Listen once for the main idea, then again for details. Answer before opening the transcript.',tips:u.tips,model:u.model,words:u.words,seconds:u.seconds,audio:u.audio,questions:u.items.map(([prompt,options,answer,note])=>({prompt,options,answer,note}))})));
-skillTasks.push(...internationalSkills);
+skillTasks.push(...internationalSkills,...internationalProductionSkills);
 export const getSkillTask=id=>skillTasks.find(t=>t.id===id);
 export const rubricFor=skill=>skill==='Writing'?['Task fulfilment','Organisation and cohesion','Vocabulary and register','Grammatical control']:['Task fulfilment','Fluency and coherence','Vocabulary and grammar','Intelligibility'];
 export const rubricAnchors=['0 · No assessable evidence','1 · Limited; frequent support needed','2 · Partly effective; meaning sometimes unclear','3 · Effective for the task; some lapses','4 · Consistently effective and clear'];
