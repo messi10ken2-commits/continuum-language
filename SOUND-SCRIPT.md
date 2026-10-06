@@ -23,3 +23,17 @@ katakana glyph strings, including contracted sounds. See NATIVE-AUDIO.md for
 source, licence, transformations and checksums. The recorded clips are served
 without calls to AI providers; full words/sentences continue to use the studio
 voice service. AI provider quotas can still prevent creation of uncached audio.
+
+## Playback continuity and drawing recovery
+
+On studio-provider 429/503 responses or network failures, playback falls back to
+the exact-locale device voice. The player visibly labels this fallback, including
+compact controls; it never describes device synthesis as a human recording.
+If the browser requires a fresh gesture, tapping Listen again invokes device
+speech directly. Already-played mixed-language segments are not repeated.
+A missing installed voice remains an explicit error. This does not remove the
+provider quota or guarantee device voice quality.
+
+Drawing coordinates are captured synchronously before React state updates, so
+cleared event targets cannot crash the application. Pointer capture failures,
+secondary touches and pointer cancellations are guarded.
