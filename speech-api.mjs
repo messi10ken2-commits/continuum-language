@@ -1,3 +1,5 @@
+import nativeKanaAudio from './native-kana.json' with {type:'json'};
+import {nativeKanaKey} from './native-kana-map.mjs';
 import {lessonList} from './course.mjs';
 import {skillTasks} from './skills-content.mjs';
 import {assessmentItems,assessmentFormCount} from './assessment-bank.mjs';
@@ -25,6 +27,8 @@ export async function handleSpeech({route,req,res,pool,json,send,fail,limited,sy
  if(req.method!=='POST')fail(405,'Use POST for speech');
  const data=await json(req),text=typeof data.text==='string'?data.text.normalize('NFC').trim():null,locale=data.locale;
  if(!allowedSpeech(text,locale))fail(400,'This text is not available as a studio recording.');
+ const native=nativeKanaKey(text,locale);
+ if(native){const bytes=Buffer.from(nativeKanaAudio[native],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Version':'native-kana-v1'});res.end(bytes);return true;}
  const key=speechKey(text,locale);const existing=await pool.query('SELECT audio,provider,model FROM speech_cache WHERE cache_key=$1',[key]);
  let result=existing.rows[0],cached=!!result;
  if(!result){

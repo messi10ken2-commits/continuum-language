@@ -17,3 +17,9 @@ All SentenceAudio controls now request cached server-generated speech instead of
 OpenAI gpt-4o-mini-tts / marin is used first with language-specific instructions; Gemini speech is the fallback. These are AI voices, not human recordings or guaranteed phonetic ground truth. Isolated Japanese kana are read twice with a pause, with explicit は/へ/を/ん readings. Samples are padded with silence without stretching or trimming phonemes. 0.85× playback preserves pitch. Browser speech is only an explicit, labelled fallback and requires an exact-locale installed voice. Changing characters, stopping or leaving a page cancels obsolete playback.
 
 Provider documentation: https://developers.openai.com/api/docs/guides/text-to-speech and https://ai.google.dev/gemini-api/docs/speech-generation . Voice/model changes should bump speechVersion to invalidate old cache entries. Verify actual provider availability and representative Japanese, Brazilian Portuguese and Spanish clips after deployment; API/format checks do not certify native pronunciation.
+
+Kana now preferentially uses 104 licensed human recordings for 208 hiragana and
+katakana glyph strings, including contracted sounds. See NATIVE-AUDIO.md for
+source, licence, transformations and checksums. The recorded clips are served
+without calls to AI providers; full words/sentences continue to use the studio
+voice service. AI provider quotas can still prevent creation of uncached audio.
