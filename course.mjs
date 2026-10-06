@@ -1,3 +1,5 @@
+import {expandedExercises,hasExpandedExercises} from './exercise-variants.mjs';
+export {hasExpandedExercises} from './exercise-variants.mjs';
 import {buildInternationalCourse,legacyInternationalChapters,legacyInternationalLessons,legacyInternationalTransfer} from './international-course.mjs';
 // Shared curriculum and scoring contract. Content levels describe lesson difficulty, not learner certification.
 import {transferBank} from './transfer-bank.mjs';
@@ -126,7 +128,7 @@ export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLes
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
 export const forLesson=(attempts,id='subjunctive')=>attempts.filter(a=>(a.lesson||'subjunctive')===id);
 export function validAnswer(q,a){return q.type==='text'?typeof a==='string'&&a.length<=150:Number.isInteger(a)&&a>=0&&a<q.options.length;}
-const normal=s=>String(s).trim().toLocaleLowerCase('es').replace(/[.!?¿¡]+$/g,'').trim();
+const normal=s=>String(s).trim().toLocaleLowerCase('es').normalize('NFKC').replace(/[’‘]/g,"'").replace(/\s+/g,' ').replace(/[.!?¿¡。！？]+$/g,'').trim();
 export function isCorrect(q,a){return q.type==='text'?(q.accepted||[q.answer]).some(x=>normal(x)===normal(a)):a===q.answer;}
 export function gradeLesson(id,answers,seed){const l=getLessonVariant(id,seed);if(!l||!Array.isArray(answers)||answers.length!==l.questions.length||!answers.every((a,i)=>validAnswer(l.questions[i],a)))throw new Error('Invalid completed exercise');const correct=answers.filter((a,i)=>isCorrect(l.questions[i],a)).length;return {score:Math.round(correct/l.questions.length*100),total:l.questions.length,correct};}
 export function summarize(attempts){const out={};for(const a of attempts){const id=a.lesson||'subjunctive';const row=out[id]||(out[id]={lesson:id,best:0,latest:a.score,count:0});row.best=Math.max(row.best,a.score);row.count++;}return Object.values(out);}
@@ -135,6 +137,7 @@ export function summarize(attempts){const out={};for(const a of attempts){const 
 export function getLessonVariant(id,seed){
  const base=getLesson(id);
  if(seed==null)return base; // Legacy drafts retain their original question set.
+ if(typeof seed==='string'&&/^v2-[a-zA-Z0-9-]{10,100}$/.test(seed))return expandedExercises(base,seed);
  if(typeof seed!=='string'||!/^v1-[a-zA-Z0-9-]{10,100}$/.test(seed))throw Error('Invalid test version');
  if(!base?.checkpoint&&!base?.summaryTest)throw Error('This lesson has no test variants');
  let state=2166136261;for(const c of seed+id){state^=c.charCodeAt(0);state=Math.imul(state,16777619)>>>0;}

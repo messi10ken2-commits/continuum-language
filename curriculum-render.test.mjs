@@ -31,5 +31,16 @@ try{
    storage.delete('continuumLessonDrafts');storage.delete('continuumTestSeeds');
   }
  }
+ // Render the new tile interaction from a saved v2 draft in every language.
+ for(const language of ['es','en','pt','ja']){
+  const l=lessonList.find(x=>(x.language||'es')===language&&x.skill==='Grammar'&&x.breakdown);
+  const seed='v2-render-123456789',v=getLessonVariant(l.id,seed),index=v.questions.findIndex(q=>q.mode==='order');assert.ok(index>=0);
+  storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:v.questions.slice(0,index).map(q=>q.answer)}));
+  storage.set('continuumTestSeeds',JSON.stringify({[l.id]:seed}));
+  const html=render(language,l.id);assert.ok(html.includes('word-builder-tiles'));assert.ok(html.includes('Undo last word'));assert.ok(html.includes('BUILD THE PHRASE'));
+  storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));storage.set('continuumTestSeeds','{}');
+  assert.ok(render(language,l.id).includes('Restart with expanded practice'));
+  storage.delete('continuumLessonDrafts');storage.delete('continuumTestSeeds');
+ }
  console.log('PASS: all 15 level roadmaps, 267 lesson intros and 267 exercise screens render; every chapter ends in a checkpoint; speaking shows recorder and writing shows textarea.');
 }finally{await vite.close();delete globalThis.localStorage;}
