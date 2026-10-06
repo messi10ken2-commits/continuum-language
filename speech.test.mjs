@@ -29,7 +29,7 @@ test('provider request fixes locale-specific instruction and produces playable W
  assert.equal(request.input,'pão');assert.equal(request.voice,'marin');assert.equal(request.response_format,'pcm');assert.match(request.instructions,/nasalização/);assert.equal(result.audio.toString('ascii',0,4),'RIFF');
 });
 test('provider errors fall back to explicitly generated audio, never a device voice',async()=>{
- let n=0;const result=await synthesizeSpeech('へ','ja-JP',{env:{OPENAI_API_KEY:'test',GEMINI_API_KEY:'test'},fetchImpl:async()=>++n===1?new Response('',{status:429}):Response.json({output_audio:{data:pcm.toString('base64')}})});assert.equal(result.provider,'gemini');assert.equal(n,2);
+ let n=0;const result=await synthesizeSpeech('へ','ja-JP',{env:{OPENAI_API_KEY:'test',GEMINI_API_KEY:'test'},fetchImpl:async()=>++n===1?new Response('',{status:429}):Response.json({steps:[{type:'model_output',content:[{type:'audio',data:pcm.toString('base64')}]}]})});assert.equal(result.provider,'gemini');assert.equal(n,2);
  await assert.rejects(()=>synthesizeSpeech('へ','ja-JP',{env:{}}),e=>e.status===503);
 });
 test('speech endpoint persists, reuses and shares in-flight clips; rejects unapproved text',async()=>{

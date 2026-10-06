@@ -43,9 +43,9 @@ export async function synthesizeSpeech(text,locale,{fetchImpl=fetch,env=process.
   try{
    const model=env.GEMINI_TTS_MODEL||'gemini-3.8-flash-tts';
    const r=await fetchImpl('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'x-goog-api-key':env.GEMINI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model,input:[{type:'user_input',content:[{type:'text',text:recipe.input,annotations:[{type:'speech_metadata',style:recipe.instructions}]}]}],response_format:{type:'audio',mime_type:'audio/l16',sample_rate:24000},generation_config:{speech_config:[{voice:'Kore'}]},store:false}),signal:AbortSignal.timeout(50000)});
-   if(!r.ok)throw Error('HTTP '+r.status);const p=await r.json();const encoded=p.output_audio?.data||p.outputs?.flatMap(x=>x.content||[]).find(x=>x.type==='audio')?.data;
+   if(!r.ok)throw Error('HTTP '+r.status);const p=await r.json();const encoded=p.output_audio?.data||p.steps?.flatMap(x=>x.content||[]).find(x=>x.type==='audio')?.data||p.outputs?.find(x=>x.type==='audio')?.data||p.outputs?.flatMap(x=>x.content||[]).find(x=>x.type==='audio')?.data;
    if(!encoded)throw Error('Missing audio');return {audio:pcmWav(Buffer.from(encoded,'base64')),provider:'gemini',model};
-  }catch(e){failures.push('Gemini '+(e.message.match(/HTTP \d+/)?.[0]||'unavailable'));}
+  }catch(e){failures.push('Gemini '+(e.message.match(/HTTP \d+/)?.[0]||(['Missing audio','Invalid speech audio'].includes(e.message)?e.message:e.name==='TimeoutError'?'timeout':'unavailable')));}
  }
  console.warn('Studio speech unavailable:',failures.join('; ')||'No provider configured');
  const e=Error('Studio voice is temporarily unavailable. Please retry, or explicitly choose your device voice.');e.status=503;throw e;
