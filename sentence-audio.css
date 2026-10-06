@@ -14,3 +14,4 @@
 .answer-with-audio>.sentence-audio{flex-shrink:0;max-width:90px}
 .assessment-option-audio{margin:0 0 8px 28px}
 @media(pointer:coarse){.sentence-audio.compact .sentence-play{width:44px;min-height:44px}}
+.voice-source{font-size:10px;font-weight:400;color:#66617c;line-height:1.3}.sentence-audio-error .text-button{display:block;margin-top:6px}.sound-script .kana-grid strong{white-space:nowrap;word-break:keep-all}.sound-script .kana-grid{grid-template-columns:repeat(auto-fit,minmax(92px,1fr))}

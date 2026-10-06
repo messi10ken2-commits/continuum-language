@@ -9,3 +9,11 @@ Character studios offer hideable readings, audio, optional pointer copying and w
 Specialist IDs contain v1 and are separate from historical lessons. Core seeded summaries exclude specialist chapters so saved question sequences stay stable. New studios use fixed full practice sets and existing save/resume APIs; sound checkpoint seeds cover both taught lessons. The frozen v2 core exercise generator excludes specialists.
 
 Validation: sound-script.test.mjs, curriculum-render.test.mjs (all specialist intros and exercises), pronunciation-api.test.mjs, existing core content and exercise suites, production build.
+
+## Studio audio (2026-10-06)
+
+All SentenceAudio controls now request cached server-generated speech instead of silently choosing a device voice. Public lesson, exercise and assessment text is allowlisted; private learner text and recordings are not submitted to this endpoint. Keys remain on the server. Generated WAVs are cached in PostgreSQL and bounded to 256 MB. New generations are limited to four concurrent requests and 1,000 per day (TTS_DAILY_LIMIT override); cached playback remains available.
+
+OpenAI gpt-4o-mini-tts / marin is used first with language-specific instructions; Gemini speech is the fallback. These are AI voices, not human recordings or guaranteed phonetic ground truth. Isolated Japanese kana are read twice with a pause, with explicit は/へ/を/ん readings. Samples are padded with silence without stretching or trimming phonemes. 0.85× playback preserves pitch. Browser speech is only an explicit, labelled fallback and requires an exact-locale installed voice. Changing characters, stopping or leaving a page cancels obsolete playback.
+
+Provider documentation: https://developers.openai.com/api/docs/guides/text-to-speech and https://ai.google.dev/gemini-api/docs/speech-generation . Voice/model changes should bump speechVersion to invalidate old cache entries. Verify actual provider availability and representative Japanese, Brazilian Portuguese and Spanish clips after deployment; API/format checks do not certify native pronunciation.

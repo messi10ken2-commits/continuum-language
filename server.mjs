@@ -1,3 +1,4 @@
+import {migrateSpeech,handleSpeech} from './speech-api.mjs';
 import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -44,6 +45,7 @@ async function migrate(){
  await migratePatterns(pool);
  await migrateAssessments(pool);
  await migrateSkills(pool);
+ await migrateSpeech(pool);
 }
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
@@ -60,6 +62,7 @@ async function handle(req,res){
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)fail(403,'Invalid request origin')}
+ if(await handleSpeech({route,req,res,pool,json,send,fail,limited}))return;
  if(await handlePatterns({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}))return;
  if(await handleAssessment({route,req,res,pool,required,json,send,fail}))return;
