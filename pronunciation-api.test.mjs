@@ -21,3 +21,8 @@ test('rejects unsupported targets and forged ranges',async()=>{
  assert.equal((await call('/pronunciation','POST',{lesson:'cafe',targetVersion:'cafe-model-v1',score:90,durationMs:1000,submissionKey:'pronunciation-test-2'},l.cookie)).status,400);
  assert.equal((await call('/pronunciation','POST',{lesson:'pronunciation',targetVersion:'pronunciation-model-v1',score:101,durationMs:1000,submissionKey:'pronunciation-test-3'},l.cookie)).status,400);
 });
+
+test('all four new language targets store pronunciation metadata',async()=>{
+ const l=await register('sound-studio-test@example.com','learner');
+ for(const lang of ['es','en','pt','ja']){const lesson=lang+'-sound-v1-0-0';const result=await call('/pronunciation','POST',{lesson,targetVersion:lesson+'-model-v1',score:82,durationMs:3000,submissionKey:'sound-studio-'+lang+'-123456'},l.cookie);assert.equal(result.status,201);}
+});

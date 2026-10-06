@@ -1,5 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {lessonList,chapters,getLessonVariant,gradeLesson} from './course.mjs';
+import {lessonList as fullLessonList,chapters as fullChapters,getLessonVariant,gradeLesson} from './course.mjs';
+const lessonList=fullLessonList.filter(l=>!l.specialist);
+const chapters=fullChapters.filter(c=>!c.specialist);
+
 import {getSkillTask} from './skills-content.mjs';
 import {assessmentItems,gradeAssessment,publicAssessment} from './assessment-bank.mjs';
 import {languageInfo,courseBands} from './languages.mjs';

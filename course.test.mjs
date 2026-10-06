@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {levels,chapters,lessonList,getLesson,gradeLesson,summarize,forLesson} from './course.mjs';
+import {levels,chapters as fullChapters,lessonList as fullLessonList,getLesson,gradeLesson,summarize,forLesson} from './course.mjs';
+const lessonList=fullLessonList.filter(l=>!l.specialist);
+const chapters=fullChapters.filter(c=>!c.specialist);
+
 import {expressionChapters,expressionLessons,expressionGuidance} from './curriculum-expressions.mjs';
 test('Expression curriculum covers every level with distinct phrases and playable checkpoints',()=>{
  assert.equal(expressionChapters.length,10);assert.equal(expressionLessons.length,20);

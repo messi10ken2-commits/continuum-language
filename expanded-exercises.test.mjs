@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {lessonList,getLesson,getLessonVariant,gradeLesson,isCorrect} from './course.mjs';
+import {lessonList as fullLessonList,getLesson,getLessonVariant,gradeLesson,isCorrect} from './course.mjs';
+const lessonList=fullLessonList.filter(l=>!l.specialist);
+
 const seed='v2-regression-123456789';
 for(const lang of ['es','en','pt','ja'])test(`${lang}: complete reference coverage, varied tasks, deterministic and gradable`,()=>{
  const ls=lessonList.filter(l=>(l.language||'es')===lang&&!l.checkpoint&&!l.summaryTest);assert.equal(ls.length,56);

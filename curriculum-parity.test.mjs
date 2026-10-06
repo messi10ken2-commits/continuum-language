@@ -1,6 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {chapters,lessonList,getLesson,getLessonVariant,gradeLesson} from './course.mjs';
+import {chapters as fullChapters,lessonList as fullLessonList,getLesson,getLessonVariant,gradeLesson} from './course.mjs';
+const lessonList=fullLessonList.filter(l=>!l.specialist);
+const chapters=fullChapters.filter(c=>!c.specialist);
+
 import {legacyInternationalLessons,legacyInternationalChapters,legacyInternationalTransfer,buildInternationalCourse} from './international-course.mjs';
 import {getSkillTask} from './skills-content.mjs';
 import {languageInfo} from './languages.mjs';

@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {lessonList} from './course.mjs';
+import {lessonList as fullLessonList} from './course.mjs';
+const lessonList=fullLessonList.filter(l=>!l.specialist);
+
 import {assessmentItems,gradeAssessment,publicAssessment,assessmentFormCount} from './assessment-bank.mjs';
 const bands=['A1','A2','B1','B2','C1'];
 for(const lang of ['en','pt','ja'])test(`${lang}: all 56 normal lessons have substantive references`,()=>{

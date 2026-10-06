@@ -24,7 +24,7 @@ function orderQuestion(sentence,meaning,note,locale){
  return text(`Rebuild the model for: “${meaning}”\nBegin with “${tokens[0]}”.`,sentence,note,{mode:'order',tokens,joiner:locale==='ja-JP'?'':' ',promptLang:'en-US'});
 }
 const bank={};
-for(const l of lessonList.filter(l=>!l.checkpoint&&!l.summaryTest)){
+for(const l of lessonList.filter(l=>!l.checkpoint&&!l.summaryTest&&!l.specialist)){
  const locale=l.locale||'es-ES',lang=l.language||'es',qs=[];
  const add=(q,coverage)=>{qs.push({...q,coverage,sourceLesson:l.id,promptLang:q.promptLang||'en-US',optionsLang:q.optionsLang||locale});};
  const entries=l.expressions||l.vocabulary;

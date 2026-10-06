@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {createServer} from 'vite';
-import {lessonList,getLessonVariant} from './course.mjs';
+import {lessonList as fullLessonList,getLessonVariant} from './course.mjs';
+const lessonList=fullLessonList.filter(l=>!l.specialist);
+
 const vite=await createServer({server:{middlewareMode:true},appType:'custom'});
 const storage=new Map();globalThis.localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)};
 try{
@@ -30,6 +32,11 @@ try{
    if(l.skill==='Listening'){assert.ok(exercise.includes('Show transcript'));assert.ok(exercise.includes(`lang="${l.locale}"`));}
    storage.delete('continuumLessonDrafts');storage.delete('continuumTestSeeds');
   }
+ }
+ for(const l of fullLessonList.filter(l=>l.specialist&&!l.checkpoint)){
+  const html=render(l.language||'es',l.id);assert.ok(html.includes(l.characters?'Character studio':'Your sound studio'),l.id);
+  if(l.pronunciationTarget)assert.ok(html.includes(l.language==='ja'?'Record &amp; compare':'Record &amp; assess'),l.id);
+  storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));assert.ok(render(l.language||'es',l.id).includes('question-card'),l.id);storage.delete('continuumLessonDrafts');
  }
  // Render the new tile interaction from a saved v2 draft in every language.
  for(const language of ['es','en','pt','ja']){
