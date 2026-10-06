@@ -41,7 +41,7 @@ export async function handleSpeech({route,req,res,pool,json,send,fail,limited,sy
    }finally{active--;}})();inFlight.set(key,task);
    task.finally(()=>inFlight.delete(key)).catch(()=>{});
   }
-  try{result=await inFlight.get(key);}catch(e){if(e.status===503){send(res,503,{error:e.message});return true;}throw e;}
+  try{result=await inFlight.get(key);}catch(e){if(e.status===503){send(res,503,{error:e.message,...(e.retryAfter?{retryAfter:e.retryAfter}:{})},e.retryAfter?{'Retry-After':String(e.retryAfter)}:{});return true;}throw e;}
  }
  const bytes=Buffer.from(result.audio);res.writeHead(200,{'Content-Type':'audio/wav','Content-Length':bytes.length,'Cache-Control':'private, max-age=86400','X-Audio-Source':'AI-generated studio voice','X-Audio-Cache':cached?'hit':'miss','X-Audio-Version':speechVersion});res.end(bytes);return true;
 }

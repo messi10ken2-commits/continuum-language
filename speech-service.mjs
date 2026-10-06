@@ -1,6 +1,7 @@
 import crypto from 'node:crypto';
 export const speechVersion='studio-voice-v1';
 export const speechLocales=['ja-JP','pt-BR','es-ES','en-US'];
+let openAICooldown=0;
 const styles={
  'ja-JP':'日本語の標準的な発音で、落ち着いた日本語教師のように自然に読み上げてください。英語のアクセントを使わないでください。長音、促音、撥音、拗音のモーラを正確に保ち、単語の末尾を切らないでください。',
  'pt-BR':'Fale português brasileiro natural, com dicção clara e ritmo confortável de professor nativo. Preserve a nasalização de ã, õ e ão, como em pão e mão, sem acrescentar um n final. Respeite os acentos e a diferença entre avó e avô. Não use sotaque inglês nem português europeu.',
@@ -31,11 +32,11 @@ export function pcmWav(pcm,sampleRate=24000){
 }
 export function speechKey(text,locale){return crypto.createHash('sha256').update(JSON.stringify([speechVersion,locale,text.normalize('NFC').trim()])).digest('hex');}
 export async function synthesizeSpeech(text,locale,{fetchImpl=fetch,env=process.env}={}){
- const recipe=speechRecipe(text,locale);const failures=[];
- if(env.OPENAI_API_KEY){
+ const recipe=speechRecipe(text,locale);const failures=[];let rateLimited=false;let retryAfter=60;
+ if(env.OPENAI_API_KEY&&(env!==process.env||Date.now()>openAICooldown)){
   try{
    const r=await fetchImpl('https://api.openai.com/v1/audio/speech',{method:'POST',headers:{Authorization:`Bearer ${env.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({model:env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts',voice:'marin',input:recipe.input,instructions:recipe.instructions,response_format:'pcm',speed:1}),signal:AbortSignal.timeout(35000)});
-   if(!r.ok)throw Error('HTTP '+r.status);
+   if(!r.ok){if(r.status===429){rateLimited=true;if(env===process.env)openAICooldown=Date.now()+600000;}throw Error('HTTP '+r.status);}
    return {audio:pcmWav(Buffer.from(await r.arrayBuffer())),provider:'openai',model:env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts'};
   }catch(e){failures.push('OpenAI '+(e.message.match(/HTTP \d+/)?.[0]||'unavailable'));}
  }
@@ -43,10 +44,10 @@ export async function synthesizeSpeech(text,locale,{fetchImpl=fetch,env=process.
   try{
    const model=env.GEMINI_TTS_MODEL||'gemini-3.8-flash-tts';
    const r=await fetchImpl('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'x-goog-api-key':env.GEMINI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model,input:[{type:'user_input',content:[{type:'text',text:recipe.input,annotations:[{type:'speech_metadata',style:recipe.instructions}]}]}],response_format:{type:'audio',mime_type:'audio/l16',sample_rate:24000},generation_config:{speech_config:[{voice:'Kore'}]},store:false}),signal:AbortSignal.timeout(50000)});
-   if(!r.ok)throw Error('HTTP '+r.status);const p=await r.json();const encoded=p.output_audio?.data||p.steps?.flatMap(x=>x.content||[]).find(x=>x.type==='audio')?.data||p.outputs?.find(x=>x.type==='audio')?.data||p.outputs?.flatMap(x=>x.content||[]).find(x=>x.type==='audio')?.data;
+   if(!r.ok){if(r.status===429){rateLimited=true;const detail=await r.json().catch(()=>({}));const entries=detail.error?.details||[];const delay=entries.find(x=>x.retryDelay)?.retryDelay;retryAfter=Math.max(1,Math.ceil(parseFloat(delay)||60));console.warn('Studio speech provider limit',JSON.stringify({provider:'gemini',model,retryAfter,quotas:entries.flatMap(x=>x.violations||[]).map(x=>({id:x.quotaId,value:x.quotaValue}))}));}throw Error('HTTP '+r.status);}const p=await r.json();const encoded=p.output_audio?.data||p.steps?.flatMap(x=>x.content||[]).find(x=>x.type==='audio')?.data||p.outputs?.find(x=>x.type==='audio')?.data||p.outputs?.flatMap(x=>x.content||[]).find(x=>x.type==='audio')?.data;
    if(!encoded)throw Error('Missing audio');return {audio:pcmWav(Buffer.from(encoded,'base64')),provider:'gemini',model};
   }catch(e){failures.push('Gemini '+(e.message.match(/HTTP \d+/)?.[0]||(['Missing audio','Invalid speech audio'].includes(e.message)?e.message:e.name==='TimeoutError'?'timeout':'unavailable')));}
  }
  console.warn('Studio speech unavailable:',failures.join('; ')||'No provider configured');
- const e=Error('Studio voice is temporarily unavailable. Please retry, or explicitly choose your device voice.');e.status=503;throw e;
+ const e=Error(rateLimited?'New studio audio is temporarily limited by the voice provider. Saved recordings still play. Please retry later, or explicitly choose your device voice.':'Studio voice is temporarily unavailable. Please retry, or explicitly choose your device voice.');e.status=503;e.retryAfter=rateLimited?retryAfter:undefined;throw e;
 }

@@ -40,3 +40,6 @@ test('speech endpoint persists, reuses and shares in-flight clips; rejects unapp
  await assert.rejects(()=>call('not a public lesson text 999'),e=>e.status===400);
  }finally{await db.close();}
 });
+test('generation limits produce a clear retry hint rather than pretending device audio is studio audio',async()=>{
+ await assert.rejects(()=>synthesizeSpeech('を','ja-JP',{env:{GEMINI_API_KEY:'test'},fetchImpl:async()=>Response.json({error:{details:[{retryDelay:'42s'}]}},{status:429})}),e=>e.status===503&&e.retryAfter===42&&/provider/.test(e.message));
+});
