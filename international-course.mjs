@@ -1,3 +1,4 @@
+import {deepenLesson} from './lesson-depth.mjs';
 import {authoredCurriculum} from './international-authored.mjs';
 import {languageInfo,courseBands} from './languages.mjs';
 // Historical IDs still resolve, but their records must never fill new chapter slots.
@@ -59,9 +60,7 @@ export function buildInternationalCourse(spanishChapters,spanishLessons){
    for(const child of children){
     const index=cursor++,row=rows[index],id=lessonId(language,level,index),skill=child.skill;
     const lesson={id,chapter:chapterId,language,locale,level,skill,title:row.title,sourceLesson:child.id,curriculumVersion:2,minutes:child.minutes||10,explanation:row.rule,example:plain(row.example),exampleLang:locale,questions:questionsFor(row,rows,index,skill,locale,id)};
-    if(skill==='Grammar')lesson.breakdown={steps:row.rule.split(/(?<=[.!?])\s+(?=[A-Z])/),tables:[],pitfall:'Use the meaning of the whole sentence to choose the form, not just the position of a word.',examples:[[plain(row.example),row.meaning]]};
-    if(skill==='Vocabulary')lesson.vocabulary=[{term:target(row.example),meaning:row.rule,phrase:plain(row.example),example:plain(row.example),translation:row.meaning}];
-    if(skill==='Expressions')lesson.expressions=[{term:target(row.example),type:'Expression in context',register:'See usage note',meaning:row.meaning,use:row.rule,example:plain(row.example),translation:row.meaning,pitfall:'Keep the expression connected to this situation and communicative purpose.',region:languageInfo(language).name}];
+    deepenLesson(lesson,row,index);
     if(skill==='Speaking'||skill==='Writing'){
      const task=internationalProductionSkills.find(t=>t.lessonId===id);
      if(!task||task.skill!==skill)throw Error(`Missing production task: ${id}`);

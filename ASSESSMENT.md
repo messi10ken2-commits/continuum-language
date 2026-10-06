@@ -1,10 +1,16 @@
-# Spanish diagnostic and communication workshops
+# Multilingual diagnostic and communication workshops
 
-The current version (`es-diagnostic-2`) has 45 objective questions: three reading, three language-use and three listening questions per A1–C1 band. It then presents a writing task and a recorded speaking task at the reading/language-use recommended course band. Original task difficulty is editorial and CEFR-inspired, not externally validated or statistically calibrated. C2 is not tested.
+The current versions (`es/en/pt/ja-diagnostic-3`) has 45 objective questions: three reading, three language-use and three listening questions per A1–C1 band. It then presents a writing task and a recorded speaking task at the reading/language-use recommended course band. Original task difficulty is editorial and CEFR-inspired, not externally validated or statistically calibrated. C2 is not tested.
 
-The original reading/language-use placement rule is retained: highest consecutive band with at least 2/3 in each area. Listening has its own consecutive-band threshold of 2/3 and does not silently change the existing placement. Listening uses device-generated Spanish speech, with transcript hidden during tests, replay allowed and no timed limit. The synthetic delivery is a limited sample of listening, not a full real-world listening examination.
+The original reading/language-use placement rule is retained: highest consecutive band with at least 2/3 in each area. Listening has its own consecutive-band threshold of 2/3 and does not silently change the existing placement. Listening uses device-generated target-language speech, with transcript hidden during tests, replay allowed and no timed limit. The synthetic delivery is a limited sample of listening, not a full real-world listening examination.
 
 Writing and speaking are submitted evidence, not multiple-choice proxies. Submitted work awaits a connected teacher's review; it has no automatic proficiency score. Four criteria are rated 0–4 and reported as a task rubric percentage. This does not determine an overall CEFR level or constitute certification. Skipped skills remain unassessed. Receptive scores exclude productive tasks from their denominator. There is no automatic essay or phoneme scoring in this release.
+
+## Question variety (version 3)
+
+Each language has four authored forms, each with 45 objective items (180 per language; 720 across four languages). Each form has five distinct reading passages and five distinct listening recordings, plus 15 language-use items. Situations, evidence and communicative purposes change between forms; variation is not limited to shuffled options. Writing and speaking prompts also differ by form and recommended band.
+
+Completed attempts rotate through forms 0 → 1 → 2 → 3 → 0 separately for each language. The same form therefore returns on the fifth new-version attempt; this is a finite reviewed bank, not unlimited generation. Active attempts resume the exact saved version and form. A first v3 attempt after a legacy completion starts at form 0. Legacy v1 and v2 keys are unchanged. Version 3 uses the existing provisional grading thresholds and is not a claim of psychometric equivalence between forms.
 
 ## Lessons and records
 
@@ -14,15 +20,21 @@ Draft writing is stored per account/task on the device. Audio remains on the cur
 
 Teachers review submissions from Learning memory, Class notes or Full report, using task fulfilment, organisation/coherence, language control and intelligibility criteria as applicable. Feedback requires a specific written comment. Updated reviews appear in learner records and assessment reports on reload/refresh. A reading/language-use result stays distinct from reviewed productive evidence.
 
+## Reference depth
+
+All 56 normal lessons in each of English, Brazilian Portuguese and Japanese now have authored reference material. The 19 grammar lessons per language include detailed rules, conjugation or structure tables, concrete pitfalls and at least three contextual examples. Each of the four vocabulary lessons has six entries with collocations and example meanings; each of the 20 expression lessons has four expressions with register, usage and pitfalls. The other 13 communication lessons each have four supporting phrases and skill-specific guidance. Existing lesson exercise IDs, answer keys and checkpoint selection remain unchanged.
+
 ## Persistence and compatibility
 
-Each continued test answer is saved server-side, owned by the learner and immutable. Identical retries are safe. Production samples are separately saved and recovered on resume if submission succeeded before the next test step was saved. Only finishing the assessment updates course placement. The latest completed result replaces previous placement, even if lower. Earlier `es-diagnostic-1` tests remain resumable with 30 original items, and historical records retain their scope.
+Each continued test answer is saved server-side, owned by the learner and immutable. Identical retries are safe. Production samples are separately saved and recovered on resume if submission succeeded before the next test step was saved. Only finishing the assessment updates course placement. The latest completed result replaces previous placement, even if lower. Earlier `es-diagnostic-1` tests remain resumable with 30 original items; all four languages’ v2 tests retain their original 45 items and productive tasks. Historical records retain their scope.
 
-Schemas are additive; no existing attempts, users, privacy settings or class notes are removed. Answer keys for placement listening are server-only in assessment-listening.mjs. Practice keys are client-visible as with existing lessons. This is an unproctored learning product, not cheat-proof testing.
+Schemas are additive; no existing attempts, users, privacy settings or class notes are removed. Placement keys are server-only in the assessment bank modules, including `assessment-variety.mjs`. Practice keys are client-visible as with existing lessons. This is an unproctored learning product, not cheat-proof testing.
 
 Reference: Council of Europe CEFR Companion Volume and descriptors: https://www.coe.int/en/web/common-european-framework-reference-languages/cefr-descriptors . Before stronger claims, expert review, diverse learner pilots, item analysis, standard setting and validation are needed.
 
 ## Verification
+
+`node --test content-depth.test.mjs assessment.test.mjs course.test.mjs curriculum-parity.test.mjs multilingual.test.mjs` checks content coverage, versioned keys, form uniqueness and grading. `node assessment-api.test.mjs` checks four-form rotation and resuming a legacy session. `node multilingual-api.test.mjs` checks language isolation and productive submissions. `node curriculum-render.test.mjs` renders every international lesson and exercise screen.
 
 `npm test` covers original scoring, v1/v2 compatibility, lesson API, assessment API, listening grading, response ownership, immutable retries, submitted-writing/audio records, four-criterion teacher evaluation, privacy revocation, and teacher result visibility, using the actual server against isolated PGlite. It never uses production accounts. `npm run build` checks the production bundle.
 

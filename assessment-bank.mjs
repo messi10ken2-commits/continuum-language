@@ -1,3 +1,4 @@
+import {varietyFormCount,variedAssessmentItems,variedProductionPrompt} from './assessment-variety.mjs';
 import {internationalAssessmentItems} from './international-assessment.mjs';
 import {languageInfo} from './languages.mjs';
 // SERVER ONLY. Original Spanish diagnostic items, versioned independently of lessons.
@@ -5,7 +6,7 @@ import {languageInfo} from './languages.mjs';
 import {extraForm,extraProduction} from './assessment-extra.mjs';
 import {listeningItems} from './assessment-listening.mjs';
 import {getSkillTask} from './skills-content.mjs';
-export const assessmentVersion='es-diagnostic-2';
+export const assessmentVersion='es-diagnostic-3';
 const tiers=['A1','A2','B1','B2','C1'];
 // Each tier: a short passage, three reading items, three language-use items.
 // In source tuples the first option is correct; options are rotated before use.
@@ -103,18 +104,19 @@ const forms=[[
  ]]
 ]];
 forms.push(extraForm);
-export const assessmentFormCount=forms.length;
+export const assessmentFormCount=varietyFormCount;
 export function assessmentItems(form=0,version='es-diagnostic-1'){
+ if(/^(es|ja|pt|en)-diagnostic-3$/.test(version))return variedAssessmentItems(version.slice(0,2),form);
  if(!Number.isInteger(form)||form<0||form>=forms.length)throw Error('Unknown test form');
  if(/^(ja|pt|en)-diagnostic-2$/.test(version))return internationalAssessmentItems(version.slice(0,2),form);
  const base=forms[form].flatMap(([level,passage,reading,language])=>[...reading.map(q=>({q,skill:'Reading',passage})),...language.map(q=>({q,skill:'Language use',passage:null}))].map(({q,skill,passage},i)=>{
   const [prompt,...options]=q,offset=(tiers.indexOf(level)+i+form)%4;
   return {id:`${form}-${level}-${i}`,level,skill,passage,prompt,options:[...options.slice(offset),...options.slice(0,offset)],answer:(4-offset)%4};
  }));
- return version.endsWith('-diagnostic-2')?[...base,...listeningItems(form)]:base;
+ return /-diagnostic-[23]$/.test(version)?[...base,...listeningItems(form)]:base;
 }
 export function publicAssessment(row){
- const version=row.version||'es-diagnostic-1',items=assessmentItems(row.form,version),index=row.answers.length,extended=version.endsWith('-diagnostic-2');
+ const version=row.version||'es-diagnostic-1',items=assessmentItems(row.form,version),index=row.answers.length,extended=/-diagnostic-[23]$/.test(version);
  let item=items[index],question=item?{id:item.id,skill:item.skill,passage:item.passage,prompt:item.prompt,options:item.options,locale:item.locale,promptLang:item.promptLang,optionsLang:item.optionsLang,...(item.audio?{audio:item.audio}:{})}:null;
  if(extended&&index>=items.length&&index<items.length+2){const partial=gradeAssessment(row.form,row.answers.slice(0,items.length),version);const skill=index===items.length?'Writing':'Speaking';const task=getSkillTask(`${version.startsWith('es-')?'':version.slice(0,2)+'-'}skills-${partial.courseLevel.toLowerCase()}-${skill.toLowerCase()}`);const {model,tips,audio,questions,...publicTask}=task;const prompts={
  A1:['Write to a language partner. Give your name, city and one interest, then ask about theirs.','Introduce a person you know: their name, where they live and something they enjoy.'],
@@ -123,17 +125,17 @@ export function publicAssessment(row){
  B2:['Write a proposal comparing public transport and cycling for commuting. Weigh benefits and drawbacks, address an objection and recommend a policy.','Your workplace is considering a four-day week. Weigh the advantages and risks, address a colleague’s objection and recommend a trial policy.'],
  C1:['Write a briefing: a school reports higher grades after banning phones, but teaching hours also increased. Analyse what can be concluded, consider alternative explanations and recommend what evidence to collect next.','A city reports less traffic after increasing bus services, but fuel prices rose at the same time. Evaluate the evidence, consider another explanation and give a qualified recommendation.']};
  const variation=row.form?' Address someone unfamiliar with your situation and make your purpose explicit.':' Make the final request or recommendation clear.';
- publicTask.prompt=(row.form===2?extraProduction:prompts)[partial.courseLevel][skill==='Writing'?0:1]+variation+` Respond in ${languageInfo(version.slice(0,2)).name}.`;
+ publicTask.prompt=(version.endsWith('-diagnostic-3')?variedProductionPrompt(partial.courseLevel,row.form,skill):(row.form===2?extraProduction:prompts)[partial.courseLevel][skill==='Writing'?0:1])+variation+` Respond in ${languageInfo(version.slice(0,2)).name}.`;
  question={id:`${row.id}-${skill}`,skill,prompt:publicTask.prompt,task:publicTask};}
  return {id:row.id,kind:row.kind,version,form:row.form,startedAt:row.started_at,index,total:items.length+(extended?2:0),result:row.result,completedAt:row.completed_at,question};
 }
 export function gradeAssessment(form,answers,version='es-diagnostic-1'){
  const items=assessmentItems(form,version);
  if(!Array.isArray(answers)||answers.length!==items.length||answers.some(a=>a!==null&&(!Number.isInteger(a)||a<0||a>3)))throw Error('Invalid complete assessment');
- const bands=tiers.map(level=>{const indices=items.flatMap((q,i)=>q.level===level?[i]:[]);const score=skill=>indices.filter(i=>items[i].skill===skill&&answers[i]===items[i].answer).length;return {level,correct:score('Reading')+score('Language use')+score('Listening'),total:version.endsWith('-diagnostic-2')?9:6,reading:score('Reading'),languageUse:score('Language use'),...(version.endsWith('-diagnostic-2')?{listening:score('Listening')}:{})};});
+ const bands=tiers.map(level=>{const indices=items.flatMap((q,i)=>q.level===level?[i]:[]);const score=skill=>indices.filter(i=>items[i].skill===skill&&answers[i]===items[i].answer).length;return {level,correct:score('Reading')+score('Language use')+score('Listening'),total:/-diagnostic-[23]$/.test(version)?9:6,reading:score('Reading'),languageUse:score('Language use'),...(/-diagnostic-[23]$/.test(version)?{listening:score('Listening')}:{})};});
  let level='Below A1';
  for(const band of bands){if(band.correct<4||band.reading<2||band.languageUse<2)break;level=band.level;}
- const skills=(version.endsWith('-diagnostic-2')?['Reading','Language use','Listening']:['Reading','Language use']).map(name=>({name,correct:items.filter((q,i)=>q.skill===name&&answers[i]===q.answer).length,total:15}));
- if(version.endsWith('-diagnostic-2')){let listeningLevel='Below A1';for(const band of bands){if(band.listening<2)break;listeningLevel=band.level;}skills.find(s=>s.name==='Listening').level=listeningLevel;}
- return {language:version.slice(0,2),level,courseLevel:level==='Below A1'?'A1':level,correct:bands.reduce((n,b)=>n+b.correct,0),total:items.length,skipped:answers.filter(a=>a===null).length,bands,skills,scope:version.endsWith('-diagnostic-2')?'Reading, language use and listening; productive tasks separately reviewed':'Reading and language use only',method:version,overallCefr:null};
+ const skills=(/-diagnostic-[23]$/.test(version)?['Reading','Language use','Listening']:['Reading','Language use']).map(name=>({name,correct:items.filter((q,i)=>q.skill===name&&answers[i]===q.answer).length,total:15}));
+ if(/-diagnostic-[23]$/.test(version)){let listeningLevel='Below A1';for(const band of bands){if(band.listening<2)break;listeningLevel=band.level;}skills.find(s=>s.name==='Listening').level=listeningLevel;}
+ return {language:version.slice(0,2),level,courseLevel:level==='Below A1'?'A1':level,correct:bands.reduce((n,b)=>n+b.correct,0),total:items.length,skipped:answers.filter(a=>a===null).length,bands,skills,scope:/-diagnostic-[23]$/.test(version)?'Reading, language use and listening; productive tasks separately reviewed':'Reading and language use only',method:version,overallCefr:null};
 }

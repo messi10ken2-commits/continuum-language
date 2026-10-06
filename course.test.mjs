@@ -18,7 +18,7 @@ test('Expression curriculum covers every level with distinct phrases and playabl
  assert.match(expressionGuidance.note,/not official CEFR/);
 });
 test('Every roadmap item is playable and grades right/wrong answers',()=>{
- assert.equal(new Set(lessonList.map(l=>l.id)).size,89);
+ assert.equal(new Set(lessonList.map(l=>l.id)).size,356);
  for(const l of lessonList){
   assert.ok(levels.some(x=>x.id===l.level));assert.ok(chapters.some(x=>x.id===l.chapter));
   assert.ok(l.questions.length>=3);
@@ -32,7 +32,7 @@ test('Each CEFR course level ends with an 85-percent summary test',()=>{
  for(const level of levels){const chapter=chapters.find(c=>c.id===level.id.toLowerCase()+'-summary-test');const lesson=getLesson(chapter.id);assert.ok(chapter.summaryTest);assert.ok(lesson.summaryTest);assert.equal(lesson.passScore,85);assert.ok(lesson.questions.length>=10);assert.equal(gradeLesson(lesson.id,lesson.questions.map(q=>q.answer)).score,100);}
 });
 test('Each chapter has two lessons and a checkpoint covering both',()=>{
- for(const c of chapters.filter(c=>!c.summaryTest)){const units=lessonList.filter(l=>l.chapter===c.id);assert.equal(units.length,3);assert.equal(units.find(x=>x.checkpoint).questions.length,units.filter(x=>!x.checkpoint).reduce((n,x)=>n+x.questions.length,0));}
+ for(const c of chapters.filter(c=>!c.summaryTest&&!c.language)){const units=lessonList.filter(l=>l.chapter===c.id);assert.equal(units.length,3);assert.equal(units.find(x=>x.checkpoint).questions.length,units.filter(x=>!x.checkpoint).reduce((n,x)=>n+x.questions.length,0));}
 });
 test('Legacy results stay attached to subjunctive, not other lessons',()=>{
  assert.equal(gradeLesson('subjunctive',[1,1,1,1,1]).score,100);
@@ -46,7 +46,7 @@ test('Written answers accept capitalization and surrounding spaces',()=>{
 });
 
  test('Expanded curriculum has full conjugation tables, vocabulary contexts and recall practice',()=>{
- const grammar=lessonList.filter(l=>l.breakdown),vocab=lessonList.filter(l=>l.vocabulary);
+ const grammar=lessonList.filter(l=>l.breakdown&&!l.language),vocab=lessonList.filter(l=>l.vocabulary&&!l.language);
  assert.equal(grammar.length,12);assert.equal(vocab.length,4);
  for(const l of grammar){assert.ok(l.breakdown.steps.length>=3);assert.ok(l.breakdown.pitfall);assert.ok(l.breakdown.examples.length>=2);for(const t of l.breakdown.tables){assert.equal(t.rows.length,6);for(const r of t.rows)assert.equal(r.length,t.headers.length);}assert.ok(l.questions.some(q=>q.type==='text'));}
  for(const l of vocab){assert.equal(l.vocabulary.length,6);assert.ok(l.vocabulary.every(w=>w.term&&w.meaning&&w.phrase&&w.example&&w.translation));}

@@ -50,6 +50,15 @@ try{
  for(let index=0;index<47;index++)assert.equal((await call('/assessments/'+third.id,'PUT',{index,answer:thirdKeys[index]??null},a.cookie)).status,200);
  const thirdHistory=(await call('/assessments','GET',null,a.cookie)).data.history;
  assert.equal(thirdHistory[0].result.correct,45);assert.equal(thirdHistory.length,3);
+ const fourth=(await call('/assessments','POST',{},a.cookie)).data.session;assert.equal(fourth.form,3);
+ for(let index=0;index<47;index++)assert.equal((await call('/assessments/'+fourth.id,'PUT',{index,answer:null},a.cookie)).status,200);
  assert.equal((await call('/assessments','POST',{},a.cookie)).data.session.form,0);
+ // An existing v2 session remains resumable and keeps its own answer key.
+ const oldUser=await account('LegacyPlacement');
+ const old=(await db.query("INSERT INTO assessments(user_id,kind,version,form,language) VALUES($1,'placement','en-diagnostic-2',2,'en') RETURNING id",[oldUser.data.user.id])).rows[0];
+ const resume=(await call('/assessments?language=en','POST',{},oldUser.cookie)).data.session;assert.equal(resume.id,old.id);assert.equal(resume.version,'en-diagnostic-2');
+ const oldKeys=assessmentItems(2,'en-diagnostic-2').map(q=>q.answer);
+ for(let index=0;index<47;index++)assert.equal((await call('/assessments/'+old.id+'?language=en','PUT',{index,answer:oldKeys[index]??null},oldUser.cookie)).status,200);
+ const afterOld=(await call('/assessments?language=en','POST',{},oldUser.cookie)).data.session;assert.equal(afterOld.version,'en-diagnostic-3');assert.equal(afterOld.form,0);
  console.log('PASS: placement, reassessment downgrade, saved resume, server scoring, retries, ownership, teacher privacy, notes preserved, lesson/assessment separation.');
 }finally{await new Promise(r=>testServer.close(r));await db.close();}
