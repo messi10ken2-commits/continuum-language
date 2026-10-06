@@ -1,3 +1,5 @@
+import nativeWordAudio from './native-words.json' with {type:'json'};
+import {nativeWordEntry,nativeWordRecordings} from './native-word-map.mjs';
 import nativeKanaAudio from './native-kana.json' with {type:'json'};
 import {nativeKanaKey} from './native-kana-map.mjs';
 import {lessonList} from './course.mjs';
@@ -16,6 +18,7 @@ function collect(value){
  }else if(Array.isArray(value))value.forEach(collect);else if(value&&typeof value==='object')Object.values(value).forEach(collect);
 }
 collect(lessonList);collect(skillTasks);collect(exerciseBank);
+for(const recording of nativeWordRecordings)collect(recording.text);
 for(const lang of ['es','en','pt','ja'])for(let form=0;form<assessmentFormCount;form++){
  try{collect(assessmentItems(form,lang+'-diagnostic-3'));}catch{/* Unsupported historical form is not in the public catalog. */}
 }
@@ -27,6 +30,8 @@ export async function handleSpeech({route,req,res,pool,json,send,fail,limited,sy
  if(req.method!=='POST')fail(405,'Use POST for speech');
  const data=await json(req),text=typeof data.text==='string'?data.text.normalize('NFC').trim():null,locale=data.locale;
  if(!allowedSpeech(text,locale))fail(400,'This text is not available as a studio recording.');
+ const word=nativeWordEntry(text,locale);
+ if(word){const bytes=Buffer.from(nativeWordAudio[word.key],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Version':'native-words-v1'});res.end(bytes);return true;}
  const native=nativeKanaKey(text,locale);
  if(native){const bytes=Buffer.from(nativeKanaAudio[native],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Version':'native-kana-v1'});res.end(bytes);return true;}
  const key=speechKey(text,locale);const existing=await pool.query('SELECT audio,provider,model FROM speech_cache WHERE cache_key=$1',[key]);

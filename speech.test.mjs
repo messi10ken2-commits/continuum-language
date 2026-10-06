@@ -60,3 +60,19 @@ test('all taught kana use bundled human recordings without database or provider 
  }
  assert.equal(nativeKanaKey('あ','en-US'),undefined);assert.equal(nativeKanaKey('こうこう','ja-JP'),undefined);
 });
+
+test('target pronunciation recordings bypass provider limits and preserve accent distinctions',async()=>{
+ const {nativeWordEntry,nativeWordRecordings}=await import('./native-word-map.mjs');
+ const {default:clips}=await import('./native-words.json',{with:{type:'json'}});
+ for(const [text,locale] of [['pão','pt-BR'],['mão','pt-BR'],['pero','es-ES'],['perro','es-ES'],['rojo','es-ES'],['papa','es-ES'],['papá','es-ES']])assert.ok(nativeWordEntry(text,locale),text);
+ assert.notEqual(nativeWordEntry('papa','es-ES').key,nativeWordEntry('papá','es-ES').key);
+ assert.equal(nativeWordEntry('pao','pt-BR'),undefined);
+ assert.equal(nativeWordEntry('pão','es-ES'),undefined);
+ assert.equal(nativeWordEntry('pa\u0303o','pt-BR').text,'pão');
+ for(const entry of nativeWordRecordings){
+  let status,headers,body;
+  await handleSpeech({route:'/api/speech',req:{method:'POST'},res:{writeHead:(s,h)=>{status=s;headers=h;},end:b=>body=b},json:async()=>({text:entry.text,locale:entry.locale}),pool:{query(){assert.fail('Human recording must not query AI cache');}},synthesize(){assert.fail('Human recording must not call provider');},limited(){assert.fail('No generation budget for human recording');},fail:(s,m)=>{throw Error(m);}});
+  assert.equal(status,200);assert.equal(headers['X-Audio-Source'],'Human recording');assert.equal(headers['Content-Type'],'audio/mpeg');assert.deepEqual(body,Buffer.from(clips[entry.key],'base64'));assert.ok(body.length>5000);
+  const {createHash}=await import('node:crypto');assert.equal(createHash('sha256').update(body).digest('hex'),entry.audioSha256);
+ }
+});

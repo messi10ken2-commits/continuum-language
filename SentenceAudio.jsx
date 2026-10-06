@@ -1,3 +1,4 @@
+import {nativeWordEntry} from './native-word-map.mjs';
 import {nativeKanaKey} from './native-kana-map.mjs';
 import {LanguageContext} from './LanguageContext.jsx';
 import {languageInfo} from './languages.mjs';
@@ -18,7 +19,8 @@ async function studioClip(part,signal){
 }
 export default function SentenceAudio({text,lang='auto',compact=false,onPlayed}){
  const language=useContext(LanguageContext),locale=languageInfo(language).locale;
- const defaultSource=nativeKanaKey(text,lang==='auto'?locale:lang)?'Human recording':'AI studio voice';
+ const humanWord=nativeWordEntry(text,lang==='auto'?locale:lang);
+ const defaultSource=humanWord||nativeKanaKey(text,lang==='auto'?locale:lang)?'Human recording':'AI studio voice';
  const [playing,setPlaying]=useState(false),[loading,setLoading]=useState(false),[slow,setSlow]=useState(false),[error,setError]=useState(''),[source,setSource]=useState('');
  const utterance=useRef(null);
  const owner=useRef({}),mounted=useRef(true),audio=useRef(null),request=useRef(null),objectURL=useRef(''),generation=useRef(0),speed=useRef(1);
@@ -57,6 +59,6 @@ export default function SentenceAudio({text,lang='auto',compact=false,onPlayed})
   };next();
  };
  if(!String(text||'').trim())return null;
- return <span className={`sentence-audio ${compact?'compact':''}`}><button type="button" className="sentence-play" title={source||defaultSource} aria-label={loading?'Cancel loading audio':playing?'Stop audio':'Listen to this text'} aria-pressed={playing||loading} onClick={e=>{e.preventDefault();e.stopPropagation();play();}}>{playing||loading?<Square size={16}/>:<Volume2 size={16}/>}{!compact&&<span>{loading?'Preparing…':playing?'Stop':'Listen'}</span>}</button>{(!compact||playing||loading)&&<button type="button" className="sentence-speed" aria-label={slow?'Use normal playback speed':'Use slower playback speed'} aria-pressed={slow} onClick={e=>{e.preventDefault();e.stopPropagation();const next=!slow;setSlow(next);speed.current=next?.85:1;if(audio.current)audio.current.playbackRate=speed.current;}}>{slow?'0.85×':'1×'}</button>}{(!compact||source.startsWith('Device voice'))&&<small className="voice-source">{source||defaultSource}</small>}{error&&<span className="sentence-audio-error" role="status">{error}<button type="button" className="text-button" onClick={e=>{e.preventDefault();e.stopPropagation();devicePlay();}}>Use device voice instead</button></span>}</span>;
+ return <span className={`sentence-audio ${compact?'compact':''}`}><button type="button" className="sentence-play" title={source||defaultSource} aria-label={loading?'Cancel loading audio':playing?'Stop audio':'Listen to this text'} aria-pressed={playing||loading} onClick={e=>{e.preventDefault();e.stopPropagation();play();}}>{playing||loading?<Square size={16}/>:<Volume2 size={16}/>}{!compact&&<span>{loading?'Preparing…':playing?'Stop':'Listen'}</span>}</button>{(!compact||playing||loading)&&<button type="button" className="sentence-speed" aria-label={slow?'Use normal playback speed':'Use slower playback speed'} aria-pressed={slow} onClick={e=>{e.preventDefault();e.stopPropagation();const next=!slow;setSlow(next);speed.current=next?.85:1;if(audio.current)audio.current.playbackRate=speed.current;}}>{slow?'0.85×':'1×'}</button>}{(!compact||source.startsWith('Device voice'))&&<small className="voice-source">{source||defaultSource}</small>}{humanWord&&!compact&&<small className="voice-source"><a href={humanWord.source} target="_blank" rel="noreferrer">{humanWord.author}</a> · {humanWord.region} · <a href={humanWord.licenseUrl} target="_blank" rel="noreferrer">{humanWord.license}</a><span title={humanWord.changes}> · Edited recording</span></small>}{error&&<span className="sentence-audio-error" role="status">{error}<button type="button" className="text-button" onClick={e=>{e.preventDefault();e.stopPropagation();devicePlay();}}>Use device voice instead</button></span>}</span>;
 }
 export function SpokenText({text,lang='auto'}){return <span className="spoken-sentence">{text} <SentenceAudio text={text} lang={lang} compact/></span>;}
