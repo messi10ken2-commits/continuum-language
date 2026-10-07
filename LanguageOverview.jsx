@@ -1,3 +1,4 @@
+import {VisualDiscovery,LessonImage} from './LessonMedia.jsx';
 import React,{useState,useRef} from 'react';
 import {BookOpen,NotebookPen,ChevronRight,ArrowRight,Clock3} from 'lucide-react';
 import {languageInfo} from './languages.mjs';
@@ -13,6 +14,7 @@ export default function LanguageOverview({language,user,attempts=[],notes=[],ass
  const active=ids.includes(selected)?selected:ids[0],history=ordered.filter(a=>a.lesson===active),latest=history[0],recent=ordered[0],first=history.at(-1),events=[...ordered.map((a,i)=>({...a,eventId:'practice-'+(a.id||i),title:lessonTitle(a.lesson),kind:'Practice'})),...notes.map(n=>({...n,eventId:'note-'+n.id,title:n.focus,kind:'Class note'}))].sort((a,b)=>new Date(b.at)-new Date(a.at));
  function select(id){setSelected(id);requestAnimationFrame(()=>detail.current?.scrollIntoView({behavior:'smooth',block:'start'}));}
  return <div className="unified-learning-record"><span className="eyebrow">{name.toUpperCase()} · YOUR LEARNING RECORD</span><h1>{memory?'Learning memory':`${name}: your next step`}</h1><p>{memory?'Your practice, feedback and class observations, connected in one place.':'See where you are, what is improving, and what to practise next.'}</p>
+ {!memory&&<VisualDiscovery language={language} onStart={onPractice}/>}
  {!memory&&<AssessmentSummary language={language} assessment={assessment} profile onOpen={()=>onNavigate('Level test')}/>}
  <section className="memory-hero connected-memory-hero"><div><div className="assessment-ring small"><NotebookPen/><b>{attempts.length+notes.length}</b><small>recent records</small></div><span><b>Practice that stays with you</b><small>{name} · your saved learning memory</small></span></div><div className="memory-source"><span><BookOpen size={18}/>{done.size} activities mastered</span><span><NotebookPen size={18}/>{notes.length} class notes</span></div></section>
  {!memory&&<section className="panel record-recent"><div><span className="eyebrow">RECENT PRACTICE</span><h2>{recent?lessonTitle(recent.lesson):'Your next chapter starts here'}</h2><p>{recent?`${recent.total} questions · ${date(recent.at)}`:`Explore ${lessons.length} course activities from A1 to C1.`}</p><button className="primary" onClick={()=>recent?onPractice(recent.lesson):onNavigate('Learn')}>{recent?'Practise again':'Start learning'}<ArrowRight size={17}/></button></div><ScoreRing score={recent?.score??null} label="latest exercise"/></section>}

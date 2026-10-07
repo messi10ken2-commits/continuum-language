@@ -1,3 +1,4 @@
+import {handleLessonMedia} from './lesson-media-api.mjs';
 import {migrateSpeech,handleSpeech} from './speech-api.mjs';
 import http from 'node:http';
 import fs from 'node:fs/promises';
@@ -18,7 +19,7 @@ const pool=new pg.Pool({connectionString:process.env.DATABASE_URL,max:6,connecti
 const sessionDays=30;
 
 const attempts=new Map();
-const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.ico':'image/x-icon','.woff2':'font/woff2'};
+const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml','.png':'image/png','.ico':'image/x-icon','.woff2':'font/woff2'};
 const hash=text=>crypto.createHash('sha256').update(text).digest('hex');
 const random=()=>crypto.randomBytes(32).toString('base64url');
 const cookieName='continuum_session';
@@ -60,6 +61,7 @@ function passwordMatches(password,stored){const [salt,key]=stored.split(':');if(
 function safeEmail(email){return String(email||'').trim().toLowerCase()}
 async function handle(req,res){
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
+ if(handleLessonMedia(req,res,route))return;
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)fail(403,'Invalid request origin')}
  if(await handleSpeech({route,req,res,pool,json,send,fail,limited}))return;

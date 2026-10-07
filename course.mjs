@@ -1,3 +1,4 @@
+import {visualChapters,visualLessons,visualTransfer} from './visual-course.mjs';
 import {soundChapters,soundLessons,soundTransfer} from './sound-script-course.mjs';
 import {expandedExercises,hasExpandedExercises} from './exercise-variants.mjs';
 export {hasExpandedExercises} from './exercise-variants.mjs';
@@ -127,6 +128,8 @@ chapters.push(...international.chapters);
 lessonList.push(...international.lessons);
 chapters.push(...soundChapters);
 lessonList.push(...soundLessons);
+chapters.push(...visualChapters);
+lessonList.push(...visualLessons);
 export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
 export const forLesson=(attempts,id='subjunctive')=>attempts.filter(a=>(a.lesson||'subjunctive')===id);
@@ -149,7 +152,7 @@ export function getLessonVariant(id,seed){
  const archived=base?.language&&base.curriculumVersion!==2;
  const availableChapters=archived?legacyInternationalChapters:chapters;
  const groups=base.summaryTest?availableChapters.filter(c=>c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest&&!c.specialist):availableChapters.filter(c=>c.id===base.chapter);
- const chosen=groups.flatMap(c=>{const pool=archived?legacyInternationalTransfer[c.id]:transferBank[c.id]||internationalTransfer[c.id]||soundTransfer[c.id];if(!pool?.length)throw Error('Missing transfer questions');const count=base.summaryTest?(archived?7:3):4;
+ const chosen=groups.flatMap(c=>{const pool=archived?legacyInternationalTransfer[c.id]:transferBank[c.id]||internationalTransfer[c.id]||soundTransfer[c.id]||visualTransfer[c.id];if(!pool?.length)throw Error('Missing transfer questions');const count=base.summaryTest?(archived?7:3):4;
   const shuffled=shuffle(pool);
   // The repaired path samples fresh tasks, always including both taught lessons.
   let selected=shuffled.slice(0,count);
