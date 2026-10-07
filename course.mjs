@@ -1,3 +1,4 @@
+import {conversationChapters,conversationLessons} from './conversation-course.mjs';
 import {visualChapters,visualLessons,visualTransfer} from './visual-course.mjs';
 import {soundChapters,soundLessons,soundTransfer} from './sound-script-course.mjs';
 import {expandedExercises,hasExpandedExercises} from './exercise-variants.mjs';
@@ -130,6 +131,8 @@ chapters.push(...soundChapters);
 lessonList.push(...soundLessons);
 chapters.push(...visualChapters);
 lessonList.push(...visualLessons);
+chapters.push(...conversationChapters);
+lessonList.push(...conversationLessons);
 export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
 export const forLesson=(attempts,id='subjunctive')=>attempts.filter(a=>(a.lesson||'subjunctive')===id);

@@ -33,3 +33,17 @@ Downloaded at width 960, quality 75; the video render crops a copy to fit a cont
 5. Run `node --test lesson-media.test.mjs` and `node lesson-media-render.test.mjs`.
 
 Videos use H.264, yuv420p, fast-start MP4, 720×404 at 10 fps. Each example lasts six seconds. The manifest contains the exact duration, byte length and SHA-256 of every clip. Four server-only JSON bundles keep these bytes out of the browser's JavaScript bundle. Change the URL version before replacing publicly cached videos. Photos likewise require new filenames if replaced.
+# Visual learning expansion (October 2026)
+
+All lesson introductions, practice questions, checkpoints, level reviews and result pages now display a contextual photograph (conversation practice uses the video's photographic poster). Exercise photos are selected from the visible question prompt, with the lesson theme as fallback, never from the correct answer. Photos illustrate context and are not evidence for answers. They can be enlarged without leaving the lesson.
+
+Two independent A1 English listening lessons, `en-conversation-v1-welcome` and `en-conversation-v1-neighbours`, use original five-minute VOA Learning English videos with human speech, teaching repetitions and on-screen captions. Each has eight original Continuum questions, a collapsible main-dialogue transcript, speed selection and a ten-second rewind control. The video remains available during each exercise. Existing saved lesson IDs and answers are unchanged. These specialist chapters are excluded from existing cumulative exam pools.
+
+Source and credit:
+- https://learningenglish.voanews.com/a/lets-learn-english-lesson-one/3111026.html
+- https://learningenglish.voanews.com/a/lets-learn-english-lesson-2-hello/3113733.html
+- https://learningenglish.voanews.com/p/6861.html explicitly permits educational and commercial reuse of VOA Learning English materials with credit, excluding third-party agency materials. These are VOA's own teaching productions. Their original credits remain visible. Poster images are frames from the corresponding videos.
+
+Videos stream from the official VOA CDN, only when requested by the learner. No auto-play or synthetic replacement audio is used. An original-source link and dialogue transcript remain available if the external CDN fails. Availability depends on that CDN. The previous 269 silent visual recaps remain clearly labelled and unchanged. Spanish, Portuguese and Japanese do not gain human conversation videos in this release.
+
+Validation: `node conversation-media.test.mjs`, existing media/course/render tests, production build, full decoding and audible audio-stream checks of both original MP4 files, and live browser playback. Higgsfield generation was unavailable (free plan, zero credits); no generated video was published.

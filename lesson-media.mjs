@@ -15,7 +15,7 @@ export const mediaThemes={
 export function themeFor(lesson={}){
  if(lesson.visualStory)return lesson.visualStory.theme;
  const t=(lesson.title||'').toLowerCase();
- if(/café|cafe|coffee|restaurant|order/.test(t))return 'cafe';
+ if(/café|cafe|coffee|restaurant|ordering|order a/.test(t))return 'cafe';
  if(/train|station|platform|transport/.test(t))return 'station';
  if(/travel|airport|flight|holiday|ticket|trip|hotel/.test(t))return 'travel';
  if(/food|quantity|counter|meal|grocery/.test(t))return 'food';
@@ -27,8 +27,8 @@ export function themeFor(lesson={}){
  if(lesson.characters)return 'japan';
  return 'study';
 }
-export const photoFor=lesson=>`/lesson-media/${themeFor(lesson)}.jpg`;
-export const hasLessonMedia=lesson=>!!lesson&&!lesson.checkpoint&&!lesson.summaryTest;
+export const photoFor=lesson=>lesson.conversation?.poster||`/lesson-media/${themeFor(lesson)}.jpg`;
+export const hasLessonMedia=lesson=>!!lesson&&!lesson.checkpoint&&!lesson.summaryTest&&!lesson.conversation;
 export function visualFrames(lesson){
  if(lesson.visualStory)return lesson.visualStory.frames;
  if(lesson.characters)return lesson.characters.slice(0,3).map(c=>({label:'Shape → sound',text:c.glyph,meaning:c.reading,note:c.meaning||'Connect the shape with its reading. Practise the full set below.'}));
@@ -39,3 +39,10 @@ export function visualFrames(lesson){
  return [{label:'Notice',text:lesson.example||lesson.title,meaning:'Read the model in context.',note:lesson.explanation},{label:'Understand',lang:'en-US',text:lesson.title,meaning:lesson.explanation,note:'What does the speaker want to communicate?'},{label:'Use it',text:lesson.example||lesson.title,meaning:'Change one detail and make this example your own.',note:'Then test your understanding in the exercises.'}];
 }
 export const videoFor=lesson=>`/api/lesson-video/${mediaVersion}/${encodeURIComponent(lesson.id)}.mp4`;
+
+// Use only the visible prompt to select context; never inspect the correct answer.
+export function questionScene(lesson,question){
+ if(lesson.conversation)return lesson;
+ const theme=themeFor({title:question?.prompt});
+ return theme==='study'?lesson:{...lesson,visualStory:{theme}};
+}
