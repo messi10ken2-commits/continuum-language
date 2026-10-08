@@ -47,3 +47,13 @@ Source and credit:
 Videos stream from the official VOA CDN, only when requested by the learner. No auto-play or synthetic replacement audio is used. An original-source link and dialogue transcript remain available if the external CDN fails. Availability depends on that CDN. The previous 269 silent visual recaps remain clearly labelled and unchanged. Spanish, Portuguese and Japanese do not gain human conversation videos in this release.
 
 Validation: `node conversation-media.test.mjs`, existing media/course/render tests, production build, full decoding and audible audio-stream checks of both original MP4 files, and live browser playback. Higgsfield generation was unavailable (free plan, zero credits); no generated video was published.
+
+## Additional native conversation videos (October 2026)
+
+Spanish, Brazilian Portuguese and Japanese now have A1 real-conversation lessons in `multilingual-conversations.mjs`. Videos remain hosted by their creators and use the official YouTube embedded player; no video/audio files or paid transcripts have been copied. Attribution and a direct source link are always visible. Playback is user initiated, supports fullscreen, and uses the provider's own speed/caption controls. YouTube availability, ads and regional restrictions remain provider-controlled.
+
+- Spanish: Easy Spanish, *Introduce Yourself in Slow Spanish | Super Easy Spanish 120* — https://www.youtube.com/watch?v=JsGQizTuPSo
+- Brazilian Portuguese: Easy Languages, *Introduce Yourself in Brazilian Portuguese | Super Easy Brazilian Portuguese 7* — https://www.youtube.com/watch?v=3ggDuePqcAo
+- Japanese: Japanese with Shun, *Super Easy Japanese conversation with @kensanokaeri* — https://www.youtube.com/watch?v=hySkqIAFRCs
+
+All three returned valid official oEmbed metadata. The Japanese source is 24:06; learners are guided to start with 2–3 minutes and may watch the remainder optionally. The creator's informal “N6” title is not represented as an official proficiency level. Related phrases and eight questions per lesson are original Continuum language practice, explicitly not a source transcript or questions asserting personal facts about the speakers. Existing VOA lessons and their comprehension questions are preserved. Local photos are illustrative lesson covers, not video stills.

@@ -1,3 +1,4 @@
+import {multilingualConversationChapters,multilingualConversationLessons} from './multilingual-conversations.mjs';
 // Original public-domain footage from VOA Learning English; see LESSON-MEDIA.md.
 const source='https://learningenglish.voanews.com';
 const definitions=[
@@ -10,3 +11,6 @@ const definitions=[
 ];
 export const conversationChapters=definitions.map(d=>({id:`en-conversation-v1-${d.key}-chapter`,level:'A1',language:'en',locale:'en-US',specialist:true,curriculumVersion:2,title:d.title,goal:d.goal,kind:'Real conversations'}));
 export const conversationLessons=definitions.map(d=>({id:`en-conversation-v1-${d.key}`,chapter:`en-conversation-v1-${d.key}-chapter`,level:'A1',language:'en',locale:'en-US',specialist:true,curriculumVersion:2,title:d.title,skill:'Listening',minutes:10,explanation:d.goal+' Watch once for the situation, then replay for names and details. The source video includes teaching pauses and repetition.',example:'Listen first, then answer the questions. Replay whenever you need.',exampleLang:'en-US',conversation:{src:d.video,poster:d.poster,alt:d.alt,source:source+d.page,credit:'VOA Learning English',transcript:d.transcript},questions:d.questions.map(([prompt,options,answer,note])=>({prompt,options,answer,note,video:true}))}));
+
+conversationChapters.push(...multilingualConversationChapters);
+conversationLessons.push(...multilingualConversationLessons);
