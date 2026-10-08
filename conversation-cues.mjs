@@ -27,7 +27,7 @@ export const timedTedQuestions=items.map(([start,end,label,prompt,options,answer
 const voaEvidence='Official VOA MP4 used by this lesson; on-screen dialogue and teaching captions reviewed at 5-second intervals, 2026-10-08. Windows include the relevant turn; they are not word-level timings.';
 export const voaQuestionCues={
  welcome:[
-  [25,40,'First introductions'],[103,128,'Checking the name'],[167,177,'The street address'],[167,182,'Arrival at the apartment'],[82,104,'First-meeting greeting'],[60,83,'Introducing yourself'],[103,119,'Checking the spelling'],[30,40,'Confirming a name']
+  [103,182,'Pete’s introduction and welcome'],[103,128,'Checking the name'],[167,177,'The street address'],[167,182,'Arrival at the apartment'],[82,104,'First-meeting greeting'],[60,83,'Introducing yourself'],[103,119,'Checking the spelling'],[30,40,'Confirming a name']
  ],
  neighbours:[
   [23,35,'Where Anna is from'],[53,73,'Names and apartments'],[53,73,'Names and apartments'],[58,70,'The roommate'],[98,109,'Calling Marsha'],[65,74,'Pete’s apartment'],[23,35,'Asking about origin'],[98,109,'The message for Marsha']
