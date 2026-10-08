@@ -1,3 +1,4 @@
+import {levelConversationChapters,levelConversationLessons} from './level-conversations.mjs';
 import {multilingualConversationChapters,multilingualConversationLessons} from './multilingual-conversations.mjs';
 // Original public-domain footage from VOA Learning English; see LESSON-MEDIA.md.
 const source='https://learningenglish.voanews.com';
@@ -14,3 +15,6 @@ export const conversationLessons=definitions.map(d=>({id:`en-conversation-v1-${d
 
 conversationChapters.push(...multilingualConversationChapters);
 conversationLessons.push(...multilingualConversationLessons);
+
+conversationChapters.push(...levelConversationChapters);
+conversationLessons.push(...levelConversationLessons);

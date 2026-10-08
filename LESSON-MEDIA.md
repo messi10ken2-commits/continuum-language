@@ -57,3 +57,18 @@ Spanish, Brazilian Portuguese and Japanese now have A1 real-conversation lessons
 - Japanese: Japanese with Shun, *Super Easy Japanese conversation with @kensanokaeri* — https://www.youtube.com/watch?v=hySkqIAFRCs
 
 All three returned valid official oEmbed metadata. The Japanese source is 24:06; learners are guided to start with 2–3 minutes and may watch the remainder optionally. The creator's informal “N6” title is not represented as an official proficiency level. Related phrases and eight questions per lesson are original Continuum language practice, explicitly not a source transcript or questions asserting personal facts about the speakers. Existing VOA lessons and their comprehension questions are preserved. Local photos are illustrative lesson covers, not video stills.
+
+## A2–C1 video expansion (October 8, 2026)
+
+`level-conversations.mjs` adds 16 specialist listening lessons: one each at A2, B1, B2 and C1 in Spanish, Brazilian Portuguese, Japanese and English. Every lesson has a different creator-hosted source, three open listening tasks, four original example phrases and eight independently authored language-practice questions (128 total). The questions are not represented as source transcripts or factual comprehension tests about the speakers. Open listening tasks ask learners to find evidence in a section they choose; they are not automatically scored. The stated CEFR band is the target for Continuum's tasks, not a publisher certification or a JLPT equivalence.
+
+`level-video-sources.json` records the title, channel, source ID and date of successful official YouTube oEmbed verification for all 16 sources. Individual rights review remains pending, as discussed with the owner; technical embedding availability is not treated as rights clearance. No videos, audio tracks, thumbnails or transcripts were downloaded or rehosted. Existing local photographs are illustrative covers. Sources about 2024/2025 are explicitly framed as retrospective material.
+
+| Language | A2 | B1 | B2 | C1 |
+|---|---|---|---|---|
+| Spanish | Morning routine · Easy Spanish | Compliments · Easy Spanish | Technology · Easy Spanish | Travel motives · Easy Spanish |
+| Portuguese (Brazil) | Morning routine · Easy Portuguese | Future plans · Easy Portuguese | Reflections and expectations · Easy Portuguese | Goals and values · Carioca Connection |
+| Japanese | Everyday exchange · Japanese with Shun | Travel · Japanese with Shun | Moving · Japanese with Shun | Subtext · Miku Real Japanese |
+| English | Daily routine · BBC Learning English | Complaints · BBC Learning English | Art of conversation · BBC Learning English | Persuasive advice · TED / Celeste Headlee |
+
+Validation: official source metadata for all 16; SSR introductions and practice views across all 450 activities; every language/level pair has one new video chapter; eight valid questions and correct/incorrect grading per added lesson; source credits, external fallback links, no autoplay, and source/task distinctions are preserved. Full end-to-end playback depends on YouTube and is not established by metadata or rendering tests.

@@ -4,6 +4,8 @@ import {renderToStaticMarkup} from 'react-dom/server';
 import {createServer} from 'vite';
 import {lessonList,gradeLesson} from './course.mjs';
 import {conversationLessons} from './conversation-course.mjs';
+import {levelConversationLessons,levelConversationChapters} from './level-conversations.mjs';
+import sources from './level-video-sources.json' with {type:'json'};
 import {questionScene,photoFor} from './lesson-media.mjs';
 const vite=await createServer({server:{middlewareMode:true},appType:'custom'});
 const storage=new Map();globalThis.localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)};
@@ -38,6 +40,31 @@ try{
   }
  }
  assert.deepEqual([...new Set(conversationLessons.map(l=>l.language))].sort(),['en','es','ja','pt']);
+ assert.equal(levelConversationLessons.length,16);
+ assert.equal(new Set(levelConversationLessons.map(l=>l.id)).size,16);
+ assert.equal(new Set(levelConversationLessons.map(l=>l.conversation.youtubeId)).size,16);
+ for(const language of ['en','es','ja','pt'])for(const level of ['A2','B1','B2','C1']){
+  const matches=levelConversationLessons.filter(l=>l.language===language&&l.level===level);
+  assert.equal(matches.length,1,`${language} ${level} video coverage`);
+  const l=matches[0];
+  assert.ok(levelConversationChapters.some(c=>c.id===l.chapter&&c.level===level&&c.language===language));
+  assert.equal(l.questions.length,8);
+  assert.equal(l.conversation.watchTasks.length,3);
+  assert.ok(l.conversation.levelNote.includes('not an official rating'));
+  assert.equal(gradeLesson(l.id,l.questions.map(q=>(q.answer+1)%q.options.length)).score,0);
+  for(const question of l.questions){
+   assert.equal(new Set(question.options).size,3);
+   assert.ok(question.options[question.answer]);
+   assert.ok(question.note.trim(),l.id+' answer explanation');
+  }
+  assert.equal(sources.find(s=>s.id===l.conversation.youtubeId).rightsReview,'pending');
+ }
+ const {default:Discovery}=await vite.ssrLoadModule('/LessonMedia.jsx');
+ for(const l of levelConversationLessons){
+  const html=renderToStaticMarkup(React.createElement(Discovery,{lesson:l}));
+  assert.ok(html.includes('Your listening guide'));
+  assert.ok(html.includes(l.conversation.youtubeId));
+ }
  const lesson={title:'Past tense'};
  assert.equal(photoFor(questionScene(lesson,{prompt:'At the airport',options:['food','work'],answer:0})),photoFor(questionScene(lesson,{prompt:'At the airport',options:['food','work'],answer:1})));
  console.log(`PASS: images on introductions and exercises for all ${lessonList.length} activities; real-conversation grading and no answer-dependent photos.`);
