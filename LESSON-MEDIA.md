@@ -72,3 +72,36 @@ All three returned valid official oEmbed metadata. The Japanese source is 24:06;
 | English | Daily routine · BBC Learning English | Complaints · BBC Learning English | Art of conversation · BBC Learning English | Persuasive advice · TED / Celeste Headlee |
 
 Validation: official source metadata for all 16; SSR introductions and practice views across all 450 activities; every language/level pair has one new video chapter; eight valid questions and correct/incorrect grading per added lesson; source credits, external fallback links, no autoplay, and source/task distinctions are preserved. Full end-to-end playback depends on YouTube and is not established by metadata or rendering tests.
+
+
+## Question-specific listening windows (October 2026)
+
+The question screen now distinguishes independent Continuum language practice
+from source-dependent listening. Independent questions explicitly say that no
+video is required, that their wording is not a quotation, and put the optional
+video behind an expandable control. No occurrence time is invented for them.
+
+The two existing VOA A1 lessons have 16 reviewed question-specific listening
+windows. Source MP4 teaching captions and dialogue frames were checked at
+5-second intervals. These are short sections containing the relevant turns,
+not claims of word-level caption alignment.
+
+English C1 retains its eight original language-practice questions in their
+existing order and adds eight source-comprehension questions. Their section
+starts come from the official YouTube chapter metadata for R1vskiVDwl4;
+content was checked against TED's official English transcript for talk 2435.
+No full third-party transcript is republished. Timings apply to this specific
+YouTube upload, not to the differently edited TED web player. The question
+wording is a paraphrase, not an assertion that it is spoken verbatim.
+
+Each source-dependent question displays its range directly beside the prompt,
+loads the player at that start, and provides Replay this section and an optional
+full-video control. YouTube uses its official start/end parameters; native
+VOA playback seeks on metadata load and pauses at the section end. Source links
+for YouTube sections also carry the start time. Unreviewed timing records are
+rejected. Other languages' existing scored questions remain independent
+language practice, so they do not require searching or watching the full video.
+
+Validation: conversation-media.test.mjs covers every question's classification,
+all reviewed seek ranges, iframe start/end URLs, invalid/unreviewed cue rejection,
+correct and wrong grading, and all 450 activity introduction/practice renders.

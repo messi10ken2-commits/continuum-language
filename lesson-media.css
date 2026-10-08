@@ -7,3 +7,5 @@
 .conversation-embed{display:block;width:100%;aspect-ratio:16/9;min-height:200px;border:0;border-radius:14px;background:#201d2a}
 
 .conversation-source-title{font-size:13px!important;line-height:1.5!important;color:#625572!important;margin:10px 0!important}.conversation-guide{background:#f0edf8;border-radius:14px;padding:16px 20px;margin:18px 0}.conversation-guide h3{font-size:17px;margin:0 0 12px}.conversation-guide ol{margin:0;padding-left:22px}.conversation-guide li{font-size:14px;line-height:1.65;padding:4px 0 6px 5px}
+.question-video-reference{padding:14px 18px;border-left:4px solid #7568c6;background:#f3f1ff;border-radius:10px;line-height:1.6;margin:16px 0;color:#34314d}
+.optional-conversation{margin:18px 0}.optional-conversation>summary{cursor:pointer;padding:12px 0;font-weight:600}
