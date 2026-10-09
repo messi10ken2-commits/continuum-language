@@ -22,3 +22,10 @@ button{font-family:inherit}.mobile-nav{display:none}.page-intro{margin-bottom:28
 .lesson-suggestion{min-width:0;overflow-wrap:anywhere}.lesson-suggestion h3{line-height:1.4}.lesson-suggestion ol{padding-left:20px;margin:20px 0}.lesson-suggestion li{padding-left:4px;margin-bottom:18px}.lesson-suggestion li b,.lesson-suggestion>div b{font-size:12px;line-height:1.5}.lesson-suggestion p,.lesson-suggestion>div p{font-size:12px;line-height:1.7;color:#e0e4f4}.lesson-suggestion small{display:block;font-size:11px;line-height:1.6;color:#c8cfe7;margin:10px 0 16px}.lesson-suggestion .suggestion-source{max-height:170px;overflow:auto}.teacher-note-form>input{width:100%;min-height:44px;border:1px solid #e1e3eb;border-radius:10px;padding:10px 12px;margin-bottom:20px;font:inherit}.lesson-suggestion button:disabled{opacity:.6;cursor:not-allowed}
 
 .language-picker{display:flex;align-items:center;justify-content:flex-end;gap:12px;margin:0 0 22px;font-size:13px;color:#696e84}.language-picker select{max-width:100%;padding:10px 14px;border:1px solid #dedfed;border-radius:12px;background:white;color:#292d49;font:inherit}@media(max-width:540px){.language-picker{justify-content:space-between;flex-wrap:wrap}}
+
+/* Answers grow with their content, including narrow mobile layouts. */
+.answers button{height:auto;min-height:55px;padding:14px 15px;text-align:left;line-height:1.5;white-space:normal;overflow-wrap:anywhere}
+.answers button>span:first-child,.answers button>svg{flex-shrink:0}
+.answers button>.answer-copy{display:block;flex:1;min-width:0;width:auto;height:auto;border-radius:0;background:transparent!important;color:inherit!important;font-size:inherit;line-height:inherit}
+.question-card,.question-card h1,.lesson-context{min-width:0;overflow-wrap:anywhere}
+.answer-with-audio{min-width:0;max-width:100%}

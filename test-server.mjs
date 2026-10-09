@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('.',import.meta.url));
 let source=await fs.readFile(new URL('./server.mjs',import.meta.url),'utf8');
+source=source.replace(/from '(\.\/[^']+)'/g,(_,name)=>'from '+JSON.stringify(new URL(name,import.meta.url).href));
 source=source.replace("import pg from 'pg';",`import {PGlite} from '${import.meta.resolve('@electric-sql/pglite')}';
 const db=new PGlite();
 const pg={Pool:class{async query(sql,args){if(!args&&sql.includes('CREATE TABLE'))return db.exec(sql);const r=await db.query(sql,args);return {...r,rowCount:r.rows.length||r.affectedRows||0}}async connect(){return {query:this.query.bind(this),release(){}}}}};`)

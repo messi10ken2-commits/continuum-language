@@ -7,6 +7,7 @@ try{
  const a=await call('/auth/register','POST',{name:'ExpandedExercises',email:'expanded@example.test',password:'synthetic-test-password',role:'learner',adult:true});assert.equal(a.status,200);
  for(const id of ['work-vocabulary','en-a2-v2-lesson-5','pt-a2-v2-lesson-9','ja-b2-v2-lesson-5']){
   const seed='v2-api-test-123456789',l=getLessonVariant(id,seed),answers=l.questions.map(q=>q.answer);
+  assert.equal((await call('/learning/'+id,'PUT',{answers:[],seed},a.cookie)).status,200,id+' start');
   assert.equal((await call('/learning/'+id,'PUT',{answers:answers.slice(0,5),seed},a.cookie)).status,200);
   const saved=(await call('/learning','GET',null,a.cookie)).data.drafts.find(d=>d.lesson===id);assert.equal(saved.seed,seed);assert.deepEqual(saved.answers,answers.slice(0,5));
   const r=await call('/practice','POST',{lesson:id,answers,seed,submissionKey:crypto.randomUUID()},a.cookie);assert.equal(r.status,201,JSON.stringify(r.data));assert.equal(r.data.attempt.score,100);assert.equal(r.data.attempt.total,answers.length);

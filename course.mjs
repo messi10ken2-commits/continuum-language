@@ -171,5 +171,6 @@ export function getLessonVariant(id,seed){
 
 // A changed video question set cannot resume answers saved by index against the old set.
 export function isCurrentLessonDraft(id,answers,seed){
- try{const lesson=getLessonVariant(id,seed);return !!lesson&&(!lesson.exerciseVersion||seed===lesson.exerciseVersion)&&Array.isArray(answers)&&answers.length<lesson.questions.length&&answers.every((a,i)=>validAnswer(lesson.questions[i],a));}catch{return false;}
+ // Compare the base content revision, not expandedExercises' numeric format version.
+ try{const base=getLesson(id),lesson=getLessonVariant(id,seed);return !!lesson&&(!base.exerciseVersion||seed===base.exerciseVersion)&&Array.isArray(answers)&&answers.length<lesson.questions.length&&answers.every((a,i)=>validAnswer(lesson.questions[i],a));}catch{return false;}
 }

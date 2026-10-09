@@ -151,3 +151,11 @@
 .study-lesson .result-card h2{font-size:21px}
 }
 .level-result{border:2px solid #d8b24c;background:linear-gradient(145deg,#fffefa,#f4f2ff)}.level-certificate{display:flex;align-items:center;gap:12px;text-align:left;background:#fff7dd;border:1px solid #ebd28a;border-radius:12px;padding:13px 15px;margin:18px auto;max-width:420px;color:#7c5b15}.level-certificate b,.level-certificate small{display:block}.level-certificate small{font-size:11px;margin-top:3px;color:#91763e}
+
+/* A perfect score remains visible even after a later review attempt. */
+.trail-lesson.perfect{border:2px solid #df872c;border-radius:14px;background:#fff8ef;padding:20px 12px;margin:8px 0}
+.trail-lesson.perfect .trail-photo{outline:2px solid #df872c;outline-offset:2px}
+.trail-lesson.perfect .trail-node{background:#fff0d9;border-color:#df872c;color:#9b4d0b}
+.perfect-badge{display:inline-flex;align-items:center;gap:5px;color:#934407;background:#ffe9c8;border-radius:7px;padding:4px 7px;margin:0 0 6px;font-size:11px;font-weight:750}
+.trail-lesson>div{min-width:0;flex:1;overflow-wrap:anywhere}
+@media(max-width:700px){.study-lesson .answers button{font-size:15px;padding:12px 10px;gap:9px}.trail-lesson.perfect{padding:18px 9px}.question-card h1{font-size:clamp(20px,5.5vw,25px);line-height:1.45}}

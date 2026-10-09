@@ -21,6 +21,13 @@ try{
   const exercise=render();assert.ok(exercise.includes(l.conversation?'Conversation video:':'Enlarge page image'),l.id+' practice visual');
   assert.ok(!exercise.includes('visual-focus'),l.id+' no recap answers in exercise');storage.clear();
  }
+ for(const language of ['es','en','pt','ja']){
+  storage.set('continuumCourseLevel'+(language==='es'?'':':'+language),'A1');
+  const l=lessonList.find(l=>(l.language||'es')===language&&l.level==='A1');
+  const renderScore=attempts=>renderToStaticMarkup(React.createElement(SelfStudy,{language,attempts,onStart(){},onExit(){},onComplete(){}}));
+  assert.ok(!renderScore([{lesson:l.id,score:88}]).includes('100% achieved'),language+' nonperfect');
+  assert.ok(renderScore([{lesson:l.id,score:75},{lesson:l.id,score:100}]).includes('100% achieved'),language+' retained perfect score');
+ }
  for(const l of conversationLessons){
   assert.equal(gradeLesson(l.id,l.questions.map(q=>q.answer)).score,100);
   assert.ok(l.questions.every(q=>q.video&&!q.audio));
