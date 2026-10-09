@@ -145,6 +145,7 @@ export function summarize(attempts){const out={};for(const a of attempts){const 
 // A saved seed identifies the v1 question selection and option order.
 export function getLessonVariant(id,seed){
  const base=getLesson(id);
+ if(base?.exerciseVersion&&seed===base.exerciseVersion)return base;
  if(seed==null)return base; // Legacy drafts retain their original question set.
  if(typeof seed==='string'&&/^v2-[a-zA-Z0-9-]{10,100}$/.test(seed))return expandedExercises(base,seed);
  if(typeof seed!=='string'||!/^v1-[a-zA-Z0-9-]{10,100}$/.test(seed))throw Error('Invalid test version');
@@ -166,4 +167,9 @@ export function getLessonVariant(id,seed){
   return selected.map(q=>({...q,topic:c.title}));});
  const questions=shuffle(chosen).map(q=>{const order=shuffle(q.options.map((_,i)=>i));return {...q,options:order.map(i=>q.options[i]),answer:order.indexOf(q.answer)};});
  return {...base,questions,explanation:base.summaryTest?`Apply ${base.level} grammar, vocabulary and expressions in new situations. Questions are mixed across every chapter. Score 85% to earn a completion recommendation.`:'Apply this chapter in new situations. Each attempt draws four questions and mixes the answer choices. Score 80% to master this checkpoint.',example:'Read the situation carefully and choose the response that fits its meaning. A new attempt may ask different questions.',transferTest:true};
+}
+
+// A changed video question set cannot resume answers saved by index against the old set.
+export function isCurrentLessonDraft(id,answers,seed){
+ try{const lesson=getLessonVariant(id,seed);return !!lesson&&(!lesson.exerciseVersion||seed===lesson.exerciseVersion)&&Array.isArray(answers)&&answers.length<lesson.questions.length&&answers.every((a,i)=>validAnswer(lesson.questions[i],a));}catch{return false;}
 }

@@ -56,52 +56,20 @@ Spanish, Brazilian Portuguese and Japanese now have A1 real-conversation lessons
 - Brazilian Portuguese: Easy Languages, *Introduce Yourself in Brazilian Portuguese | Super Easy Brazilian Portuguese 7* — https://www.youtube.com/watch?v=3ggDuePqcAo
 - Japanese: Japanese with Shun, *Super Easy Japanese conversation with @kensanokaeri* — https://www.youtube.com/watch?v=hySkqIAFRCs
 
-All three returned valid official oEmbed metadata. The Japanese source is 24:06; learners are guided to start with 2–3 minutes and may watch the remainder optionally. The creator's informal “N6” title is not represented as an official proficiency level. Related phrases and eight questions per lesson are original Continuum language practice, explicitly not a source transcript or questions asserting personal facts about the speakers. Existing VOA lessons and their comprehension questions are preserved. Local photos are illustrative lesson covers, not video stills.
+All three sources use official embeds; local photos are illustrative covers, not video stills. Metadata availability does not constitute individual rights clearance.
 
-## A2–C1 video expansion (October 8, 2026)
+## Source-only video comprehension — 2026-10-09
 
-`level-conversations.mjs` adds 16 specialist listening lessons: one each at A2, B1, B2 and C1 in Spanish, Brazilian Portuguese, Japanese and English. Every lesson has a different creator-hosted source, three open listening tasks, four original example phrases and eight independently authored language-practice questions (128 total). The questions are not represented as source transcripts or factual comprehension tests about the speakers. Open listening tasks ask learners to find evidence in a section they choose; they are not automatically scored. The stated CEFR band is the target for Continuum's tasks, not a publisher certification or a JLPT equivalence.
+All 21 creator-video lessons now contain source-based comprehension only. The 152 independent language-practice questions and their unquoted example-phrase panels have been removed. `video-comprehension.mjs` supplies replacements grounded in public YouTube captions or the creator’s official episode transcript. There are 162 questions in total: 156 with contextual playback windows and six with an official transcript reference.
 
-`level-video-sources.json` records the title, channel, source ID and date of successful official YouTube oEmbed verification for all 16 sources. Individual rights review remains pending, as discussed with the owner; technical embedding availability is not treated as rights clearance. No videos, audio tracks, thumbnails or transcripts were downloaded or rehosted. Existing local photographs are illustrative covers. Sources about 2024/2025 are explicitly framed as retrospective material.
+- Spanish, Portuguese and Japanese A1: eight video-content questions each.
+- A2–C1: eight each, except Japanese C1 (four) and Portuguese C1 (six).
+- The existing two VOA A1 sets and eight TED C1 comprehension checks are retained.
+- Japanese C1 is explicitly an introduction-only check, 0:14–1:05. The available authored English subtitle track covers only that introduction. No claims are made about unverified later dialogue.
+- Portuguese C1 uses the official Carioca Connection transcript at https://podcast.cariocaconnection.com/episodes/brazilian-blueprint-for-2025-with-carioca-connection-part-1/transcript. The transcript clock changes with podcast editions/ad insertion, so its times are **not** presented as verified YouTube times. Each question links to the official transcript with a section label.
 
-| Language | A2 | B1 | B2 | C1 |
-|---|---|---|---|---|
-| Spanish | Morning routine · Easy Spanish | Compliments · Easy Spanish | Technology · Easy Spanish | Travel motives · Easy Spanish |
-| Portuguese (Brazil) | Morning routine · Easy Portuguese | Future plans · Easy Portuguese | Reflections and expectations · Easy Portuguese | Goals and values · Carioca Connection |
-| Japanese | Everyday exchange · Japanese with Shun | Travel · Japanese with Shun | Moving · Japanese with Shun | Subtext · Miku Real Japanese |
-| English | Daily routine · BBC Learning English | Complaints · BBC Learning English | Art of conversation · BBC Learning English | Persuasive advice · TED / Celeste Headlee |
+The other new sources use public timestamped YouTube captions reviewed on 2026-10-08. Several are automatic captions: questions paraphrase clear content, avoid using recognition errors as language models, and provide context windows rather than claiming exact phrase onset. Full third-party transcripts are not redistributed. A future editorial pass should review original audio for finer alignment.
 
-Validation: official source metadata for all 16; SSR introductions and practice views across all 450 activities; every language/level pair has one new video chapter; eight valid questions and correct/incorrect grading per added lesson; source credits, external fallback links, no autoplay, and source/task distinctions are preserved. Full end-to-end playback depends on YouTube and is not established by metadata or rendering tests.
+Video introductions and listening guides now focus on understanding the recording. Questions, answer explanations and optional full playback remain in the same lesson flow. All new exercise sets have `exerciseVersion: v3-video-20261009`; old drafts are ignored rather than reinterpreted against replacement question indices. The server rejects outdated draft/submission versions. Completed historical results are retained. New-version drafts resume normally.
 
-
-## Question-specific listening windows (October 2026)
-
-The question screen now distinguishes independent Continuum language practice
-from source-dependent listening. Independent questions explicitly say that no
-video is required, that their wording is not a quotation, and put the optional
-video behind an expandable control. No occurrence time is invented for them.
-
-The two existing VOA A1 lessons have 16 reviewed question-specific listening
-windows. Source MP4 teaching captions and dialogue frames were checked at
-5-second intervals. These are short sections containing the relevant turns,
-not claims of word-level caption alignment.
-
-English C1 retains its eight original language-practice questions in their
-existing order and adds eight source-comprehension questions. Their section
-starts come from the official YouTube chapter metadata for R1vskiVDwl4;
-content was checked against TED's official English transcript for talk 2435.
-No full third-party transcript is republished. Timings apply to this specific
-YouTube upload, not to the differently edited TED web player. The question
-wording is a paraphrase, not an assertion that it is spoken verbatim.
-
-Each source-dependent question displays its range directly beside the prompt,
-loads the player at that start, and provides Replay this section and an optional
-full-video control. YouTube uses its official start/end parameters; native
-VOA playback seeks on metadata load and pauses at the section end. Source links
-for YouTube sections also carry the start time. Unreviewed timing records are
-rejected. Other languages' existing scored questions remain independent
-language practice, so they do not require searching or watching the full video.
-
-Validation: conversation-media.test.mjs covers every question's classification,
-all reviewed seek ranges, iframe start/end URLs, invalid/unreviewed cue rejection,
-correct and wrong grading, and all 450 activity introduction/practice renders.
+Verification: all 450 activity introductions and exercise screens render; all conversation questions grade correctly; coverage is enforced for four languages and A1–C1; contextual player parameters and the explicit untimed-transcript exception are tested; old/new draft handling is covered. Production build passes.

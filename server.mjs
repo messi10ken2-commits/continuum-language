@@ -6,7 +6,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import pg from 'pg';
-import {getLesson,getLessonVariant,gradeLesson,validAnswer} from './course.mjs';
+import {getLesson,getLessonVariant,gradeLesson,validAnswer,isCurrentLessonDraft} from './course.mjs';
 import {migratePatterns,handlePatterns} from './patterns-api.mjs';
 import {questionEvidence} from './learning-patterns.mjs';
 import {assessSkill} from './ai-assessment.mjs';
@@ -103,18 +103,18 @@ async function handle(req,res){
  if(route==='/api/learning'&&req.method==='GET'){
   const user=await required(req,'learner');
   const [progress,drafts]=await Promise.all([pool.query("SELECT lesson_id AS lesson,MAX(score)::int AS best,COUNT(*)::int AS count,(ARRAY_AGG(score ORDER BY created_at DESC,id DESC))[1] AS latest FROM practice_attempts WHERE user_id=$1 GROUP BY lesson_id",[user.id]),pool.query('SELECT lesson_id AS lesson,answers,variant_seed AS seed,updated_at AS at FROM lesson_drafts WHERE user_id=$1',[user.id])]);
-  return send(res,200,{progress:progress.rows,drafts:drafts.rows});
+  return send(res,200,{progress:progress.rows,drafts:drafts.rows.filter(d=>isCurrentLessonDraft(d.lesson,d.answers,d.seed))});
  }
  const draftMatch=route.match(/^\/api\/learning\/([a-z0-9-]+)$/);
  if(draftMatch&&req.method==='PUT'){
   const user=await required(req,'learner'),data=await json(req);let lesson;try{lesson=getLessonVariant(draftMatch[1],data.seed)}catch{fail(400,'Invalid test version')}
-  if(!lesson||!Array.isArray(data.answers)||data.answers.length>=lesson.questions.length||!data.answers.every((a,i)=>validAnswer(lesson.questions[i],a)))fail(400,'Invalid lesson progress');
+  if(!isCurrentLessonDraft(draftMatch[1],data.answers,data.seed))fail(400,'Invalid lesson progress');
   await pool.query('INSERT INTO lesson_drafts(user_id,lesson_id,answers,variant_seed) VALUES($1,$2,$3::jsonb,$4) ON CONFLICT(user_id,lesson_id) DO UPDATE SET answers=EXCLUDED.answers,variant_seed=EXCLUDED.variant_seed,updated_at=now()',[user.id,lesson.id,JSON.stringify(data.answers),data.seed||null]);
   return send(res,200,{ok:true});
  }
  if(route==='/api/practice'&&req.method==='POST'){
   const user=await required(req,'learner'),data=await json(req);let result;
-  try{result=gradeLesson(data.lesson,data.answers,data.seed)}catch{fail(400,'Invalid completed exercise')}
+  try{const current=getLesson(data.lesson);if(current?.exerciseVersion&&current.exerciseVersion!==data.seed)throw Error('Updated exercise: reload this lesson');result=gradeLesson(data.lesson,data.answers,data.seed)}catch{fail(400,'Invalid completed exercise')}
   const key=data.submissionKey||null;if(key!==null&&(typeof key!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(key)))fail(400,'Invalid submission key');
   const c=await pool.connect();try{
    await c.query('BEGIN');

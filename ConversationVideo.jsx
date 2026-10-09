@@ -16,7 +16,6 @@ export default function ConversationVideo({lesson,practice=false,cue=null}){
   {!practice&&<p className="conversation-hint">{c.hint||'Listen for the situation first, then replay for details. This five-minute teaching video includes repetition and on-screen captions.'}</p>}
   {failed&&<p role="status">The video could not load here. Open the original lesson below to watch, or use the dialogue transcript.</p>}
   {c.transcript&&<details><summary>Read the dialogue transcript</summary><p>The main conversation; teaching repetitions are omitted.</p>{c.transcript.map(([speaker,line],i)=><p key={i} lang={lesson.locale}><b>{speaker}: </b>{line}</p>)}</details>}
-  {c.phrases&&<details><summary>Practice phrases — not a transcript</summary><p>Related examples by Continuum. These are not quotations from the video.</p>{c.phrases.map(([line,meaning],i)=><p key={i}><b lang={lesson.locale}>{line}</b><br/>{meaning}</p>)}</details>}
   {embedded&&<p className="conversation-hint">If playback is unavailable here, use “Open original video” below. YouTube may show ads or restrict playback in some regions.</p>}
   <p className="conversation-credit">Video: <a href={clip&&embedded?`${c.source}&t=${clip.start}s`:c.source} target="_blank" rel="noreferrer">{c.credit} · Open original video</a>. Questions by Continuum.</p>
  </section>;
@@ -24,10 +23,9 @@ export default function ConversationVideo({lesson,practice=false,cue=null}){
 
 export function ConversationQuestion({lesson,question}){
  const cue=reviewedVideoCue(question);
- const independent=!!question.languagePractice;
  return <div className="conversation-question">
   <h1>{question.prompt}</h1>
-  {independent?<p className="question-video-reference"><b>Independent language practice · no video required</b><br/>This is an original Continuum example, not a quotation from the video. Answer from the sentence and lesson explanation; you do not need to find it in the recording.</p>:cue?<p className="question-video-reference"><b>Listen at {formatVideoTime(cue.start)}–{formatVideoTime(cue.end)}</b> · {cue.label}<br/>This question refers to the meaning of this section. The wording of the question is a paraphrase, not an exact quote.</p>:<p className="question-video-reference">Use the dialogue transcript below for this question. A precise video time has not yet been verified.</p>}
-  {independent?<details className="optional-conversation"><summary>Optional related video · not needed to answer</summary><ConversationVideo lesson={lesson} practice/></details>:<ConversationVideo lesson={lesson} practice cue={cue}/>}
+  {cue?<p className="question-video-reference"><b>Listen at {formatVideoTime(cue.start)}–{formatVideoTime(cue.end)}</b> · {cue.label}<br/>Answer from this section. The question paraphrases the video; the window includes context around the relevant statement.</p>:question.sourceReference?<p className="question-video-reference"><b>Episode section: {question.sourceReference.label}</b><br/>Exact YouTube timing is not yet verified. Find this discussion in the <a href={question.sourceReference.url} target="_blank" rel="noreferrer">official episode transcript</a>. Its playback times may differ from this video.</p>:<p className="question-video-reference">Use the dialogue transcript below for this question. A precise video time has not yet been verified.</p>}
+  <ConversationVideo lesson={lesson} practice cue={cue}/>
  </div>;
 }
