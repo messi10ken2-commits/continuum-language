@@ -29,3 +29,5 @@ button{font-family:inherit}.mobile-nav{display:none}.page-intro{margin-bottom:28
 .answers button>.answer-copy{display:block;flex:1;min-width:0;width:auto;height:auto;border-radius:0;background:transparent!important;color:inherit!important;font-size:inherit;line-height:inherit}
 .question-card,.question-card h1,.lesson-context{min-width:0;overflow-wrap:anywhere}
 .answer-with-audio{min-width:0;max-width:100%}
+
+.teacher-language-access{border:1px solid #dddde9;border-radius:14px;padding:16px;margin:18px 0}.teacher-language-access legend{font-weight:700;padding:0 6px}.shared-language-options{display:flex;flex-wrap:wrap;gap:14px}.shared-language-options label{display:flex;align-items:center;gap:7px;font-size:13px}.shared-language-options input{width:18px!important;height:18px;margin:0}.learner-picker{flex-wrap:wrap}.learner-picker small{width:100%;color:#6d7184}

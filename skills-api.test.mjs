@@ -41,7 +41,7 @@ try{
 
 
  assert.equal((await call('/skills/learner/'+a.data.user.id,'GET',null,t.cookie)).status,403);
- const share=await call('/share-code','POST',{},a.cookie);await call('/teacher/connect','POST',{code:share.data.code},t.cookie);
+ const share=await call('/share-code','POST',{language:'es'},a.cookie);await call('/teacher/connect','POST',{code:share.data.code},t.cookie);
  assert.equal((await call('/skills/'+writing.id,'GET',null,t.cookie)).status,200);
  let r=await call('/skills/'+writing.id+'/review','PUT',{ratings:[3,3,2,3],feedback:'Your request is clear. Add a reason for the change.'},t.cookie);assert.equal(r.status,200);assert.equal(r.data.result.score,69);
  assert.equal((await call('/skills/'+writing.id+'/review','PUT',{ratings:[9,3,2,3],feedback:'invalid rating'},t.cookie)).status,400);

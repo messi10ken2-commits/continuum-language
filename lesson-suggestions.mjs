@@ -19,12 +19,12 @@ const time=x=>Number.isFinite(Date.parse(x.at))?Date.parse(x.at):0;
 const newest=list=>[...list].sort((a,b)=>time(b)-time(a));
 const valid=a=>Number.isFinite(a.score)&&a.score>=0&&a.score<=100;
 
-export function buildLessonSuggestion({notes=[],attempts=[],sharing,now=Date.now()}={}){
+export function buildLessonSuggestion({notes=[],attempts=[],sharing,language,now=Date.now()}={}){
  const saved=newest(notes.filter(n=>String(n.note||'').trim()))[0]||null;
  const privateProgress=sharing?.selfLearning===false;
  const visible=privateProgress?[]:newest(attempts.filter(valid));
  const body=norm(saved?.note),focus=norm(saved?.focus);
- const candidates=lessonList.filter(l=>!l.checkpoint).map(l=>{
+ const candidates=lessonList.filter(l=>!l.checkpoint&&(!language||(l.language||'es')===language)).map(l=>{
   const terms=[...(topics[l.id]?.terms||[]),l.title];
   const relevance=terms.reduce((best,t)=>Math.max(best,(contains(body,t)?4:0)+(contains(focus,t)?3:0)),0);
   return {lesson:l,relevance};
@@ -34,7 +34,7 @@ export function buildLessonSuggestion({notes=[],attempts=[],sharing,now=Date.now
  // Do not replace an unrecognised saved observation with an unrelated score.
  if(!saved&&!lesson){
   const unique=new Map();
-  for(const a of visible){const l=getLesson(a.lesson||'subjunctive');if(l&&!l.checkpoint&&!unique.has(l.id))unique.set(l.id,{lesson:l,attempt:a});}
+  for(const a of visible){const l=getLesson(a.lesson||'subjunctive');if(l&&!l.checkpoint&&(!language||(l.language||'es')===language)&&!unique.has(l.id))unique.set(l.id,{lesson:l,attempt:a});}
   const recent=[...unique.values()].filter(x=>x.attempt.source!=='imported'&&time(x.attempt)>0&&now-time(x.attempt)<=30*86400000);
   const target=recent.sort((a,b)=>a.attempt.score-b.attempt.score)[0];
   if(target){lesson=target.lesson;source='progress';}
@@ -47,7 +47,7 @@ export function buildLessonSuggestion({notes=[],attempts=[],sharing,now=Date.now
  const topic=topics[lesson?.id];
  const title=lesson?`${mode==='rebuild'?'Rebuild':mode==='guided'?'Practise':mode==='transfer'?'Use independently':'Check the starting point for'}: ${lesson.title}`:saved?`Explore the saved observation: ${saved.focus||'Class focus'}`:'Start with a short learning check';
  const steps=[];
- steps.push({title:'2 min · Retrieve without hints',text:saved?'Ask the learner to revisit the situation described in the saved note below. Collect two fresh examples before correcting.':lesson?'Ask for one original example connected to this lesson before showing the model.':'Ask what the learner wants to do in Spanish. Invite a short example and record what helps or blocks communication.'});
+ steps.push({title:'2 min · Retrieve without hints',text:saved?'Ask the learner to revisit the situation described in the saved note below. Collect two fresh examples before correcting.':lesson?'Ask for one original example connected to this lesson before showing the model.':'Ask what the learner wants to do in the shared lesson language. Invite a short example and record what helps or blocks communication.'});
  if(lesson){
   steps.push({title:mode==='rebuild'?'4 min · Rebuild with a model':mode==='transfer'?'3 min · Contrast and explain':'4 min · Guided practice',text:mode==='rebuild'?`${lesson.explanation} Model “${lesson.example}”, then change one detail at a time together.`:mode==='transfer'?`Explain why “${lesson.example}” works, then create a contrasting example. A high exercise score still needs a live-use check.`:`Use “${lesson.example}” as a model. ${lesson.explanation} Ask the learner to create two new examples and explain their choices.`});
   steps.push({title:mode==='transfer'?'5 min · Unrehearsed transfer':'4 min · Apply in context',text:topic?.prompt||`Create a new situation for “${lesson.title}”. ${lesson.speak||'Have the learner produce an original example, then change the audience or circumstances and try again.'}`});

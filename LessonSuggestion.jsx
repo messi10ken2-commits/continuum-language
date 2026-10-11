@@ -3,7 +3,7 @@ import {Sparkles,ChevronRight,NotebookPen} from 'lucide-react';
 import {buildLessonSuggestion,suggestionDraft} from './lesson-suggestions.mjs';
 
 export default function LessonSuggestion({record,notes,onNavigate,onUseDraft,hasDraft}){
- const plan=buildLessonSuggestion({notes,attempts:record.attempts,sharing:record.sharing});
+ const plan=buildLessonSuggestion({notes,attempts:record.attempts,sharing:record.sharing,language:record.language});
  return <section className="ai-note-card lesson-suggestion" aria-label="Suggested next lesson">
   <Sparkles size={22}/><span className="eyebrow">NEXT LESSON · EVIDENCE-BASED PLAN</span>
   <h3>{plan.title}</h3><p>{plan.reason}</p>

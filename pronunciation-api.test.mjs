@@ -7,7 +7,7 @@ async function call(path,method='GET',body,cookie){const r=await fetch(base()+'/
 async function register(email,role){return call('/auth/register','POST',{email,name:role==='teacher'?'Teacher':'Learner',role,password:'a-strong-password',adult:true})}
 test('stores only pronunciation metadata and follows learner sharing',async()=>{
  const l=await register('pronunciation-learner@example.com','learner'),t=await register('pronunciation-teacher@example.com','teacher');
- const code=(await call('/share-code','POST',{},l.cookie)).data.code;await call('/teacher/connect','POST',{code},t.cookie);
+ const code=(await call('/share-code','POST',{language:'es'},l.cookie)).data.code;await call('/teacher/connect','POST',{code},t.cookie);
  const body={lesson:'pronunciation',targetVersion:'pronunciation-model-v1',score:88,durationMs:3400,submissionKey:'pronunciation-test-1'};
  const saved=await call('/pronunciation','POST',body,l.cookie);assert.equal(saved.status,201);assert.equal(saved.data.attempt.score,88);assert.equal('transcript' in saved.data.attempt,false);assert.equal('audio' in saved.data.attempt,false);
  const history=await call('/pronunciation','GET',null,l.cookie);assert.equal(history.data.attempts.length,1);

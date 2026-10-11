@@ -26,7 +26,7 @@ try{
  assert.equal((await call('/assessments','GET',null,b.cookie)).data.history.length,0);
  const learner=a.data.user.id;
  assert.equal((await call('/teacher/learners/'+learner,'GET',null,t.cookie)).status,403);
- const share=await call('/share-code','POST',{},a.cookie);await call('/teacher/connect','POST',{code:share.data.code},t.cookie);
+ const share=await call('/share-code','POST',{language:'es'},a.cookie);await call('/teacher/connect','POST',{code:share.data.code},t.cookie);
  assert.equal((await call('/teacher/learners/'+learner,'GET',null,t.cookie)).data.assessment.result.level,'C1');
  await call('/privacy','PUT',{shareSelfLearning:false},a.cookie);
  assert.equal((await call('/teacher/learners/'+learner,'GET',null,t.cookie)).data.assessment,null);

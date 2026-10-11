@@ -1,7 +1,8 @@
+import {teacherScope,requestedScope} from './teacher-access.mjs';
 import {aiConfigured,savedSkillResult} from './ai-assessment.mjs';
 const pendingAI=new Set();
 import {isDeepStrictEqual} from 'node:util';
-import {getSkillTask,rubricFor} from './skills-content.mjs';
+import {getSkillTask,rubricFor,skillTasks} from './skills-content.mjs';
 export async function migrateSkills(pool){await pool.query(`CREATE TABLE IF NOT EXISTS skill_submissions (
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
  task_id text NOT NULL, assessment_id uuid REFERENCES assessments(id) ON DELETE CASCADE,
@@ -9,14 +10,14 @@ export async function migrateSkills(pool){await pool.query(`CREATE TABLE IF NOT 
  created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(user_id,submission_key));
  CREATE INDEX IF NOT EXISTS skills_user_time ON skill_submissions(user_id,created_at DESC);`);}
 const fields='id,task_id AS task,assessment_id AS assessment,result,created_at AS at';
-export async function skillAccess(pool,user,row,fail){if(user.id===row.user_id)return; if(user.role!=='teacher')fail(403,'Not allowed');const access=await pool.query('SELECT 1 FROM teacher_links l JOIN users u ON u.id=l.learner_id WHERE l.teacher_id=$1 AND l.learner_id=$2 AND u.share_self_learning=true',[user.id,row.user_id]);if(!access.rowCount)fail(403,'This learner has not shared this evidence');}
+export async function skillAccess(pool,user,row,fail){if(user.id===row.user_id)return; if(user.role!=='teacher')fail(403,'Not allowed');const scope=await teacherScope(pool,user.id,row.user_id,fail);if(!scope.selfLearning)fail(403,'This learner has not shared this evidence');if(row.task_id){const task=getSkillTask(row.task_id);if(!task||!scope.languages.includes(task.language||'es'))fail(403,'This language is not shared with you');}return scope;}
 export async function handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}){
  if(!route.startsWith('/api/skills'))return false;
  const user=await required(req);
  if(route==='/api/skills/ai-status'&&req.method==='GET'){send(res,200,{available:aiConfigured()});return true;}
  if(route==='/api/skills'&&req.method==='GET'){if(user.role!=='learner')fail(403,'Learner account required');const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 ORDER BY created_at DESC LIMIT 100`,[user.id]);send(res,200,{submissions:r.rows});return true;}
  const list=route.match(/^\/api\/skills\/learner\/([a-f0-9-]{36})$/);
- if(list&&req.method==='GET'){if(user.role!=='teacher')fail(403,'Teacher account required');await skillAccess(pool,user,{user_id:list[1]},fail);const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 ORDER BY created_at DESC LIMIT 100`,[list[1]]);send(res,200,{submissions:r.rows});return true;}
+ if(list&&req.method==='GET'){if(user.role!=='teacher')fail(403,'Teacher account required');const scope=await skillAccess(pool,user,{user_id:list[1]},fail),allowed=requestedScope(req,scope,fail),ids=skillTasks.filter(t=>allowed.includes(t.language||'es')).map(t=>t.id);const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 AND task_id=ANY($2::text[]) ORDER BY created_at DESC LIMIT 100`,[list[1],ids]);send(res,200,{submissions:r.rows});return true;}
  if(route==='/api/skills'&&req.method==='POST'){
   if(user.role!=='learner')fail(403,'Learner account required');limited(req,'skill-submission',60);
   const data=await json(req),task=getSkillTask(data.task);if(!task||typeof data.submissionKey!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(data.submissionKey))fail(400,'Invalid task');

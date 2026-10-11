@@ -15,7 +15,7 @@ try{
  }
  assert.equal((await call('/learning','GET',null,a.cookie)).data.progress.length,30);
  const t=await call('/auth/register','POST',{name:'ExpressionTeacher',email:'expressionteacher@example.test',password:'synthetic-test-password',role:'teacher',adult:true});
- const share=await call('/share-code','POST',{},a.cookie);assert.equal((await call('/teacher/connect','POST',{code:share.data.code},t.cookie)).status,200);
+ const share=await call('/share-code','POST',{language:'es'},a.cookie);assert.equal((await call('/teacher/connect','POST',{code:share.data.code},t.cookie)).status,200);
  const route='/teacher/learners/'+a.data.user.id;assert.equal((await call(route,'GET',null,t.cookie)).data.attempts.length,30);
  assert.equal((await call('/privacy','PUT',{shareSelfLearning:false},a.cookie)).status,200);assert.deepEqual((await call(route,'GET',null,t.cookie)).data.attempts,[]);
  console.log('PASS: all 20 expression lessons + 10 checkpoints persist drafts, grade on server, clear drafts and obey teacher privacy.');
