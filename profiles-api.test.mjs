@@ -56,6 +56,9 @@ try{
  const history=(await call('/admin/teacher-profiles/'+teacher.id+'/history','GET',null,other.cookie)).data.history;
  assert.equal(history.length,3);assert.equal(history[0].decision,'editorial_update');
  assert.equal((await call('/admin/teacher-profiles/'+teacher.id+'/history','GET',null,learner.cookie)).status,403);
+ const inventory=await call('/admin/teacher-profiles/accounts','GET',null,other.cookie);assert.equal(inventory.status,200);assert.equal(inventory.data.accounts.length,4);assert.ok(inventory.data.accounts.every(a=>a.email===undefined&&a.emailHint.includes('***')));assert.equal(inventory.data.accounts.filter(a=>a.owner).length,1);
+ assert.equal((await call('/admin/teacher-profiles/accounts','GET',null,admin.cookie)).status,403);
+ assert.equal((await call('/admin/teacher-profiles/accounts','GET',null,learner.cookie)).status,403);
  process.env.CONTINUUM_OWNER_USER_ID=teacher.id;
  assert.equal((await call('/profile','GET',null,teacher.cookie)).data.owner,false);
  delete process.env.CONTINUUM_OWNER_USER_ID;

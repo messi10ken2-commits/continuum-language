@@ -45,6 +45,16 @@ export async function handleProfiles({route,req,res,pool,required,json,send,fail
  if(route.startsWith('/api/admin/teacher-profiles')){
   const user=await required(req);if(!await reviewer(user))fail(403,'Reviewer access required');
   if(route==='/api/admin/teacher-profiles'&&req.method==='GET'){const r=await pool.query("SELECT user_id,data,status,revision,feedback,updated_at FROM teacher_profiles WHERE status IN ('pending','approved','changes_requested') ORDER BY CASE WHEN status='pending' THEN 0 ELSE 1 END,updated_at DESC LIMIT 100");send(res,200,{profiles:r.rows});return true;}
+  if(route==='/api/admin/teacher-profiles/accounts'&&req.method==='GET'){
+   if(!isPlatformOwner(user))fail(403,'Owner access required');
+   const r=await pool.query(`SELECT u.id,u.name,u.email,u.role,u.created_at,
+    EXISTS(SELECT 1 FROM learner_profiles p WHERE p.user_id=u.id) AS learner_profile,
+    EXISTS(SELECT 1 FROM teacher_profiles p WHERE p.user_id=u.id) AS teacher_profile,
+    (SELECT count(*)::int FROM practice_attempts a WHERE a.user_id=u.id) AS practice_count
+    FROM users u ORDER BY u.created_at DESC,u.id LIMIT 100`);
+   const accounts=r.rows.map(({email,...row})=>{const [local,domain]=email.split('@');return {...row,emailHint:local.slice(0,2)+'***@'+domain,owner:row.id===user.id,testAddress:/^(example\.(com|net|org|test)|.+\.test)$/i.test(domain||'')};});
+   send(res,200,{accounts});return true;
+  }
   if(route==='/api/admin/teacher-profiles/summary'&&req.method==='GET'){
    const [users,profiles]=await Promise.all([pool.query('SELECT role,count(*)::int AS count FROM users GROUP BY role'),pool.query('SELECT status,count(*)::int AS count FROM teacher_profiles GROUP BY status')]);send(res,200,{accounts:users.rows,profiles:profiles.rows});return true;
   }
