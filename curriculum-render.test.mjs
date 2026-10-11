@@ -46,7 +46,7 @@ try{
   storage.set('continuumTestSeeds',JSON.stringify({[l.id]:seed}));
   const html=render(language,l.id);assert.ok(html.includes('word-builder-tiles'));assert.ok(html.includes('Undo last word'));assert.ok(html.includes('BUILD THE PHRASE'));
   storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));storage.set('continuumTestSeeds','{}');
-  assert.ok(render(language,l.id).includes('Restart with expanded practice'));
+  assert.ok(render(language,l.id).includes('Restart with updated practice'));
   storage.delete('continuumLessonDrafts');storage.delete('continuumTestSeeds');
  }
  console.log('PASS: all 15 level roadmaps, 267 lesson intros and 267 exercise screens render; every chapter ends in a checkpoint; speaking shows recorder and writing shows textarea.');

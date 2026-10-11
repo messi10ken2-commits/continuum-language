@@ -1,0 +1,1538 @@
+{
+  "en-a1-v2-lesson-7": [
+    {
+      "prompt": "A recipe needs 500 grams of cheese. What do you ask the shop assistant for?",
+      "options": [
+        "Half a kilo of cheese, please.",
+        "A kilo of cheese, please.",
+        "A litre of cheese, please."
+      ],
+      "answer": 0,
+      "note": "Half a kilogram is 500 grams; the other quantities would change the recipe.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a1-v2-lesson-7": [
+    {
+      "prompt": "A recipe needs 500 grams of cheese. What do you ask the shop assistant for?",
+      "options": [
+        "Meio quilo de queijo, por favor.",
+        "Um quilo de queijo, por favor.",
+        "Um litro de queijo, por favor."
+      ],
+      "answer": 0,
+      "note": "Half a kilogram is 500 grams; the other quantities would change the recipe.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a1-v2-lesson-7": [
+    {
+      "prompt": "You want to buy two bottles of water. Choose the correct counter for bottles.",
+      "options": [
+        "水を二本ください。",
+        "水を二枚ください。",
+        "水を二冊ください。"
+      ],
+      "answer": 0,
+      "note": "本 counts long cylindrical objects such as bottles. 枚 counts flat items; 冊 counts bound books.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a1-v2-lesson-8": [
+    {
+      "prompt": "You need medicine. Ask someone where to buy it.",
+      "options": [
+        "Where is the pharmacy?",
+        "Where is the bakery?",
+        "Where is the station?"
+      ],
+      "answer": 0,
+      "note": "A pharmacy sells medicine; a bakery or station does not meet this need.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a1-v2-lesson-8": [
+    {
+      "prompt": "You need medicine. Ask someone where to buy it.",
+      "options": [
+        "Onde fica a farmácia?",
+        "Onde fica a padaria?",
+        "Onde fica a estação?"
+      ],
+      "answer": 0,
+      "note": "A pharmacy sells medicine; a bakery or station does not meet this need.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a1-v2-lesson-8": [
+    {
+      "prompt": "You need medicine. Ask someone where to buy it.",
+      "options": [
+        "薬局はどこですか。",
+        "パン屋はどこですか。",
+        "駅はどこですか。"
+      ],
+      "answer": 0,
+      "note": "A pharmacy sells medicine; a bakery or station does not meet this need.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a1-v2-lesson-9": [
+    {
+      "prompt": "Someone is blocking the doorway. Ask politely to get past.",
+      "options": [
+        "Excuse me, could I get past?",
+        "Sorry I'm late.",
+        "Nice to meet you."
+      ],
+      "answer": 0,
+      "note": "Request space to pass; apologising for lateness or introducing yourself would not explain your need.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a1-v2-lesson-9": [
+    {
+      "prompt": "Someone is blocking the doorway. Ask politely to get past.",
+      "options": [
+        "Com licença, posso passar?",
+        "Desculpe o atraso.",
+        "Prazer em conhecer você."
+      ],
+      "answer": 0,
+      "note": "Request space to pass; apologising for lateness or introducing yourself would not explain your need.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a1-v2-lesson-9": [
+    {
+      "prompt": "Someone is blocking the doorway. Ask politely to get past.",
+      "options": [
+        "すみません、通ってもいいですか。",
+        "遅れてすみません。",
+        "はじめまして。"
+      ],
+      "answer": 0,
+      "note": "Request space to pass; apologising for lateness or introducing yourself would not explain your need.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a1-v2-lesson-10": [
+    {
+      "prompt": "You heard a new name clearly, but need to write it on a form. Ask for the information you still need.",
+      "options": [
+        "How do you spell that?",
+        "What does that mean?",
+        "Could you speak louder?"
+      ],
+      "answer": 0,
+      "note": "Ask about spelling rather than meaning or volume.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a1-v2-lesson-10": [
+    {
+      "prompt": "You heard a new name clearly, but need to write it on a form. Ask for the information you still need.",
+      "options": [
+        "Como se escreve?",
+        "O que significa?",
+        "Pode falar mais alto?"
+      ],
+      "answer": 0,
+      "note": "Ask about spelling rather than meaning or volume.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a1-v2-lesson-10": [
+    {
+      "prompt": "You heard a new name clearly, but need to write it on a form. Ask for the information you still need.",
+      "options": [
+        "どう書きますか。",
+        "どういう意味ですか。",
+        "もっと大きな声で話してください。"
+      ],
+      "answer": 0,
+      "note": "Ask about spelling rather than meaning or volume.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a1-v2-lesson-11": [
+    {
+      "prompt": "You have to leave now to catch your last bus. Explain why you cannot stay.",
+      "options": [
+        "I need to leave now. It's my last bus.",
+        "I'd like to stay longer. There are plenty of buses.",
+        "Would you like to take the bus?"
+      ],
+      "answer": 0,
+      "note": "State the immediate need to leave, not a preference or an invitation.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a1-v2-lesson-11": [
+    {
+      "prompt": "You have to leave now to catch your last bus. Explain why you cannot stay.",
+      "options": [
+        "Preciso sair agora. É o último ônibus.",
+        "Gostaria de ficar mais. Há muitos ônibus.",
+        "Você gostaria de pegar o ônibus?"
+      ],
+      "answer": 0,
+      "note": "State the immediate need to leave, not a preference or an invitation.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a1-v2-lesson-11": [
+    {
+      "prompt": "You have to leave now to catch your last bus. Explain why you cannot stay.",
+      "options": [
+        "終バスなので、もう帰りたいです。",
+        "バスはまだあるので、もっといたいです。",
+        "バスで行きませんか。"
+      ],
+      "answer": 0,
+      "note": "State the immediate need to leave, not a preference or an invitation.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a1-v2-lesson-12": [
+    {
+      "prompt": "Your appointment is at 12:00, not 00:00. Confirm the time.",
+      "options": [
+        "At noon.",
+        "At midnight.",
+        "In the evening."
+      ],
+      "answer": 0,
+      "note": "Noon is the middle of the day, while midnight is the middle of the night.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a1-v2-lesson-12": [
+    {
+      "prompt": "Your appointment is at 12:00, not 00:00. Confirm the time.",
+      "options": [
+        "Ao meio-dia.",
+        "À meia-noite.",
+        "À noite."
+      ],
+      "answer": 0,
+      "note": "Noon is the middle of the day, while midnight is the middle of the night.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a1-v2-lesson-12": [
+    {
+      "prompt": "Your appointment is at 12:00, not 00:00. Confirm the time.",
+      "options": [
+        "正午です。",
+        "午前零時です。",
+        "夜です。"
+      ],
+      "answer": 0,
+      "note": "Noon is the middle of the day, while midnight is the middle of the night.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a2-v2-lesson-7": [
+    {
+      "prompt": "You booked a room for two nights, but the confirmation says one. Ask the hotel to fix the booking.",
+      "options": [
+        "My reservation says one night. Could you change it to two?",
+        "I'd like to cancel both nights.",
+        "Could I check out a day earlier?"
+      ],
+      "answer": 0,
+      "note": "State both the discrepancy and the intended length of stay.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a2-v2-lesson-7": [
+    {
+      "prompt": "You booked a room for two nights, but the confirmation says one. Ask the hotel to fix the booking.",
+      "options": [
+        "Minha reserva está para uma noite. Pode mudar para duas?",
+        "Gostaria de cancelar as duas noites.",
+        "Posso sair um dia antes?"
+      ],
+      "answer": 0,
+      "note": "State both the discrepancy and the intended length of stay.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a2-v2-lesson-7": [
+    {
+      "prompt": "You booked a room for two nights, but the confirmation says one. Ask the hotel to fix the booking.",
+      "options": [
+        "予約は一泊になっています。二泊に変更できますか。",
+        "二泊ともキャンセルしたいです。",
+        "一日早くチェックアウトできますか。"
+      ],
+      "answer": 0,
+      "note": "State both the discrepancy and the intended length of stay.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a2-v2-lesson-8": [
+    {
+      "prompt": "Your report is due Friday. You can finish on Monday. Ask for more time without pretending it is already approved.",
+      "options": [
+        "Could we extend the deadline to Monday?",
+        "We have already agreed on Monday.",
+        "I submitted the report on Friday."
+      ],
+      "answer": 0,
+      "note": "A request for an extension is different from announcing one or claiming the work is complete.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a2-v2-lesson-8": [
+    {
+      "prompt": "Your report is due Friday. You can finish on Monday. Ask for more time without pretending it is already approved.",
+      "options": [
+        "Podemos prorrogar o prazo até segunda-feira?",
+        "Já combinamos segunda-feira.",
+        "Entreguei o relatório na sexta-feira."
+      ],
+      "answer": 0,
+      "note": "A request for an extension is different from announcing one or claiming the work is complete.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a2-v2-lesson-8": [
+    {
+      "prompt": "Your report is due Friday. You can finish on Monday. Ask for more time without pretending it is already approved.",
+      "options": [
+        "締め切りを月曜日まで延ばせますか。",
+        "月曜日で合意済みです。",
+        "金曜日に報告書を提出しました。"
+      ],
+      "answer": 0,
+      "note": "A request for an extension is different from announcing one or claiming the work is complete.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a2-v2-lesson-9": [
+    {
+      "prompt": "A friend wants to meet, but neither of you has chosen an activity. Suggest cooking together.",
+      "options": [
+        "How about cooking together?",
+        "We cooked together yesterday.",
+        "We've already decided to cook separately."
+      ],
+      "answer": 0,
+      "note": "Offer an idea for discussion instead of describing a past activity or a fixed decision.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a2-v2-lesson-9": [
+    {
+      "prompt": "A friend wants to meet, but neither of you has chosen an activity. Suggest cooking together.",
+      "options": [
+        "Que tal cozinhar juntos?",
+        "Cozinhamos juntos ontem.",
+        "Já decidimos cozinhar separadamente."
+      ],
+      "answer": 0,
+      "note": "Offer an idea for discussion instead of describing a past activity or a fixed decision.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a2-v2-lesson-9": [
+    {
+      "prompt": "A friend wants to meet, but neither of you has chosen an activity. Suggest cooking together.",
+      "options": [
+        "一緒に料理しませんか。",
+        "昨日一緒に料理しました。",
+        "別々に料理するともう決めました。"
+      ],
+      "answer": 0,
+      "note": "Offer an idea for discussion instead of describing a past activity or a fixed decision.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a2-v2-lesson-10": [
+    {
+      "prompt": "A colleague asks for help tonight, but you are unavailable. Refuse politely without accidentally agreeing.",
+      "options": [
+        "I'm sorry, I can't tonight.",
+        "Of course, no problem.",
+        "Certainly, I'll be there."
+      ],
+      "answer": 0,
+      "note": "A polite refusal must still make your lack of availability clear.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a2-v2-lesson-10": [
+    {
+      "prompt": "A colleague asks for help tonight, but you are unavailable. Refuse politely without accidentally agreeing.",
+      "options": [
+        "Infelizmente, não posso hoje à noite.",
+        "Claro, sem problema.",
+        "Pois não, estarei lá."
+      ],
+      "answer": 0,
+      "note": "A polite refusal must still make your lack of availability clear.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a2-v2-lesson-10": [
+    {
+      "prompt": "A colleague asks for help tonight, but you are unavailable. Refuse politely without accidentally agreeing.",
+      "options": [
+        "すみません、今夜は無理です。",
+        "もちろん、大丈夫です。",
+        "はい、行きます。"
+      ],
+      "answer": 0,
+      "note": "A polite refusal must still make your lack of availability clear.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a2-v2-lesson-11": [
+    {
+      "prompt": "You swim every Tuesday and Saturday. Describe how often.",
+      "options": [
+        "Twice a week.",
+        "Once a month.",
+        "Almost never."
+      ],
+      "answer": 0,
+      "note": "Two regular days each week means twice a week, not occasionally or almost never.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a2-v2-lesson-11": [
+    {
+      "prompt": "You swim every Tuesday and Saturday. Describe how often.",
+      "options": [
+        "Duas vezes por semana.",
+        "Uma vez por mês.",
+        "Quase nunca."
+      ],
+      "answer": 0,
+      "note": "Two regular days each week means twice a week, not occasionally or almost never.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a2-v2-lesson-11": [
+    {
+      "prompt": "You swim every Tuesday and Saturday. Describe how often.",
+      "options": [
+        "週に二回です。",
+        "月に一回です。",
+        "ほとんど行きません。"
+      ],
+      "answer": 0,
+      "note": "Two regular days each week means twice a week, not occasionally or almost never.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-a2-v2-lesson-12": [
+    {
+      "prompt": "You tried a new recipe. The cake rose well and everyone liked it. Tell your friend the outcome.",
+      "options": [
+        "It worked out well!",
+        "It went wrong.",
+        "It hasn't started yet."
+      ],
+      "answer": 0,
+      "note": "The evidence describes a successful outcome.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-a2-v2-lesson-12": [
+    {
+      "prompt": "You tried a new recipe. The cake rose well and everyone liked it. Tell your friend the outcome.",
+      "options": [
+        "Deu certo!",
+        "Deu errado.",
+        "Ainda não começou."
+      ],
+      "answer": 0,
+      "note": "The evidence describes a successful outcome.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-a2-v2-lesson-12": [
+    {
+      "prompt": "You tried a new recipe. The cake rose well and everyone liked it. Tell your friend the outcome.",
+      "options": [
+        "うまくいきました。",
+        "失敗しました。",
+        "まだ始まっていません。"
+      ],
+      "answer": 0,
+      "note": "The evidence describes a successful outcome.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-b1-v2-lesson-9": [
+    {
+      "prompt": "A colleague says: 'I don't follow your explanation.' Introduce a simpler version of the same idea.",
+      "options": [
+        "In other words, we need more time.",
+        "By the way, I bought a bicycle.",
+        "On the contrary, we have plenty of time."
+      ],
+      "answer": 0,
+      "note": "Signal reformulation, not a new unrelated topic or a contradiction.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-b1-v2-lesson-9": [
+    {
+      "prompt": "A colleague says: 'I don't follow your explanation.' Introduce a simpler version of the same idea.",
+      "options": [
+        "Em outras palavras, precisamos de mais tempo.",
+        "A propósito, comprei uma bicicleta.",
+        "Pelo contrário, temos muito tempo."
+      ],
+      "answer": 0,
+      "note": "Signal reformulation, not a new unrelated topic or a contradiction.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-b1-v2-lesson-9": [
+    {
+      "prompt": "A colleague says: 'I don't follow your explanation.' Introduce a simpler version of the same idea.",
+      "options": [
+        "つまり、もっと時間が必要です。",
+        "ところで、自転車を買いました。",
+        "逆に、時間は十分あります。"
+      ],
+      "answer": 0,
+      "note": "Signal reformulation, not a new unrelated topic or a contradiction.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-b1-v2-lesson-10": [
+    {
+      "prompt": "The printer is broken. Propose sending the document electronically as a replacement for printing.",
+      "options": [
+        "Let's email it instead of printing it.",
+        "Let's email it after printing it.",
+        "Let's print it before emailing it."
+      ],
+      "answer": 0,
+      "note": "The alternative replaces the original action; it is not an additional step after printing.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-b1-v2-lesson-10": [
+    {
+      "prompt": "The printer is broken. Propose sending the document electronically as a replacement for printing.",
+      "options": [
+        "Vamos enviar por e-mail em vez de imprimir.",
+        "Vamos enviar por e-mail depois de imprimir.",
+        "Vamos imprimir antes de enviar por e-mail."
+      ],
+      "answer": 0,
+      "note": "The alternative replaces the original action; it is not an additional step after printing.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-b1-v2-lesson-10": [
+    {
+      "prompt": "The printer is broken. Propose sending the document electronically as a replacement for printing.",
+      "options": [
+        "印刷する代わりに、メールで送りましょう。",
+        "印刷してから、メールで送りましょう。",
+        "メールで送る前に、印刷しましょう。"
+      ],
+      "answer": 0,
+      "note": "The alternative replaces the original action; it is not an additional step after printing.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-b1-v2-lesson-11": [
+    {
+      "prompt": "A friend cannot carry a heavy box alone. Offer practical help.",
+      "options": [
+        "Let me give you a hand with that box.",
+        "That box looks heavy.",
+        "I need you to carry my box."
+      ],
+      "answer": 0,
+      "note": "Offer assistance with the actual task, rather than merely observing it.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-b1-v2-lesson-11": [
+    {
+      "prompt": "A friend cannot carry a heavy box alone. Offer practical help.",
+      "options": [
+        "Deixa eu dar uma mão com essa caixa.",
+        "Essa caixa parece pesada.",
+        "Preciso que você carregue minha caixa."
+      ],
+      "answer": 0,
+      "note": "Offer assistance with the actual task, rather than merely observing it.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-b1-v2-lesson-11": [
+    {
+      "prompt": "A friend cannot carry a heavy box alone. Offer practical help.",
+      "options": [
+        "その箱を運ぶのを手伝いましょうか。",
+        "その箱は重そうですね。",
+        "私の箱を運んでください。"
+      ],
+      "answer": 0,
+      "note": "Offer assistance with the actual task, rather than merely observing it.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-b1-v2-lesson-12": [
+    {
+      "prompt": "You finally understand why yesterday's bill was higher: it included delivery. Explain your new understanding.",
+      "options": [
+        "Now it makes sense: delivery was included.",
+        "I still have no idea why.",
+        "I knew about the charge all along."
+      ],
+      "answer": 0,
+      "note": "Mark a realisation rather than continuing uncertainty or prior knowledge.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-b1-v2-lesson-12": [
+    {
+      "prompt": "You finally understand why yesterday's bill was higher: it included delivery. Explain your new understanding.",
+      "options": [
+        "Agora faz sentido: a entrega estava incluída.",
+        "Ainda não entendo o motivo.",
+        "Eu já sabia da cobrança o tempo todo."
+      ],
+      "answer": 0,
+      "note": "Mark a realisation rather than continuing uncertainty or prior knowledge.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-b1-v2-lesson-12": [
+    {
+      "prompt": "You finally understand why yesterday's bill was higher: it included delivery. Explain your new understanding.",
+      "options": [
+        "なるほど、配送料が含まれていたんですね。",
+        "まだ理由が分かりません。",
+        "配送料のことは最初から知っていました。"
+      ],
+      "answer": 0,
+      "note": "Mark a realisation rather than continuing uncertainty or prior knowledge.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-b2-v2-lesson-7": [
+    {
+      "prompt": "A cheaper flat would add an hour to your commute. Before deciding, what should you say?",
+      "options": [
+        "We should weigh the pros and cons, including the commute.",
+        "The price is all that matters.",
+        "There are no disadvantages to consider."
+      ],
+      "answer": 0,
+      "note": "A balanced decision considers travel time as well as price.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-b2-v2-lesson-7": [
+    {
+      "prompt": "A cheaper flat would add an hour to your commute. Before deciding, what should you say?",
+      "options": [
+        "Precisamos pesar os prós e os contras, incluindo o trajeto.",
+        "Só o preço importa.",
+        "Não há desvantagens a considerar."
+      ],
+      "answer": 0,
+      "note": "A balanced decision considers travel time as well as price.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-b2-v2-lesson-7": [
+    {
+      "prompt": "A cheaper flat would add an hour to your commute. Before deciding, what should you say?",
+      "options": [
+        "通勤時間も含めて、メリットとデメリットを比較しましょう。",
+        "家賃だけが重要です。",
+        "考慮すべきデメリットはありません。"
+      ],
+      "answer": 0,
+      "note": "A balanced decision considers travel time as well as price.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-b2-v2-lesson-8": [
+    {
+      "prompt": "Your team has approved a plan. It is time to start doing it. Choose the next-step message.",
+      "options": [
+        "Let's put the plan into practice.",
+        "Let's abandon the plan.",
+        "Let's discuss whether we need a plan."
+      ],
+      "answer": 0,
+      "note": "Move from agreement to implementation instead of reopening or abandoning the plan.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-b2-v2-lesson-8": [
+    {
+      "prompt": "Your team has approved a plan. It is time to start doing it. Choose the next-step message.",
+      "options": [
+        "Vamos pôr o plano em prática.",
+        "Vamos abandonar o plano.",
+        "Vamos discutir se precisamos de um plano."
+      ],
+      "answer": 0,
+      "note": "Move from agreement to implementation instead of reopening or abandoning the plan.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-b2-v2-lesson-8": [
+    {
+      "prompt": "Your team has approved a plan. It is time to start doing it. Choose the next-step message.",
+      "options": [
+        "計画を実行に移しましょう。",
+        "計画を中止しましょう。",
+        "計画が必要かどうか話し合いましょう。"
+      ],
+      "answer": 0,
+      "note": "Move from agreement to implementation instead of reopening or abandoning the plan.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-b2-v2-lesson-9": [
+    {
+      "prompt": "Your manager adds another urgent task. You already cannot finish your current workload. Explain the problem constructively.",
+      "options": [
+        "I'm overloaded. Could we agree on priorities?",
+        "I can easily finish everything today.",
+        "There is nothing left for me to do."
+      ],
+      "answer": 0,
+      "note": "State the capacity problem and request prioritisation rather than promising everything.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-b2-v2-lesson-9": [
+    {
+      "prompt": "Your manager adds another urgent task. You already cannot finish your current workload. Explain the problem constructively.",
+      "options": [
+        "Estou sobrecarregado. Podemos definir as prioridades?",
+        "Dou conta de terminar tudo hoje com facilidade.",
+        "Não tenho mais nada para fazer."
+      ],
+      "answer": 0,
+      "note": "State the capacity problem and request prioritisation rather than promising everything.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-b2-v2-lesson-9": [
+    {
+      "prompt": "Your manager adds another urgent task. You already cannot finish your current workload. Explain the problem constructively.",
+      "options": [
+        "仕事を抱えすぎています。優先順位を相談できますか。",
+        "今日中に全部簡単に終わらせられます。",
+        "もうやることはありません。"
+      ],
+      "answer": 0,
+      "note": "State the capacity problem and request prioritisation rather than promising everything.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-b2-v2-lesson-10": [
+    {
+      "prompt": "Your first application was rejected. You intend to improve it and apply again. Tell a friend.",
+      "options": [
+        "I'm not giving up. I'll revise it and try again.",
+        "I've given up and won't apply again.",
+        "I've already been accepted."
+      ],
+      "answer": 0,
+      "note": "Express persistence after a setback without claiming you already succeeded.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-b2-v2-lesson-10": [
+    {
+      "prompt": "Your first application was rejected. You intend to improve it and apply again. Tell a friend.",
+      "options": [
+        "Não vou jogar a toalha. Vou melhorar e tentar de novo.",
+        "Desisti e não vou me candidatar de novo.",
+        "Já fui aceito."
+      ],
+      "answer": 0,
+      "note": "Express persistence after a setback without claiming you already succeeded.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-b2-v2-lesson-10": [
+    {
+      "prompt": "Your first application was rejected. You intend to improve it and apply again. Tell a friend.",
+      "options": [
+        "諦めずに、改善してもう一度挑戦します。",
+        "諦めたので、もう応募しません。",
+        "もう採用されました。"
+      ],
+      "answer": 0,
+      "note": "Express persistence after a setback without claiming you already succeeded.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-c1-v2-lesson-7": [
+    {
+      "prompt": "A small observational study finds that two factors vary together. Report it without claiming that one causes the other.",
+      "options": [
+        "The findings are consistent with the hypothesis, but do not establish causation.",
+        "The study proves that one factor causes the other.",
+        "The study rules out all alternative explanations."
+      ],
+      "answer": 0,
+      "note": "Compatibility with an explanation does not establish causation.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-c1-v2-lesson-7": [
+    {
+      "prompt": "A small observational study finds that two factors vary together. Report it without claiming that one causes the other.",
+      "options": [
+        "Os resultados são compatíveis com a hipótese, mas não permitem concluir que haja causalidade.",
+        "O estudo prova que um fator causa o outro.",
+        "O estudo descarta todas as explicações alternativas."
+      ],
+      "answer": 0,
+      "note": "Compatibility with an explanation does not establish causation.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-c1-v2-lesson-7": [
+    {
+      "prompt": "A small observational study finds that two factors vary together. Report it without claiming that one causes the other.",
+      "options": [
+        "結果は仮説と整合的ですが、因果関係を示すものではありません。",
+        "この研究で因果関係が証明されました。",
+        "他の説明はすべて否定されました。"
+      ],
+      "answer": 0,
+      "note": "Compatibility with an explanation does not establish causation.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-c1-v2-lesson-8": [
+    {
+      "prompt": "You support a proposal only if extra funding is secured. Make the condition explicit.",
+      "options": [
+        "I support it provided that additional funding is secured.",
+        "I support it regardless of funding.",
+        "I oppose it even if funding is secured."
+      ],
+      "answer": 0,
+      "note": "Conditional support is neither unconditional approval nor outright rejection.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-c1-v2-lesson-8": [
+    {
+      "prompt": "You support a proposal only if extra funding is secured. Make the condition explicit.",
+      "options": [
+        "Apoio a proposta desde que se garanta financiamento adicional.",
+        "Apoio a proposta independentemente do financiamento.",
+        "Sou contra mesmo que haja financiamento."
+      ],
+      "answer": 0,
+      "note": "Conditional support is neither unconditional approval nor outright rejection.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-c1-v2-lesson-8": [
+    {
+      "prompt": "You support a proposal only if extra funding is secured. Make the condition explicit.",
+      "options": [
+        "追加予算が確保されることを条件に賛成します。",
+        "予算に関係なく賛成します。",
+        "予算が確保されても反対です。"
+      ],
+      "answer": 0,
+      "note": "Conditional support is neither unconditional approval nor outright rejection.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-c1-v2-lesson-9": [
+    {
+      "prompt": "A draft needs significant revision. Give restrained criticism rather than praise or a personal attack.",
+      "options": [
+        "There is considerable room for improvement in the argument.",
+        "The argument is flawless.",
+        "The writer is completely incompetent."
+      ],
+      "answer": 0,
+      "note": "Identify scope for improvement without attacking the writer.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-c1-v2-lesson-9": [
+    {
+      "prompt": "A draft needs significant revision. Give restrained criticism rather than praise or a personal attack.",
+      "options": [
+        "Há bastante margem para melhoria na argumentação.",
+        "A argumentação é impecável.",
+        "O autor é totalmente incompetente."
+      ],
+      "answer": 0,
+      "note": "Identify scope for improvement without attacking the writer.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-c1-v2-lesson-9": [
+    {
+      "prompt": "A draft needs significant revision. Give restrained criticism rather than praise or a personal attack.",
+      "options": [
+        "議論にはかなり改善の余地があります。",
+        "議論は完璧です。",
+        "筆者には全く能力がありません。"
+      ],
+      "answer": 0,
+      "note": "Identify scope for improvement without attacking the writer.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "en-c1-v2-lesson-10": [
+    {
+      "prompt": "You are opening a formal committee meeting. Choose an appropriately formal opening.",
+      "options": [
+        "We shall now begin the proceedings.",
+        "Let's get this show on the road!",
+        "This concludes the meeting."
+      ],
+      "answer": 0,
+      "note": "Match the institutional setting with a formal announcement rather than a casual rallying phrase or a closing.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "en-US"
+    }
+  ],
+  "pt-c1-v2-lesson-10": [
+    {
+      "prompt": "You are opening a formal committee meeting. Choose an appropriately formal opening.",
+      "options": [
+        "Daremos início aos trabalhos.",
+        "Vamos dar o pontapé inicial, pessoal!",
+        "Encerramos a reunião."
+      ],
+      "answer": 0,
+      "note": "Match the institutional setting with a formal announcement rather than a casual rallying phrase or a closing.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "pt-BR"
+    }
+  ],
+  "ja-c1-v2-lesson-10": [
+    {
+      "prompt": "You are opening a formal committee meeting. Choose an appropriately formal opening.",
+      "options": [
+        "それでは、審議を開始いたします。",
+        "じゃあ、さっそく始めちゃおう！",
+        "これで閉会いたします。"
+      ],
+      "answer": 0,
+      "note": "Match the institutional setting with a formal announcement rather than a casual rallying phrase or a closing.",
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "ja-JP"
+    }
+  ],
+  "food-vocabulary": [
+    {
+      "prompt": "You have finished eating and want to pay. What do you ask for?",
+      "note": "Ask for the bill, not another food order.",
+      "options": [
+        "La cuenta, por favor.",
+        "Otro pan, por favor.",
+        "Más agua, por favor."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "city-vocabulary": [
+    {
+      "prompt": "You need medicine. Ask where to go.",
+      "note": "A pharmacy meets the need for medicine.",
+      "options": [
+        "¿Dónde está la farmacia?",
+        "¿Dónde está la estación?",
+        "¿Dónde está el cine?"
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "travel-vocabulary": [
+    {
+      "prompt": "Your flight has been cancelled. Ask to cancel the hotel booking you can no longer use.",
+      "note": "Cancel the reservation rather than confirming your arrival.",
+      "options": [
+        "Necesito cancelar mi reserva.",
+        "Quiero confirmar mi llegada.",
+        "Quiero mostrar mi tarjeta de embarque."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "work-vocabulary": [
+    {
+      "prompt": "Your report is due Friday but will be ready Monday. Request an extension.",
+      "note": "Request a new deadline instead of announcing an unapproved change.",
+      "options": [
+        "¿Puedo solicitar una ampliación del plazo hasta el lunes?",
+        "El plazo ya se ha ampliado al lunes.",
+        "Ya entregué el informe el viernes."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "a1-polite-contact": [
+    {
+      "prompt": "Someone thanks you for holding the door. Reply naturally.",
+      "note": "De nada responds to thanks.",
+      "options": [
+        "De nada.",
+        "Por favor.",
+        "Mucho gusto."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "a1-ask-again": [
+    {
+      "prompt": "You recognise the words, but the speaker is going too fast. Make a specific request.",
+      "note": "Ask for a slower pace.",
+      "options": [
+        "Más despacio, por favor.",
+        "Más rápido, por favor.",
+        "Mucho gusto."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "a1-tener-chunks": [
+    {
+      "prompt": "You have walked in the heat and need water. Explain your need.",
+      "note": "Thirst calls for a drink, not food or sleep.",
+      "options": [
+        "Tengo sed.",
+        "Tengo hambre.",
+        "Tengo sueño."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "a1-routine-chunks": [
+    {
+      "prompt": "Your train leaves in five minutes. Explain why you cannot stop to chat.",
+      "note": "Tener prisa expresses urgency.",
+      "options": [
+        "Tengo prisa.",
+        "Tengo sueño.",
+        "Doy un paseo."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "a2-meet-and-plan": [
+    {
+      "prompt": "You propose meeting at six, but need to check your friend's availability.",
+      "note": "Check whether the time suits the other person.",
+      "options": [
+        "¿Te viene bien a las seis?",
+        "Ya hemos quedado a las seis.",
+        "No tengo ganas de verte."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "a2-practical-help": [
+    {
+      "prompt": "A friend apologises for being two minutes late. Reassure them.",
+      "note": "No pasa nada reassures someone after a small problem.",
+      "options": [
+        "No pasa nada.",
+        "¿Me puedes ayudar?",
+        "No vuelvas nunca."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "a2-time-patterns": [
+    {
+      "prompt": "You visit that café occasionally, with no fixed schedule. Describe the habit.",
+      "note": "De vez en cuando indicates occasional frequency.",
+      "options": [
+        "Voy de vez en cuando.",
+        "Voy todos los días.",
+        "Nunca voy."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "a2-experience-chunks": [
+    {
+      "prompt": "You enjoyed a party. Tell the host how it went for you.",
+      "note": "Pasarlo bien describes enjoying an experience.",
+      "options": [
+        "Lo pasé muy bien.",
+        "Cometí un error.",
+        "Quiero hacer una pregunta."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "b1-clarify-and-add": [
+    {
+      "prompt": "You want to explain the same point in simpler words. Choose the connector.",
+      "note": "Es decir introduces reformulation; por cierto changes topic.",
+      "options": [
+        "Es decir, necesitamos más tiempo.",
+        "Por cierto, compré una bicicleta.",
+        "Sin embargo, nos sobra tiempo."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "b1-opinion-partners": [
+    {
+      "prompt": "The printer is broken. Propose emailing the document as a substitute.",
+      "note": "En vez de replaces the original action.",
+      "options": [
+        "Enviémoslo por correo en vez de imprimirlo.",
+        "Enviémoslo después de imprimirlo.",
+        "Imprimámoslo antes de enviarlo."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "b1-help-idioms": [
+    {
+      "prompt": "A friend is struggling to carry a box. Offer help.",
+      "note": "Echar una mano offers assistance.",
+      "options": [
+        "¿Te echo una mano con la caja?",
+        "¿Le echo un vistazo al horario?",
+        "¿Te llevas bien con tu vecino?"
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "b1-reaction-patterns": [
+    {
+      "prompt": "You just noticed the meeting was moved to tomorrow. Report your realisation.",
+      "note": "Darse cuenta de marks becoming aware.",
+      "options": [
+        "Me acabo de dar cuenta de que la reunión es mañana.",
+        "Siempre he sabido que era mañana.",
+        "Me llevo bien con los asistentes."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "b2-decide-and-weigh": [
+    {
+      "prompt": "A flat is cheap but far from work. Add the missing consideration.",
+      "note": "Tener en cuenta includes a relevant factor in a decision.",
+      "options": [
+        "Tenemos que tener en cuenta el tiempo de viaje.",
+        "Solo importa el precio.",
+        "Ya no hay nada que considerar."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "b2-collaborate": [
+    {
+      "prompt": "A plan has been agreed. Tell the team to implement it.",
+      "note": "Llevar a cabo means to carry out.",
+      "options": [
+        "Ahora vamos a llevar a cabo el plan.",
+        "Ahora vamos a cancelar el plan.",
+        "Todavía no sabemos si necesitamos un plan."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "b2-idioms-pressure": [
+    {
+      "prompt": "You accidentally mention a surprise party to its guest of honour. Admit the social mistake.",
+      "note": "Meter la pata describes a blunder.",
+      "options": [
+        "He metido la pata.",
+        "Estoy en las nubes.",
+        "Me llevo bien con todo el mundo."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "b2-idioms-effort": [
+    {
+      "prompt": "You failed the first attempt but intend to continue. Tell a friend.",
+      "note": "Not throwing in the towel signals persistence.",
+      "options": [
+        "No voy a tirar la toalla.",
+        "Ya he tirado la toalla.",
+        "Me cuesta un ojo de la cara."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "c1-evidence-collocations": [
+    {
+      "prompt": "New evidence undermines an earlier conclusion. Describe its effect cautiously.",
+      "note": "Putting a conclusion in question is different from proving it false or confirming it.",
+      "options": [
+        "Los datos ponen en tela de juicio la conclusión anterior.",
+        "Los datos confirman definitivamente la conclusión.",
+        "Los datos no tienen ninguna relación con la conclusión."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "c1-qualify-arguments": [
+    {
+      "prompt": "You agree with part of an argument, but not all of it. Qualify your agreement.",
+      "note": "Hasta cierto punto limits the extent of agreement.",
+      "options": [
+        "Estoy de acuerdo hasta cierto punto.",
+        "Estoy totalmente de acuerdo sin reservas.",
+        "No estoy de acuerdo en absoluto."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "c1-read-subtext": [
+    {
+      "prompt": "A speaker keeps giving irrelevant details instead of answering. Ask them to be direct.",
+      "note": "Irse por las ramas describes avoiding the central point.",
+      "options": [
+        "Por favor, no te vayas por las ramas.",
+        "Por favor, lee entre líneas.",
+        "Por favor, echa una mano."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ],
+  "c1-register-shift": [
+    {
+      "prompt": "A colleague's analysis identifies the exact problem. Praise its accuracy conversationally.",
+      "note": "Dar en el clavo means to identify something exactly.",
+      "options": [
+        "Has dado en el clavo.",
+        "Has pasado por alto el problema.",
+        "Te has ido por las ramas."
+      ],
+      "answer": 0,
+      "mode": "application",
+      "coverage": "practical:0",
+      "promptLang": "en-US",
+      "optionsLang": "es-ES"
+    }
+  ]
+}
