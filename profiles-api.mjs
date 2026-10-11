@@ -1,21 +1,24 @@
 import {validSharedLanguages} from './teacher-access.mjs';
+export const isPlatformOwner=user=>user?.role==='learner'&&!!process.env.CONTINUUM_OWNER_USER_ID&&user.id===process.env.CONTINUUM_OWNER_USER_ID;
 export async function migrateProfiles(pool){await pool.query(`
  CREATE TABLE IF NOT EXISTS learner_profiles(user_id uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, data jsonb NOT NULL, updated_at timestamptz NOT NULL DEFAULT now());
  CREATE TABLE IF NOT EXISTS teacher_profiles(user_id uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE, data jsonb NOT NULL DEFAULT '{}', status text NOT NULL DEFAULT 'draft' CHECK(status IN ('draft','pending','approved','changes_requested')), revision integer NOT NULL DEFAULT 1, feedback text NOT NULL DEFAULT '', updated_at timestamptz NOT NULL DEFAULT now());
  CREATE TABLE IF NOT EXISTS teacher_bookmarks(learner_id uuid REFERENCES users(id) ON DELETE CASCADE,teacher_id uuid REFERENCES users(id) ON DELETE CASCADE,created_at timestamptz NOT NULL DEFAULT now(),PRIMARY KEY(learner_id,teacher_id));
  CREATE TABLE IF NOT EXISTS platform_reviewers(user_id uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE);
  CREATE TABLE IF NOT EXISTS teacher_profile_reviews(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),teacher_id uuid REFERENCES users(id) ON DELETE CASCADE,reviewer_id uuid REFERENCES users(id),revision integer NOT NULL,decision text NOT NULL,feedback text NOT NULL,created_at timestamptz NOT NULL DEFAULT now());
- `);}
+ `);
+ if(process.env.CONTINUUM_OWNER_USER_ID){const owner=await pool.query("SELECT 1 FROM users WHERE id::text=$1 AND role='learner'",[process.env.CONTINUUM_OWNER_USER_ID]);console.log(owner.rows.length?'Owner administration enabled for configured learner account':'Owner administration inactive: configured learner account not found');}
+}
 const text=(value,max)=>typeof value==='string'?value.trim().slice(0,max):'';
 function video(value){try{const u=new URL(value);return u.protocol==='https:'&&!u.username&&!u.password&&['youtube.com','www.youtube.com','youtu.be','vimeo.com','www.vimeo.com'].includes(u.hostname)}catch{return false}}
 function photo(value){if(typeof value!=='string'||value.length>220000)return false;const m=value.match(/^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+/=]+)$/);if(!m)return false;const b=Buffer.from(m[2],'base64');return m[1]==='jpeg'?b[0]===255&&b[1]===216:m[1]==='png'?b.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])):b.toString('ascii',0,4)==='RIFF'&&b.toString('ascii',8,12)==='WEBP'}
 const publicProfile=row=>({id:row.user_id,status:row.status,profile:(( {credentialNotes,...publicFields})=>publicFields)(row.data)});
 export async function handleProfiles({route,req,res,pool,required,json,send,fail}){
  if(!['/api/profile','/api/teachers','/api/bookmarks','/api/admin/teacher-profiles'].some(p=>route===p||route.startsWith(p+'/')))return false;
- const reviewer=async user=>(await pool.query('SELECT 1 FROM platform_reviewers WHERE user_id=$1',[user.id])).rows.length>0;
+ const reviewer=async user=>isPlatformOwner(user)||(await pool.query('SELECT 1 FROM platform_reviewers WHERE user_id=$1',[user.id])).rows.length>0;
  if(route==='/api/profile'&&req.method==='GET'){
   const user=await required(req),r=await pool.query(`SELECT * FROM ${user.role==='teacher'?'teacher_profiles':'learner_profiles'} WHERE user_id=$1`,[user.id]);
-  send(res,200,{profile:r.rows[0]?.data||null,status:r.rows[0]?.status||null,feedback:r.rows[0]?.feedback||'',revision:r.rows[0]?.revision||0,reviewer:await reviewer(user)});return true;
+  send(res,200,{profile:r.rows[0]?.data||null,status:r.rows[0]?.status||null,feedback:r.rows[0]?.feedback||'',revision:r.rows[0]?.revision||0,reviewer:await reviewer(user),owner:isPlatformOwner(user)});return true;
  }
  if(route==='/api/profile'&&req.method==='PUT'){
   const user=await required(req),body=await json(req),d=body.profile||{};
@@ -42,6 +45,18 @@ export async function handleProfiles({route,req,res,pool,required,json,send,fail
  if(route.startsWith('/api/admin/teacher-profiles')){
   const user=await required(req);if(!await reviewer(user))fail(403,'Reviewer access required');
   if(route==='/api/admin/teacher-profiles'&&req.method==='GET'){const r=await pool.query("SELECT user_id,data,status,revision,feedback,updated_at FROM teacher_profiles WHERE status IN ('pending','approved','changes_requested') ORDER BY CASE WHEN status='pending' THEN 0 ELSE 1 END,updated_at DESC LIMIT 100");send(res,200,{profiles:r.rows});return true;}
+  if(route==='/api/admin/teacher-profiles/summary'&&req.method==='GET'){
+   const [users,profiles]=await Promise.all([pool.query('SELECT role,count(*)::int AS count FROM users GROUP BY role'),pool.query('SELECT status,count(*)::int AS count FROM teacher_profiles GROUP BY status')]);send(res,200,{accounts:users.rows,profiles:profiles.rows});return true;
+  }
+  const history=route.match(/^\/api\/admin\/teacher-profiles\/([a-f0-9-]{36})\/history$/);
+  if(history&&req.method==='GET'){const r=await pool.query('SELECT revision,decision,feedback,created_at FROM teacher_profile_reviews WHERE teacher_id=$1 ORDER BY created_at DESC,id DESC LIMIT 100',[history[1]]);send(res,200,{history:r.rows});return true;}
+  const edit=route.match(/^\/api\/admin\/teacher-profiles\/([a-f0-9-]{36})\/editorial$/);
+  if(edit&&req.method==='PUT'){
+   if(!isPlatformOwner(user))fail(403,'Owner access required');if(edit[1]===user.id)fail(403,'You cannot edit your own application');
+   const d=await json(req),feedback=text(d.feedback,1500),patch={headline:text(d.headline,120),bio:text(d.bio,2500),approach:text(d.approach,2000)};
+   if(!Number.isInteger(d.revision)||feedback.length<3||patch.headline.length<10||patch.bio.length<100||patch.approach.length<50)fail(400,'Enter a headline, full introduction, lesson approach and reason for the correction');
+   const c=await pool.connect();try{await c.query('BEGIN');const r=await c.query("UPDATE teacher_profiles SET data=data || $2::jsonb,status='pending',revision=revision+1,feedback=$3,updated_at=now() WHERE user_id=$1 AND revision=$4 AND status IN ('pending','approved','changes_requested') RETURNING revision",[edit[1],JSON.stringify(patch),feedback,d.revision]);if(!r.rows.length)fail(409,'Profile changed. Refresh before editing.');await c.query("INSERT INTO teacher_profile_reviews(teacher_id,reviewer_id,revision,decision,feedback) VALUES($1,$2,$3,'editorial_update',$4)",[edit[1],user.id,r.rows[0].revision,feedback]);await c.query('COMMIT');send(res,200,{ok:true,revision:r.rows[0].revision,status:'pending'})}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}return true;
+  }
   const m=route.match(/^\/api\/admin\/teacher-profiles\/([a-f0-9-]{36})$/);
   if(m&&req.method==='PUT'){
    const d=await json(req),feedback=text(d.feedback,1500);if(!['approved','changes_requested'].includes(d.decision)||!Number.isInteger(d.revision)||feedback.length<3||d.decision==='approved'&&d.checked!==true)fail(400,'Review the profile, add feedback and confirm your checks');

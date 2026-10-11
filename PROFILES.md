@@ -21,3 +21,7 @@ The UUID is displayed in Account. Never assign reviewer access by an unverified 
     npm run build
 
 The API integration test uses the actual server with an isolated in-memory PostgreSQL engine. It does not create production accounts.
+
+## Owner administration
+
+`CONTINUUM_OWNER_USER_ID` is a server-only deployment setting containing the confirmed owner's learner account UUID. Only that authenticated learner gets the Admin navigation and editorial correction endpoints. It is never accepted from request bodies or client storage. Removing the setting revokes this owner path immediately on the next deployment; independently provisioned reviewer roles remain separate. The dashboard provides aggregate account/profile counts, language/status/name filters, publication decisions, review history, and owner-only headline/biography/approach corrections. Corrections increment the profile revision, create an audit entry, notify the teacher via saved feedback, and return the profile to pending. It does not modify language or qualification claims.

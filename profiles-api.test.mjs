@@ -42,5 +42,22 @@ try{
  assert.equal((await call('/profile','GET',null,teacher.cookie)).data.status,'changes_requested');
  assert.equal((await db.query('SELECT * FROM teacher_profile_reviews')).rows.length,2);
  assert.equal((await call('/bookmarks/'+teacher.id,'DELETE',null,learner.cookie)).status,200);
+ process.env.CONTINUUM_OWNER_USER_ID=other.id;
+ assert.equal((await call('/profile','GET',null,other.cookie)).data.owner,true);
+ assert.equal((await call('/profile','GET',null,learner.cookie)).data.owner,false);
+ assert.equal((await call('/admin/teacher-profiles/summary','GET',null,other.cookie)).status,200);
+ assert.equal((await call('/admin/teacher-profiles/summary','GET',null,learner.cookie)).status,403);
+ const patch={revision,headline:'A carefully revised teaching headline',bio:profile.bio,approach:profile.approach,feedback:'Clarified the public introduction.'};
+ assert.equal((await call('/admin/teacher-profiles/'+teacher.id+'/editorial','PUT',patch,admin.cookie)).status,403);
+ assert.equal((await call('/admin/teacher-profiles/'+teacher.id+'/editorial','PUT',patch,other.cookie)).status,200);
+ assert.equal((await call('/admin/teacher-profiles/'+teacher.id+'/editorial','PUT',patch,other.cookie)).status,409);
+ const revised=(await call('/profile','GET',null,teacher.cookie)).data;
+ assert.equal(revised.profile.headline,patch.headline);assert.equal(revised.profile.qualifications,profile.qualifications);assert.equal(revised.status,'pending');
+ const history=(await call('/admin/teacher-profiles/'+teacher.id+'/history','GET',null,other.cookie)).data.history;
+ assert.equal(history.length,3);assert.equal(history[0].decision,'editorial_update');
+ assert.equal((await call('/admin/teacher-profiles/'+teacher.id+'/history','GET',null,learner.cookie)).status,403);
+ process.env.CONTINUUM_OWNER_USER_ID=teacher.id;
+ assert.equal((await call('/profile','GET',null,teacher.cookie)).data.owner,false);
+ delete process.env.CONTINUUM_OWNER_USER_ID;
  console.log('PASS: learner setup, validation, private teacher drafts, review authorization, optimistic revisions, publication, private-field exclusion, bookmark isolation, re-review and review audit.');
 }finally{testServer.closeAllConnections();await new Promise(r=>testServer.close(r));await db.close();}
