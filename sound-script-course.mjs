@@ -1,3 +1,4 @@
+import {pronunciationApplication} from './pronunciation-practice.mjs';
 // Dedicated, versioned sound and script path. Existing course questions stay unchanged.
 export const soundChapters=[],soundLessons=[],soundTransfer={};
 const locale={es:'es-ES',en:'en-US',pt:'pt-BR',ja:'ja-JP'};
@@ -38,11 +39,11 @@ for(const [language,units] of Object.entries(data)){
  else questions.push(mc(`Which description matches “${a}”?`,[b,'Give every letter a separate, equally strong beat.'],0,guide));
  questions.push({type:'text',prompt:`Listen and write the word you hear.`,audio:a,audioLocale:locale[language],answer:a,note:`${a}. ${guide}`});
  }
- questions.push(mc('Choose a useful practice sequence.',['Listen, repeat slowly, say the phrase, record and compare.','Repeat as fast as possible without listening.'],0,'Compare one feature at a time: clarity, timing or stress. Speed is not the goal.'));
- return {id,chapter,level,title,skill:'Pronunciation',minutes:12,explanation:guide,example:target,soundGuide:{pairs},speak:'Listen to the model. Say it slowly, then at a comfortable pace. Record and compare the sound feature taught above.',pronunciationTarget:target,questions:questions.map(q=>({...q,sourceLesson:id})),...meta};});
+ questions.push(pronunciationApplication(language,group*2+i));
+ return {id,chapter,level,title,exerciseVersion:'sound-practice-v2',skill:'Pronunciation',minutes:12,explanation:guide,example:target,soundGuide:{pairs},speak:'Listen to the model. Say it slowly, then at a comfortable pace. Record and compare the sound feature taught above.',pronunciationTarget:target,questions:questions.map(q=>({...q,sourceLesson:id})),...meta};});
  soundLessons.push(...lessons);
  const pool=lessons.flatMap(l=>l.questions.filter(q=>q.type!=='text'));soundTransfer[chapter]=pool;
- soundLessons.push({id:chapter+'-check',chapter,level,title:'Sound check: '+(group?'rhythm & phrases':'clear sounds'),skill:'Review',minutes:6,checkpoint:true,questions:lessons.flatMap(l=>l.questions),explanation:'Review both sound lessons. Listening results measure recognition; use recordings to reflect on your own speech.',example:lessons[0].example,...meta});
+ soundLessons.push({id:chapter+'-check',chapter,level,exerciseVersion:'sound-check-v2',title:'Sound check: '+(group?'rhythm & phrases':'clear sounds'),skill:'Review',minutes:6,checkpoint:true,questions:lessons.flatMap(l=>[l.questions.find(q=>q.audio),l.questions.at(-1)]),explanation:'Review both sound lessons. Listening results measure recognition; use recordings to reflect on your own speech.',example:lessons[0].example,...meta});
  }
 }
 const rows=[
