@@ -1,3 +1,4 @@
+import {migrateProfiles,handleProfiles} from './profiles-api.mjs';
 import {teacherScope,requestedScope,validSharedLanguages} from './teacher-access.mjs';
 import {handleLessonMedia} from './lesson-media-api.mjs';
 import {migrateSpeech,handleSpeech} from './speech-api.mjs';
@@ -46,6 +47,7 @@ async function migrate(){
  await pool.query(`ALTER TABLE share_codes ADD COLUMN IF NOT EXISTS language text;`);
  await pool.query(`ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS evidence jsonb;`);
  await pool.query(`ALTER TABLE class_notes ADD COLUMN IF NOT EXISTS language text NOT NULL DEFAULT 'es';`);
+ await migrateProfiles(pool);
  await migratePatterns(pool);
  await migrateAssessments(pool);
  await migrateSkills(pool);
@@ -67,6 +69,7 @@ async function handle(req,res){
  if(handleLessonMedia(req,res,route))return;
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)fail(403,'Invalid request origin')}
+ if(await handleProfiles({route,req,res,pool,required,json,send,fail}))return;
  if(await handleSpeech({route,req,res,pool,json,send,fail,limited}))return;
  if(await handlePatterns({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}))return;
