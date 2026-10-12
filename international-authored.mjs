@@ -895,7 +895,7 @@ export const authoredCurriculum = {
       },
       {
         "title": "An event inside a past background",
-        "rule": "Combine imperfeito for an ongoing situation with perfeito for the event that occurred during it. Estava lendo sets the background; tocou is the interruption.",
+        "rule": "The simple imperfect and estava + gerund can both describe ongoing background: Eu lia and Eu estava lendo can both mean I was reading. The progressive explicitly focuses on the activity in progress. Use the perfeito to present an event as a completed whole, as in o telefone tocou.",
         "example": "Eu estava lendo quando o telefone [tocou].",
         "meaning": "A phone call interrupted reading.",
         "distractors": [

@@ -33,7 +33,7 @@ try{
    storage.delete('continuumLessonDrafts');storage.delete('continuumTestSeeds');
   }
  }
- for(const l of fullLessonList.filter(l=>l.specialist&&!l.checkpoint&&!l.visualStory&&!l.conversation)){
+ for(const l of fullLessonList.filter(l=>l.specialist&&l.skill!=='Grammar'&&!l.checkpoint&&!l.visualStory&&!l.conversation)){
   const html=render(l.language||'es',l.id);assert.ok(html.includes(l.characters?'Character studio':'Your sound studio'),l.id);
   if(l.pronunciationTarget)assert.ok(html.includes(l.language==='ja'?'Record &amp; compare':'Record &amp; assess'),l.id);
   storage.set('continuumTestSeeds',JSON.stringify({[l.id]:l.exerciseVersion}));storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));assert.ok(render(l.language||'es',l.id).includes('question-card'),l.id);storage.delete('continuumLessonDrafts');

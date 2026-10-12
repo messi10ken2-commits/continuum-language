@@ -1,3 +1,4 @@
+import {pastAspectLessons} from './past-aspect-lessons.mjs';
 import {conversationChapters,conversationLessons} from './conversation-course.mjs';
 import {visualChapters,visualLessons,visualTransfer} from './visual-course.mjs';
 import {soundChapters,soundLessons,soundTransfer} from './sound-script-course.mjs';
@@ -127,6 +128,7 @@ const international=buildInternationalCourse(chapters,lessonList);
 const internationalTransfer=international.transfer;
 chapters.push(...international.chapters);
 lessonList.push(...international.lessons);
+lessonList.push(...pastAspectLessons);
 chapters.push(...soundChapters);
 lessonList.push(...soundLessons);
 chapters.push(...visualChapters);
