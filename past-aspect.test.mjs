@@ -12,3 +12,21 @@ test('both comparison lessons are reachable, complete and accept overlapping for
  }
  assert.match(getLesson('pt-a2-v2-lesson-6').explanation,/both describe ongoing/);
 });
+
+test('comparison precedes each checkpoint and revised checks assess all three lessons',async()=>{
+ const {lessonList,isCurrentLessonDraft}=await import('./course.mjs');
+ for(const comparison of pastAspectLessons){
+  const units=lessonList.filter(l=>l.chapter===comparison.chapter);
+  assert.equal(units[2].id,comparison.id);
+  const checkpoint=units[3];assert.ok(checkpoint.checkpoint);
+  const revised=getLessonVariant(checkpoint.id,checkpoint.exerciseVersion);
+  const additions=revised.questions.filter(q=>q.sourceLesson===comparison.id);
+  assert.equal(additions.length,4);
+  assert.ok(revised.questions.length>additions.length);
+  const overlap=additions.find(q=>q.accepted?.length===2);
+  for(const answer of overlap.accepted)assert.ok(isCorrect(overlap,answer));
+  assert.equal(gradeLesson(checkpoint.id,revised.questions.map(q=>q.answer),checkpoint.exerciseVersion).score,100);
+  assert.equal(isCurrentLessonDraft(checkpoint.id,[],checkpoint.exerciseVersion),true);
+  assert.equal(isCurrentLessonDraft(checkpoint.id,[],'v1-previous-checkpoint'),false);
+ }
+});

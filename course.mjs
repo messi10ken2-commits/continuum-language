@@ -1,4 +1,4 @@
-import {pastAspectLessons} from './past-aspect-lessons.mjs';
+import {pastAspectLessons, pastAspectCheckpointQuestions} from './past-aspect-lessons.mjs';
 import {conversationChapters,conversationLessons} from './conversation-course.mjs';
 import {visualChapters,visualLessons,visualTransfer} from './visual-course.mjs';
 import {soundChapters,soundLessons,soundTransfer} from './sound-script-course.mjs';
@@ -128,7 +128,16 @@ const international=buildInternationalCourse(chapters,lessonList);
 const internationalTransfer=international.transfer;
 chapters.push(...international.chapters);
 lessonList.push(...international.lessons);
-lessonList.push(...pastAspectLessons);
+for(const comparison of pastAspectLessons){
+ const index=lessonList.findIndex(l=>l.chapter===comparison.chapter&&l.checkpoint);
+ if(index<0)throw new Error('Missing past-aspect chapter checkpoint');
+ const checkpoint=lessonList[index];
+ lessonList.splice(index,0,comparison);
+ checkpoint.questions=[...checkpoint.questions,...pastAspectCheckpointQuestions(comparison.language)];
+ checkpoint.exerciseVersion='past-aspect-checkpoint-v1';
+ checkpoint.minutes=12;
+ checkpoint.explanation='Review all three lessons: completed events, imperfect background and habits, and the past progressive. Some ongoing situations allow both the simple imperfect and the progressive. Score 80% to master this checkpoint.';
+}
 chapters.push(...soundChapters);
 lessonList.push(...soundLessons);
 chapters.push(...visualChapters);
