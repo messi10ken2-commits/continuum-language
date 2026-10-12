@@ -22,9 +22,9 @@ try{
    assert.ok(html.includes(l.productionTask?'Optional understanding check':'Start practice'));
    if(l.skill==='Speaking')assert.ok(html.includes('Start recording'),l.id);
    if(l.skill==='Writing')assert.ok(html.includes('<textarea'),l.id);
-   if(l.checkpoint||l.summaryTest)assert.ok(html.includes(getLessonVariant(l.id,'v1-preview-123456789').questions.length+' questions'),l.id);
+   if(l.checkpoint||l.summaryTest)assert.ok(html.includes(getLessonVariant(l.id,l.exerciseVersion||'v1-preview-123456789').questions.length+' questions'),l.id);
    // Render an actual in-progress question as well, including locale-bearing transcript.
-   const seed=l.checkpoint||l.summaryTest?'v1-render-draft-123456789':undefined;
+   const seed=l.exerciseVersion||(l.checkpoint||l.summaryTest?'v1-render-draft-123456789':undefined);
    storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));
    storage.set('continuumTestSeeds',JSON.stringify({[l.id]:seed}));
    const exercise=render(language,l.id);
