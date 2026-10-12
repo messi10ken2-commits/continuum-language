@@ -76,3 +76,11 @@ test('target pronunciation recordings bypass provider limits and preserve accent
   const {createHash}=await import('node:crypto');assert.equal(createHash('sha256').update(body).digest('hex'),entry.audioSha256);
  }
 });
+test('Portuguese foi/fui have distinct text and cache entries with contrast guidance',()=>{
+ for(const word of ['foi','fui']){const recipe=speechRecipe(word,'pt-BR');assert.equal(recipe.input,word);assert.match(recipe.instructions,/foi \/foj\/ de fui \/fuj\//);}
+ assert.notEqual(speechKey('foi','pt-BR'),speechKey('fui','pt-BR'));
+});
+test('new practical sentence models can use studio audio',()=>{
+ assert.ok(allowedSpeech('Minha reserva está para uma noite. Pode mudar para duas?','pt-BR'));
+ assert.ok(!allowedSpeech('unpublished private learner text 938234','pt-BR'));
+});

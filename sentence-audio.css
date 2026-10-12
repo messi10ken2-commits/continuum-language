@@ -15,3 +15,11 @@
 .assessment-option-audio{margin:0 0 8px 28px}
 @media(pointer:coarse){.sentence-audio.compact .sentence-play{width:44px;min-height:44px}}
 .voice-source{font-size:10px;font-weight:400;color:#66617c;line-height:1.3}.sentence-audio-error .text-button{display:block;margin-top:6px}.sound-script .kana-grid strong{white-space:nowrap;word-break:keep-all}.sound-script .kana-grid{grid-template-columns:repeat(auto-fit,minmax(92px,1fr))}
+
+/* Bound labels/errors to their own cell, including mobile device-voice notices. */
+.sentence-audio{max-width:100%;min-width:0;white-space:normal;overflow-wrap:anywhere}
+.sentence-audio .voice-source{white-space:normal;overflow-wrap:anywhere;max-width:100%}
+.conjugation-scroll .spoken-sentence{display:inline-flex;align-items:center;flex-wrap:wrap;gap:5px;max-width:100%;white-space:normal}
+.conjugation-scroll td,.conjugation-scroll th{vertical-align:top;min-width:100px;white-space:normal;overflow-wrap:anywhere}
+.conjugation-scroll .sentence-audio.compact{max-width:160px}
+.conjugation-scroll .sentence-audio-error{max-width:160px;white-space:normal}

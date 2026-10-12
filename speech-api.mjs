@@ -1,3 +1,4 @@
+import practicalBank from './practical-exercises.json' with {type:'json'};
 import nativeWordAudio from './native-words.json' with {type:'json'};
 import {nativeWordEntry,nativeWordRecordings} from './native-word-map.mjs';
 import nativeKanaAudio from './native-kana.json' with {type:'json'};
@@ -17,7 +18,7 @@ function collect(value){
   for(const locale of speechLocales)for(const part of speechParts(value,'auto',locale)){const s=part.text.normalize('NFC').trim();if(s&&s.length<=1800)catalog.add(s);}
  }else if(Array.isArray(value))value.forEach(collect);else if(value&&typeof value==='object')Object.values(value).forEach(collect);
 }
-collect(lessonList);collect(skillTasks);collect(exerciseBank);
+collect(lessonList);collect(skillTasks);collect(exerciseBank);collect(practicalBank);
 for(const recording of nativeWordRecordings)collect(recording.text);
 for(const lang of ['es','en','pt','ja'])for(let form=0;form<assessmentFormCount;form++){
  try{collect(assessmentItems(form,lang+'-diagnostic-3'));}catch{/* Unsupported historical form is not in the public catalog. */}
