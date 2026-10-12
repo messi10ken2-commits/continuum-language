@@ -1,3 +1,4 @@
+import recapManifest from './lesson-video-manifest.json' with {type:'json'};
 export const mediaVersion='visual-v1';
 export const mediaThemes={
  cafe:{name:'Everyday conversations',alt:'A café interior with tables and warm lighting',color:'#b26038'},
@@ -27,7 +28,35 @@ export function themeFor(lesson={}){
  if(lesson.characters)return 'japan';
  return 'study';
 }
-export const photoFor=lesson=>lesson.conversation?.poster||`/lesson-media/${themeFor(lesson)}.jpg`;
+const contextPhotos={
+ cooking:{alt:'People preparing a meal together in a kitchen',themes:['food','home','cafe']},
+ friends:{alt:'Friends walking together along a park path',themes:['nature','city']},
+ library:{alt:'A reader with a book beside library shelves',themes:['study']},
+ 'study-garden':{alt:'Two people studying books at an outdoor table',themes:['study','work']},
+ market:{alt:'Shoppers browsing groceries in a market',themes:['food','shopping']},
+ 'reading-home':{alt:'A person reading a book on a sofa',themes:['home','study']},
+ 'reading-water':{alt:'A person reading beside the water',themes:['nature','study']},
+ 'market-clothes':{alt:'People browsing clothing stalls in an indoor market',themes:['shopping','city']},
+ 'airport-lounge':{alt:'Passengers seated in an airport waiting area',themes:['travel','station']}
+};
+const hash=value=>{let n=0;for(const c of String(value))n=(Math.imul(n,31)+c.charCodeAt(0))>>>0;return n;};
+export function photoInfo(lesson={}){
+ if(lesson.conversation?.poster)return {src:lesson.conversation.poster,alt:lesson.conversation.alt||'Conversation video'};
+ const theme=themeFor(lesson),text=(lesson.sceneText||lesson.title||'').toLowerCase();
+ let choices;
+ if(/cook|kitchen|cozinh|cocin|料理|台所/.test(text))choices=['cooking','home'];
+ else if(/read|book|library|livro|leitura|libro|biblioteca|読|図書/.test(text))choices=['library','reading-home','reading-water','study-garden'];
+ else if(/airport|flight|boarding|aeroporto|aeropuerto|空港/.test(text))choices=['airport-lounge','travel'];
+ else if(/clothes|shirt|dress|roupa|camisa|vestido|服/.test(text))choices=['market-clothes','shopping'];
+ else if(/grocer|vegetable|market|mercado|野菜/.test(text))choices=['market','food'];
+ else if(/walk|park|friend|caminh|passeio|amig|散歩|友達/.test(text))choices=['friends','nature'];
+ else choices=[theme,...Object.entries(contextPhotos).filter(([,p])=>p.themes.includes(theme)).map(([id])=>id)];
+ // Stable within a question, varied across the lesson; answer data is never used.
+ const id=choices[hash(lesson.sceneKey||lesson.id||lesson.title)%choices.length];
+ return contextPhotos[id]?{src:`/lesson-media/${id}-v2.jpg`,alt:contextPhotos[id].alt}:{src:`/lesson-media/${id}.jpg`,alt:mediaThemes[id].alt};
+}
+export const photoFor=lesson=>photoInfo(lesson).src;
+
 export const hasLessonMedia=lesson=>!!lesson&&!lesson.checkpoint&&!lesson.summaryTest&&!lesson.conversation;
 export function visualFrames(lesson){
  if(lesson.visualStory)return lesson.visualStory.frames;
@@ -38,11 +67,12 @@ export function visualFrames(lesson){
  if(lesson.breakdown?.examples?.length){const examples=lesson.breakdown.examples;return Array.from({length:3},(_,i)=>({label:['Notice the form','Connect the meaning','Apply the rule'][i],text:examples[i%examples.length][0],meaning:examples[i%examples.length][1],note:lesson.breakdown.steps?.[i]||lesson.breakdown.pitfall||lesson.explanation}));}
  return [{label:'Notice',text:lesson.example||lesson.title,meaning:'Read the model in context.',note:lesson.explanation},{label:'Understand',lang:'en-US',text:lesson.title,meaning:lesson.explanation,note:'What does the speaker want to communicate?'},{label:'Use it',text:lesson.example||lesson.title,meaning:'Change one detail and make this example your own.',note:'Then test your understanding in the exercises.'}];
 }
+export const hasRecapVideo=lesson=>Object.hasOwn(recapManifest,lesson.id);
 export const videoFor=lesson=>`/api/lesson-video/${mediaVersion}/${encodeURIComponent(lesson.id)}.mp4`;
 
 // Use only the visible prompt to select context; never inspect the correct answer.
 export function questionScene(lesson,question){
  if(lesson.conversation)return lesson;
  const theme=themeFor({title:question?.prompt});
- return theme==='study'?lesson:{...lesson,visualStory:{theme}};
+ return {...lesson,sceneText:question?.prompt||lesson.title,sceneKey:question?.id||question?.prompt||lesson.id,...(theme==='study'?{}:{visualStory:{theme}})};
 }

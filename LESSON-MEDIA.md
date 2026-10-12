@@ -73,3 +73,19 @@ The other new sources use public timestamped YouTube captions reviewed on 2026-1
 Video introductions and listening guides now focus on understanding the recording. Questions, answer explanations and optional full playback remain in the same lesson flow. All new exercise sets have `exerciseVersion: v3-video-20261009`; old drafts are ignored rather than reinterpreted against replacement question indices. The server rejects outdated draft/submission versions. Completed historical results are retained. New-version drafts resume normally.
 
 Verification: all 450 activity introductions and exercise screens render; all conversation questions grade correctly; coverage is enforced for four languages and A1–C1; contextual player parameters and the explicit untimed-transcript exception are tested; old/new draft handling is covered. Production build passes.
+
+## Context photo expansion (v2)
+
+Normal lesson pages and example cards select relevant scenes from visible content and vary them deterministically by question. Correct answers are not used to select a photo. Photos remain illustrative, not evidence for grading. Added Unsplash photographs (same image-host prefix as above):
+
+| File stem (all `-v2.jpg`) | Source ID | Source page |
+| --- | --- | --- |
+| cooking | 1683624328172-88fb24625ec1 | https://unsplash.com/photos/ANY9TweFHNI |
+| friends | 1758613170846-e468188aee84 | https://unsplash.com/photos/ymczKuCuf84 |
+| library | 1754430543609-aae159c530ef | https://unsplash.com/photos/vOLSzESOvbQ |
+| study-garden | 1660128359777-c7e5f29e4106 | https://unsplash.com/photos/FruSozJE1pM |
+| market | 1584771145729-0bd9fda6529b | https://unsplash.com/photos/pEu_jnyi2c4 |
+| reading-home | 1517401220137-9462c929bf9f | https://unsplash.com/photos/hIbdbaQWJ1s |
+| reading-water | 1560759861-132aa16d4267 | https://unsplash.com/photos/WXYZx9AO-GA |
+| market-clothes | 1676583821204-1c80b1293206 | https://unsplash.com/photos/1U9hsiGseR8 |
+| airport-lounge | 1760654343460-e38c0db08a71 | https://unsplash.com/s/photos/airport-waiting |

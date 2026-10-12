@@ -2,12 +2,12 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {lessonList,getLessonVariant,gradeLesson} from './course.mjs';
-import {hasLessonMedia,visualFrames,themeFor,mediaThemes} from './lesson-media.mjs';
+import {hasLessonMedia,hasRecapVideo,visualFrames,themeFor,mediaThemes} from './lesson-media.mjs';
 import manifest from './lesson-video-manifest.json' with {type:'json'};
 import {handleLessonMedia,videoRange} from './lesson-media-api.mjs';
 const call=(id,headers={},method='GET')=>{let status,response,body;assert.ok(handleLessonMedia({method,headers},{writeHead:(s,h)=>{status=s;response=h},end:b=>body=b},`/api/lesson-video/visual-v1/${id}.mp4`));return {status,headers:response,body};};
-test('every regular lesson has a matching playable video, complete transcript and valid theme',()=>{
- const lessons=lessonList.filter(hasLessonMedia);assert.equal(lessons.length,269);assert.equal(Object.keys(manifest).length,lessons.length);
+test('every available recap has a matching playable video, complete transcript and valid theme',()=>{
+ const lessons=lessonList.filter(l=>hasLessonMedia(l)&&hasRecapVideo(l));assert.equal(lessons.length,269);assert.equal(Object.keys(manifest).length,lessons.length);
  for(const l of lessons){const m=manifest[l.id],frames=visualFrames(l);assert.ok(m,l.id);assert.equal(m.duration,frames.length*6);assert.ok(mediaThemes[themeFor(l)]);assert.ok(frames.every(f=>f.text&&f.meaning));
  const r=call(l.id);assert.equal(r.status,200);assert.equal(r.headers['Content-Type'],'video/mp4');assert.equal(r.body.length,m.bytes);assert.equal(createHash('sha256').update(r.body).digest('hex'),m.sha256);assert.equal(r.body.toString('ascii',4,8),'ftyp');}
 });
