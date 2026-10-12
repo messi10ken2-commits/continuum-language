@@ -158,7 +158,7 @@ export function getLessonVariant(id,seed){
  const base=getLesson(id);
  if(base?.exerciseVersion&&seed===base.exerciseVersion)return base;
  if(seed==null)return base; // Legacy drafts retain their original question set.
- if(typeof seed==='string'&&/^v[23]-[a-zA-Z0-9-]{10,100}$/.test(seed))return expandedExercises(base,seed);
+ if(typeof seed==='string'&&/^v[234]-[a-zA-Z0-9-]{10,100}$/.test(seed))return expandedExercises(base,seed);
  if(typeof seed!=='string'||!/^v1-[a-zA-Z0-9-]{10,100}$/.test(seed))throw Error('Invalid test version');
  if(!base?.checkpoint&&!base?.summaryTest)throw Error('This lesson has no test variants');
  let state=2166136261;for(const c of seed+id){state^=c.charCodeAt(0);state=Math.imul(state,16777619)>>>0;}
