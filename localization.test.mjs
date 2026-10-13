@@ -41,3 +41,23 @@ test('translation provider receives screen context and pedagogical terminology',
   return {ok:true,json:async()=>({choices:[{message:{content:JSON.stringify({translations:['講師の公開を準備中です']})}}]})};
  }});}finally{if(old===undefined)delete process.env.OPENAI_API_KEY;else process.env.OPENAI_API_KEY=old;}
 });
+
+test('reviewed interface copy covers the same contexts in all four other locales',async()=>{
+ const {multilingualReviewedCopy:copy}=await import('./multilingual-reviewed-copy.mjs');
+ const {t,setInterfaceLanguage}=await import('./interface-runtime.mjs');
+ const keys=Object.keys(copy.es);
+ assert.ok(keys.length>=100);
+ for(const locale of ['es','pt','zh','fr']){
+  assert.deepEqual(Object.keys(copy[locale]),keys);
+  setInterfaceLanguage(locale,{persist:false});
+  for(const key of keys){
+   assert.ok(translationSource(key),key);
+   assert.equal(t(key),copy[locale][key],locale+':'+key);
+   const slots=x=>[...x.matchAll(/\{\d+\}/g)].map(m=>m[0]).sort();
+   assert.deepEqual(slots(copy[locale][key]),slots(key));
+  }
+ }
+ assert.equal(copy.zh['Share self-study activity'],'共享自学记录');
+ assert.notEqual(copy.fr['Awaiting review'],copy.fr['Checkpoint']);
+ setInterfaceLanguage('en',{persist:false});
+});

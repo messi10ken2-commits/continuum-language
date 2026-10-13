@@ -11,9 +11,10 @@ try{
  const {InterfaceLanguagePicker}=await vite.ssrLoadModule('/InterfaceLanguage.jsx');
  const {setInterfaceLanguage}=await vite.ssrLoadModule('/interface-runtime.mjs');
  const {interfaceCopy}=await vite.ssrLoadModule('/interface-copy.mjs');
+ const {reviewedTranslation}=await vite.ssrLoadModule('/reviewed-interface-copy.mjs');
  const render=(Component,props)=>renderToStaticMarkup(React.createElement(Component,props));
  for(const locale of ['en','ja','es','pt','zh','fr']){
-  setInterfaceLanguage(locale);const text=key=>locale==='en'?key:interfaceCopy[key][locale];
+  setInterfaceLanguage(locale);const text=key=>locale==='en'?key:(reviewedTranslation(key,locale)||interfaceCopy[key][locale]);
   const welcome=render(Welcome,{});assert.ok(welcome.includes(text('I want to learn')));assert.ok(welcome.includes(text('I want to teach')));assert.ok(!welcome.includes('Explore lessons first'));
   const account=render(Account,{user:null,initialMode:'register',deviceHistory:[]});assert.ok(account.includes(text('Create account')));assert.ok(account.includes(text('Email')));assert.ok(account.includes('value="learner"'));assert.ok(account.includes('value="teacher"'));assert.ok(account.includes('minLength="12"')||account.includes('minlength="12"'));
   const profile=render(ProfileEditor,{user:{name:'Ken',role:'learner'},record:{}});assert.ok(profile.includes(text('Make this journey yours')));assert.ok(profile.includes(text('I’ll choose my level')));assert.ok(profile.includes('Ken'));

@@ -1,3 +1,4 @@
+import {multilingualReviewedCopy} from './multilingual-reviewed-copy.mjs';
 // Editorial translations override generated caches. Keys remain the authored English.
 const jaRows=`
 A CLEARER STARTING POINT|自分に合ったレベルから始めよう
@@ -212,3 +213,5 @@ const multilingualRows=[
  ['About 35–50 minutes · untimed','Unos 35–50 minutos · sin límite de tiempo','Cerca de 35–50 minutos · sem limite de tempo','预计35–50分钟・不限时','Environ 35 à 50 minutes · sans limite de temps']
 ];
 for(const [source,...values] of multilingualRows)['es','pt','zh','fr'].forEach((locale,i)=>{reviewedInterfaceCopy[locale][source]=values[i]});
+
+for(const locale of ['es','pt','zh','fr'])Object.assign(reviewedInterfaceCopy[locale],multilingualReviewedCopy[locale]);
