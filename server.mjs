@@ -1,3 +1,4 @@
+import {migrateLocalization,handleLocalization,warmLocalization} from './localization-api.mjs';
 import {migrateReview,missedReviewItems,ingestReview,reviewRun} from './review-pool.mjs';
 import {handleReview} from './review-api.mjs';
 import {migrateProfiles,handleProfiles} from './profiles-api.mjs';
@@ -55,6 +56,7 @@ async function migrate(){
  await migrateSkills(pool);
  await migrateSpeech(pool);
  await migrateReview(pool);
+ await migrateLocalization(pool);
 }
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
@@ -72,6 +74,7 @@ async function handle(req,res){
  if(handleLessonMedia(req,res,route))return;
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)fail(403,'Invalid request origin')}
+ if(await handleLocalization({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleReview({route,req,res,pool,required,json,send,fail}))return;
  if(await handleProfiles({route,req,res,pool,required,json,send,fail}))return;
  if(await handleSpeech({route,req,res,pool,json,send,fail,limited}))return;
@@ -184,4 +187,5 @@ async function handle(req,res){
 async function serve(req,res,route){if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});let filename=path.resolve(dist,'.'+route);if(!filename.startsWith(dist+path.sep)&&filename!==dist)return send(res,404,{error:'Not found'});if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');try{const data=await fs.readFile(filename);res.writeHead(200,{'Content-Type':mime[path.extname(filename)]||'application/octet-stream','Cache-Control':filename.endsWith('index.html')?'no-cache':'public, max-age=31536000, immutable'});res.end(req.method==='HEAD'?undefined:data)}catch{send(res,404,{error:'Not found'})}}
 if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
 await migrate();
+if(process.env.NODE_ENV==='production')void warmLocalization(pool);
 http.createServer((req,res)=>handle(req,res).catch(err=>{if(err.status<500)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));
