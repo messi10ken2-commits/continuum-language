@@ -52,7 +52,8 @@ test('reviewed interface copy covers the same contexts in all four other locales
   setInterfaceLanguage(locale,{persist:false});
   for(const key of keys){
    assert.ok(translationSource(key),key);
-   assert.equal(t(key),copy[locale][key],locale+':'+key);
+   const {reviewedTranslation}=await import('./reviewed-interface-copy.mjs');
+   assert.equal(t(key),reviewedTranslation(key,locale),locale+':'+key);
    const slots=x=>[...x.matchAll(/\{\d+\}/g)].map(m=>m[0]).sort();
    assert.deepEqual(slots(copy[locale][key]),slots(key));
   }
@@ -60,4 +61,21 @@ test('reviewed interface copy covers the same contexts in all four other locales
  assert.equal(copy.zh['Share self-study activity'],'共享自学记录');
  assert.notEqual(copy.fr['Awaiting review'],copy.fr['Checkpoint']);
  setInterfaceLanguage('en',{persist:false});
+});
+
+test('every course heading and chapter goal has reviewed copy in all five locales',async()=>{
+ const {lessonList,chapters,levels}=await import('./course.mjs');
+ const {reviewedCourseTitles:copy}=await import('./reviewed-course-titles.mjs');
+ const {t,setInterfaceLanguage}=await import('./interface-runtime.mjs');
+ const sources=[...lessonList.map(l=>({text:l.title,language:l.language||'es'})),...chapters.flatMap(c=>[{text:c.title,language:c.language||'es'},{text:c.goal,language:c.language||'es'}]),...levels.map(l=>({text:l.name,language:''}))];
+ for(const locale of ['ja','es','pt','zh','fr']){
+  setInterfaceLanguage(locale,{persist:false});
+  for(const {text,language} of sources){assert.ok(copy[locale][text]?.trim(),locale+': '+text);assert.ok(translationSource(text,language));assert.equal(t(text,language),copy[locale][text]);}
+ }
+ setInterfaceLanguage('ja',{persist:false});
+ assert.equal(t('Interpret a qualified endorsement','ja'),'留保のある評価を読み取る');
+ assert.equal(t('Report an inferred completed event','ja'),'過去の出来事について推測を伝える');
+ assert.equal(t(' MIN'),' 分');
+ setInterfaceLanguage('en',{persist:false});
+ assert.equal(t('Report an inferred completed event','ja'),'Report an inferred completed event');
 });

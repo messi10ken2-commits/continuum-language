@@ -22,5 +22,28 @@ try{
   const lesson={id:'test',language:'en',locale:'en-US',vocabulary:[{term:'reservation',meaning:'booking',phrase:'make a reservation',example:'I have a reservation.',translation:'A room has been booked.'}]};
   const html=render(LessonReference,{lesson});for(const target of ['reservation','make a reservation','I have a reservation.'])assert.ok(html.includes(target));assert.ok(html.includes(text('Your vocabulary toolkit')));
  }
- console.log('PASS: welcome, registration, learner setup, six-language picker and unchanged target examples render in all six interface languages.');
+ const {default:SelfStudy}=await vite.ssrLoadModule('/SelfStudy.jsx');
+ const {lessonList,chapters}=await vite.ssrLoadModule('/course.mjs');
+ const {reviewedCourseTitles}=await vite.ssrLoadModule('/reviewed-course-titles.mjs');
+ const escaped=text=>renderToStaticMarkup(React.createElement('span',null,text)).slice(6,-7);
+ for(const locale of ['ja','es','pt','zh','fr']){
+  setInterfaceLanguage(locale,{persist:false});
+  for(const language of ['es','en','pt','ja'])for(const level of ['A1','A2','B1','B2','C1']){
+   store.set('continuumCourseLevel'+(language==='es'?'':':'+language),level);
+   const html=render(SelfStudy,{language,attempts:[],onStart(){},onExit(){},onComplete(){}});
+   for(const chapter of chapters.filter(c=>(c.language||'es')===language&&!c.legacy&&c.level===level)){
+    assert.ok(html.includes(escaped(reviewedCourseTitles[locale][chapter.title])),locale+': '+chapter.title);
+    assert.ok(html.includes(escaped(reviewedCourseTitles[locale][chapter.goal])),locale+': '+chapter.goal);
+   }
+   for(const lesson of lessonList.filter(l=>(l.language||'es')===language&&l.level===level))assert.ok(html.includes(escaped(reviewedCourseTitles[locale][lesson.title])),locale+': '+lesson.title);
+   if(['ja','zh'].includes(locale))assert.ok(!html.includes(' MIN'));assert.ok(!html.includes('Explanation + guided practice'));
+  }
+  for(const source of ['Interpret a qualified endorsement','Write a synthesis with limits','Report an inferred completed event']){
+   const lesson=lessonList.find(l=>l.title===source);
+   const html=render(SelfStudy,{language:'ja',activeLesson:lesson.id,attempts:[],onStart(){},onExit(){},onComplete(){}});
+   assert.ok(html.includes('<h1>'+escaped(reviewedCourseTitles[locale][source])+'</h1>'));
+  }
+ }
+ setInterfaceLanguage('en',{persist:false});
+ console.log('PASS: six-language account screens, 100 translated roadmaps, all course headings and chapter goals, and the reported lesson titles render correctly.');
 }finally{await vite.close();}

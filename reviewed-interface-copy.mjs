@@ -1,3 +1,4 @@
+import {reviewedCourseTitles} from './reviewed-course-titles.mjs';
 import {multilingualReviewedCopy} from './multilingual-reviewed-copy.mjs';
 // Editorial translations override generated caches. Keys remain the authored English.
 const jaRows=`
@@ -215,3 +216,5 @@ const multilingualRows=[
 for(const [source,...values] of multilingualRows)['es','pt','zh','fr'].forEach((locale,i)=>{reviewedInterfaceCopy[locale][source]=values[i]});
 
 for(const locale of ['es','pt','zh','fr'])Object.assign(reviewedInterfaceCopy[locale],multilingualReviewedCopy[locale]);
+
+for(const locale of ['ja','es','pt','zh','fr'])Object.assign(reviewedInterfaceCopy[locale],reviewedCourseTitles[locale]);
