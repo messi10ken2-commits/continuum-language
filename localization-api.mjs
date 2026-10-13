@@ -14,15 +14,23 @@ export async function translateBatch(sources,locale,{fetchImpl=fetch}={}){
  let last;
  if(process.env.OPENAI_API_KEY){try{
   const r=await fetchImpl('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{Authorization:`Bearer ${process.env.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({model:process.env.OPENAI_TRANSLATION_MODEL||'gpt-4o-mini',store:false,temperature:0,max_tokens:6000,response_format:{type:'json_object'},messages:[{role:'system',content:instruction},{role:'user',content:input}]}),signal:AbortSignal.timeout(25000)});
-  if(!r.ok)throw Error('Translation provider unavailable');const d=await r.json();return finish(d.choices?.[0]?.message?.content);
- }catch(e){last=e;}}
+  if(!r.ok)await providerFailure(r,'OpenAI');const d=await r.json();return finish(d.choices?.[0]?.message?.content);
+ }catch(e){console.warn('Interface translation attempt failed',JSON.stringify({provider:'OpenAI',kind:e.name,status:e.providerStatus||null,code:e.providerCode||null}));last=e;}}
  if(process.env.GEMINI_API_KEY){try{
   const model=process.env.GEMINI_TRANSLATION_MODEL||'gemini-2.5-flash';
   const r=await fetchImpl(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{method:'POST',headers:{'x-goog-api-key':process.env.GEMINI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({systemInstruction:{parts:[{text:instruction}]},contents:[{role:'user',parts:[{text:input}]}],generationConfig:{temperature:0,responseMimeType:'application/json'}}),signal:AbortSignal.timeout(25000)});
-  if(!r.ok)throw Error('Translation provider unavailable');const d=await r.json();return finish(d.candidates?.[0]?.content?.parts?.map(x=>x.text||'').join(''));
- }catch(e){last=e;}}
+  if(!r.ok)await providerFailure(r,'Gemini');const d=await r.json();return finish(d.candidates?.[0]?.content?.parts?.map(x=>x.text||'').join(''));
+ }catch(e){console.warn('Interface translation attempt failed',JSON.stringify({provider:'Gemini',kind:e.name,status:e.providerStatus||null,code:e.providerCode||null}));last=e;}}
  throw last||Error('Translation provider is not configured');
  function finish(raw){const d=JSON.parse(String(raw||'').replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));if(!Array.isArray(d.translations)||d.translations.length!==sources.length)throw Error('Incomplete translation');return d.translations.map((s,i)=>protectedSources[i].restore(s));}
+}
+async function providerFailure(response,provider){
+ const body=await response.json().catch(()=>({}));
+ const code=String(body.error?.code||body.error?.status||body.error?.type||'unknown');
+ const error=new Error('Translation provider unavailable');
+ error.providerStatus=response.status;
+ error.providerCode=/^[a-zA-Z0-9_.-]{1,100}$/.test(code)?code:'unknown';
+ throw error;
 }
 const pending=new Map();let active=0;
 export async function handleLocalization({route,req,res,pool,required,json,send,fail,limited,translate=translateBatch}){
