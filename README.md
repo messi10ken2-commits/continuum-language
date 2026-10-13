@@ -1,29 +1,46 @@
 # Continuum Language
 
-Continuum connects self-study and teacher notes in one learner account. The current release provides a working subjunctive exercise, saved practice results, and teacher sharing by one-time code.
+Continuum connects self-study, assessments and teacher notes in one learner account.
 
 ## Included
 
-- Learner and teacher accounts with PostgreSQL-backed sessions
-- Server-graded practice results that persist across devices
-- Explicit import of earlier browser-only practice results
-- One-time teacher sharing codes, access revocation, and class notes
-- A public sample preview with CEFR report and additional lessons shown as prototypes
+- Learner and teacher accounts with PostgreSQL-backed sessions and profiles
+- Spanish, English, Portuguese and Japanese target-language courses, exercises and assessments
+- Saved lesson drafts, server-graded results and language-specific learning history
+- Teacher sharing codes, per-language access, revocation and class notes
+- Writing/speaking submissions, teacher review and optional provider-backed assessment
+- Independent Base Language settings for English, Spanish, Portuguese, French, Chinese and Japanese
+
+Base Language localization is incremental. Menus and selected instructional content are translated; many screens and lessons still appear in English. See [I18N.md](I18N.md) for coverage, authoring/review workflow and current limits. These settings do not add new target-language courses or change assessment scores.
 
 ## Run locally
 
-Use a PostgreSQL database and set `DATABASE_URL`. For a local session cookie, leave `NODE_ENV` unset.
+With Node 24 and Docker available:
 
 ```bash
-npm install
-npm run build
-npm start
+npm ci
+bash scripts/dev-local.sh
 ```
 
-Open `http://localhost:3000`. `GET /api/health` verifies database connectivity. Tables are created at startup. `npm run dev` serves the frontend alone; use the steps above to test account features.
+The helper starts an isolated PostgreSQL database, builds the client and serves the app on port 3000. It supplies its own development database URL; no database secret is required. Use synthetic data in this development database. Cloud snapshot retention of container data has not been verified.
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for Railway setup and the transition from the older deployment overrides.
+For an existing database, set `DATABASE_URL`, run `npm run build`, then `npm start`. `GET /api/health` verifies database connectivity. Additive database migrations run at startup. `npm run dev` serves the frontend alone.
 
-## Still in development
+## Validate
 
-Email verification, password reset, paid class booking, audio transcription, and exercises besides the subjunctive preview are not connected yet. The unauthenticated CEFR profile is sample data and is not an official assessment.
+```bash
+npm run check:release
+npm audit --omit=dev
+```
+
+The full test suite includes API checks using PGlite and needs no external database. For real browser checks, start the local app, use Chromium, and run:
+
+```bash
+node scripts/check-base-language-browser.mjs
+```
+
+This creates a synthetic local account and checks registration, preference persistence, failed saves, logout races, independent target selection and a complete lesson. `CHROMIUM_BIN` can select the Chromium executable.
+
+With the development PostgreSQL container running, `node scripts/check-base-language-migration.mjs` creates and removes its own isolated database to verify upgrading the previous user schema, preserving existing records, and repeating migrations safely.
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for production setup and release validation. Email verification, password reset and paid bookings remain outside the current implemented account flow.

@@ -170,3 +170,4 @@
 .class-practice-feature .primary{margin-top:6px;max-width:100%;white-space:normal;text-align:left;line-height:1.5;overflow-wrap:anywhere}
 .class-practice-feature .primary svg{flex-shrink:0}
 @media(max-width:650px){.class-practice-feature{padding:21px 20px}.class-practice-feature .primary{width:100%;justify-content:space-between}}
+.translation-fallback{border-left:3px solid #d99a31;background:#fff7e8;color:#704b10;padding:10px 12px;border-radius:6px;font-size:.9rem}

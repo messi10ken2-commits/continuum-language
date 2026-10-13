@@ -5,6 +5,7 @@ import {teacherScope,requestedScope,validSharedLanguages} from './teacher-access
 import {handleLessonMedia} from './lesson-media-api.mjs';
 import {migrateSpeech,handleSpeech} from './speech-api.mjs';
 import http from 'node:http';
+import {baseLanguages as supportedBaseLanguages} from './base-language.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -28,10 +29,12 @@ const hash=text=>crypto.createHash('sha256').update(text).digest('hex');
 const random=()=>crypto.randomBytes(32).toString('base64url');
 const cookieName='continuum_session';
 const cookieAttrs=`HttpOnly; SameSite=Lax; Path=/; Max-Age=${sessionDays*86400}${process.env.NODE_ENV==='production'?' ; Secure':''}`;
+const baseLanguages=new Set(supportedBaseLanguages.map(language=>language.id));
 
 async function migrate(){
  await pool.query(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), email text UNIQUE NOT NULL, name text NOT NULL, role text NOT NULL CHECK(role IN ('learner','teacher')), password_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
  ALTER TABLE users ADD COLUMN IF NOT EXISTS share_self_learning boolean NOT NULL DEFAULT true;
+ ALTER TABLE users ADD COLUMN IF NOT EXISTS base_language text NOT NULL DEFAULT 'en';
  CREATE TABLE IF NOT EXISTS sessions (token_hash text PRIMARY KEY, user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL);
  CREATE TABLE IF NOT EXISTS practice_attempts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, score integer NOT NULL CHECK(score BETWEEN 0 AND 100), total integer NOT NULL CHECK(total BETWEEN 1 AND 100), source text NOT NULL CHECK(source IN ('exercise','imported')), created_at timestamptz NOT NULL DEFAULT now());
  ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS submission_key text;
@@ -60,7 +63,7 @@ function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
 function limited(req,key,limit=12){const address=(req.headers['x-forwarded-for']||req.socket.remoteAddress||'unknown').toString().split(',')[0];const id=address+':'+key;const now=Date.now(),record=attempts.get(id)||{count:0,until:now+15*60e3};if(record.until<now){record.count=0;record.until=now+15*60e3}record.count++;attempts.set(id,record);if(record.count>limit)fail(429,'Too many attempts. Please try again later.')}
 async function json(req){let body='';for await(const chunk of req){body+=chunk;if(body.length>(req.url==='/api/skills'?1500000:300000))fail(413,'Request too large')}try{return JSON.parse(body||'{}')}catch{fail(400,'Invalid JSON')}}
-async function currentUser(req){const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(!token)return null;const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',[hash(token)]);return result.rows[0]||null}
+async function currentUser(req){const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(!token)return null;const result=await pool.query('SELECT u.id,u.email,u.name,u.role,u.base_language AS "baseLanguage" FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',[hash(token)]);return result.rows[0]||null}
 async function required(req,role){const user=await currentUser(req);if(!user)fail(401,'Sign in to continue');if(role&&user.role!==role)fail(403,'Not allowed for this account');return user}
 async function linked(teacherId,learnerId){const r=await pool.query('SELECT 1 FROM teacher_links WHERE teacher_id=$1 AND learner_id=$2',[teacherId,learnerId]);if(!r.rowCount)fail(403,'This learner has not shared access with you')}
 async function startSession(res,user){const token=random();await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '30 days')",[hash(token),user.id]);send(res,200,{user},{'Set-Cookie':`${cookieName}=${token}; ${cookieAttrs}`})}
@@ -81,18 +84,25 @@ async function handle(req,res){
  if(route==='/api/health'&&req.method==='GET'){await pool.query('SELECT 1');return send(res,200,{ok:true})}
  if(route==='/api/auth/me'&&req.method==='GET')return send(res,200,{user:await currentUser(req)});
  if(route==='/api/auth/register'&&req.method==='POST'){
-  limited(req,'register',6);const data=await json(req);const email=safeEmail(data.email),name=String(data.name||'').trim(),password=String(data.password||'');
+  limited(req,'register',6);const data=await json(req);const email=safeEmail(data.email),name=String(data.name||'').trim(),password=String(data.password||''),baseLanguage=baseLanguages.has(data.baseLanguage)?data.baseLanguage:'en';
   if(!data.adult||!/^\S+@\S+\.\S+$/.test(email)||email.length>254||name.length<2||name.length>80||password.length<12||password.length>128||!['learner','teacher'].includes(data.role))fail(400,'Enter a valid name, email, 12+ character password, and confirm you are 18 or older');
-  try{const result=await pool.query('INSERT INTO users(email,name,role,password_hash) VALUES($1,$2,$3,$4) RETURNING id,email,name,role',[email,name,data.role,passwordHash(password)]);return startSession(res,result.rows[0])}catch(e){if(e.code==='23505')fail(409,'An account already uses this email');throw e}
+  try{const result=await pool.query('INSERT INTO users(email,name,role,password_hash,base_language) VALUES($1,$2,$3,$4,$5) RETURNING id,email,name,role,base_language AS "baseLanguage"',[email,name,data.role,passwordHash(password),baseLanguage]);return startSession(res,result.rows[0])}catch(e){if(e.code==='23505')fail(409,'An account already uses this email');throw e}
  }
  if(route==='/api/auth/login'&&req.method==='POST'){
-  limited(req,'login',12);const data=await json(req);const r=await pool.query('SELECT * FROM users WHERE email=$1',[safeEmail(data.email)]);if(!r.rowCount||!passwordMatches(String(data.password||''),r.rows[0].password_hash))fail(401,'Email or password is incorrect');const {id,email,name,role}=r.rows[0];return startSession(res,{id,email,name,role});
+  limited(req,'login',12);const data=await json(req);const r=await pool.query('SELECT * FROM users WHERE email=$1',[safeEmail(data.email)]);if(!r.rowCount||!passwordMatches(String(data.password||''),r.rows[0].password_hash))fail(401,'Email or password is incorrect');const {id,email,name,role,base_language:baseLanguage}=r.rows[0];return startSession(res,{id,email,name,role,baseLanguage});
  }
  if(route==='/api/auth/logout'&&req.method==='POST'){
   const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(token)await pool.query('DELETE FROM sessions WHERE token_hash=$1',[hash(token)]);return send(res,200,{ok:true},{'Set-Cookie':`${cookieName}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${process.env.NODE_ENV==='production'?'; Secure':''}`});
  }
  if(route==='/api/privacy'&&req.method==='GET'){
   const user=await required(req,'learner');const r=await pool.query('SELECT share_self_learning FROM users WHERE id=$1',[user.id]);return send(res,200,{shareSelfLearning:r.rows[0].share_self_learning});
+ }
+ if(route==='/api/preferences'&&req.method==='GET'){
+  const user=await required(req);return send(res,200,{baseLanguage:user.baseLanguage});
+ }
+ if(route==='/api/preferences'&&req.method==='PUT'){
+  const user=await required(req),data=await json(req);if(!baseLanguages.has(data.baseLanguage))fail(400,'Choose a supported base language');
+  await pool.query('UPDATE users SET base_language=$2 WHERE id=$1',[user.id,data.baseLanguage]);return send(res,200,{baseLanguage:data.baseLanguage});
  }
  if(route==='/api/privacy'&&req.method==='PUT'){
   const user=await required(req,'learner'),data=await json(req);if(typeof data.shareSelfLearning!=='boolean')fail(400,'Choose whether to share self-study activity');
