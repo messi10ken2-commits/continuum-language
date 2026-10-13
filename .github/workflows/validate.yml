@@ -14,6 +14,21 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres@sha256:3645570cccdfa447589da9f57dd740faa29b30938e861289a5574b6ca6b03826
+        env:
+          POSTGRES_USER: continuum_dev
+          POSTGRES_DB: continuum_dev
+          # Isolated, disposable CI database; no production credentials.
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 127.0.0.1:55432:5432
+        options: >-
+          --health-cmd "pg_isready -U continuum_dev -d continuum_dev"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,4 +37,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check:release
+      - name: Verify PostgreSQL upgrade preserves learning records
+        run: node scripts/check-base-language-migration.mjs
       - run: npm audit --omit=dev

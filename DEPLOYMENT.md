@@ -31,6 +31,8 @@ The existing validation workflow runs on pull requests targeting `main` and push
 
 Keep `.env` credentials out of Git; the ignore rules cover `.env` and `.env.*`, with exceptions for non-secret example/sample templates. If an earlier Codex environment draft lists `RAILWAY_TOKEN`, remove that obsolete requirement in the environment settings; do not populate it. No Railway token is used by this workflow.
 
+The same required `validate` job also runs `scripts/check-base-language-migration.mjs` against a disposable PostgreSQL service bound to loopback. It verifies preservation of users, sessions, practice, teacher sharing/notes and active assessments across the additive migration and restart. No production credentials are used. This synthetic migration check does not establish that a Railway staging deployment or a production backup has been validated.
+
 ## Current product scope
 
 - Learner and teacher accounts use salted scrypt password hashes and PostgreSQL-backed sessions.
