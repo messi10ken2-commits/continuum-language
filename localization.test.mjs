@@ -19,3 +19,25 @@ test('provider output is validated before it can enter the cache',async()=>{
  await assert.rejects(translateBatch([source],'ja',{fetchImpl:async()=>({ok:true,json:async()=>({choices:[{message:{content:'{"translations":["removed forms"]}'}}]})})}));
  }finally{if(old===undefined)delete process.env.OPENAI_API_KEY;else process.env.OPENAI_API_KEY=old;if(gemini!==undefined)process.env.GEMINI_API_KEY=gemini;}
 });
+
+test('reviewed contextual copy wins over stale client translations',async()=>{
+ const {reviewedInterfaceCopy,translationRevision}=await import('./reviewed-interface-copy.mjs');
+ const {t,setInterfaceLanguage}=await import('./interface-runtime.mjs');
+ setInterfaceLanguage('ja',{persist:false});
+ assert.equal(t('Teachers are on their way'),'講師の公開を準備中です');
+ assert.equal(t('Your level, tested.'),'今の語学レベルを確認しよう');
+ assert.equal(t('Choose what teachers can see'),'講師に共有する情報を選ぶ');
+ assert.equal(t('Connected teachers'),'連携中の講師');
+ for(const text of Object.keys(reviewedInterfaceCopy.ja))assert.ok(translationSource(text),text);
+ assert.notEqual(translationRevision,'v1');
+ assert.match(translationSource('Teachers are on their way').context,/Profiles/);
+ setInterfaceLanguage('en',{persist:false});
+});
+test('translation provider receives screen context and pedagogical terminology',async()=>{
+ const old=process.env.OPENAI_API_KEY;process.env.OPENAI_API_KEY='synthetic-test-key';
+ try{await translateBatch([translationSource('Teachers are on their way')],'ja',{fetchImpl:async(_url,init)=>{
+  const body=JSON.parse(init.body);assert.match(body.messages[0].content,/not teachers physically travelling/);assert.match(body.messages[0].content,/過去進行形/);
+  assert.match(JSON.parse(body.messages[1].content)[0].screenContext,/Profiles/);
+  return {ok:true,json:async()=>({choices:[{message:{content:JSON.stringify({translations:['講師の公開を準備中です']})}}]})};
+ }});}finally{if(old===undefined)delete process.env.OPENAI_API_KEY;else process.env.OPENAI_API_KEY=old;}
+});

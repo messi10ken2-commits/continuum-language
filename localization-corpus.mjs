@@ -1,3 +1,5 @@
+import {reviewedInterfaceCopy} from './reviewed-interface-copy.mjs';
+import interfaceContexts from './interface-contexts.json' with {type:'json'};
 import {feedbackTemplates} from './localized-feedback.mjs';
 import {mistakeFeedback} from './mistake-feedback.mjs';
 import {lessonList,chapters,levels,getLessonVariant} from './course.mjs';
@@ -7,12 +9,14 @@ import {interfaceCopy} from './interface-copy.mjs';
 import uiSources from './interface-sources.json' with {type:'json'};
 export const translationKey=(text,language='')=>JSON.stringify([language,text]);
 const corpus=new Map();
-function add(text,language='',protectedValues=[]){if(typeof text!=='string'||!/[A-Za-z]/.test(text)||!text.trim())return;const key=translationKey(text,language),old=corpus.get(key);corpus.set(key,{text,language,protectedValues:[...new Set([...(old?.protectedValues||[]),...protectedValues.filter(v=>typeof v==='string'&&v.length>1)])]});}
-for(const text of [...uiSources,...Object.keys(interfaceCopy)])add(text);
+let lessonContext='';
+function add(text,language='',protectedValues=[]){if(typeof text!=='string'||!/[A-Za-z]/.test(text)||!text.trim())return;const key=translationKey(text,language),old=corpus.get(key);corpus.set(key,{text,language,context:language?(lessonContext||'Language lesson: explanations, instructions and feedback'):(interfaceContexts[text]||['General interface']).join(', '),protectedValues:[...new Set([...(old?.protectedValues||[]),...protectedValues.filter(v=>typeof v==='string'&&v.length>1)])]});}
+for(const text of [...uiSources,...Object.keys(interfaceCopy),...Object.values(reviewedInterfaceCopy).flatMap(Object.keys)])add(text);
 for(const text of feedbackTemplates)add(text.trim());
 for(const level of levels){add(level.name);add(level.description);}
 const descriptionColumn=h=>/^(Type|Purpose|Function|Meaning|Focus|Interpretation|Time order|Reason|Difference|Time|Strength|Appropriate interpretation|Reference|Use|Usage|English|Translation|Ending sound)$/i.test(h);
 for(const l of lessonList){
+ lessonContext=l.level+' '+l.language+' lesson: '+l.title;
  add(l.title);
  const language=l.language||languageOf(l.id),terms=[...(l.vocabulary||[]),...(l.expressions||[])].flatMap(w=>[w.term,w.phrase,w.example]),forms=(l.breakdown?.tables||[]).flatMap(t=>t.rows.flatMap(r=>r.filter((_,i)=>!descriptionColumn(t.headers[i]))));
  const preserve=[...terms,...forms,l.example,...(l.breakdown?.examples||[]).map(x=>x[0])];
@@ -35,6 +39,7 @@ for(const l of lessonList){
   if(q.optionsLang?.startsWith('en')&&language!=='en')for(const o of q.options||[])add(o,language,preserve);
  }
 }
+lessonContext='Course roadmap';
 for(const c of chapters)for(const k of ['title','goal']){add(c[k],c.language||languageOf(c.id));add(c[k]);}
 export const translationSource=(text,language='')=>corpus.get(translationKey(text,language))||corpus.get(translationKey(text,''));
 // Replace exact target-language content with opaque tokens. Translation output

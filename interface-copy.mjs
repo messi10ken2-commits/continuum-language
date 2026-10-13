@@ -5,7 +5,7 @@ I’ll choose my level|自分でレベルを選ぶ|Elegiré mi nivel|Vou escolhe
 Help me find my level with an assessment|レベル診断で開始レベルを決める|Ayúdame a encontrar mi nivel con una prueba|Quero descobrir meu nível com um teste|通过测试确定水平|Déterminer mon niveau avec un test
 Starting course level|開始するコースのレベル|Nivel inicial del curso|Nível inicial do curso|课程起始水平|Niveau de départ du cours
 This is your choice, not an assessed CEFR result. You can change it in Learn.|ここで選ぶのは自己申告の開始レベルです。CEFRの診断結果ではありません。「学ぶ」で変更できます。|Es tu elección, no un resultado evaluado del MCER. Puedes cambiarla en Aprender.|É sua escolha, não um resultado avaliado do CEFR. Você pode alterá-la em Aprender.|这是你自行选择的起点，并非CEFR测评结果。可在“学习”中更改。|Il s’agit de votre choix, pas d’un résultat évalué du CECR. Vous pouvez le modifier dans Apprendre.
-YOUR TEACHING PROFILE|教師プロフィール|TU PERFIL DOCENTE|SEU PERFIL DE PROFESSOR|你的教师档案|VOTRE PROFIL ENSEIGNANT
+YOUR TEACHING PROFILE|講師プロフィール|TU PERFIL DOCENTE|SEU PERFIL DE PROFESSOR|你的教师档案|VOTRE PROFIL ENSEIGNANT
 Help learners get to know you|あなたのことを生徒に伝えよう|Date a conocer a los estudiantes|Apresente-se aos alunos|让学员了解你|Présentez-vous aux élèves
 Complete your public introduction and submit it for a human review. Saving changes hides your profile until it is submitted and approved again.|公開用プロフィールを入力して審査に提出してください。変更を保存すると、再提出・承認まで非公開になります。|Completa tu presentación y envíala a revisión. Al guardar cambios, el perfil se oculta hasta su nueva aprobación.|Complete sua apresentação e envie para análise. Ao salvar mudanças, o perfil fica oculto até ser aprovado novamente.|填写公开介绍并提交人工审核。保存修改后，档案将暂时隐藏，直至重新提交并获批。|Complétez votre présentation et soumettez-la à une vérification. Toute modification masque le profil jusqu’à sa nouvelle approbation.
 Profile photo|プロフィール写真|Foto de perfil|Foto de perfil|头像|Photo de profil
@@ -38,11 +38,11 @@ Connect independent practice with a teacher who understands your progress.|自�
 I want to learn|学びたい|Quiero aprender|Quero aprender|我想学习|Je veux apprendre
 I want to teach|教えたい|Quiero enseñar|Quero ensinar|我想教学|Je veux enseigner
 Choose a language, find your starting point and build your learning memory.|学ぶ言語と開始レベルを選び、学習の記録を積み重ねましょう。|Elige un idioma y tu punto de partida, y construye tu historial de aprendizaje.|Escolha um idioma e seu ponto de partida e construa seu histórico de aprendizagem.|选择语言和起点，积累你的学习记录。|Choisissez une langue et votre point de départ, puis construisez votre historique d’apprentissage.
-Create your teaching profile and submit it for review before joining the directory.|教師プロフィールを作成して審査に提出しましょう。承認後に一覧へ公開されます。|Crea tu perfil docente y envíalo a revisión antes de aparecer en el directorio.|Crie seu perfil de professor e envie-o para análise antes de aparecer no catálogo.|创建教师档案并提交审核，通过后即可展示在教师列表中。|Créez votre profil enseignant et soumettez-le à une vérification avant sa publication.
+Create your teaching profile and submit it for review before joining the directory.|講師プロフィールを作成して審査に提出しましょう。承認後に一覧へ公開されます。|Crea tu perfil docente y envíalo a revisión antes de aparecer en el directorio.|Crie seu perfil de professor e envie-o para análise antes de aparecer no catálogo.|创建教师档案并提交审核，通过后即可展示在教师列表中。|Créez votre profil enseignant et soumettez-le à une vérification avant sa publication.
 Start learning|学習を始める|Empezar a aprender|Começar a aprender|开始学习|Commencer à apprendre
-Create a teacher profile|教師プロフィールを作成|Crear perfil docente|Criar perfil de professor|创建教师档案|Créer un profil enseignant
+Create a teacher profile|講師プロフィールを作成|Crear perfil docente|Criar perfil de professor|创建教师档案|Créer un profil enseignant
 Already a member? Sign in|アカウントをお持ちの方：ログイン|¿Ya tienes cuenta? Inicia sesión|Já tem conta? Entrar|已有账号？登录|Déjà inscrit ? Se connecter
-← Back to welcome|← Welcome画面に戻る|← Volver a la bienvenida|← Voltar ao início|← 返回欢迎页|← Retour à l’accueil
+← Back to welcome|← はじめの画面に戻る|← Volver a la bienvenida|← Voltar ao início|← 返回欢迎页|← Retour à l’accueil
 Connecting to your account…|アカウントに接続しています…|Conectando con tu cuenta…|Conectando à sua conta…|正在连接你的账号…|Connexion à votre compte…
 ONE CONTINUOUS LEARNER RECORD|学びをつなぐ、ひとつの記録|UN HISTORIAL DE APRENDIZAJE CONTINUO|UM HISTÓRICO CONTÍNUO DE APRENDIZAGEM|连贯的学习记录|UN HISTORIQUE D’APPRENTISSAGE CONTINU
 Your account|アカウント|Tu cuenta|Sua conta|你的账号|Votre compte
@@ -53,7 +53,7 @@ Create account|アカウントを作成|Crear cuenta|Criar conta|创建账号|Cr
 Sign out|ログアウト|Cerrar sesión|Sair|退出登录|Se déconnecter
 I’m signing up as|アカウントの種類|Me registro como|Estou me cadastrando como|注册身份|Je m’inscris en tant que
 Learner|学習者|Estudiante|Aluno|学员|Élève
-Teacher|教師|Profesor|Professor|教师|Professeur
+Teacher|講師|Profesor|Professor|教师|Professeur
 Name|名前|Nombre|Nome|姓名|Nom
 Email|メールアドレス|Correo electrónico|E-mail|电子邮箱|E-mail
 Password|パスワード|Contraseña|Senha|密码|Mot de passe
@@ -77,7 +77,7 @@ Assignments|課題|Tareas|Tarefas|作业|Devoirs
 Class notes|授業ノート|Notas de clase|Notas de aula|课堂笔记|Notes de cours
 Notes|ノート|Notas|Notas|笔记|Notes
 Learner account|学習者アカウント|Cuenta de estudiante|Conta de aluno|学员账号|Compte élève
-Teacher account|教師アカウント|Cuenta de profesor|Conta de professor|教师账号|Compte enseignant
+Teacher account|講師アカウント|Cuenta de profesor|Conta de professor|教师账号|Compte enseignant
 Your saved learning record|保存された学習の記録|Tu historial de aprendizaje guardado|Seu histórico de aprendizagem salvo|已保存的学习记录|Votre historique d’apprentissage
 Your record is saved|学習記録は保存されています|Tu historial está guardado|Seu histórico está salvo|学习记录已保存|Votre historique est sauvegardé
 Practice follows your account. Share access only with teachers you choose.|学習記録はアカウントに保存されます。選んだ先生だけに共有できます。|Las prácticas se guardan en tu cuenta. Compártelas solo con los profesores que elijas.|As práticas ficam na sua conta. Compartilhe apenas com os professores que escolher.|练习记录保存在账号中，只与指定的老师共享。|Vos exercices sont liés à votre compte. Partagez-les uniquement avec les professeurs de votre choix.
@@ -100,7 +100,7 @@ Starting level|開始レベル|Nivel inicial|Nível inicial|起始水平|Niveau 
 Save & start learning|保存して学習を始める|Guardar y empezar|Salvar e começar|保存并开始学习|Enregistrer et commencer
 Save & take placement test|保存してレベル診断へ|Guardar e ir a la prueba|Salvar e fazer o teste|保存并参加测试|Enregistrer et passer le test
 Edit learning profile|学習プロフィールを編集|Editar perfil de aprendizaje|Editar perfil de aprendizagem|编辑学习档案|Modifier le profil d’apprentissage
-Edit teaching profile|教師プロフィールを編集|Editar perfil docente|Editar perfil de professor|编辑教师档案|Modifier le profil enseignant
+Edit teaching profile|講師プロフィールを編集|Editar perfil docente|Editar perfil de professor|编辑教师档案|Modifier le profil enseignant
 Loading your profile…|プロフィールを読み込み中…|Cargando tu perfil…|Carregando seu perfil…|正在加载档案…|Chargement de votre profil…
 Save|保存|Guardar|Salvar|保存|Enregistrer
 Saving…|保存中…|Guardando…|Salvando…|正在保存…|Enregistrement…
