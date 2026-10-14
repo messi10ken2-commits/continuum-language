@@ -61,7 +61,7 @@ async function migrate(){
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
 function limited(req,key,limit=12){const address=(req.headers['x-forwarded-for']||req.socket.remoteAddress||'unknown').toString().split(',')[0];const id=address+':'+key;const now=Date.now(),record=attempts.get(id)||{count:0,until:now+15*60e3};if(record.until<now){record.count=0;record.until=now+15*60e3}record.count++;attempts.set(id,record);if(record.count>limit)fail(429,'Too many attempts. Please try again later.')}
-async function json(req){let body='';for await(const chunk of req){body+=chunk;if(body.length>(req.url==='/api/skills'?1500000:300000))fail(413,'Request too large')}try{return JSON.parse(body||'{}')}catch{fail(400,'Invalid JSON')}}
+async function json(req){let body='';for await(const chunk of req){body+=chunk;if(body.length>(req.url==='/api/skills'?1500000:300000))fail(413,'Request too large')}try{const value=JSON.parse(body||'{}');if(!value||typeof value!=='object'||Array.isArray(value))fail(400,'Expected a JSON object');return value}catch{fail(400,'Invalid JSON object')}}
 async function currentUser(req){const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(!token)return null;const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',[hash(token)]);return result.rows[0]||null}
 async function required(req,role){const user=await currentUser(req);if(!user)fail(401,'Sign in to continue');if(role&&user.role!==role)fail(403,'Not allowed for this account');return user}
 async function linked(teacherId,learnerId){const r=await pool.query('SELECT 1 FROM teacher_links WHERE teacher_id=$1 AND learner_id=$2',[teacherId,learnerId]);if(!r.rowCount)fail(403,'This learner has not shared access with you')}
@@ -73,7 +73,7 @@ async function handle(req,res){
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
  if(handleLessonMedia(req,res,route))return;
  if(!route.startsWith('/api/'))return serve(req,res,route);
- if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&new URL(origin).host!==req.headers.host)fail(403,'Invalid request origin')}
+ if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
  if(await handleLocalization({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleReview({route,req,res,pool,required,json,send,fail}))return;
  if(await handleProfiles({route,req,res,pool,required,json,send,fail}))return;
@@ -188,4 +188,4 @@ async function serve(req,res,route){if(req.method!=='GET'&&req.method!=='HEAD')r
 if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
 await migrate();
 if(process.env.NODE_ENV==='production')void warmLocalization(pool);
-http.createServer((req,res)=>handle(req,res).catch(err=>{if(err.status<500)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));
+http.createServer((req,res)=>handle(req,res).catch(err=>{if(err.status<500||err.status===503)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));

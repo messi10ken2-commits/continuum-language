@@ -40,7 +40,7 @@ try{
  if(originalGemini===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=originalGemini;
  const learnerCookie=cookie;cookie=null;const teacher=await call('/auth/register','POST',{name:'Teacher test',email:'teacher-patterns@example.test',password:'synthetic-test-password',role:'teacher',adult:true});assert.equal(teacher.status,200);
  assert.equal((await call('/patterns?language=en')).status,403);
- await db.query('INSERT INTO teacher_links(teacher_id,learner_id) VALUES($1,$2)',[teacher.data.user.id,user.id]);
+ await db.query('INSERT INTO teacher_links(teacher_id,learner_id,languages) VALUES($1,$2,$3)',[teacher.data.user.id,user.id,['ja']]);
  const note=await call('/teacher/learners/'+user.id+'/notes','POST',{language:'ja',focus:'Particles',note:'Practise distinguishing は and が in introductions.'});assert.equal(note.status,201);assert.equal(note.data.note.language,'ja');cookie=learnerCookie;
  assert.equal((await call('/patterns?language=ja')).data.coverage.classes,1);assert.equal((await call('/patterns?language=en')).data.coverage.classes,0);
  console.log('PASS: four-language isolation, saved question evidence, full history, skipped test answers, unscored speech, validated AI citations, caching, consent revocation race, teacher privacy and language-tagged notes.');

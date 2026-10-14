@@ -66,11 +66,19 @@ export async function handleLocalization({route,req,res,pool,required,json,send,
  }
  if(missing.length){
   limited(req,'localization:'+user.id,240);
-  const key=body.locale+':'+missing.map(x=>x.cacheKey).join(',');
-  let work=pending.get(key);if(!work){if(active>=3)fail(429,'Translation is busy. Please retry.');active++;
-   work=(async()=>{const translated=await translate(missing.map(x=>x.source),body.locale);if(translated.length!==missing.length||translated.some((text,i)=>!keepsLocalizedInstructions({text:missing[i].source.text,protection:protectSource(missing[i].source)},text)))throw Error('Translation changed learning content');const entries=new Map(missing.map((item,i)=>[item.cacheKey,translated[i]]));await pool.query('INSERT INTO interface_translations(cache_key,translated) SELECT * FROM unnest($1::text[],$2::text[]) ON CONFLICT(cache_key) DO UPDATE SET translated=EXCLUDED.translated,created_at=now()',[[...entries.keys()],[...entries.values()]]);return translated;})();pending.set(key,work);work.finally(()=>{pending.delete(key);active--;}).catch(()=>{});
+  const fresh=[...new Map(missing.filter(item=>!pending.has(item.cacheKey)).map(item=>[item.cacheKey,item])).values()];
+  if(fresh.length){
+   if(active>=3)fail(429,'Translation is busy. Please retry.');active++;
+   const work=(async()=>{
+    const translated=await translate(fresh.map(item=>item.source),body.locale);
+    if(translated.length!==fresh.length||translated.some((text,i)=>!keepsLocalizedInstructions({text:fresh[i].source.text,protection:fresh[i].protection},text)))throw Error('Translation changed learning content');
+    await pool.query('INSERT INTO interface_translations(cache_key,translated) SELECT * FROM unnest($1::text[],$2::text[]) ON CONFLICT(cache_key) DO UPDATE SET translated=EXCLUDED.translated,created_at=now()', [fresh.map(item=>item.cacheKey),translated]);
+    return translated;
+   })();
+   fresh.forEach((item,index)=>{const entry=work.then(translated=>translated[index]);pending.set(item.cacheKey,entry);entry.finally(()=>{if(pending.get(item.cacheKey)===entry)pending.delete(item.cacheKey);}).catch(()=>{});});
+   work.finally(()=>{active--;}).catch(()=>{});
   }
-  try{const translated=await work;missing.forEach((x,i)=>output.push({id:x.id,text:translated[i]}));}catch{fail(503,'Translation is temporarily unavailable. Original text is still available.');}
+  try{const translated=await Promise.all(missing.map(item=>pending.get(item.cacheKey)));missing.forEach((item,index)=>output.push({id:item.id,text:translated[index]}));}catch{fail(503,'Translation is temporarily unavailable. Original text is still available.');}
  }
  send(res,200,{translations:output});return true;
 }

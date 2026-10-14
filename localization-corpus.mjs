@@ -1,3 +1,5 @@
+import {skillTasks} from './skills-content.mjs';
+import {visualFrames} from './lesson-media.mjs';
 import {appliedQuestionBank} from './applied-exercises.mjs';
 import {questionLearningText} from './learning-text-protection.mjs';
 import {reviewedInterfaceCopy} from './reviewed-interface-copy.mjs';
@@ -24,6 +26,7 @@ for(const l of lessonList){
  const targetHeader=h=>!/^(Subject|Viewpoint|Example|Meaning|Form|Statement|Negative|Question|Base|Type|Pattern|Positive|Past|Ending sound|Short answer|Purpose|Focus|Interpretation|Participle|Function|Time order|Reason|Condition|Result|Simple perfect|Continuous perfect|Difference|Time|Wording|Strength|Appropriate interpretation|Reference|Gerund|Construction|Verb|Auxiliary|Infinitive|Expression|Limit|Role|Particle \/ form|Group|Dictionary|Stem|Polite|Past negative|Nonpast|Ending|Change|Plain predicate|With possibility|Full form|Conversational form|Conditional|Passive|Causative|Status)$/i.test(h);
  const headers=(l.breakdown?.tables||[]).flatMap(t=>t.headers.filter(targetHeader));
  const preserve=[...headers,...terms,...forms,l.example,...(l.breakdown?.examples||[]).map(x=>x[0]),...(l.soundGuide?.pairs||[]).flatMap(([a,b])=>[a,...(/^[\p{L}\p{M}ー-]+$/u.test(b)?[b]:[])]),...(l.characters||[]).flatMap(x=>[x.glyph,x.reading])];
+ for(const frame of visualFrames(l))for(const key of ['label','meaning','note'])add(frame[key],language,[...preserve,frame.text]);
  for(const k of ['title','explanation','priority','speak'])add(l[k],language,preserve);
  for(const w of [...(l.vocabulary||[]),...(l.expressions||[])])for(const k of ['meaning','translation','use','pitfall','type','register','region'])add(w[k],language,preserve);
  for(const s of l.breakdown?.steps||[])add(s,language,preserve);add(l.breakdown?.pitfall,language,preserve);
@@ -45,6 +48,13 @@ for(const l of lessonList){
 }
 lessonContext='Course roadmap';
 for(const c of chapters)for(const k of ['title','goal']){add(c[k],c.language||languageOf(c.id));add(c[k]);}
+for(const task of skillTasks){
+ lessonContext=task.level+' '+(task.language||'es')+' workshop: '+task.title;
+ const language=task.language||'es',preserve=[task.model,task.audio,...(task.questions||[]).flatMap(q=>[q.audio,...(q.options||[])])];
+ for(const key of ['title','topic','prompt'])add(task[key],language,preserve);
+ for(const tip of task.tips||[])add(tip,language,preserve);
+ for(const q of task.questions||[]){const protectedQ=[...preserve,...questionLearningText(q,language)];add(q.prompt,language,protectedQ);add(q.note,language,protectedQ);}
+}
 export const translationSource=(text,language='')=>corpus.get(translationKey(text,language))||corpus.get(translationKey(text,''));
 // Replace exact target-language content with opaque tokens. Translation output
 // must preserve every token; restore it only after validation, never as HTML.

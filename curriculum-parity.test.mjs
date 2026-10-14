@@ -24,7 +24,8 @@ for(const language of languages){
     if(chapter.summaryTest){assert.equal(units.length,1);assert.equal(units[0].passScore,85);continue;}
     assert.equal(chapter.sourceChapter,source.id);
     assert.equal(units.length,3);assert.equal(units[2].checkpoint,true);assert.ok(units.slice(0,2).every(l=>!l.checkpoint));
-    assert.deepEqual(new Set(units[2].questions.map(q=>q.sourceLesson)),new Set(units.slice(0,2).map(l=>l.id)));
+    const sources=fullLessonList.filter(l=>l.chapter===chapter.id&&!l.checkpoint);
+    assert.deepEqual(new Set(units[2].questions.map(q=>q.sourceLesson)),new Set(sources.map(l=>l.id)));
    }
   }
  });
@@ -35,7 +36,15 @@ for(const language of languages){
   assert.equal(new Set(learning.map(l=>JSON.stringify(l.questions.map(fingerprint)))).size,learning.length);
   const learningContexts=new Set(learning.map(l=>normalized(l.example)));
   for(const l of lessonList.filter(l=>l.language===language&&l.checkpoint)){
-   for(const q of l.questions){assert.ok(!learningContexts.has(normalized(q.context)),`${l.id} repeats a learning example`);assert.ok(getLesson(q.sourceLesson));assert.equal(new Set(q.options).size,q.options.length);}
+   for(const q of l.questions){
+    const source=getLesson(q.sourceLesson);assert.ok(source);
+    // Specialist comparison tasks include written answers and carry their
+    // scenario in the prompt; the original transfer bank uses context.
+    assert.ok(q.context||source.specialist,`${l.id} missing transfer context`);
+    assert.ok(!learningContexts.has(normalized(q.context||q.prompt)),`${l.id} repeats a learning example`);
+    if(q.type==='text')assert.ok(typeof q.answer==='string'&&q.answer.length);
+    else assert.equal(new Set(q.options).size,q.options.length);
+   }
   }
  });
  test(`${language}: listening has playable target-language audio and production uses actual recorded/written tasks`,()=>{
