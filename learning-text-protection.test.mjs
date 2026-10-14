@@ -17,7 +17,7 @@ test('all authored exercise versions mask their declared learning text, not just
  let count=0;const languages=new Set();
  for(const lesson of lessonList){
   const language=lesson.language||'es';languages.add(language);
-  const variants=[lesson,...[2,3,4].filter(()=>hasExpandedExercises(lesson.id)).map(n=>getLessonVariant(lesson.id,`v${n}-localization-source-123456789`))];
+  const variants=[lesson,...[2,3,4,5].filter(()=>hasExpandedExercises(lesson.id)).map(n=>getLessonVariant(lesson.id,`v${n}-localization-source-123456789`))];
   for(const q of variants.flatMap(v=>v.questions||[])){
    count++;const source=translationSource(q.prompt,language);if(!source)continue;
    const p=protectSource(source);

@@ -1,7 +1,7 @@
 // Public authored learning text, never learner input. These spans must survive
 // interface translation verbatim, including errors deliberately shown in drills.
 export function questionLearningText(q,language){
- const prompt=q.prompt||'',values=[q.context,q.audio,q.audioSpeech,...(q.type==='text'?[q.answer,...(q.accepted||[])]:[])];
+ const prompt=q.instructionOnly?'':q.prompt||'',values=[q.context,q.audio,q.audioSpeech,...(q.type==='text'?[q.answer,...(q.accepted||[])]:[])];
  const add=value=>{if(typeof value==='string'&&value.trim())values.push(value.trim());};
  const afterInstruction=value=>value.split(/\s+(?:Write (?:only|the|a|both)|Use |Begin |Add |Give )/)[0].trim();
  const meaning=prompt.match(/^What does this mean\?\s*([\s\S]+)$/);if(meaning)add(meaning[1]);
