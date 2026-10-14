@@ -3,14 +3,14 @@
 export function questionLearningText(q,language){
  const prompt=q.instructionOnly?'':q.prompt||'',values=[q.context,q.audio,q.audioSpeech,...(q.type==='text'?[q.answer,...(q.accepted||[])]:[])];
  const add=value=>{if(typeof value==='string'&&value.trim())values.push(value.trim());};
- const afterInstruction=value=>value.split(/\s+(?:Write (?:only|the|a|both)|Use |Begin |Add |Give )/)[0].trim();
+ const afterInstruction=value=>value.split(/\s+(?:Write (?:only|the|a|both)|Use |Begin |Add |Give |Subject:)/)[0].trim();
  const meaning=prompt.match(/^What does this mean\?\s*([\s\S]+)$/);if(meaning)add(meaning[1]);
  const contextual=prompt.match(/^Complete the model with the lesson's wording\.\n([^\n]+)/);if(contextual)add(contextual[1]);
  if(prompt.includes(':')){const tail=prompt.slice(prompt.indexOf(':')+1).trim();if(/_{2,}/.test(tail)&&!tail.includes('\n'))add(afterInstruction(tail));}
  const sentence=prompt.match(/^Complete the sentence to express:[^\n]*\n([\s\S]+)$/);if(sentence)add(sentence[1]);
  // Colon-delimited correction, transformation and cloze exercises. Keep the
  // sentence as written: correcting it in a translation would reveal the answer.
- if(/^(?:Complete|Correct|Make|Ask|Use|Put|Replace|Express|Remove|Limit|Write|Place|Read\s*:)/.test(prompt)&&prompt.includes(':')&&!/^Choose the structure/.test(prompt)){
+ if(/^(?:Complete|Correct|Make|Ask|Use|Put|Replace|Express|Remove|Limit|Write|Place|Read\s*:)/.test(prompt)&&prompt.includes(':')&&!prompt.includes('\n')&&!/^Choose the structure/.test(prompt)){
   const tail=prompt.slice(prompt.indexOf(':')+1).trim();
   if(!/^[“"]/.test(tail)&&!tail.includes('\n'))add(afterInstruction(tail));
  }
@@ -40,4 +40,13 @@ export function keepsProtectedText(protection,translated){
  const expected=new Map();for(const value of protection.values)expected.set(value,(expected.get(value)||0)+1);
  for(const [value,count] of expected){let found=0,index=0;while((index=translated.indexOf(value,index))!==-1){found++;index+=value.length;}if(found<count)return false;}
  return true;
+}
+
+// A cached provider response that repeats the English task is not a translation.
+// Pure learning material is exempt; named forms remain validated verbatim above.
+export function keepsLocalizedInstructions(source,translated){
+ if(!keepsProtectedText(source.protection,translated))return false;
+ if(!source.protection||/^⟦KEEP_\d+⟧$/.test(source.protection.text))return true;
+ const prefix=/^(?:Complete (?:the|with|only)|Choose (?:the|a)|Correct (?:the|only)|Write (?:the|a|only)|What does this mean|Ask (?:about|for|a)|Listen (?:and|to)|Read (?:the|and))\b/;
+ return !(prefix.test(source.text)&&prefix.test(translated.trim()));
 }

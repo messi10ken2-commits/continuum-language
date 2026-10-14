@@ -53,7 +53,7 @@ export function protectSource(source){
  const candidates=[...source.protectedValues,...(source.text.match(/\{\d+\}/g)||[]),...(source.text.match(/\/[^\s/]+\//gu)||[])];
  if(source.language==='en'){
   for(const match of text.matchAll(/[“"]([^”"\n]+)[”"]/g))candidates.push(match[1]);
-  if(/_{2,}/.test(text)&&text.includes(':'))candidates.push(text.slice(text.indexOf(':')+1).trim());
+  if(/_{2,}/.test(text)&&text.includes(':')&&(!text.includes('\n')||text.indexOf(':')<text.indexOf('\n')))candidates.push(text.slice(text.indexOf(':')+1).trim().split(/\s+(?:Write (?:only|the|a|both)|Use |Begin |Add |Give |Subject:)/)[0].trim());
  }
  // Longest first; word boundaries prevent protecting 'ir' inside 'first'.
  for(const value of [...new Set(candidates)].sort((a,b)=>b.length-a.length)){

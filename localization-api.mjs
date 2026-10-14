@@ -1,4 +1,4 @@
-import {keepsProtectedText} from './learning-text-protection.mjs';
+import {keepsLocalizedInstructions} from './learning-text-protection.mjs';
 import {reviewedTranslation,translationRevision} from './reviewed-interface-copy.mjs';
 import {translationGuidance} from './translation-guidance.mjs';
 import crypto from 'node:crypto';
@@ -62,13 +62,13 @@ export async function handleLocalization({route,req,res,pool,required,json,send,
  if(lookups.length){
   const saved=await pool.query('SELECT cache_key,translated FROM interface_translations WHERE cache_key=ANY($1::text[])',[lookups.map(x=>x.cacheKey)]);
   const byKey=new Map(saved.rows.map(row=>[row.cache_key,row.translated]));
-  for(const item of lookups){const text=byKey.get(item.cacheKey);if(typeof text==='string'&&keepsProtectedText(item.protection,text))output.push({id:item.id,text});else missing.push(item);}
+  for(const item of lookups){const text=byKey.get(item.cacheKey);if(typeof text==='string'&&keepsLocalizedInstructions({text:item.source.text,protection:item.protection},text))output.push({id:item.id,text});else missing.push(item);}
  }
  if(missing.length){
   limited(req,'localization:'+user.id,240);
   const key=body.locale+':'+missing.map(x=>x.cacheKey).join(',');
   let work=pending.get(key);if(!work){if(active>=3)fail(429,'Translation is busy. Please retry.');active++;
-   work=(async()=>{const translated=await translate(missing.map(x=>x.source),body.locale);if(translated.length!==missing.length||translated.some((text,i)=>!keepsProtectedText(protectSource(missing[i].source),text)))throw Error('Translation changed learning content');const entries=new Map(missing.map((item,i)=>[item.cacheKey,translated[i]]));await pool.query('INSERT INTO interface_translations(cache_key,translated) SELECT * FROM unnest($1::text[],$2::text[]) ON CONFLICT(cache_key) DO UPDATE SET translated=EXCLUDED.translated,created_at=now()',[[...entries.keys()],[...entries.values()]]);return translated;})();pending.set(key,work);work.finally(()=>{pending.delete(key);active--;}).catch(()=>{});
+   work=(async()=>{const translated=await translate(missing.map(x=>x.source),body.locale);if(translated.length!==missing.length||translated.some((text,i)=>!keepsLocalizedInstructions({text:missing[i].source.text,protection:protectSource(missing[i].source)},text)))throw Error('Translation changed learning content');const entries=new Map(missing.map((item,i)=>[item.cacheKey,translated[i]]));await pool.query('INSERT INTO interface_translations(cache_key,translated) SELECT * FROM unnest($1::text[],$2::text[]) ON CONFLICT(cache_key) DO UPDATE SET translated=EXCLUDED.translated,created_at=now()',[[...entries.keys()],[...entries.values()]]);return translated;})();pending.set(key,work);work.finally(()=>{pending.delete(key);active--;}).catch(()=>{});
   }
   try{const translated=await work;missing.forEach((x,i)=>output.push({id:x.id,text:translated[i]}));}catch{fail(503,'Translation is temporarily unavailable. Original text is still available.');}
  }

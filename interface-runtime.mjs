@@ -1,4 +1,4 @@
-import {keepsProtectedText} from './learning-text-protection.mjs';
+import {keepsLocalizedInstructions} from './learning-text-protection.mjs';
 import {reviewedTranslation,translationRevision} from './reviewed-interface-copy.mjs';
 import {feedbackParts} from './localized-feedback.mjs';
 import {interfaceCopy} from './interface-copy.mjs';
@@ -39,7 +39,7 @@ export function t(value,learningLanguage=''){
  if(protection&&/^⟦KEEP_\d+⟧$/.test(protection.text))return value;
  const exact=reviewedTranslation(text,locale)||interfaceCopy[text]?.[locale];if(exact)return prefix+exact+suffix;
  const id=translationKey(text,learningLanguage),key=locale+':'+id;
- if(cache.has(key)){if(!protection||keepsProtectedText(protection,cache.get(key)))return prefix+cache.get(key)+suffix;cache.delete(key);}
+ if(cache.has(key)){if(!protection||keepsLocalizedInstructions({text,protection},cache.get(key)))return prefix+cache.get(key)+suffix;cache.delete(key);}
  if(account&&translationSource(text,learningLanguage)&&!failed.has(key)&&!inFlight.has(key)){queue.set(key,{locale,id,text,language:learningLanguage});schedule();}
  return value;
 }
@@ -47,7 +47,7 @@ function schedule(){if(scheduled||running||!account||!queue.size)return;schedule
 async function flush(){if(running||!account||!queue.size)return;running=true;emit();
  const requestLocale=locale,items=[];let length=0;
  for(const [key,item] of queue){if(item.locale!==requestLocale){queue.delete(key);continue;}if(items.length>=16||length+item.text.length>14000)break;items.push({...item,key});inFlight.add(key);queue.delete(key);length+=item.text.length;}
- try{if(!items.length)return;const r=await fetch('/api/localization',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({locale:requestLocale,items:items.map(({text,language})=>({text,language}))})});if(!r.ok)throw Error();const d=await r.json();const returned=new Map((d.translations||[]).map(x=>[x.id,x.text]));for(const item of items){const text=returned.get(item.id);if(typeof text!=='string'||!keepsProtectedText(protectionFor(translationSource(item.text,item.language)),text))throw Error();cache.set(item.key,text);}
+ try{if(!items.length)return;const r=await fetch('/api/localization',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({locale:requestLocale,items:items.map(({text,language})=>({text,language}))})});if(!r.ok)throw Error();const d=await r.json();const returned=new Map((d.translations||[]).map(x=>[x.id,x.text]));for(const item of items){const text=returned.get(item.id);if(typeof text!=='string'||!keepsLocalizedInstructions({text:item.text,protection:protectionFor(translationSource(item.text,item.language))},text))throw Error();cache.set(item.key,text);}
   while(cache.size>3500)cache.delete(cache.keys().next().value);
   try{localStorage.setItem('continuumInterfaceTranslations:'+translationRevision,JSON.stringify([...cache]))}catch{}
  }catch{if(requestLocale===locale){for(const item of items)failed.set(item.key,item);for(const [key,item] of queue)if(item.locale===requestLocale){failed.set(key,item);queue.delete(key);}}}
