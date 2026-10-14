@@ -2,13 +2,17 @@ import assert from 'node:assert/strict';
 import {testServer,db} from './test-server.mjs';
 import {assessmentItems,publicAssessment} from './assessment-bank.mjs';
 import {skillTasks} from './skills-content.mjs';
+// This suite covers the original 15 Spanish workshop tasks. International
+// production tasks are exercised by curriculum-api and multilingual-api.
+const workshopTasks=skillTasks.filter(task=>/^skills-(a1|a2|b1|b2|c1)-(listening|writing|speaking)$/.test(task.id));
 const base='http://127.0.0.1:'+testServer.address().port;
 async function call(path,method='GET',body,cookie){const r=await fetch(base+'/api'+path,{method,headers:{'Content-Type':'application/json',...(cookie?{cookie}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,data:await r.json(),cookie:r.headers.get('set-cookie')?.split(';')[0]}}
 async function account(name,role='learner'){const r=await call('/auth/register','POST',{name,email:name+'@example.test',password:'synthetic-test-password',role,adult:true});assert.equal(r.status,200);return r;}
 try{
  const a=await account('SkillsOne'),b=await account('SkillsTwo'),t=await account('SkillsTeacher','teacher');
  assert.equal((await call('/skills')).status,401);
- for(const task of skillTasks){let response=task.skill==='Listening'?task.questions.map(q=>q.answer):task.skill==='Writing'?'Hola, me gustaría cambiar la clase al lunes. ¿Sería posible?':{audio:'data:audio/webm;base64,'+Buffer.alloc(150,1).toString('base64'),seconds:15};const body={task:task.id,response,submissionKey:crypto.randomUUID()};const r=await call('/skills','POST',body,a.cookie);assert.equal(r.status,201,JSON.stringify(r.data));if(task.skill==='Listening')assert.equal(typeof r.data.submission.result.score,'number');else assert.equal(r.data.submission.result.score,null);assert.equal((await call('/skills','POST',body,a.cookie)).data.submission.id,r.data.submission.id);if(task.skill==='Writing'){
+ assert.equal(workshopTasks.length,15);
+ for(const task of workshopTasks){let response=task.skill==='Listening'?task.questions.map(q=>q.answer):task.skill==='Writing'?'Hola, me gustaría cambiar la clase al lunes. ¿Sería posible?':{audio:'data:audio/webm;base64,'+Buffer.alloc(150,1).toString('base64'),seconds:15};const body={task:task.id,response,submissionKey:crypto.randomUUID()};const r=await call('/skills','POST',body,a.cookie);assert.equal(r.status,201,JSON.stringify(r.data));if(task.skill==='Listening')assert.equal(typeof r.data.submission.result.score,'number');else assert.equal(r.data.submission.result.score,null);assert.equal((await call('/skills','POST',body,a.cookie)).data.submission.id,r.data.submission.id);if(task.skill==='Writing'){
  assert.equal((await call('/skills/'+r.data.submission.id,'GET',null,b.cookie)).status,403);
  assert.equal((await call('/skills/'+r.data.submission.id+'/review','PUT',{ratings:[4,4,4,4],feedback:'Very clear response.'},a.cookie)).status,403);
  }}
@@ -52,7 +56,9 @@ try{
  assert.equal((await call('/skills/'+writing.id,'GET',null,a.cookie)).status,200);
  let session=(await call('/assessments','POST',{},a.cookie)).data.session;
  const items=assessmentItems(session.form,session.version);assert.equal(items.length,45);
- for(let i=0;i<45;i++){const r=await call('/assessments/'+session.id,'PUT',{index:i,answer:items[i].answer},a.cookie);assert.equal(r.status,200,JSON.stringify(r.data));session=r.data.session;if(i===30){assert.equal(session.question.skill,'Listening');assert.ok(session.question.audio);assert.equal(session.question.answer,undefined);}}
+ let listeningQuestions=0;
+ for(let i=0;i<45;i++){const r=await call('/assessments/'+session.id,'PUT',{index:i,answer:items[i].answer},a.cookie);assert.equal(r.status,200,JSON.stringify(r.data));session=r.data.session;if(i<44)assert.equal(session.question.skill,items[i+1].skill);if(session.question.skill==='Listening'){listeningQuestions++;assert.ok(session.question.audio);assert.equal(session.question.answer,undefined);}}
+ assert.equal(listeningQuestions,15);
  assert.equal(session.question.skill,'Writing');assert.equal(session.question.task.model,undefined);
  assert.equal(session.question.task.questions,undefined);
  assert.equal((await call('/assessments/'+session.id,'PUT',{index:45,answer:{sampleId:writing.id}},a.cookie)).status,400);

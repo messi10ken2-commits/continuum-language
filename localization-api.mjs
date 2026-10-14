@@ -49,7 +49,7 @@ export async function handleLocalization({route,req,res,pool,required,json,send,
  const body=await json(req);if(!validInterfaceLanguage(body.locale)||!Array.isArray(body.items)||body.items.length>16||body.items.length<1)fail(400,'Invalid translation request');
  const sources=body.items.map(i=>typeof i?.text==='string'&&i.text.length<=6000&&['','es','en','pt','ja'].includes(i.language||'')?translationSource(i.text,i.language||''):null);
  if(sources.some(s=>!s)||sources.reduce((n,s)=>n+s.text.length,0)>14000)fail(400,'Only published course and interface text can be translated');
- const output=[],missing=[];
+ const output=[],missing=[],lookups=[];
  for(let i=0;i<sources.length;i++){
   const s=sources[i],id=translationKey(body.items[i].text,body.items[i].language||''),cacheKey=crypto.createHash('sha256').update(JSON.stringify([translationRevision,body.locale,s])).digest('hex');
   if(body.locale==='en'){output.push({id,text:s.text});continue;}
@@ -57,14 +57,18 @@ export async function handleLocalization({route,req,res,pool,required,json,send,
   if(/^⟦KEEP_\d+⟧$/.test(protection.text)){output.push({id,text:s.text});continue;}
   const reviewed=reviewedTranslation(s.text,body.locale)||interfaceCopy[s.text]?.[body.locale];
   if(reviewed){output.push({id,text:reviewed});continue;}
-  const saved=await pool.query('SELECT translated FROM interface_translations WHERE cache_key=$1',[cacheKey]);
-  if(saved.rows.length&&keepsProtectedText(protection,saved.rows[0].translated))output.push({id,text:saved.rows[0].translated});else missing.push({source:s,id,cacheKey});
+  lookups.push({source:s,id,cacheKey,protection});
+ }
+ if(lookups.length){
+  const saved=await pool.query('SELECT cache_key,translated FROM interface_translations WHERE cache_key=ANY($1::text[])',[lookups.map(x=>x.cacheKey)]);
+  const byKey=new Map(saved.rows.map(row=>[row.cache_key,row.translated]));
+  for(const item of lookups){const text=byKey.get(item.cacheKey);if(typeof text==='string'&&keepsProtectedText(item.protection,text))output.push({id:item.id,text});else missing.push(item);}
  }
  if(missing.length){
   limited(req,'localization:'+user.id,240);
   const key=body.locale+':'+missing.map(x=>x.cacheKey).join(',');
   let work=pending.get(key);if(!work){if(active>=3)fail(429,'Translation is busy. Please retry.');active++;
-   work=(async()=>{const translated=await translate(missing.map(x=>x.source),body.locale);if(translated.length!==missing.length||translated.some((text,i)=>!keepsProtectedText(protectSource(missing[i].source),text)))throw Error('Translation changed learning content');for(let i=0;i<missing.length;i++)await pool.query('INSERT INTO interface_translations(cache_key,translated) VALUES($1,$2) ON CONFLICT(cache_key) DO UPDATE SET translated=EXCLUDED.translated,created_at=now()',[missing[i].cacheKey,translated[i]]);return translated;})();pending.set(key,work);work.finally(()=>{pending.delete(key);active--;}).catch(()=>{});
+   work=(async()=>{const translated=await translate(missing.map(x=>x.source),body.locale);if(translated.length!==missing.length||translated.some((text,i)=>!keepsProtectedText(protectSource(missing[i].source),text)))throw Error('Translation changed learning content');const entries=new Map(missing.map((item,i)=>[item.cacheKey,translated[i]]));await pool.query('INSERT INTO interface_translations(cache_key,translated) SELECT * FROM unnest($1::text[],$2::text[]) ON CONFLICT(cache_key) DO UPDATE SET translated=EXCLUDED.translated,created_at=now()',[[...entries.keys()],[...entries.values()]]);return translated;})();pending.set(key,work);work.finally(()=>{pending.delete(key);active--;}).catch(()=>{});
   }
   try{const translated=await work;missing.forEach((x,i)=>output.push({id:x.id,text:translated[i]}));}catch{fail(503,'Translation is temporarily unavailable. Original text is still available.');}
  }

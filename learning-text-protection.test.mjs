@@ -54,7 +54,7 @@ test('server repairs a poisoned cache entry and rejects a provider result that c
  const source=translationSource(reported,'en');
  const key=crypto.createHash('sha256').update(JSON.stringify([translationRevision,'ja',source])).digest('hex');
  const cache=new Map([[key,'教材文まで翻訳された古い値']]);let writes=0,output;
- const pool={query:async(sql,args)=>{if(sql.startsWith('SELECT'))return {rows:cache.has(args[0])?[{translated:cache.get(args[0])}]:[]};assert.match(sql,/DO UPDATE SET translated/);cache.set(args[0],args[1]);writes++;return {rows:[]};}};
+ const pool={query:async(sql,args)=>{if(sql.startsWith('SELECT'))return {rows:args[0].filter(key=>cache.has(key)).map(key=>({cache_key:key,translated:cache.get(key)}))};assert.match(sql,/DO UPDATE SET translated/);args[0].forEach((key,index)=>cache.set(key,args[1][index]));writes++;return {rows:[]};}};
  const args={route:'/api/localization',req:{method:'POST'},res:{},pool,required:async()=>({id:'test'}),json:async()=>({locale:'ja',items:[{text:reported,language:'en'}]}),send:(_r,status,data)=>{output={status,data}},fail:(status,message)=>{throw Object.assign(Error(message),{status})},limited(){}};
  await handleLocalization({...args,translate:async()=>['これはどういう意味ですか？ '+sentence]});
  assert.equal(output.status,200);assert.equal(writes,1);assert.ok(output.data.translations[0].text.includes(sentence));

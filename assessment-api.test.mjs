@@ -31,7 +31,7 @@ try{
  await call('/privacy','PUT',{shareSelfLearning:false},a.cookie);
  assert.equal((await call('/teacher/learners/'+learner,'GET',null,t.cookie)).data.assessment,null);
  assert.equal((await call('/assessments','GET',null,a.cookie)).data.history.length,1);
- await call('/teacher/learners/'+learner+'/notes','POST',{focus:'Reading',note:'Synthetic class note remains shared.'},t.cookie);
+ assert.equal((await call('/teacher/learners/'+learner+'/notes','POST',{language:'es',focus:'Reading',note:'Synthetic class note remains shared.'},t.cookie)).status,201);
  assert.equal((await call('/teacher/learners/'+learner+'/notes','GET',null,t.cookie)).data.notes.length,1);
  const second=(await call('/assessments','POST',{},a.cookie)).data.session;assert.equal(second.kind,'reassessment');assert.notEqual(second.form,s.form);
  assert.equal((await call('/assessments','GET',null,a.cookie)).data.history[0].result.level,'C1');

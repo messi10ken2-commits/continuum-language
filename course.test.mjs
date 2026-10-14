@@ -34,8 +34,17 @@ test('Every roadmap item is playable and grades right/wrong answers',()=>{
 test('Each CEFR course level ends with an 85-percent summary test',()=>{
  for(const level of levels){const chapter=chapters.find(c=>c.id===level.id.toLowerCase()+'-summary-test');const lesson=getLesson(chapter.id);assert.ok(chapter.summaryTest);assert.ok(lesson.summaryTest);assert.equal(lesson.passScore,85);assert.ok(lesson.questions.length>=10);assert.equal(gradeLesson(lesson.id,lesson.questions.map(q=>q.answer)).score,100);}
 });
-test('Each chapter has two lessons and a checkpoint covering both',()=>{
- for(const c of chapters.filter(c=>!c.summaryTest&&!c.language)){const units=lessonList.filter(l=>l.chapter===c.id);assert.equal(units.length,3);assert.equal(units.find(x=>x.checkpoint).questions.length,units.filter(x=>!x.checkpoint).reduce((n,x)=>n+x.questions.length,0));}
+test('Core checkpoints retain both lessons and include specialist comparison questions',()=>{
+ for(const c of chapters.filter(c=>!c.summaryTest&&!c.language)){
+  const units=lessonList.filter(l=>l.chapter===c.id),checkpoint=units.find(x=>x.checkpoint);
+  assert.equal(units.length,3);
+  const original=units.filter(x=>!x.checkpoint).flatMap(x=>x.questions);
+  assert.deepEqual(checkpoint.questions.slice(0,original.length),original,c.id);
+  const specialists=fullLessonList.filter(l=>l.chapter===c.id&&l.specialist&&!l.checkpoint);
+  const additions=checkpoint.questions.slice(original.length);
+  assert.equal(additions.length,specialists.length*4,c.id);
+  assert.deepEqual(new Set(additions.map(q=>q.sourceLesson)),new Set(specialists.map(l=>l.id)),c.id);
+ }
 });
 test('Legacy results stay attached to subjunctive, not other lessons',()=>{
  assert.equal(gradeLesson('subjunctive',[1,1,1,1,1]).score,100);
