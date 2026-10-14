@@ -10,6 +10,16 @@ test('missing Gemini model discovers supported text model and caches the selecti
  const result=await requestPatternBatch('system','synthetic',{fetchImpl});assert.equal(result.model,'gemini-3-flash');assert.equal(result.provider,'Gemini');assert.equal(urls.length,3);
  await requestPatternBatch('system','synthetic',{fetchImpl});assert.equal(urls.length,4);assert.ok(urls.at(-1).includes('gemini-3-flash:generateContent'));
 });
+test('transient provider overload retries before changing models',async()=>{
+ process.env.GEMINI_API_KEY='synthetic-overload';process.env.GEMINI_ASSESSMENT_MODEL='gemini-overload-flash';let calls=0;
+ const result=await requestPatternBatch('system','synthetic',{fetchImpl:async url=>{assert.ok(url.includes(':generateContent'));return ++calls===1?{ok:false,status:503,json:async()=>({error:{code:503}})}:gemini();}});
+ assert.equal(calls,2);assert.equal(result.provider,'Gemini');assert.equal(result.model,'gemini-overload-flash');
+});
+test('persistent overload can recover through another available Gemini text model',async()=>{
+ process.env.GEMINI_API_KEY='synthetic-switch-overload';process.env.GEMINI_ASSESSMENT_MODEL='gemini-busy-flash';let calls=0;
+ const result=await requestPatternBatch('system','synthetic',{fetchImpl:async url=>{calls++;if(url.includes('gemini-busy-flash'))return {ok:false,status:503,json:async()=>({error:{code:503}})};if(url.includes('?pageSize'))return ok({models:[{name:'models/gemini-3-flash',supportedGenerationMethods:['generateContent']}]});return gemini();}});
+ assert.equal(calls,4);assert.equal(result.model,'gemini-3-flash');assert.equal(result.provider,'Gemini');
+});
 test('quota, network, authentication and malformed output return safe actionable failures',async()=>{
  process.env.GEMINI_API_KEY='synthetic-failures';delete process.env.GEMINI_ASSESSMENT_MODEL;
  for(const status of [401,403,429,500])await assert.rejects(requestPatternBatch('system','private learner evidence',{fetchImpl:async()=>({ok:false,status,json:async()=>({error:{code:status}})})}),e=>e.status===503&&/saved results are unchanged/.test(e.message));

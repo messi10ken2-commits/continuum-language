@@ -19,8 +19,9 @@ export async function requestPatternBatch(system,context,{fetchImpl=fetch}={}){
    const cacheKey=configured+':'+process.env.GEMINI_API_KEY;
    let model=discovery?.key===cacheKey&&discovery.until>Date.now()?discovery.model:configured;
    const generate=m=>fetchImpl(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':process.env.GEMINI_API_KEY},body:JSON.stringify({systemInstruction:{parts:[{text:system}]},contents:[{role:'user',parts:[{text:context}]}],generationConfig:{temperature:0.2,responseMimeType:'application/json'}}),signal:AbortSignal.timeout(60000)});
-   let response=await generate(model);
-   if(response.status===404){
+   const retryGenerate=async m=>{let response=await generate(m);if(response.status===503){await new Promise(resolve=>setTimeout(resolve,1000));response=await generate(m);}return response;};
+   let response=await retryGenerate(model);
+   if(response.status===404||response.status===503){
     await checked(response,'Gemini',model).catch(()=>{});
     const listing=await fetchImpl('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000',{headers:{'x-goog-api-key':process.env.GEMINI_API_KEY},signal:AbortSignal.timeout(15000)});
     await checked(listing,'Gemini','model-list');
@@ -29,7 +30,7 @@ export async function requestPatternBatch(system,context,{fetchImpl=fetch}={}){
     candidates.sort((a,b)=>Number(/preview|latest/.test(a.name))-Number(/preview|latest/.test(b.name))||Number(/lite/.test(a.name))-Number(/lite/.test(b.name))||b.name.localeCompare(a.name,undefined,{numeric:true}));
     const next=candidates.find(m=>m.name!=='models/'+model)?.name.replace(/^models\//,'');
     if(!next)throw failure('AI analysis model is unavailable. Your saved results are unchanged. Please try again later.',404);
-    model=next;response=await generate(model);
+    model=next;response=await retryGenerate(model);
     if(response.ok)discovery={key:cacheKey,model,until:Date.now()+15*60*1000};
    }
    await checked(response,'Gemini',model);
