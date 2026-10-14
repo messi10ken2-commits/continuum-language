@@ -6,6 +6,7 @@ import {languageInfo} from './languages.mjs';
 import React,{useEffect,useRef,useState,useContext} from 'react';
 import {Volume2,Square} from 'lucide-react';
 import {speechParts} from './sentence-audio.mjs';
+import {audioLookahead} from './audio-lookahead.mjs';
 import './sentence-audio.css';
 let active=null;
 const clips=new Map();let cacheBytes=0;
@@ -33,11 +34,12 @@ export default function SentenceAudio({text,lang='auto',compact=false,onPlayed})
   active?.stop();stop();const token=generation.current;active={owner:owner.current,stop};setError('');setSource(defaultSource);setLoading(true);
   request.current=new AbortController();const signal=request.current.signal;
   const parts=speechParts(text,lang,locale).filter(p=>p.text.trim());let index=0,started=false;
+  const preparedClip=audioLookahead(parts,studioClip,signal);
   const next=async()=>{if(!mounted.current||token!==generation.current)return;
    release();if(index>=parts.length){setPlaying(false);setLoading(false);if(active?.owner===owner.current)active=null;return;}
    setLoading(true);
    try{
-    const clip=await studioClip(parts[index++],signal);if(!mounted.current||token!==generation.current)return;
+    const clip=await preparedClip(index++);if(!mounted.current||token!==generation.current)return;
     setSource(clip.source);objectURL.current=URL.createObjectURL(clip.blob);const player=new Audio(objectURL.current);audio.current=player;player.playbackRate=speed.current;player.preservesPitch=true;
     player.onended=next;player.onerror=()=>{if(token===generation.current){stop();setError('Could not play the studio recording. Tap Listen to retry.');}};
     await player.play();if(!mounted.current||token!==generation.current)return;
