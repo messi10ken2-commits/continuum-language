@@ -1,3 +1,4 @@
+import {questionLearningText} from './learning-text-protection.mjs';
 import {reviewedInterfaceCopy} from './reviewed-interface-copy.mjs';
 import interfaceContexts from './interface-contexts.json' with {type:'json'};
 import {feedbackTemplates} from './localized-feedback.mjs';
@@ -10,7 +11,7 @@ import uiSources from './interface-sources.json' with {type:'json'};
 export const translationKey=(text,language='')=>JSON.stringify([language,text]);
 const corpus=new Map();
 let lessonContext='';
-function add(text,language='',protectedValues=[]){if(typeof text!=='string'||!/[A-Za-z]/.test(text)||!text.trim())return;const key=translationKey(text,language),old=corpus.get(key);corpus.set(key,{text,language,context:language?(lessonContext||'Language lesson: explanations, instructions and feedback'):(interfaceContexts[text]||['General interface']).join(', '),protectedValues:[...new Set([...(old?.protectedValues||[]),...protectedValues.filter(v=>typeof v==='string'&&v.length>1)])]});}
+function add(text,language='',protectedValues=[]){if(typeof text!=='string'||!/[A-Za-z]/.test(text)||!text.trim())return;const key=translationKey(text,language),old=corpus.get(key);corpus.set(key,{text,language,context:language?(lessonContext||'Language lesson: explanations, instructions and feedback'):(interfaceContexts[text]||['General interface']).join(', '),protectedValues:[...new Set([...(old?.protectedValues||[]),...protectedValues.filter(v=>typeof v==='string'&&(v.length>1||/^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]$/u.test(v)))])]});}
 for(const text of [...uiSources,...Object.keys(interfaceCopy),...Object.values(reviewedInterfaceCopy).flatMap(Object.keys)])add(text);
 for(const text of feedbackTemplates)add(text.trim());
 for(const level of levels){add(level.name);add(level.description);}
@@ -19,7 +20,9 @@ for(const l of lessonList){
  lessonContext=l.level+' '+l.language+' lesson: '+l.title;
  add(l.title);
  const language=l.language||languageOf(l.id),terms=[...(l.vocabulary||[]),...(l.expressions||[])].flatMap(w=>[w.term,w.phrase,w.example]),forms=(l.breakdown?.tables||[]).flatMap(t=>t.rows.flatMap(r=>r.filter((_,i)=>!descriptionColumn(t.headers[i]))));
- const preserve=[...terms,...forms,l.example,...(l.breakdown?.examples||[]).map(x=>x[0])];
+ const targetHeader=h=>!/^(Subject|Viewpoint|Example|Meaning|Form|Statement|Negative|Question|Base|Type|Pattern|Positive|Past|Ending sound|Short answer|Purpose|Focus|Interpretation|Participle|Function|Time order|Reason|Condition|Result|Simple perfect|Continuous perfect|Difference|Time|Wording|Strength|Appropriate interpretation|Reference|Gerund|Construction|Verb|Auxiliary|Infinitive|Expression|Limit|Role|Particle \/ form|Group|Dictionary|Stem|Polite|Past negative|Nonpast|Ending|Change|Plain predicate|With possibility|Full form|Conversational form|Conditional|Passive|Causative|Status)$/i.test(h);
+ const headers=(l.breakdown?.tables||[]).flatMap(t=>t.headers.filter(targetHeader));
+ const preserve=[...headers,...terms,...forms,l.example,...(l.breakdown?.examples||[]).map(x=>x[0]),...(l.soundGuide?.pairs||[]).flatMap(([a,b])=>[a,...(/^[\p{L}\p{M}ー-]+$/u.test(b)?[b]:[])]),...(l.characters||[]).flatMap(x=>[x.glyph,x.reading])];
  for(const k of ['title','explanation','priority','speak'])add(l[k],language,preserve);
  for(const w of [...(l.vocabulary||[]),...(l.expressions||[])])for(const k of ['meaning','translation','use','pitfall','type','register','region'])add(w[k],language,preserve);
  for(const s of l.breakdown?.steps||[])add(s,language,preserve);add(l.breakdown?.pitfall,language,preserve);
@@ -32,7 +35,7 @@ for(const l of lessonList){
  const variants=[l];if(hasExpandedExercises(l.id))for(const v of [2,3,4])variants.push(getLessonVariant(l.id,`v${v}-localization-source-123456789`));
  for(const q of variants.flatMap(v=>v.questions||[])){
   const targetOptions=(!q.optionsLang||q.optionsLang.split('-')[0]===language)?q.options||[]:[];
-  const protectedQ=[...preserve,q.audio,q.audioSpeech,...targetOptions,q.type==='text'?q.answer:null];
+  const protectedQ=[...preserve,...questionLearningText(q,language),...targetOptions];
   add(q.prompt,language,protectedQ);add(q.note,language,protectedQ);
   for(const value of Object.values(q.mistakeFeedback||{}))add(value,language,protectedQ);
   if(q.prompt?.includes('Complete with tocar:'))for(const answer of ['ligou','tocava','tocar','toquei','tocaram'])add(mistakeFeedback(q,answer),language,protectedQ);
@@ -46,16 +49,16 @@ export const translationSource=(text,language='')=>corpus.get(translationKey(tex
 // must preserve every token; restore it only after validation, never as HTML.
 export function protectSource(source){
  let text=source.text;const values=[];
- const candidates=[...source.protectedValues,...(source.text.match(/\{\d+\}/g)||[])];
+ const candidates=[...source.protectedValues,...(source.text.match(/\{\d+\}/g)||[]),...(source.text.match(/\/[^\s/]+\//gu)||[])];
  if(source.language==='en'){
   for(const match of text.matchAll(/[“"]([^”"\n]+)[”"]/g))candidates.push(match[1]);
   if(/_{2,}/.test(text)&&text.includes(':'))candidates.push(text.slice(text.indexOf(':')+1).trim());
  }
  // Longest first; word boundaries prevent protecting 'ir' inside 'first'.
  for(const value of [...new Set(candidates)].sort((a,b)=>b.length-a.length)){
-  if(!value||value===source.text||!text.includes(value))continue;
+  if(!value||!text.includes(value))continue;
   const escaped=value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   text=text.replace(new RegExp(`(?<![\\p{L}\\p{N}])${escaped}(?![\\p{L}\\p{N}])`,'gu'),()=>{const id=values.push(value)-1;return `⟦KEEP_${id}⟧`;});
  }
- return {text,restore(translated){if(typeof translated!=='string'||!translated.trim()||translated.length>Math.max(1000,source.text.length*8))throw Error('Invalid translation');for(let i=0;i<values.length;i++){const token=`⟦KEEP_${i}⟧`;if(translated.split(token).length!==2)throw Error('Translation changed learning content');translated=translated.replace(token,values[i]);}if(/⟦KEEP_\d+⟧/.test(translated))throw Error('Unknown translation token');return translated;}};
+ return {text,values,restore(translated){if(typeof translated!=='string'||!translated.trim()||translated.length>Math.max(1000,source.text.length*8))throw Error('Invalid translation');for(let i=0;i<values.length;i++){const token=`⟦KEEP_${i}⟧`;if(translated.split(token).length!==2)throw Error('Translation changed learning content');translated=translated.replace(token,values[i]);}if(/⟦KEEP_\d+⟧/.test(translated))throw Error('Unknown translation token');return translated;}};
 }
