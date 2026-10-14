@@ -14,7 +14,7 @@ export default function ConversationVideo({lesson,practice=false,cue=null}){
   {c.sourceTitle&&<p className="conversation-source-title">{c.sourceTitle}</p>}
   {!practice&&c.watchTasks&&<div className="conversation-guide"><h3>{uiText(practice?'Replay with a purpose':'Your listening guide')}</h3><ol>{c.watchTasks.map((task,i)=><li key={i}>{uiText(task,lesson.language||lesson.locale?.slice(0,2)||'es')}</li>)}</ol></div>}
   {!practice&&c.levelNote&&<p className="conversation-hint">{uiText(c.levelNote,lesson.language||lesson.locale?.slice(0,2)||'es')}</p>}
-  {!practice&&<p className="conversation-hint">{c.hint||'Listen for the situation first, then replay for details. This five-minute teaching video includes repetition and on-screen captions.'}</p>}
+  {!practice&&<p className="conversation-hint">{uiText(c.hint||'Listen for the situation first, then replay for details. This five-minute teaching video includes repetition and on-screen captions.',lesson.language||lesson.locale?.slice(0,2)||'es')}</p>}
   {failed&&<p role="status">{uiText("The video could not load here. Open the original lesson below to watch, or use the dialogue transcript.")}</p>}
   {c.transcript&&<details><summary>{uiText("Read the dialogue transcript")}</summary><p>{uiText("The main conversation; teaching repetitions are omitted.")}</p>{c.transcript.map(([speaker,line],i)=><p key={i} lang={lesson.locale}><b>{speaker}: </b>{line}</p>)}</details>}
   {embedded&&<p className="conversation-hint">{uiText("If playback is unavailable here, use “Open original video” below. YouTube may show ads or restrict playback in some regions.")}</p>}

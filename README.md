@@ -1,29 +1,59 @@
 # Continuum Language
 
-Continuum connects self-study and teacher notes in one learner account. The current release provides a working subjunctive exercise, saved practice results, and teacher sharing by one-time code.
+Continuum connects language self-study, assessments and teacher notes in one
+learner account. The audited implementation contains four target languages
+(Spanish, Japanese, Brazilian Portuguese and English), A1–C1 materials and six
+independent display languages. See [QA_REPORT.md](QA_REPORT.md) for exact tested
+scope, confirmed defects and limitations; this is not a complete localization or
+real-device certification claim.
 
-## Included
+## Implemented
 
-- Learner and teacher accounts with PostgreSQL-backed sessions
-- Server-graded practice results that persist across devices
-- Explicit import of earlier browser-only practice results
-- One-time teacher sharing codes, access revocation, and class notes
-- A public sample preview with CEFR report and additional lessons shown as prototypes
+- PostgreSQL-backed learner/teacher accounts, profiles, teacher review and bookmarks
+- Server-graded exercises, saved lesson drafts, checkpoints and assessment history
+- Listening/writing/speaking tasks, consent-based AI feedback and pronunciation matching
+- Language-scoped teacher sharing, privacy controls, class notes and learning evidence
+- Recurring patterns, review pool, visual recaps, conversation embeds and character writing
+- Reviewed/interface translation caches and native, AI studio and device audio
 
-## Run locally
+Scheduling, live chats/meetings, paid bookings/payments, email verification and
+password reset are not implemented. Do not mistake legacy prototype components
+for working account features.
 
-Use a PostgreSQL database and set `DATABASE_URL`. For a local session cookie, leave `NODE_ENV` unset.
+## Local development
+
+Use a development PostgreSQL database and set `DATABASE_URL`. Keep credentials
+out of Git. For local HTTP leave `NODE_ENV` unset; production cookies require HTTPS.
 
 ```bash
-npm install
+npm ci
 npm run build
 npm start
 ```
 
-Open `http://localhost:3000`. `GET /api/health` verifies database connectivity. Tables are created at startup. `npm run dev` serves the frontend alone; use the steps above to test account features.
+`GET /api/health` verifies database connectivity. Tables are created at startup.
+`npm run dev` serves only the frontend. Preserve existing production connections
+and read [DEPLOYMENT.md](DEPLOYMENT.md) before any release.
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for Railway setup and the transition from the older deployment overrides.
+## QA
 
-## Still in development
+```bash
+npm run test:qa
+npm run build
+npm audit --omit=dev
+npm run test:qa:browser
+node scripts/qa-performance.mjs
+```
 
-Email verification, password reset, paid class booking, audio transcription, and exercises besides the subjunctive preview are not connected yet. The unauthenticated CEFR profile is sample data and is not an official assessment.
+The complete test suite uses PGlite. Browser QA requires Chromium and a built
+frontend; it starts its own disposable test server/database and removes AI keys
+inside the test process. It creates only synthetic accounts and closes its own
+services. No production URL, Railway token or payment credentials are required.
+Performance results are written to `/tmp/continuum-qa-performance-results.json`;
+browser results to `/tmp/continuum-qa-browser-results.json`. Human listening and
+physical-device checks are still required.
+
+`node scripts/qa-postgres.mjs` additionally requires the isolated local PostgreSQL
+service at 127.0.0.1:55432 (continuum_dev). It creates and deletes only a randomly
+named QA database and verifies real server restart persistence. Never point these
+scripts at production.

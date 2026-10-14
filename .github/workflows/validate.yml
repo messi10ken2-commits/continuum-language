@@ -17,6 +17,6 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm test
-      - run: node --test response-performance.test.mjs localization.test.mjs localization-api.test.mjs localization-render.test.mjs learning-text-protection.test.mjs speech.test.mjs sentence-audio.test.mjs
+      - run: npm run test:qa
       - run: npm run build
+      - run: npm audit --omit=dev
