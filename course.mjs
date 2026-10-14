@@ -1,3 +1,4 @@
+import {equivalentAnswer} from './answer-equivalence.mjs';
 import {pastAspectLessons, pastAspectCheckpointQuestions} from './past-aspect-lessons.mjs';
 import {conversationChapters,conversationLessons} from './conversation-course.mjs';
 import {visualChapters,visualLessons,visualTransfer} from './visual-course.mjs';
@@ -148,8 +149,7 @@ export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLes
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
 export const forLesson=(attempts,id='subjunctive')=>attempts.filter(a=>(a.lesson||'subjunctive')===id);
 export function validAnswer(q,a){return q.type==='text'?typeof a==='string'&&a.length<=150:Number.isInteger(a)&&a>=0&&a<q.options.length;}
-const normal=s=>String(s).trim().toLocaleLowerCase('es').normalize('NFKC').replace(/[’‘]/g,"'").replace(/\s+/g,' ').replace(/[.!?¿¡。！？]+$/g,'').trim();
-export function isCorrect(q,a){return q.type==='text'?(q.accepted||[q.answer]).some(x=>normal(x)===normal(a)):a===q.answer;}
+export function isCorrect(q,a){return q.type==='text'?equivalentAnswer(q,a):a===q.answer;}
 export function gradeLesson(id,answers,seed){const l=getLessonVariant(id,seed);if(!l||!Array.isArray(answers)||answers.length!==l.questions.length||!answers.every((a,i)=>validAnswer(l.questions[i],a)))throw new Error('Invalid completed exercise');const correct=answers.filter((a,i)=>isCorrect(l.questions[i],a)).length;return {score:Math.round(correct/l.questions.length*100),total:l.questions.length,correct};}
 export function summarize(attempts){const out={};for(const a of attempts){const id=a.lesson||'subjunctive';const row=out[id]||(out[id]={lesson:id,best:0,latest:a.score,count:0});row.best=Math.max(row.best,a.score);row.count++;}return Object.values(out);}
 
