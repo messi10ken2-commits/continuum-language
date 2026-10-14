@@ -6,10 +6,11 @@ export function questionLearningText(q,language){
  const afterInstruction=value=>value.split(/\s+(?:Write (?:only|the|a|both)|Use |Begin |Add |Give )/)[0].trim();
  const meaning=prompt.match(/^What does this mean\?\s*([\s\S]+)$/);if(meaning)add(meaning[1]);
  const contextual=prompt.match(/^Complete the model with the lesson's wording\.\n([^\n]+)/);if(contextual)add(contextual[1]);
+ if(prompt.includes(':')){const tail=prompt.slice(prompt.indexOf(':')+1).trim();if(/_{2,}/.test(tail)&&!tail.includes('\n'))add(afterInstruction(tail));}
  const sentence=prompt.match(/^Complete the sentence to express:[^\n]*\n([\s\S]+)$/);if(sentence)add(sentence[1]);
  // Colon-delimited correction, transformation and cloze exercises. Keep the
  // sentence as written: correcting it in a translation would reveal the answer.
- if(/^(?:Complete|Correct|Make|Ask|Use|Put|Replace|Express|Remove|Limit|Write|Read\s*:)/.test(prompt)&&prompt.includes(':')&&!/^Choose the structure/.test(prompt)){
+ if(/^(?:Complete|Correct|Make|Ask|Use|Put|Replace|Express|Remove|Limit|Write|Place|Read\s*:)/.test(prompt)&&prompt.includes(':')&&!/^Choose the structure/.test(prompt)){
   const tail=prompt.slice(prompt.indexOf(':')+1).trim();
   if(!/^[“"]/.test(tail)&&!tail.includes('\n'))add(afterInstruction(tail));
  }
@@ -24,6 +25,7 @@ export function questionLearningText(q,language){
  for(const match of prompt.matchAll(/(?:Complete with|Correct only|Correct|Use|with) ([\p{L}’'-]+(?: (?:or|and) [\p{L}’'-]+)?)(?=[:,.]| in the | to express | for |\s*$)/gu)){
   if(!/^(?:the|a|an|only|negative|simple|past|present|word|verb|form|auxiliary|participle|question|purpose|result|polite|imperfect|conventional|desired|negative purpose|past form)$/.test(match[1]))add(match[1]);
  }
+ for(const pattern of [/Which ending sound does ([\p{L}’-]+) have/gu,/(?:syllable is stressed|main stress) in ([\p{L}’-]+)/gu,/distinguish ([\p{L}’-]+) from ([\p{L}’-]+)/gu,/What changes from ([\p{L}’-]+) to the first sound in ([\p{L}’-]+)/gu])for(const match of prompt.matchAll(pattern))for(const word of match.slice(1))add(word);
  for(const match of prompt.matchAll(/(?:past|participle|imperfect) of ([\p{L}’'-]+)/gu))add(match[1]);
  if(language==='en')for(const match of prompt.matchAll(/(?:Begin|Add|Use) ([A-Za-z]+(?: [A-Za-z]+)?)(?=[.!?]|$)/g))add(match[1]);
  if(language==='ja')for(const match of prompt.matchAll(/[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}ー〜]+(?:[_＿]+[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}ー〜]*)?/gu))add(match[0]);

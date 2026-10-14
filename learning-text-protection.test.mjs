@@ -61,3 +61,17 @@ test('server repairs a poisoned cache entry and rejects a provider result that c
  await handleLocalization({...args,translate:async()=>{throw Error('valid cache should be reused')}});assert.equal(writes,1);
  cache.set(key,'別の誤訳');await assert.rejects(handleLocalization({...args,translate:async()=>['英文まで翻訳された値']}),e=>e.status===503);assert.equal(writes,1);
 });
+
+
+test('inline pronunciation words and alternative cloze/word-order formats are protected',()=>{
+ for(const [prompt,language,targets] of [
+  ['What changes from thin to the first sound in this?','en',['thin','this']],
+  ['Which ending sound does needed have? Write /t/, /d/ or /ɪd/.','en',['needed']],
+  ['Which syllable is stressed in teléfono?','es',['teléfono']],
+  ['Place often correctly. Rebuild: My father / is / busy. Add often.','en',['My father / is / busy.']],
+  ['Every summer as a child: Eu ____ na praia.','pt',['Eu ____ na praia.']]
+ ]){
+  const values=questionLearningText({prompt},language),p=protectSource({text:prompt,language,protectedValues:values});
+  for(const target of targets){assert.ok(!bounded(target).test(p.text),prompt);assert.ok(p.restore(p.text).includes(target));}
+ }
+});
