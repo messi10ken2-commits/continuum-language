@@ -1,3 +1,4 @@
+import {displayLanguageOptions} from './answer-language.mjs';
 import {skillTasks} from './skills-content.mjs';
 import {visualFrames} from './lesson-media.mjs';
 import {appliedQuestionBank} from './applied-exercises.mjs';
@@ -38,12 +39,13 @@ for(const l of lessonList){
  for(const k of ['levelNote','hint'])add(l.conversation?.[k],language,preserve);
  const variants=[l];if(hasExpandedExercises(l.id))for(const v of [2,3,4,5])variants.push(getLessonVariant(l.id,`v${v}-localization-source-123456789`));
  for(const q of [...variants.flatMap(v=>v.questions||[]),...appliedQuestionBank.filter(q=>q.sourceLesson===l.id)]){
-  const targetOptions=(!q.optionsLang||q.optionsLang.split('-')[0]===language)?q.options||[]:[];
+  const meaningOptions=displayLanguageOptions(q,l);
+  const targetOptions=!meaningOptions&&(!q.optionsLang||q.optionsLang.split('-')[0]===language)?q.options||[]:[];
   const protectedQ=[...preserve,...questionLearningText(q,language),...targetOptions];
   add(q.prompt,language,q.instructionOnly?[]:protectedQ);add(q.note,language,protectedQ);
   for(const value of Object.values(q.mistakeFeedback||{}))add(value,language,protectedQ);
   if(q.prompt?.includes('Complete with tocar:'))for(const answer of ['ligou','tocava','tocar','toquei','tocaram'])add(mistakeFeedback(q,answer),language,protectedQ);
-  if(q.optionsLang?.startsWith('en')&&language!=='en')for(const o of q.options||[])add(o,language,preserve);
+  if(meaningOptions)for(const o of q.options||[])add(o);
  }
 }
 lessonContext='Course roadmap';

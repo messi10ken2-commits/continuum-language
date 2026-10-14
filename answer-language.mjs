@@ -1,0 +1,14 @@
+// Classify answer purpose independently of the course language. Comprehension
+// paraphrases belong to the display language; actual utterances/forms do not.
+export function displayLanguageOptions(q,lesson={}){
+ if(!q.options)return false;
+ if(q.optionsRole)return q.optionsRole==='comprehension';
+ if(q.video||lesson.conversation)return true;
+ if(lesson.visualStory&&!q.optionsLang)return true;
+ if((lesson.skill==='Listening'||lesson.checkpoint||lesson.summaryTest)&&q.audio&&!q.optionsLang&&!lesson.specialist)return true;
+ const language=lesson.language||lesson.locale?.split('-')[0]||'es';
+ if(q.optionsLang?.startsWith('en')&&language!=='en')return true;
+ if(q.optionsLang?.startsWith('en')&&['use','contrast','listening-application'].includes(q.mode))return true;
+ if(q.optionsLang?.startsWith('en')&&['detail','correction','action','sequence','inference','stance','condition','priority'].includes(q.viewpoint))return true;
+ return /^What does this mean\?/.test(q.prompt||'');
+}

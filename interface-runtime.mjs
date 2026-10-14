@@ -1,3 +1,4 @@
+import {displayLanguageOptions} from './answer-language.mjs';
 import {keepsLocalizedInstructions} from './learning-text-protection.mjs';
 import {reviewedTranslation,translationRevision} from './reviewed-interface-copy.mjs';
 import {feedbackParts} from './localized-feedback.mjs';
@@ -57,3 +58,5 @@ export function retryInterfaceTranslations(){for(const [key,item] of failed)queu
 export function tf(source,values){return t(source).replace(/\{(\d+)\}/g,(token,index)=>index<values.length?String(values[index]):token);}
 
 export function localizedFeedback(q,answer,language){const {source,values,note,original}=feedbackParts(q,answer);if(locale==='en')return original;if(!values.length)return t(original,language);return tf(source,values)+t(note,language);}
+
+export function optionText(q,value,lesson){return displayLanguageOptions(q,lesson)?t(value):value;}
