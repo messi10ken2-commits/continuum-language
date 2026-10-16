@@ -46,7 +46,16 @@ const intentions={
 };
 const alternatives=(answer,body,accepted=[answer])=>[...new Set([...accepted,...({should:['ought to'],could:['would be able to'],might:['may','could'],may:/____\s+not/.test(body)?['might']:['might','could'],"can't":['cannot',"couldn't",'could not'],'going to':['about to'],porque:['ya que','puesto que'],'después':['luego','más tarde'],'行く':['いく']}[answer]||[])])];
 export function qualityQuestion(base,q){
- const a=authored[base.id]?.[q.coverage];if(a)return make(q,'fill',a[0],a[1],{audio:undefined,audioSpeech:undefined});
+ const a=authored[base.id]?.[q.coverage];if(a){
+  const key=base.id+':'+q.coverage;
+  const aliases={
+   'en-b2-v2-lesson-3:table:0:0:1':['drop','decrease'],
+   'en-b2-v2-lesson-3:table:0:2:1':['were given','were granted'],
+   'en-b2-v2-lesson-3:table:0:3:1':['were to change','were changed'],
+   'ja-a1-v2-lesson-2:table:0:0:1':['がくせいです']
+  };
+  return make(q,'fill',a[0],a[1],{audio:undefined,audioSpeech:undefined,accepted:[a[1],...(aliases[key]||[])]});
+ }
  if(q.type==='text'&&/^Complete this part of the lesson/.test(q.prompt)){
   const match=/^table:(\d+):(\d+):(\d+)/.exec(q.coverage||'');const table=match&&base.breakdown?.tables?.[+match[1]],row=table?.rows?.[+match[2]],col=match&&+match[3];
   if(!table||!row)return q;

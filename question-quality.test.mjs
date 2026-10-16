@@ -14,7 +14,7 @@ test('every replacement is explicit and has five reviewed instruction translatio
  assert.ok(count>500);setInterfaceLanguage('en',{persist:false});
 });
 test('reported condition and leaked modal are practical clozes, with legitimate alternatives',()=>{
- const condition=qualityQuestionBank(lessonList.find(l=>l.id==='en-b2-v2-lesson-3')).find(q=>q.coverage==='table:0:0:1');assert.equal(condition.answer,'fall');assert.match(condition.prompt,/If prices ____, we will move/);assert.match(condition.promptTranslations.ja,/価格が下がる可能性/);
+ const condition=qualityQuestionBank(lessonList.find(l=>l.id==='en-b2-v2-lesson-3')).find(q=>q.coverage==='table:0:0:1');assert.equal(condition.answer,'fall');assert.ok(isCorrect(condition,'drop'));assert.ok(isCorrect(condition,'decrease'));assert.match(condition.prompt,/If prices ____, we will move/);assert.match(condition.promptTranslations.ja,/価格が下がる可能性/);
  const should=qualityQuestionBank(lessonList.find(l=>l.id==='en-c1-v2-lesson-5')).find(q=>q.coverage==='application:3');assert.equal(should.answer,'should');assert.ok(!/should/i.test(should.prompt));assert.ok(isCorrect(should,'ought to'));assert.ok(!isCorrect(should,'must'));
 });
 test('v6 drafts are deterministic and grade fully while v5 runs retain original answers',()=>{
