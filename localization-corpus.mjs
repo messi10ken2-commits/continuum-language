@@ -1,3 +1,4 @@
+import {qualityQuestionBank} from './question-quality.mjs';
 import {displayLanguageOptions} from './answer-language.mjs';
 import {skillTasks} from './skills-content.mjs';
 import {visualFrames} from './lesson-media.mjs';
@@ -37,8 +38,8 @@ for(const l of lessonList){
  for(const x of l.characters||[])add(x.meaning,language,preserve);
  for(const s of l.conversation?.watchTasks||[])add(s,language,preserve);
  for(const k of ['levelNote','hint'])add(l.conversation?.[k],language,preserve);
- const variants=[l];if(hasExpandedExercises(l.id))for(const v of [2,3,4,5])variants.push(getLessonVariant(l.id,`v${v}-localization-source-123456789`));
- for(const q of [...variants.flatMap(v=>v.questions||[]),...appliedQuestionBank.filter(q=>q.sourceLesson===l.id)]){
+ const variants=[l];if(hasExpandedExercises(l.id))for(const v of [2,3,4,5,6])variants.push(getLessonVariant(l.id,`v${v}-localization-source-123456789`));
+ for(const q of [...variants.flatMap(v=>v.questions||[]),...appliedQuestionBank.filter(q=>q.sourceLesson===l.id),...qualityQuestionBank(l)]){
   const meaningOptions=displayLanguageOptions(q,l);
   const targetOptions=!meaningOptions&&(!q.optionsLang||q.optionsLang.split('-')[0]===language)?q.options||[]:[];
   const protectedQ=[...preserve,...questionLearningText(q,language),...targetOptions];

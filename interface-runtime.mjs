@@ -46,12 +46,12 @@ export function t(value,learningLanguage=''){
 }
 function schedule(){if(scheduled||running||!account||!queue.size)return;scheduled=true;queueMicrotask(()=>{scheduled=false;void flush()});}
 async function flush(){if(running||!account||!queue.size)return;running=true;emit();
- const requestLocale=locale,requestBinding=binding,items=[];let length=0;
- for(const [key,item] of queue){if(item.locale!==requestLocale){queue.delete(key);continue;}if(items.length>=16||length+item.text.length>14000)break;items.push({...item,key});inFlight.add(key);queue.delete(key);length+=item.text.length;}
- try{if(!items.length)return;const r=await fetch('/api/localization',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({locale:requestLocale,items:items.map(({text,language})=>({text,language}))})});if(!r.ok)throw Error();const d=await r.json();const returned=new Map((d.translations||[]).map(x=>[x.id,x.text]));for(const item of items){const text=returned.get(item.id);if(typeof text!=='string'||!keepsLocalizedInstructions({text:item.text,protection:protectionFor(translationSource(item.text,item.language))},text))throw Error();cache.set(item.key,text);}
+ const requestLocale=locale,requestBinding=binding,items=[];let length=0,responseStatus=0;const batchLimit=queue.values().next().value?.smallBatch?4:16;
+ for(const [key,item] of queue){if(item.locale!==requestLocale){queue.delete(key);continue;}if(items.length>=batchLimit||length+item.text.length>14000)break;items.push({...item,key});inFlight.add(key);queue.delete(key);length+=item.text.length;}
+ try{if(!items.length)return;const r=await fetch('/api/localization',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({locale:requestLocale,items:items.map(({text,language})=>({text,language}))})});responseStatus=r.status;if(!r.ok)throw Error();const d=await r.json();const returned=new Map((d.translations||[]).map(x=>[x.id,x.text]));for(const item of items){const text=returned.get(item.id);if(typeof text!=='string'||!keepsLocalizedInstructions({text:item.text,protection:protectionFor(translationSource(item.text,item.language))},text)){failed.set(item.key,item);continue;}failed.delete(item.key);cache.set(item.key,text);}
   while(cache.size>3500)cache.delete(cache.keys().next().value);
   try{localStorage.setItem('continuumInterfaceTranslations:'+translationRevision,JSON.stringify([...cache]))}catch{}
- }catch{if(requestBinding===binding&&requestLocale===locale){for(const item of items)failed.set(item.key,item);for(const [key,item] of queue)if(item.locale===requestLocale){failed.set(key,item);queue.delete(key);}}}
+ }catch{if(requestBinding===binding&&requestLocale===locale){for(const item of items){if(responseStatus===503&&items.length>4&&!item.smallBatch)queue.set(item.key,{...item,smallBatch:true});else failed.set(item.key,item);}}}
  finally{for(const item of items)inFlight.delete(item.key);running=false;emit();schedule();}
 }
 export function retryInterfaceTranslations(){for(const [key,item] of failed)queue.set(key,item);failed.clear();emit();schedule();}
@@ -60,3 +60,5 @@ export function tf(source,values){return t(source).replace(/\{(\d+)\}/g,(token,i
 export function localizedFeedback(q,answer,language){const {source,values,note,original}=feedbackParts(q,answer);if(locale==='en')return original;if(!values.length)return t(original,language);return tf(source,values)+t(note,language);}
 
 export function optionText(q,value,lesson){return displayLanguageOptions(q,lesson)?t(value):value;}
+
+export function questionText(q,language){return q.promptTranslations?.[locale]||t(q.prompt,language);}
