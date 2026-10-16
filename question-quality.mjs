@@ -76,7 +76,7 @@ export function qualityQuestion(base,q){
  if(q.type==='text'){
   const trailing=/\s+Use ([\p{L}'’ ]+)\.$/u.exec(q.prompt);
   const cleanPrompt=trailing&&trailing[1].toLowerCase()===String(q.answer).toLowerCase()?q.prompt.slice(0,trailing.index):q.prompt;
-  const m=/^Complete(?: [^:\n]+)? with ([^:]+):\s*([\s\S]+)$/.exec(cleanPrompt);
+  const m=/^Complete(?: [^:\n]+)? with ([^:\n]+):\s*([\s\S]+)$/.exec(cleanPrompt);
   if(m){const named=m[1].trim(),answer=String(q.answer).toLowerCase();
    if(named.toLowerCase()===answer){
     let body=m[2],accepted=q.accepted||[q.answer];
@@ -89,7 +89,7 @@ export function qualityQuestion(base,q){
     accepted=alternatives(q.answer,body,accepted);
     return make(q,'fill',(intentions[answer]?intentions[answer]+'\n':'')+body,q.answer,{accepted});
    }
-   return make(q,'verb',m[2],q.answer,{promptTranslations:Object.fromEntries(locales.map((l,i)=>[l,instruction.verb[i].replace('{0}',named.replace(/ (?:or|and) /g,' / '))+'\n'+m[2]])),prompt:instruction.verb[0].replace('{0}',named)+'\n'+m[2]});
+   return make(q,'verb',m[2],q.answer,{promptTranslations:Object.fromEntries(locales.map((l,i)=>[l,instruction.verb[i].replace('{0}',named.replace(/ (?:or|and) /g,' / '))+'\n'+localizeQualityBody(m[2],l)])),prompt:instruction.verb[0].replace('{0}',named)+'\n'+m[2]});
   }
   // Trailing instructions that name the complete answer are replaced by its
   // communicative purpose, preserving real alternatives in the task itself.

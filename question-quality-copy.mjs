@@ -32,6 +32,7 @@ Express the intended meaning.|場面に合う意味を表してください。|E
 export const qualityCues={ja:{},es:{},pt:{},zh:{},fr:{}};
 for(const row of rows.trim().split('\n').filter(Boolean)){const [source,...values]=row.split('|');if(values.length!==5)throw Error('Incomplete question cue');Object.keys(qualityCues).forEach((l,i)=>qualityCues[l][source]=values[i]);}
 const suffixes={
+ 'Write the two missing words.':['空欄に入る2語を入力してください。','Escribe las dos palabras que faltan.','Digite as duas palavras que faltam.','请填写空缺的两个单词。','Écrivez les deux mots manquants。'],
  'Write the full sentence.':['文全体を入力してください。','Escribe la oración completa.','Digite a frase completa.','请填写完整句子。','Écrivez la phrase entière.'],
  'Write only the missing word.':['空欄の語だけを入力してください。','Escribe solo la palabra que falta.','Digite apenas a palavra que falta.','只填写空缺的单词。','Écrivez uniquement le mot manquant.']
 };
@@ -41,7 +42,19 @@ export function localizeQualityBody(body,locale){
  return body.split('\n').map(line=>{
   if(qualityCues[locale]?.[line])return qualityCues[locale][line];
   for(const [text,translations] of Object.entries(suffixes))if(line.endsWith(text))line=line.slice(0,-text.length)+translations[i];
-  return line.replace(/Use ([^.]+)\.$/,(_,word)=>['使う語句：'+word+'。','Usa '+word+'.','Use '+word+'.','请使用 '+word+'。','Utilisez '+word+'.'][i]);
+  return line.replace(/\bSubject: /g,['主語：','Sujeto: ','Sujeito: ','主语：','Sujet : '][i]).replace(/\b[Uu]se ([^.]+)\.$/,(_,original)=>{
+   const terms={
+    'causative て-form':['使役形のて形','forma en て de la causativa','forma em て da causativa','使役形式的て形','forme en て du causatif'],
+    'plain past':['普通形の過去形','pasado en forma llana','passado na forma simples','普通体过去式','passé à la forme neutre'],
+    'polite form':['丁寧形','forma cortés','forma polida','礼貌形式','forme polie'],
+    'in the imperfect':['半過去で','en imperfecto','no imperfeito','使用未完成过去时','à l’imparfait'],
+    'participle':['過去分詞','participio','particípio','过去分词','participe passé'],
+    'gerund':['進行形に使う動詞の形','gerundio','gerúndio','动词进行形式','gérondif'],
+    'polite':['丁寧な','forma cortés de','forma polida de','礼貌形式的','forme polie de']
+   };
+   let word=original;for(const [term,values] of Object.entries(terms))word=word.replaceAll(term,values[i]);
+   return ['使う語句：'+word+'。','Usa '+word+'.','Use '+word+'.','请使用 '+word+'。','Utilisez '+word+'.'][i];
+  });
  }).join('\n');
 }
 

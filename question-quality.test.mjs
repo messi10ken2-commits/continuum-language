@@ -31,3 +31,9 @@ test('no single required auxiliary or linker is given away by Complete with in n
   if(m)assert.notEqual(m[1].toLowerCase(),String(q.answer).toLowerCase(),l.id+': '+q.prompt);
  }
 });
+
+test('multiline model clozes are never mistaken for a named-verb instruction',()=>{
+ const base=lessonList.find(l=>l.id==='en-a1-v2-lesson-1');const q=qualityQuestionBank(base).find(q=>q.coverage==='entry:1:context');
+ assert.match(q.prompt,/^Complete the model with the lesson's wording/);assert.ok(!q.promptTranslations);
+ for(const l of lessonList)for(const q of qualityQuestionBank(l))if(q.promptTranslations?.ja)assert.ok(!/\b(?:Subject:|Write (?:the|only)|Use [a-z]|Type only|Choose |Complete )/.test(q.promptTranslations.ja),q.promptTranslations.ja);
+});
