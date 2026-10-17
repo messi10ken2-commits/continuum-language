@@ -1,0 +1,49 @@
+name: Continuum Kotoba Social Autopost
+
+on:
+  schedule:
+    # 20:23 Malaysia time: prepare next day's three posts for each platform
+    - cron: '23 12 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview AI posts without publishing (recommended for first test)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: continuum-kotoba-social
+  cancel-in-progress: false
+
+jobs:
+  schedule-posts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate social automation unit tests
+        run: python -m unittest discover -s social_automation -p 'test_*.py' -v
+      - name: Run daily social automation
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          SOCIAL_AUTOPUBLISH_ENABLED: ${{ vars.SOCIAL_AUTOPUBLISH_ENABLED }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          X_CHANNEL_ID: ${{ vars.X_CHANNEL_ID }}
+          THREADS_CHANNEL_ID: ${{ vars.THREADS_CHANNEL_ID }}
+          KOTOBA_URL: ${{ vars.KOTOBA_URL }}
+          CONTINUUM_URL: ${{ vars.CONTINUUM_URL }}
+          CAMPAIGN_START: '2026-10-18'
+          CAMPAIGN_END: '2026-11-16'
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
+            python social_automation/poster.py --dry-run
+          else
+            python social_automation/poster.py
+          fi
