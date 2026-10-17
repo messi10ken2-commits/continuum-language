@@ -39,6 +39,7 @@ jobs:
           THREADS_CHANNEL_ID: ${{ vars.THREADS_CHANNEL_ID }}
           KOTOBA_URL: ${{ vars.KOTOBA_URL }}
           CONTINUUM_URL: ${{ vars.CONTINUUM_URL }}
+          INTRO_POST_DATE: ${{ vars.INTRO_POST_DATE }}
           CAMPAIGN_START: '2026-10-18'
           CAMPAIGN_END: '2026-11-16'
         run: |
