@@ -3,7 +3,8 @@ import unittest
 from datetime import date
 from unittest.mock import patch
 from social_automation.poster import (KEYS, FIRST_DAY_INTROS, FIRST_DAY_TIP_KEYS,
-                                     first_day, generate, target_datetimes, validate, demo_posts,
+                                     ROTATION, first_day, multilingual_plan, generate,
+                                     target_datetimes, validate, demo_posts,
                                      with_link, content_schema, schedule, scheduled_slots,
                                      discover_channels)
 
@@ -37,6 +38,92 @@ class TestPoster(unittest.TestCase):
     def test_first_day_blocks_promo_links(self):
         with patch.dict('os.environ', {'INTRO_POST_DATE': '2026-10-19', 'KOTOBA_URL': 'https://example.org'}):
             self.assertEqual(with_link('hello', 'x', 'morning', date(2026, 10, 19)), 'hello')
+
+
+    def test_rotates_same_language_across_x_and_threads(self):
+        with patch.dict('os.environ', {'INTRO_POST_DATE': '2026-10-19'}):
+            self.assertIsNone(multilingual_plan(date(2026, 10, 19)))
+            self.assertEqual(ROTATION, ('Japanese', 'Portuguese', 'Spanish',
+                                        'French', 'Simplified Chinese'))
+            expected = [
+                ('Japanese', ('x_evening', 'threads_evening')),
+                ('Portuguese', ('x_morning', 'threads_morning')),
+                ('Spanish', ('x_morning', 'threads_morning')),
+                ('French', ('x_morning', 'threads_morning')),
+                ('Simplified Chinese', ('x_morning', 'threads_morning')),
+                ('Japanese', ('x_evening', 'threads_evening')),
+            ]
+            for offset, plan in enumerate(expected):
+                self.assertEqual(multilingual_plan(date(2026, 10, 20) +
+                                 __import__('datetime').timedelta(days=offset)), plan)
+
+    @patch('social_automation.poster.api_json')
+    def test_japanese_dev_posts_only_and_four_english_posts(self, mock_api):
+        english = demo_posts()
+        localized = {
+            'x_evening': 'Continuumは現在開発中。AI学習と先生との授業をつなぎ、学んだことが積み重なる仕組みを目指しています。',
+            'threads_evening': '言語学習の進歩が、先生との授業と自習で途切れない世界へ。Continuumはその実現を目指して開発を進めています。完成までの道のりを共有します。',
+        }
+        mock_api.side_effect = [
+            {'output': [{'content': [{'type': 'output_text', 'text': json.dumps(english, ensure_ascii=False)}]}]},
+            {'output': [{'content': [{'type': 'output_text', 'text': json.dumps(localized, ensure_ascii=False)}]}]},
+        ]
+        with patch.dict('os.environ', {'OPENAI_API_KEY': 'fake', 'INTRO_POST_DATE': '2026-10-19'}):
+            result = generate(date(2026, 10, 20))
+        self.assertEqual(mock_api.call_count, 2)
+        self.assertEqual(result['x_evening'], localized['x_evening'])
+        self.assertEqual(result['threads_evening'], localized['threads_evening'])
+        for key in set(KEYS) - set(localized):
+            self.assertEqual(result[key], english[key])
+        locale_prompt = mock_api.call_args.args[1]['input']
+        self.assertIn('NOT a Japanese', locale_prompt)
+        self.assertIn('Japanese', locale_prompt)
+
+    @patch('social_automation.poster.api_json')
+    def test_portuguese_pair_only(self, mock_api):
+        english = demo_posts()
+        localized = {
+            'x_morning': 'Em japonês, すみません serve para chamar a atenção de alguém com educação. Uma frase útil para viajar.',
+            'threads_morning': 'Vai viajar ao Japão? Experimente dizer すみません (sumimasen) para chamar alguém de forma educada. Onde usaria essa expressão?',
+        }
+        mock_api.side_effect = [
+            {'output': [{'content': [{'type': 'output_text', 'text': json.dumps(english, ensure_ascii=False)}]}]},
+            {'output': [{'content': [{'type': 'output_text', 'text': json.dumps(localized, ensure_ascii=False)}]}]},
+        ]
+        with patch.dict('os.environ', {'OPENAI_API_KEY': 'fake', 'INTRO_POST_DATE': '2026-10-19'}):
+            result = generate(date(2026, 10, 21))
+        self.assertEqual(result['x_morning'], localized['x_morning'])
+        self.assertEqual(result['threads_morning'], localized['threads_morning'])
+        self.assertEqual(result['x_evening'], english['x_evening'])
+        self.assertEqual(result['threads_evening'], english['threads_evening'])
+        self.assertEqual(mock_api.call_args.args[1]['text']['format']['schema']['required'],
+                         ['x_morning', 'threads_morning'])
+
+    @patch('social_automation.poster.api_json')
+    def test_launch_day_still_has_intros_and_one_api_call(self, mock_api):
+        tips = {k: f'{k} レシートをください means May I have a receipt, please in Japanese'
+                for k in FIRST_DAY_TIP_KEYS}
+        mock_api.return_value = {'output': [{'content': [{'type': 'output_text',
+                                                        'text': json.dumps(tips, ensure_ascii=False)}]}]}
+        with patch.dict('os.environ', {'OPENAI_API_KEY': 'fake', 'INTRO_POST_DATE': '2026-10-19'}):
+            result = generate(date(2026, 10, 19))
+        self.assertEqual(mock_api.call_count, 1)
+        for key, value in FIRST_DAY_INTROS.items():
+            self.assertEqual(result[key], value)
+
+    def test_multilingual_slot_does_not_get_link(self):
+        with patch.dict('os.environ', {'INTRO_POST_DATE':'2026-10-19',
+                                       'CONTINUUM_URL':'https://example.org',
+                                       'KOTOBA_URL':'https://example.org'}):
+            # Check on the first fourth-day link opportunity within the rotation.
+            from datetime import timedelta
+            for n in range(1, 21):
+                day = date(2026, 10, 19) + timedelta(days=n)
+                lang, keys = multilingual_plan(day)
+                for key in keys:
+                    platform, slot = key.split('_', 1)
+                    self.assertEqual(with_link('The localized post stays intact', platform, slot, day),
+                                     'The localized post stays intact')
 
     def test_six_keys(self):
         self.assertEqual(len(KEYS), 6)
