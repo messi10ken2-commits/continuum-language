@@ -50,6 +50,29 @@ class TestPoster(unittest.TestCase):
         self.assertEqual(chosen['x']['id'], 'x1')
         self.assertEqual(chosen['threads']['id'], 't1')
 
+    def assert_graphql_balanced(self, query):
+        stack = []
+        expected = {')': '(', '}': '{', ']': '['}
+        in_string = False
+        escaped = False
+        for ch in query:
+            if in_string:
+                if escaped:
+                    escaped = False
+                elif ch == "\\\\":
+                    escaped = True
+                elif ch == '"':
+                    in_string = False
+            elif ch == '"':
+                in_string = True
+            elif ch in '({[':
+                stack.append(ch)
+            elif ch in ')}]':
+                self.assertTrue(stack, f'Unmatched closing {ch} in GraphQL query')
+                self.assertEqual(stack.pop(), expected[ch], f'Malformed GraphQL query before {ch}')
+        self.assertFalse(in_string, 'Unterminated quoted value')
+        self.assertEqual(stack, [], 'Unclosed GraphQL delimiters')
+
     @patch('social_automation.poster.buffer_query')
     def test_prevents_rescheduling_same_slots(self, mock_query):
         channels = {'x':{'id':'x1','orgId':'org_1'}, 'threads':{'id':'t1','orgId':'org_1'}}
@@ -59,6 +82,7 @@ class TestPoster(unittest.TestCase):
         ]}}
         found=scheduled_slots('test_key', channels, date(2026,10,18))
         self.assertEqual(found,{('x','morning'),('threads','evening')})
+        self.assert_graphql_balanced(mock_query.call_args.args[0])
 
     @patch('social_automation.poster.buffer_query')
     def test_create_post_uses_expected_graphql(self, mock_query):
@@ -66,6 +90,7 @@ class TestPoster(unittest.TestCase):
         post_id=schedule('test_key','x1','Hello there',target_datetimes(date(2026,10,18))['morning'])
         self.assertEqual(post_id, 'scheduled_1')
         query=mock_query.call_args.args[0]
+        self.assert_graphql_balanced(query)
         self.assertIn('schedulingType: automatic',query)
         self.assertIn('dueAt: "2026-10-18T01:00:00.000Z"',query)
 
