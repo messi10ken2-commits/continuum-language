@@ -25,9 +25,36 @@ FIRST_DAY_INTROS = {
                         "Here we'll share Japanese tips and our behind-the-scenes journey. 🌍"),
 }
 
+def launch_date():
+    """The one approved brand-introduction date, read from configuration."""
+    return date.fromisoformat(os.getenv("INTRO_POST_DATE") or "2026-10-19")
+
+
 def first_day(day):
-    """The one approved brand-introduction date. Configurable if launch is postponed."""
-    return day == date.fromisoformat(os.getenv("INTRO_POST_DATE") or "2026-10-19")
+    """Keep the already approved first-day six-post batch unchanged."""
+    return day == launch_date()
+
+
+# Rotate one non-English language per day, aligned across X and Threads.
+# The first day is deliberately excluded; it already has six approved posts.
+ROTATION = ("Japanese", "Portuguese", "Spanish", "French", "Simplified Chinese")
+MULTILINGUAL_SLOTS = {
+    "Japanese": "evening",  # Japanese is for Continuum behind the scenes, NOT Japanese tips.
+    "Portuguese": "morning",
+    "Spanish": "morning",
+    "French": "morning",
+    "Simplified Chinese": "morning",
+}
+
+
+def multilingual_plan(day):
+    """Return (language, two post keys) or None on/before brand launch day."""
+    offset = (day - launch_date()).days - 1
+    if offset < 0:
+        return None
+    language = ROTATION[offset % len(ROTATION)]
+    slot = MULTILINGUAL_SLOTS[language]
+    return language, ("x_" + slot, "threads_" + slot)
 
 TOPICS = [
     "ordering at a cafe in Japan", "asking for directions in Japan",
@@ -171,7 +198,64 @@ Evening: an honest build-in-public note about the Continuum vision, clearly in d
     if launch:
         posts.update(FIRST_DAY_INTROS)
         print("First launch day: two welcome posts + four receipt tips.", flush=True)
+    else:
+        posts = localize_pair(day, posts, key)
     return validate(posts)
+
+def localize_pair(day, posts, key):
+    """Replace exactly one English post per network with the same target language."""
+    plan = multilingual_plan(day)
+    if plan is None:
+        return posts
+    language, keys = plan
+    source_posts = {k: posts[k] for k in keys}
+    print(f"Day's synchronized multilingual language: {language} ({keys[0]}, {keys[1]})", flush=True)
+    special = (
+        "IMPORTANT: This is a Continuum founder/build-in-public update, NOT a Japanese "
+        "language-learning tip. Write the full editorial text naturally in Japanese for "
+        "Japanese-speaking readers. Continuum remains IN DEVELOPMENT. Do not announce "
+        "any completion, features that already work, or a launch."
+        if language == "Japanese" else
+        "Translate/adapt the practical travel-Japanese teaching post into natural, "
+        f"fluent {language} for speakers of that language who are learning Japanese. "
+        "Keep the Japanese phrase as an example, but explain its meaning and context "
+        f"ENTIRELY in {language}, not English. This is for non-Japanese learners."
+    )
+    instructions = f"""Adapt the two social posts for {day.isoformat()} into {language}.
+Language must be IDENTICAL across X and Threads, but do not copy the posts verbatim.
+{special}
+For both posts: write a real native-sounding {language} post, not a bilingual paragraph,
+not an English translation, and not a list of different languages. Keep the intended
+topic, project names, accurate facts and cautious in-development status; do not invent
+new product or feature claims. Return exactly the two requested JSON keys.
+X length 30-235 Unicode characters; Threads length 30-365 Unicode characters.
+No URLs, and no more than one hashtag per post.
+Original posts to adapt:
+{json.dumps(source_posts, ensure_ascii=False)}"""
+    payload = {
+        "model": (os.getenv("OPENAI_MODEL") or "gpt-4.1-mini"),
+        "instructions": "Expert multilingual localization editor for a global learning platform. Use only the requested target language for each post; no unsupported claims. Produce valid JSON only.",
+        "input": instructions,
+        "text": {"format": {"type": "json_schema", "name": "localized_social_posts",
+                            "strict": True, "schema": content_schema(keys)}},
+    }
+    result = api_json("https://api.openai.com/v1/responses", payload, key, timeout=70)
+    localized = validate(json.loads(extract_response_text(result)), keys)
+    if any(localized[k].casefold() == posts[k].casefold() for k in keys):
+        raise ValueError("AI returned an unchanged English post instead of a localization")
+    if language == "Japanese" and any(
+        not any("\u3040" <= ch <= "\u30ff" or "\u4e00" <= ch <= "\u9fff" for ch in localized[k])
+        for k in keys
+    ):
+        raise ValueError("Japanese localization contains no Japanese characters")
+    if language == "Simplified Chinese" and any(
+        not any("\u4e00" <= ch <= "\u9fff" for ch in localized[k])
+        for k in keys
+    ):
+        raise ValueError("Chinese localization contains no Han characters")
+    posts.update(localized)
+    return validate(posts)
+
 
 def validate(posts, keys=KEYS):
     if set(posts) != set(keys):
@@ -202,6 +286,9 @@ def normalized_url(name):
 def with_link(text, platform, slot, day):
     if first_day(day):
         return text  # The launch batch should be strictly intros + receipt tips.
+    plan = multilingual_plan(day)
+    if plan and (platform + "_" + slot) in plan[1]:
+        return text  # Keep a multilingual post fully in its selected language.
     if day.toordinal() % 4 != 0 or slot not in ("morning", "evening"):
         return text
     url = normalized_url("KOTOBA_URL" if slot == "morning" else "CONTINUUM_URL")
