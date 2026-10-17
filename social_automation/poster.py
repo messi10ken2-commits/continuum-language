@@ -3,7 +3,7 @@ import argparse
 import json
 import os
 import sys
-from datetime import datetime, timedelta, time, timezone
+from datetime import date, datetime, timedelta, time, timezone
 from urllib.parse import urlparse
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
@@ -12,6 +12,23 @@ from zoneinfo import ZoneInfo
 TZ = ZoneInfo("Asia/Kuala_Lumpur")
 SLOTS = (("morning", 9), ("afternoon", 15), ("evening", 21))
 KEYS = tuple(f"{network}_{slot}" for slot, _ in SLOTS for network in ("x", "threads"))
+FIRST_DAY_TIP_KEYS = ("x_afternoon", "threads_afternoon", "x_evening", "threads_evening")
+FIRST_DAY_INTROS = {
+    "x_morning": ("👋 We're Continuum × Kotoba. 🇯🇵 Kotoba is live: practical Japanese for travelers. "
+                  "🌍 Continuum is in development: AI self-study + human teachers, with progress connected. "
+                  "Our goal? Bring people and cultures closer through language."),
+    "threads_morning": ("Hi, world! 👋 We're Continuum × Kotoba.\n\n"
+                        "🇯🇵 Kotoba is live: practical Japanese for real-life travel.\n"
+                        "🧠 Continuum is in development: connecting AI self-study with human teachers, "
+                        "so learning progress can carry across both.\n\n"
+                        "Our mission? Make language a bridge between people and cultures. "
+                        "Here we'll share Japanese tips and our behind-the-scenes journey. 🌍"),
+}
+
+def first_day(day):
+    """The one approved brand-introduction date. Configurable if launch is postponed."""
+    return day == date.fromisoformat(os.getenv("INTRO_POST_DATE") or "2026-10-19")
+
 TOPICS = [
     "ordering at a cafe in Japan", "asking for directions in Japan",
     "checking into a hotel", "using a train station", "asking whether a shop accepts cards",
@@ -83,7 +100,7 @@ def scheduled_slots(buffer_key, channels, day):
         start = min(expected.values()) - timedelta(minutes=1)
         end = max(expected.values()) + timedelta(minutes=1)
         query = ("query { posts(input: {organizationId: " + q(org) + ", "
-                 + "filter: {status: [scheduled], channelIds: " + q(ids)
+                 + "filter: {status: [scheduled, sent], channelIds: " + q(ids)
                  + ", dueAt: {start: " + q(iso(start)) + ", end: " + q(iso(end))
                  + "}}}) { edges { node { id dueAt channelId } } } }")
         data = buffer_query(query, buffer_key)
@@ -97,11 +114,11 @@ def scheduled_slots(buffer_key, channels, day):
                             found.add((platform, slot))
     return found
 
-def content_schema():
+def content_schema(keys=KEYS):
     return {
         "type": "object",
-        "properties": {k: {"type": "string"} for k in KEYS},
-        "required": list(KEYS),
+        "properties": {k: {"type": "string"} for k in keys},
+        "required": list(keys),
         "additionalProperties": False,
     }
 
@@ -114,35 +131,53 @@ def extract_response_text(result):
 
 def generate(day):
     key = os.environ["OPENAI_API_KEY"]
-    topic = TOPICS[(day.toordinal() - 1) % len(TOPICS)]
-    guidance = f"""Create 6 ORIGINAL posts for Continuum × Kotoba for {day.isoformat()}, focused on {topic}.
+    launch = first_day(day)
+    keys = FIRST_DAY_TIP_KEYS if launch else KEYS
+    topic = "how to ask for receipts in Japan" if launch else TOPICS[(day.toordinal() - 1) % len(TOPICS)]
+    guidance = f"""Create {len(keys)} ORIGINAL posts for Continuum × Kotoba for {day.isoformat()}, focused on {topic}.
 Audience: adults worldwide; English main language, Japanese examples with accurate translation when useful.
-Brand truth: Kotoba teaches practical Japanese for travelers. Continuum is an IN-DEVELOPMENT
-project combining AI self-study and human language teaching with the aim of preserving
-learning progress. Never claim it is launched, publicly available as an app, fully built,
-or that any named feature currently works. Do not fabricate development progress.
-Morning: useful real-world Japanese mini-lesson with one accurate short example.
-Afternoon: engaging language-learning insight or thoughtful question, not an advertisement.
-Evening: founder-style Continuum vision/build-in-public note, clearly in development.
-Write X and Threads separately: X concise max 235 characters, Threads conversational
-max 365 characters. No URLs (we handle confirmed links separately). No unsupported facts,
-made-up statistics, trending news, giveaways, aggressive CTAs, or misleading claims.
-Do not copy text between platforms or slots. Keep hashtags to at most one relevant tag.
-Use clear, natural English, not AI hype. Output only JSON for all six required keys."""
+Brand truth: Kotoba is already launched and offers practical Japanese for travelers.
+Continuum is an IN-DEVELOPMENT project combining AI self-study and human language
+teaching with the goal of connecting learners' progress. Never claim Continuum is launched,
+publicly available as an app, or that any planned feature already works.
+No made-up statistics, trending news, false service claims, or misleading statements.
+X posts max 235 characters; Threads posts max 365. No URLs; at most one hashtag.
+Write distinct messages for each network and slot. Use friendly, natural English.
+"""
+    if launch:
+        guidance += """LAUNCH DAY: X and Threads FIRST MORNING posts are fixed brand
+introductions and do not need AI generation. Generate ONLY four remaining posts
+(x_afternoon, threads_afternoon, x_evening, threads_evening), ALL about asking for
+receipts in Japan. Make every one practically useful and distinct: e.g.
+レシートをください (Please give me the receipt) vs 領収書をください
+(Please give me a formal receipt), polite requests or common register situations.
+Give accurate Japanese and English; avoid claiming every shop has the same policy.
+No generic language tips, product pitches, or development updates in these four.
+"""
+    else:
+        guidance += """Morning: a practical Japanese travel mini-lesson.
+Afternoon: an engaging language-learning insight or thoughtful question.
+Evening: an honest build-in-public note about the Continuum vision, clearly in development.
+"""
+    guidance += "Output ONLY a JSON object with these keys: " + ", ".join(keys)
     payload = {
         "model": (os.getenv("OPENAI_MODEL") or "gpt-4.1-mini"),
         "instructions": "You are a careful social-media editor for a global educational startup. Follow user-provided brand facts strictly. Return JSON conforming to the schema.",
         "input": guidance,
-        "text": {"format": {"type": "json_schema", "name": "social_posts", "strict": True, "schema": content_schema()}},
+        "text": {"format": {"type": "json_schema", "name": "social_posts", "strict": True, "schema": content_schema(keys)}},
     }
     response = api_json("https://api.openai.com/v1/responses", payload, key, timeout=70)
-    return validate(json.loads(extract_response_text(response)))
+    posts = validate(json.loads(extract_response_text(response)), keys)
+    if launch:
+        posts.update(FIRST_DAY_INTROS)
+        print("First launch day: two welcome posts + four receipt tips.", flush=True)
+    return validate(posts)
 
-def validate(posts):
-    if set(posts) != set(KEYS):
+def validate(posts, keys=KEYS):
+    if set(posts) != set(keys):
         raise ValueError("AI output missing required posts")
     all_text = []
-    for key in KEYS:
+    for key in keys:
         txt = posts[key].strip()
         limit = 235 if key.startswith("x_") else 365
         if not 30 <= len(txt) <= limit:
@@ -165,6 +200,8 @@ def normalized_url(name):
     return url
 
 def with_link(text, platform, slot, day):
+    if first_day(day):
+        return text  # The launch batch should be strictly intros + receipt tips.
     if day.toordinal() % 4 != 0 or slot not in ("morning", "evening"):
         return text
     url = normalized_url("KOTOBA_URL" if slot == "morning" else "CONTINUUM_URL")

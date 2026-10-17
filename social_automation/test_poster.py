@@ -1,11 +1,43 @@
+import json
 import unittest
 from datetime import date
 from unittest.mock import patch
-from social_automation.poster import (KEYS, target_datetimes, validate, demo_posts,
+from social_automation.poster import (KEYS, FIRST_DAY_INTROS, FIRST_DAY_TIP_KEYS,
+                                     first_day, generate, target_datetimes, validate, demo_posts,
                                      with_link, content_schema, schedule, scheduled_slots,
                                      discover_channels)
 
 class TestPoster(unittest.TestCase):
+    def test_launch_intro_is_first_for_each_network(self):
+        with patch.dict('os.environ', {'INTRO_POST_DATE': '2026-10-19'}):
+            self.assertTrue(first_day(date(2026, 10, 19)))
+            self.assertFalse(first_day(date(2026, 10, 20)))
+        self.assertEqual(set(FIRST_DAY_INTROS), {'x_morning', 'threads_morning'})
+        self.assertIn('Kotoba is live', FIRST_DAY_INTROS['x_morning'])
+        self.assertIn('in development', FIRST_DAY_INTROS['threads_morning'])
+        self.assertEqual(len(FIRST_DAY_TIP_KEYS), 4)
+        self.assertEqual(len(KEYS), 6)
+        for key, text in FIRST_DAY_INTROS.items():
+            self.assertLessEqual(len(text), 235 if key.startswith('x_') else 365)
+
+    @patch('social_automation.poster.api_json')
+    def test_launch_generates_only_four_receipt_tips(self, mock_api):
+        tips = {k: f"{k} Travel Japanese: レシートをください means 'May I have a receipt, please?'"
+                for k in FIRST_DAY_TIP_KEYS}
+        mock_api.return_value = {'output': [{'content': [{'type': 'output_text', 'text': json.dumps(tips)}]}]}
+        with patch.dict('os.environ', {'OPENAI_API_KEY': 'fake', 'INTRO_POST_DATE': '2026-10-19'}):
+            posts = generate(date(2026, 10, 19))
+        self.assertEqual(len(posts), 6)
+        self.assertEqual(posts['x_morning'], FIRST_DAY_INTROS['x_morning'])
+        self.assertEqual(posts['threads_morning'], FIRST_DAY_INTROS['threads_morning'])
+        self.assertEqual(set(posts)-set(FIRST_DAY_INTROS), set(FIRST_DAY_TIP_KEYS))
+        self.assertIn('ONLY four remaining posts', mock_api.call_args.args[1]['input'])
+        self.assertEqual(len(mock_api.call_args.args[1]['text']['format']['schema']['required']), 4)
+
+    def test_first_day_blocks_promo_links(self):
+        with patch.dict('os.environ', {'INTRO_POST_DATE': '2026-10-19', 'KOTOBA_URL': 'https://example.org'}):
+            self.assertEqual(with_link('hello', 'x', 'morning', date(2026, 10, 19)), 'hello')
+
     def test_six_keys(self):
         self.assertEqual(len(KEYS), 6)
         self.assertEqual(len(content_schema()['required']), 6)
@@ -83,6 +115,7 @@ class TestPoster(unittest.TestCase):
         found=scheduled_slots('test_key', channels, date(2026,10,18))
         self.assertEqual(found,{('x','morning'),('threads','evening')})
         self.assert_graphql_balanced(mock_query.call_args.args[0])
+        self.assertIn('status: [scheduled, sent]', mock_query.call_args.args[0])
 
     @patch('social_automation.poster.buffer_query')
     def test_create_post_uses_expected_graphql(self, mock_query):

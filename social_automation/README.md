@@ -6,8 +6,11 @@
 
 - At **20:23 Kuala Lumpur time** each day, GitHub Actions asks an OpenAI model to write six differentiated posts for **tomorrow**.
 - Each day at **09:00, 15:00, 21:00 Malaysian time**, Buffer automatically publishes one post to each of X and Threads.
-- The content mix: practical Kotoba Japanese for travelers in the morning; interactive language-learning ideas in the afternoon; Continuum's **in-development** story in the evening.
-- The script checks Buffer's existing scheduled posts before adding new ones to avoid repeated scheduling of the same slot after retries.
+- **Special first day (default: 2026-10-19, Kuala Lumpur time):** the **09:00** post on both **X** and **Threads** is a fixed brand introduction: Kotoba is already live; Continuum is still being developed; language connects people and cultures. The other **four posts** in the six-post batch cover requesting receipts in Japanese, with platform-specific wording. There are two welcome posts, not one, because each social account needs its own first post.
+- Regular days afterward: practical Kotoba Japanese for travelers in the morning; interactive language-learning ideas in the afternoon; Continuum's **in-development** story in the evening.
+- To postpone the first day, add or adjust the **GitHub Actions repository variable** `INTRO_POST_DATE` using `YYYY-MM-DD`. Preview in Dry Run before enabling scheduling. Its default is `2026-10-19`; if the first public batch will be on a different date, you **must** change this variable first.
+- Keep `SOCIAL_AUTOPUBLISH_ENABLED` unset/false until the two introductory drafts and Buffer queue are reviewed. Do not set it true just to preview: Dry Run works while publishing is disabled.
+- The script checks Buffer's existing **scheduled and sent** posts before adding new ones, to avoid repeating a slot after retries. Before the first batch, confirm no older post is queued earlier than the introduction.
 - **30-day trial:** October 18–November 16, 2026 inclusive, Malaysia dates. No new posts scheduled afterward.
 - **Disabled by default.** Merely merging this PR does not enable public posting.
 
