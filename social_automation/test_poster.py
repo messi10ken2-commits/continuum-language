@@ -59,7 +59,7 @@ class TestPoster(unittest.TestCase):
             if in_string:
                 if escaped:
                     escaped = False
-                elif ch == "\\\\":
+                elif ch == "\\":
                     escaped = True
                 elif ch == '"':
                     in_string = False
