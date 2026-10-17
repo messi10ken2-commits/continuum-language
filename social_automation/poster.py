@@ -85,7 +85,7 @@ def scheduled_slots(buffer_key, channels, day):
         query = ("query { posts(input: {organizationId: " + q(org) + ", "
                  + "filter: {status: [scheduled], channelIds: " + q(ids)
                  + ", dueAt: {start: " + q(iso(start)) + ", end: " + q(iso(end))
-                 + "}}) { edges { node { id dueAt channelId } } } }")
+                 + "}}}) { edges { node { id dueAt channelId } } } }")
         data = buffer_query(query, buffer_key)
         for edge in data["posts"]["edges"]:
             node = edge["node"]
@@ -218,12 +218,15 @@ def main():
         print("Autopublish disabled. Set SOCIAL_AUTOPUBLISH_ENABLED=true after reviewing preview.")
         return
     buffer_key = os.environ["BUFFER_API_KEY"]
+    print("Step 1/3: Discovering connected Buffer channels...", flush=True)
     channels = discover_channels(buffer_key)
+    print("Step 2/3: Checking existing Buffer scheduled posts...", flush=True)
     already = scheduled_slots(buffer_key, channels, target)
     needed = {(platform, slot) for platform in ("x", "threads") for slot, _ in SLOTS} - already
     if not needed:
         print("All six slots are already scheduled; nothing to do.")
         return
+    print("Step 3/3: Generating new draft text with OpenAI...", flush=True)
     posts = generate(target)
     times = target_datetimes(target)
     for platform, slot in sorted(needed):
