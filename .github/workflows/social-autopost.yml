@@ -5,6 +5,11 @@ on:
     # 20:23 Malaysia time: prepare next day's three posts for each platform
     - cron: '23 12 * * *'
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview AI posts without publishing (recommended for first test)'
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -34,4 +39,9 @@ jobs:
           CONTINUUM_URL: ${{ vars.CONTINUUM_URL }}
           CAMPAIGN_START: '2026-10-18'
           CAMPAIGN_END: '2026-11-16'
-        run: python social_automation/poster.py
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
+            python social_automation/poster.py --dry-run
+          else
+            python social_automation/poster.py
+          fi
