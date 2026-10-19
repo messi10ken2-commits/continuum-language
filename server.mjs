@@ -1,3 +1,4 @@
+import {migrateClassroom,handleClassroom,cancelUnsharedClasses} from './classroom-api.mjs';
 import {warmPatternProvider} from './pattern-provider.mjs';
 import {migrateSpeaking,handleSpeaking} from './speaking-api.mjs';
 import {migrateLocalization,handleLocalization,warmLocalization} from './localization-api.mjs';
@@ -60,6 +61,7 @@ async function migrate(){
  await migrateReview(pool);
  await migrateLocalization(pool);
  await migrateSpeaking(pool);
+ await migrateClassroom(pool);
 }
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
@@ -78,6 +80,7 @@ async function handle(req,res){
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
  if(await handleLocalization({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleClassroom({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleSpeaking({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleReview({route,req,res,pool,required,json,send,fail}))return;
  if(await handleProfiles({route,req,res,pool,required,json,send,fail}))return;
@@ -160,8 +163,8 @@ async function handle(req,res){
  }
  if(route==='/api/learner/teachers'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT u.id,u.name,l.languages FROM teacher_links l JOIN users u ON u.id=l.teacher_id WHERE l.learner_id=$1 ORDER BY u.name',[user.id]);return send(res,200,{teachers:r.rows})}
  const removeTeacher=route.match(/^\/api\/learner\/teachers\/([a-f0-9-]{36})$/);
- if(removeTeacher&&req.method==='PUT'){const user=await required(req,'learner'),data=await json(req);if(!validSharedLanguages(data.languages))fail(400,'Choose valid shared languages');const r=await pool.query('UPDATE teacher_links SET languages=$3 WHERE learner_id=$1 AND teacher_id=$2 RETURNING languages',[user.id,removeTeacher[1],data.languages]);if(!r.rows.length)fail(404,'Teacher connection not found');return send(res,200,{languages:r.rows[0].languages})}
- if(removeTeacher&&req.method==='DELETE'){const user=await required(req,'learner');await pool.query('DELETE FROM teacher_links WHERE learner_id=$1 AND teacher_id=$2',[user.id,removeTeacher[1]]);return send(res,200,{ok:true})}
+ if(removeTeacher&&req.method==='PUT'){const user=await required(req,'learner'),data=await json(req);if(!validSharedLanguages(data.languages))fail(400,'Choose valid shared languages');const c=await pool.connect();try{await c.query('BEGIN');const r=await c.query('UPDATE teacher_links SET languages=$3 WHERE learner_id=$1 AND teacher_id=$2 RETURNING languages',[user.id,removeTeacher[1],data.languages]);if(!r.rows.length)fail(404,'Teacher connection not found');await cancelUnsharedClasses(c,removeTeacher[1],user.id,data.languages,user.id);await c.query('COMMIT');return send(res,200,{languages:r.rows[0].languages})}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}}
+ if(removeTeacher&&req.method==='DELETE'){const user=await required(req,'learner'),c=await pool.connect();try{await c.query('BEGIN');await c.query('DELETE FROM teacher_links WHERE learner_id=$1 AND teacher_id=$2',[user.id,removeTeacher[1]]);await cancelUnsharedClasses(c,removeTeacher[1],user.id,[],user.id);await c.query('COMMIT');return send(res,200,{ok:true})}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}}
  if(route==='/api/teacher/connect'&&req.method==='POST'){
   const teacher=await required(req,'teacher'),data=await json(req);limited(req,'connect',15);const code=String(data.code||'').replace(/\s/g,'').toUpperCase();if(!/^[A-F0-9]{12}$/.test(code))fail(400,'Enter a 12-character sharing code');
   const c=await pool.connect();try{await c.query('BEGIN');const r=await c.query('UPDATE share_codes SET redeemed_at=now() WHERE code_hash=$1 AND expires_at>now() AND redeemed_at IS NULL AND language IS NOT NULL RETURNING learner_id,language',[hash(code)]);if(!r.rowCount)fail(400,'Code expired or already used');await c.query('INSERT INTO teacher_links(teacher_id,learner_id,languages) VALUES($1,$2,$3) ON CONFLICT(teacher_id,learner_id) DO UPDATE SET languages=ARRAY(SELECT DISTINCT unnest(teacher_links.languages || EXCLUDED.languages))',[teacher.id,r.rows[0].learner_id,[r.rows[0].language]]);await c.query('COMMIT')}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}return send(res,200,{ok:true});
@@ -182,10 +185,10 @@ async function handle(req,res){
    const history=assessments.flat().sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));
    return send(res,200,{learner:learner.rows[0],attempts:r.rows.filter(inScope).slice(0,50),assessment:history[0]||null,pronunciation:pronunciation.rows.filter(inScope).slice(0,20),sharing:{selfLearning:scope.selfLearning,languages:scope.languages},language:allowed.length===1?allowed[0]:null});
   }
-  if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 AND n.language=ANY($2::text[]) ORDER BY n.created_at DESC LIMIT 50',[learnerId,allowed]);return send(res,200,{notes:r.rows})}
-  if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim(),language=data.language;if(!scope.languages.includes(language))fail(403,'This language is not shared with you');if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note,language) VALUES($1,$2,$3,$4,$5) RETURNING id,language,focus,note,created_at AS at',[learnerId,teacher.id,focus,note,language]);return send(res,201,{note:r.rows[0]})}
+  if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.revision,n.suggested_lesson_id AS "lessonId",(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 AND n.language=ANY($2::text[]) ORDER BY n.created_at DESC LIMIT 50',[learnerId,allowed]);return send(res,200,{notes:r.rows})}
+  if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim(),language=data.language;if(!scope.languages.includes(language))fail(403,'This language is not shared with you');if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note,language) VALUES($1,$2,$3,$4,$5) RETURNING id,teacher_id AS "teacherId",revision,language,focus,note,created_at AS at',[learnerId,teacher.id,focus,note,language]);return send(res,201,{note:r.rows[0]})}
  }
- if(route==='/api/notes'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT n.id,n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[user.id]);return send(res,200,{notes:r.rows})}
+ if(route==='/api/notes'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.revision,n.suggested_lesson_id AS "lessonId",(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[user.id]);return send(res,200,{notes:r.rows})}
  fail(404,'Not found');
 }
 async function serve(req,res,route){if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});let filename=path.resolve(dist,'.'+route);if(!filename.startsWith(dist+path.sep)&&filename!==dist)return send(res,404,{error:'Not found'});if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');try{const data=await fs.readFile(filename);res.writeHead(200,{'Content-Type':mime[path.extname(filename)]||'application/octet-stream','Cache-Control':filename.endsWith('index.html')?'no-cache':'public, max-age=31536000, immutable'});res.end(req.method==='HEAD'?undefined:data)}catch{send(res,404,{error:'Not found'})}}

@@ -37,6 +37,7 @@ export function matchClassLesson(note,language='es',extraTerms=topics){
  if(!note||(note.language||'es')!==language)return null;
  const text=normalize(`${note.focus||''} ${note.note||''}`);
  const eligible=lessonList.filter(l=>(l.language||'es')===language&&!l.checkpoint&&!l.summaryTest);
+ if(note.lessonId)return eligible.find(l=>l.id===note.lessonId)||null;
  // Longer concepts take precedence: past perfect subjunctive is not past perfect.
  const hits=concepts.flatMap(([terms,ids])=>terms.filter(t=>has(text,t)).map(t=>({term:t,id:ids[language]}))).sort((a,b)=>normalize(b.term).length-normalize(a.term).length);
  if(hits.length)return eligible.find(l=>l.id===hits[0].id)||null;

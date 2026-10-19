@@ -20,7 +20,11 @@ Preserve existing Railway variables, database connections, volumes and build/sta
 - Native/studio/device audio, listening/writing/speaking evidence, recurring
   patterns, review pool, character writing, bundled recaps and conversation embeds.
 - Authentication is required for learner/teacher screens. Email verification,
-  password reset, scheduling/chat/meetings and paid bookings/payments are not implemented.
+  password reset, integrated video hosting and paid bookings/payments are not implemented.
+- Small-cohort pilot classes support language-scoped messages, mutual UTC-based
+  scheduling, external meeting links, class notes, assignments and feedback.
+  Payment collection, refunds and teacher payouts remain disabled. See
+  docs/classroom-pilot.md for operation and the paid-release prerequisites.
 
 See QA_REPORT.md for tested scope, known limitations and release review evidence.
 The current QA task does not authorize a production merge or deployment.

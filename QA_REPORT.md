@@ -167,3 +167,20 @@ cannot establish production readiness for all providers or physical devices.
 - Raw metrics: [qa-evidence/2026-10-14.json](qa-evidence/2026-10-14.json).
 - GitHub Actions on this audit branch and production deployment have not been verified.
   Main remains unchanged. Do not merge/deploy without the owner's approval.
+
+
+## Classroom pilot (2026-10-19)
+
+Language-scoped teacher/learner classroom APIs, two-party chat, mutual class
+proposals, overlap protection, rescheduling, external meeting links, shared notes,
+assignments, actual lesson practice evidence, submission and feedback were added.
+Payments remain disabled (price constrained to zero). Owner operations expose
+booking metadata/cancellation and audit history, not chat or meeting links.
+
+Validation covers timezone offsets and DST gaps/repeats; participant/role/language
+isolation; stale revisions and idempotent retries; simultaneous booking acceptance;
+privacy changes and access revocation; real lesson completion and teacher feedback
+in two isolated browser sessions; six display languages; mobile/desktop overflow.
+No production accounts were created by these tests. External calendar conflicts,
+video-provider connectivity, email/push notifications and paid settlement were not
+validated or implemented by this release.

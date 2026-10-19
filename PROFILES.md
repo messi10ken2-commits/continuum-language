@@ -4,7 +4,7 @@ Learners choose learning languages, an initial language, an optional goal, and e
 
 Teacher profiles require a public name, photo, headline, biography, teaching languages, spoken languages/proficiency, experience, approach, qualifications, time zone, introduction video link, and an accuracy/publication confirmation. Photos are resized in the browser and stored with the profile. Video introductions link to the teacher's YouTube/Vimeo video. Optional credential notes remain private to the teacher and reviewers. Do not collect identity documents here.
 
-Draft → pending → approved / changes_requested. Saving an edit hides the profile; resubmission requires another review. Reviews are revision-checked and audited. Profile approval means editorial review, not certified identity or qualifications. Only approved profiles appear in the public language-filtered directory. Learner bookmarks are account-private and never create teacher access to learning records. Bookings/payment are outside this release.
+Draft → pending → approved / changes_requested. Saving an edit hides the profile; resubmission requires another review. Reviews are revision-checked and audited. Profile approval means editorial review, not certified identity or qualifications. Only approved profiles appear in the public language-filtered directory. Learner bookmarks are account-private and never create teacher access to learning records. Published teachers can be contacted through a separate, explicit language-sharing consent. Pilot class proposals, messages and follow-up assignments are available in Classes; online payments remain disabled. See docs/classroom-pilot.md.
 
 ## Provisioning reviewers
 

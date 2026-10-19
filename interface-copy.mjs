@@ -1,3 +1,4 @@
+import {classroomUiCopy} from './classroom-copy.mjs';
 import {speakingCopy} from './speaking-copy.mjs';
 // Reviewed first-visit and everyday navigation copy. English is the source key.
 // Columns: English | Japanese | Spanish | Portuguese | Simplified Chinese | French.
@@ -179,3 +180,5 @@ AI-translated explanations; learning examples and audio keep their original lang
 export const interfaceCopy=Object.fromEntries(rows.trim().split('\n').filter(Boolean).map(line=>{const [en,...values]=line.split('|');if(values.length!==5)throw Error('Invalid interface copy: '+en);return [en,Object.fromEntries(['ja','es','pt','zh','fr'].map((id,i)=>[id,values[i]]))]}));
 
 Object.assign(interfaceCopy,speakingCopy);
+
+Object.assign(interfaceCopy,classroomUiCopy);

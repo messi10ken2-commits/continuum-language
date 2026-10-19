@@ -7,7 +7,12 @@ let source=await fs.readFile(new URL('./server.mjs',import.meta.url),'utf8');
 source=source.replace(/from '(\.\/[^']+)'/g,(_,name)=>'from '+JSON.stringify(new URL(name,import.meta.url).href));
 source=source.replace("import pg from 'pg';",`import {PGlite} from '${import.meta.resolve('@electric-sql/pglite')}';
 const db=new PGlite();
-const pg={Pool:class{async query(sql,args){if(!args&&sql.includes('CREATE TABLE'))return db.exec(sql);const r=await db.query(sql,args);return {...r,rowCount:r.rows.length||r.affectedRows||0}}async connect(){return {query:this.query.bind(this),release(){}}}}};`)
+// PGlite is one connection: serialize checkouts so simultaneous HTTP requests
+// cannot execute BEGIN inside another request's transaction.
+let poolGate=Promise.resolve();
+async function acquire(){const previous=poolGate;let release;poolGate=new Promise(r=>release=r);await previous;return release;}
+async function directQuery(sql,args){if(!args&&sql.includes('CREATE TABLE'))return db.exec(sql);const r=await db.query(sql,args);return {...r,rowCount:r.rows.length||r.affectedRows||0};}
+const pg={Pool:class{async query(sql,args){const release=await acquire();try{return await directQuery(sql,args)}finally{release()}}async connect(){const release=await acquire();return {query:directQuery,release}}}};`)
  .replace("const root=path.dirname(fileURLToPath(import.meta.url));",`const root=${JSON.stringify(root)};`)
  .replaceAll("'./speech-api.mjs'",JSON.stringify(new URL('./speech-api.mjs',import.meta.url).href))
  .replaceAll("'./patterns-api.mjs'",JSON.stringify(new URL('./patterns-api.mjs',import.meta.url).href))

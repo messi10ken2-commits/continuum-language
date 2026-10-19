@@ -33,3 +33,9 @@ test('exact lesson titles and existing concession mapping remain available',()=>
  assert.equal(matchClassLesson(note('en','Order at a café'),'en').title,'Order at a café');
  assert.equal(matchClassLesson(note('es','Conjunction','Correct usage of Si bien es cierto, aunque'),'es').id,'speaker-stance');
 });
+
+test('a teacher-selected lesson overrides text matching but cannot cross the shared language',()=>{
+ const note={language:'en',focus:'Past perfect',note:'Use earlier past events.',lessonId:'en-a2-v2-lesson-1'};
+ assert.equal(classPractice([note],'en').lesson.id,'en-a2-v2-lesson-1');
+ assert.equal(classPractice([{...note,lessonId:'pt-a2-v2-lesson-1'}],'en').lesson,null);
+});
