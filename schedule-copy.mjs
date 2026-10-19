@@ -1,5 +1,43 @@
 // UI copy only. Teacher topics, reasons, messages and lesson content remain authored text.
 const rows=`
+All day|終日|Todo el día|Dia inteiro|全天|Toute la journée
+YOUR REGULAR WEEK|毎週の基本スケジュール|TU SEMANA HABITUAL|SUA SEMANA HABITUAL|每周固定安排|VOTRE SEMAINE HABITUELLE
+Weekly teaching hours|曜日ごとの授業時間|Horario semanal de clases|Horários semanais de aula|每周授课时间|Horaires hebdomadaires de cours
+Set your usual start and end times for each weekday once. These hours repeat every week until you change them. Use time off for exceptions.|曜日ごとに開始・終了時刻を設定してください。変更するまで毎週繰り返します。例外の日は休暇・休憩で調整できます。|Configura una vez la hora de inicio y fin de cada día. Se repetirá cada semana hasta que la cambies. Usa las ausencias para las excepciones.|Defina uma vez o início e o fim de cada dia da semana. Os horários se repetem até você alterá-los. Use folgas para as exceções.|按星期设置开始和结束时间，保存后会每周持续重复，直到您修改。特殊日期请设置休假或休息。|Définissez une fois les heures de début et de fin de chaque jour. Elles se répètent chaque semaine jusqu’à modification. Utilisez les indisponibilités pour les exceptions.
+Weekly schedule time zone|基本スケジュールのタイムゾーン|Zona horaria del horario semanal|Fuso do horário semanal|固定安排的时区|Fuseau des horaires hebdomadaires
+Break between lessons|授業の間の休憩|Descanso entre clases|Intervalo entre aulas|课间休息|Pause entre les cours
+Available every week|毎週授業できる|Disponible cada semana|Disponível toda semana|每周可授课|Disponible chaque semaine
+Not available|授業なし|No disponible|Indisponível|不授课|Indisponible
+From|開始|Desde|Das|开始|De
+Until|終了|Hasta|Até|结束|À
+24:00 · midnight|24:00・翌日0時|24:00 · medianoche|24:00 · meia-noite|24:00 · 次日零点|24:00 · minuit
+Remove time range|この時間帯を削除|Eliminar franja horaria|Remover faixa de horário|删除此时间段|Supprimer cette plage horaire
+Add another time range|時間帯を追加|Añadir otra franja|Adicionar outra faixa|添加时间段|Ajouter une plage horaire
+The weekly pattern stays active without an end date. Bookable slots are prepared for the next 60 days and extended automatically. Existing confirmed classes stay unchanged.|基本設定に終了日はありません。予約枠は60日先まで用意し、自動で先へ延長します。確定済みの授業は変更しません。|El patrón semanal no tiene fecha de fin. Los horarios reservables se preparan para los próximos 60 días y se amplían automáticamente. Las clases confirmadas no cambian.|O padrão semanal não tem data final. Os horários reserváveis cobrem os próximos 60 dias e são estendidos automaticamente. Aulas confirmadas não mudam.|固定安排没有结束日期。系统会持续准备未来60天的可预约时段，并自动延长。已确认课程不受影响。|Le modèle hebdomadaire n’a pas de date de fin. Les créneaux des 60 prochains jours sont préparés et prolongés automatiquement. Les cours confirmés restent inchangés.
+Lessons must fit entirely inside each range. The last break is not required. Ambiguous or missing clock-change times are skipped.|各授業は指定した時間帯内に収まる必要があります。最後の授業後の休憩は不要です。夏時間の切り替えで重複・消失する時刻は除外します。|Cada clase debe caber en la franja. No hace falta descanso tras la última. Se omiten las horas ambiguas o inexistentes por el cambio horario.|Cada aula deve caber na faixa. Não é preciso intervalo após a última. Horários ambíguos ou inexistentes na mudança de hora são ignorados.|每节课须完整处于所设时间段内。最后一节课后无需预留休息。夏令时切换导致的重复或不存在时间将跳过。|Chaque cours doit tenir dans sa plage. Aucune pause n’est requise après le dernier. Les heures ambiguës ou inexistantes lors des changements d’heure sont ignorées.
+Save weekly hours|毎週の時間帯を保存|Guardar horario semanal|Salvar horários semanais|保存每周时间|Enregistrer les horaires hebdomadaires
+Reload saved hours|保存済みの設定を読み直す|Recargar horario guardado|Recarregar horários salvos|重新加载已保存设置|Recharger les horaires enregistrés
+Weekly hours saved. Your calendar and learner booking slots are updated.|基本スケジュールを保存し、カレンダーと生徒の予約枠を更新しました。|Horario guardado. El calendario y los horarios de reserva se han actualizado.|Horários salvos. O calendário e as opções de reserva foram atualizados.|固定安排已保存，日历和学生可预约时段已更新。|Horaires enregistrés. Le calendrier et les créneaux de réservation sont à jour.
+Choose valid weekly hours, lesson duration and break time|曜日の時間帯・授業時間・休憩時間を正しく設定してください。|Elige horarios semanales, duración y descanso válidos.|Defina horários semanais, duração e intervalos válidos.|请设置有效的每周时间、课程时长和休息时间。|Choisissez des horaires, une durée de cours et une pause valides.
+Each time range needs a later end and enough room for a lesson|終了は開始より後にし、1回の授業が収まる長さにしてください。|El fin debe ser posterior al inicio y permitir una clase completa.|O fim deve ser depois do início e permitir uma aula inteira.|结束时间须晚于开始时间，并留足一节课的时长。|La fin doit suivre le début et laisser assez de temps pour un cours entier.
+Add a time range or turn this weekday off|時間帯を追加するか、この曜日を授業なしにしてください。|Añade una franja o desactiva este día.|Adicione uma faixa ou desative este dia.|请添加时间段，或将该星期设为不授课。|Ajoutez une plage ou désactivez ce jour.
+Time ranges on the same weekday cannot overlap|同じ曜日の時間帯が重ならないようにしてください。|Las franjas de un mismo día no pueden solaparse.|As faixas do mesmo dia não podem se sobrepor.|同一星期的时间段不能重叠。|Les plages d’un même jour ne peuvent pas se chevaucher.
+Weekly hours changed. Reload before saving|基本スケジュールが更新されています。保存前に設定を読み直してください。|El horario cambió. Recárgalo antes de guardar.|Os horários mudaram. Recarregue antes de salvar.|固定安排已被更新，请重新加载后保存。|Les horaires ont changé. Rechargez-les avant d’enregistrer.
+Choose a valid calendar week|有効な日付とタイムゾーンを選んでください。|Elige una fecha y zona horaria válidas.|Escolha uma data e um fuso válidos.|请选择有效的日期和时区。|Choisissez une date et un fuseau valides.
+Teaching calendar|授業カレンダー|Calendario de clases|Calendário de aulas|教学日历|Calendrier des cours
+Calendar view|カレンダーの表示|Vista del calendario|Visualização do calendário|日历视图|Affichage du calendrier
+Week view|週表示|Semana|Semana|周视图|Semaine
+Day view|日表示|Día|Dia|日视图|Jour
+Previous dates|前の期間|Fechas anteriores|Datas anteriores|上一时段|Dates précédentes
+Next dates|次の期間|Fechas siguientes|Próximas datas|下一时段|Dates suivantes
+Click a coloured block for details. Click an empty hour to add a one-off slot. Weekly changes never cancel existing bookings.|色の付いた枠を押すと詳細を確認できます。空いた時刻を押すと単発枠を追加できます。基本設定の変更で予約済みの授業が取り消されることはありません。|Pulsa un bloque de color para ver los detalles, o una hora vacía para añadir un horario puntual. Cambiar el patrón semanal nunca cancela reservas existentes.|Clique em um bloco colorido para ver detalhes ou em uma hora vazia para adicionar um horário avulso. Alterar o padrão semanal nunca cancela reservas existentes.|点击彩色时段查看详情，点击空白时间添加单次时段。修改固定安排不会取消已有预约。|Cliquez sur un bloc coloré pour les détails, ou sur une heure vide pour ajouter un créneau ponctuel. Modifier les horaires hebdomadaires n’annule jamais les réservations existantes.
+Selected calendar event|選択した予定|Evento seleccionado|Evento selecionado|所选日程|Événement sélectionné
+Add a one-off slot|単発の空き枠を追加|Añadir un horario puntual|Adicionar um horário avulso|添加单次时段|Ajouter un créneau ponctuel
+Use an extra slot for a date outside your regular weekly hours.|毎週の基本時間帯とは別に、特定の日だけ空き枠を追加できます。|Añade un horario para una fecha fuera de tu horario semanal habitual.|Adicione um horário para uma data fora da sua rotina semanal.|可在固定每周安排之外，为特定日期添加额外时段。|Ajoutez un créneau pour une date en dehors de vos horaires hebdomadaires habituels.
+Schedule tools|スケジュールの管理項目|Herramientas del horario|Ferramentas da agenda|日程管理工具|Outils du planning
+Calendar|カレンダー|Calendario|Calendário|日历|Calendrier
+Weekly hours|毎週の時間帯|Horario semanal|Horários semanais|每周时间|Horaires hebdomadaires
+Extra slots|単発の追加枠|Horarios extra|Horários extras|额外时段|Créneaux supplémentaires
 Previous month|前の月|Mes anterior|Mês anterior|上个月|Mois précédent
 Next month|次の月|Mes siguiente|Próximo mês|下个月|Mois suivant
 Choose a date|日付を選ぶ|Elegir una fecha|Escolher uma data|选择日期|Choisir une date
@@ -105,5 +143,5 @@ A class has been booked from an available slot.|空き枠からの授業予約�
 Your teacher proposed a new class time. The original class stays confirmed until you accept.|先生から日時変更の提案が届きました。承諾するまでは元の授業が確定したまま残ります。|Tu profesor propuso un nuevo horario. La clase original sigue confirmada hasta que aceptes.|Seu professor propôs um novo horário. A aula original continua confirmada até você aceitar.|老师提议了新的上课时间。在您同意前原课程仍然有效。|Votre professeur propose un nouvel horaire. Le cours initial reste confirmé jusqu’à votre acceptation.
 `;
 export const scheduleCopy=Object.fromEntries(rows.trim().split('\n').map(row=>{const [en,...v]=row.split('|');if(v.length!==5)throw Error('Invalid schedule copy: '+en);return [en,Object.fromEntries(['ja','es','pt','zh','fr'].map((l,i)=>[l,v[i]]))]}));
-export const scheduleTerms=new Set(['minutes','weeks','Booked','Available','Close','Today','Tomorrow','Night','Morning','Afternoon','Evening']);
+export const scheduleTerms=new Set(['minutes','weeks','Booked','Available','Close','Today','Tomorrow','Night','Morning','Afternoon','Evening','From','Until','Calendar','Not available','All day']);
 export const scheduleUiCopy=Object.fromEntries(Object.entries(scheduleCopy).filter(([k])=>!scheduleTerms.has(k)));

@@ -1,6 +1,7 @@
 const validParts=/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/;
 export function validTimeZone(zone){try{if(typeof zone!=='string'||zone.length>80||zone==='Etc/Unknown')return false;new Intl.DateTimeFormat('en',{timeZone:zone}).format();return true}catch{return false}}
-function wall(ms,zone){const p=Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(ms).map(x=>[x.type,x.value]));return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`;}
+const wallFormatters=new Map();
+function wall(ms,zone){if(!wallFormatters.has(zone)){if(wallFormatters.size>=64)wallFormatters.delete(wallFormatters.keys().next().value);wallFormatters.set(zone,new Intl.DateTimeFormat('en-GB',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}));}const p=Object.fromEntries(wallFormatters.get(zone).formatToParts(ms).map(x=>[x.type,x.value]));return `${p.year}-${p.month}-${p.day}T${p.hour}:${p.minute}`;}
 // An ambiguous DST hour is returned twice; a missing clock hour is never silently
 // moved. The caller must choose an explicit UTC instant when there are two.
 export function classTimeChoices(local,zone){

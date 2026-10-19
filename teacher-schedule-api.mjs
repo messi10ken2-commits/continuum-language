@@ -1,3 +1,4 @@
+import {migrateWeeklySchedule,materializeWeekly,handleWeeklySchedule} from './weekly-schedule.mjs';
 import crypto from 'node:crypto';
 import {availabilityDates,teachingMetrics} from './schedule-model.mjs';
 import {validTimeZone} from './class-time.mjs';
@@ -8,10 +9,11 @@ export async function migrateTeacherSchedule(pool){await pool.query(`
  ALTER TABLE class_bookings ADD COLUMN IF NOT EXISTS change_reason text NOT NULL DEFAULT '';
  ALTER TABLE class_bookings ADD COLUMN IF NOT EXISTS slot_id uuid REFERENCES class_availability(id);
  CREATE UNIQUE INDEX IF NOT EXISTS class_confirmed_slot ON class_bookings(slot_id) WHERE status='confirmed';
- `);}
+ `);await migrateWeeklySchedule(pool);}
 export const slotPublic=s=>({id:s.id,startsAt:s.starts_at,endsAt:s.ends_at,timezone:s.timezone,active:s.active,booked:!!s.booked});
 export async function handleTeacherSchedule(ctx){
  const {route,req,res,pool,user,url,json,send,fail,limited,transaction,threadAccess,lockPeople,lockLanguage,conflicts,event,updateMessage,bookingPublic,uuid,key,text,fingerprint}=ctx;
+ if(await handleWeeklySchedule(ctx))return true;
  if(route==='/api/classroom/insights'&&req.method==='GET'){
   if(user.role!=='teacher')fail(403,'Not allowed for this account');const days=Number(url.searchParams.get('days')||30);if(![7,30,90].includes(days))fail(400,'Choose 7, 30 or 90 days');
   const b=await pool.query('SELECT * FROM class_bookings WHERE teacher_id=$1',[user.id]);const m=await pool.query("SELECT m.*,t.teacher_id FROM class_messages m JOIN class_threads t ON t.id=m.thread_id WHERE t.teacher_id=$1 AND m.kind='message' ORDER BY m.created_at,m.seq",[user.id]);const e=await pool.query('SELECT e.* FROM class_events e JOIN class_bookings b ON b.id=e.booking_id WHERE b.teacher_id=$1',[user.id]);
@@ -20,7 +22,8 @@ export async function handleTeacherSchedule(ctx){
  if(route==='/api/classroom/availability'&&req.method==='GET'){
   const threadId=url.searchParams.get('threadId');let teacher=user.id,t;
   if(threadId){t=await threadAccess(pool,user,threadId,fail,{write:true});teacher=t.teacher_id;}else if(user.role!=='teacher')fail(403,'Choose a connected learner or teacher');
-  const r=await pool.query(`SELECT s.*,EXISTS(SELECT 1 FROM class_bookings b WHERE b.teacher_id=s.teacher_id AND b.status='confirmed' AND b.starts_at<s.ends_at AND b.ends_at>s.starts_at) AS booked FROM class_availability s WHERE s.teacher_id=$1 AND s.active AND s.starts_at>now()+interval '5 minutes' AND s.starts_at<now()+interval '180 days' AND NOT EXISTS(SELECT 1 FROM class_time_off o WHERE o.teacher_id=s.teacher_id AND o.starts_at<s.ends_at AND o.ends_at>s.starts_at) ORDER BY s.starts_at LIMIT 1000`,[teacher]);
+  await transaction(pool,async c=>{await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[teacher]);await materializeWeekly(c,teacher);});
+  const r=await pool.query(`SELECT s.*,EXISTS(SELECT 1 FROM class_bookings b WHERE b.teacher_id=s.teacher_id AND b.status='confirmed' AND b.starts_at<s.ends_at AND b.ends_at>s.starts_at) AS booked FROM class_availability s WHERE s.teacher_id=$1 AND s.active AND s.starts_at>now()+interval '5 minutes' AND s.starts_at<now()+interval '180 days' AND NOT EXISTS(SELECT 1 FROM class_time_off o WHERE o.teacher_id=s.teacher_id AND o.starts_at<s.ends_at AND o.ends_at>s.starts_at) ORDER BY s.starts_at LIMIT 10000`,[teacher]);
   let rows=r.rows;if(threadId){const own=(await pool.query("SELECT starts_at,ends_at FROM class_bookings WHERE learner_id=$1 AND status='confirmed'",[t.learner_id])).rows;const exclude=url.searchParams.get('replacesId');let old=null;if(exclude){if(!uuid.test(exclude))fail(400,'Invalid booking');old=(await pool.query("SELECT * FROM class_bookings WHERE id=$1 AND thread_id=$2 AND status='confirmed'",[exclude,t.id])).rows[0];if(!old)fail(409,'Only a confirmed class can be rescheduled');}
    rows=rows.filter(s=>!s.booked&&!own.some(b=>Date.parse(b.starts_at)<Date.parse(s.ends_at)&&Date.parse(b.ends_at)>Date.parse(s.starts_at)&&(!old||Date.parse(b.starts_at)!==Date.parse(old.starts_at))));
   }
@@ -51,6 +54,7 @@ export async function handleTeacherSchedule(ctx){
   const reason=text(d.reason,500);if(user.role==='teacher'&&reason.length<3)fail(400,'Add a reason for the new time');const hash=fingerprint([d.threadId,d.slotId,topic,d.replacesId||null,reason]);const result=await transaction(pool,async c=>{
    const t=await threadAccess(c,user,d.threadId,fail,{write:true});await lockPeople(c,t);await lockLanguage(c,t,fail);
    const prev=(await c.query('SELECT * FROM class_bookings WHERE proposed_by=$1 AND client_key=$2',[user.id,d.clientKey])).rows[0];if(prev){if(prev.input_hash!==hash)fail(409,'This submission was already sent with different content');return prev;}
+   await materializeWeekly(c,t.teacher_id);
    let old=null;if(d.replacesId){if(!uuid.test(d.replacesId))fail(400,'Invalid booking');old=(await c.query('SELECT * FROM class_bookings WHERE id=$1 AND thread_id=$2 FOR UPDATE',[d.replacesId,t.id])).rows[0];if(old?.status!=='confirmed'||Date.parse(old.starts_at)<=Date.now())fail(409,'Only a future confirmed class can be rescheduled');}
    const s=(await c.query('SELECT * FROM class_availability WHERE id=$1 AND teacher_id=$2 AND active FOR UPDATE',[d.slotId,t.teacher_id])).rows[0];if(!s||Date.parse(s.starts_at)<Date.now()+300000||Date.parse(s.starts_at)>Date.now()+180*86400000||(await c.query('SELECT 1 FROM class_time_off WHERE teacher_id=$1 AND starts_at<$3 AND ends_at>$2',[t.teacher_id,s.starts_at,s.ends_at])).rows.length)fail(409,'This slot is no longer available. Choose another time');
    if(old&&old.slot_id===s.id)fail(400,'Choose a different slot to reschedule');if(await conflicts(c,t,s.starts_at,s.ends_at,old?.id||null))fail(409,'This time overlaps a confirmed class. Choose another time');
