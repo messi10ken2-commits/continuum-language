@@ -32,3 +32,10 @@ test('broken optional pronunciation does not discard an otherwise valid voice re
  const result=await voiceTurnSpeaking({language:'en',level:'B1',scenario:'directions',display_language:'en',messages:[]},{},{env:{OPENAI_API_KEY:'synthetic-voice'},convert:async()=>Buffer.alloc(44).toString('base64'),fetchImpl:async()=>Response.json({choices:[{message:{content:JSON.stringify({audible:true,transcript:'Where is the station?',reply:'Turn left.',pronunciation:{ratings:[]}})}}]})});
  assert.equal(result.reply,'Turn left.');assert.equal(result.speechEvidence,undefined);
 });
+test('missing communication ratings are repaired from verified words and included with pronunciation',async()=>{
+ const session={language:'en',display_language:'en',level:'B2',scenario:'directions',messages:[{role:'user',text:'Where is the station?'},{role:'user',text:'Thank you, I understand.'}]};
+ const base={summary:'Clear requests.',strengths:['Polite questions'],corrections:[],goals:[{achieved:true,evidence:'Where is the station?'},{achieved:false,evidence:''},{achieved:false,evidence:''}],nextStep:'Ask a follow-up.'};let calls=0;session.messages.forEach(m=>Object.assign(m,{mode:'voice',speechEvidence:{version:'skill-evidence-v3',seconds:10,pronunciation:{assessable:true,ratings:[3,3,3,3],evidence:['a','b','c','d']}}}));
+ const r=await reviewSpeaking(session,{request:async()=>({value:++calls===1?base:{ratings:[3,3,3,3],scoreEvidence:['Where is the station?','Thank you, I understand.','the station','I understand.']}})});
+ assert.equal(calls,2);assert.equal(r.communicationScore,75);assert.equal(r.score,75);assert.equal(r.pronunciation.assessable,true);
+ const bad=await reviewSpeaking(session,{request:async()=>({value:++calls===3?base:{ratings:[4,4,4,4],scoreEvidence:['invented','invented','invented','invented']}})});assert.equal(bad.communicationScore,null);
+});

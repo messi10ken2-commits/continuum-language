@@ -27,3 +27,9 @@ The failed validation run at commit 8e53960 came from a blank line parsed as an 
 ## Automatic playback isolation
 
 Continuous conversation now reuses a gesture-unlocked HTML media element for natural speech output, separate from the microphone AudioContext. Audio bytes are copied before decodeAudioData (which may detach its input) so the media blob retains valid PCM. The speaking state starts on the media `playing` event, with a progress watchdog to pause and request user resume if playback stalls. Every stop releases playback, object URLs and microphone tracks; microphone context is resumed before capture. Browser QA uses Chromium with synthetic voice/microphone data; physical Safari speaker output requires user-device confirmation.
+
+## Communication scores and turn pacing
+
+A review with absent/unverified communication ratings now requests one compact score-only repair, grounded in exact saved learner quotes. Verified communication and recorded pronunciation combine at 80/20; neither component supplies a default for the other. If evidence/provider remains insufficient the score stays unassessed, with an explicit notice and consent-gated reassessment button. Owners can refresh only reviews missing communication scores; completed turns stay closed, revision/lease/privacy checks remain enforced.
+
+Natural voice is prefetched only for voice turns explicitly requesting it, after the server saves the exact generated reply. Prefetch and playback use the same authorized private cache, in-flight task and daily budget; device-voice users do not trigger it. Audio waits still depend on the provider. The voice-turn prompt requests brief acoustic notes, the default end-of-speech pause is 1.3 rather than 2.2 seconds (longer remains selectable), natural media playback is 0.9× with preserved pitch, and device fallback is capped at 0.9×. No provider-latency guarantee is implied.

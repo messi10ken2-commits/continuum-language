@@ -50,8 +50,9 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  const d=await json(req);
  if(d.aiConsent!==true)fail(400,'Confirm AI conversation processing before continuing');
  if(match[2]==='turn'&&typeof d.turnKey==='string'&&s.messages.some(m=>m.key===d.turnKey)){if(s.messages.find(m=>m.key===d.turnKey).inputHash!==turnFingerprint(d))fail(409,'This reply was already sent with different content. Reload the saved conversation.');send(res,200,{session:publicSpeaking(s)});return true;}
- if(match[2]==='review'&&s.review){send(res,200,{session:publicSpeaking(s)});return true;}
- if(s.status==='completed')fail(409,'This conversation has ended. Start a new conversation.');
+ const refreshScores=match[2]==='review'&&d.refreshScores===true&&s.review?.communicationScore==null;
+ if(match[2]==='review'&&s.review&&!refreshScores){send(res,200,{session:publicSpeaking(s)});return true;}
+ if(s.status==='completed'&&!refreshScores)fail(409,'This conversation has ended. Start a new conversation.');
  if(d.revision!==s.revision)fail(409,'The conversation changed. Reload it before continuing.');
  const turns=s.messages.filter(m=>m.role==='user').length;
  if(match[2]==='turn'){
@@ -73,6 +74,11 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   }else result=await review(s);
   const updated=await pool.query('UPDATE speaking_sessions SET messages=$3::jsonb,review=$4::jsonb,status=$5,revision=revision+1,lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$2 AND lease_token=$6 RETURNING *',[s.id,user.id,JSON.stringify(messages),JSON.stringify(result),result?'completed':'active',token]);
   if(!updated.rows.length)fail(409,'The conversation changed. Reload it before continuing.');
+  if(d.audio&&d.prefetchAudio===true){
+   // Exact server-owned assistant text, same private cache and generation budget
+   // as playback; the client's audio GET joins this in-flight generation.
+   void Promise.resolve().then(()=>serveAudio({req,res:{writeHead(){},end(){}},pool,text:messages.at(-1).text,locale:languageInfo(s.language).locale,voiceProfile:conversationPartner(s.language,s.scenario).voice,privateAudio:true,send(){},fail:(status,message)=>{throw Object.assign(Error(message),{status})},limited})).catch(()=>{});
+  }
   send(res,200,{session:publicSpeaking(updated.rows[0])});return true;
  }catch(e){if(e.status&&e.status<500)throw e;console.warn('Speaking provider unavailable',JSON.stringify({operation:match[2],kind:e.name||'Error',code:/^[A-Z_]{1,50}$/.test(e.code||'')?e.code:undefined,providerStatus:e.providerStatus}));fail(503,match[2]==='review'?'Your conversation is saved, but the review could not be created. Please try creating the review again.':'AI conversation could not finish. Your saved conversation is unchanged; your unsent reply remains on this page. Please try again.');}
  finally{await pool.query('UPDATE speaking_sessions SET lease_token=NULL,lease_until=NULL WHERE id=$1 AND user_id=$2 AND lease_token=$3',[s.id,user.id,token]);}

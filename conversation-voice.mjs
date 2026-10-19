@@ -11,7 +11,7 @@ export function detectVoiceEnd(window,rms,now,{silenceMs=1500,maxMs=45000,idleMs
  return 'listen';
 }
 export class ConversationVoiceLoop{
- constructor({onState,onLevel,onTurn,onError,onVoiceFallback,locale='en-US',silenceMs=1500,deviceVoice=false,fetchImpl=fetch,host=globalThis,canContinue}){Object.assign(this,{onState,onLevel,onTurn,onError,onVoiceFallback,locale,silenceMs,deviceVoice,fetchImpl,host,canContinue});this.fetchImpl=fetchImpl.bind(host);this.epoch=0;this.active=false;this.retryClip=null;}
+ constructor({onState,onLevel,onTurn,onError,onVoiceFallback,locale='en-US',silenceMs=1500,deviceVoice=false,rate=.9,fetchImpl=fetch,host=globalThis,canContinue}){Object.assign(this,{onState,onLevel,onTurn,onError,onVoiceFallback,locale,silenceMs,deviceVoice,rate,fetchImpl,host,canContinue});this.fetchImpl=fetchImpl.bind(host);this.epoch=0;this.active=false;this.retryClip=null;}
  state(value){this.onState?.(value);}
  async start(url){
   if(this.active)return;
@@ -64,7 +64,7 @@ export class ConversationVoiceLoop{
  }
  async playMedia(bytes,epoch){
   const player=this.player,URL=this.host.URL||globalThis.URL;
-  this.playbackURL=URL.createObjectURL(new Blob([bytes],{type:'audio/wav'}));player.src=this.playbackURL;player.muted=false;player.volume=1;
+  this.playbackURL=URL.createObjectURL(new Blob([bytes],{type:'audio/wav'}));player.src=this.playbackURL;player.muted=false;player.volume=1;player.playbackRate=this.rate;player.preservesPitch=true;
   try{await new Promise((resolve,reject)=>{
    let lastTime=0,lastProgress=Date.now();
    const fail=()=>reject(Error('Tap Resume conversation to allow audio playback.'));
@@ -81,7 +81,7 @@ export class ConversationVoiceLoop{
   const r=await this.fetchImpl(this.currentURL+'?format=text',{credentials:'same-origin',signal:(this.abort=new AbortController()).signal});
   if(!r.ok)throw Error('The voice response could not be played. Please retry.');const {text,locale}=await r.json();if(!this.valid(epoch))return;
   const synth=this.host.speechSynthesis,U=this.host.SpeechSynthesisUtterance;if(!synth||!U)throw Error('Device voice is unavailable. Choose natural voice or type your reply.');
-  const u=new U(text);this.utterance=u;u.lang=locale||this.locale;u.rate=1;
+  const u=new U(text);this.utterance=u;u.lang=locale||this.locale;u.rate=Math.min(.9,this.rate);
   const voice=synth.getVoices().find(v=>v.lang.replace('_','-').toLowerCase()===u.lang.toLowerCase());if(voice)u.voice=voice;
   this.state('speaking');
   await new Promise((resolve,reject)=>{this.endPlayback=resolve;u.onend=resolve;u.onerror=()=>reject(Error('Tap Resume conversation to allow audio playback.'));u.onboundary=()=>{this.onLevel?.(.5);clearTimeout(this.boundary);this.boundary=setTimeout(()=>this.onLevel?.(0),160)};synth.speak(u)});

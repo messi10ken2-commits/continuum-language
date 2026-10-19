@@ -38,7 +38,7 @@ test('voice conversation uses one audio request for transcription and the next r
 test('review repairs incomplete goal arrays once; provider failures do not invent a review',async()=>{
  let calls=0;
  const result=await reviewSpeaking(s,{request:async(system)=>{calls++;assert.ok(system.includes('exactly THREE'));return {value:calls===1?{...review,goals:review.goals.slice(0,1)}:review}}});
- assert.equal(calls,2);assert.equal(result.goals.length,3);
+ assert.equal(calls,3);assert.equal(result.goals.length,3);
  calls=0;await assert.rejects(()=>reviewSpeaking(s,{request:async()=>{calls++;return {value:{...review,goals:[]}}}}),e=>e.code==='SPEAKING_REVIEW_SCHEMA');assert.equal(calls,2);
  calls=0;await assert.rejects(()=>reviewSpeaking(s,{request:async()=>{calls++;throw Object.assign(Error('quota'),{status:503,providerStatus:429})}}));assert.equal(calls,1);
  calls=0;assert.equal((await reviewSpeaking(s,{request:async()=>{calls++;if(calls===1)throw Object.assign(Error('json'),{code:'PATTERN_INVALID_JSON'});return {value:review}}})).goals.length,3);
