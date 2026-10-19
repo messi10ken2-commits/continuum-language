@@ -1,0 +1,13 @@
+import {languages,courseBands} from './languages.mjs';
+export const speakingScenarios=[
+ {id:'cafe',title:'Order at a café',role:'a café server',goals:['Order a drink and something to eat.','Ask about an ingredient or an alternative.','Confirm the order and ask for the bill.'],opening:{en:'Hi! What can I get you today?',es:'¡Hola! ¿Qué te gustaría tomar?',pt:'Olá! O que você gostaria de pedir?',ja:'いらっしゃいませ。何になさいますか？'}},
+ {id:'directions',title:'Find your way around',role:'a local helping a visitor',goals:['Explain where you want to go.','Ask for directions or transport options.','Check that you understood the route.'],opening:{en:'Hi! Do you need help finding somewhere?',es:'¡Hola! ¿Necesitas ayuda para llegar a algún sitio?',pt:'Oi! Você precisa de ajuda para chegar a algum lugar?',ja:'こんにちは。どこかお探しですか？'}},
+ {id:'shopping',title:'Solve a shopping problem',role:'a helpful shop assistant',goals:['Describe what you are looking for.','Ask about size, price or alternatives.','Make a choice or politely explain a problem.'],opening:{en:'Hello! What are you looking for today?',es:'¡Hola! ¿Qué estás buscando hoy?',pt:'Olá! O que você está procurando hoje?',ja:'いらっしゃいませ。何をお探しですか？'}},
+ {id:'plans',title:'Make plans with a friend',role:'a friend arranging a day out',goals:['Suggest an activity.','Discuss availability and preferences.','Agree on a time and place.'],opening:{en:'Hey! Would you like to do something this weekend?',es:'¡Hola! ¿Te apetece hacer algo este fin de semana?',pt:'Oi! Você quer fazer alguma coisa neste fim de semana?',ja:'こんにちは。週末、一緒に何かしませんか？'}},
+ {id:'appointment',title:'Arrange an appointment',role:'a receptionist arranging a routine appointment',goals:['Explain the appointment you need.','Discuss available times.','Confirm the booking details.'],opening:{en:'Hello! How can I help you book an appointment?',es:'¡Hola! ¿Qué tipo de cita necesitas?',pt:'Olá! Que tipo de horário você gostaria de marcar?',ja:'こんにちは。どのようなご予約をご希望ですか？'}},
+ {id:'work',title:'Discuss a work plan',role:'a colleague planning a small project',goals:['Explain an idea or priority.','Respond to a different suggestion.','Agree on a practical next step.'],opening:{en:'Hi! What should we focus on for our next project?',es:'¡Hola! ¿En qué deberíamos centrarnos para el próximo proyecto?',pt:'Oi! Em que devemos focar no próximo projeto?',ja:'こんにちは。次のプロジェクトでは、何を優先しましょうか？'}}
+];
+export const scenarioById=id=>speakingScenarios.find(s=>s.id===id);
+export const validSpeakingLanguage=id=>languages.some(l=>l.id===id);
+export const validSpeakingLevel=id=>courseBands.includes(id);
+export const maxSpeakingTurns=12;

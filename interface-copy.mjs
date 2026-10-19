@@ -1,3 +1,4 @@
+import {speakingCopy} from './speaking-copy.mjs';
 // Reviewed first-visit and everyday navigation copy. English is the source key.
 // Columns: English | Japanese | Spanish | Portuguese | Simplified Chinese | French.
 const rows=`
@@ -176,3 +177,5 @@ Some explanations are still shown in English. Retry translation.|一部の説明
 AI-translated explanations; learning examples and audio keep their original language.|説明には自動翻訳を使用します。学習用の例文と音声は元の言語のままです。|Las explicaciones se traducen con IA; los ejemplos y el audio conservan su idioma original.|As explicações usam tradução por IA; os exemplos e o áudio mantêm o idioma original.|说明由AI翻译；学习例句和音频保留原语言。|Les explications sont traduites par IA ; les exemples et l’audio restent dans leur langue d’origine.
 `;
 export const interfaceCopy=Object.fromEntries(rows.trim().split('\n').filter(Boolean).map(line=>{const [en,...values]=line.split('|');if(values.length!==5)throw Error('Invalid interface copy: '+en);return [en,Object.fromEntries(['ja','es','pt','zh','fr'].map((id,i)=>[id,values[i]]))]}));
+
+Object.assign(interfaceCopy,speakingCopy);

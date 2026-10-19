@@ -1,3 +1,4 @@
+import {speakingScenarios} from './speaking-content.mjs';
 import {qualityQuestionBank} from './question-quality.mjs';
 import {displayLanguageOptions} from './answer-language.mjs';
 import {skillTasks} from './skills-content.mjs';
@@ -20,6 +21,7 @@ function add(text,language='',protectedValues=[]){if(typeof text!=='string'||!/[
 for(const text of [...uiSources,...Object.keys(interfaceCopy),...Object.values(reviewedInterfaceCopy).flatMap(Object.keys)])add(text);
 for(const text of feedbackTemplates)add(text.trim());
 for(const level of levels){add(level.name);add(level.description);}
+for(const s of speakingScenarios){add(s.title);for(const goal of s.goals)add(goal);}
 const descriptionColumn=h=>/^(Type|Purpose|Function|Meaning|Focus|Interpretation|Time order|Reason|Difference|Time|Strength|Appropriate interpretation|Reference|Use|Usage|English|Translation|Ending sound)$/i.test(h);
 for(const l of lessonList){
  lessonContext=l.level+' '+l.language+' lesson: '+l.title;
