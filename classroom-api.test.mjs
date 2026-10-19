@@ -26,18 +26,21 @@ try{
  let p=proposal(en),b=ok(await call(path+'/bookings','POST',p,l),201).booking;assert.equal(ok(await call(path+'/bookings','POST',p,l),201).booking.id,b.id);assert.equal((await call(path+'/bookings','POST',{...p,topic:'other'},l)).status,409);
  assert.equal((await call(path+'/bookings','POST',{...proposal(en),priceMinor:1000},l)).status,400);
  const status=(b,next,person,extra={})=>call(path+'/bookings/'+b.id+'/status','PUT',{status:next,revision:b.revision,...extra},person);
- assert.equal((await status(b,'confirmed',l)).status,409);b=ok(await status(b,'confirmed',t)).booking;assert.equal(b.status,'confirmed');
+ assert.equal((await status(b,'confirmed',l)).status,409);b=ok(await status(b,'confirmed',t)).booking;assert.equal(b.status,'confirmed');assert.match(b.meetingUrl,/^https:\/\/meet\.jit\.si\/Continuum-[a-f0-9-]{36}$/);const autoRoom=b.meetingUrl;assert.equal(ok(await call(path+'/bookings/'+b.id,'GET',null,l)).booking.meetingUrl,autoRoom);
  assert.equal((await call(path+'/bookings/'+b.id+'/meeting','PUT',{revision:b.revision,meetingUrl:'https://meet.google.com/abc-defg-hij'},l)).status,403);
  assert.equal((await call(path+'/bookings/'+b.id+'/meeting','PUT',{revision:b.revision,meetingUrl:'javascript:alert(1)'},t)).status,400);
  b=ok(await call(path+'/bookings/'+b.id+'/meeting','PUT',{revision:b.revision,meetingUrl:'https://meet.google.com/abc-defg-hij'},t)).booking;
+ assert.equal((await call(path+'/bookings/'+b.id+'/meeting','PUT',{revision:b.revision,automatic:true},l)).status,403);
+ const legacy=ok(await call(path+'/bookings','POST',proposal(en,15),l),201).booking;let legacyConfirmed=ok(await status(legacy,'confirmed',t)).booking;await db.query("UPDATE class_bookings SET meeting_url='' WHERE id=$1",[legacy.id]);legacyConfirmed=ok(await call(path+'/bookings/'+legacy.id+'/meeting','PUT',{revision:legacyConfirmed.revision,automatic:true},t)).booking;assert.match(legacyConfirmed.meetingUrl,/^https:\/\/meet\.jit\.si\/Continuum-/);assert.notEqual(legacyConfirmed.meetingUrl,autoRoom);
  assert.equal(ok(await call(path+'/bookings/'+b.id,'GET',null,l)).booking.meetingUrl,'https://meet.google.com/abc-defg-hij');assert.equal((await call(path+'/bookings/'+b.id,'GET',null,t2)).status,404);
- assert.equal((await call(path+'/bookings','POST',{...proposal(en2),startsAt:b.startsAt},t)).status,409);assert.equal((await call(path+'/bookings','POST',{...proposal(other),startsAt:b.startsAt},l)).status,409);
+ assert.equal((await call(path+'/bookings','POST',{...proposal(en2),startsAt:b.startsAt},t)).status,403);assert.equal((await call(path+'/bookings','POST',{...proposal(other),startsAt:b.startsAt},l)).status,409);
  // Two accepted proposals cannot double-book a teacher even when confirmed together.
- const stamp=when(5),raceA=ok(await call(path+'/bookings','POST',{...proposal(en,5),startsAt:stamp},t),201).booking,raceB=ok(await call(path+'/bookings','POST',{...proposal(en2,5),startsAt:stamp},t),201).booking;
- const raced=await Promise.all([status(raceA,'confirmed',l),status(raceB,'confirmed',l2)]);assert.deepEqual(raced.map(r=>r.status).sort(),[200,409]);
+ const stamp=when(5),raceA=ok(await call(path+'/bookings','POST',{...proposal(en,5),startsAt:stamp},l),201).booking,raceB=ok(await call(path+'/bookings','POST',{...proposal(en2,5),startsAt:stamp},l2),201).booking;
+ const raced=await Promise.all([status(raceA,'confirmed',t),status(raceB,'confirmed',t)]);assert.deepEqual(raced.map(r=>r.status).sort(),[200,409]);
+ assert.equal((await call(path+'/bookings','POST',proposal(en,12),t)).status,403);assert.equal((await call(path+'/bookings','POST',{...proposal(en,12),replacesId:b.id},t)).status,403);
  // A reschedule keeps the original until the recipient accepts the new time.
  const replacement=ok(await call(path+'/bookings','POST',{...proposal(en,3),replacesId:b.id},l),201).booking;assert.equal(ok(await call(path+'/bookings/'+b.id,'GET',null,l)).booking.status,'confirmed');const moved=ok(await status(replacement,'confirmed',t)).booking;assert.equal(ok(await call(path+'/bookings/'+b.id,'GET',null,l)).booking.status,'cancelled');
- assert.equal((await status(moved,'completed',t)).status,409);
+ assert.notEqual(moved.meetingUrl,autoRoom);assert.equal((await status(moved,'completed',t)).status,409);
  await db.query("UPDATE class_bookings SET starts_at=now()-interval '1 hour',ends_at=now()-interval '10 minutes' WHERE id=$1",[moved.id]);const done=ok(await status(moved,'completed',t)).booking;assert.equal(done.status,'completed');
  const noteBody={bookingId:done.id,focus:'Past perfect',note:'Practise describing what had happened before a later event.',clientKey:key()};const note=ok(await call(path+'/threads/'+en+'/notes','POST',noteBody,t)).note;assert.equal(ok(await call(path+'/threads/'+en+'/notes','POST',noteBody,t)).note.id,note.id);assert.equal((await call(path+'/threads/'+en+'/notes','POST',noteBody,l)).status,403);
  ok(await call(path+'/notes/'+note.id,'PUT',{revision:note.revision,focus:'Past perfect',note:'Use had plus the past participle when the earlier event matters.'},t));assert.equal((await call(path+'/notes/'+note.id,'PUT',{revision:0,focus:'Past perfect',note:'stale edit'},t)).status,409);assert.equal((await call(path+'/notes/'+note.id,'PUT',{revision:1,focus:'Past perfect',note:'someone else edit'},t2)).status,404);

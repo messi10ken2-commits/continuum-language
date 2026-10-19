@@ -94,6 +94,7 @@ export async function handleClassroom({route,req,res,pool,required,json,send,fai
   if(messages[2]==='read'&&req.method==='POST'){await pool.query('INSERT INTO class_reads(thread_id,user_id,last_seq) SELECT $1,$2,COALESCE(max(seq),0) FROM class_messages WHERE thread_id=$1 ON CONFLICT(thread_id,user_id) DO UPDATE SET last_seq=GREATEST(class_reads.last_seq,EXCLUDED.last_seq)',[t.id,user.id]);send(res,200,{ok:true});return true;}
  }
  if(route==='/api/classroom/bookings'&&req.method==='POST'){
+  if(user.role!=='learner')fail(403,'Only learners can propose a class or a new time');
   limited(req,'class-booking',40);const d=await json(req),topic=text(d.topic,160),starts=new Date(d.startsAt),duration=d.duration;
   if(!uuid.test(d.threadId||'')||!topic||!key(d.clientKey)||!Number.isInteger(duration)||duration<15||duration>120||duration%5||!validTimeZone(d.timezone)||typeof d.startsAt!=='string'||!/(Z|[+-]\d\d:\d\d)$/.test(d.startsAt)||!Number.isFinite(+starts)||d.priceMinor)fail(400,'Choose a valid class time, time zone and duration');
   const ends=new Date(+starts+duration*60000),inputHash=fingerprint([d.threadId,starts.toISOString(),duration,d.timezone,topic,d.replacesId||null]);
@@ -109,7 +110,7 @@ export async function handleClassroom({route,req,res,pool,required,json,send,fai
   if(req.method==='GET'&&!booking[2]){const notes=(await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.language,n.focus,n.note,n.revision,(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE booking_id=$1 ORDER BY n.created_at DESC',[b.id])).rows;send(res,200,{booking:bookingPublic(b),notes});return true;}
   if(req.method==='PUT'&&booking[2]){const d=await json(req);if(!Number.isInteger(d.revision))fail(400,'Reload before saving');
    const result=await transaction(pool,async c=>{await lockPeople(c,t);await lockLanguage(c,t,fail);const current=(await c.query('SELECT * FROM class_bookings WHERE id=$1 FOR UPDATE',[b.id])).rows[0];if(current.revision!==d.revision)fail(409,'This class changed. Refresh before saving');
-    if(booking[2]==='meeting'){const link=meetingLink(d.meetingUrl);if(user.id!==t.teacher_id)fail(403,'Only the teacher can set the meeting link');if(current.status!=='confirmed'||link===null)fail(400,'Use an HTTPS Google Meet, Zoom, Teams, Jitsi or Whereby link for a confirmed class');await c.query('UPDATE class_bookings SET meeting_url=$2,revision=revision+1,updated_at=now() WHERE id=$1',[b.id,link]);await event(c,user.id,t.id,'meeting_updated',{booking:b.id});await updateMessage(c,user.id,t.id,'The meeting link has been updated.');}
+    if(booking[2]==='meeting'){const link=d.automatic===true?'https://meet.jit.si/Continuum-'+crypto.randomUUID():meetingLink(d.meetingUrl);if(user.id!==t.teacher_id)fail(403,'Only the teacher can set the meeting link');if(current.status!=='confirmed'||link===null)fail(400,'Use an HTTPS Google Meet, Zoom, Teams, Jitsi or Whereby link for a confirmed class');await c.query('UPDATE class_bookings SET meeting_url=$2,revision=revision+1,updated_at=now() WHERE id=$1',[b.id,link]);await event(c,user.id,t.id,'meeting_updated',{booking:b.id});await updateMessage(c,user.id,t.id,'The meeting link has been updated.');}
     else{
      if(!['confirmed','declined','cancelled','completed'].includes(d.status))fail(400,'Choose a valid class action');
      if(['confirmed','declined'].includes(d.status)&&(current.status!=='requested'||current.proposed_by===user.id||Date.parse(current.starts_at)<=Date.now()))fail(409,'Only the other participant can respond to a future proposal');
@@ -120,7 +121,7 @@ export async function handleClassroom({route,req,res,pool,required,json,send,fai
       if(await conflicts(c,t,current.starts_at,current.ends_at,current.replaces_id))fail(409,'This time overlaps a confirmed class. Choose another time');
       if(current.replaces_id){await c.query("UPDATE class_bookings SET status='cancelled',revision=revision+1,updated_at=now() WHERE id=$1",[current.replaces_id]);await event(c,user.id,t.id,'rescheduled',{booking:current.replaces_id,detail:{replacement:b.id}});}
      }
-     await c.query('UPDATE class_bookings SET status=$2,revision=revision+1,updated_at=now() WHERE id=$1',[b.id,d.status]);await event(c,user.id,t.id,d.status,{booking:b.id,detail:d.status==='cancelled'?{reason:text(d.reason,500)}:{}});await updateMessage(c,user.id,t.id,'Class status updated: '+d.status+'.');
+     await c.query("UPDATE class_bookings SET status=$2,meeting_url=CASE WHEN $2='confirmed' AND meeting_url='' THEN $3 ELSE meeting_url END,revision=revision+1,updated_at=now() WHERE id=$1",[b.id,d.status,'https://meet.jit.si/Continuum-'+crypto.randomUUID()]);await event(c,user.id,t.id,d.status,{booking:b.id,detail:d.status==='cancelled'?{reason:text(d.reason,500)}:{}});await updateMessage(c,user.id,t.id,'Class status updated: '+d.status+'.');
     }return (await c.query('SELECT * FROM class_bookings WHERE id=$1',[b.id])).rows[0];});send(res,200,{booking:bookingPublic(result)});return true;
   }
  }
