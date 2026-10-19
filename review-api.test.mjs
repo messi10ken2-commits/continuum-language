@@ -1,3 +1,4 @@
+import {listeningReviewQuestion} from './review-listening.mjs';
 import assert from 'node:assert/strict';
 import {testServer,db} from './test-server.mjs';
 import {getLessonVariant} from './course.mjs';
@@ -20,6 +21,11 @@ try{
  const repeat=await call('/review/'+item.id+'/check','POST',correct,a.cookie);assert.deepEqual(repeat.data,check.data);
  const submission={lesson:id,answers,seed,submissionKey:crypto.randomUUID()};assert.equal((await call('/practice','POST',submission,a.cookie)).status,201);
  pool=await call('/review?language=pt','GET',null,a.cookie);assert.equal(pool.data.items.length,1);assert.equal(pool.data.items[0].misses,1);assert.equal(pool.data.items[0].strength,1);
+ const listening=listeningReviewQuestion(item);assert.ok(listening);const listeningKey=crypto.randomUUID();
+ const listeningResult=await call('/review/'+item.id+'/check','POST',{answer:listening.answer,mode:'listening',submissionKey:listeningKey},a.cookie);assert.equal(listeningResult.status,200);assert.equal(listeningResult.data.correct,true);assert.equal(listeningResult.data.mode,'listening');
+ assert.equal((await call('/review/'+item.id+'/check','POST',{answer:listening.answer,mode:'listening',submissionKey:crypto.randomUUID()},b.cookie)).status,404);
+ assert.equal((await call('/review/'+item.id+'/check','POST',{answer:listening.answer,mode:'context',submissionKey:listeningKey},a.cookie)).status,409);
+ const endDraft=await call('/learning/'+id,'PUT',{answers,seed},a.cookie);assert.equal(endDraft.status,200);const resumed=await call('/learning','GET',null,a.cookie);assert.deepEqual(resumed.data.drafts.find(d=>d.lesson===id).answers,answers);
  const q=item.question,wrong=q.type==='text'?'wrong':(q.answer+1)%q.options.length;
  check=await call('/review/'+item.id+'/check','POST',{answer:wrong,submissionKey:crypto.randomUUID()},a.cookie);assert.equal(check.data.strength,0);assert.equal(check.data.correct,false);
  // Reconstruct historical evidence that predates the review feature.

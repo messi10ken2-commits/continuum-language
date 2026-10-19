@@ -9,7 +9,7 @@ for(const lang of ['en','pt','ja'])test(`${lang}: all 56 normal lessons have sub
  const lessons=lessonList.filter(l=>l.language===lang&&!l.checkpoint&&!l.summaryTest);assert.equal(lessons.length,56);
  for(const l of lessons){
   if(l.skill==='Grammar'){assert.ok(l.breakdown.steps.length>=4,l.id);assert.ok(l.breakdown.tables.length>=1,l.id);assert.ok(l.breakdown.examples.length>=3,l.id);for(const t of l.breakdown.tables){assert.ok(t.rows.length>=3,l.id);for(const r of t.rows)assert.equal(r.length,t.headers.length,l.id);}}
-  else if(l.skill==='Expressions'){assert.equal(l.expressions.length,4,l.id);assert.equal(new Set(l.expressions.map(x=>x.term)).size,4);for(const e of l.expressions)for(const key of ['meaning','example','translation','use','pitfall','register'])assert.ok(e[key],l.id+' '+key);}
+  else if(l.skill==='Expressions'){assert.ok(l.expressions.length>=4,l.id);assert.equal(new Set(l.expressions.map(x=>x.term)).size,l.expressions.length);for(const e of l.expressions)for(const key of ['meaning','example','translation','use','pitfall','register'])assert.ok(e[key],l.id+' '+key);}
   else {assert.ok(l.vocabulary.length>=(l.skill==='Vocabulary'?6:4),l.id);assert.equal(new Set(l.vocabulary.map(x=>x.term)).size,l.vocabulary.length);for(const w of l.vocabulary)for(const key of ['meaning','phrase','example','translation'])assert.ok(w[key],l.id+' '+key);}
  }
 });

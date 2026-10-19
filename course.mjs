@@ -1,3 +1,4 @@
+import {enrichEverydayLessons} from './everyday-expressions.mjs';
 import {equivalentAnswer} from './answer-equivalence.mjs';
 import {pastAspectLessons, pastAspectCheckpointQuestions} from './past-aspect-lessons.mjs';
 import {conversationChapters,conversationLessons} from './conversation-course.mjs';
@@ -145,6 +146,7 @@ chapters.push(...visualChapters);
 lessonList.push(...visualLessons);
 chapters.push(...conversationChapters);
 lessonList.push(...conversationLessons);
+enrichEverydayLessons(lessonList);
 export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
 export const forLesson=(attempts,id='subjunctive')=>attempts.filter(a=>(a.lesson||'subjunctive')===id);
@@ -158,7 +160,7 @@ export function getLessonVariant(id,seed){
  const base=getLesson(id);
  if(base?.exerciseVersion&&seed===base.exerciseVersion)return base;
  if(seed==null)return base; // Legacy drafts retain their original question set.
- if(typeof seed==='string'&&/^v[23456]-[a-zA-Z0-9-]{10,100}$/.test(seed))return expandedExercises(base,seed);
+ if(typeof seed==='string'&&/^v[234567]-[a-zA-Z0-9-]{10,100}$/.test(seed))return expandedExercises(base,seed);
  if(typeof seed!=='string'||!/^v1-[a-zA-Z0-9-]{10,100}$/.test(seed))throw Error('Invalid test version');
  if(!base?.checkpoint&&!base?.summaryTest)throw Error('This lesson has no test variants');
  let state=2166136261;for(const c of seed+id){state^=c.charCodeAt(0);state=Math.imul(state,16777619)>>>0;}
@@ -183,5 +185,5 @@ export function getLessonVariant(id,seed){
 // A changed video question set cannot resume answers saved by index against the old set.
 export function isCurrentLessonDraft(id,answers,seed){
  // Compare the base content revision, not expandedExercises' numeric format version.
- try{const base=getLesson(id),lesson=getLessonVariant(id,seed);return !!lesson&&(!base.exerciseVersion||seed===base.exerciseVersion)&&Array.isArray(answers)&&answers.length<lesson.questions.length&&answers.every((a,i)=>validAnswer(lesson.questions[i],a));}catch{return false;}
+ try{const base=getLesson(id),lesson=getLessonVariant(id,seed);return !!lesson&&(!base.exerciseVersion||seed===base.exerciseVersion)&&Array.isArray(answers)&&(answers.length<lesson.questions.length||answers.length===lesson.questions.length&&!lesson.checkpoint&&!lesson.summaryTest&&answers.some((a,i)=>!isCorrect(lesson.questions[i],a)))&&answers.every((a,i)=>validAnswer(lesson.questions[i],a));}catch{return false;}
 }

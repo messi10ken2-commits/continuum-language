@@ -1,3 +1,4 @@
+import {everydayAdditions} from './everyday-expressions.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {lessonList,getLesson,getLessonVariant,gradeLesson,isCurrentLessonDraft,isCorrect,hasExpandedExercises} from './course.mjs';
@@ -37,7 +38,7 @@ test('practice rotates actual tasks, preserves taught entries and every grammar 
     for(const row of rows)assert.ok(l.questions.some(q=>q.coverage?.startsWith(row+':')),base.id+': '+row);
     assert.ok(l.questions.some(q=>q.viewpoint==='situational-choice'));assert.ok(l.questions.some(q=>q.type==='text'));
    }
-   if(!['Vocabulary','Expressions'].includes(base.skill)&&(base.vocabulary||base.expressions)){const entries=base.vocabulary||base.expressions||[];for(let i=0;i<entries.length;i++)assert.ok(l.questions.some(q=>q.coverage?.startsWith('entry:'+i+':')),base.id+': entry '+i);}
+   if(!['Vocabulary','Expressions'].includes(base.skill)&&(base.vocabulary||base.expressions)){const entries=base.vocabulary||base.expressions||[];for(let i=0;i<entries.length-(everydayAdditions.get(base.id)?.length||0);i++)assert.ok(l.questions.some(q=>q.coverage?.startsWith('entry:'+i+':')),base.id+': entry '+i);}
   }
   if(base.skill==='Listening'||base.skill==='Grammar'&&base.breakdown?.tables?.length)assert.ok(selected.size>1,base.id+' must vary content, not only option order');
  }

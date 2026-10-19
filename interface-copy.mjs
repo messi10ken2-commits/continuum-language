@@ -3,6 +3,16 @@ import {speakingCopy} from './speaking-copy.mjs';
 // Reviewed first-visit and everyday navigation copy. English is the source key.
 // Columns: English | Japanese | Spanish | Portuguese | Simplified Chinese | French.
 const rows=`
+Finish reviewing missed questions|間違えた問題の復習を続ける|Termina de repasar tus errores|Continue a revisão das questões que errou|继续复习错题|Terminer la révision des erreurs
+
+End-of-lesson review · Try each missed question once. Your score keeps your first response.|レッスン最後の復習です。間違えた問題を一度ずつ解き直しましょう。成績には最初の回答を使います。|Repaso final: vuelve a intentar una vez cada pregunta fallada. La puntuación conserva tu primera respuesta.|Revisão final: tente mais uma vez cada questão que errou. A pontuação considera sua primeira resposta.|课末复习：每道错题再做一次。成绩保留首次作答结果。|Révision finale : réessayez une fois chaque question manquée. Le score repose sur votre première réponse.
+This question will return at the end of the lesson.|この問題はレッスンの最後にもう一度出題します。|Esta pregunta volverá al final de la lección.|Esta questão voltará no fim da lição.|本题将在课程最后再次出现。|Cette question reviendra à la fin de la leçon.
+Review mode|復習の形式|Modo de repaso|Modo de revisão|复习模式|Mode de révision
+Words in context|文脈で復習|Palabras en contexto|Palavras em contexto|语境复习|Mots en contexte
+Listening review|聞き取りで復習|Repaso de comprensión oral|Revisão de escuta|听力复习|Révision à l’écoute
+Listen and type the words you hear.|音声を聞いて、聞こえた語句や文を入力してください。|Escucha y escribe lo que oyes.|Ouça e digite o que você ouvir.|听音频，输入听到的词语或句子。|Écoutez et saisissez ce que vous entendez.
+Compare your spelling with the transcript, then listen again.|正しい表記と比べてから、もう一度聞いてみましょう。|Compara lo que escribiste con la transcripción y vuelve a escuchar.|Compare sua escrita com a transcrição e ouça novamente.|对照正确文本检查拼写，然后再听一次。|Comparez votre réponse à la transcription, puis réécoutez.
+
 I’ll choose my level|自分でレベルを選ぶ|Elegiré mi nivel|Vou escolher meu nível|自行选择水平|Je choisis mon niveau
 Help me find my level with an assessment|レベル診断で開始レベルを決める|Ayúdame a encontrar mi nivel con una prueba|Quero descobrir meu nível com um teste|通过测试确定水平|Déterminer mon niveau avec un test
 Starting course level|開始するコースのレベル|Nivel inicial del curso|Nível inicial do curso|课程起始水平|Niveau de départ du cours

@@ -8,7 +8,7 @@ export function reviewCandidate(lessonId,q){
  const entry=match&&entries[Number(match[1])];
  let question=q;
  if(hasExpandedExercises(base.id)){
-  const current=getLessonVariant(base.id,'v4-review-pool-123456789').questions;
+  const current=getLessonVariant(base.id,'v7-review-pool-123456789').questions;
   question=current.find(x=>x.coverage===`entry:${match?.[1]}:context`)||current.find(x=>x.coverage&&x.coverage===q.coverage)||q;
  }
  const term=entry?.term||(question.type==='text'?question.answer:question.options?.[question.answer]);
