@@ -1,5 +1,21 @@
 // UI copy only. Teacher topics, reasons, messages and lesson content remain authored text.
 const rows=`
+Previous month|前の月|Mes anterior|Mês anterior|上个月|Mois précédent
+Next month|次の月|Mes siguiente|Próximo mês|下个月|Mois suivant
+Choose a date|日付を選ぶ|Elegir una fecha|Escolher uma data|选择日期|Choisir une date
+Today|今日|Hoy|Hoje|今天|Aujourd’hui
+Tomorrow|明日|Mañana|Amanhã|明天|Demain
+Choose a time|時刻を選ぶ|Elegir una hora|Escolher um horário|选择时间|Choisir une heure
+Time interval|表示間隔|Intervalo de tiempo|Intervalo de tempo|时间间隔|Intervalle
+Time of day|時間帯|Franja horaria|Período do dia|时段|Moment de la journée
+Night|深夜|Madrugada|Madrugada|凌晨|Nuit
+Morning|朝|Mañana|Manhã|上午|Matin
+Afternoon|午後|Tarde|Tarde|下午|Après-midi
+Evening|夕方・夜|Noche|Noite|晚上|Soir
+Click a date and time. Grey times are unavailable.|日付と時刻をクリックして選んでください。グレーの時刻は選べません。|Haz clic en una fecha y una hora. Las horas en gris no están disponibles.|Clique na data e no horário. Horários em cinza não estão disponíveis.|点击选择日期和时间。灰色时间不可选。|Cliquez sur une date et une heure. Les heures grisées ne sont pas disponibles.
+Choose a date and time|日付と時刻を選んでください|Elige una fecha y una hora|Escolha uma data e um horário|请选择日期和时间|Choisissez une date et une heure
+All-day vacation|終日の休暇|Vacaciones de día completo|Folga de dia inteiro|全天休假|Congé sur des journées entières
+Both selected dates are included. Time off ends at midnight after the last day.|選んだ開始日・最終日の両方を含みます。最終日の翌日0時に終了します。|Se incluyen las dos fechas seleccionadas. La ausencia termina a medianoche después del último día.|As duas datas selecionadas estão incluídas. A folga termina à meia-noite após o último dia.|包含所选开始日和结束日，休假于最后一天后的午夜结束。|Les deux dates sélectionnées sont incluses. Le congé se termine à minuit après le dernier jour.
 Close|閉じる|Cerrar|Fechar|关闭|Fermer
 YOUR TEACHING BUSINESS|授業運営の状況|TU ACTIVIDAD DOCENTE|SUA ATIVIDADE DE ENSINO|教学运营概况|VOTRE ACTIVITÉ D’ENSEIGNEMENT
 Teaching insights|授業の実績|Estadísticas de enseñanza|Indicadores de ensino|教学数据|Statistiques d’enseignement
@@ -89,5 +105,5 @@ A class has been booked from an available slot.|空き枠からの授業予約�
 Your teacher proposed a new class time. The original class stays confirmed until you accept.|先生から日時変更の提案が届きました。承諾するまでは元の授業が確定したまま残ります。|Tu profesor propuso un nuevo horario. La clase original sigue confirmada hasta que aceptes.|Seu professor propôs um novo horário. A aula original continua confirmada até você aceitar.|老师提议了新的上课时间。在您同意前原课程仍然有效。|Votre professeur propose un nouvel horaire. Le cours initial reste confirmé jusqu’à votre acceptation.
 `;
 export const scheduleCopy=Object.fromEntries(rows.trim().split('\n').map(row=>{const [en,...v]=row.split('|');if(v.length!==5)throw Error('Invalid schedule copy: '+en);return [en,Object.fromEntries(['ja','es','pt','zh','fr'].map((l,i)=>[l,v[i]]))]}));
-export const scheduleTerms=new Set(['minutes','weeks','Booked','Available','Close']);
+export const scheduleTerms=new Set(['minutes','weeks','Booked','Available','Close','Today','Tomorrow','Night','Morning','Afternoon','Evening']);
 export const scheduleUiCopy=Object.fromEntries(Object.entries(scheduleCopy).filter(([k])=>!scheduleTerms.has(k)));
