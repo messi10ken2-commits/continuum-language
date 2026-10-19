@@ -62,6 +62,6 @@ try{
  assert.equal(await evaluate("window.__qaMic.getTracks().every(t=>t.readyState==='ended')"),true);
  assert.equal(await evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true);
  await evaluate("window.scrollTo(0,0)");await writeFile('.media-build/speaking-browser/avatar-mobile.png',Buffer.from((await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
- assert.deepEqual(exceptions,[]);
+ assert.deepEqual(exceptions,[]);for(const name of ['mira','hana','rafael','lucia','theo']){const r=await realFetch(origin+'/conversation-partners/'+name+'-v1.webp');assert.equal(r.status,200);assert.equal(r.headers.get('content-type'),'image/webp');}
  console.log('PASS: real built frontend, mobile layout, consent, typed multi-turn conversation, review failure/retry/schema repair, saved history reopen, photoreal portrait, natural scoped playback, automatic VAD capture/send/reply and pause releasing the microphone. AI and microphone data are synthetic.');
 }finally{ws?.close();browser.kill();globalThis.fetch=realFetch;await new Promise(r=>testServer.close(r));await db.close();await rm(profile,{recursive:true,force:true});}
