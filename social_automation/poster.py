@@ -323,44 +323,81 @@ def demo_posts():
       "threads_evening": "Why should progress from independent study feel separate from progress with a teacher? That's one of the problems we're trying to solve with Continuum. We're still building, and we'll share the journey here.",
     }
 
+LOOKAHEAD_DAYS = 2
+MIN_SCHEDULING_LEAD = timedelta(minutes=10)
+
+
+def posting_dates(today, explicit_date=None, dry_run=False):
+    """Normal runs check today plus two future dates; manual preview stays one day."""
+    if explicit_date:
+        return (explicit_date,)
+    if dry_run:
+        return (today + timedelta(days=1),)
+    return tuple(today + timedelta(days=offset) for offset in range(LOOKAHEAD_DAYS + 1))
+
+
+def missing_future_slots(day, already, now):
+    """Never create duplicates or try to schedule a slot that has already passed."""
+    due = target_datetimes(day)
+    return {
+        (platform, slot)
+        for platform in ("x", "threads")
+        for slot, _ in SLOTS
+        if (platform, slot) not in already
+        and due[slot] > now + MIN_SCHEDULING_LEAD
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--demo", action="store_true", help="Preview examples without API keys or side effects")
     parser.add_argument("--dry-run", action="store_true", help="Generate AI content but do not schedule")
-    parser.add_argument("--date", help="Target date in Malaysia YYYY-MM-DD; default tomorrow")
+    parser.add_argument("--date", help="Target date in Malaysia YYYY-MM-DD; default: rolling recovery window")
     args = parser.parse_args()
-    target = datetime.fromisoformat(args.date).date() if args.date else datetime.now(TZ).date() + timedelta(days=1)
-    start = datetime.fromisoformat(os.getenv("CAMPAIGN_START", "2026-10-18")).date()
-    end = datetime.fromisoformat(os.getenv("CAMPAIGN_END", "2026-11-16")).date()
-    if target < start or target > end:
-        print(f"No action: {target} outside pilot campaign {start} to {end}")
+    today = datetime.now(TZ).date()
+    explicit_date = date.fromisoformat(args.date) if args.date else None
+    targets = posting_dates(today, explicit_date, dry_run=args.dry_run)
+    start = date.fromisoformat(os.getenv("CAMPAIGN_START", "2026-10-18"))
+    end = date.fromisoformat(os.getenv("CAMPAIGN_END", "2026-11-16"))
+    targets = tuple(day for day in targets if start <= day <= end)
+    if not targets:
+        print(f"No action: target dates outside pilot campaign {start} to {end}")
         return
     if args.demo:
-        print(json.dumps({"date": str(target), "sample": demo_posts()}, indent=2, ensure_ascii=False))
+        for target in targets:
+            print(json.dumps({"date": str(target), "sample": demo_posts()}, indent=2, ensure_ascii=False))
         return
     if not args.dry_run and os.getenv("SOCIAL_AUTOPUBLISH_ENABLED", "").lower() != "true":
         print("Autopublish disabled. Set SOCIAL_AUTOPUBLISH_ENABLED=true after reviewing preview.")
         return
+
     buffer_key = os.environ["BUFFER_API_KEY"]
     print("Step 1/3: Discovering connected Buffer channels...", flush=True)
     channels = discover_channels(buffer_key)
-    print("Step 2/3: Checking existing Buffer scheduled posts...", flush=True)
-    already = scheduled_slots(buffer_key, channels, target)
-    needed = {(platform, slot) for platform in ("x", "threads") for slot, _ in SLOTS} - already
-    if not needed:
-        print("All six slots are already scheduled; nothing to do.")
-        return
-    print("Step 3/3: Generating new draft text with OpenAI...", flush=True)
-    posts = generate(target)
-    times = target_datetimes(target)
-    for platform, slot in sorted(needed):
-        body = with_link(posts[f"{platform}_{slot}"], platform, slot, target)
-        print(f"{target} {platform} {slot}: {body}")
-        if not args.dry_run:
-            post_id = schedule(buffer_key, channels[platform]["id"], body, times[slot])
-            print(f"Scheduled: {platform} {slot}, Buffer post {post_id}")
+    print("Step 2/3: Checking Buffer for missing future slots...", flush=True)
+    created = 0
+    for target in targets:
+        print(f"Checking {target} (Malaysia date)...", flush=True)
+        already = scheduled_slots(buffer_key, channels, target)
+        needed = missing_future_slots(target, already, datetime.now(timezone.utc))
+        if not needed:
+            print(f"{target}: all future slots covered (or already passed); nothing to do.", flush=True)
+            continue
+        print(f"Step 3/3: Generating {target} content for {len(needed)} missing slots...", flush=True)
+        posts = generate(target)
+        times = target_datetimes(target)
+        for platform, slot in sorted(needed):
+            body = with_link(posts[f"{platform}_{slot}"], platform, slot, target)
+            print(f"{target} {platform} {slot}: {body}", flush=True)
+            if not args.dry_run:
+                post_id = schedule(buffer_key, channels[platform]["id"], body, times[slot])
+                print(f"Scheduled: {platform} {slot}, Buffer post {post_id}", flush=True)
+                created += 1
     if args.dry_run:
         print("Dry run complete. Nothing was published or scheduled.")
+    else:
+        print(f"Recovery check complete. {created} missing Buffer posts scheduled.", flush=True)
+
 
 if __name__ == "__main__":
     try:
