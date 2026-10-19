@@ -1,12 +1,12 @@
 import json
 import unittest
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from unittest.mock import patch
 from social_automation.poster import (KEYS, FIRST_DAY_INTROS, FIRST_DAY_TIP_KEYS,
                                      ROTATION, first_day, multilingual_plan, generate,
                                      target_datetimes, validate, demo_posts,
                                      with_link, content_schema, schedule, scheduled_slots,
-                                     discover_channels)
+                                     discover_channels, posting_dates, missing_future_slots)
 
 class TestPoster(unittest.TestCase):
     def test_launch_intro_is_first_for_each_network(self):
@@ -20,6 +20,37 @@ class TestPoster(unittest.TestCase):
         self.assertEqual(len(KEYS), 6)
         for key, text in FIRST_DAY_INTROS.items():
             self.assertLessEqual(len(text), 235 if key.startswith('x_') else 365)
+
+    def test_default_recovery_window_and_manual_modes(self):
+        day = date(2026, 10, 20)
+        self.assertEqual(posting_dates(day),
+                         (date(2026, 10, 20), date(2026, 10, 21),
+                          date(2026, 10, 22)))
+        self.assertEqual(posting_dates(day, dry_run=True),
+                         (date(2026, 10, 21),))
+        self.assertEqual(posting_dates(day, explicit_date=date(2026, 10, 23)),
+                         (date(2026, 10, 23),))
+
+    def test_recovery_skips_past_and_previously_scheduled_slots(self):
+        # At 14:23 in Kuala Lumpur the 09:00 slot is already too late.
+        now = datetime(2026, 10, 20, 6, 23, tzinfo=timezone.utc)
+        needed = missing_future_slots(date(2026, 10, 20),
+                                      {('x', 'afternoon')}, now)
+        self.assertEqual(needed, {
+            ('threads', 'afternoon'),
+            ('x', 'evening'),
+            ('threads', 'evening'),
+        })
+        # Posts should not be inserted just a few minutes before publish time.
+        close_to_slot = datetime(2026, 10, 20, 6, 55, tzinfo=timezone.utc)
+        needed = missing_future_slots(date(2026, 10, 20), set(), close_to_slot)
+        self.assertEqual(needed, {('x', 'evening'), ('threads', 'evening')})
+
+    def test_future_dates_are_fully_eligible_for_recovery(self):
+        now = datetime(2026, 10, 20, 6, 23, tzinfo=timezone.utc)
+        self.assertEqual(missing_future_slots(date(2026, 10, 21), set(), now),
+                         {(platform, slot) for platform in ('x', 'threads')
+                          for slot in ('morning', 'afternoon', 'evening')})
 
     @patch('social_automation.poster.api_json')
     def test_launch_generates_only_four_receipt_tips(self, mock_api):
