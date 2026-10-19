@@ -1,3 +1,4 @@
+import assessmentDisplaySources from './assessment-display-sources.json' with {type:'json'};
 import {speakingScenarios} from './speaking-content.mjs';
 import {qualityQuestionBank} from './question-quality.mjs';
 import {displayLanguageOptions} from './answer-language.mjs';
@@ -19,6 +20,7 @@ const corpus=new Map();
 let lessonContext='';
 function add(text,language='',protectedValues=[]){if(typeof text!=='string'||!/[A-Za-z]/.test(text)||!text.trim())return;const key=translationKey(text,language),old=corpus.get(key);corpus.set(key,{text,language,context:language?(lessonContext||'Language lesson: explanations, instructions and feedback'):(interfaceContexts[text]||['General interface']).join(', '),protectedValues:[...new Set([...(old?.protectedValues||[]),...protectedValues.filter(v=>typeof v==='string'&&(v.length>1||/^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]$/u.test(v)))])]});}
 for(const text of [...uiSources,...Object.keys(interfaceCopy),...Object.values(reviewedInterfaceCopy).flatMap(Object.keys)])add(text);
+for(const source of assessmentDisplaySources)add(source.text,source.language,source.protectedValues);
 for(const text of feedbackTemplates)add(text.trim());
 for(const level of levels){add(level.name);add(level.description);}
 for(const s of speakingScenarios){add(s.title);for(const goal of s.goals)add(goal);}

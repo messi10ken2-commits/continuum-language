@@ -1,0 +1,82 @@
+[
+  {
+    "language": "en",
+    "form": 0,
+    "audio": "I can cover the reception desk on Thursday, but only until lunch. If the afternoon matters, please ask someone else. I don't want you to think I've agreed to the whole day."
+  },
+  {
+    "language": "es",
+    "form": 0,
+    "audio": "Puedo atender la recepción el jueves, pero solo hasta la hora de comer. Si necesitan a alguien por la tarde, tendrán que preguntarle a otra persona. No quiero que parezca que he aceptado todo el día."
+  },
+  {
+    "language": "pt",
+    "form": 0,
+    "audio": "Posso ficar na recepção na quinta-feira, mas só até o almoço. Se precisarem de alguém à tarde, terão que falar com outra pessoa. Não quero que pensem que aceitei o dia inteiro."
+  },
+  {
+    "language": "ja",
+    "form": 0,
+    "audio": "木曜日は受付を担当できますが、昼までです。午後も必要なら、別の人に頼んでください。一日中引き受けたと思われると困るので、確認しておきます。"
+  },
+  {
+    "language": "en",
+    "form": 1,
+    "audio": "The new route is quicker when traffic is light. At the time you usually travel, though, the school entrance causes a long queue. I'd test it on a normal weekday before changing your routine."
+  },
+  {
+    "language": "es",
+    "form": 1,
+    "audio": "La ruta nueva es más rápida cuando hay poco tráfico. Pero a la hora a la que sueles viajar, se forma una cola larga junto a la entrada del colegio. Yo la probaría un día laborable antes de cambiar de costumbre."
+  },
+  {
+    "language": "pt",
+    "form": 1,
+    "audio": "O caminho novo é mais rápido quando há pouco trânsito. Mas, no horário em que você costuma sair, forma-se uma fila grande perto da entrada da escola. Eu testaria em um dia útil antes de mudar a rotina."
+  },
+  {
+    "language": "ja",
+    "form": 1,
+    "audio": "新しい道は空いていれば早いんですが、いつも出かける時間は学校の入り口付近で渋滞します。毎日の道を変える前に、普通の平日に一度試したほうがいいと思います。"
+  },
+  {
+    "language": "en",
+    "form": 2,
+    "audio": "The chairs look more expensive, but the quote includes delivery and assembly. The cheaper supplier charges separately for both. Before choosing, compare what each order will actually cost when everything is included."
+  },
+  {
+    "language": "es",
+    "form": 2,
+    "audio": "Las sillas parecen más caras, pero el presupuesto incluye el transporte y el montaje. El proveedor más barato cobra esas dos cosas aparte. Antes de decidir, comparen el coste total de cada pedido."
+  },
+  {
+    "language": "pt",
+    "form": 2,
+    "audio": "As cadeiras parecem mais caras, mas o orçamento inclui entrega e montagem. O fornecedor mais barato cobra os dois serviços à parte. Antes de decidir, comparem o custo total de cada pedido."
+  },
+  {
+    "language": "ja",
+    "form": 2,
+    "audio": "椅子そのものは高く見えますが、見積もりには配達と組み立てが含まれています。安いほうの業者は両方とも別料金です。選ぶ前に、すべて含めた総額を比べてください。"
+  },
+  {
+    "language": "en",
+    "form": 3,
+    "audio": "I liked the workshop, especially the examples. The issue is that I left without knowing how to apply them to my own project. A short follow-up session would help more than repeating the full presentation."
+  },
+  {
+    "language": "es",
+    "form": 3,
+    "audio": "Me gustó el taller, sobre todo los ejemplos. El problema es que salí sin saber cómo aplicarlos a mi proyecto. Una breve sesión de seguimiento sería más útil que repetir toda la presentación."
+  },
+  {
+    "language": "pt",
+    "form": 3,
+    "audio": "Gostei da oficina, principalmente dos exemplos. O problema é que saí sem saber como aplicá-los ao meu projeto. Uma breve sessão de acompanhamento ajudaria mais do que repetir a apresentação inteira."
+  },
+  {
+    "language": "ja",
+    "form": 3,
+    "audio": "講習は良かったです。特に例が分かりやすかったですね。ただ、自分の計画にどう応用するかが分からないまま終わってしまいました。全体をもう一度聞くより、短い補足相談があると助かります。"
+  }
+]

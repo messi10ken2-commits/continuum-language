@@ -59,6 +59,6 @@ try{
  const resume=(await call('/assessments?language=en','POST',{},oldUser.cookie)).data.session;assert.equal(resume.id,old.id);assert.equal(resume.version,'en-diagnostic-2');
  const oldKeys=assessmentItems(2,'en-diagnostic-2').map(q=>q.answer);
  for(let index=0;index<47;index++)assert.equal((await call('/assessments/'+old.id+'?language=en','PUT',{index,answer:oldKeys[index]??null},oldUser.cookie)).status,200);
- const afterOld=(await call('/assessments?language=en','POST',{},oldUser.cookie)).data.session;assert.equal(afterOld.version,'en-diagnostic-3');assert.equal(afterOld.form,0);
+ const afterOld=(await call('/assessments?language=en','POST',{},oldUser.cookie)).data.session;assert.equal(afterOld.version,'en-diagnostic-4');assert.equal(afterOld.form,0);
  console.log('PASS: placement, reassessment downgrade, saved resume, server scoring, retries, ownership, teacher privacy, notes preserved, lesson/assessment separation.');
 }finally{await new Promise(r=>testServer.close(r));await db.close();}

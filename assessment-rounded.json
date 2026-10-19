@@ -1,0 +1,2450 @@
+[
+  {
+    "language": "en",
+    "level": "A1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "Please put the soup in a ____.",
+    "options": [
+      "bowl",
+      "fork",
+      "shoe",
+      "key"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "I need a ____ to open the front door.",
+    "options": [
+      "key",
+      "plate",
+      "sock",
+      "spoon"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "It is raining. Take your ____.",
+    "options": [
+      "umbrella",
+      "pillow",
+      "ticket",
+      "glass"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "The milk is cold because it is in the ____.",
+    "options": [
+      "fridge",
+      "oven",
+      "garden",
+      "pocket"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A2",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "The room was dirty, so we asked the hotel for a ____.",
+    "options": [
+      "refund",
+      "receipt for a future booking",
+      "weather forecast",
+      "boarding pass"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A2",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "The train leaves in ten minutes. We must ____ now.",
+    "options": [
+      "set off",
+      "lie down",
+      "give up studying",
+      "sleep in"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A2",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "Please ____ a table for four for Friday evening.",
+    "options": [
+      "reserve",
+      "repair",
+      "translate",
+      "lend"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A2",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "I have a dentist's ____ at half past two.",
+    "options": [
+      "appointment",
+      "ingredient",
+      "salary",
+      "platform"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "After dinner, Jo says, “Keep your money. This one's on me.” What does Jo mean?",
+    "options": [
+      "Jo will pay for the meal.",
+      "Jo wants to borrow money.",
+      "Jo has already left the restaurant.",
+      "Jo thinks the bill is incorrect."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "en",
+    "level": "B1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "“Sorry, I broke your old mug.” “No big deal; I have plenty.” How does the reply present the problem?",
+    "options": [
+      "As minor and manageable.",
+      "As an urgent emergency.",
+      "As a reason to end the friendship.",
+      "As something that never happened."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "en",
+    "level": "B1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "“Can we talk now?” “I'm tied up until three, but I'll call you then.” Why must the call wait?",
+    "options": [
+      "The speaker is busy until three.",
+      "The speaker has forgotten the phone number.",
+      "The speaker refuses all future contact.",
+      "The speaker is physically unable to walk."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "en",
+    "level": "B1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "“This box is heavy. Could you give me a hand?” What is requested?",
+    "options": [
+      "Help with moving the box.",
+      "Permission to leave the box outdoors.",
+      "An explanation of what is inside.",
+      "A promise to buy a new box."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "en",
+    "level": "B2",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "To put staff concerns on record before approval, the chair invited them to ____ those concerns at the meeting.",
+    "options": [
+      "raise",
+      "suppress",
+      "dismiss",
+      "conceal"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B2",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "The supplier gave a firm ____ that the missing parts would arrive by Friday.",
+    "options": [
+      "assurance",
+      "assumption",
+      "accusation",
+      "exception"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B2",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "Before signing, we need to ____ the benefits against the ongoing costs.",
+    "options": [
+      "weigh",
+      "postpone",
+      "dismiss",
+      "withhold"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B2",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "The two surveys disagree, so the cause remains ____.",
+    "options": [
+      "uncertain",
+      "inevitable",
+      "identical",
+      "unanimous"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "C1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "The panel describes its estimate as ____ because several measurements are still missing.",
+    "options": [
+      "provisional",
+      "conclusive",
+      "unconditional",
+      "irreversible"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "C1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "The report says the effect is statistically detectable but too small to matter in practice. Which word best describes its practical importance?",
+    "options": [
+      "Negligible.",
+      "Decisive.",
+      "Indispensable.",
+      "Unprecedented."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "C1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "Only one branch was studied. Extending the claim to every branch would be an unjustified ____.",
+    "options": [
+      "extrapolation",
+      "replication",
+      "quotation",
+      "concession"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "C1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "The author accepts the principle but lists substantial exceptions. Her endorsement is ____.",
+    "options": [
+      "qualified",
+      "unreserved",
+      "unrelated",
+      "unintelligible"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "Para cortar el pan necesito un ____.",
+    "options": [
+      "cuchillo",
+      "vaso",
+      "zapato",
+      "reloj"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "Hace frío. Voy a ponerme el ____.",
+    "options": [
+      "abrigo",
+      "plato",
+      "billete",
+      "cepillo"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "Guarda la leche en la ____ para que esté fría.",
+    "options": [
+      "nevera",
+      "maleta",
+      "ventana",
+      "silla"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "Necesito una ____ para abrir la puerta.",
+    "options": [
+      "llave",
+      "cuchara",
+      "camisa",
+      "moneda de chocolate"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A2",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "La habitación no estaba disponible y el hotel nos devolvió el ____.",
+    "options": [
+      "dinero",
+      "equipaje",
+      "pronóstico",
+      "andén"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A2",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "Quisiera ____ una mesa para cinco personas el sábado.",
+    "options": [
+      "reservar",
+      "reparar",
+      "traducir",
+      "prestar"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A2",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "El autobús no funciona hoy. Tendremos que buscar otra ____.",
+    "options": [
+      "alternativa",
+      "receta",
+      "factura de compra",
+      "almohada"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A2",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "Para ir al dentista, primero tengo que pedir ____.",
+    "options": [
+      "cita",
+      "sueldo",
+      "maleta",
+      "ingredientes"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "Después de cenar, Ana dice: «Guarda la cartera; esta vez invito yo». ¿Qué quiere hacer Ana?",
+    "options": [
+      "Pagar la cena.",
+      "Pedir dinero prestado.",
+      "Salir sin pagar.",
+      "Reclamar por un error en la cuenta."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "es",
+    "level": "B1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "«Perdón, he roto tu taza vieja». «No es grave; tengo muchas más». ¿Cómo presenta el problema la respuesta?",
+    "options": [
+      "Como algo de poca importancia.",
+      "Como una emergencia.",
+      "Como motivo para terminar la amistad.",
+      "Como algo que no ha ocurrido."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "es",
+    "level": "B1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "«¿Podemos hablar?» «Ahora estoy hasta arriba de trabajo; te llamo a las tres». ¿Por qué hay que esperar?",
+    "options": [
+      "La persona está muy ocupada.",
+      "No recuerda el número.",
+      "No quiere volver a hablar nunca.",
+      "No puede caminar."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "es",
+    "level": "B1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "«La caja pesa mucho. ¿Me echas una mano?» ¿Qué se pide?",
+    "options": [
+      "Ayuda para mover la caja.",
+      "Permiso para dejarla fuera.",
+      "Una explicación de su contenido.",
+      "Que compren una caja nueva."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "es",
+    "level": "B2",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "Para dejar constancia de las preocupaciones del equipo, la directora pidió ____ sus dudas durante la reunión.",
+    "options": [
+      "plantear",
+      "descartar",
+      "ocultar",
+      "desmentir"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B2",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "El proveedor nos dio ____ de que las piezas llegarían el viernes.",
+    "options": [
+      "garantías",
+      "acusaciones",
+      "recetas",
+      "despedidas"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B2",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "Antes de firmar, hay que ____ los beneficios y los costes futuros.",
+    "options": [
+      "sopesar",
+      "desmentir",
+      "ocultar",
+      "cancelar de antemano"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B2",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "Las encuestas se contradicen, de modo que la causa sigue siendo ____.",
+    "options": [
+      "incierta",
+      "inevitable",
+      "idéntica",
+      "unánime"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "C1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "Faltan varias mediciones, por lo que el cálculo se considera ____.",
+    "options": [
+      "provisional",
+      "concluyente",
+      "incondicional",
+      "irreversible"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "C1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "El efecto puede detectarse estadísticamente, pero es demasiado pequeño para importar en la práctica. Su importancia práctica es ____.",
+    "options": [
+      "insignificante",
+      "decisiva",
+      "imprescindible",
+      "incalculablemente grande"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "C1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "Solo se estudió una sucursal. Aplicar el resultado a todas sería una ____ injustificada.",
+    "options": [
+      "extrapolación",
+      "repetición literal",
+      "cita textual",
+      "concesión"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "C1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "La autora acepta el principio, pero enumera excepciones importantes. Su apoyo es ____.",
+    "options": [
+      "matizado",
+      "incondicional",
+      "ajeno al asunto",
+      "incomprensible"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "Para cortar o pão, preciso de uma ____.",
+    "options": [
+      "faca",
+      "xícara",
+      "camisa",
+      "chave"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "Está frio. Vou vestir um ____.",
+    "options": [
+      "casaco",
+      "prato",
+      "bilhete",
+      "garfo"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "Coloque o leite na ____ para ficar frio.",
+    "options": [
+      "geladeira",
+      "mala",
+      "janela",
+      "cadeira"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "Preciso de uma ____ para abrir a porta.",
+    "options": [
+      "chave",
+      "colher",
+      "camisa",
+      "escova de dentes"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A2",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "O quarto não estava disponível e o hotel devolveu nosso ____.",
+    "options": [
+      "dinheiro",
+      "endereço",
+      "tempo de viagem",
+      "andar"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A2",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "Gostaria de ____ uma mesa para cinco pessoas no sábado.",
+    "options": [
+      "reservar",
+      "consertar",
+      "traduzir",
+      "emprestar"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A2",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "O ônibus não vai circular hoje. Precisamos encontrar outra ____.",
+    "options": [
+      "alternativa",
+      "receita de bolo",
+      "fronha",
+      "escova"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A2",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "Para ir ao dentista, primeiro preciso marcar uma ____.",
+    "options": [
+      "consulta",
+      "maleta",
+      "salada",
+      "plataforma"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "Depois do jantar, Ana diz: “Guarda a carteira; hoje é por minha conta”. O que Ana quer fazer?",
+    "options": [
+      "Pagar o jantar.",
+      "Pedir dinheiro emprestado.",
+      "Ir embora sem pagar.",
+      "Reclamar de um erro na conta."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "pt",
+    "level": "B1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "“Desculpa, quebrei sua caneca velha.” “Tudo bem, tenho várias outras.” Como a resposta apresenta o problema?",
+    "options": [
+      "Como algo de pouca importância.",
+      "Como uma emergência.",
+      "Como motivo para encerrar a amizade.",
+      "Como algo que não aconteceu."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "pt",
+    "level": "B1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "“Podemos conversar?” “Agora estou atolado de trabalho; te ligo às três.” Por que é preciso esperar?",
+    "options": [
+      "A pessoa está muito ocupada.",
+      "Ela esqueceu o número.",
+      "Ela nunca mais quer conversar.",
+      "Ela não consegue andar."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "pt",
+    "level": "B1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "“Essa caixa está pesada. Pode me dar uma mão?” O que se pede?",
+    "options": [
+      "Ajuda para mover a caixa.",
+      "Permissão para deixá-la na rua.",
+      "Uma explicação sobre o conteúdo.",
+      "Que comprem outra caixa."
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "pt",
+    "level": "B2",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "Antes de aprovar o plano, a diretora pediu que todos ____ as dúvidas com as explicações da equipe técnica.",
+    "options": [
+      "esclarecessem",
+      "adiassem",
+      "ocultassem",
+      "ignorassem"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B2",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "O fornecedor deu ____ de que as peças chegariam na sexta-feira.",
+    "options": [
+      "garantias",
+      "acusações",
+      "receitas",
+      "despedidas"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B2",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "Antes de assinar, precisamos ____ os benefícios e os custos futuros.",
+    "options": [
+      "ponderar",
+      "desmentir",
+      "ocultar",
+      "descartar sem analisar"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B2",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "As pesquisas se contradizem, por isso a causa continua ____.",
+    "options": [
+      "incerta",
+      "inevitável",
+      "idêntica",
+      "unânime"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "C1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "Ainda faltam medições, portanto a estimativa é ____.",
+    "options": [
+      "provisória",
+      "conclusiva",
+      "incondicional",
+      "irreversível"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "C1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "O efeito é detectável estatisticamente, mas pequeno demais para ter relevância prática. Sua importância prática é ____.",
+    "options": [
+      "insignificante",
+      "decisiva",
+      "indispensável",
+      "imensuravelmente grande"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "C1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "Só uma filial foi estudada. Aplicar o resultado a todas seria uma ____ injustificada.",
+    "options": [
+      "extrapolação",
+      "repetição literal",
+      "citação textual",
+      "concessão"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "C1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "A autora aceita o princípio, mas apresenta exceções importantes. Seu apoio é ____.",
+    "options": [
+      "parcial e sujeito a ressalvas",
+      "incondicional",
+      "alheio ao assunto",
+      "incompreensível"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "パンを切ります。____を使います。",
+    "options": [
+      "ナイフ",
+      "コップ",
+      "シャツ",
+      "時計"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "寒いので、____を着ます。",
+    "options": [
+      "コート",
+      "お皿",
+      "切符",
+      "フォーク"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "牛乳を冷たくするために、____に入れます。",
+    "options": [
+      "冷蔵庫",
+      "かばん",
+      "窓",
+      "椅子"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "ドアを開けたいです。____が必要です。",
+    "options": [
+      "鍵",
+      "スプーン",
+      "シャツ",
+      "歯ブラシ"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A2",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "予約した部屋が使えなかったので、ホテルに____をお願いしました。",
+    "options": [
+      "返金",
+      "天気予報",
+      "改札",
+      "食材"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A2",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "土曜日の夜、五人で食事をしたいので、席を____。",
+    "options": [
+      "予約します",
+      "修理します",
+      "翻訳します",
+      "貸します"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A2",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "今日はバスが走っていません。別の____を考えましょう。",
+    "options": [
+      "行き方",
+      "材料",
+      "枕",
+      "服のサイズ"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A2",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "歯医者に行く前に、電話で____を取ります。",
+    "options": [
+      "予約",
+      "給料",
+      "かばん",
+      "料理の材料"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "夕食の後、アキが「財布はしまって。今日はおごるよ」と言いました。アキは何をしようとしていますか。",
+    "options": [
+      "食事代を払う。",
+      "お金を借りる。",
+      "払わずに帰る。",
+      "会計の間違いを指摘する。"
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "ja",
+    "level": "B1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "「古いカップを割ってごめん」「大丈夫、ほかにもたくさんあるから」。返事から分かることは何ですか。",
+    "options": [
+      "それほど大きな問題だとは思っていない。",
+      "緊急の問題だと思っている。",
+      "友人関係を終わらせたい。",
+      "何も起きなかったと言っている。"
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "ja",
+    "level": "B1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "「今話せる？」「仕事が立て込んでるから、三時にかけ直すね」。なぜ待つ必要がありますか。",
+    "options": [
+      "相手が今とても忙しいから。",
+      "電話番号を忘れたから。",
+      "二度と話したくないから。",
+      "歩けなくなったから。"
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "ja",
+    "level": "B1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "「この箱、重いな。ちょっと手を貸してくれる？」。何を頼んでいますか。",
+    "options": [
+      "箱を動かすのを手伝うこと。",
+      "箱を外に置く許可。",
+      "箱の中身の説明。",
+      "新しい箱を買うこと。"
+    ],
+    "colloquial": true
+  },
+  {
+    "language": "ja",
+    "level": "B2",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "これまで言えなかった問題点を共有するため、会議で各部門が懸念を____ことにした。",
+    "options": [
+      "表明する",
+      "撤回する",
+      "放置する",
+      "否認する"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B2",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "業者は金曜日までに部品を届けると____。",
+    "options": [
+      "確約した",
+      "非難した",
+      "辞退した",
+      "解雇した"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B2",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "契約前に、利点と今後の費用を____必要がある。",
+    "options": [
+      "比較検討する",
+      "根拠なく否定する",
+      "隠しておく",
+      "検討せず切り捨てる"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B2",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "二つの調査が食い違っており、原因は依然として____。",
+    "options": [
+      "不明確だ",
+      "必然的だ",
+      "同一だ",
+      "全会一致だ"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "C1",
+    "form": 0,
+    "competency": "vocabulary",
+    "prompt": "測定値が一部そろっていないため、この推計は____なものとされる。",
+    "options": [
+      "暫定的",
+      "決定的",
+      "無条件",
+      "不可逆的"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "C1",
+    "form": 1,
+    "competency": "vocabulary",
+    "prompt": "統計上は差があるが、実用上の影響はほぼ無視できる。その影響は____と言える。",
+    "options": [
+      "ごくわずかだ",
+      "決定的だ",
+      "不可欠だ",
+      "計り知れないほど大きい"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "C1",
+    "form": 2,
+    "competency": "vocabulary",
+    "prompt": "一支店の結果を全支店に当てはめるのは、根拠の乏しい____である。",
+    "options": [
+      "一般化",
+      "逐語的な引用",
+      "同一手順での再実験",
+      "譲歩"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "C1",
+    "form": 3,
+    "competency": "vocabulary",
+    "prompt": "筆者は原則に賛成しつつ重要な例外を挙げている。その支持は____。",
+    "options": [
+      "留保付きだ",
+      "無条件だ",
+      "議論と無関係だ",
+      "意味不明だ"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You want to borrow a pencil from a classmate. Choose the request.",
+    "options": [
+      "Could I borrow your pencil, please?",
+      "You borrowed my pencil yesterday.",
+      "I do not have your pencil.",
+      "Your pencil is blue."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A stranger says, “Thank you for showing me the way.” Choose a suitable reply.",
+    "options": [
+      "You're welcome.",
+      "Please show me the way.",
+      "Where do you live?",
+      "I haven't thanked you yet."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You cannot hear the price in a shop. Choose what to say.",
+    "options": [
+      "Sorry, how much is it?",
+      "I have already paid.",
+      "Keep the change.",
+      "The shop is closed."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You accidentally stand on someone's foot. Choose what to say.",
+    "options": [
+      "I'm sorry.",
+      "Congratulations.",
+      "Enjoy your meal.",
+      "That is mine."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A2",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You are invited for six, but can only arrive at seven. Choose a reply that proposes a change.",
+    "options": [
+      "Could we make it seven instead?",
+      "Six is perfect; see you then.",
+      "I'll be there at six as agreed.",
+      "I went there yesterday."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A2",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A friend offers tea or coffee. You would like tea without sugar. Choose the reply.",
+    "options": [
+      "Tea, please, without sugar.",
+      "Coffee, please, with sugar.",
+      "I have already made both drinks.",
+      "There isn't any tea left."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A2",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You ordered a small shirt but received a large one. Ask the shop to exchange it.",
+    "options": [
+      "Could I change this for a small one?",
+      "I would like another large one.",
+      "The small one fits perfectly.",
+      "I haven't ordered a shirt."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "A2",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You want to know whether breakfast costs extra. Choose the question.",
+    "options": [
+      "Is breakfast included in the price?",
+      "What time did you eat yesterday?",
+      "Have you already paid for lunch?",
+      "Why was dinner cancelled?"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "A colleague says the booking is “provisional”. Check what this means for your travel plans.",
+    "options": [
+      "Do you mean I should wait for confirmation before buying tickets?",
+      "Thanks for confirming that everything is final.",
+      "I'll cancel the trip immediately.",
+      "I already know the booking is guaranteed."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "You cannot accept an invitation, but want to meet another day. Choose a reply.",
+    "options": [
+      "I can't on Tuesday, but would Thursday work for you?",
+      "I can come on Tuesday; see you then.",
+      "I don't want to see you again.",
+      "Thursday was last week."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "A delivery company says “before Friday”. You need to know whether it will arrive on Thursday at the latest. Choose a clarification.",
+    "options": [
+      "Just to check, do you mean by the end of Thursday?",
+      "Thank you for confirming delivery on Friday evening.",
+      "Why has the delivery already failed?",
+      "Please deliver it after the weekend."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "Your group has not understood your proposal. Restate the same idea more clearly.",
+    "options": [
+      "What I mean is that we should try the plan for one week before deciding.",
+      "Forget everything; I refuse to explain.",
+      "You have already agreed to the full plan.",
+      "The trial is over, so no decision is needed."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B2",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You support an event only if there is wheelchair access. Choose the reply that preserves that condition.",
+    "options": [
+      "I'm in favour, provided the venue is accessible.",
+      "I support it regardless of access.",
+      "Accessibility is irrelevant to my support.",
+      "I oppose it even if access is improved."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B2",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A colleague calls a trial a failure because attendance fell, but costs fell too. Give a balanced response.",
+    "options": [
+      "Lower attendance matters, but we should consider costs before judging the trial.",
+      "Fewer visitors always means total failure.",
+      "Lower costs prove everyone liked it.",
+      "Attendance and costs are the same measure."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B2",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You disagree with a manager's schedule and want to raise a practical concern respectfully.",
+    "options": [
+      "Could we look again at the deadline? It leaves no time for checking.",
+      "Your planning is always ridiculous.",
+      "I agree there is plenty of checking time.",
+      "The deadline is irrelevant, so I won't mention it."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "B2",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You need a clear written answer after a vague phone agreement. Choose a suitable request.",
+    "options": [
+      "Could you confirm the agreed delivery date in writing?",
+      "Thanks for the written confirmation you haven't sent.",
+      "Please change the date without telling me.",
+      "There is no need to record the agreement."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "C1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "A small study suggests a benefit, but does not establish the cause. Choose a proportionate conclusion.",
+    "options": [
+      "The result is encouraging, though causal claims would require further evidence.",
+      "The study conclusively proves the benefit in every setting.",
+      "No causal proof means the study contains no useful information.",
+      "The cause can be assumed because the result is positive."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "C1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A reviewer praises the design but questions whether the sample represents the population. Preserve both points.",
+    "options": [
+      "The design is convincing, while the scope for generalisation remains limited.",
+      "The reviewer rejects every aspect of the design.",
+      "The sample proves that the design cannot work.",
+      "Praise of the design removes all sampling concerns."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "C1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "An official gives access to documents, but makes them impossible to search. Distinguish formal compliance from practical access.",
+    "options": [
+      "Disclosure alone may meet the rule without making the information usable.",
+      "Publishing anything guarantees full practical access.",
+      "Usability concerns mean nothing was disclosed.",
+      "Searchability and legality are identical concepts."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "level": "C1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You want to question an assumption without attributing bad motives to the author.",
+    "options": [
+      "Could the argument depend on demand remaining stable, rather than on a guaranteed trend?",
+      "You deliberately concealed the truth.",
+      "Your assumption proves you intended to mislead us.",
+      "The author's intentions are the only issue worth discussing."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You want to borrow a pencil from a classmate. Choose the request.",
+    "options": [
+      "¿Me prestas un lápiz, por favor?",
+      "Ayer me prestaste un lápiz.",
+      "No tengo tu lápiz.",
+      "Tu lápiz es azul."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A stranger says, “Gracias por indicarme el camino.” Choose a suitable reply.",
+    "options": [
+      "De nada.",
+      "Indíqueme el camino, por favor.",
+      "¿Dónde vive usted?",
+      "Todavía no le he dado las gracias."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You cannot hear the price in a shop. Choose what to say.",
+    "options": [
+      "Perdone, ¿cuánto cuesta?",
+      "Ya he pagado.",
+      "Quédese con el cambio.",
+      "La tienda está cerrada."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You accidentally stand on someone's foot. Choose what to say.",
+    "options": [
+      "Perdón.",
+      "Felicidades.",
+      "Buen provecho.",
+      "Eso es mío."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A2",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You are invited for six, but can only arrive at seven. Choose a reply that proposes a change.",
+    "options": [
+      "¿Podemos quedar a las siete en lugar de a las seis?",
+      "A las seis me viene perfecto.",
+      "Llegaré a las seis, como acordamos.",
+      "Fui allí ayer."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A2",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A friend offers tea or coffee. You would like tea without sugar. Choose the reply.",
+    "options": [
+      "Té, por favor, sin azúcar.",
+      "Café, por favor, con azúcar.",
+      "Ya he preparado las dos bebidas.",
+      "No queda té."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A2",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You ordered a small shirt but received a large one. Ask the shop to exchange it.",
+    "options": [
+      "¿Podría cambiar esta camisa por una pequeña?",
+      "Quisiera otra grande.",
+      "La pequeña me queda perfecta.",
+      "No he pedido ninguna camisa."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "A2",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You want to know whether breakfast costs extra. Choose the question.",
+    "options": [
+      "¿Está incluido el desayuno en el precio?",
+      "¿A qué hora comiste ayer?",
+      "¿Has pagado ya el almuerzo?",
+      "¿Por qué se canceló la cena?"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "A colleague says the booking is “provisional”. Check what this means for your travel plans.",
+    "options": [
+      "¿Quieres decir que debo esperar la confirmación antes de comprar los billetes?",
+      "Gracias por confirmar que todo es definitivo.",
+      "Cancelaré el viaje inmediatamente.",
+      "Ya sé que la reserva está garantizada."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "You cannot accept an invitation, but want to meet another day. Choose a reply.",
+    "options": [
+      "El martes no puedo, pero ¿te vendría bien el jueves?",
+      "Puedo ir el martes; nos vemos entonces.",
+      "No quiero volver a verte.",
+      "El jueves fue la semana pasada."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "A delivery company says “antes del viernes”. You need to know whether it will arrive on Thursday at the latest. Choose a clarification.",
+    "options": [
+      "Para confirmar, ¿quieren decir que llegará como muy tarde el jueves?",
+      "Gracias por confirmar la entrega el viernes por la noche.",
+      "¿Por qué ha fracasado ya la entrega?",
+      "Entréguenlo después del fin de semana."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "Your group has not understood your proposal. Restate the same idea more clearly.",
+    "options": [
+      "Lo que quiero decir es que probemos el plan una semana antes de decidir.",
+      "Olvídenlo todo; no pienso explicar nada.",
+      "Ya han aceptado el plan completo.",
+      "La prueba terminó, así que no hace falta decidir."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B2",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You support an event only if there is wheelchair access. Choose the reply that preserves that condition.",
+    "options": [
+      "Estoy a favor, siempre que el local sea accesible.",
+      "Lo apoyo sin importar el acceso.",
+      "La accesibilidad no influye en mi apoyo.",
+      "Me opongo aunque se mejore el acceso."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B2",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A colleague calls a trial a failure because attendance fell, but costs fell too. Give a balanced response.",
+    "options": [
+      "La asistencia importa, pero conviene considerar los costes antes de valorar la prueba.",
+      "Menos visitantes significa siempre un fracaso total.",
+      "Los menores costes demuestran que a todos les gustó.",
+      "La asistencia y los costes miden lo mismo."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B2",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You disagree with a manager's schedule and want to raise a practical concern respectfully.",
+    "options": [
+      "¿Podríamos revisar el plazo? No deja tiempo para comprobar el trabajo.",
+      "Su planificación es siempre ridícula.",
+      "Estoy de acuerdo en que sobra tiempo para revisar.",
+      "El plazo no importa y no lo mencionaré."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "B2",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You need a clear written answer after a vague phone agreement. Choose a suitable request.",
+    "options": [
+      "¿Podrían confirmar por escrito la fecha de entrega acordada?",
+      "Gracias por la confirmación escrita que no han enviado.",
+      "Cambien la fecha sin avisarme.",
+      "No hace falta dejar constancia del acuerdo."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "C1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "A small study suggests a benefit, but does not establish the cause. Choose a proportionate conclusion.",
+    "options": [
+      "El resultado es alentador, aunque establecer causalidad exigiría más pruebas.",
+      "El estudio demuestra el beneficio en cualquier situación.",
+      "La falta de prueba causal elimina toda utilidad del estudio.",
+      "Puede suponerse la causa porque el resultado es positivo."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "C1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A reviewer praises the design but questions whether the sample represents the population. Preserve both points.",
+    "options": [
+      "El diseño resulta convincente, aunque la posibilidad de generalizar sigue siendo limitada.",
+      "La persona rechaza todos los aspectos del diseño.",
+      "La muestra demuestra que el diseño no puede funcionar.",
+      "Elogiar el diseño elimina toda duda sobre la muestra."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "C1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "An official gives access to documents, but makes them impossible to search. Distinguish formal compliance from practical access.",
+    "options": [
+      "Publicar puede cumplir la norma sin hacer utilizable la información.",
+      "Publicar cualquier archivo garantiza un acceso práctico completo.",
+      "Los problemas de uso significan que no se publicó nada.",
+      "La facilidad de búsqueda y la legalidad son conceptos idénticos."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "es",
+    "level": "C1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You want to question an assumption without attributing bad motives to the author.",
+    "options": [
+      "¿Podría depender el argumento de que la demanda se mantenga estable, en vez de una tendencia garantizada?",
+      "Usted ocultó deliberadamente la verdad.",
+      "Su supuesto demuestra que quería engañarnos.",
+      "Las intenciones del autor son lo único que importa."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You want to borrow a pencil from a classmate. Choose the request.",
+    "options": [
+      "Você pode me emprestar um lápis, por favor?",
+      "Você me emprestou um lápis ontem.",
+      "Eu não estou com seu lápis.",
+      "Seu lápis é azul."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A stranger says, “Obrigado por mostrar o caminho.” Choose a suitable reply.",
+    "options": [
+      "De nada.",
+      "Mostre o caminho, por favor.",
+      "Onde você mora?",
+      "Eu ainda não agradeci."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You cannot hear the price in a shop. Choose what to say.",
+    "options": [
+      "Desculpe, quanto custa?",
+      "Eu já paguei.",
+      "Pode ficar com o troco.",
+      "A loja está fechada."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You accidentally stand on someone's foot. Choose what to say.",
+    "options": [
+      "Desculpe.",
+      "Parabéns.",
+      "Bom apetite.",
+      "Isso é meu."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A2",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You are invited for six, but can only arrive at seven. Choose a reply that proposes a change.",
+    "options": [
+      "Podemos marcar às sete em vez das seis?",
+      "Às seis está perfeito.",
+      "Vou chegar às seis, como combinamos.",
+      "Eu fui lá ontem."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A2",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A friend offers tea or coffee. You would like tea without sugar. Choose the reply.",
+    "options": [
+      "Chá, por favor, sem açúcar.",
+      "Café, por favor, com açúcar.",
+      "Eu já preparei as duas bebidas.",
+      "Não tem mais chá."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A2",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You ordered a small shirt but received a large one. Ask the shop to exchange it.",
+    "options": [
+      "Posso trocar esta camisa por uma pequena?",
+      "Quero outra grande.",
+      "A pequena ficou perfeita.",
+      "Não pedi nenhuma camisa."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "A2",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You want to know whether breakfast costs extra. Choose the question.",
+    "options": [
+      "O café da manhã está incluído no preço?",
+      "A que horas você almoçou ontem?",
+      "Você já pagou o almoço?",
+      "Por que o jantar foi cancelado?"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "A colleague says the booking is “provisória”. Check what this means for your travel plans.",
+    "options": [
+      "Você quer dizer que devo esperar a confirmação antes de comprar as passagens?",
+      "Obrigado por confirmar que tudo é definitivo.",
+      "Vou cancelar a viagem imediatamente.",
+      "Já sei que a reserva está garantida."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "You cannot accept an invitation, but want to meet another day. Choose a reply.",
+    "options": [
+      "Na terça não posso, mas quinta seria bom para você?",
+      "Posso ir na terça; até lá.",
+      "Não quero ver você nunca mais.",
+      "Quinta foi na semana passada."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "A delivery company says “antes de sexta-feira”. You need to know whether it will arrive on Thursday at the latest. Choose a clarification.",
+    "options": [
+      "Só para confirmar, isso significa que chega até quinta-feira?",
+      "Obrigado por confirmar a entrega na sexta à noite.",
+      "Por que a entrega já fracassou?",
+      "Entreguem depois do fim de semana."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "Your group has not understood your proposal. Restate the same idea more clearly.",
+    "options": [
+      "O que quero dizer é que devemos testar o plano por uma semana antes de decidir.",
+      "Esqueçam tudo; não vou explicar.",
+      "Vocês já aceitaram o plano inteiro.",
+      "O teste acabou, então não é preciso decidir."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B2",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You support an event only if there is wheelchair access. Choose the reply that preserves that condition.",
+    "options": [
+      "Sou a favor, desde que o local seja acessível.",
+      "Apoio independentemente do acesso.",
+      "A acessibilidade não interfere no meu apoio.",
+      "Sou contra mesmo que melhorem o acesso."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B2",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A colleague calls a trial a failure because attendance fell, but costs fell too. Give a balanced response.",
+    "options": [
+      "A presença importa, mas devemos considerar os custos antes de avaliar o teste.",
+      "Menos visitantes sempre significa fracasso total.",
+      "Custos menores provam que todos gostaram.",
+      "Presença e custos medem a mesma coisa."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B2",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You disagree with a manager's schedule and want to raise a practical concern respectfully.",
+    "options": [
+      "Podemos rever o prazo? Não sobra tempo para conferir o trabalho.",
+      "Seu planejamento é sempre ridículo.",
+      "Concordo que sobra tempo para conferir.",
+      "O prazo não importa e não vou mencioná-lo."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "B2",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You need a clear written answer after a vague phone agreement. Choose a suitable request.",
+    "options": [
+      "Vocês poderiam confirmar por escrito a data de entrega combinada?",
+      "Obrigado pela confirmação escrita que vocês não enviaram.",
+      "Mudem a data sem me avisar.",
+      "Não precisamos registrar o acordo."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "C1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "A small study suggests a benefit, but does not establish the cause. Choose a proportionate conclusion.",
+    "options": [
+      "O resultado é animador, mas estabelecer causalidade exigiria mais evidências.",
+      "O estudo comprova o benefício em qualquer situação.",
+      "A falta de prova causal elimina toda utilidade do estudo.",
+      "Podemos presumir a causa porque o resultado é positivo."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "C1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A reviewer praises the design but questions whether the sample represents the population. Preserve both points.",
+    "options": [
+      "O desenho é convincente, embora a possibilidade de generalização continue limitada.",
+      "A pessoa rejeita todos os aspectos do desenho.",
+      "A amostra prova que o desenho não funciona.",
+      "Elogiar o desenho elimina todas as dúvidas sobre a amostra."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "C1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "An official gives access to documents, but makes them impossible to search. Distinguish formal compliance from practical access.",
+    "options": [
+      "A divulgação pode cumprir a norma sem tornar a informação utilizável.",
+      "Publicar qualquer arquivo garante acesso prático completo.",
+      "Problemas de uso significam que nada foi divulgado.",
+      "Facilidade de busca e legalidade são conceitos idênticos."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "pt",
+    "level": "C1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You want to question an assumption without attributing bad motives to the author.",
+    "options": [
+      "O argumento pode depender de a demanda permanecer estável, em vez de uma tendência garantida?",
+      "Você escondeu a verdade deliberadamente.",
+      "Sua suposição prova que queria nos enganar.",
+      "As intenções do autor são a única questão relevante."
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You want to borrow a pencil from a classmate. Choose the request.",
+    "options": [
+      "鉛筆を貸してもらえますか。",
+      "昨日、鉛筆を借りました。",
+      "あなたの鉛筆は持っていません。",
+      "あなたの鉛筆は青いです。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A stranger says, “道を教えてくれて、ありがとうございます。” Choose a suitable reply.",
+    "options": [
+      "どういたしまして。",
+      "道を教えてください。",
+      "どこに住んでいますか。",
+      "まだお礼を言っていません。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You cannot hear the price in a shop. Choose what to say.",
+    "options": [
+      "すみません、いくらですか。",
+      "もう払いました。",
+      "おつりはいりません。",
+      "店は閉まっています。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You accidentally stand on someone's foot. Choose what to say.",
+    "options": [
+      "すみません。",
+      "おめでとうございます。",
+      "いただきます。",
+      "それは私のです。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A2",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You are invited for six, but can only arrive at seven. Choose a reply that proposes a change.",
+    "options": [
+      "六時ではなく、七時にしてもらえますか。",
+      "六時でちょうどいいです。",
+      "約束どおり六時に行きます。",
+      "昨日そこに行きました。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A2",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A friend offers tea or coffee. You would like tea without sugar. Choose the reply.",
+    "options": [
+      "紅茶を、砂糖なしでお願いします。",
+      "コーヒーを、砂糖入りでお願いします。",
+      "もう両方作りました。",
+      "紅茶はもうありません。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A2",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You ordered a small shirt but received a large one. Ask the shop to exchange it.",
+    "options": [
+      "このシャツを小さいサイズに交換できますか。",
+      "大きいサイズをもう一枚ください。",
+      "小さいサイズがぴったりでした。",
+      "シャツは注文していません。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "A2",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You want to know whether breakfast costs extra. Choose the question.",
+    "options": [
+      "朝食は料金に含まれていますか。",
+      "昨日は何時に昼ご飯を食べましたか。",
+      "昼食代はもう払いましたか。",
+      "夕食はなぜ中止になりましたか。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "A colleague says the booking is “仮予約”. Check what this means for your travel plans.",
+    "options": [
+      "確定の連絡を待ってから切符を買ったほうがいいということですか。",
+      "すべて確定したと教えてくれて、ありがとうございます。",
+      "すぐに旅行を中止します。",
+      "予約が保証されているのは分かっています。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "You cannot accept an invitation, but want to meet another day. Choose a reply.",
+    "options": [
+      "火曜日は無理ですが、木曜日はいかがですか。",
+      "火曜日に行けます。では、その日に。",
+      "もう二度と会いたくありません。",
+      "木曜日は先週でした。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "A delivery company says “金曜日より前”. You need to know whether it will arrive on Thursday at the latest. Choose a clarification.",
+    "options": [
+      "確認ですが、遅くとも木曜日に届くということですか。",
+      "金曜日の夜に届くと教えてくれて、ありがとうございます。",
+      "なぜもう配達に失敗したのですか。",
+      "週末が終わってから届けてください。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "Your group has not understood your proposal. Restate the same idea more clearly.",
+    "options": [
+      "つまり、決定する前に一週間試してみようということです。",
+      "全部忘れてください。説明しません。",
+      "もう全計画に同意していますよね。",
+      "試行は終わったので、決定は不要です。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B2",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "You support an event only if there is wheelchair access. Choose the reply that preserves that condition.",
+    "options": [
+      "会場が車椅子で利用できることを条件に賛成します。",
+      "利用のしやすさに関係なく賛成します。",
+      "利用のしやすさは賛成するかどうかに影響しません。",
+      "利用しやすくなっても反対します。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B2",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A colleague calls a trial a failure because attendance fell, but costs fell too. Give a balanced response.",
+    "options": [
+      "参加者数は重要ですが、費用も考慮して評価する必要があります。",
+      "参加者が減れば必ず全面的な失敗です。",
+      "費用の減少は全員が満足した証拠です。",
+      "参加者数と費用は同じ指標です。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B2",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "You disagree with a manager's schedule and want to raise a practical concern respectfully.",
+    "options": [
+      "締め切りを再検討できませんか。確認作業の時間が取れないのが心配です。",
+      "あなたの計画はいつもばかげています。",
+      "確認する時間が十分あることに賛成です。",
+      "締め切りは関係ないので触れません。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "B2",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You need a clear written answer after a vague phone agreement. Choose a suitable request.",
+    "options": [
+      "合意した納品日を書面で確認していただけますか。",
+      "まだ送られていない確認書をありがとうございます。",
+      "知らせずに納品日を変更してください。",
+      "合意を記録する必要はありません。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "C1",
+    "form": 0,
+    "competency": "pragmatics",
+    "prompt": "A small study suggests a benefit, but does not establish the cause. Choose a proportionate conclusion.",
+    "options": [
+      "結果は有望だが、因果関係を主張するには追加の証拠が必要だ。",
+      "研究によってあらゆる状況での効果が確実に証明された。",
+      "因果関係が証明されなければ研究には何の価値もない。",
+      "結果が良いので原因も確定してよい。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "C1",
+    "form": 1,
+    "competency": "pragmatics",
+    "prompt": "A reviewer praises the design but questions whether the sample represents the population. Preserve both points.",
+    "options": [
+      "設計は説得的だが、一般化できる範囲には限界がある。",
+      "設計のすべてを否定している。",
+      "標本によって設計が機能しないことが証明された。",
+      "設計への評価によって標本の懸念はすべて解消された。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "C1",
+    "form": 2,
+    "competency": "pragmatics",
+    "prompt": "An official gives access to documents, but makes them impossible to search. Distinguish formal compliance from practical access.",
+    "options": [
+      "公開によって規則を満たしても、情報が使いやすくなるとは限らない。",
+      "何か公開すれば実質的なアクセスは完全に保証される。",
+      "使いにくいなら何も公開されていないことになる。",
+      "検索のしやすさと合法性は同じ概念だ。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "ja",
+    "level": "C1",
+    "form": 3,
+    "competency": "pragmatics",
+    "prompt": "You want to question an assumption without attributing bad motives to the author.",
+    "options": [
+      "この議論は、確実な傾向というより、需要が安定するという前提に依存していないでしょうか。",
+      "あなたは意図的に事実を隠しました。",
+      "その前提が人をだます意図の証拠です。",
+      "筆者の意図だけが議論すべき問題です。"
+    ],
+    "colloquial": false
+  },
+  {
+    "language": "en",
+    "form": 0,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "At eight yesterday, I ____ dinner when the lights went out.",
+    "options": [
+      "was cooking",
+      "cook",
+      "will cook",
+      "have cooked"
+    ]
+  },
+  {
+    "language": "en",
+    "form": 1,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "When I was a child, I ____ my grandparents every summer.",
+    "options": [
+      "used to visit",
+      "will visit",
+      "am visiting",
+      "have just visited"
+    ]
+  },
+  {
+    "language": "en",
+    "form": 2,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "We ____ the tickets yesterday, so we can travel tomorrow.",
+    "options": [
+      "bought",
+      "buy",
+      "will buy",
+      "have bought"
+    ]
+  },
+  {
+    "language": "en",
+    "form": 3,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "If it rains tomorrow, we ____ indoors.",
+    "options": [
+      "will stay",
+      "would stay",
+      "stayed",
+      "had stayed"
+    ]
+  },
+  {
+    "language": "es",
+    "form": 0,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "Ayer a las ocho, yo ____ la cena cuando se fue la luz.",
+    "options": [
+      "estaba preparando",
+      "preparo",
+      "prepararé",
+      "voy a preparar mañana"
+    ]
+  },
+  {
+    "language": "es",
+    "form": 1,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "Cuando era niño, ____ a mis abuelos todos los veranos.",
+    "options": [
+      "visitaba",
+      "visitaré",
+      "estoy visitando",
+      "voy a visitar mañana"
+    ]
+  },
+  {
+    "language": "es",
+    "form": 2,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "Ayer nosotros ____ los billetes para el viaje de mañana.",
+    "options": [
+      "compramos",
+      "compraremos",
+      "compraríamos",
+      "compremos"
+    ]
+  },
+  {
+    "language": "es",
+    "form": 3,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "Si llueve mañana, nos ____ en casa.",
+    "options": [
+      "quedaremos",
+      "quedaríamos",
+      "quedáramos",
+      "hubiéramos quedado"
+    ]
+  },
+  {
+    "language": "pt",
+    "form": 0,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "Ontem às oito, eu ____ o jantar quando a luz acabou.",
+    "options": [
+      "estava preparando",
+      "preparo",
+      "prepararei",
+      "vou preparar amanhã"
+    ]
+  },
+  {
+    "language": "pt",
+    "form": 1,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "Quando era criança, eu ____ meus avós todos os verões.",
+    "options": [
+      "visitava",
+      "visitarei",
+      "estou visitando",
+      "vou visitar amanhã"
+    ]
+  },
+  {
+    "language": "pt",
+    "form": 2,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "Ontem nós ____ as passagens para a viagem de amanhã.",
+    "options": [
+      "compramos",
+      "compraremos",
+      "compraríamos",
+      "compremos"
+    ]
+  },
+  {
+    "language": "pt",
+    "form": 3,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "Se chover amanhã, nós ____ em casa.",
+    "options": [
+      "ficaremos",
+      "ficaríamos",
+      "ficássemos",
+      "tivéssemos ficado"
+    ]
+  },
+  {
+    "language": "ja",
+    "form": 0,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "「夕食を作っていたら、突然停電しました」。停電したとき、夕食の準備はどうなっていましたか。",
+    "options": [
+      "まだ続いていました。",
+      "すでに全部終わっていました。",
+      "まだ始まっていませんでした。",
+      "翌日に始まりました。"
+    ]
+  },
+  {
+    "language": "ja",
+    "form": 1,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "子どものころは、毎年夏に祖父母の家へ____。",
+    "options": [
+      "遊びに行っていました",
+      "明日遊びに行きます",
+      "今初めて行きます",
+      "来年から行く予定です"
+    ]
+  },
+  {
+    "language": "ja",
+    "form": 2,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "明日の旅行の切符は、昨日もう____。",
+    "options": [
+      "買いました",
+      "これから買います",
+      "買いましょう",
+      "来週買います"
+    ]
+  },
+  {
+    "language": "ja",
+    "form": 3,
+    "level": "A2",
+    "competency": "grammar",
+    "prompt": "明日、雨が____、家にいます。",
+    "options": [
+      "降ったら",
+      "降ったのに",
+      "降るために",
+      "降ったことが"
+    ]
+  }
+]
