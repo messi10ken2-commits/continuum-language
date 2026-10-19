@@ -6,13 +6,16 @@ const vite=await createServer({server:{middlewareMode:true},appType:'custom'});
 globalThis.localStorage={getItem:()=>null,setItem(){}};
 try{
  const {default:AISpeaking,ConversationReview,SpeakingEntry}=await vite.ssrLoadModule('/AISpeaking.jsx');
+ const {default:Avatar}=await vite.ssrLoadModule('/ConversationAvatar.jsx');
+ const {conversationPartner,conversationPartners}=await vite.ssrLoadModule('/conversation-partners.mjs');
  const {setInterfaceLanguage}=await vite.ssrLoadModule('/interface-runtime.mjs');
  for(const display of ['en','ja','es','pt','zh','fr']){
   setInterfaceLanguage(display,{persist:false});
   for(const language of ['en','ja','es','pt']){
    const html=renderToStaticMarkup(React.createElement(AISpeaking,{language,user:{id:'synthetic-user'},onBack(){}}));
    assert.equal((html.match(/aria-pressed="(?:true|false)"/g)||[]).length,7);
-   assert.ok(html.includes('speaking-consent'));
+   assert.ok(html.includes('speaking-consent'));assert.equal((html.match(/class="scenario-partner"/g)||[]).length,7);
+   const names=new Set();for(const scenario of ['free','cafe','directions','shopping','plans','appointment','work']){const partner=conversationPartner(language,scenario);names.add(partner.id);assert.ok(Object.values(conversationPartners).includes(partner));const portrait=renderToStaticMarkup(React.createElement(Avatar,{partner,state:'speaking',level:.8}));assert.ok(portrait.includes(partner.image));assert.ok(!portrait.includes('<svg'));}assert.ok(names.size>=4);
    if(display!=='en')assert.ok(!html.includes('Order at a café'));
   }
   const html=renderToStaticMarkup(React.createElement(ConversationReview,{locale:'pt-BR',session:{review:{summary:'Feedback text',strengths:['Clear request'],corrections:[{original:'Eu quero café',improved:'Eu gostaria de um café',explanation:'A polite option'}],goals:[{goal:'Order a drink and something to eat.',achieved:true,evidence:'Eu quero café'}],nextStep:'Try again'}}}));

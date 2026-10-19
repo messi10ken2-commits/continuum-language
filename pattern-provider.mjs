@@ -11,7 +11,7 @@ async function checked(response,provider,model){
  console.warn('Pattern analysis provider failure',JSON.stringify({provider,model,status:response.status,code:/^[\w.-]{1,80}$/.test(code)?code:'unknown'}));
  throw failure(response.status===429?'AI analysis is busy or its quota is unavailable. Your saved results are unchanged. Please try later.':response.status===404?'AI analysis model is unavailable. Your saved results are unchanged. Please try again later.':response.status===401||response.status===403?'AI analysis provider authentication failed. Your saved results are unchanged. Please try again later.':'AI analysis provider is temporarily unavailable. Your saved results are unchanged. Please try again later.',response.status);
 }
-function parse(raw){try{return JSON.parse(String(raw||'').replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));}catch{throw failure(incomplete);}}
+function parse(raw){try{return JSON.parse(String(raw||'').replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));}catch{throw Object.assign(failure(incomplete),{code:'PATTERN_INVALID_JSON'});}}
 export async function requestPatternBatch(system,context,{fetchImpl=fetch}={}){
  try{
   if(process.env.GEMINI_API_KEY){

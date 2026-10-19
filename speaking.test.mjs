@@ -7,8 +7,8 @@ const s={language:'pt',level:'B1',scenario:'cafe',display_language:'fr',messages
 const review={summary:'Vous avez commandé.',strengths:['Demande polie.'],corrections:[{original:'Eu quero um café',improved:'Eu gostaria de um café',explanation:'Une demande plus polie.'}],goals:[{achieved:true,evidence:'Eu quero um café e pão.'},{achieved:false,evidence:''},{achieved:true,evidence:'A conta, por favor.'}],nextStep:'Demandez une alternative.'};
 test('feedback quotes actual learner evidence and refuses fabricated corrections or goal claims',()=>{
  assert.equal(validateSpeakingReview(review,s).goals[0].goal,speakingScenarios[0].goals[0]);
- assert.throws(()=>validateSpeakingReview({...review,corrections:[{...review.corrections[0],original:'Eu querer uma café'}]},s));
- assert.throws(()=>validateSpeakingReview({...review,goals:review.goals.map(g=>({...g,achieved:true,evidence:'fabricated'}))},s));
+ const partial=validateSpeakingReview({...review,corrections:[{...review.corrections[0],original:'Eu querer uma café'}]},s);assert.equal(partial.partial,true);assert.equal(partial.corrections.length,0);
+ const unverified=validateSpeakingReview({...review,goals:review.goals.map(g=>({...g,achieved:true,evidence:'fabricated'}))},s);assert.ok(unverified.goals.every(g=>!g.achieved&&!g.assessed));
  assert.throws(()=>validateSpeakingReview({...review,goals:[]},s));
  assert.equal(validateSpeakingReview({...review,corrections:[]},s).corrections.length,0);
 });
@@ -33,4 +33,18 @@ test('voice conversation uses one audio request for transcription and the next r
  let calls=0;const result=await voiceTurnSpeaking(s,{audio:'real recording'},{env:{GEMINI_API_KEY:'synthetic'},convert:async()=> 'ACTUAL_AUDIO',fetchImpl:async(url,options)=>{calls++;const body=JSON.parse(options.body);assert.equal(body.contents[0].parts[1].inline_data.data,'ACTUAL_AUDIO');assert.ok(body.systemInstruction.parts[0].text.includes('35 words'));return Response.json({candidates:[{content:{parts:[{text:JSON.stringify({audible:true,transcript:'Um café, por favor.',reply:'Claro. Mais alguma coisa?'})}]}}]})}});
  assert.equal(calls,1);assert.equal(result.transcript,'Um café, por favor.');assert.equal(result.reply,'Claro. Mais alguma coisa?');
  await assert.rejects(()=>voiceTurnSpeaking(s,{},{env:{GEMINI_API_KEY:'synthetic'},convert:async()=> 'audio',fetchImpl:async()=>Response.json({candidates:[{content:{parts:[{text:'{"audible":false,"transcript":"","reply":""}'}]}}]})}),e=>e.status===422);
+});
+
+test('review repairs incomplete goal arrays once; provider failures do not invent a review',async()=>{
+ let calls=0;
+ const result=await reviewSpeaking(s,{request:async(system)=>{calls++;assert.ok(system.includes('exactly THREE'));return {value:calls===1?{...review,goals:review.goals.slice(0,1)}:review}}});
+ assert.equal(calls,2);assert.equal(result.goals.length,3);
+ calls=0;await assert.rejects(()=>reviewSpeaking(s,{request:async()=>{calls++;return {value:{...review,goals:[]}}}}),e=>e.code==='SPEAKING_REVIEW_SCHEMA');assert.equal(calls,2);
+ calls=0;await assert.rejects(()=>reviewSpeaking(s,{request:async()=>{calls++;throw Object.assign(Error('quota'),{status:503,providerStatus:429})}}));assert.equal(calls,1);
+ calls=0;assert.equal((await reviewSpeaking(s,{request:async()=>{calls++;if(calls===1)throw Object.assign(Error('json'),{code:'PATTERN_INVALID_JSON'});return {value:review}}})).goals.length,3);
+});
+test('review tolerates smart apostrophes and emoji before evidence but returns saved exact words',()=>{
+ const original="🙂 I'm from Japan.",session={...s,messages:[{role:'user',text:original}]};
+ const r=validateSpeakingReview({...review,corrections:[{original:'I’m from Japan.',improved:'I am from Japan.',explanation:'An alternative.'}],goals:[{achieved:true,evidence:'I’m from Japan.'},{achieved:false,evidence:''},{achieved:false,evidence:''}]},session);
+ assert.equal(r.corrections[0].original,"I'm from Japan.");assert.equal(r.goals[0].evidence,"I'm from Japan.");assert.equal(r.partial,false);
 });

@@ -1,3 +1,4 @@
+import {conversationPartner} from './conversation-partners.mjs';
 import {serveStudioSpeech} from './speech-api.mjs';
 import {languageInfo} from './languages.mjs';
 import crypto from 'node:crypto';
@@ -40,7 +41,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   const text=part.startsWith('review/')?row.review?.corrections?.[index]?.improved:row.messages[index]?.role==='assistant'?row.messages[index].text:null;
   if(!text)fail(404,'Conversation audio not found');
   if(url.searchParams.get('format')==='text'){send(res,200,{text,locale:languageInfo(row.language).locale});return true;}
-  return serveAudio({req,res,pool,text,locale:languageInfo(row.language).locale,send,fail,limited,privateAudio:true});
+  return serveAudio({req,res,pool,text,locale:languageInfo(row.language).locale,send,fail,limited,privateAudio:true,voiceProfile:conversationPartner(row.language,row.scenario).voice});
  }
  const match=route.match(/^\/api\/speaking\/([a-f0-9-]{36})(?:\/(turn|review))?$/);if(!match)fail(404,'Conversation endpoint not found');
  const r=await pool.query('SELECT * FROM speaking_sessions WHERE id=$1 AND user_id=$2',[match[1],user.id]),s=r.rows[0];if(!s)fail(404,'Conversation not found');
@@ -73,6 +74,6 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   const updated=await pool.query('UPDATE speaking_sessions SET messages=$3::jsonb,review=$4::jsonb,status=$5,revision=revision+1,lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$2 AND lease_token=$6 RETURNING *',[s.id,user.id,JSON.stringify(messages),JSON.stringify(result),result?'completed':'active',token]);
   if(!updated.rows.length)fail(409,'The conversation changed. Reload it before continuing.');
   send(res,200,{session:publicSpeaking(updated.rows[0])});return true;
- }catch(e){if(e.status&&e.status<500)throw e;console.warn('Speaking provider unavailable',JSON.stringify({kind:e.name||'Error'}));fail(503,'AI conversation could not finish. Your saved conversation is unchanged; your unsent reply remains on this page. Please try again.');}
+ }catch(e){if(e.status&&e.status<500)throw e;console.warn('Speaking provider unavailable',JSON.stringify({operation:match[2],kind:e.name||'Error',code:/^[A-Z_]{1,50}$/.test(e.code||'')?e.code:undefined,providerStatus:e.providerStatus}));fail(503,match[2]==='review'?'Your conversation is saved, but the review could not be created. Please try creating the review again.':'AI conversation could not finish. Your saved conversation is unchanged; your unsent reply remains on this page. Please try again.');}
  finally{await pool.query('UPDATE speaking_sessions SET lease_token=NULL,lease_until=NULL WHERE id=$1 AND user_id=$2 AND lease_token=$3',[s.id,user.id,token]);}
 }

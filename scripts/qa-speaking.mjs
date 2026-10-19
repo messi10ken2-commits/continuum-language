@@ -5,12 +5,12 @@ import {mkdtemp,rm,writeFile,mkdir} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 process.env.GEMINI_API_KEY='synthetic-browser-key';delete process.env.OPENAI_API_KEY;process.env.NODE_ENV='development';
-const realFetch=fetch;
+const realFetch=fetch;let reviewRequests=0;
 globalThis.fetch=async(input,options)=>{
  if(String(input).startsWith('https://generativelanguage.googleapis.com/')){
   if(String(input).endsWith('/interactions')){const pcm=Buffer.alloc(24000);for(let i=0;i<12000;i++)pcm.writeInt16LE(Math.round(1500*Math.sin(i*.1)),i*2);return Response.json({steps:[{content:[{type:'audio',data:pcm.toString('base64')}]}]});}
   const b=JSON.parse(options.body),system=b.systemInstruction?.parts?.[0]?.text||'';let value;
-  if(system.startsWith('Review this')){const c=JSON.parse(b.contents[0].parts[0].text);value={summary:'You ordered clearly and politely.',strengths:['Your request was clear.'],corrections:[],goals:c.goals.map((g,i)=>({achieved:i===0,evidence:i===0?c.messages.find(m=>m.role==='user').text:''})),nextStep:'Ask about an alternative next time.'};}
+  if(system.startsWith('Review this')){reviewRequests++;if(reviewRequests===1)return Response.json({error:{status:'RESOURCE_EXHAUSTED'}},{status:429});const c=JSON.parse(b.contents[0].parts[0].text);value={summary:'You ordered clearly and politely.',strengths:['Your request was clear.'],corrections:[],goals:c.goals.map((g,i)=>({achieved:i===0,evidence:i===0?c.messages.find(m=>m.role==='user').text:''})),nextStep:'Ask about an alternative next time.'};if(reviewRequests===2)value.goals=value.goals.slice(0,1);}
   else if(system.startsWith('You are a friendly adult'))value={audible:true,transcript:'A coffee, please.',reply:'Of course. Anything else?'};
   else if(!system)value={assessable:true,ratings:[3,3,3,3],evidence:['clear','clear','clear','clear'],feedback:'Clear.',nextStep:'Continue.',strengths:['Polite'],corrections:[],transcript:'A coffee, please.'};
   else value=system.includes('startup availability')?{items:[]}:{reply:'Certainly. Would you like anything else?'};
@@ -44,13 +44,15 @@ try{
  await writeFile('.media-build/speaking-browser/setup-mobile.png',Buffer.from((await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
  assert.equal(await evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true);
  await click('.speaking-setup>.primary');await wait("!!document.querySelector('.conversation-thread')");
- await evaluate("document.querySelectorAll('.conversation-modes button')[1].click()");await reply('A coffee and a sandwich, please.');await wait("document.querySelectorAll('.conversation-message').length===3");await reply('No, thank you. Could I have the bill?');await wait("document.querySelectorAll('.conversation-message').length===5");await click('.conversation-bottom .outline-button');await wait("!!document.querySelector('.conversation-review')");
+ await evaluate("document.querySelectorAll('.conversation-modes button')[1].click()");await reply('A coffee and a sandwich, please.');await wait("document.querySelectorAll('.conversation-message').length===3");await reply('No, thank you. Could I have the bill?');await wait("document.querySelectorAll('.conversation-message').length===5");await click('.conversation-bottom .outline-button');await wait("!!document.querySelector('.auth-error')&&!document.querySelector('.conversation-bottom .outline-button').disabled");assert.ok((await evaluate("document.querySelector('.auth-error').innerText")).includes('Your conversation is saved'));await click('.auth-error .text-button');await wait("!!document.querySelector('.conversation-review')");assert.equal(reviewRequests,3);
  assert.ok((await evaluate("document.querySelector('.conversation-review').innerText")).includes('A coffee and a sandwich, please.'));
  assert.equal(await evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true);
  await evaluate("document.querySelector('.conversation-review').scrollIntoView()");await writeFile('.media-build/speaking-browser/review-mobile.png',Buffer.from((await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
  await click('.speaking-session-head .text-button');await wait("!!document.querySelector('.speaking-setup')");assert.equal(await evaluate("document.querySelectorAll('.speaking-history').length"),1);
  await click('.speaking-history');await wait("!!document.querySelector('.conversation-review')");await click('.speaking-session-head .text-button');await wait("!!document.querySelector('.speaking-setup')");await click('.speaking-setup>.primary');await wait("!!document.querySelector('.conversation-modes')");
  await evaluate("document.querySelectorAll('.conversation-modes button')[0].click()");
+ await wait("document.querySelector('.avatar-portrait img').complete&&document.querySelector('.avatar-portrait img').naturalWidth>0");assert.ok((await evaluate("document.querySelector('.voice-stage').innerText")).includes('Not a live video'));
+
  // Keep real browser recording/playback; feed only VAD a short deterministic speech window.
  await evaluate(`(()=>{const original=AnalyserNode.prototype.getByteTimeDomainData,frames=new WeakMap();AnalyserNode.prototype.getByteTimeDomainData=function(data){if(this.fftSize!==1024)return original.call(this,data);const n=frames.get(this)||0;frames.set(this,n+1);for(let i=0;i<data.length;i++)data[i]=n<12?128+Math.round(12*Math.sin(i*.1)):128;};const get=navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);navigator.mediaDevices.getUserMedia=async c=>{const stream=await get(c);window.__qaMic=stream;return stream;};})()`);
  await click('.voice-main-button');await wait("document.querySelector('.conversation-avatar').classList.contains('listening')");
@@ -61,5 +63,5 @@ try{
  assert.equal(await evaluate('document.documentElement.scrollWidth<=window.innerWidth+1'),true);
  await evaluate("window.scrollTo(0,0)");await writeFile('.media-build/speaking-browser/avatar-mobile.png',Buffer.from((await call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false})).data,'base64'));
  assert.deepEqual(exceptions,[]);
- console.log('PASS: real built frontend, mobile layout, consent, typed multi-turn conversation, review, saved history reopen, natural scoped playback, automatic VAD capture/send/reply and pause releasing the microphone. AI and microphone data are synthetic.');
+ console.log('PASS: real built frontend, mobile layout, consent, typed multi-turn conversation, review failure/retry/schema repair, saved history reopen, photoreal portrait, natural scoped playback, automatic VAD capture/send/reply and pause releasing the microphone. AI and microphone data are synthetic.');
 }finally{ws?.close();browser.kill();globalThis.fetch=realFetch;await new Promise(r=>testServer.close(r));await db.close();await rm(profile,{recursive:true,force:true});}

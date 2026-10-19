@@ -84,3 +84,13 @@ test('new practical sentence models can use studio audio',()=>{
  assert.ok(allowedSpeech('Minha reserva está para uma noite. Pode mudar para duas?','pt-BR'));
  assert.ok(!allowedSpeech('unpublished private learner text 938234','pt-BR'));
 });
+
+test('conversation partner voices vary and cannot reuse another persona audio cache',async()=>{
+ const text='Hello, how can I help?',locale='en-US',keys=new Set(),voices=new Set(),geminiVoices=new Set();
+ for(const voiceProfile of ['mira','hana','rafael','lucia','theo']){
+  keys.add(speechKey(text,locale,voiceProfile));
+  await synthesizeSpeech(text,locale,{voiceProfile,env:{OPENAI_API_KEY:'synthetic'},fetchImpl:async(url,options)=>{const body=JSON.parse(options.body);voices.add(body.voice);assert.match(body.instructions,/conversational delivery/);return new Response(pcm);}});
+  await synthesizeSpeech(text,locale,{voiceProfile,env:{GEMINI_API_KEY:'synthetic'},fetchImpl:async(url,options)=>{geminiVoices.add(JSON.parse(options.body).generation_config.speech_config[0].voice);return Response.json({steps:[{content:[{type:'audio',data:pcm.toString('base64')}]}]});}});
+ }
+ assert.equal(keys.size,5);assert.equal(voices.size,5);assert.equal(geminiVoices.size,5);assert.ok(!keys.has(speechKey(text,locale)));assert.throws(()=>speechKey(text,locale,'arbitrary-client-voice'));
+});
