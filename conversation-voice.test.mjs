@@ -32,3 +32,16 @@ test('provider quota failure switches visibly to device playback without losing 
  await loop.speak('/saved-conversation/audio/2',1);assert.equal(notices,1);assert.equal(device,1);assert.equal(loop.deviceVoice,true);
  loop.active=false;await loop.speak('/saved-conversation/audio/2',1);assert.equal(notices,1);
 });
+test('natural output uses its own media element and marks speaking only after playing',async()=>{
+ const states=[],released=[];let player;
+ const loop=new ConversationVoiceLoop({host:{URL:{createObjectURL:()=> 'blob:test',revokeObjectURL:x=>released.push(x)}},onState:s=>states.push(s)});loop.active=true;loop.epoch=1;
+ loop.player=player={currentTime:0,play(){assert.deepEqual(states,[]);queueMicrotask(()=>{this.onplaying();assert.deepEqual(states,['speaking']);this.currentTime=1;this.onended()});return Promise.resolve()},pause(){},removeAttribute(){},load(){}};
+ await loop.playMedia(new Uint8Array([1,2]),1);assert.equal(player.muted,false);assert.equal(player.volume,1);assert.deepEqual(released,['blob:test']);assert.equal(loop.endPlayback,null);
+});
+test('blocked natural autoplay pauses with an error instead of pretending to speak',async()=>{
+ const states=[];const loop=new ConversationVoiceLoop({host:{URL:{createObjectURL:()=> 'blob:test',revokeObjectURL(){}}},onState:s=>states.push(s)});loop.active=true;loop.epoch=1;loop.player={play:()=>Promise.reject(Error('NotAllowedError')),pause(){},removeAttribute(){},load(){}};
+ await assert.rejects(loop.playMedia(new Uint8Array([1]),1),/Resume conversation/);assert.deepEqual(states,[]);
+});
+test('decoding cannot detach the bytes subsequently used for media playback',async()=>{
+ const wav=new ArrayBuffer(120);const loop=new ConversationVoiceLoop({fetchImpl:async()=>({ok:true,headers:new Headers({'Content-Type':'audio/wav'}),arrayBuffer:async()=>wav})});loop.active=true;loop.epoch=1;loop.player={};loop.context={decodeAudioData:async bytes=>{structuredClone(bytes,{transfer:[bytes]});return {duration:1}}};let played=0;loop.playMedia=async bytes=>{assert.equal(bytes.byteLength,120);played++};await loop.speak('/audio',1);assert.equal(played,1);
+});

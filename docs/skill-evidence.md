@@ -23,3 +23,7 @@ The conversation text/review provider is independent from pattern-analysis routi
 Conversation TTS provider waits are bounded separately from ordinary authored lesson audio (12/15 seconds). On 429/503/504 or transport timeout, the continuous voice loop explicitly switches its selector and status notice to device voice and continues with the same saved reply. Device voice may sound different; natural voice remains selectable. User cancellation never triggers late fallback playback. These bounds reduce long stalls, not provider quota limits or guaranteed response time.
 
 The failed validation run at commit 8e53960 came from a blank line parsed as an empty untranslated key in skill-evidence-copy. Blank rows are now filtered; no translation coverage check was removed.
+
+## Automatic playback isolation
+
+Continuous conversation now reuses a gesture-unlocked HTML media element for natural speech output, separate from the microphone AudioContext. Audio bytes are copied before decodeAudioData (which may detach its input) so the media blob retains valid PCM. The speaking state starts on the media `playing` event, with a progress watchdog to pause and request user resume if playback stalls. Every stop releases playback, object URLs and microphone tracks; microphone context is resumed before capture. Browser QA uses Chromium with synthetic voice/microphone data; physical Safari speaker output requires user-device confirmation.
