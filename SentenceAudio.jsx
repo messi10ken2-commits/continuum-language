@@ -10,16 +10,16 @@ import {audioLookahead} from './audio-lookahead.mjs';
 import './sentence-audio.css';
 let active=null;
 const clips=new Map();let cacheBytes=0;
-async function studioClip(part,signal){
- const key=JSON.stringify([part.lang,part.text.trim()]);if(clips.has(key))return clips.get(key);
- const r=await fetch('/api/speech',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:part.text,locale:part.lang}),signal});
+async function studioClip(part,signal,endpoint=null){
+ const key=JSON.stringify([part.lang,part.text.trim()]);if(!endpoint&&clips.has(key))return clips.get(key);
+ const r=await fetch(endpoint||'/api/speech',endpoint?{credentials:'same-origin',signal}:{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:part.text,locale:part.lang}),signal});
  if(!r.ok){const p=await r.json().catch(()=>({}));throw Object.assign(Error(p.error||'Studio audio is unavailable. Please retry.'),{status:r.status});}
  if(!r.headers.get('content-type')?.includes('audio/'))throw Error('Studio audio is unavailable.');
  const blob=await r.blob();if(blob.size>8_100_000)throw Error('Audio is too large to play.');
  while(cacheBytes+blob.size>16_000_000&&clips.size){const first=clips.keys().next().value;cacheBytes-=clips.get(first).blob.size;clips.delete(first);}
- const clip={blob,source:r.headers.get('X-Audio-Source')==='Human recording'?'Human recording':'AI studio voice'};clips.set(key,clip);cacheBytes+=blob.size;return clip;
+ const clip={blob,source:r.headers.get('X-Audio-Source')==='Human recording'?'Human recording':'AI studio voice'};if(!endpoint){clips.set(key,clip);cacheBytes+=blob.size;}return clip;
 }
-export default function SentenceAudio({text,lang='auto',compact=false,onPlayed}){
+export default function SentenceAudio({text,lang='auto',compact=false,onPlayed,audioEndpoint=null}){
  const language=useContext(LanguageContext),locale=languageInfo(language).locale;
  const humanWord=nativeWordEntry(text,lang==='auto'?locale:lang);
  const defaultSource=humanWord||nativeKanaKey(text,lang==='auto'?locale:lang)?'Human recording':'AI studio voice';
@@ -28,13 +28,13 @@ export default function SentenceAudio({text,lang='auto',compact=false,onPlayed})
  const owner=useRef({}),mounted=useRef(true),audio=useRef(null),request=useRef(null),objectURL=useRef(''),generation=useRef(0),speed=useRef(1);
  const release=()=>{if(audio.current){audio.current.onended=null;audio.current.onerror=null;audio.current.pause();audio.current.removeAttribute('src');audio.current.load();audio.current=null;}if(objectURL.current){URL.revokeObjectURL(objectURL.current);objectURL.current='';}};
  const stop=()=>{utterance.current=null;generation.current++;request.current?.abort();request.current=null;release();if(active?.owner===owner.current){if(active.device)window.speechSynthesis?.cancel();active=null;}if(mounted.current){setPlaying(false);setLoading(false);}};
- useEffect(()=>{mounted.current=true;setPlaying(false);setLoading(false);setError('');setSource('');return()=>{mounted.current=false;stop();}},[text,lang,locale]);
+ useEffect(()=>{mounted.current=true;setPlaying(false);setLoading(false);setError('');setSource('');return()=>{mounted.current=false;stop();}},[text,lang,locale,audioEndpoint]);
  const play=async()=>{
   if(playing||loading){stop();return;}
   active?.stop();stop();const token=generation.current;active={owner:owner.current,stop};setError('');setSource(defaultSource);setLoading(true);
   request.current=new AbortController();const signal=request.current.signal;
   const parts=speechParts(text,lang,locale).filter(p=>p.text.trim());let index=0,started=false;
-  const preparedClip=audioLookahead(parts,studioClip,signal);
+  const preparedClip=audioLookahead(parts,(part,signal)=>studioClip(part,signal,audioEndpoint),signal);
   const next=async()=>{if(!mounted.current||token!==generation.current)return;
    release();if(index>=parts.length){setPlaying(false);setLoading(false);if(active?.owner===owner.current)active=null;return;}
    setLoading(true);

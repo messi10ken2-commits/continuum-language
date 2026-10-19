@@ -65,5 +65,41 @@ Confirm the booking details.|予約の内容を確認する。|Confirma los deta
 Explain an idea or priority.|アイデアや優先したいことを説明する。|Explica una idea o una prioridad.|Explique uma ideia ou prioridade.|解释一个想法或优先事项。|Expliquez une idée ou une priorité.
 Respond to a different suggestion.|別の提案に対して意見を伝える。|Responde a una propuesta diferente.|Responda a uma sugestão diferente.|回应不同的建议。|Réagissez à une autre proposition.
 Agree on a practical next step.|次にする具体的なことを決める。|Acordad un próximo paso concreto.|Combinem um próximo passo concreto.|商定切实可行的下一步。|Convenez d’une prochaine étape concrète.
+Open conversation|自由に会話する|Conversación libre|Conversa livre|自由对话|Conversation libre
+Talk about a topic that interests you.|興味のあることについて話す。|Habla de un tema que te interese.|Converse sobre um assunto do seu interesse.|聊一聊你感兴趣的话题。|Parlez d’un sujet qui vous intéresse.
+Ask a follow-up question.|相手の話を掘り下げて質問する。|Haz una pregunta para profundizar.|Faça uma pergunta para saber mais.|提出一个追问。|Posez une question pour approfondir.
+Share an opinion or experience.|意見や体験を伝える。|Comparte una opinión o experiencia.|Compartilhe uma opinião ou experiência.|分享一个观点或经历。|Partagez une opinion ou une expérience.
+AI conversation partner|AIの会話相手|Interlocutor de IA|Parceiro de conversa com IA|AI对话伙伴|Partenaire de conversation IA
+Illustrated AI conversation partner|イラスト型のAI会話パートナー|Interlocutor de IA ilustrado|Parceiro de IA ilustrado|插画式AI对话伙伴|Partenaire de conversation IA illustré
+Ready when you are|準備ができたら始めましょう|Cuando quieras, empezamos|Quando quiser, podemos começar|准备好就开始吧|Quand vous voulez
+Preparing voice…|音声を準備しています…|Preparando la voz…|Preparando a voz…|正在准备语音…|Préparation de la voix…
+Mira is speaking|Miraが話しています|Mira está hablando|Mira está falando|Mira正在说话|Mira parle
+Listening to you…|あなたの声を聞いています…|Te escucho…|Estou ouvindo você…|正在听你说话…|Je vous écoute…
+Thinking…|返答を考えています…|Pensando…|Pensando…|思考中…|Réflexion…
+Conversation paused|会話を一時停止しています|Conversación en pausa|Conversa pausada|对话已暂停|Conversation en pause
+Ready for your review|振り返りに進めます|Todo listo para el repaso|Tudo pronto para a revisão|可以开始回顾了|Vous pouvez passer au bilan
+Voice conversation|音声で会話|Conversación por voz|Conversa por voz|语音对话|Conversation vocale
+Text chat|文字でチャット|Chat de texto|Conversa por texto|文字聊天|Discussion écrite
+Speak naturally. Your reply sends after a short pause, and Mira answers aloud.|自然に話してください。話し終わって少し間を置くと自動で送信され、Miraが音声で返答します。|Habla con naturalidad. Tras una breve pausa, tu respuesta se envía y Mira te contesta en voz alta.|Fale naturalmente. Após uma breve pausa, sua resposta é enviada e Mira responde em voz alta.|自然地说话即可。短暂停顿后，你的回复会自动发送，Mira会用语音回答。|Parlez naturellement. Après une courte pause, votre réponse est envoyée et Mira vous répond à voix haute.
+Pause conversation|会話を一時停止|Pausar conversación|Pausar conversa|暂停对话|Mettre en pause
+Start voice conversation|音声会話を始める|Iniciar conversación por voz|Iniciar conversa por voz|开始语音对话|Démarrer la conversation vocale
+Resume conversation|会話を再開|Reanudar conversación|Retomar conversa|继续对话|Reprendre la conversation
+Voice|読み上げ音声|Voz|Voz|语音|Voix
+Natural AI voice|自然なAI音声|Voz natural de IA|Voz natural de IA|自然AI语音|Voix IA naturelle
+Thinking time|考える時間|Tiempo para pensar|Tempo para pensar|思考时间|Temps de réflexion
+A little longer|長めに待つ|Un poco más|Um pouco mais|多等一会儿|Un peu plus long
+Short pause|短い間で送信|Pausa breve|Pausa curta|短暂停顿|Pause courte
+Illustrated AI avatar. Your camera is not used.|イラスト型のAIアバターです。カメラは使用しません。|Es un avatar de IA ilustrado. No se utiliza tu cámara.|Avatar de IA ilustrado. Sua câmera não é utilizada.|这是插画式AI虚拟形象，不会使用你的摄像头。|Il s’agit d’un avatar IA illustré. Votre caméra n’est pas utilisée.
+Mira · AI|Mira・AI|Mira · IA|Mira · IA|Mira·AI|Mira · IA
+Type a message…|メッセージを入力…|Escribe un mensaje…|Digite uma mensagem…|输入消息…|Écrivez un message…
+Mira is thinking…|Miraが返答を考えています…|Mira está pensando…|Mira está pensando…|Mira正在思考…|Mira réfléchit…
+Allow microphone access to start voice conversation. You can still use text chat.|音声会話を始めるには、マイクへのアクセスを許可してください。文字でのチャットも使えます。|Permite el acceso al micrófono para conversar por voz. También puedes usar el chat de texto.|Permita o acesso ao microfone para conversar por voz. Você também pode usar o chat de texto.|请允许麦克风权限以开始语音对话。你也可以使用文字聊天。|Autorisez l’accès au microphone pour parler. Vous pouvez aussi utiliser la discussion écrite.
+Natural voice is temporarily unavailable. Retry, or choose device voice.|自然音声は一時的に利用できません。再試行するか、端末の音声を選んでください。|La voz natural no está disponible temporalmente. Reinténtalo o elige la voz del dispositivo.|A voz natural está temporariamente indisponível. Tente novamente ou escolha a voz do dispositivo.|自然语音暂时无法使用，请重试或选择设备语音。|La voix naturelle est temporairement indisponible. Réessayez ou choisissez la voix de l’appareil.
+Voice conversation is unavailable in this browser. You can still type your replies.|このブラウザでは音声会話を利用できません。文字で返答できます。|Este navegador no permite conversar por voz. Puedes escribir tus respuestas.|A conversa por voz não está disponível neste navegador. Você pode digitar suas respostas.|此浏览器不支持语音对话，你仍可以输入文字回复。|La conversation vocale n’est pas disponible dans ce navigateur. Vous pouvez écrire vos réponses.
+Tap Resume conversation to allow audio playback.|「会話を再開」を押して音声を再生してください。|Pulsa Reanudar conversación para permitir la reproducción.|Toque em Retomar conversa para permitir a reprodução de áudio.|点击“继续对话”以允许播放语音。|Appuyez sur Reprendre la conversation pour autoriser le son.
+No clear speech was detected. Please try again.|声をはっきり聞き取れませんでした。もう一度話してみてください。|No se detectó voz clara. Inténtalo de nuevo.|Não foi possível identificar uma fala clara. Tente novamente.|未能清楚识别语音，请再试一次。|Aucune parole claire n’a été détectée. Réessayez.
+The recording could not be heard clearly. Please try again.|録音をはっきり聞き取れませんでした。もう一度話してみてください。|No se pudo escuchar claramente la grabación. Inténtalo de nuevo.|Não foi possível ouvir a gravação com clareza. Tente novamente.|录音无法清楚辨认，请再试一次。|L’enregistrement n’est pas assez clair. Réessayez.
+The voice response could not be played. Please retry.|返答の音声を再生できませんでした。再試行してください。|No se pudo reproducir la respuesta de voz. Reinténtalo.|Não foi possível reproduzir a resposta de voz. Tente novamente.|无法播放语音回复，请重试。|La réponse vocale n’a pas pu être lue. Réessayez.
+Device voice is unavailable. Choose natural voice or type your reply.|端末の音声を利用できません。自然なAI音声を選ぶか、文字で返答してください。|La voz del dispositivo no está disponible. Elige la voz natural o escribe tu respuesta.|A voz do dispositivo está indisponível. Escolha a voz natural ou digite sua resposta.|设备语音不可用，请选择自然语音或输入文字回复。|La voix de l’appareil n’est pas disponible. Choisissez la voix naturelle ou écrivez votre réponse.
 `;
 export const speakingCopy=Object.fromEntries(rows.trim().split('\n').map(row=>{const [en,...values]=row.split('|');if(values.length!==5)throw Error('Invalid speaking copy');return [en,Object.fromEntries(['ja','es','pt','zh','fr'].map((l,i)=>[l,values[i]]))]}));

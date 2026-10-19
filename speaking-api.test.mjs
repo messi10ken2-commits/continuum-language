@@ -6,10 +6,12 @@ let calls=0,failProvider=false,blockReply=null;
 globalThis.fetch=async(input,options)=>{
  if(String(input).startsWith('https://generativelanguage.googleapis.com/')){
   calls++;if(failProvider)return new Response(JSON.stringify({error:{status:'RESOURCE_EXHAUSTED'}}),{status:429});
+  if(String(input).endsWith('/interactions'))return Response.json({steps:[{content:[{type:'audio',data:Buffer.alloc(4800).toString('base64')}]}]});
   const body=JSON.parse(options.body),system=body.systemInstruction?.parts?.[0]?.text||'',context=body.contents?.[0]?.parts?.[0]?.text||'';
   let value;
   if(system.includes('startup availability'))value={items:[]};
-  else if(system.startsWith('Review this')){const c=JSON.parse(context),quotes=c.messages.filter(m=>m.role==='user').map(m=>m.text);value={summary:'A useful conversation.',strengths:['You made a clear request.'],corrections:[],goals:c.goals.map((g,i)=>({achieved:i===0,evidence:i===0?quotes[0]:''})),nextStep:'Practise asking about an alternative.'};}
+  else if(system.startsWith('Review this')){const c=JSON.parse(context),quotes=c.messages.filter(m=>m.role==='user').map(m=>m.text);value={summary:'A useful conversation.',strengths:['You made a clear request.'],corrections:[{original:quotes[0],improved:'Could I have a coffee, please?',explanation:'A polite request.'}],goals:c.goals.map((g,i)=>({achieved:i===0,evidence:i===0?quotes[0]:''})),nextStep:'Practise asking about an alternative.'};}
+  else if(system.startsWith('You are a friendly adult'))value={audible:true,transcript:'A coffee, please.',reply:'Of course. Anything else?'};
   else if(!system){value={assessable:true,ratings:[3,3,3,3],evidence:['clear','clear','clear','clear'],feedback:'Clear.',nextStep:'Continue.',strengths:['Polite.'],corrections:[],transcript:'A coffee, please.'};}
   else {if(blockReply)await blockReply;value={reply:'Certainly. Would you like anything else?'};}
   return new Response(JSON.stringify({candidates:[{content:{parts:[{text:JSON.stringify(value)}]}}]}),{headers:{'content-type':'application/json'}});
@@ -30,8 +32,18 @@ try{
  const s=(await call('/speaking?language=en','GET',null,a.cookie)).data.sessions[0];
  assert.equal((await call('/speaking/'+s.id,'GET',null,b.cookie)).status,404);
  assert.equal((await call('/speaking?language=en','GET',null,b.cookie)).data.sessions.length,0);
+ // Dynamic TTS is authorized from server-owned assistant text, never arbitrary input.
+ const audioURL=base+'/api/speaking/'+s.id+'/audio/0';
+ assert.equal((await originalFetch(audioURL)).status,401);
+ assert.equal((await originalFetch(audioURL,{headers:{cookie:b.cookie}})).status,404);
+ const clip=await originalFetch(audioURL,{headers:{cookie:a.cookie}});assert.equal(clip.status,200);assert.equal(clip.headers.get('cache-control'),'private, no-store');assert.ok(clip.headers.get('content-type').startsWith('audio/'));assert.equal(Buffer.from(await clip.arrayBuffer()).toString('ascii',0,4),'RIFF');
+ const generations=calls;assert.equal((await originalFetch(audioURL,{headers:{cookie:a.cookie}})).status,200);assert.equal(calls,generations);
+ const device=await originalFetch(audioURL+'?format=text',{headers:{cookie:a.cookie}});assert.equal((await device.json()).text,s.messages[0].text);assert.equal(calls,generations);
+ assert.equal((await originalFetch(base+'/api/speaking/'+s.id+'/audio/999',{headers:{cookie:a.cookie}})).status,404);
+
  const post=(body)=>call('/speaking/'+s.id+'/turn','POST',{revision:0,turnKey:'synthetic-turn-0001',aiConsent:true,text:'A coffee, please.',...body},a.cookie);
  const one=await post({});assert.equal(one.status,200,JSON.stringify(one.data));assert.equal(one.data.session.messages.length,3);
+ assert.equal((await originalFetch(base+'/api/speaking/'+s.id+'/audio/1',{headers:{cookie:a.cookie}})).status,404);
  const n=calls;assert.deepEqual((await post({})).data,one.data);assert.equal(calls,n,'network retry must not pay for another reply');
  assert.equal((await post({text:'Different content.'})).status,409);
  assert.equal((await post({turnKey:'synthetic-stale-0002'})).status,409);
@@ -44,6 +56,8 @@ try{
  for(let i=0;i<100;i++){const row=await db.query('SELECT lease_token FROM speaking_sessions WHERE id=$1',[s.id]);if(row.rows[0].lease_token)break;await new Promise(r=>setTimeout(r,5));}
  assert.equal((await post({revision:2,turnKey:'synthetic-concurrent-0004',text:'A cake too.'})).status,409);unlock();blockReply=null;assert.equal((await three).status,200);
  const review=await call('/speaking/'+s.id+'/review','POST',{revision:3,aiConsent:true},a.cookie);assert.equal(review.status,200,JSON.stringify(review.data));assert.equal(review.data.session.status,'completed');assert.equal(review.data.session.review.goals[0].evidence,'A coffee, please.');
+ const correctionAudio=await originalFetch(base+'/api/speaking/'+s.id+'/audio/review/0?format=text',{headers:{cookie:a.cookie}});assert.equal((await correctionAudio.json()).text,'Could I have a coffee, please?');
+ assert.equal((await originalFetch(base+'/api/speaking/'+s.id+'/audio/review/0',{headers:{cookie:b.cookie}})).status,404);
  const reviewedCalls=calls;assert.equal((await call('/speaking/'+s.id+'/review','POST',{revision:3,aiConsent:true},a.cookie)).status,200);assert.equal(calls,reviewedCalls);
  assert.equal((await post({revision:4,turnKey:'synthetic-after-end-0005'})).status,409);
  // A real encoded PCM input exercises upload limit, decoding and persisted transcript without retaining audio.

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {replySpeaking,reviewSpeaking,validateSpeakingReview,transcribeSpeaking} from './speaking-ai.mjs';
+import {replySpeaking,reviewSpeaking,validateSpeakingReview,transcribeSpeaking,voiceTurnSpeaking} from './speaking-ai.mjs';
 import {speakingScenarios} from './speaking-content.mjs';
 import {speakingCopy} from './speaking-copy.mjs';
 const s={language:'pt',level:'B1',scenario:'cafe',display_language:'fr',messages:[{role:'assistant',text:'Olá!'},{role:'user',text:'Eu quero um café e pão.'},{role:'assistant',text:'Mais alguma coisa?'},{role:'user',text:'A conta, por favor.'}]};
@@ -27,4 +27,10 @@ test('voice uses assessed audio transcript and rejects silence, not a client-sup
 test('all scenarios have target-language openings and core UI copy has all five non-English display languages',()=>{
  for(const scenario of speakingScenarios){assert.equal(scenario.goals.length,3);for(const l of ['en','pt','es','ja'])assert.ok(scenario.opening[l].length>5)}
  for(const row of Object.values(speakingCopy))for(const l of ['ja','es','pt','zh','fr'])assert.ok(row[l]?.trim());
+});
+
+test('voice conversation uses one audio request for transcription and the next response',async()=>{
+ let calls=0;const result=await voiceTurnSpeaking(s,{audio:'real recording'},{env:{GEMINI_API_KEY:'synthetic'},convert:async()=> 'ACTUAL_AUDIO',fetchImpl:async(url,options)=>{calls++;const body=JSON.parse(options.body);assert.equal(body.contents[0].parts[1].inline_data.data,'ACTUAL_AUDIO');assert.ok(body.systemInstruction.parts[0].text.includes('35 words'));return Response.json({candidates:[{content:{parts:[{text:JSON.stringify({audible:true,transcript:'Um café, por favor.',reply:'Claro. Mais alguma coisa?'})}]}}]})}});
+ assert.equal(calls,1);assert.equal(result.transcript,'Um café, por favor.');assert.equal(result.reply,'Claro. Mais alguma coisa?');
+ await assert.rejects(()=>voiceTurnSpeaking(s,{},{env:{GEMINI_API_KEY:'synthetic'},convert:async()=> 'audio',fetchImpl:async()=>Response.json({candidates:[{content:{parts:[{text:'{"audible":false,"transcript":"","reply":""}'}]}}]})}),e=>e.status===422);
 });

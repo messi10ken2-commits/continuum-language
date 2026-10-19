@@ -1,8 +1,10 @@
+import {serveStudioSpeech} from './speech-api.mjs';
+import {languageInfo} from './languages.mjs';
 import crypto from 'node:crypto';
 import {aiConfigured} from './ai-assessment.mjs';
 import {validInterfaceLanguage} from './interface-languages.mjs';
 import {speakingScenarios,scenarioById,validSpeakingLanguage,validSpeakingLevel,maxSpeakingTurns} from './speaking-content.mjs';
-import {replySpeaking,reviewSpeaking,transcribeSpeaking} from './speaking-ai.mjs';
+import {replySpeaking,reviewSpeaking,voiceTurnSpeaking} from './speaking-ai.mjs';
 export async function migrateSpeaking(pool){await pool.query(`CREATE TABLE IF NOT EXISTS speaking_sessions (
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
  language text NOT NULL,level text NOT NULL,scenario text NOT NULL,display_language text NOT NULL DEFAULT 'en',
@@ -12,7 +14,7 @@ export async function migrateSpeaking(pool){await pool.query(`CREATE TABLE IF NO
 export const publicSpeaking=s=>({id:s.id,language:s.language,level:s.level,scenario:s.scenario,displayLanguage:s.display_language,messages:s.messages,review:s.review,status:s.status,revision:s.revision,at:s.updated_at});
 const audioValid=r=>r&&typeof r.audio==='string'&&r.audio.length<=1400000&&/^data:audio\/(webm|mp4|ogg|wav)(;codecs=(?:[a-zA-Z0-9.,-]+|"[a-zA-Z0-9., -]+"))?;base64,[A-Za-z0-9+/]+=*$/.test(r.audio)&&Number.isFinite(r.seconds)&&r.seconds>=1&&r.seconds<=90;
 const turnFingerprint=d=>crypto.createHash('sha256').update(JSON.stringify(d.audio?{audio:d.audio.audio,seconds:d.audio.seconds}:{text:typeof d.text==='string'?d.text.trim():null})).digest('hex');
-export async function handleSpeaking({route,req,res,pool,required,json,send,fail,limited,reply=replySpeaking,review=reviewSpeaking,transcribe=transcribeSpeaking}){
+export async function handleSpeaking({route,req,res,pool,required,json,send,fail,limited,reply=replySpeaking,review=reviewSpeaking,voiceTurn=voiceTurnSpeaking,serveAudio=serveStudioSpeech}){
  if(!route.startsWith('/api/speaking'))return false;
  const user=await required(req,'learner');
  const url=new URL(req.url,'http://localhost');
@@ -28,6 +30,17 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   if(!aiConfigured())fail(503,'AI conversation is temporarily unavailable. Please try again later.');
   const r=await pool.query('INSERT INTO speaking_sessions(user_id,language,level,scenario,display_language,messages) VALUES($1,$2,$3,$4,$5,$6::jsonb) RETURNING *',[user.id,d.language,d.level,s.id,d.displayLanguage,JSON.stringify([{role:'assistant',text:s.opening[d.language],mode:'text'}])]);
   send(res,201,{session:publicSpeaking(r.rows[0])});return true;
+ }
+ const audioRoute=route.match(/^\/api\/speaking\/([a-f0-9-]{36})\/audio\/(\d+|review\/\d+)$/);
+ if(audioRoute){
+  if(req.method!=='GET')fail(405,'Use GET for conversation audio');
+  const record=await pool.query('SELECT * FROM speaking_sessions WHERE id=$1 AND user_id=$2',[audioRoute[1],user.id]),row=record.rows[0];
+  if(!row)fail(404,'Conversation not found');
+  const part=audioRoute[2],index=Number(part.split('/').at(-1));
+  const text=part.startsWith('review/')?row.review?.corrections?.[index]?.improved:row.messages[index]?.role==='assistant'?row.messages[index].text:null;
+  if(!text)fail(404,'Conversation audio not found');
+  if(url.searchParams.get('format')==='text'){send(res,200,{text,locale:languageInfo(row.language).locale});return true;}
+  return serveAudio({req,res,pool,text,locale:languageInfo(row.language).locale,send,fail,limited,privateAudio:true});
  }
  const match=route.match(/^\/api\/speaking\/([a-f0-9-]{36})(?:\/(turn|review))?$/);if(!match)fail(404,'Conversation endpoint not found');
  const r=await pool.query('SELECT * FROM speaking_sessions WHERE id=$1 AND user_id=$2',[match[1],user.id]),s=r.rows[0];if(!s)fail(404,'Conversation not found');
@@ -53,8 +66,8 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  try{
   let messages=s.messages,result=s.review;
   if(match[2]==='turn'){
-   const text=d.audio?await transcribe(s,d.audio):d.text.trim();
-   const response=await reply(s,text);
+   const turn=d.audio?await voiceTurn(s,d.audio):{transcript:d.text.trim(),reply:await reply(s,d.text.trim())};
+   const text=turn.transcript,response=turn.reply;
    messages=[...messages,{role:'user',text,mode:d.audio?'voice':'text',key:d.turnKey,inputHash:turnFingerprint(d)},{role:'assistant',text:response,mode:'text'}];
   }else result=await review(s);
   const updated=await pool.query('UPDATE speaking_sessions SET messages=$3::jsonb,review=$4::jsonb,status=$5,revision=revision+1,lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$2 AND lease_token=$6 RETURNING *',[s.id,user.id,JSON.stringify(messages),JSON.stringify(result),result?'completed':'active',token]);

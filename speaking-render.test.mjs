@@ -11,7 +11,7 @@ try{
   setInterfaceLanguage(display,{persist:false});
   for(const language of ['en','ja','es','pt']){
    const html=renderToStaticMarkup(React.createElement(AISpeaking,{language,user:{id:'synthetic-user'},onBack(){}}));
-   assert.equal((html.match(/aria-pressed="(?:true|false)"/g)||[]).length,6);
+   assert.equal((html.match(/aria-pressed="(?:true|false)"/g)||[]).length,7);
    assert.ok(html.includes('speaking-consent'));
    if(display!=='en')assert.ok(!html.includes('Order at a café'));
   }
