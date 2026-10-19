@@ -69,7 +69,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   if(match[2]==='turn'){
    const turn=d.audio?await voiceTurn(s,d.audio):{transcript:d.text.trim(),reply:await reply(s,d.text.trim())};
    const text=turn.transcript,response=turn.reply;
-   messages=[...messages,{role:'user',text,mode:d.audio?'voice':'text',key:d.turnKey,inputHash:turnFingerprint(d)},{role:'assistant',text:response,mode:'text'}];
+   messages=[...messages,{role:'user',text,mode:d.audio?'voice':'text',key:d.turnKey,inputHash:turnFingerprint(d),...(d.audio&&turn.speechEvidence?{speechEvidence:turn.speechEvidence}:{})},{role:'assistant',text:response,mode:'text'}];
   }else result=await review(s);
   const updated=await pool.query('UPDATE speaking_sessions SET messages=$3::jsonb,review=$4::jsonb,status=$5,revision=revision+1,lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$2 AND lease_token=$6 RETURNING *',[s.id,user.id,JSON.stringify(messages),JSON.stringify(result),result?'completed':'active',token]);
   if(!updated.rows.length)fail(409,'The conversation changed. Reload it before continuing.');

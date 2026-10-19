@@ -1,3 +1,4 @@
+import {correctEntryNote} from './expression-watchouts.mjs';
 import {everydayQuestions} from './everyday-expressions.mjs';
 import {qualityQuestions} from './question-quality.mjs';
 import {appliedExercises} from './applied-exercises.mjs';
@@ -20,6 +21,7 @@ export function expandedExercises(base,seed){
  if(/^v[67]-/.test(seed))source=qualityQuestions(base,source);
  if(/^v[567]-/.test(seed))source=appliedExercises(base,source,random);
  if(seed.startsWith('v7-'))source=[...source,...everydayQuestions(base)];
+ source=source.map(q=>correctEntryNote(base,q));
  const questions=source.map(q=>q.tokens?{...q,tokens:shuffle(q.tokens)}:q.options?(()=>{const order=shuffle(q.options.map((_,i)=>i));return {...q,options:order.map(i=>q.options[i]),answer:order.indexOf(q.answer)};})():{...q});
  return {...base,questions,exerciseVersion:Number(seed[1])};
 }

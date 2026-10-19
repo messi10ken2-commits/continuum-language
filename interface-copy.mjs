@@ -1,3 +1,4 @@
+import {skillEvidenceCopy} from './skill-evidence-copy.mjs';
 import {classroomUiCopy} from './classroom-copy.mjs';
 import {speakingCopy} from './speaking-copy.mjs';
 // Reviewed first-visit and everyday navigation copy. English is the source key.
@@ -199,3 +200,5 @@ export const interfaceCopy=Object.fromEntries(rows.trim().split('\n').filter(Boo
 Object.assign(interfaceCopy,speakingCopy);
 
 Object.assign(interfaceCopy,classroomUiCopy);
+
+Object.assign(interfaceCopy,skillEvidenceCopy);

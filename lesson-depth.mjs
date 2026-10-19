@@ -1,3 +1,4 @@
+import expressionWatchouts from './expression-watchouts.json' with {type:'json'};
 // Authored reference material. Existing exercise IDs and grading stay stable.
 // Pipe-delimited rows keep multilingual tables reviewable beside their examples.
 const rows=s=>s.trim().split('\n').map(x=>x.split('|'));
@@ -444,7 +445,7 @@ V('ja','A2-8',`締め切り（しめきり）|deadline|締め切りを守る|締
 残業（ざんぎょう）|overtime work|残業する|今日は残業しない予定です。|I do not plan to work overtime today.
 打ち合わせ（うちあわせ）|coordination meeting|打ち合わせをする|午後に打ち合わせをしましょう。|Let us have a coordination meeting this afternoon.`);
 const expressions={en:{},pt:{},ja:{}};
-function E(lang,key,register,pitfall,data){expressions[lang][key]=rows(data).map(([term,meaning,example,translation,use])=>({term,meaning,example,translation,use,register,type:'Useful expression',pitfall,region:lang==='pt'?'Brazilian Portuguese':lang==='ja'?'Japanese': 'English'}));}
+function E(lang,key,register,pitfall,data){expressions[lang][key]=rows(data).map(([term,meaning,example,translation,use])=>({term,meaning,example,translation,use,register,type:'Useful expression',previousPitfall:pitfall,pitfall:expressionWatchouts[lang+':'+term]||pitfall,region:lang==='pt'?'Brazilian Portuguese':lang==='ja'?'Japanese': 'English'}));}
 E("en","A1-9","Polite / neutral","Use excuse me to attract attention; use sorry to apologise after causing inconvenience.",`Excuse me|a polite attention-getter|Excuse me, where is the exit?|Ask a stranger for directions.|Place it before your question.
 Sorry to interrupt|acknowledges an interruption|Sorry to interrupt, but is this your bag?|Briefly interrupt an ongoing conversation.|Use when someone is already speaking or busy.
 May I ask a question?|asks permission to speak|May I ask a question about the timetable?|Request a turn politely.|More formal than Can I ask something?

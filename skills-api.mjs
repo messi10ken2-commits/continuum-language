@@ -1,3 +1,4 @@
+import {validInterfaceLanguage} from './interface-languages.mjs';
 import {teacherScope,requestedScope} from './teacher-access.mjs';
 import {aiConfigured,savedSkillResult} from './ai-assessment.mjs';
 const pendingAI=new Set();
@@ -39,12 +40,13 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
   if(match[2]==='assess'&&req.method==='POST'){
    if(user.role!=='learner'||user.id!==row.user_id||!task||task.skill==='Listening')fail(403,'Only the learner can request AI assessment of their writing or recording');
    const data=await json(req);if(data.aiConsent!==true)fail(400,'Confirm sending this response to OpenAI for assessment');
-   if(row.result.aiAssessment||row.result.method?.endsWith('-rubric-v2')){send(res,200,{result:row.result});return true;}
+   if(data.displayLanguage!==undefined&&!validInterfaceLanguage(data.displayLanguage))fail(400,'Choose a display language');
+   if((row.result.aiAssessment||row.result).evaluationVersion==='skill-evidence-v3'){send(res,200,{result:row.result});return true;}
    if(!aiConfigured()){send(res,503,{error:'AI assessment is not connected yet. Your response is saved.'});return true;}
    limited(req,'ai-assessment',10);if(pendingAI.has(user.id))fail(409,'An AI assessment is already running. Please wait.');
    pendingAI.add(user.id);
    try{
-    const ai=await assessSkill({...task,prompt:row.result.taskPrompt||task.prompt},row.response);
+    const ai=await assessSkill({...task,displayLanguage:data.displayLanguage||'en',prompt:row.result.taskPrompt||task.prompt},row.response);
     const fresh=await pool.query('SELECT result FROM skill_submissions WHERE id=$1',[row.id]);
     const previous=fresh.rows[0].result;
     const result=previous.status==='reviewed'?{...previous,aiAssessment:ai}:{...previous,...ai,aiAssessment:ai};

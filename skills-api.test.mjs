@@ -37,7 +37,7 @@ try{
  // Successful AI assessment persists and retries reuse it without another provider charge.
  const originalFetch=globalThis.fetch;let providerCalls=0;
  process.env.OPENAI_API_KEY='isolated-test-key';
- globalThis.fetch=async(url,options)=>String(url).startsWith('https://api.openai.com/')?(providerCalls++,{ok:true,json:async()=>({output_text:JSON.stringify({assessable:true,ratings:[3,3,3,3],evidence:['a','b','c','d'],feedback:'Clear request.',nextStep:'Add a reason.',strengths:['Clear'],corrections:[],transcript:''})})}):originalFetch(url,options);
+ globalThis.fetch=async(url,options)=>String(url).startsWith('https://api.openai.com/')?(providerCalls++,{ok:true,json:async()=>({output_text:JSON.stringify({assessable:true,ratings:[3,3,3,3],evidence:['a','b','c','d'],feedback:'Clear request.',nextStep:'Add a reason.',strengths:['Clear'],corrections:[],transcript:'',cefr:{level:null,confidence:'low',limitations:'Insufficient sample.',evidence:[]},pronunciation:{assessable:false,ratings:[0,0,0,0],evidence:['','','',''],feedback:'Writing has no audio.'}})})}):originalFetch(url,options);
  try{
   const ai=await call('/skills/'+writing.id+'/assess','POST',{aiConsent:true},a.cookie);assert.equal(ai.status,200);assert.equal(ai.data.result.aiAssessment.score,75);
   assert.equal((await call('/skills/'+writing.id+'/assess','POST',{aiConsent:true},a.cookie)).status,200);assert.equal(providerCalls,1);

@@ -1,0 +1,15 @@
+# Independent production skills and audio pronunciation
+
+Writing and speaking task difficulty is separate from an independent provisional CEFR estimate. The overall diagnostic/course recommendation is unchanged. Version `skill-evidence-v3` asks for cross-band judgement, limitations, confidence (low/medium), and exact response quotations. At least two verified quotations and sufficient response material are required. A task percentage is never converted to CEFR. Older results display no independent level and can be reassessed with explicit learner consent.
+
+Writing requires at least 20 words (40 characters for Japanese); speaking requires at least 15 seconds of decoded audio. These are minimum evidence gates, not guarantees of a reliable CEFR estimate. A single task is not a certification or a full proficiency assessment.
+
+Pronunciation is evaluated by the existing audio-capable provider using actual decoded recordings. Four criteria: sound articulation; rhythm/stress/timing; intonation/phrasing; intelligibility. Feedback must cite acoustic observations, respect intelligible regional accents and not infer pronunciation from spelling/transcripts. This is an AI estimate, not a calibrated phoneme-alignment instrument. Criterion design follows the Council of Europe's emphasis on intelligibility and prosody: https://www.coe.int/en/web/common-european-framework-reference-languages/phonological-competence
+
+Placement speaking combines communication (80%) and pronunciation (20%); if pronunciation cannot be assessed the combined score is withheld. Duration is decoded from server-side PCM, never accepted from client duration for evaluation. Independent CEFR is an additional judgement rather than a percent-to-band conversion.
+
+AI conversation attaches validated acoustic feedback only to server-processed voice turns. The conversation review requires at least two assessed clips and 15 seconds total; duration weights are capped at 45 seconds per clip. Typed and legacy transcript-only turns cannot generate acoustic scores. Communication score additionally requires four verified quotations. A combined conversation practice score is shown only when both components exist. Raw conversation audio remains ephemeral; feedback/ratings are saved with the conversation. Existing conversations cannot be retroactively assessed from transcripts.
+
+Expression watch-outs: 240 previously shared warnings now have term-specific notes. All 380 entries were checked for duplicated notes within each lesson. Existing exercise seeds retain answer keys and ordering; note-only corrections apply to legacy generated questions and saved vocabulary review items at read/grade time. No database migration or bulk paid reassessment.
+
+Validation: `node --test skill-evidence.test.mjs`; `node skill-evidence-render.test.mjs`; existing AI, speaking, skills API, content, review API and build checks. Provider tests use deterministic mocks and synthetic WAV; they verify data flow and evidence gates, not empirical CEFR/pronunciation calibration.
