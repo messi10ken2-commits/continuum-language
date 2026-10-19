@@ -4,7 +4,8 @@
 
 ## How it works
 
-- At **20:23 Kuala Lumpur time** each day, GitHub Actions asks an OpenAI model to write six differentiated posts for **tomorrow**.
+- GitHub Actions performs recovery checks at **02:23, 08:23, 14:23, and 20:23 Kuala Lumpur time** every day. Runs inspect today's remaining publish slots plus the next **two days**. Any missing future posts are generated and scheduled automatically. Existing slots are skipped, so successful retries do not pay for duplicate AI generation.
+- GitHub cron runs are best-effort and can be delayed or dropped. These four checks and the two-day queue buffer provide resilience, but no GitHub-only setup guarantees an exact trigger time.
 - Each day at **09:00, 15:00, 21:00 Malaysian time**, Buffer automatically publishes one post to each of X and Threads.
 - **Special first day (default: 2026-10-19, Kuala Lumpur time):** the **09:00** post on both **X** and **Threads** is a fixed brand introduction: Kotoba is already live; Continuum is still being developed; language connects people and cultures. The other **four posts** in the six-post batch cover requesting receipts in Japanese, with platform-specific wording. There are two welcome posts, not one, because each social account needs its own first post.
 - Regular days afterward: **4 English-language posts and 2 posts in the same rotating non-English language**, one on X and one on Threads.
@@ -16,7 +17,7 @@
 - To postpone the first day, add or adjust the **GitHub Actions repository variable** `INTRO_POST_DATE` using `YYYY-MM-DD`. Preview in Dry Run before enabling scheduling. Its default is `2026-10-19`; if the first public batch will be on a different date, you **must** change this variable first.
 - Keep `SOCIAL_AUTOPUBLISH_ENABLED` unset/false until the two introductory drafts and Buffer queue are reviewed. Do not set it true just to preview: Dry Run works while publishing is disabled.
 - The script checks Buffer's existing **scheduled and sent** posts before adding new ones, to avoid repeating a slot after retries. Before the first batch, confirm no older post is queued earlier than the introduction.
-- **30-day trial:** October 18–November 16, 2026 inclusive, Malaysia dates. No new posts scheduled afterward.
+- **30-day trial:** October 18–November 16, 2026 inclusive, Malaysia publication dates. No new posts scheduled afterward, including during the lookahead period.
 - **Disabled by default.** Merely merging this PR does not enable public posting.
 
 ## Connect accounts and activate
@@ -56,8 +57,10 @@ Set the GitHub variable SOCIAL_AUTOPUBLISH_ENABLED to false to stop **new schedu
 
 ## Operational notes
 
-- Buffer Free supports three connected social channels and ten pending scheduled posts per channel; the six daily posts fit as long as no other posts fill the queues.
-- GitHub scheduled workflows use UTC and may run late. Buffer's UTC dueAt field governs the exact publication time.
+- Buffer Free supports three connected social channels and ten pending scheduled posts per channel. The rolling buffer holds at most three slots for today and six slots for the next two days (nine per channel); additional manually queued content can consume remaining capacity. If Buffer rejects a post, the run fails visibly and a later check retries missing slots.
+- GitHub scheduled workflows use UTC and may run late. The retry cron uses 00:23, 06:23, 12:23 and 18:23 UTC (08:23, 14:23, 20:23 and 02:23 in Malaysia). Buffer's UTC dueAt field governs publication time. Recovery skips already-past slots and requires at least 10 minutes of lead time to schedule a new post.
+- Manual **Run workflow** with **dry_run unchecked** also repairs missing slots in the rolling window. **Dry run** generates only a preview for tomorrow, avoiding unnecessarily expensive previews. Use `--date YYYY-MM-DD` for an explicit single-date repair.
+- Verify the new configuration is active by checking the next green run's log for `Recovery check complete`. A green result with `0 missing Buffer posts scheduled` is normal when Buffer already has everything queued.
 - If an account is disconnected, locked, or the queue is paused, the automation refuses to schedule.
 - The OpenAI model may still produce imperfect language or factual claims despite automated checks. Review Buffer's calendar periodically.
 - No external link is invented: only values from validated environment variables are ever appended, and only to occasional promotional posts.
