@@ -1,10 +1,11 @@
+import {migrateTeacherSchedule,handleTeacherSchedule} from './teacher-schedule-api.mjs';
 import crypto from 'node:crypto';
 import {validSharedLanguages} from './teacher-access.mjs';
 import {isPlatformOwner} from './profiles-api.mjs';
 import {getLesson} from './course.mjs';
 import {matchClassLesson} from './class-practice.mjs';
 import {validTimeZone} from './class-time.mjs';
-export const classRules={version:'pilot-v1',paymentsEnabled:false,cancellation:'Either participant may cancel a pilot class without a fee.',rescheduling:'A new time replaces the old booking only after the other participant accepts.',notifications:'Messages and booking updates are delivered inside Continuum.'};
+export const classRules={version:'pilot-slots-v2',paymentsEnabled:false,cancellation:'Pilot cancellations have no fee. Teacher cancellations of confirmed classes affect teaching performance.',rescheduling:'Learners book published slots instantly. Teacher reschedule offers replace the original only after learner acceptance.',notifications:'Messages and booking updates are delivered inside Continuum.'};
 export async function migrateClassroom(pool){await pool.query(`
  CREATE TABLE IF NOT EXISTS class_threads(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),teacher_id uuid NOT NULL REFERENCES users(id),learner_id uuid NOT NULL REFERENCES users(id),language text NOT NULL,created_at timestamptz NOT NULL DEFAULT now(),UNIQUE(teacher_id,learner_id,language));
  CREATE TABLE IF NOT EXISTS class_messages(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),seq bigserial UNIQUE,thread_id uuid NOT NULL REFERENCES class_threads(id),author_id uuid NOT NULL REFERENCES users(id),kind text NOT NULL DEFAULT 'message',body text NOT NULL,client_key text,created_at timestamptz NOT NULL DEFAULT now(),UNIQUE(author_id,client_key));
@@ -22,12 +23,12 @@ export async function migrateClassroom(pool){await pool.query(`
  CREATE TABLE IF NOT EXISTS class_assignments(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),thread_id uuid NOT NULL REFERENCES class_threads(id),booking_id uuid REFERENCES class_bookings(id),teacher_id uuid NOT NULL REFERENCES users(id),learner_id uuid NOT NULL REFERENCES users(id),language text NOT NULL,title text NOT NULL,instructions text NOT NULL,lesson_id text,due_at timestamptz,status text NOT NULL DEFAULT 'assigned' CHECK(status IN ('assigned','submitted','reviewed')),response text NOT NULL DEFAULT '',practice_attempt_id uuid REFERENCES practice_attempts(id),feedback text NOT NULL DEFAULT '',revision integer NOT NULL DEFAULT 0,client_key text NOT NULL,input_hash text NOT NULL,note_id uuid REFERENCES class_notes(id),created_at timestamptz NOT NULL DEFAULT now(),submitted_at timestamptz,reviewed_at timestamptz,UNIQUE(teacher_id,client_key));
  CREATE INDEX IF NOT EXISTS class_assignment_learner ON class_assignments(learner_id,created_at DESC);
  CREATE TABLE IF NOT EXISTS class_events(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),thread_id uuid NOT NULL REFERENCES class_threads(id),booking_id uuid REFERENCES class_bookings(id),assignment_id uuid REFERENCES class_assignments(id),actor_id uuid NOT NULL REFERENCES users(id),kind text NOT NULL,detail jsonb NOT NULL DEFAULT '{}',created_at timestamptz NOT NULL DEFAULT now());
- `);}
+ `);await migrateTeacherSchedule(pool);}
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 const text=(x,max)=>typeof x==='string'&&x.trim().length<=max?x.trim():'';
 const key=x=>typeof x==='string'&&/^[-a-zA-Z0-9]{10,100}$/.test(x);
 const fingerprint=d=>crypto.createHash('sha256').update(JSON.stringify(d)).digest('hex');
-const bookingPublic=b=>({id:b.id,threadId:b.thread_id,teacherId:b.teacher_id,learnerId:b.learner_id,teacher:b.teacher,learner:b.learner,language:b.language,startsAt:b.starts_at,endsAt:b.ends_at,proposedTimezone:b.proposed_timezone,proposedBy:b.proposed_by,status:b.status,meetingUrl:b.meeting_url,topic:b.topic,revision:b.revision,replacesId:b.replaces_id,priceMinor:0,rulesVersion:b.rules_version});
+const bookingPublic=b=>({id:b.id,threadId:b.thread_id,teacherId:b.teacher_id,learnerId:b.learner_id,teacher:b.teacher,learner:b.learner,language:b.language,startsAt:b.starts_at,endsAt:b.ends_at,proposedTimezone:b.proposed_timezone,proposedBy:b.proposed_by,status:b.status,meetingUrl:b.meeting_url,topic:b.topic,revision:b.revision,replacesId:b.replaces_id,priceMinor:0,changeReason:b.change_reason,slotId:b.slot_id,rulesVersion:b.rules_version});
 export function meetingLink(value){if(!value)return '';try{const u=new URL(value);const allowed=['meet.google.com','zoom.us','teams.microsoft.com','teams.live.com','meet.jit.si','whereby.com'];if(u.protocol!=='https:'||u.username||u.password||value.length>1500||!allowed.some(h=>u.hostname===h||h==='zoom.us'&&u.hostname.endsWith('.zoom.us')))return null;return u.href}catch{return null}}
 async function transaction(pool,fn){const c=await pool.connect();try{await c.query('BEGIN');const result=await fn(c);await c.query('COMMIT');return result}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}}
 async function event(c,actor,thread,kind,{booking=null,assignment=null,detail={}}={}){await c.query('INSERT INTO class_events(thread_id,booking_id,assignment_id,actor_id,kind,detail) VALUES($1,$2,$3,$4,$5,$6::jsonb)',[thread,booking,assignment,actor,kind,JSON.stringify(detail)]);}
@@ -62,6 +63,7 @@ export async function handleClassroom({route,req,res,pool,required,json,send,fai
  if(!route.startsWith('/api/classroom'))return false;
  const user=await required(req),url=new URL(req.url,'http://localhost'),language=url.searchParams.get('language');
  if(language&&!validSharedLanguages([language]))fail(400,'Choose a valid class language');
+ if(await handleTeacherSchedule({route,req,res,pool,user,url,json,send,fail,limited,transaction,threadAccess,lockPeople,lockLanguage,conflicts,event,updateMessage,bookingPublic,uuid,key,text,fingerprint}))return true;
  if(route==='/api/classroom/connect'&&req.method==='POST'){
   if(user.role!=='learner')fail(403,'Not allowed for this account');const d=await json(req);limited(req,'class-connect',30);
   if(!uuid.test(d.teacherId||'')||!validSharedLanguages([d.language])||d.consent!==true)fail(400,'Choose a language and confirm sharing with this teacher');
@@ -93,18 +95,6 @@ export async function handleClassroom({route,req,res,pool,required,json,send,fai
   }
   if(messages[2]==='read'&&req.method==='POST'){await pool.query('INSERT INTO class_reads(thread_id,user_id,last_seq) SELECT $1,$2,COALESCE(max(seq),0) FROM class_messages WHERE thread_id=$1 ON CONFLICT(thread_id,user_id) DO UPDATE SET last_seq=GREATEST(class_reads.last_seq,EXCLUDED.last_seq)',[t.id,user.id]);send(res,200,{ok:true});return true;}
  }
- if(route==='/api/classroom/bookings'&&req.method==='POST'){
-  if(user.role!=='learner')fail(403,'Only learners can propose a class or a new time');
-  limited(req,'class-booking',40);const d=await json(req),topic=text(d.topic,160),starts=new Date(d.startsAt),duration=d.duration;
-  if(!uuid.test(d.threadId||'')||!topic||!key(d.clientKey)||!Number.isInteger(duration)||duration<15||duration>120||duration%5||!validTimeZone(d.timezone)||typeof d.startsAt!=='string'||!/(Z|[+-]\d\d:\d\d)$/.test(d.startsAt)||!Number.isFinite(+starts)||d.priceMinor)fail(400,'Choose a valid class time, time zone and duration');
-  const ends=new Date(+starts+duration*60000),inputHash=fingerprint([d.threadId,starts.toISOString(),duration,d.timezone,topic,d.replacesId||null]);
-  const result=await transaction(pool,async c=>{const t=await threadAccess(c,user,d.threadId,fail,{write:true});await lockPeople(c,t);await lockLanguage(c,t,fail);
-   const existing=(await c.query('SELECT * FROM class_bookings WHERE proposed_by=$1 AND client_key=$2',[user.id,d.clientKey])).rows[0];if(existing){if(existing.input_hash!==inputHash)fail(409,'This submission was already sent with different content');return existing;}
-   if(+starts<Date.now()+300000||+starts>Date.now()+180*86400000)fail(400,'Choose a time at least five minutes ahead and within six months');
-   if(d.replacesId){if(!uuid.test(d.replacesId))fail(400,'Invalid booking');const old=(await c.query('SELECT * FROM class_bookings WHERE id=$1 AND thread_id=$2',[d.replacesId,t.id])).rows[0];if(old?.status!=='confirmed')fail(409,'Only a confirmed class can be rescheduled');}
-   if(await conflicts(c,t,starts,ends,d.replacesId))fail(409,'This time overlaps a confirmed class. Choose another time');
-   const r=await c.query('INSERT INTO class_bookings(thread_id,teacher_id,learner_id,language,starts_at,ends_at,proposed_timezone,proposed_by,topic,client_key,input_hash,replaces_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *',[t.id,t.teacher_id,t.learner_id,t.language,starts,ends,d.timezone,user.id,topic,d.clientKey,inputHash,d.replacesId||null]);const b=r.rows[0];await event(c,user.id,t.id,'proposed',{booking:b.id});await updateMessage(c,user.id,t.id,'A class time has been proposed.');return b;});send(res,201,{booking:bookingPublic(result)});return true;
- }
  const booking=route.match(/^\/api\/classroom\/bookings\/([a-f0-9-]{36})(?:\/(status|meeting))?$/);
  if(booking){if(!uuid.test(booking[1]))fail(404,'Class not found');const b=(await pool.query(bookingQuery+' WHERE b.id=$1',[booking[1]])).rows[0];if(!b)fail(404,'Class not found');const t=await threadAccess(pool,user,b.thread_id,fail,{write:req.method!=='GET'});
   if(req.method==='GET'&&!booking[2]){const notes=(await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.language,n.focus,n.note,n.revision,(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE booking_id=$1 ORDER BY n.created_at DESC',[b.id])).rows;send(res,200,{booking:bookingPublic(b),notes});return true;}
@@ -117,11 +107,12 @@ export async function handleClassroom({route,req,res,pool,required,json,send,fai
      if(d.status==='cancelled'&&(!['requested','confirmed'].includes(current.status)||text(d.reason,500).length<3))fail(400,'Add a reason to cancel this class');
      if(d.status==='completed'&&(user.id!==t.teacher_id||current.status!=='confirmed'||Date.parse(current.starts_at)>Date.now()))fail(409,'The teacher can finish a confirmed class after it starts');
      if(d.status==='confirmed'){
-      if(current.replaces_id){const old=(await c.query('SELECT * FROM class_bookings WHERE id=$1 FOR UPDATE',[current.replaces_id])).rows[0];if(old.status!=='confirmed')fail(409,'The original class changed. Propose a new time');}
+      if(current.slot_id){const available=(await c.query("SELECT 1 FROM class_availability s WHERE s.id=$1 AND s.active AND NOT EXISTS(SELECT 1 FROM class_time_off o WHERE o.teacher_id=s.teacher_id AND o.starts_at<s.ends_at AND o.ends_at>s.starts_at)",[current.slot_id])).rows[0];if(!available)fail(409,'This slot is no longer available. Choose another time');}
+      let original=null;if(current.replaces_id){original=(await c.query('SELECT * FROM class_bookings WHERE id=$1 FOR UPDATE',[current.replaces_id])).rows[0];if(original.status!=='confirmed'||Date.parse(original.starts_at)<=Date.now())fail(409,'The original class changed. Propose a new time');}
       if(await conflicts(c,t,current.starts_at,current.ends_at,current.replaces_id))fail(409,'This time overlaps a confirmed class. Choose another time');
-      if(current.replaces_id){await c.query("UPDATE class_bookings SET status='cancelled',revision=revision+1,updated_at=now() WHERE id=$1",[current.replaces_id]);await event(c,user.id,t.id,'rescheduled',{booking:current.replaces_id,detail:{replacement:b.id}});}
+      if(current.replaces_id){await c.query("UPDATE class_bookings SET status='cancelled',revision=revision+1,updated_at=now() WHERE id=$1",[current.replaces_id]);if(current.proposed_by===t.teacher_id&&original.slot_id)await c.query('UPDATE class_availability SET active=false WHERE id=$1',[original.slot_id]);await event(c,current.proposed_by,t.id,'rescheduled',{booking:current.replaces_id,detail:{replacement:b.id,fromStatus:'confirmed'}});}
      }
-     await c.query("UPDATE class_bookings SET status=$2,meeting_url=CASE WHEN $2='confirmed' AND meeting_url='' THEN $3 ELSE meeting_url END,revision=revision+1,updated_at=now() WHERE id=$1",[b.id,d.status,'https://meet.jit.si/Continuum-'+crypto.randomUUID()]);await event(c,user.id,t.id,d.status,{booking:b.id,detail:d.status==='cancelled'?{reason:text(d.reason,500)}:{}});await updateMessage(c,user.id,t.id,'Class status updated: '+d.status+'.');
+     await c.query("UPDATE class_bookings SET status=$2,meeting_url=CASE WHEN $2='confirmed' AND meeting_url='' THEN $3 ELSE meeting_url END,revision=revision+1,updated_at=now() WHERE id=$1",[b.id,d.status,'https://meet.jit.si/Continuum-'+crypto.randomUUID()]);await event(c,user.id,t.id,d.status,{booking:b.id,detail:d.status==='cancelled'?{reason:text(d.reason,500),fromStatus:current.status}:{}});if(d.status==='cancelled'&&user.id===t.teacher_id&&current.status==='confirmed'&&current.slot_id)await c.query('UPDATE class_availability SET active=false WHERE id=$1',[current.slot_id]);await updateMessage(c,user.id,t.id,'Class status updated: '+d.status+'.');
     }return (await c.query('SELECT * FROM class_bookings WHERE id=$1',[b.id])).rows[0];});send(res,200,{booking:bookingPublic(result)});return true;
   }
  }

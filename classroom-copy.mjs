@@ -1,3 +1,4 @@
+import {scheduleUiCopy} from './schedule-copy.mjs';
 // Reviewed UI copy only. Names, chat, notes, assignments and target-language
 // examples are user content and are never sent through this dictionary.
 const rows=`
@@ -193,4 +194,5 @@ export const classroomCopy=Object.fromEntries(rows.trim().split('\n').filter(Boo
 // Short status words are local to the classroom. They must not become global
 // translations of words that may also be target-language lesson examples.
 export const classroomTerms=new Set(['requested','confirmed','declined','cancelled','completed','assigned','submitted','reviewed','all','minutes','You','Close','proposed','rescheduled','access_cancelled','admin_cancelled','note_shared','assignment_shared','assignment_submitted','assignment_reviewed','meeting_updated']);
+Object.assign(classroomCopy,scheduleUiCopy);
 export const classroomUiCopy=Object.fromEntries(Object.entries(classroomCopy).filter(([key])=>!classroomTerms.has(key)));

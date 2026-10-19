@@ -184,3 +184,12 @@ in two isolated browser sessions; six display languages; mobile/desktop overflow
 No production accounts were created by these tests. External calendar conflicts,
 video-provider connectivity, email/push notifications and paid settlement were not
 validated or implemented by this release.
+
+## 2026-10-19 教師実績・公開空き枠予約
+
+- 教師ホームの要約、授業内の実績・スケジュール、6表示言語の静的訳を追加。金額は有料化せず、収益未受領・決済未接続を明示。
+- 週次枠の夏時間保持、休暇、枠削除、即時予約、二重送信・同時予約競合、先生/生徒それぞれの日時変更、旧予約の維持、キャンセル起因者別の実績をAPI・単体で検証。
+- 別ブラウザコンテキストの先生と生徒で、公開週次枠→即時予約→授業完了扱い→実レッスン全問完了→提出→フィードバックまで操作。追加の予約を先生が変更提案し、生徒の承諾、先生のキャンセル、実績の反映も確認。
+- 指標の空データ、24時間返信の未返信・連投・システム通知除外、授業の予定時間、0の収益、他教師のデータ非公開を検証。欠席・実通話時間は計測対象外。
+- `npm run test:classroom`、`node teacher-language-api.test.mjs`、`node profiles-api.test.mjs`、`npm run build`、`npm run test:classroom:browser` 成功。スマホ390pxとデスクトップ1280pxで横はみ出しなし。
+- 隔離DBのみ使用。本番の先生/生徒・授業・売上データは作成せず、外部通話接続も実行していない。
