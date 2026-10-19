@@ -13,3 +13,13 @@ AI conversation attaches validated acoustic feedback only to server-processed vo
 Expression watch-outs: 240 previously shared warnings now have term-specific notes. All 380 entries were checked for duplicated notes within each lesson. Existing exercise seeds retain answer keys and ordering; note-only corrections apply to legacy generated questions and saved vocabulary review items at read/grade time. No database migration or bulk paid reassessment.
 
 Validation: `node --test skill-evidence.test.mjs`; `node skill-evidence-render.test.mjs`; existing AI, speaking, skills API, content, review API and build checks. Provider tests use deterministic mocks and synthetic WAV; they verify data flow and evidence gates, not empirical CEFR/pronunciation calibration.
+
+## Recovery and latency follow-up
+
+Placement speech now authorizes authored audio from every supported diagnostic version (1–4), so historical paused tests remain playable. Unsupported form/version combinations are caught individually; the public endpoint still rejects arbitrary private text.
+
+The conversation text/review provider is independent from pattern-analysis routing. Conversation consent already permits either configured vendor. OpenAI is tried first, with a bounded 18-second request and a configured Gemini fallback. Rate-limited/unavailable vendors cool down for subsequent two-provider requests; a sole configured vendor remains retryable manually. No fabricated review is returned when all providers fail. Voice turns likewise prefer OpenAI, cap each provider wait at 18 seconds and limit context to the last 12 messages. Malformed optional pronunciation metadata is excluded without discarding a valid conversational reply.
+
+Conversation TTS provider waits are bounded separately from ordinary authored lesson audio (12/15 seconds). On 429/503/504 or transport timeout, the continuous voice loop explicitly switches its selector and status notice to device voice and continues with the same saved reply. Device voice may sound different; natural voice remains selectable. User cancellation never triggers late fallback playback. These bounds reduce long stalls, not provider quota limits or guaranteed response time.
+
+The failed validation run at commit 8e53960 came from a blank line parsed as an empty untranslated key in skill-evidence-copy. Blank rows are now filtered; no translation coverage check was removed.

@@ -23,7 +23,7 @@ function collect(value){
 collect(appliedQuestionBank);collect(practicalFormQuestions);collect(lessonList);collect(skillTasks);collect(exerciseBank);collect(practicalBank);
 for(const recording of nativeWordRecordings)collect(recording.text);
 for(const lang of ['es','en','pt','ja'])for(let form=0;form<assessmentFormCount;form++){
- try{for(const v of [3,4])collect(assessmentItems(form,lang+'-diagnostic-'+v));}catch{/* Unsupported historical form is not in the public catalog. */}
+ for(const v of [1,2,3,4])try{collect(assessmentItems(form,lang+'-diagnostic-'+v));}catch{/* Unsupported historical form is not in the public catalog. */}
 }
 export const allowedSpeech=(text,locale)=>typeof text==='string'&&speechLocales.includes(locale)&&catalog.has(text.normalize('NFC').trim());
 export async function migrateSpeech(pool){await pool.query(`CREATE TABLE IF NOT EXISTS speech_cache (cache_key text PRIMARY KEY, audio bytea NOT NULL, provider text NOT NULL, model text NOT NULL, created_at timestamptz NOT NULL DEFAULT now()); CREATE TABLE IF NOT EXISTS speech_daily_budget (day date PRIMARY KEY, generated integer NOT NULL DEFAULT 0);`);}

@@ -11,7 +11,7 @@ export function detectVoiceEnd(window,rms,now,{silenceMs=1500,maxMs=45000,idleMs
  return 'listen';
 }
 export class ConversationVoiceLoop{
- constructor({onState,onLevel,onTurn,onError,locale='en-US',silenceMs=1500,deviceVoice=false,fetchImpl=fetch,host=globalThis,canContinue}){Object.assign(this,{onState,onLevel,onTurn,onError,locale,silenceMs,deviceVoice,fetchImpl,host,canContinue});this.fetchImpl=fetchImpl.bind(host);this.epoch=0;this.active=false;this.retryClip=null;}
+ constructor({onState,onLevel,onTurn,onError,onVoiceFallback,locale='en-US',silenceMs=1500,deviceVoice=false,fetchImpl=fetch,host=globalThis,canContinue}){Object.assign(this,{onState,onLevel,onTurn,onError,onVoiceFallback,locale,silenceMs,deviceVoice,fetchImpl,host,canContinue});this.fetchImpl=fetchImpl.bind(host);this.epoch=0;this.active=false;this.retryClip=null;}
  state(value){this.onState?.(value);}
  async start(url){
   if(this.active)return;
@@ -42,8 +42,8 @@ export class ConversationVoiceLoop{
  async speak(url,epoch){
   if(this.deviceVoice)return this.speakDevice(epoch);
   this.abort=new AbortController();
-  const timeout=setTimeout(()=>this.abort?.abort(),55000);let response;try{response=await this.fetchImpl(url,{credentials:'same-origin',signal:this.abort.signal});}finally{clearTimeout(timeout);}
-  if(!response.ok){await response.arrayBuffer();throw Error('Natural voice is temporarily unavailable. Retry, or choose device voice.');}
+  const timeout=setTimeout(()=>this.abort?.abort(),30000);let response;try{response=await this.fetchImpl(url,{credentials:'same-origin',signal:this.abort.signal});}catch(e){if(!this.valid(epoch))return;return this.fallbackVoice(epoch);}finally{clearTimeout(timeout);}
+  if(!response.ok){await response.arrayBuffer();if(!this.valid(epoch))return;if([429,503,504].includes(response.status))return this.fallbackVoice(epoch);throw Error('Natural voice is temporarily unavailable. Retry, or choose device voice.');}
   if(!response.headers.get('content-type')?.startsWith('audio/'))throw Error('The voice response could not be played. Please retry.');
   const bytes=await response.arrayBuffer();if(!this.valid(epoch))return;
   if(bytes.byteLength>8100000)throw Error('The voice response could not be played. Please retry.');
@@ -54,6 +54,9 @@ export class ConversationVoiceLoop{
   this.state('speaking');this.meter(meter,epoch);
   await new Promise((resolve,reject)=>{this.endPlayback=resolve;source.onended=resolve;try{source.start()}catch(e){reject(e)}});
   this.stopMeter();source.disconnect();meter.disconnect();this.source=null;this.endPlayback=null;
+ }
+ async fallbackVoice(epoch){
+  if(!this.valid(epoch))return;this.deviceVoice=true;this.onVoiceFallback?.();return this.speakDevice(epoch);
  }
  async speakDevice(epoch){
   const r=await this.fetchImpl(this.currentURL+'?format=text',{credentials:'same-origin',signal:(this.abort=new AbortController()).signal});

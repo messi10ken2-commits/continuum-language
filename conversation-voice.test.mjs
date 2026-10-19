@@ -27,3 +27,8 @@ test('cancelled microphone permission request releases late tracks and never rec
  let permit,stopped=0;const host={AudioContext:class{resume(){return Promise.resolve()}close(){return Promise.resolve()}},MediaRecorder:class{},navigator:{mediaDevices:{getUserMedia:()=>new Promise(r=>permit=r)}}};
  const loop=new ConversationVoiceLoop({host});const start=loop.start('/audio');await new Promise(r=>setTimeout(r,0));loop.stop();permit({getTracks:()=>[{stop(){stopped++}}]});await start;assert.equal(stopped,1);assert.equal(loop.active,false);
 });
+test('provider quota failure switches visibly to device playback without losing a conversation turn',async()=>{
+ let notices=0,device=0;const loop=new ConversationVoiceLoop({onVoiceFallback:()=>notices++,fetchImpl:async()=>new Response('{}',{status:503})});loop.active=true;loop.epoch=1;loop.speakDevice=async epoch=>{assert.equal(epoch,1);device++};
+ await loop.speak('/saved-conversation/audio/2',1);assert.equal(notices,1);assert.equal(device,1);assert.equal(loop.deviceVoice,true);
+ loop.active=false;await loop.speak('/saved-conversation/audio/2',1);assert.equal(notices,1);
+});

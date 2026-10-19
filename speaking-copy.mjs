@@ -72,6 +72,7 @@ Share an opinion or experience.|意見や体験を伝える。|Comparte una opin
 AI conversation partner|AIの会話相手|Interlocutor de IA|Parceiro de conversa com IA|AI对话伙伴|Partenaire de conversation IA
 Illustrated AI conversation partner|イラスト型のAI会話パートナー|Interlocutor de IA ilustrado|Parceiro de IA ilustrado|插画式AI对话伙伴|Partenaire de conversation IA illustré
 Ready when you are|準備ができたら始めましょう|Cuando quieras, empezamos|Quando quiser, podemos começar|准备好就开始吧|Quand vous voulez
+Natural voice is busy. Continuing with device voice; you can switch back.|自然音声が混雑しているため、端末の音声で続けます。後から切り替えられます。|La voz natural está ocupada. Continuamos con la voz del dispositivo; puedes volver a cambiarla.|A voz natural está ocupada. Vamos continuar com a voz do dispositivo; você pode mudar depois.|自然语音正忙，将使用设备语音继续。你可以随时切换回来。|La voix naturelle est occupée. La conversation continue avec la voix de l’appareil ; vous pouvez revenir à la voix naturelle.
 Preparing voice…|音声を準備しています…|Preparando la voz…|Preparando a voz…|正在准备语音…|Préparation de la voix…
 Mira is speaking|Miraが話しています|Mira está hablando|Mira está falando|Mira正在说话|Mira parle
 Listening to you…|あなたの声を聞いています…|Te escucho…|Estou ouvindo você…|正在听你说话…|Je vous écoute…

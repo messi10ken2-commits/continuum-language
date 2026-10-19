@@ -16,6 +16,7 @@ export default function AISpeaking({language,user,onBack}){
  const locale=languageInfo(language).locale;
  const [level,setLevel]=useState(()=>{try{const saved=localStorage.getItem('continuumCourseLevel'+(language==='es'?'':':'+language));return courseBands.includes(saved)?saved:'A1'}catch{return 'A1'}});
  const [scenario,setScenario]=useState('free'),[consent,setConsent]=useState(false),[session,setSession]=useState(null),[history,setHistory]=useState([]),[available,setAvailable]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[text,setText]=useState(''),[mode,setMode]=useState('voice');
+ const [voiceNotice,setVoiceNotice]=useState('');
  const [reviewPending,setReviewPending]=useState(false),[reviewFailed,setReviewFailed]=useState(false),[voiceState,setVoiceState]=useState('idle'),[voiceLevel,setVoiceLevel]=useState(0),[deviceVoice,setDeviceVoice]=useState(false),[longPause,setLongPause]=useState(true);
  const mounted=useRef(true),pending=useRef(false),controller=useRef(),key=useRef(crypto.randomUUID()),last=useRef(),sessionRef=useRef(null),voice=useRef(null);
  const voiceActive=['connecting','preparing','speaking','listening','thinking'].includes(voiceState);
@@ -34,8 +35,9 @@ export default function AISpeaking({language,user,onBack}){
  const audioURL=(s,i=s.messages.length-1)=>'/api/speaking/'+s.id+'/audio/'+i;
  const startVoice=()=>{
   if(!consent||busy||voiceActive)return;
-  setReviewFailed(false);setError('');
+  setReviewFailed(false);setError('');setVoiceNotice('');
   if(!voice.current)voice.current=new ConversationVoiceLoop({locale,
+   onVoiceFallback:()=>{if(mounted.current){setDeviceVoice(true);setVoiceNotice('Natural voice is busy. Continuing with device voice; you can switch back.')}},
    onState:value=>{if(mounted.current)setVoiceState(value)},onLevel:value=>{if(mounted.current)setVoiceLevel(value)},onError:e=>{if(mounted.current)setError(e.message)},
    canContinue:()=>!sessionRef.current?.review&&sessionRef.current.messages.filter(m=>m.role==='user').length<maxSpeakingTurns,
    onTurn:async audio=>{
@@ -81,6 +83,7 @@ export default function AISpeaking({language,user,onBack}){
       <small>{t('AI-generated portrait with a synthetic voice. Not a live video. Your camera is not used.')}</small>
      </div>}
      <div className="conversation-chat">
+      {voiceNotice&&<p className="reference-hint" role="status">{t(voiceNotice)}</p>}
       <div className="conversation-thread" role="log" aria-label={t('Conversation transcript')}>{session.messages.map((m,i)=><article className={'conversation-message '+m.role} key={i}><small>{m.role==='assistant'?partner.name+' · AI':t(m.mode==='voice'?'You · voice transcript':'You · typed reply')}</small><p lang={locale}>{m.text}</p>{m.role==='assistant'&&!voiceActive&&<SentenceAudio text={m.text} lang={locale} compact audioEndpoint={audioURL(session,i)}/>}</article>)}<div ref={last}/></div>
       {!session.review&&mode==='text'&&count<maxSpeakingTurns&&<form className="conversation-composer" onSubmit={e=>{e.preventDefault();if(consent&&!busy&&text.trim())send()}}><label className="sr-only" htmlFor="conversation-reply">{t('Your reply')}</label><textarea id="conversation-reply" value={text} maxLength={2000} disabled={busy} lang={locale} placeholder={t('Type a message…')} onChange={e=>setText(e.target.value)} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();if(consent&&!busy&&text.trim())send()}}} rows={2}/><button type="submit" className="primary" disabled={busy||!consent||!text.trim()} aria-label={t('Send reply')}><ArrowRight size={22}/></button></form>}
       {busy&&<p className="conversation-thinking" role="status">{t(reviewPending?'Creating your review…':'Your partner is thinking…')}</p>}
