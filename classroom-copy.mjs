@@ -2,6 +2,11 @@ import {scheduleUiCopy} from './schedule-copy.mjs';
 // Reviewed UI copy only. Names, chat, notes, assignments and target-language
 // examples are user content and are never sent through this dictionary.
 const rows=`
+Assignment complete. No further submission is needed.|この課題は完了しました。再提出は不要です。|Tarea completada. No necesitas volver a enviarla.|Tarefa concluída. Não é necessário enviar novamente.|作业已完成，无需再次提交。|Devoir terminé. Aucun nouvel envoi n’est nécessaire.
+Back to messages|会話一覧に戻る|Volver a los mensajes|Voltar às mensagens|返回消息列表|Retour aux messages
+Choose a conversation to start messaging.|相手を選ぶとメッセージを送れます。|Elige una conversación para enviar mensajes.|Escolha uma conversa para enviar mensagens.|选择一个会话开始聊天。|Choisissez une conversation pour échanger des messages.
+Unread messages|未読メッセージ|Mensajes sin leer|Mensagens não lidas|未读消息|Messages non lus
+
 Only learners can propose a class or a new time|授業や日時変更の提案は生徒から行ってください。|Solo los estudiantes pueden proponer una clase o un nuevo horario.|Somente alunos podem propor uma aula ou um novo horário.|只有学生可以提议课程或新时间。|Seuls les élèves peuvent proposer un cours ou un nouvel horaire.
 No upcoming classes yet. Your learners can propose a time.|今後の授業はまだありません。生徒からの日時の提案をお待ちください。|Aún no hay clases próximas. Tus estudiantes pueden proponer un horario.|Ainda não há aulas agendadas. Seus alunos podem propor um horário.|暂无即将开始的课程。学生可以提议时间。|Aucun cours à venir. Vos élèves peuvent proposer un horaire.
 Start the room first. Jitsi may ask you to sign in as the host.|先生が先にルームを開始してください。Jitsiで主催者としてのログインを求められる場合があります。|Inicia la sala primero. Jitsi puede pedirte que inicies sesión como anfitrión.|Inicie a sala primeiro. O Jitsi pode pedir que você entre como anfitrião.|请老师先开启会议室。Jitsi可能要求主持人登录。|Ouvrez la salle en premier. Jitsi peut vous demander de vous connecter comme hôte.
@@ -119,7 +124,7 @@ declined|見送り|Rechazada|Recusada|已拒绝|Refusé
 completed|終了済み|Finalizada|Concluída|已结束|Terminé
 assigned|未提出|Por entregar|A entregar|待提交|À rendre
 submitted|提出済み|Entregada|Enviada|已提交|Rendu
-reviewed|確認・フィードバック済み|Con comentarios|Com feedback|已反馈|Commenté
+reviewed|完了|Completada|Concluída|已完成|Terminé
 all|すべて|Todas|Todas|全部|Tous
 minutes|分|minutos|minutos|分钟|minutes
 proposed|日時の提案|Horario propuesto|Horário proposto|已提议时间|Horaire proposé
