@@ -8,9 +8,9 @@ export const conversationPartners={
  theo:{id:'theo',name:'Theo',image:'/conversation-partners/theo-v1.webp',voice:'theo'}
 };
 const cast={
- en:{free:'mira',cafe:'theo',directions:'hana',shopping:'lucia',plans:'rafael',appointment:'mira',work:'theo'},
- pt:{free:'rafael',cafe:'lucia',directions:'mira',shopping:'hana',plans:'theo',appointment:'rafael',work:'mira'},
- es:{free:'lucia',cafe:'rafael',directions:'theo',shopping:'mira',plans:'hana',appointment:'lucia',work:'theo'},
- ja:{free:'hana',cafe:'mira',directions:'rafael',shopping:'theo',plans:'lucia',appointment:'hana',work:'mira'}
+ en:{living:'hana',free:'mira',cafe:'theo',directions:'hana',shopping:'lucia',plans:'rafael',appointment:'mira',work:'theo'},
+ pt:{living:'rafael',free:'rafael',cafe:'lucia',directions:'mira',shopping:'hana',plans:'theo',appointment:'rafael',work:'mira'},
+ es:{living:'lucia',free:'lucia',cafe:'rafael',directions:'theo',shopping:'mira',plans:'hana',appointment:'lucia',work:'theo'},
+ ja:{living:'hana',free:'hana',cafe:'mira',directions:'rafael',shopping:'theo',plans:'lucia',appointment:'hana',work:'mira'}
 };
 export const conversationPartner=(language,scenario)=>conversationPartners[cast[language]?.[scenario]||'mira'];

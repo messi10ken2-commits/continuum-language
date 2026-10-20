@@ -13,8 +13,8 @@ try{
   setInterfaceLanguage(display,{persist:false});
   for(const language of ['en','ja','es','pt']){
    const html=renderToStaticMarkup(React.createElement(AISpeaking,{language,user:{id:'synthetic-user'},onBack(){}}));
-   assert.equal((html.match(/aria-pressed="(?:true|false)"/g)||[]).length,7);
-   assert.ok(html.includes('speaking-consent'));assert.equal((html.match(/class="scenario-partner"/g)||[]).length,7);
+   assert.equal((html.match(/aria-pressed="(?:true|false)"/g)||[]).length,8);
+   assert.ok(html.includes('speaking-consent'));assert.equal((html.match(/class="scenario-partner"/g)||[]).length,8);
    const names=new Set();for(const scenario of ['free','cafe','directions','shopping','plans','appointment','work']){const partner=conversationPartner(language,scenario);names.add(partner.id);assert.ok(Object.values(conversationPartners).includes(partner));const portrait=renderToStaticMarkup(React.createElement(Avatar,{partner,state:'speaking',level:.8}));assert.ok(portrait.includes(partner.image));assert.ok(!portrait.includes('<svg'));}assert.ok(names.size>=4);
    if(display!=='en')assert.ok(!html.includes('Order at a café'));
   }

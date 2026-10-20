@@ -69,7 +69,7 @@ export default function AISpeaking({language,user,onBack}){
    <section className="panel speaking-setup">
     <label>{t('Conversation level')}<select value={level} onChange={e=>setLevel(e.target.value)}>{courseBands.map(l=><option key={l}>{l}</option>)}</select></label>
     <p>{t('Choose the difficulty for this practice. This is not a placement test.')}</p>
-    <div className="speaking-scenarios">{speakingScenarios.map(s=><button key={s.id} aria-pressed={scenario===s.id} className={scenario===s.id?'selected':''} onClick={()=>setScenario(s.id)}><img className="scenario-partner" src={conversationPartner(language,s.id).image} alt="" width="64" height="64" loading="lazy"/><strong>{t(s.title)}</strong><span>{t(s.goals[0])}</span></button>)}</div>
+    <div className="speaking-scenarios">{speakingScenarios.map(s=><button key={s.id} aria-pressed={scenario===s.id} className={scenario===s.id?'selected':''} onClick={()=>setScenario(s.id)}><img className="scenario-partner" src={conversationPartner(language,s.id).image} alt="" width="64" height="64" loading="lazy"/><strong>{t(s.title)}{s.premium?' · Premium':''}</strong><span>{t(s.goals[0])}</span></button>)}</div>
     <h3>{t('Your communication goals')}</h3><ul>{current.goals.map(g=><li key={g}>{t(g)}</li>)}</ul>{consentBox}
     {available===false&&<p role="status">{t('AI conversation is temporarily unavailable. Please try again later.')}</p>}
     <button className="primary" disabled={!consent||busy||available!==true} onClick={start}>{t(busy?'Preparing…':'Start a conversation')}<Mic2 size={18}/></button>

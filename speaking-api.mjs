@@ -34,6 +34,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  if(route==='/api/speaking'&&req.method==='POST'){
   limited(req,'speaking-start',30);const d=await json(req),s=scenarioById(d.scenario);
   if(d.aiConsent!==true)fail(400,'Confirm AI conversation processing before starting');
+  if(s?.premium&&!premium)fail(403,'Premium is required for this scenario.');
   if(!s||!validSpeakingLanguage(d.language)||!validSpeakingLevel(d.level)||!validInterfaceLanguage(d.displayLanguage))fail(400,'Choose a valid language, level and scenario');
   if(!aiConfigured())fail(503,'AI conversation is temporarily unavailable. Please try again later.');
   const row=await billingTransaction(pool,async c=>{await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[user.id]);
@@ -58,6 +59,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  if(!match[2]&&req.method==='GET'){send(res,200,{session:visible(s)});return true;}
  if(req.method!=='POST'||!match[2])fail(404,'Conversation endpoint not found');
  const d=await json(req);
+ if(['activity','turn'].includes(match[2])&&scenarioById(s.scenario)?.premium&&!premium)fail(403,'Premium is required for this scenario.');
  if(match[2]==='activity'){if(typeof d.active!=='boolean')fail(400,'Choose an activity state');const row=await tickConversation(pool,user.id,s.id,premium,d.active);send(res,200,{budget:budgetPublic(row,premium)});return true;}
  if(d.aiConsent!==true)fail(400,'Confirm AI conversation processing before continuing');
  if(match[2]==='turn'&&typeof d.turnKey==='string'&&s.messages.some(m=>m.key===d.turnKey)){if(s.messages.find(m=>m.key===d.turnKey).inputHash!==turnFingerprint(d))fail(409,'This reply was already sent with different content. Reload the saved conversation.');send(res,200,{session:visible(s)});return true;}

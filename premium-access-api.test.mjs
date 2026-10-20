@@ -23,5 +23,14 @@ try{
  const timed=(await issue(other,{durationDays:1})).data;await redeem(other,timed.code);await db.query("UPDATE premium_invitations SET access_until=now()-interval '1 minute' WHERE id=$1",[timed.invitation.id]);assert.equal((await status(other)).data.membership.premium,false);assert.equal((await redeem(other,timed.code)).status,410);
  // A real paid subscription survives the owner's Free preview, and actual mode restores it.
  await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '2 days')",[owner.id]);await preview('free');assert.equal((await status(owner)).data.membership.premium,false);assert.equal((await status(owner)).data.membership.billingPremium,true);await preview('actual');assert.equal((await status(owner)).data.membership.premium,true);
+ // Permanent grants have neither claim nor access expiry, remain retry-safe and can be revoked.
+ const forever=(await issue(other,{durationDays:null,claimDays:null})).data;
+ assert.equal(forever.invitation.claimExpiresAt,null);assert.equal(forever.invitation.durationDays,null);
+ assert.equal((await status(other)).data.membership.premium,false);
+ assert.equal((await redeem(other,forever.code)).status,200);assert.equal((await redeem(other,forever.code)).status,200);
+ assert.equal((await status(other)).data.membership.testerPermanent,true);assert.equal((await status(other)).data.membership.premium,true);
+ await api('/billing/access/invitations/'+forever.invitation.id+'/revoke','POST',{},owner.cookie);assert.equal((await status(other)).data.membership.premium,false);
+ assert.equal((await issue(other,{durationDays:180,claimDays:180})).status,201);
+ assert.equal((await api('/speaking','POST',{language:'en',level:'B1',scenario:'living',displayLanguage:'en',aiConsent:true},other.cookie)).status,403);
  console.log('PASS: owner-only real entitlement preview, reviewer isolation, email-bound single-use hashed invitations, concurrent retry safety, expiry/revocation, opt-in once-only tickets, no Stripe customer or payment mutation and paid membership preservation. All codes and users are disposable.');
 }finally{await new Promise(r=>testServer.close(r));await db.close();}

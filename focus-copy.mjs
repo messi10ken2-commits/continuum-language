@@ -78,5 +78,50 @@ Today|今日|Hoy|Hoje|今天|Aujourd’hui
 Friday|金曜日|El viernes|Sexta-feira|星期五|Vendredi
 Next month|来月|El próximo mes|No próximo mês|下个月|Le mois prochain
 Compare the detail you chose with the information in the recording.|選んだ内容と音声で伝えられた情報を比べて確認しましょう。|Compara tu respuesta con la información de la grabación.|Compare sua resposta com as informações da gravação.|将所选细节与录音中的信息进行比较。|Comparez votre réponse aux informations de l’enregistrement.
+1 week|1週間|1 semana|1 semana|1周|1 semaine
+1 month|1ヶ月|1 mes|1 mês|1个月|1 mois
+6 months|半年|6 meses|6 meses|半年|6 mois
+Never|無期限|Sin caducidad|Sem prazo|永久有效|Sans expiration
+Tester Premium|テスター用Premium|Premium de prueba|Premium de teste|测试者 Premium|Premium de test
+Open exclusive courses in Learn|「学ぶ」で限定コースを開く|Abrir cursos exclusivos en Aprender|Abrir cursos exclusivos em Aprender|在学习页面打开专属课程|Ouvrir les cours exclusifs dans Apprendre
+Back to courses|コース一覧へ|Volver a los cursos|Voltar aos cursos|返回课程列表|Retour aux cours
+Type the sentence you hear.|聞こえた文を入力してください。|Escribe la frase que escuches.|Digite a frase que ouvir.|输入你听到的句子。|Écrivez la phrase que vous entendez.
+Put the words in order to make a practical response.|単語を並べ替えて、場面に合う返答を作ってください。|Ordena las palabras para formar una respuesta útil.|Ordene as palavras para formar uma resposta útil.|将词语排序，组成符合情境的回答。|Remettez les mots dans l’ordre pour former une réponse adaptée.
+Complete the missing word in this practical expression.|この表現の空欄に入る単語を入力してください。|Completa la palabra que falta en esta expresión.|Complete a palavra que falta nesta expressão.|补全这个实用表达中缺少的词。|Complétez le mot manquant dans cette expression.
+Compare the words and word order with the recording.|音声と比べて、単語と語順を確認しましょう。|Compara las palabras y su orden con la grabación.|Compare as palavras e a ordem com a gravação.|对照录音检查用词和词序。|Comparez les mots et leur ordre avec l’enregistrement.
+This order makes the request or response clear and natural.|この語順にすると、依頼や返答が自然に伝わります。|Este orden hace que la petición o respuesta sea clara y natural.|Essa ordem deixa o pedido ou a resposta claro e natural.|这个词序能让请求或回答清晰自然。|Cet ordre rend la demande ou la réponse claire et naturelle.
+Use the complete expression from this lesson in context.|このレッスンで学んだ表現を、文脈に合わせて完成させましょう。|Completa la expresión de la lección según el contexto.|Complete a expressão da lição de acordo com o contexto.|根据语境补全本课所学的表达。|Complétez l’expression de la leçon en tenant compte du contexte.
+Workplace communication|仕事でのやり取り|Comunicación en el trabajo|Comunicação no trabalho|职场沟通|Communication au travail
+Handle problems living abroad|海外生活のトラブルに対応する|Resolver problemas al vivir en el extranjero|Resolver problemas morando no exterior|应对海外生活中的问题|Gérer les difficultés de la vie à l’étranger
+When will the figures arrive?|数字の資料はいつ届きますか？|¿Cuándo llegarán las cifras?|Quando os números vão chegar?|数据什么时候到？|Quand les chiffres arriveront-ils ?
+When is the revised deadline?|変更後の締め切りはいつですか？|¿Cuál es la nueva fecha de entrega?|Qual é o novo prazo?|调整后的截止时间是什么时候？|Quelle est la nouvelle échéance ?
+Who will contact the client?|誰がお客様に連絡しますか？|¿Quién contactará con el cliente?|Quem vai falar com o cliente?|谁负责联系客户？|Qui contactera le client ?
+Thursday morning|木曜日の午前中|El jueves por la mañana|Quinta-feira de manhã|星期四上午|Jeudi matin
+Wednesday afternoon|水曜日の午後|El miércoles por la tarde|Quarta-feira à tarde|星期三下午|Mercredi après-midi
+Friday morning|金曜日の午前中|El viernes por la mañana|Sexta-feira de manhã|星期五上午|Vendredi matin
+Thursday afternoon|木曜日の午後|El jueves por la tarde|Quinta-feira à tarde|星期四下午|Jeudi après-midi
+Friday afternoon|金曜日の午後|El viernes por la tarde|Sexta-feira à tarde|星期五下午|Vendredi après-midi
+Monday morning|月曜日の午前中|El lunes por la mañana|Segunda-feira de manhã|星期一上午|Lundi matin
+The whole team|チーム全員|Todo el equipo|Toda a equipe|整个团队|Toute l’équipe
+The client|お客様|El cliente|O cliente|客户|Le client
+Maya|マヤ|Maya|Maya|玛雅|Maya
+What is the problem?|どのような問題ですか？|¿Cuál es el problema?|Qual é o problema?|出了什么问题？|Quel est le problème ?
+When can the technician visit?|修理の人はいつ来られますか？|¿Cuándo puede venir el técnico?|Quando o técnico pode vir?|维修人员什么时候能来？|Quand le technicien peut-il venir ?
+What should the tenant do before the visit?|訪問前に入居者がすることは何ですか？|¿Qué debe hacer el inquilino antes de la visita?|O que o inquilino deve fazer antes da visita?|租客在上门维修前需要做什么？|Que doit faire le locataire avant la visite ?
+The heating is broken|暖房が故障している|La calefacción está averiada|O aquecimento está quebrado|暖气坏了|Le chauffage est en panne
+A kitchen pipe is leaking|台所の配管が水漏れしている|Una tubería de la cocina pierde agua|Um cano da cozinha está vazando|厨房水管漏水|Un tuyau de la cuisine fuit
+The front door is stuck|玄関のドアが開かない|La puerta de entrada está atascada|A porta de entrada está emperrada|大门卡住了|La porte d’entrée est bloquée
+This evening|今日の夕方|Esta tarde|Hoje à noite|今天傍晚|Ce soir
+Tuesday between two and four|火曜日の午後2時から4時|El martes entre las dos y las cuatro|Terça-feira entre duas e quatro|星期二下午两点到四点|Mardi entre deux et quatre heures
+Clear the cupboard under the sink|流し台の下の棚を空にする|Vaciar el armario debajo del fregadero|Esvaziar o armário embaixo da pia|清空水槽下的柜子|Vider le placard sous l’évier
+Buy a replacement pipe|交換用の配管を買う|Comprar una tubería de repuesto|Comprar um cano novo|购买替换水管|Acheter un tuyau de rechange
+Leave the front door unlocked|玄関の鍵を開けたままにする|Dejar la puerta sin cerrar con llave|Deixar a porta destrancada|不锁大门|Laisser la porte d’entrée déverrouillée
+Describe a household problem and its impact.|住まいの問題と困っていることを説明する。|Describe un problema doméstico y sus consecuencias.|Descreva um problema na moradia e seu impacto.|描述住房问题及其影响。|Décrivez un problème dans le logement et ses conséquences.
+Discuss repair times and access.|修理の日時と入室方法を相談する。|Acuerda el horario y el acceso para la reparación.|Combine o horário e o acesso para o conserto.|商量维修时间和入户安排。|Convenez des horaires et des modalités d’accès pour la réparation.
+Confirm responsibilities and the next step.|誰が何をするか、次の対応を確認する。|Confirma las responsabilidades y el siguiente paso.|Confirme as responsabilidades e o próximo passo.|确认各方责任和下一步安排。|Confirmez les responsabilités et la prochaine étape.
+Write to a colleague about a delayed report. Explain the dependency, propose a revised deadline and agree who will update the client.|報告書の遅れについて同僚にメッセージを書いてください。何を待っているか説明し、新しい締め切りを提案して、お客様への連絡担当を決めましょう。|Escribe a un compañero sobre el retraso de un informe. Explica de qué depende, propón una nueva fecha y acordad quién avisará al cliente.|Escreva a um colega sobre o atraso de um relatório. Explique a dependência, proponha um novo prazo e combine quem vai avisar o cliente.|给同事写消息说明报告延期的原因，提出新的截止时间，并商定由谁通知客户。|Écrivez à un collègue au sujet du retard d’un rapport. Expliquez ce qui bloque, proposez une nouvelle échéance et convenez de qui préviendra le client.
+Explain a project delay to a colleague. Offer a realistic deadline and agree who will contact the client.|プロジェクトの遅れを同僚に説明してください。実現できる締め切りを提案し、お客様に誰が連絡するか相談しましょう。|Explica a un compañero el retraso de un proyecto. Propón una fecha realista y acordad quién contactará con el cliente.|Explique a um colega o atraso de um projeto. Proponha um prazo realista e combine quem vai falar com o cliente.|向同事解释项目延期情况，提出可行的截止时间，并商定由谁联系客户。|Expliquez le retard d’un projet à un collègue. Proposez une échéance réaliste et convenez de qui contactera le client.
+Write to your landlord about a leaking kitchen pipe. Describe when it started and its impact, give your availability for a repair and request confirmation.|台所の配管の水漏れについて大家さんにメッセージを書いてください。いつから、どんな支障があるか説明し、修理に立ち会える時間を伝えて確認をお願いしましょう。|Escribe al propietario sobre una fuga en la cocina. Explica cuándo empezó y sus consecuencias, indica cuándo puedes recibir al técnico y pide confirmación.|Escreva ao proprietário sobre um cano vazando na cozinha. Explique quando começou e o impacto, informe sua disponibilidade para o conserto e peça confirmação.|给房东写消息说明厨房水管漏水，交代开始时间及影响，提供可配合维修的时间并请求确认。|Écrivez au propriétaire au sujet d’une fuite dans la cuisine. Précisez depuis quand et ses conséquences, donnez vos disponibilités pour la réparation et demandez confirmation.
+Call your landlord about a leaking kitchen pipe. Explain the problem, arrange access for a repair and confirm the next step.|台所の配管の水漏れについて大家さんに電話してください。状況を説明し、修理のための入室を相談して、次の対応を確認しましょう。|Llama al propietario por una fuga en la cocina. Explica el problema, acuerda el acceso para repararla y confirma el siguiente paso.|Ligue para o proprietário sobre um cano vazando na cozinha. Explique o problema, combine o acesso para o conserto e confirme o próximo passo.|致电房东说明厨房水管漏水，安排维修人员入户，并确认下一步处理。|Appelez le propriétaire pour une fuite dans la cuisine. Expliquez le problème, organisez l’accès pour la réparation et confirmez la prochaine étape.
 `;
 export const focusCopy=Object.fromEntries(rows.trim().split('\n').filter(Boolean).map(line=>{const [k,...v]=line.split('|');if(v.length!==5)throw Error('Focused practice translation missing: '+k);return [k,Object.fromEntries(['ja','es','pt','zh','fr'].map((l,i)=>[l,v[i]]))]}));
