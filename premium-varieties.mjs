@@ -51,3 +51,43 @@ const references={
  ja:[['Japan Foundation: Kansai expressions','https://www.jpf.go.jp/j/project/japanese/teach/tsushin/hint/201107.html']]
 };
 for(const course of varietyCourses)course.references=references[course.language].map(([title,url])=>({title,url}));
+
+// Listening assesses meaning and regional vocabulary, never an unreviewed accent.
+// Locale selection requests a regional style; it is not proof of authenticity.
+const regionalListening={
+ en:{0:['en-AU','Australia'],4:['en-GB','Britain']},
+ es:{0:['es-AR','Río de la Plata (Argentina)'],4:['es-MX','Mexico']},
+ pt:{0:['pt-PT','Portugal'],4:['pt-PT','Portugal']},
+ ja:{0:['ja-JP-kansai','Kansai'],4:['ja-JP-kansai','Kansai']}
+};
+for(const course of varietyCourses){
+ course.contentVersion=2;
+ course.explanation='Compare the forms and vocabulary in context, then listen for meaning. Regional labels describe tendencies, not every speaker. The AI audio requests a regional style but has not been independently reviewed; it is not evidence of an authentic accent.';
+ course.questions=course.questions.map((q,i)=>regionalListening[course.language][i]?{...q,type:'listening',audio:q.context,context:'',audioLocale:regionalListening[course.language][i][0],audioRegion:regionalListening[course.language][i][1],audioKind:'regional-synthesis',listeningTarget:'meaning'}:q);
+}
+const riverPlate=varietyCourses.find(c=>c.language==='es');
+riverPlate.breakdown={
+ steps:[
+  'In familiar Río de la Plata speech, vos replaces tú. Present indicative forms usually stress the final syllable: hablás, comés, vivís.',
+  'For regular affirmative commands, drop the final r of the infinitive and stress the final vowel: hablar → hablá; comer → comé; vivir → viví.',
+  'Some frequent verbs differ: vos sos, tenés, venís, podés, querés; affirmative commands include sé, tené, vení, poné, hacé and decí. Ir uses andá.',
+  'Object and reflexive pronouns remain te, and possessives remain tu/tuyo: vos te llamás; tu casa. Vos is singular; ustedes is plural.',
+  'These tables cover familiar affirmative commands and present indicative, not every tense. Past and future usually use the same forms as tú. Negative commands and subjunctives vary; do not extend the affirmative rule automatically.'
+ ],
+ tables:[
+  {caption:'Río de la Plata: present indicative — tú and vos',headers:['Infinitive','tú','vos'],rows:[['hablar','hablas','hablás'],['comer','comes','comés'],['vivir','vives','vivís'],['ser','eres','sos'],['tener','tienes','tenés'],['venir','vienes','venís'],['poder','puedes','podés'],['querer','quieres','querés'],['decir','dices','decís']]},
+  {caption:'Río de la Plata: affirmative singular commands',headers:['Infinitive','tú','vos'],rows:[['hablar','habla','hablá'],['comer','come','comé'],['vivir','vive','viví'],['ser','sé','sé'],['tener','ten','tené'],['venir','ven','vení'],['poner','pon','poné'],['hacer','haz','hacé'],['decir','di','decí'],['ir','ve','andá']]},
+  {caption:'Forms of address in context',headers:['Use','Form','Example'],rows:[['Familiar singular, Río de la Plata','vos','¿Vos tenés tiempo?'],['Familiar singular, many other varieties','tú','¿Tú tienes tiempo?'],['Plural, Latin America','ustedes','¿Ustedes tienen tiempo?'],['Familiar plural, much of Spain','vosotros','¿Vosotros tenéis tiempo?']]}
+ ],
+ pitfall:'Argentina has internal variation, and voseo also occurs outside Argentina with different patterns. Do not treat these forms as universal Latin American Spanish. Accent marks distinguish forms such as habla and hablá. The audio is unreviewed synthesis, so use these written tables for form and stress guidance, not as certification of a regional pronunciation.',
+ examples:[['¿Vos tenés tiempo mañana?','Do you have time tomorrow? (familiar singular)'],['Vení mañana y hablá con Ana.','Come tomorrow and speak to Ana.'],['Vos te llamás Ana, ¿no?','Your name is Ana, right?']]
+};
+riverPlate.questions[3]=reorder('Build a familiar affirmative instruction used in Río de la Plata.','Ask one friend to come tomorrow and speak to Ana.',['Ana.','con','hablá','y','mañana','Vení'],'Vení mañana y hablá con Ana.','Vení and hablá are familiar singular affirmative vos commands. Tú uses ven and habla.');
+riverPlate.questions[5]=fill('Complete the present indicative vos form of tener.','¿Vos ____ tiempo mañana?','tenés','Vos tenés is familiar singular in Río de la Plata. Tú tienes and ustedes tienen address different forms; keep the written accent in tenés.');
+riverPlate.references.push({title:'RAE: voseo',url:'https://www.rae.es/dpd/voseo'});
+const comparisonTables={
+ en:{steps:['Choose vocabulary for the setting and audience, not just a national label.','Use a neutral clarification request when a local term is unfamiliar.'],tables:[{caption:'Everyday vocabulary and register',headers:['British usage','American usage','Australian informal usage'],rows:[['flat','apartment','flat / apartment'],['lift','elevator','lift'],['afternoon','afternoon','arvo'],['flip-flops','flip-flops','thongs']]}],pitfall:'These are common preferences, not exclusive national rules. Arvo and thongs are informal or context-dependent; vocabulary alone does not identify an accent.',examples:[['Could you explain what that means here?','Ask for clarification without judging the speaker.']]},
+ pt:{steps:['To describe an ongoing action, conjugate estar for the subject.','Brazil commonly uses estar + gerund; Portugal commonly uses estar a + infinitive. Both patterns occur with regional variation.'],tables:[{caption:'An action in progress: Brazil and Portugal',headers:['Subject','Brazil: estudar','Portugal: estudar'],rows:[['eu','estou estudando','estou a estudar'],['tu','estás estudando','estás a estudar'],['você / ele / ela','está estudando','está a estudar'],['nós','estamos estudando','estamos a estudar'],['vocês / eles / elas','estão estudando','estão a estudar']]}],pitfall:'Gerunds also occur in Portugal. Tu and você vary in frequency, agreement and social meaning across communities; they are not interchangeable in every setting.',examples:[['Estou esperando o ônibus.','A common Brazilian way to say I am waiting for the bus.'],['Estou a esperar o autocarro.','A common Portuguese way to say I am waiting for the bus.']]},
+ ja:{steps:['Interpret Kansai expressions using the situation and relationship.','Choose formal written Japanese for a formal report; regional everyday forms remain appropriate in many conversations.'],tables:[{caption:'Kansai expressions in context',headers:['Kansai expression','Standard equivalent','Meaning'],rows:[['おおきに','ありがとう','Thanks'],['ほんま','本当','Really / true'],['あかん','だめ','Not good / not allowed'],['なんぼ','いくら','How much'],['ほな','じゃあ / それでは','Well then']]}],pitfall:'Kansai is not one uniform dialect. Meanings, frequency and intonation vary by community, age and context. A written equivalent does not establish an accent.',examples:[['これ、なんぼですか。','How much is this?'],['ほな、また明日。','Well then, see you tomorrow.']]}
+};
+for(const course of varietyCourses)if(comparisonTables[course.language])course.breakdown=comparisonTables[course.language];
