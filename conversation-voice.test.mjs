@@ -45,3 +45,21 @@ test('blocked natural autoplay pauses with an error instead of pretending to spe
 test('decoding cannot detach the bytes subsequently used for media playback',async()=>{
  const wav=new ArrayBuffer(120);const loop=new ConversationVoiceLoop({fetchImpl:async()=>({ok:true,headers:new Headers({'Content-Type':'audio/wav'}),arrayBuffer:async()=>wav})});loop.active=true;loop.epoch=1;loop.player={};loop.context={decodeAudioData:async bytes=>{structuredClone(bytes,{transfer:[bytes]});return {duration:1}}};let played=0;loop.playMedia=async bytes=>{assert.equal(bytes.byteLength,120);played++};await loop.speak('/audio',1);assert.equal(played,1);
 });
+test('manual device voice resumes paused synthesis and reads the current reply without a network roundtrip',async()=>{
+ const states=[],order=[];let actual;const synth={getVoices:()=>[{lang:'en-GB',name:'English'}],cancel:()=>order.push('cancel'),resume:()=>order.push('resume'),speak:u=>{actual=u;assert.deepEqual(states,[]);queueMicrotask(()=>{u.onstart();u.onend()})}};
+ const loop=new ConversationVoiceLoop({deviceVoice:true,host:{speechSynthesis:synth,SpeechSynthesisUtterance:class{constructor(text){this.text=text}}},onState:s=>states.push(s),fetchImpl:()=>assert.fail('Do not fetch a reply already saved in the UI')});loop.active=true;loop.epoch=1;loop.currentText='The current assistant reply.';loop.currentLocale='en-US';
+ await loop.speak('/audio',1);assert.equal(actual.text,loop.currentText);assert.equal(actual.voice.lang,'en-GB');assert.equal(actual.rate,.9);assert.equal(actual.volume,1);assert.deepEqual(states,['speaking']);assert.deepEqual(order.slice(0,2),['cancel','resume']);
+});
+test('device voice waits for asynchronously loaded voices and cancellation prevents late speech',async()=>{
+ let voices=[],changed,spoken=0;const synth={getVoices:()=>voices,addEventListener:(name,fn)=>changed=fn,removeEventListener(){},cancel(){},resume(){},speak:u=>{spoken++;queueMicrotask(()=>{u.onstart();u.onend()})}};const host={speechSynthesis:synth,SpeechSynthesisUtterance:class{constructor(text){this.text=text}}};
+ const loop=new ConversationVoiceLoop({host});loop.active=true;loop.epoch=1;loop.currentText='Olá.';loop.currentLocale='pt-BR';const ready=loop.speakDevice(1);voices=[{lang:'pt-BR'}];changed();await ready;assert.equal(spoken,1);
+ voices=[];loop.active=true;loop.epoch=2;const pending=loop.speakDevice(2);loop.stop();voices=[{lang:'pt-BR'}];await pending;assert.equal(spoken,1);
+});
+test('silent device synthesis cannot remain in a false speaking state',async()=>{
+ const states=[];const loop=new ConversationVoiceLoop({host:{speechSynthesis:{getVoices:()=>[{lang:'en-US'}],cancel(){},resume(){},speak(){}},SpeechSynthesisUtterance:class{}},onState:s=>states.push(s)});loop.active=true;loop.epoch=1;loop.currentText='Hello.';loop.deviceStartTimeout=10;
+ await assert.rejects(loop.speakDevice(1),/Resume conversation/);assert.deepEqual(states,[]);
+});
+test('device speech is unlocked synchronously before microphone permission awaits',async()=>{
+ const order=[];let permit;const host={speechSynthesis:{cancel(){},resume(){order.push('resume')},speak:u=>{assert.equal(u.volume,0);assert.ok(u.text.trim());order.push('prime')}},SpeechSynthesisUtterance:class{constructor(text){this.text=text}},AudioContext:class{resume(){order.push('context');return Promise.resolve()}close(){return Promise.resolve()}},MediaRecorder:class{},navigator:{mediaDevices:{getUserMedia:()=>{order.push('permission');return new Promise(r=>permit=r)}}}};
+ const loop=new ConversationVoiceLoop({host,deviceVoice:true});const start=loop.start('/audio',{text:'Hello.',locale:'en-US'});assert.deepEqual(order.slice(0,3),['resume','prime','context']);await new Promise(r=>setTimeout(r,0));assert.ok(order.indexOf('prime')<order.indexOf('permission'));loop.stop();permit({getTracks:()=>[]});await start;
+});

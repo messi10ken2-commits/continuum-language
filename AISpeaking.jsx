@@ -43,12 +43,12 @@ export default function AISpeaking({language,user,onBack}){
    onTurn:async audio=>{
     if(pending.current)throw Error('A reply is still being prepared. Please wait.');
     pending.current=true;if(mounted.current)setBusy(true);
-    try{const s=sessionRef.current;const d=await request('/'+s.id+'/turn',{revision:s.revision,turnKey:key.current,aiConsent:true,audio,prefetchAudio:!voice.current?.deviceVoice},controller.current.signal);accept(d.session);key.current=crypto.randomUUID();return audioURL(d.session);}
+    try{const s=sessionRef.current;const d=await request('/'+s.id+'/turn',{revision:s.revision,turnKey:key.current,aiConsent:true,audio,prefetchAudio:!voice.current?.deviceVoice},controller.current.signal);accept(d.session);key.current=crypto.randomUUID();return {url:audioURL(d.session),text:d.session.messages.at(-1).text,locale};}
     finally{pending.current=false;if(mounted.current)setBusy(false);}
    }
   });
   voice.current.deviceVoice=deviceVoice;voice.current.silenceMs=longPause?2200:1300;
-  void voice.current.start(audioURL(sessionRef.current));
+  void voice.current.start(audioURL(sessionRef.current),{text:sessionRef.current.messages.at(-1).text,locale});
  };
  const send=()=>run(async()=>{setReviewFailed(false);const d=await request('/'+session.id+'/turn',{revision:session.revision,turnKey:key.current,aiConsent:consent,text},controller.current.signal);accept(d.session);if(mounted.current){setText('');key.current=crypto.randomUUID();}});
  const review=(refreshScores=false)=>{pauseVoice();setReviewFailed(false);return run(async()=>{setReviewPending(true);try{const d=await request('/'+session.id+'/review',{revision:session.revision,aiConsent:consent,refreshScores:refreshScores===true},controller.current.signal);accept(d.session)}catch(e){setReviewFailed(true);throw e}finally{setReviewPending(false)}})};
