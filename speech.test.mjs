@@ -94,3 +94,11 @@ test('conversation partner voices vary and cannot reuse another persona audio ca
  }
  assert.equal(keys.size,5);assert.equal(voices.size,5);assert.equal(geminiVoices.size,5);assert.ok(!keys.has(speechKey(text,locale)));assert.throws(()=>speechKey(text,locale,'arbitrary-client-voice'));
 });
+
+test('regional synthesis requests explicit styles, keeps locales apart and rejects unknown locales',()=>{
+ for(const [locale,pattern] of [['en-AU',/Australian/],['en-GB',/British/],['es-AR',/rioplatense/],['es-MX',/mexicano/],['pt-PT',/europeu/],['ja-JP-kansai',/関西/]]){
+  assert.match(speechRecipe('Sample',locale).instructions,pattern);
+  assert.notEqual(speechKey('Sample',locale),speechKey('Sample','en-US'));
+ }
+ assert.throws(()=>speechRecipe('Sample','unknown'),/Unsupported/);
+});

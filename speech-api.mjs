@@ -61,5 +61,5 @@ export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limi
   }
   try{result=await inFlight.get(key);}catch(e){if(e.status===503){send(res,503,{error:e.message,...(e.retryAfter?{retryAfter:e.retryAfter}:{})},e.retryAfter?{'Retry-After':String(e.retryAfter)}:{});return true;}throw e;}
  }
- const bytes=Buffer.from(result.audio);res.writeHead(200,{'Content-Type':'audio/wav','Content-Length':bytes.length,'Cache-Control':cacheControl||'private, max-age=86400','X-Audio-Source':'AI-generated studio voice','X-Audio-Cache':cached?'hit':'miss','X-Audio-Version':speechVersion});res.end(bytes);return true;
+ const bytes=Buffer.from(result.audio);res.writeHead(200,{'Content-Type':'audio/wav','Content-Length':bytes.length,'Cache-Control':cacheControl||'private, max-age=86400','X-Audio-Source':'AI-generated studio voice','X-Audio-Locale':locale,'X-Audio-Cache':cached?'hit':'miss','X-Audio-Version':speechVersion});res.end(bytes);return true;
 }
