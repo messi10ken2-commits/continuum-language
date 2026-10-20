@@ -22,7 +22,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  if(!route.startsWith('/api/speaking'))return false;
  const user=await required(req,'learner');
  const premium=(await membership(pool,user.id)).premium;
- const visible=s=>({...publicSpeaking(s),review:premium?s.review:basicFeedback(s.review),budget:budgetPublic(s,premium)});
+ const visible=s=>({...publicSpeaking(s),messages:premium?s.messages:s.messages.map(({speechEvidence,...m})=>m),review:premium?s.review:basicFeedback(s.review),budget:budgetPublic(s,premium)});
  const url=new URL(req.url,'http://localhost');
  if(route==='/api/speaking'&&req.method==='GET'){
   const language=url.searchParams.get('language');if(!validSpeakingLanguage(language))fail(400,'Choose a learning language');
