@@ -1,3 +1,4 @@
+import {premiumVideoSources} from './premium-video-lessons.mjs';
 import {serveStudioSpeech} from './speech-api.mjs';
 import {migratePremiumAccess,premiumAccess,handlePremiumAccess} from './premium-access.mjs';
 import Stripe from 'stripe';
@@ -25,9 +26,10 @@ export async function migrateBilling(pool){await pool.query(`
  CREATE TABLE IF NOT EXISTS premium_course_attempts(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),user_id uuid NOT NULL REFERENCES users(id),course_id text NOT NULL,correct integer NOT NULL,total integer NOT NULL,client_key text NOT NULL,created_at timestamptz NOT NULL DEFAULT now(),UNIQUE(user_id,client_key));
  CREATE TABLE IF NOT EXISTS billing_ad_campaign(id integer PRIMARY KEY CHECK(id=1),title text NOT NULL,body text NOT NULL,url text NOT NULL,enabled boolean NOT NULL DEFAULT false);
  `);await migratePremiumAccess(pool)}
-export async function membership(c,userId){
+export async function membership(c,userId,{actual=false}={}){
  const r=(await c.query(`SELECT m.*,EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=m.user_id AND b.blocked) AS blocked FROM billing_memberships m WHERE user_id=$1`,[userId])).rows[0];
  const access=await premiumAccess(c,userId),billingPremium=!!(r&&!r.blocked&&r.status==='active'&&Date.parse(r.paid_until)>Date.now()),tester=!!access.testerActive&&!r?.blocked;
+ if(actual)access.previewMode=null;
  const premium=access.previewMode?access.previewMode==='premium':billingPremium||tester;
  return {tier:premium?'premium':'free',premium,adFree:premium,allFunctions:premium,exclusiveCourses:premium,status:r?.blocked?'payment_review':r?.status||'free',paidUntil:r?.paid_until||null,cancelAtPeriodEnd:r?.cancel_at_period_end||false,customer:!!r?.customer_id,billingPremium,previewMode:access.previewMode,testerUntil:access.testerUntil,testerPermanent:access.testerPermanent,source:access.previewMode?'owner_preview':billingPremium?'subscription':tester?'invitation':'free'};
 }
@@ -100,7 +102,7 @@ export async function handleBillingWebhook({route,req,res,pool,send,fail,stripe}
  });}catch(e){console.warn('Billing webhook retry required',JSON.stringify({type:event.type,code:/^[A-Za-z0-9_]{1,60}$/.test(e.code||'')?e.code:'processing_failed'}));fail(503,'Webhook processing failed; retry required.');}
  send(res,200,{received:true});return true;
 }
-async function status(c,user){await syncClassTickets(c,user.id);const m=await membership(c,user.id),tickets=(await c.query('SELECT id,number,state,booking_id AS "bookingId" FROM premium_class_tickets WHERE user_id=$1 ORDER BY number',[user.id])).rows;let ad=null;if(!m.adFree)ad=(await c.query('SELECT title,body,url FROM billing_ad_campaign WHERE id=1 AND enabled')).rows[0]||null;return {membership:m,tickets,ad,checkoutAvailable:billingReady()&&!m.previewMode,portalAvailable:!!(process.env.STRIPE_SECRET_KEY&&/^https:\/\/[^/]+\/?$/.test(billingSettings().base)),eligibleTeachers:(await c.query("SELECT p.teacher_id FROM premium_class_teachers p JOIN teacher_profiles t ON t.user_id=p.teacher_id WHERE p.enabled AND t.status='approved'")).rows.map(r=>r.teacher_id),maxClassMinutes:billingSettings().maxMinutes,initialTickets:1,owner:isPlatformOwner(user),courses:premiumCourseSummary,progress:(await c.query('SELECT course_id AS id,max(correct) AS best,max(total) AS total FROM premium_course_attempts WHERE user_id=$1 GROUP BY course_id',[user.id])).rows,intervals:[...(process.env.STRIPE_PREMIUM_MONTHLY_PRICE_ID?['month']:[]),...(process.env.STRIPE_PREMIUM_YEARLY_PRICE_ID?['year']:[])]};}
+async function status(c,user){await syncClassTickets(c,user.id);const m=await membership(c,user.id),tickets=(await c.query('SELECT id,number,state,booking_id AS "bookingId" FROM premium_class_tickets WHERE user_id=$1 ORDER BY number',[user.id])).rows;let ad=null;if(!m.adFree)ad=(await c.query('SELECT title,body,url FROM billing_ad_campaign WHERE id=1 AND enabled')).rows[0]||null;return {membership:m,tickets,ad,checkoutAvailable:billingReady()&&!m.previewMode,portalAvailable:!!(process.env.STRIPE_SECRET_KEY&&/^https:\/\/[^/]+\/?$/.test(billingSettings().base)),eligibleTeachers:(await c.query("SELECT p.teacher_id FROM premium_class_teachers p JOIN teacher_profiles t ON t.user_id=p.teacher_id WHERE p.enabled AND t.status='approved'")).rows.map(r=>r.teacher_id),maxClassMinutes:billingSettings().maxMinutes,initialTickets:1,owner:isPlatformOwner(user),courses:premiumCourseSummary,videoSources:premiumVideoSources,progress:(await c.query('SELECT course_id AS id,max(correct) AS best,max(total) AS total FROM premium_course_attempts WHERE user_id=$1 GROUP BY course_id',[user.id])).rows,intervals:[...(process.env.STRIPE_PREMIUM_MONTHLY_PRICE_ID?['month']:[]),...(process.env.STRIPE_PREMIUM_YEARLY_PRICE_ID?['year']:[])]};}
 async function handleBillingCore({route,req,res,pool,required,json,send,fail,limited,stripe}){
  if(!route.startsWith('/api/billing'))return false;const user=await required(req);
  if(await handlePremiumAccess({route,req,res,pool,user,json,send,fail,limited,transaction:billingTransaction}))return true;

@@ -1,4 +1,5 @@
-import {migrateBilling,handleBilling,handleBillingWebhook} from './billing-api.mjs';
+import {visiblePlacement} from './premium-policy.mjs';
+import {migrateBilling,handleBilling,handleBillingWebhook,membership} from './billing-api.mjs';
 import {migrateClassroom,handleClassroom,cancelUnsharedClasses} from './classroom-api.mjs';
 import {warmPatternProvider} from './pattern-provider.mjs';
 import {migrateSpeaking,handleSpeaking} from './speaking-api.mjs';
@@ -174,7 +175,7 @@ async function handle(req,res){
   const c=await pool.connect();try{await c.query('BEGIN');const r=await c.query('UPDATE share_codes SET redeemed_at=now() WHERE code_hash=$1 AND expires_at>now() AND redeemed_at IS NULL AND language IS NOT NULL RETURNING learner_id,language',[hash(code)]);if(!r.rowCount)fail(400,'Code expired or already used');await c.query('INSERT INTO teacher_links(teacher_id,learner_id,languages) VALUES($1,$2,$3) ON CONFLICT(teacher_id,learner_id) DO UPDATE SET languages=ARRAY(SELECT DISTINCT unnest(teacher_links.languages || EXCLUDED.languages))',[teacher.id,r.rows[0].learner_id,[r.rows[0].language]]);await c.query('COMMIT')}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}return send(res,200,{ok:true});
  }
  if(route==='/api/teacher/learners'&&req.method==='GET'){
-  const teacher=await required(req,'teacher');const r=await pool.query('SELECT u.id,u.name,l.languages FROM teacher_links l JOIN users u ON u.id=l.learner_id WHERE l.teacher_id=$1 ORDER BY u.name',[teacher.id]);return send(res,200,{learners:r.rows});
+  const teacher=await required(req,'teacher');const r=await pool.query('SELECT u.id,u.name,l.languages FROM teacher_links l JOIN users u ON u.id=l.learner_id WHERE l.teacher_id=$1 ORDER BY u.name',[teacher.id]);return send(res,200,{learners:await Promise.all(r.rows.map(async learner=>({...learner,membership:{tier:(await membership(pool,learner.id,{actual:true})).tier}})))});
  }
  const match=route.match(/^\/api\/teacher\/learners\/([a-f0-9-]{36})(?:\/(notes))?$/);
  if(match){const teacher=await required(req,'teacher'),learnerId=match[1],scope=await teacherScope(pool,teacher.id,learnerId,fail),allowed=requestedScope(req,scope,fail);
@@ -186,8 +187,9 @@ async function handle(req,res){
     Promise.all(allowed.map(async language=>(await assessmentHistory(pool,learnerId,language)).map(a=>({...a,language})))),
     pool.query('SELECT id,lesson_id AS lesson,target_version AS "targetVersion",score,duration_ms AS "durationMs",method,created_at AS at FROM pronunciation_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC',[learnerId])
    ]):[{rows:[]},[],{rows:[]}];
-   const history=assessments.flat().sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));
-   return send(res,200,{learner:learner.rows[0],attempts:r.rows.filter(inScope).slice(0,50),assessment:history[0]||null,pronunciation:pronunciation.rows.filter(inScope).slice(0,20),sharing:{selfLearning:scope.selfLearning,languages:scope.languages},language:allowed.length===1?allowed[0]:null});
+   const learnerMembership=await membership(pool,learnerId,{actual:true});
+   const history=assessments.flat().map(a=>({...a,result:visiblePlacement(a.result,learnerMembership.premium)})).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));
+   return send(res,200,{learner:learner.rows[0],membership:{tier:learnerMembership.tier},attempts:r.rows.filter(inScope).slice(0,50),assessment:history[0]||null,pronunciation:pronunciation.rows.filter(inScope).slice(0,20),sharing:{selfLearning:scope.selfLearning,languages:scope.languages},language:allowed.length===1?allowed[0]:null});
   }
   if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.revision,n.suggested_lesson_id AS "lessonId",(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 AND n.language=ANY($2::text[]) ORDER BY n.created_at DESC LIMIT 50',[learnerId,allowed]);return send(res,200,{notes:r.rows})}
   if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim(),language=data.language;if(!scope.languages.includes(language))fail(403,'This language is not shared with you');if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note,language) VALUES($1,$2,$3,$4,$5) RETURNING id,teacher_id AS "teacherId",revision,language,focus,note,created_at AS at',[learnerId,teacher.id,focus,note,language]);return send(res,201,{note:r.rows[0]})}

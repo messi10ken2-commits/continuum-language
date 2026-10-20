@@ -21,13 +21,14 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
  if(!route.startsWith('/api/skills'))return false;
  const user=await required(req);
  const premium=(await membership(pool,user.id)).premium;
- const visible=s=>{const task=getSkillTask(s.task||s.task_id);return {...s,...(task?.premium?{taskInfo:{id:task.id,title:task.title,language:task.language,locale:task.locale,skill:task.skill,level:task.level,premium:true}}:{}),result:visibleSkillResult(s.result,premium||user.role==='teacher',{assessment:!!(s.assessment||s.assessment_id)})};};
+ let sharedPremium=false;
+ const visible=s=>{const task=getSkillTask(s.task||s.task_id);return {...s,...(task?.premium?{taskInfo:{id:task.id,title:task.title,language:task.language,locale:task.locale,skill:task.skill,level:task.level,premium:true}}:{}),result:visibleSkillResult(s.result,user.role==='teacher'?sharedPremium:premium,{assessment:!!(s.assessment||s.assessment_id)})};};
  if(route==='/api/skills/catalog'&&req.method==='GET'){send(res,200,{premium,tasks:premiumSkillSummary});return true;}
  const taskRoute=route.match(/^\/api\/skills\/tasks\/([a-z0-9-]+)(?:\/(audio))?$/);if(taskRoute&&req.method==='GET'){if(!premium)fail(403,'Premium is required for scenario-focused practice.');const task=getSkillTask(taskRoute[1]);if(!task?.premium)fail(404,'Practice not found');if(taskRoute[2]){const sample=new URL(req.url,'http://localhost').searchParams.get('sample');return serveStudioSpeech({req,res,pool,text:sample==='model'?task.model:task.audio,locale:task.locale,privateAudio:true,send,fail,limited});}send(res,200,{task});return true;}
  if(route==='/api/skills/ai-status'&&req.method==='GET'){send(res,200,{available:aiConfigured()});return true;}
  if(route==='/api/skills'&&req.method==='GET'){if(user.role!=='learner')fail(403,'Learner account required');const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 ORDER BY created_at DESC LIMIT 100`,[user.id]);send(res,200,{submissions:r.rows.map(visible)});return true;}
  const list=route.match(/^\/api\/skills\/learner\/([a-f0-9-]{36})$/);
- if(list&&req.method==='GET'){if(user.role!=='teacher')fail(403,'Teacher account required');const scope=await skillAccess(pool,user,{user_id:list[1]},fail),allowed=requestedScope(req,scope,fail),ids=[...skillTasks,...premiumSkillTasks].filter(t=>allowed.includes(t.language||'es')).map(t=>t.id);const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 AND task_id=ANY($2::text[]) ORDER BY created_at DESC LIMIT 100`,[list[1],ids]);send(res,200,{submissions:r.rows.map(visible)});return true;}
+ if(list&&req.method==='GET'){if(user.role!=='teacher')fail(403,'Teacher account required');const scope=await skillAccess(pool,user,{user_id:list[1]},fail),allowed=requestedScope(req,scope,fail),ids=[...skillTasks,...premiumSkillTasks].filter(t=>allowed.includes(t.language||'es')).map(t=>t.id);const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 AND task_id=ANY($2::text[]) ORDER BY created_at DESC LIMIT 100`,[list[1],ids]);sharedPremium=(await membership(pool,list[1],{actual:true})).premium;send(res,200,{submissions:r.rows.map(visible)});return true;}
  if(route==='/api/skills'&&req.method==='POST'){
   if(user.role!=='learner')fail(403,'Learner account required');limited(req,'skill-submission',60);
   const data=await json(req),task=getSkillTask(data.task);if(!task||typeof data.submissionKey!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(data.submissionKey))fail(400,'Invalid task');
@@ -46,7 +47,7 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
   if(!r.rows.length)fail(409,'A submission with this key is already saved. Reload your record.');send(res,201,{submission:visible(r.rows[0])});return true;
  }
  const match=route.match(/^\/api\/skills\/([a-f0-9-]{36})(?:\/(review|assess))?$/);
- if(match){const r=await pool.query('SELECT * FROM skill_submissions WHERE id=$1',[match[1]]);const row=r.rows[0];if(!row)fail(404,'Submission not found');await skillAccess(pool,user,row,fail);const task=getSkillTask(row.task_id);
+ if(match){const r=await pool.query('SELECT * FROM skill_submissions WHERE id=$1',[match[1]]);const row=r.rows[0];if(!row)fail(404,'Submission not found');await skillAccess(pool,user,row,fail);if(user.role==='teacher')sharedPremium=(await membership(pool,row.user_id,{actual:true})).premium;const task=getSkillTask(row.task_id);
   if(match[2]==='assess'&&req.method==='POST'){
    if(user.role!=='learner'||user.id!==row.user_id||!task||task.skill==='Listening')fail(403,'Only the learner can request AI assessment of their writing or recording');
    const data=await json(req);if(data.aiConsent!==true)fail(400,'Confirm sending this response to OpenAI for assessment');

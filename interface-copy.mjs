@@ -1,3 +1,4 @@
+import {studioCopy} from './studio-copy.mjs';
 import {invitationCopy} from './invitation-copy.mjs';
 import {focusCopy} from './focus-copy.mjs';
 import {billingCopy} from './billing-copy.mjs';
@@ -211,3 +212,5 @@ Object.assign(interfaceCopy,billingCopy);
 Object.assign(interfaceCopy,focusCopy);
 
 Object.assign(interfaceCopy,invitationCopy);
+
+Object.assign(interfaceCopy,studioCopy);

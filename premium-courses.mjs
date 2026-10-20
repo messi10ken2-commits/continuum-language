@@ -1,3 +1,5 @@
+import {expandedPremiumCourses} from './premium-expansion.mjs';
+import {premiumVideoCourses} from './premium-video-lessons.mjs';
 // Server-only authored courses: answer keys are never bundled into the client.
 const q=(prompt,context,options,answer,note)=>({prompt,context,options,answer,note});
 export const premiumCourses=[
@@ -40,14 +42,14 @@ const distractors={
 for(const c of premiumCourses){c.questions[0].options=distractors[c.language][0];c.questions[0].answer=0;c.questions[5].options=distractors[c.language][1];c.questions[5].answer=0;}
 // Vary answer positions without changing authored meanings.
 for(const course of premiumCourses)course.questions=course.questions.map((item,i)=>{const offset=i%item.options.length;return {...item,options:[...item.options.slice(offset),...item.options.slice(0,offset)],answer:(item.answer-offset+item.options.length)%item.options.length}});
-export const premiumCourseSummary=premiumCourses.map(({id,language,title,description,questions})=>({id,language,title,description,questions:questions.length}));
+
 
 // Mix recognition with production. Existing question IDs/order retain saved score compatibility.
 for(const course of premiumCourses){
  const sample=course.examples[0];
  course.questions[1]={type:'typing',prompt:'Type the sentence you hear.',context:'',audio:sample,answer:sample,note:'Compare the words and word order with the recording.'};
  const sentence=course.examples[1];
- course.questions[2]={type:'reorder',prompt:'Put the words in order to make a practical response.',context:'',tokens:sentence.match(/\S+/g).reverse(),answer:sentence,note:'This order makes the request or response clear and natural.'};
+ course.questions[2]={type:'reorder',prompt:'Put the words in order to make a practical response.',context:'',separator:course.language==='ja'?'':' ',tokens:(course.language==='ja'?sentence.split(/(?<=、)/).filter(Boolean):sentence.match(/\S+/g)).reverse(),answer:sentence,note:'This order makes the request or response clear and natural.'};
  const words=sample.match(/\S+/g),last=words.pop();
  course.questions[4]={type:'cloze',prompt:'Complete the missing word in this practical expression.',context:words.join(' ')+' ____',answer:last,note:'Use the complete expression from this lesson in context.'};
  course.questions[3]={...course.questions[3],type:'listening',audio:course.questions[3].context,context:''};
@@ -56,3 +58,6 @@ export function validCourseAnswer(q,a){return q.type==='typing'||q.type==='cloze
 const normalized=value=>value.normalize('NFKC').toLocaleLowerCase().replace(/[.,!?。、「」！？]/g,'').replace(/\s+/g,' ').trim();
 export function gradeCourseAnswer(q,a){return typeof q.answer==='string'?typeof a==='string'&&normalized(a)===normalized(q.answer):a===q.answer;}
 export const courseAnswerText=q=>typeof q.answer==='string'?q.answer:q.options[q.answer];
+
+premiumCourses.push(...expandedPremiumCourses,...premiumVideoCourses);
+export const premiumCourseSummary=premiumCourses.map(({id,language,title,description,questions})=>({id,language,title,description,questions:questions.length}));
