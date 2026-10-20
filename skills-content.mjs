@@ -43,3 +43,5 @@ skillTasks.push(...internationalSkills,...internationalProductionSkills);
 export const getSkillTask=id=>skillTasks.find(t=>t.id===id);
 export const rubricFor=skill=>skill==='Writing'?['Task fulfilment','Organisation and cohesion','Vocabulary and register','Grammatical control']:['Task fulfilment','Fluency and coherence','Vocabulary and grammar','Intelligibility'];
 export const rubricAnchors=['0 · No assessable evidence','1 · Limited; frequent support needed','2 · Partly effective; meaning sometimes unclear','3 · Effective for the task; some lapses','4 · Consistently effective and clear'];
+
+export function registerSkillTask(task){if(task?.premium){const old=getSkillTask(task.id);if(!old)skillTasks.push(task);else if(task.prompt)Object.assign(old,task);}return task;}

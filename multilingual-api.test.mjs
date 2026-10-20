@@ -6,6 +6,7 @@ const base='http://127.0.0.1:'+testServer.address().port;let cookie;
 async function call(path,method='GET',body){const r=await fetch(base+'/api'+path,{method,headers:{'Content-Type':'application/json',...(cookie?{cookie}:{})},...(body?{body:JSON.stringify(body)}:{})});const data=await r.json();if(!cookie)cookie=r.headers.get('set-cookie')?.split(';')[0];return {status:r.status,data};}
 try{
  assert.equal((await call('/auth/register','POST',{name:'Multilingual Test',email:'multi@example.test',password:'synthetic-test-password',role:'learner',adult:true})).status,200);
+ await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) SELECT id,'active',now()+interval '1 day' FROM users WHERE email='multi@example.test'");
  const sessions={};
  for(const lang of ['es','ja','pt','en']){const r=await call('/assessments?language='+lang,'POST',{});assert.equal(r.status,200,JSON.stringify(r.data));sessions[lang]=r.data.session;assert.ok(sessions[lang].version.startsWith(lang));}
  assert.equal(new Set(Object.values(sessions).map(s=>s.id)).size,4);

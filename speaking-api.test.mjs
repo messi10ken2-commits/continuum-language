@@ -24,6 +24,7 @@ async function call(path,method='GET',body,cookie){const r=await originalFetch(b
 try{
  const register=(name,role='learner')=>call('/auth/register','POST',{name,email:name+'@example.test',password:'synthetic-test-password',role,adult:true});
  const a=await register('speaking-owner'),b=await register('speaking-other'),teacher=await register('speaking-teacher','teacher');
+ await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[a.data.user.id]);
  assert.equal(a.status,200);assert.equal((await call('/speaking?language=en')).status,401);assert.equal((await call('/speaking?language=en','GET',null,teacher.cookie)).status,403);
  const create=language=>call('/speaking','POST',{language,scenario:'cafe',level:'B1',displayLanguage:'ja',aiConsent:true},a.cookie);
  assert.equal((await call('/speaking','POST',{language:'en',scenario:'cafe',level:'B1',displayLanguage:'ja'},a.cookie)).status,400);

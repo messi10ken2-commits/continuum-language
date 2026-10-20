@@ -6,7 +6,7 @@ Your plan|利用中のプラン|Tu plan|Seu plano|你的方案|Votre formule
 Ad-free learning|広告なしで学習|Aprender sin anuncios|Aprendizado sem anúncios|无广告学习|Apprentissage sans publicité
 All learning features|すべての学習機能|Todas las funciones de aprendizaje|Todos os recursos de aprendizado|全部学习功能|Toutes les fonctions d’apprentissage
 Exclusive courses|Premium限定コース|Cursos exclusivos|Cursos exclusivos|专属课程|Cours exclusifs
-Three introductory class tickets|初回オンライン授業3回分のチケット|Tres bonos iniciales para clases|Três créditos iniciais para aulas|三张首次在线课程券|Trois crédits de cours de bienvenue
+One introductory class ticket|初回オンライン授業1回分のチケット|Un bono inicial para una clase|Um crédito inicial para uma aula|一张首次在线课程券|Un crédit de cours de bienvenue
 Tickets are granted once after your first successful paid subscription. Renewals and rejoining do not add tickets.|チケットは初回の有料契約の支払い完了後に一度だけ付与されます。更新や再加入では増えません。|Los bonos se conceden una sola vez tras el primer pago. No se añaden al renovar ni al volver a suscribirte.|Os créditos são concedidos uma única vez após o primeiro pagamento. Renovações e novas assinaturas não geram mais créditos.|首次订阅付款成功后仅发放一次。续费或重新订阅不会重复发券。|Les crédits sont accordés une seule fois après le premier paiement. Les renouvellements et réabonnements n’en ajoutent pas.
 Use tickets for eligible classes with participating teachers. Duration limits apply.|対象教師の特典授業に利用できます。授業時間の上限があります。|Úsalos en clases elegibles con docentes participantes. Se aplican límites de duración.|Use em aulas elegíveis com professores participantes. Há limite de duração.|可用于参与计划教师的指定课程，并有课时长度限制。|Utilisables pour les cours éligibles des enseignants participants, avec une durée maximale.
 Review price on Stripe|Stripeで料金を確認|Ver precio en Stripe|Ver preço no Stripe|在Stripe查看价格|Voir le prix sur Stripe

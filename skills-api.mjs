@@ -1,9 +1,14 @@
+import {serveStudioSpeech} from './speech-api.mjs';
+import {premiumSkillTasks,premiumSkillSummary} from './premium-skills.mjs';
+import {membership} from './billing-api.mjs';
+import {visibleSkillResult} from './premium-policy.mjs';
 import {validInterfaceLanguage} from './interface-languages.mjs';
 import {teacherScope,requestedScope} from './teacher-access.mjs';
 import {aiConfigured,savedSkillResult} from './ai-assessment.mjs';
 const pendingAI=new Set();
 import {isDeepStrictEqual} from 'node:util';
-import {getSkillTask,rubricFor,skillTasks} from './skills-content.mjs';
+import {getSkillTask as getCoreSkillTask,rubricFor,skillTasks} from './skills-content.mjs';
+const getSkillTask=id=>getCoreSkillTask(id)||premiumSkillTasks.find(t=>t.id===id);
 export async function migrateSkills(pool){await pool.query(`CREATE TABLE IF NOT EXISTS skill_submissions (
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
  task_id text NOT NULL, assessment_id uuid REFERENCES assessments(id) ON DELETE CASCADE,
@@ -15,15 +20,20 @@ export async function skillAccess(pool,user,row,fail){if(user.id===row.user_id)r
 export async function handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}){
  if(!route.startsWith('/api/skills'))return false;
  const user=await required(req);
+ const premium=(await membership(pool,user.id)).premium;
+ const visible=s=>{const task=getSkillTask(s.task||s.task_id);return {...s,...(task?.premium?{taskInfo:{id:task.id,title:task.title,language:task.language,locale:task.locale,skill:task.skill,level:task.level,premium:true}}:{}),result:visibleSkillResult(s.result,premium||user.role==='teacher',{assessment:!!(s.assessment||s.assessment_id)})};};
+ if(route==='/api/skills/catalog'&&req.method==='GET'){send(res,200,{premium,tasks:premiumSkillSummary});return true;}
+ const taskRoute=route.match(/^\/api\/skills\/tasks\/([a-z0-9-]+)(?:\/(audio))?$/);if(taskRoute&&req.method==='GET'){if(!premium)fail(403,'Premium is required for scenario-focused practice.');const task=getSkillTask(taskRoute[1]);if(!task?.premium)fail(404,'Practice not found');if(taskRoute[2]){const sample=new URL(req.url,'http://localhost').searchParams.get('sample');return serveStudioSpeech({req,res,pool,text:sample==='model'?task.model:task.audio,locale:task.locale,privateAudio:true,send,fail,limited});}send(res,200,{task});return true;}
  if(route==='/api/skills/ai-status'&&req.method==='GET'){send(res,200,{available:aiConfigured()});return true;}
- if(route==='/api/skills'&&req.method==='GET'){if(user.role!=='learner')fail(403,'Learner account required');const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 ORDER BY created_at DESC LIMIT 100`,[user.id]);send(res,200,{submissions:r.rows});return true;}
+ if(route==='/api/skills'&&req.method==='GET'){if(user.role!=='learner')fail(403,'Learner account required');const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 ORDER BY created_at DESC LIMIT 100`,[user.id]);send(res,200,{submissions:r.rows.map(visible)});return true;}
  const list=route.match(/^\/api\/skills\/learner\/([a-f0-9-]{36})$/);
- if(list&&req.method==='GET'){if(user.role!=='teacher')fail(403,'Teacher account required');const scope=await skillAccess(pool,user,{user_id:list[1]},fail),allowed=requestedScope(req,scope,fail),ids=skillTasks.filter(t=>allowed.includes(t.language||'es')).map(t=>t.id);const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 AND task_id=ANY($2::text[]) ORDER BY created_at DESC LIMIT 100`,[list[1],ids]);send(res,200,{submissions:r.rows});return true;}
+ if(list&&req.method==='GET'){if(user.role!=='teacher')fail(403,'Teacher account required');const scope=await skillAccess(pool,user,{user_id:list[1]},fail),allowed=requestedScope(req,scope,fail),ids=[...skillTasks,...premiumSkillTasks].filter(t=>allowed.includes(t.language||'es')).map(t=>t.id);const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 AND task_id=ANY($2::text[]) ORDER BY created_at DESC LIMIT 100`,[list[1],ids]);send(res,200,{submissions:r.rows.map(visible)});return true;}
  if(route==='/api/skills'&&req.method==='POST'){
   if(user.role!=='learner')fail(403,'Learner account required');limited(req,'skill-submission',60);
   const data=await json(req),task=getSkillTask(data.task);if(!task||typeof data.submissionKey!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(data.submissionKey))fail(400,'Invalid task');
   const old=await pool.query(`SELECT ${fields},response FROM skill_submissions WHERE user_id=$1 AND submission_key=$2`,[user.id,data.submissionKey]);
-  if(old.rows.length){const previous=old.rows[0];if(previous.task!==task.id||previous.assessment!==(data.assessment||null)||!isDeepStrictEqual(previous.response,data.response))fail(409,'Submission key already used');delete previous.response;send(res,200,{submission:previous});return true;}
+  if(old.rows.length){const previous=old.rows[0];if(previous.task!==task.id||previous.assessment!==(data.assessment||null)||!isDeepStrictEqual(previous.response,data.response))fail(409,'Submission key already used');delete previous.response;send(res,200,{submission:visible(previous)});return true;}
+  if(task.premium&&!premium)fail(403,'Premium is required for scenario-focused practice.');
   let taskPrompt=task.prompt;
   if(data.assessment&&!/^[a-f0-9-]{36}$/.test(data.assessment))fail(400,'Invalid assessment');
   if(data.assessment){const r=await pool.query('SELECT * FROM assessments WHERE id=$1 AND user_id=$2',[data.assessment,user.id]);const a=r.rows[0];if(!a||a.completed_at||!/-diagnostic-[234]$/.test(a.version))fail(400,'Active test not found');const {publicAssessment}=await import('./assessment-bank.mjs');const current=publicAssessment(a).question;taskPrompt=current?.task?.prompt; if(current?.task?.id!==task.id)fail(409,'This task is not the current assessment section');}
@@ -33,7 +43,7 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
   else {if(!response||typeof response.audio!=='string'||response.audio.length>1400000||!/^data:audio\/(webm|mp4|ogg|wav)(;codecs=(?:[a-zA-Z0-9.,-]+|"[a-zA-Z0-9., -]+"))?;base64,[A-Za-z0-9+/]+=*$/.test(response.audio)||!Number.isFinite(response.seconds)||response.seconds<1||response.seconds>95)fail(400,'Record a valid audio clip (up to 90 seconds / 1 MB)');const encoded=response.audio.split(',')[1];if(Buffer.from(encoded,'base64').length<100)fail(400,'Recording is empty');result=savedSkillResult();result.duration=response.seconds;}
   result={...result,taskPrompt};
   const r=await pool.query(`INSERT INTO skill_submissions(user_id,task_id,assessment_id,response,result,submission_key) VALUES($1,$2,$3,$4::jsonb,$5::jsonb,$6) ON CONFLICT(user_id,submission_key) DO NOTHING RETURNING ${fields}`,[user.id,task.id,data.assessment||null,JSON.stringify(response),JSON.stringify(result),data.submissionKey]);
-  if(!r.rows.length)fail(409,'A submission with this key is already saved. Reload your record.');send(res,201,{submission:r.rows[0]});return true;
+  if(!r.rows.length)fail(409,'A submission with this key is already saved. Reload your record.');send(res,201,{submission:visible(r.rows[0])});return true;
  }
  const match=route.match(/^\/api\/skills\/([a-f0-9-]{36})(?:\/(review|assess))?$/);
  if(match){const r=await pool.query('SELECT * FROM skill_submissions WHERE id=$1',[match[1]]);const row=r.rows[0];if(!row)fail(404,'Submission not found');await skillAccess(pool,user,row,fail);const task=getSkillTask(row.task_id);
@@ -41,7 +51,7 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
    if(user.role!=='learner'||user.id!==row.user_id||!task||task.skill==='Listening')fail(403,'Only the learner can request AI assessment of their writing or recording');
    const data=await json(req);if(data.aiConsent!==true)fail(400,'Confirm sending this response to OpenAI for assessment');
    if(data.displayLanguage!==undefined&&!validInterfaceLanguage(data.displayLanguage))fail(400,'Choose a display language');
-   if((row.result.aiAssessment||row.result).evaluationVersion==='skill-evidence-v3'){send(res,200,{result:row.result});return true;}
+   if((row.result.aiAssessment||row.result).evaluationVersion==='skill-evidence-v3'){send(res,200,{result:visible(row).result});return true;}
    if(!aiConfigured()){send(res,503,{error:'AI assessment is not connected yet. Your response is saved.'});return true;}
    limited(req,'ai-assessment',10);if(pendingAI.has(user.id))fail(409,'An AI assessment is already running. Please wait.');
    pendingAI.add(user.id);
@@ -51,12 +61,12 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
     const previous=fresh.rows[0].result;
     const result=previous.status==='reviewed'?{...previous,aiAssessment:ai}:{...previous,...ai,aiAssessment:ai};
     await pool.query('UPDATE skill_submissions SET result=$2::jsonb WHERE id=$1',[row.id,JSON.stringify(result)]);
-    send(res,200,{result});return true;
+    send(res,200,{result:visible({...row,result}).result});return true;
    }catch(e){send(res,502,{error:e.message||'AI assessment unavailable. Your response is saved.'});return true;}
    finally{pendingAI.delete(user.id);}
   }
-  if(!match[2]&&req.method==='GET'){send(res,200,{submission:{id:row.id,task:row.task_id,assessment:row.assessment_id,response:row.response,result:row.result,at:row.created_at}});return true;}
-  if(match[2]&&req.method==='PUT'){if(user.role!=='teacher'||task.skill==='Listening')fail(403,'Teacher review required');const data=await json(req),criteria=rubricFor(task.skill);if(!Array.isArray(data.ratings)||data.ratings.length!==criteria.length||data.ratings.some(n=>!Number.isInteger(n)||n<0||n>4)||typeof data.feedback!=='string'||data.feedback.trim().length<10||data.feedback.length>3000)fail(400,'Rate all four criteria and add specific feedback');const result={...row.result,status:'reviewed',score:Math.round(data.ratings.reduce((a,b)=>a+b,0)/16*100),criteria,ratings:data.ratings,feedback:data.feedback,reviewer:user.name,reviewedAt:new Date().toISOString()};await pool.query('UPDATE skill_submissions SET result=$2::jsonb WHERE id=$1',[row.id,JSON.stringify(result)]);send(res,200,{result});return true;}
+  if(!match[2]&&req.method==='GET'){send(res,200,{taskInfo:task?.premium?{id:task.id,title:task.title,language:task.language,locale:task.locale,skill:task.skill,level:task.level,premium:true}:undefined,submission:visible({id:row.id,task:row.task_id,assessment:row.assessment_id,response:row.response,result:row.result,at:row.created_at})});return true;}
+  if(match[2]&&req.method==='PUT'){if(user.role!=='teacher'||task.skill==='Listening')fail(403,'Teacher review required');const data=await json(req),criteria=rubricFor(task.skill);if(!Array.isArray(data.ratings)||data.ratings.length!==criteria.length||data.ratings.some(n=>!Number.isInteger(n)||n<0||n>4)||typeof data.feedback!=='string'||data.feedback.trim().length<10||data.feedback.length>3000)fail(400,'Rate all four criteria and add specific feedback');const result={...row.result,status:'reviewed',score:Math.round(data.ratings.reduce((a,b)=>a+b,0)/16*100),criteria,ratings:data.ratings,feedback:data.feedback,reviewer:user.name,reviewedAt:new Date().toISOString()};await pool.query('UPDATE skill_submissions SET result=$2::jsonb WHERE id=$1',[row.id,JSON.stringify(result)]);send(res,200,{result:visible({...row,result}).result});return true;}
  }
  fail(404,'Skills endpoint not found');
 }

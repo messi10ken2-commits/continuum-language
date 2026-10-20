@@ -38,11 +38,13 @@ try{
  // A success redirect is not evidence of a payment.
  assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.premium,false);
  const customer=customers.get(a.id),sub=paid(customer);assert.equal((await webhook('invoice.paid',{id:'in_first',customer},'evt_paid')).status,200);
- r=await api('/billing','GET',null,a.cookie);assert.equal(r.data.membership.premium,true);assert.equal(r.data.tickets.filter(t=>t.state==='available').length,3);
- await webhook('invoice.paid',{id:'in_first',customer},'evt_paid');paid(customer,'in_second');await webhook('invoice.paid',{id:'in_second',customer});assert.equal((await api('/billing','GET',null,a.cookie)).data.tickets.length,3);
+ r=await api('/billing','GET',null,a.cookie);assert.equal(r.data.membership.premium,true);assert.equal(r.data.tickets.filter(t=>t.state==='available').length,1);
+ await webhook('invoice.paid',{id:'in_first',customer},'evt_paid');paid(customer,'in_second');await webhook('invoice.paid',{id:'in_second',customer});assert.equal((await api('/billing','GET',null,a.cookie)).data.tickets.length,1);
  assert.equal((await checkout()).status,409);
  const open=await api('/billing/courses/en-workplace-diplomacy','GET',null,a.cookie);assert.equal(open.status,200);assert.ok(!Object.hasOwn(open.data.course.questions[0],'answer'));assert.ok(!Object.hasOwn(open.data.course.questions[0],'note'));
  const correct=premiumCourses[0].questions.map(q=>q.answer);const result=await api('/billing/courses/en-workplace-diplomacy/finish','POST',{answers:correct,key:crypto.randomUUID()},a.cookie);assert.equal(result.data.correct,6);
+ // Preserve legacy three-ticket grants without awarding extra tickets on renewal.
+ await db.query("INSERT INTO premium_class_tickets(user_id,number) VALUES($1,2),($1,3)",[a.id]);
  // Real slot reservation consumes exactly one ticket and cancellation returns it.
  await db.query("INSERT INTO teacher_profiles(user_id,status,data) VALUES($1,'approved',$2)",[teacher.id,JSON.stringify({languages:['en']})]);await db.query('INSERT INTO teacher_links(teacher_id,learner_id,languages) VALUES($1,$2,$3)',[teacher.id,a.id,['en']]);
  assert.equal((await api('/billing/admin','PUT',{teacherId:teacher.id,enabled:true},a.cookie)).status,200);

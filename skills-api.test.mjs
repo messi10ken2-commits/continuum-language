@@ -10,6 +10,7 @@ async function call(path,method='GET',body,cookie){const r=await fetch(base+'/ap
 async function account(name,role='learner'){const r=await call('/auth/register','POST',{name,email:name+'@example.test',password:'synthetic-test-password',role,adult:true});assert.equal(r.status,200);return r;}
 try{
  const a=await account('SkillsOne'),b=await account('SkillsTwo'),t=await account('SkillsTeacher','teacher');
+ await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[a.data.user.id]);
  assert.equal((await call('/skills')).status,401);
  assert.equal(workshopTasks.length,15);
  for(const task of workshopTasks){let response=task.skill==='Listening'?task.questions.map(q=>q.answer):task.skill==='Writing'?'Hola, me gustaría cambiar la clase al lunes. ¿Sería posible?':{audio:'data:audio/webm;base64,'+Buffer.alloc(150,1).toString('base64'),seconds:15};const body={task:task.id,response,submissionKey:crypto.randomUUID()};const r=await call('/skills','POST',body,a.cookie);assert.equal(r.status,201,JSON.stringify(r.data));if(task.skill==='Listening')assert.equal(typeof r.data.submission.result.score,'number');else assert.equal(r.data.submission.result.score,null);assert.equal((await call('/skills','POST',body,a.cookie)).data.submission.id,r.data.submission.id);if(task.skill==='Writing'){

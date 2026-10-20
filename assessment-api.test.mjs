@@ -7,6 +7,7 @@ async function call(path,method='GET',body,cookie){const r=await fetch(base+'/ap
 async function account(name,role='learner'){const r=await call('/auth/register','POST',{name,email:name+'@example.test',password:'synthetic-test-password',role,adult:true});assert.equal(r.status,200);return r}
 try{
  const a=await account('PlacementOne'),b=await account('PlacementTwo'),t=await account('PlacementTeacher','teacher');
+ await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[a.data.user.id]);
  assert.equal((await call('/assessments')).status,401);
  assert.equal((await call('/assessments','POST',{},t.cookie)).status,403);
  let start=await call('/assessments','POST',{},a.cookie),s=start.data.session;

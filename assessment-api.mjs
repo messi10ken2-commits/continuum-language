@@ -1,3 +1,5 @@
+import {membership} from './billing-api.mjs';
+import {visiblePlacement} from './premium-policy.mjs';
 import {languages} from './languages.mjs';
 import {assessmentVersion,assessmentFormCount,assessmentItems,publicAssessment,gradeAssessment} from './assessment-bank.mjs';
 
@@ -21,11 +23,13 @@ export async function assessmentHistory(pool,userId,language='es'){
 export async function handleAssessment({route,req,res,pool,required,json,send,fail}){
  if(!route.startsWith('/api/assessments'))return false;
  const user=await required(req,'learner');
+ const premium=(await membership(pool,user.id)).premium;
+ const visible=a=>a?{...a,result:visiblePlacement(a.result,premium)}:a;
  const language=new URL(req.url,'http://localhost').searchParams.get('language')||'es';if(!languages.some(l=>l.id===language))fail(400,'Unknown language');
  const version=language==='es'?assessmentVersion:language+'-diagnostic-4';
  if(route==='/api/assessments'&&req.method==='GET'){
   const history=await assessmentHistory(pool,user.id,language),active=await pool.query('SELECT * FROM assessments WHERE user_id=$1 AND language=$2 AND completed_at IS NULL',[user.id,language]);
-  send(res,200,{history,active:active.rows[0]?publicAssessment(active.rows[0]):null});return true;
+  send(res,200,{history:history.map(visible),active:active.rows[0]?publicAssessment(active.rows[0]):null});return true;
  }
  if(route==='/api/assessments'&&req.method==='POST'){
   const c=await pool.connect();try{
@@ -33,7 +37,7 @@ export async function handleAssessment({route,req,res,pool,required,json,send,fa
    const active=await c.query('SELECT * FROM assessments WHERE user_id=$1 AND language=$2 AND completed_at IS NULL',[user.id,language]);
    let row=active.rows[0];
    if(!row){const count=await c.query('SELECT COUNT(*)::int AS count FROM assessments WHERE user_id=$1 AND language=$2 AND completed_at IS NOT NULL',[user.id,language]);const n=count.rows[0].count;const previous=await c.query('SELECT form,version FROM assessments WHERE user_id=$1 AND language=$2 AND completed_at IS NOT NULL ORDER BY completed_at DESC,id DESC LIMIT 1',[user.id,language]);const nextForm=previous.rows.length&&previous.rows[0].version===version?(previous.rows[0].form+1)%assessmentFormCount:0;const r=await c.query('INSERT INTO assessments(user_id,kind,version,form,language) VALUES($1,$2,$3,$4,$5) RETURNING *',[user.id,n?'reassessment':'placement',version,nextForm,language]);row=r.rows[0];}
-   await c.query('COMMIT');send(res,200,{session:publicAssessment(row)});
+   await c.query('COMMIT');send(res,200,{session:visible(publicAssessment(row))});
   }catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
   return true;
  }
@@ -57,7 +61,7 @@ export async function handleAssessment({route,req,res,pool,required,json,send,fa
     const result=done?{...gradeAssessment(row.form,answers.slice(0,items.length),row.version),...(/-diagnostic-[234]$/.test(row.version)?{productiveStatus:{Writing:answers[items.length]?'pending':'skipped',Speaking:answers[items.length+1]?'pending':'skipped'}}:{})}:null;
     const updated=await c.query('UPDATE assessments SET answers=$2::jsonb,result=$3::jsonb,completed_at=CASE WHEN $4 THEN now() ELSE NULL END WHERE id=$1 RETURNING *',[row.id,JSON.stringify(answers),JSON.stringify(result),done]);row=updated.rows[0];
    }
-   await c.query('COMMIT');send(res,200,{session:publicAssessment(row)});
+   await c.query('COMMIT');send(res,200,{session:visible(publicAssessment(row))});
   }catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
   return true;
  }
