@@ -1,3 +1,4 @@
+import {billingCopy} from './billing-copy.mjs';
 import {skillEvidenceCopy} from './skill-evidence-copy.mjs';
 import {classroomUiCopy} from './classroom-copy.mjs';
 import {speakingCopy} from './speaking-copy.mjs';
@@ -202,3 +203,5 @@ Object.assign(interfaceCopy,speakingCopy);
 Object.assign(interfaceCopy,classroomUiCopy);
 
 Object.assign(interfaceCopy,skillEvidenceCopy);
+
+Object.assign(interfaceCopy,billingCopy);

@@ -1,3 +1,4 @@
+import {migrateBilling,handleBilling,handleBillingWebhook} from './billing-api.mjs';
 import {migrateClassroom,handleClassroom,cancelUnsharedClasses} from './classroom-api.mjs';
 import {warmPatternProvider} from './pattern-provider.mjs';
 import {migrateSpeaking,handleSpeaking} from './speaking-api.mjs';
@@ -62,6 +63,7 @@ async function migrate(){
  await migrateLocalization(pool);
  await migrateSpeaking(pool);
  await migrateClassroom(pool);
+ await migrateBilling(pool);
 }
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
@@ -78,7 +80,9 @@ async function handle(req,res){
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
  if(handleLessonMedia(req,res,route))return;
  if(!route.startsWith('/api/'))return serve(req,res,route);
+ if(await handleBillingWebhook({route,req,res,pool,send,fail}))return;
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
+ if(await handleBilling({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleLocalization({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleClassroom({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleSpeaking({route,req,res,pool,required,json,send,fail,limited}))return;

@@ -1,3 +1,4 @@
+import {syncClassTickets} from './billing-api.mjs';
 import {migrateTeacherSchedule,handleTeacherSchedule} from './teacher-schedule-api.mjs';
 import crypto from 'node:crypto';
 import {validSharedLanguages} from './teacher-access.mjs';
@@ -28,7 +29,7 @@ const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
 const text=(x,max)=>typeof x==='string'&&x.trim().length<=max?x.trim():'';
 const key=x=>typeof x==='string'&&/^[-a-zA-Z0-9]{10,100}$/.test(x);
 const fingerprint=d=>crypto.createHash('sha256').update(JSON.stringify(d)).digest('hex');
-const bookingPublic=b=>({id:b.id,threadId:b.thread_id,teacherId:b.teacher_id,learnerId:b.learner_id,teacher:b.teacher,learner:b.learner,language:b.language,startsAt:b.starts_at,endsAt:b.ends_at,proposedTimezone:b.proposed_timezone,proposedBy:b.proposed_by,status:b.status,meetingUrl:b.meeting_url,topic:b.topic,revision:b.revision,replacesId:b.replaces_id,priceMinor:0,changeReason:b.change_reason,slotId:b.slot_id,rulesVersion:b.rules_version});
+const bookingPublic=b=>({id:b.id,threadId:b.thread_id,teacherId:b.teacher_id,learnerId:b.learner_id,teacher:b.teacher,learner:b.learner,language:b.language,startsAt:b.starts_at,endsAt:b.ends_at,proposedTimezone:b.proposed_timezone,proposedBy:b.proposed_by,status:b.status,meetingUrl:b.meeting_url,topic:b.topic,revision:b.revision,replacesId:b.replaces_id,priceMinor:0,premiumTicket:!!b.premium_ticket_id,changeReason:b.change_reason,slotId:b.slot_id,rulesVersion:b.rules_version});
 export function meetingLink(value){if(!value)return '';try{const u=new URL(value);const allowed=['meet.google.com','zoom.us','teams.microsoft.com','teams.live.com','meet.jit.si','whereby.com'];if(u.protocol!=='https:'||u.username||u.password||value.length>1500||!allowed.some(h=>u.hostname===h||h==='zoom.us'&&u.hostname.endsWith('.zoom.us')))return null;return u.href}catch{return null}}
 async function transaction(pool,fn){const c=await pool.connect();try{await c.query('BEGIN');const result=await fn(c);await c.query('COMMIT');return result}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}}
 async function event(c,actor,thread,kind,{booking=null,assignment=null,detail={}}={}){await c.query('INSERT INTO class_events(thread_id,booking_id,assignment_id,actor_id,kind,detail) VALUES($1,$2,$3,$4,$5,$6::jsonb)',[thread,booking,assignment,actor,kind,JSON.stringify(detail)]);}
@@ -113,7 +114,7 @@ export async function handleClassroom({route,req,res,pool,required,json,send,fai
       if(current.replaces_id){await c.query("UPDATE class_bookings SET status='cancelled',revision=revision+1,updated_at=now() WHERE id=$1",[current.replaces_id]);if(current.proposed_by===t.teacher_id&&original.slot_id)await c.query('UPDATE class_availability SET active=false WHERE id=$1',[original.slot_id]);await event(c,current.proposed_by,t.id,'rescheduled',{booking:current.replaces_id,detail:{replacement:b.id,fromStatus:'confirmed'}});}
      }
      await c.query("UPDATE class_bookings SET status=$2,meeting_url=CASE WHEN $2='confirmed' AND meeting_url='' THEN $3 ELSE meeting_url END,revision=revision+1,updated_at=now() WHERE id=$1",[b.id,d.status,'https://meet.jit.si/Continuum-'+crypto.randomUUID()]);await event(c,user.id,t.id,d.status,{booking:b.id,detail:d.status==='cancelled'?{reason:text(d.reason,500),fromStatus:current.status}:{}});if(d.status==='cancelled'&&user.id===t.teacher_id&&current.status==='confirmed'&&current.slot_id)await c.query('UPDATE class_availability SET active=false WHERE id=$1',[current.slot_id]);await updateMessage(c,user.id,t.id,'Class status updated: '+d.status+'.');
-    }return (await c.query('SELECT * FROM class_bookings WHERE id=$1',[b.id])).rows[0];});send(res,200,{booking:bookingPublic(result)});return true;
+    }await syncClassTickets(c,t.learner_id);return (await c.query('SELECT * FROM class_bookings WHERE id=$1',[b.id])).rows[0];});send(res,200,{booking:bookingPublic(result)});return true;
   }
  }
  const notes=route.match(/^\/api\/classroom\/(threads|notes)\/([a-f0-9-]{36})(?:\/(notes))?$/);
