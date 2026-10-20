@@ -50,7 +50,7 @@ try{
   setInterfaceLanguage(locale,{persist:false});
   const html=render(LanguageOverview,{language:'en',memory:true,attempts:[{lesson:pressure.id,score:80,total:5,at:'2026-10-14T12:00:00Z'}],onPractice(){},onNavigate(){}});
   const title=escaped(reviewedCourseTitles[locale][pressure.title]);
-  assert.ok(html.includes('<h2>'+title+'</h2>'));assert.ok(html.includes('<b>'+title+'</b>'));assert.ok(html.includes('<h3>'+title+'</h3>'));assert.ok(!html.includes('>Work under pressure<'));
+  assert.ok(html.includes('<h2>'+title+'</h2>'));assert.ok(html.includes('<b>'+title+'</b>'));assert.ok(html.includes('<strong>'+title+'</strong>'));assert.ok(!html.includes('>Work under pressure<'));
  }
  setInterfaceLanguage('en',{persist:false});
  console.log('PASS: six-language account screens, 100 translated roadmaps, all course headings and chapter goals, and the reported lesson titles render correctly.');

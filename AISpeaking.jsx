@@ -74,7 +74,7 @@ export default function AISpeaking({language,user,onBack}){
     {available===false&&<p role="status">{t('AI conversation is temporarily unavailable. Please try again later.')}</p>}
     <button className="primary" disabled={!consent||busy||available!==true} onClick={start}>{t(busy?'Preparing…':'Start a conversation')}<Mic2 size={18}/></button>
    </section>
-   <section className="panel"><h2>{t('Saved conversations')}</h2>{history.length?history.map(s=><button className="speaking-history" key={s.id} disabled={busy} onClick={()=>open(s)}><span><strong>{t(scenarioById(s.scenario)?.title)}</strong><small>{s.level} · {new Date(s.at).toLocaleDateString()} · {t(s.review?'Review ready':'In progress')}</small></span><ArrowRight size={18}/></button>):<p>{t('Your conversations and reviews will appear here.')}</p>}</section>
+   <details className="panel learning-log-group"><summary>{t('Saved conversations')} · {history.length}</summary>{history.length?history.map(s=><button className="speaking-history" key={s.id} disabled={busy} onClick={()=>open(s)}><span><strong>{t(scenarioById(s.scenario)?.title)}</strong><small>{s.level} · {new Date(s.at).toLocaleDateString()} · {t(s.review?'Review ready':'In progress')}</small></span><ArrowRight size={18}/></button>):<p>{t('Your conversations and reviews will appear here.')}</p>}</details>
   </>:<>
    <section className="panel conversation-room">
     <div className="speaking-session-head"><div><span className="eyebrow">{session.level} · {t(session.scenario==='free'?'AI conversation partner':'AI roleplay partner')}</span><h2>{t(current.title)}</h2></div><button className="text-button" disabled={busy} onClick={toList}>{t('Back to conversations')}</button></div>

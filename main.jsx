@@ -1,3 +1,4 @@
+import LearningLog from './LearningLog.jsx';
 import PracticeStudio from './PracticeStudio.jsx';
 import {OwnerMembershipPreview} from './PremiumAccess.jsx';
 import Membership,{MembershipAd,BillingAdmin} from './Membership.jsx';
@@ -184,10 +185,11 @@ export function Account({user,onLogin,onLogout,deviceHistory,onImport,onOpenTeac
  </div>
 }
 
-function AccountPractice({attempts}){return attempts.length?<section className="panel account-practice"><span className="eyebrow">{uiText("SAVED PRACTICE")}</span><h3>{uiText("Practice attempts")}</h3>{attempts.slice(0,15).map((a,i)=><div className="saved-attempt" key={a.id||i}><span>{uiText(a.at?new Date(a.at).toLocaleString():'Previous practice')}</span><b>{a.score}%</b><small>{uiText(lessonTitle(a.lesson))} · {a.total}{uiText(" questions · ")}{uiText(a.source==='imported'?'Imported':'Exercise')}</small></div>)}</section>:<section className="panel account-practice"><span className="eyebrow">{uiText("SAVED PRACTICE")}</span><h3>{uiText("Your first result will appear here")}</h3><p>{uiText("Complete a lesson to start your learning record.")}</p></section>}
+function AccountPractice({attempts}){return attempts.length?<details className="panel account-practice learning-log-group"><summary>{uiText("Practice attempts")} · {attempts.length}</summary>{attempts.slice(0,15).map((a,i)=><div className="saved-attempt" key={a.id||i}><span>{uiText(a.at?new Date(a.at).toLocaleString():'Previous practice')}</span><b>{a.score}%</b><small>{uiText(lessonTitle(a.lesson))} · {a.total}{uiText(" questions · ")}{uiText(a.source==='imported'?'Imported':'Exercise')}</small></div>)}</details>:<section className="panel account-practice"><span className="eyebrow">{uiText("SAVED PRACTICE")}</span><h3>{uiText("Your first result will appear here")}</h3><p>{uiText("Complete a lesson to start your learning record.")}</p></section>}
 function SavedTimeline({attempts,notes}){
  const events=[...attempts.map(a=>({id:`practice-${a.id||a.at}`,at:a.at,type:'practice',title:lessonTitle(a.lesson),detail:`${a.score}% · ${a.total} questions${a.source==='imported'?' · Imported':''}`})),...notes.map(n=>({id:`note-${n.id}`,at:n.at,type:'class',title:`${n.focus} · ${n.teacher}`,detail:n.note}))].sort((a,b)=>new Date(b.at||0)-new Date(a.at||0));
- return <section className="panel activity"><div className="panel-head"><div><span className="eyebrow">{uiText("ONE CONTINUOUS TIMELINE")}</span><h3>{uiText("Recent learning")}</h3></div></div>{events.length?<div className="timeline">{events.slice(0,8).map(e=><div key={e.id}><span className={`event-icon ${e.type==='class'?'class':'ai'}`}>{e.type==='class'?<Users size={16}/>:<Sparkles size={16}/>}</span><i/><article><b>{e.type==='practice'?uiText(e.title):e.title}</b><p>{e.detail}</p><small>{uiText(e.at?new Date(e.at).toLocaleString():'Previous practice')}</small></article></div>)}</div>:<p>{uiText("Complete an activity or connect a teacher to start your learning timeline.")}</p>}</section>
+ return <LearningLog eyebrow="ONE CONTINUOUS TIMELINE" title="Recent learning" events={events.slice(0,8).map(e=>({...e,kind:e.type==='practice'?'Practice':'Class note'}))}/>;
+
 }
 function LearnerOverview({user,attempts,notes,onPractice,onNavigate,assessment}){
  const latest=attempts[0],subjunctiveLatest=forLesson(attempts)[0],focus=notes[0]?.focus||'Subjunctive';

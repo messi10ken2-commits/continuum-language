@@ -14,8 +14,8 @@ try{
  const path='/teacher/learners/'+learner.id+'?language=en';
  let r=await api(path,'GET',null,teacher.cookie);assert.equal(r.status,200);assert.equal(r.data.membership.tier,'free');assert.ok(!r.data.assessment.result.skills);assert.equal((await api('/skills/'+saved.id,'GET',null,teacher.cookie)).data.submission.result.reviewTier,'basic');
  assert.equal((await api(path,'GET',null,stranger.cookie)).status,403);
- const billing=await api('/billing','GET',null,learner.cookie);assert.equal(billing.data.courses.length,20);assert.equal(billing.data.videoSources.length,4);assert.ok(!JSON.stringify(billing.data.videoSources).includes('"answer"'));
- for(const lang of ['en','es','pt','ja'])assert.equal(billing.data.courses.filter(c=>c.language===lang).length,5);
+ const billing=await api('/billing','GET',null,learner.cookie);assert.equal(billing.data.courses.length,28);assert.equal(billing.data.videoSources.length,4);assert.ok(!JSON.stringify(billing.data.videoSources).includes('"answer"'));
+ for(const lang of ['en','es','pt','ja'])assert.equal(billing.data.courses.filter(c=>c.language===lang).length,7);
  for(const c of billing.data.courses)assert.equal((await api('/billing/courses/'+c.id,'GET',null,learner.cookie)).status,403);
  await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[learner.id]);
  r=await api(path,'GET',null,teacher.cookie);assert.equal(r.data.membership.tier,'premium');assert.ok(r.data.assessment.result.skills);assert.deepEqual((await api('/skills/'+saved.id,'GET',null,teacher.cookie)).data.submission.result.criteria,['Structure']);assert.equal((await api('/teacher/learners','GET',null,teacher.cookie)).data.learners[0].membership.tier,'premium');assert.ok(!JSON.stringify(r.data.membership).includes('customer'));
@@ -26,5 +26,5 @@ try{
  const course=billing.data.courses.find(c=>c.id==='ja-premium-housing-v1');const opened=await api('/billing/courses/'+course.id,'GET',null,learner.cookie);assert.equal(opened.data.course.questions.length,8);assert.ok(opened.data.course.questions.every(q=>!('answer' in q)&&!('acceptedAnswers' in q)&&!('note' in q)));
  const q=opened.data.course.questions[3];const ordered=[...q.tokens].reverse().join(q.separator);assert.equal((await api('/billing/courses/'+course.id+'/answer','POST',{question:3,answer:ordered},learner.cookie)).data.correct,true);
  await db.query("UPDATE billing_memberships SET status='cancelled' WHERE user_id=$1",[learner.id]);assert.equal((await api(path,'GET',null,teacher.cookie)).data.membership.tier,'free');assert.ok(!(await api(path,'GET',null,teacher.cookie)).data.assessment.result.skills);
- console.log('PASS: 20 gated courses, free video previews, server grading, actual teacher-visible membership, downgrade projection and teacher isolation. Synthetic accounts only.');
+ console.log('PASS: 28 gated courses, free video previews, server grading, actual teacher-visible membership, downgrade projection and teacher isolation. Synthetic accounts only.');
 }finally{await new Promise(r=>testServer.close(r));await db.close();}

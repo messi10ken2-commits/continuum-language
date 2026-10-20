@@ -1,3 +1,5 @@
+import {varietyCourses} from './premium-varieties.mjs';
+import {academicCourses} from './premium-academic.mjs';
 import {expandedPremiumCourses} from './premium-expansion.mjs';
 import {premiumVideoCourses} from './premium-video-lessons.mjs';
 // Server-only authored courses: answer keys are never bundled into the client.
@@ -59,5 +61,5 @@ const normalized=value=>value.normalize('NFKC').toLocaleLowerCase().replace(/[.,
 export function gradeCourseAnswer(q,a){return typeof q.answer==='string'?typeof a==='string'&&[q.answer,...(q.acceptedAnswers||[])].some(expected=>normalized(a)===normalized(expected)):a===q.answer;}
 export const courseAnswerText=q=>typeof q.answer==='string'?q.answer:q.options[q.answer];
 
-premiumCourses.push(...expandedPremiumCourses,...premiumVideoCourses);
-export const premiumCourseSummary=premiumCourses.map(({id,language,title,description,questions})=>({id,language,title,description,questions:questions.length}));
+premiumCourses.push(...expandedPremiumCourses,...premiumVideoCourses,...varietyCourses,...academicCourses);
+export const premiumCourseSummary=premiumCourses.map(({id,language,title,description,level,scene,questions})=>({id,language,title,description,level,scene,questions:questions.length}));
