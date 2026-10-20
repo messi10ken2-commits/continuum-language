@@ -36,7 +36,7 @@ test('natural output uses its own media element and marks speaking only after pl
  const states=[],released=[];let player;
  const loop=new ConversationVoiceLoop({host:{URL:{createObjectURL:()=> 'blob:test',revokeObjectURL:x=>released.push(x)}},onState:s=>states.push(s)});loop.active=true;loop.epoch=1;
  loop.player=player={currentTime:0,play(){assert.deepEqual(states,[]);queueMicrotask(()=>{this.onplaying();assert.deepEqual(states,['speaking']);this.currentTime=1;this.onended()});return Promise.resolve()},pause(){},removeAttribute(){},load(){}};
- await loop.playMedia(new Uint8Array([1,2]),1);assert.equal(player.muted,false);assert.equal(player.volume,1);assert.deepEqual(released,['blob:test']);assert.equal(loop.endPlayback,null);
+ await loop.playMedia(new Uint8Array([1,2]),1);assert.equal(player.muted,false);assert.equal(player.volume,1);assert.equal(player.playbackRate,1);assert.deepEqual(released,['blob:test']);assert.equal(loop.endPlayback,null);
 });
 test('blocked natural autoplay pauses with an error instead of pretending to speak',async()=>{
  const states=[];const loop=new ConversationVoiceLoop({host:{URL:{createObjectURL:()=> 'blob:test',revokeObjectURL(){}}},onState:s=>states.push(s)});loop.active=true;loop.epoch=1;loop.player={play:()=>Promise.reject(Error('NotAllowedError')),pause(){},removeAttribute(){},load(){}};

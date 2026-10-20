@@ -11,7 +11,7 @@ export function detectVoiceEnd(window,rms,now,{silenceMs=1500,maxMs=45000,idleMs
  return 'listen';
 }
 export class ConversationVoiceLoop{
- constructor({onState,onLevel,onTurn,onError,onVoiceFallback,locale='en-US',silenceMs=1500,deviceVoice=false,rate=.9,fetchImpl=fetch,host=globalThis,canContinue}){Object.assign(this,{onState,onLevel,onTurn,onError,onVoiceFallback,locale,silenceMs,deviceVoice,rate,fetchImpl,host,canContinue});this.fetchImpl=fetchImpl.bind(host);this.epoch=0;this.active=false;this.retryClip=null;}
+ constructor({onState,onLevel,onTurn,onError,onVoiceFallback,locale='en-US',silenceMs=1500,deviceVoice=false,rate=1,fetchImpl=fetch,host=globalThis,canContinue}){Object.assign(this,{onState,onLevel,onTurn,onError,onVoiceFallback,locale,silenceMs,deviceVoice,rate,fetchImpl,host,canContinue});this.fetchImpl=fetchImpl.bind(host);this.epoch=0;this.active=false;this.retryClip=null;}
  state(value){this.onState?.(value);}
  async start(url){
   if(this.active)return;
