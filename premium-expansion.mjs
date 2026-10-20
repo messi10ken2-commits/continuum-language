@@ -68,7 +68,7 @@ const contextsFor=(scene,index)=>index===1?'Complete the missing word so the sen
 export const expandedPremiumCourses=Object.entries(languageRows).flatMap(([language,scenes])=>Object.entries(scenes).map(([scene,lines])=>{
  const s=situations[scene],questions=lines.map((line,i)=>{
  const note='Choose language that addresses the stated situation and preserves the speaker’s intent.';
- if(i===1)return {type:'cloze',prompt:contextsFor(scene,i),context:cloze[language][scene][0],answer:cloze[language][scene][1],note:'The missing word completes the expression used for this purpose.'};
+ if(i===1)return {type:'cloze',prompt:contextsFor(scene,i),context:cloze[language][scene][0],answer:cloze[language][scene][1],acceptedAnswers:scene==='interview'?({en:['responsibility'],pt:['responsabilidade'],es:['responsabilidad'],ja:[]})[language]:scene==='housing'&&language==='ja'?['文書']:[],note:'The missing word completes the expression used for this purpose.'};
  if(i===2||i===7)return {type:'typing',prompt:'Type the sentence you hear.',context:'',audio:line,answer:line,note:'Check the wording against the recording. Punctuation and capitalisation do not affect the score.'};
  if(i===3)return {type:'reorder',prompt:s.contexts[i],context:'',separator:language==='ja'?'':' ',tokens:language==='ja'?({interview:['入社後三ヶ月の成果は、','どのように','評価されますか。'],housing:['この請求の','内訳を','送っていただけますか。'],travel:['追加料金が','かからないか、','確認していただけますか。']})[scene].reverse():line.split(' ').reverse(),answer:line,note:'The request asks for a specific detail rather than a general explanation.'};
  if(i===5)return {type:'listening',prompt:s.contexts[i],context:'',audio:line,options:outcome[scene],answer:0,note:'The answer must match the purpose of the spoken request.'};
