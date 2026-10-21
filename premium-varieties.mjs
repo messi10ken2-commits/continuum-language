@@ -91,3 +91,16 @@ const comparisonTables={
  ja:{steps:['Interpret Kansai expressions using the situation and relationship.','Choose formal written Japanese for a formal report; regional everyday forms remain appropriate in many conversations.'],tables:[{caption:'Kansai expressions in context',headers:['Kansai expression','Standard equivalent','Meaning'],rows:[['おおきに','ありがとう','Thanks'],['ほんま','本当','Really / true'],['あかん','だめ','Not good / not allowed'],['なんぼ','いくら','How much'],['ほな','じゃあ / それでは','Well then']]}],pitfall:'Kansai is not one uniform dialect. Meanings, frequency and intonation vary by community, age and context. A written equivalent does not establish an accent.',examples:[['これ、なんぼですか。','How much is this?'],['ほな、また明日。','Well then, see you tomorrow.']]}
 };
 for(const course of varietyCourses)if(comparisonTables[course.language])course.breakdown=comparisonTables[course.language];
+
+// Do not keep a known inaccurate synthetic Kansai model in pronunciation practice.
+// Originals are linked, not copied, extracted or represented as our recordings.
+const kansai=varietyCourses.find(c=>c.language==='ja');
+kansai.contentVersion=3;
+kansai.nativeReferences=[
+ {label:'おおきに · Osaka native speaker',credit:'SBS Japanese · Kate Onomichi',url:'https://www.sbs.com.au/language/japanese/ja/podcast-episode/ookini-the-road-to-osaka-ben-master-1/nd1v7oror'},
+ {label:'なんぼ · Osaka native speaker',credit:'SBS Japanese · Kate Onomichi',url:'https://www.sbs.com.au/language/japanese/ja/podcast-episode/nanbo-the-road-to-osaka-ben-master-2/65w3ymt06'}
+];
+kansai.explanation='Explore Kansai expressions in context. For intonation, listen to the linked original recordings by an Osaka native speaker. Unreviewed AI Kansai audio has been removed. Regional usage varies by speaker and setting.';
+for(const i of [0,4]){const q=kansai.questions[i];q.context=q.audio;delete q.audio;delete q.audioLocale;delete q.audioKind;delete q.audioRegion;delete q.listeningTarget;q.type='interpretation';}
+kansai.questions[0].nativeReference=kansai.nativeReferences[0];
+kansai.questions[5].nativeReference=kansai.nativeReferences[1];

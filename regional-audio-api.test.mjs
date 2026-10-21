@@ -10,6 +10,7 @@ try{
  await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[paid.id]);
  for(const course of varietyCourses){
   const response=await fetch(base+'/api/billing/courses/'+course.id,{headers:{cookie:paid.cookie}});assert.equal(response.status,200);const {course:visible}=await response.json();assert.ok(visible.breakdown.tables.length);assert.ok(visible.questions.every(q=>!('answer'in q)&&!('note'in q)));
+  if(course.language==='ja'){for(const index of [0,4])assert.equal((await fetch(base+'/api/billing/courses/'+course.id+'/audio?question='+index,{headers:{cookie:paid.cookie}})).status,404);}
   for(const [index,q] of course.questions.entries())if(q.audio){
    const pcm=Buffer.alloc(4800,index+course.language.charCodeAt(0)),audio=pcmWav(pcm);
    await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4)',[speechKey(q.audio,q.audioLocale),audio,'synthetic-test','locale-sentinel']);
@@ -18,5 +19,5 @@ try{
    const r=await fetch(endpoint,{headers:{cookie:paid.cookie}});assert.equal(r.status,200);assert.equal(r.headers.get('x-audio-locale'),q.audioLocale);assert.equal(r.headers.get('x-audio-source'),'AI-generated studio voice');assert.equal(r.headers.get('cache-control'),'private, no-store');assert.deepEqual(Buffer.from(await r.arrayBuffer()),audio);
   }
  }
- console.log('PASS: eight regional listening clips use authored locales and isolated cache keys, retain Premium authorization and truthful synthesis labels, and ignore client locale overrides. No provider calls.');
+ console.log('PASS: Regional listening clips use authored locales and isolated cache keys, retain Premium authorization and truthful synthesis labels, and ignore client locale overrides. Removed Kansai clips return 404 instead of stale synthesis. No provider calls.');
 }finally{await new Promise(r=>testServer.close(r));await db.close();}

@@ -16,7 +16,7 @@ try{
   const question=renderToStaticMarkup(React.createElement(ExclusiveCoursePlayer,{...props,initialDraft:{answers:[],checks:{},key:'synthetic-render-attempt'}}));
   assert.ok(question.includes('question-card'),course.id);assert.ok(question.includes('Check answer'),course.id);
   if(course.questions[0].audio){assert.ok(question.includes('Show transcript'),course.id);assert.ok(!question.includes('audio-transcript" open'),course.id);}
-  if(course.scene==='varieties'){assert.ok(intro.includes('conjugation-scroll'),course.id);assert.ok(question.includes('not an authenticated regional recording'),course.id);}
+  if(course.scene==='varieties'){assert.ok(intro.includes('conjugation-scroll'),course.id);assert.ok(question.includes(course.language==='ja'?'Osaka native speaker':'not an authenticated regional recording'),course.id);}
  }
  console.log('PASS: all 28 exclusive-course intros and first questions render through the regular player with API-hidden answers, regional references and hidden listening transcripts.');
 }finally{await vite.close();}

@@ -15,8 +15,9 @@ export function premiumLesson(course){
   // The shared player uses regular lesson question types; grading remains on the Premium API.
   conversation:null,questions:course.questions.map(q=>({...q,type:['typing','cloze','reorder'].includes(q.type)?'text':'choice',mode:q.type==='reorder'?'order':undefined,joiner:q.separator??' ',optionsRole:['video','listening','interpretation'].includes(q.type)?'comprehension':'utterance',optionsLang:['video','listening','interpretation'].includes(q.type)?'en-US':locale,answer:undefined,audioLocale:q.audioLocale||locale}))};
 }
+function NativeReferences({sources}){return sources?.length?<section className="rule-pitfall"><h3>{t('Listen to native speakers')}</h3><p>{t('Open the publisher’s original recording. These are pronunciation references, not recordings of the exercise sentences.')}</p>{sources.map(s=><p key={s.url}><a className="outline-button" href={s.url} target="_blank" rel="noopener noreferrer">{s.label} ↗</a><small> · {s.credit}</small></p>)}</section>:null;}
 function CourseReference({course,lesson}){
- return <><LessonReference lesson={{...lesson,vocabulary:undefined}} audioEnabled={course.scene!=='varieties'}/>
+ return <><NativeReferences sources={course.nativeReferences}/><LessonReference lesson={{...lesson,vocabulary:undefined}} audioEnabled={course.scene!=='varieties'}/>
  {course.exampleNote&&<section className="rule-pitfall"><h3>{t('Usage note')}</h3><p>{t(course.exampleNote)}</p></section>}
  {course.reading&&<section><h3>{t('Read the scenario')}</h3><p lang={course.language}>{course.reading}</p></section>}
  {course.visualData&&<figure className="academic-chart"><figcaption>{t('Hypothetical study · end-of-study mean scores')}</figcaption>{[['Daily practice',course.visualData.daily],['Weekly practice',course.visualData.weekly]].map(([label,value])=><div key={label}><span>{t(label)}</span><div><i style={{width:value+'%'}}/></div><b>{value}/100</b></div>)}<small>{t('40 adults · self-selected groups · no baseline or follow-up. The chart does not establish causation.')}</small></figure>}
@@ -37,7 +38,7 @@ export function ExclusiveCoursePlayer({course,user,onExit,onFinish,initialDraft}
   external={{lesson,initialChecks:draft?.checks,initialSubmission:submissionKey,backLabel:'Back to courses',regional:course.scene==='varieties',
    media:<PremiumVisual course={course}/>,reference:<CourseReference course={course} lesson={lesson}/>,
    audioEndpoint:index=>'/api/billing/courses/'+course.id+'/audio?question='+index,
-   questionMedia:q=>q.videoCue?<><p>{formatVideoTime(q.videoCue.start)}–{formatVideoTime(q.videoCue.end)}</p><ConversationVideo lesson={{...course,locale:lesson.locale}} practice cue={q.videoCue}/></>:null,
+   questionMedia:q=>(q.nativeReference||q.video)?<>{q.nativeReference&&<NativeReferences sources={[q.nativeReference]}/>} {q.video&&<>{q.videoCue?<p>{formatVideoTime(q.videoCue.start)}–{formatVideoTime(q.videoCue.end)}</p>:<p className="question-video-reference">{t('Source section:')} {t(q.sourceReference?.label)} · {t('Exact video timing has not been verified.')} {q.sourceReference?.url&&<a href={q.sourceReference.url} target="_blank" rel="noopener noreferrer">{t('Publisher’s lesson and transcript')}</a>}</p>}<ConversationVideo lesson={{...course,locale:lesson.locale}} practice cue={q.videoCue}/></>}</>:null,
    check:(question,answer)=>billingRequest('/courses/'+course.id+'/answer','POST',{question,answer})}}
   onComplete={async({answers,submissionKey})=>{const result=await billingRequest('/courses/'+course.id+'/finish','POST',{answers,key:submissionKey});sessionStorage.removeItem(storageKey);onFinish?.();return {...result,score:Math.round(result.correct/result.total*100)};}}/>;
 }

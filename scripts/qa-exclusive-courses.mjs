@@ -40,9 +40,9 @@ try{
   assert.equal(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'),true,language+' intro overflows');
   if(language==='es')assert.ok(await evaluate("document.querySelector('.lesson-reference').textContent.includes('tenés')&&document.querySelector('.lesson-reference').textContent.includes('vení')"));
   await click('.lesson-begin','Start practice');await wait("!!document.querySelector('.question-card')");
-  assert.ok(await evaluate("document.querySelector('.question-card').textContent.includes('not an authenticated regional recording')"));
-  assert.equal(await evaluate("document.querySelectorAll('.audio-transcript').length"),1);
-  assert.equal(await evaluate("document.querySelector('.audio-transcript').open"),false);
+  assert.ok(await evaluate(`document.querySelector('.question-card').textContent.includes(${JSON.stringify(language==='ja'?'Osaka native speaker':'not an authenticated regional recording')})`));
+  assert.equal(await evaluate("document.querySelectorAll('.audio-transcript').length"),language==='ja'?0:1);
+  if(language!=='ja')assert.equal(await evaluate("document.querySelector('.audio-transcript').open"),false);
   if(language!=='es'){await click('.practice-top','Save & exit');await wait("!!document.querySelector('.membership-courses')");continue;}
   await evaluate("window.__tts=[];window.__fetch=window.fetch;window.fetch=(input,options)=>String(input).includes('/audio?question=')?(window.__tts.push(String(input)),Promise.resolve(Response.json({error:'Synthetic regional audio unavailable'},{status:503}))):window.__fetch(input,options)");
   await evaluate("document.querySelector('.question-card .sentence-play').click()");await wait("!!document.querySelector('.sentence-audio-error')");assert.equal(await evaluate("document.querySelector('.sentence-audio-error').textContent.includes('Use device voice instead')"),false);assert.equal(await evaluate('window.__tts.length'),1);await evaluate('window.fetch=window.__fetch');
@@ -58,6 +58,14 @@ try{
   for(let i=0;i<course.questions.length;i++){await wait(`document.querySelector('.practice-top').textContent.includes(${JSON.stringify((i+1)+'/'+course.questions.length)})`);await submit(course.questions[i]);await evaluate("document.querySelector('.question-card>.primary').click()");}
   await wait("!!document.querySelector('.result-card')");assert.ok(await evaluate("document.querySelector('.result-card h1').textContent.includes('100%')"));assert.deepEqual((await db.query('SELECT correct FROM premium_course_attempts WHERE user_id=$1 AND course_id=$2 ORDER BY correct',[premium.id,course.id])).rows.map(r=>r.correct),[7,8],'Try again must create a new attempt');
   await click('.result-card','Back to courses');await wait("!!document.querySelector('.membership-courses')");
+ }
+ for(const course of premiumCourses.filter(c=>c.conversation)){
+  await open(course);await click('.lesson-begin','Start practice');await wait("!!document.querySelector('.question-card')");
+  assert.ok(await evaluate("!!document.querySelector('.question-card .conversation-video')"),course.id);
+  if(course.conversation.provider==='youtube')assert.ok(await evaluate(`document.querySelector('.question-card iframe').src.includes(${JSON.stringify(course.conversation.youtubeId)})`));
+  else assert.ok(await evaluate(`!!document.querySelector('.question-card a[href="${course.conversation.source}"]')`));
+  assert.equal(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'),true,course.id);
+  await submit(course.questions[0]);await click('.practice-top','Save & exit');await wait("!!document.querySelector('.membership-courses')");
  }
  assert.deepEqual(exceptions,[]);
  console.log('PASS: mobile regional courses use the regular intro, tables, question controls, hidden transcripts and review flow; vos practice resumes, saves 7/8 after retry, and unavailable regional audio never offers a device substitute. All four languages render without overflow.');

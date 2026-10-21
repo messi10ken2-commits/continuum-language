@@ -1,47 +1,54 @@
-import {levelConversationLessons} from './level-conversations.mjs';
-// Reuse reviewed source windows, with new inference and communication-purpose tasks.
-// Video access is Free; only Continuum's authored practice is a Premium benefit.
-const sources={en:'en-conversation-v2-b1-complaints',es:'es-conversation-v2-b1-compliments',pt:'pt-conversation-v2-b1-future',ja:'ja-conversation-v2-b2-moving'};
-const tasks={
- en:[
- ['Which distinction explains why Neil contacted the accommodation before travelling?',['He was checking a risk raised by later reviews, not reporting a stay he had already completed.','He was asking for a refund after returning from the trip.','He had already confirmed that the property was dirty.'],0,'His concern came from reviews he read after booking; he had not stayed there yet.'],
- ['Which response would meet the purpose of Neil’s email?',['An explanation of how to leave an online review','Confirmation that the property would be clean and the facilities would work','A description of places to visit nearby'],1,'He wanted reassurance about the condition of the accommodation.'],
- ['What tension in Neil’s attitude does this section reveal?',['He believes a legitimate complaint is always easy to make.','He wants to stop other customers from complaining.','He recognises a valid complaint but finds raising it socially uncomfortable.'],2,'Being entitled to complain and feeling comfortable doing it are different things.'],
- ['Which account keeps both the problem and the requested remedy accurate?',['After repeated delivery delays, Georgie asked for a discount on a future order.','After a single damaged item, she asked for a flight refund.','Before any delivery arrived, she requested a hotel upgrade.'],0,'The complaint concerned two late food deliveries and a discount on the next order.'],
- ['What is the practical implication of their advice about personal attacks?',['The complaint must avoid mentioning the problem.','Describe the problem without treating the staff member as its cause.','Only complain if the staff member caused the problem personally.'],1,'The recipient of a complaint may not be responsible for the original fault.'],
- ['What explains the companion’s perspective without proving that his complaint was justified?',['He had paid for everybody’s meal.','He knew the restaurant owner personally.','His experience working as a waiter influenced his standards.'],2,'His previous job explains his expectations; it does not mean everyone agreed.'],
- ['What made the manner of complaining part of the problem?',['Other people could hear the complaint.','The complaint was only submitted in writing.','The restaurant had already closed.'],0,'Neil describes an audible public exchange that made him uncomfortable.'],
- ['Which conclusion best combines the two conditions Georgie gives for being willing to help?',['A loud voice matters more than the issue.','A genuine problem raised politely is more likely to receive a helpful response.','Only familiar customers should receive help.'],1,'She links willingness to help to a real issue and respectful communication.']
- ],
- es:[
- ['What kind of evidence are the presenters collecting?',['Personal experiences of compliments','Advice on selecting a profession','Instructions for booking accommodation'],0,'The interviews explore giving and receiving compliments through personal experiences.'],
- ['What does the surprising praise change for the speaker?',['Their travel plans','Their awareness of their own abilities','Their job contract'],1,'Someone else notices talents the speaker had not recognised.'],
- ['What does the praise at work specifically recognise?',['Length of service alone','Taking a holiday','Handling a new responsibility successfully'],2,'The praise is connected to doing a new task or role well.'],
- ['What makes the response to praise appreciative rather than dismissive?',['The speaker thanks the friend and values the opinion.','The speaker changes the subject immediately.','The speaker insists that all praise is inaccurate.'],0,'The response acknowledges both the compliment and the person giving it.'],
- ['What social function do the comments on outfit photos serve?',['They provide professional styling instructions.','They support the speaker’s confidence.','They prevent the speaker choosing clothes independently.'],1,'The speaker connects these comments with self-esteem.'],
- ['What assumption makes the joke about a mother’s compliment understandable?',['Mothers never notice clothing.','Only strangers can give compliments.','A parent’s affection may affect the objectivity of praise.'],2,'The joke is about possible bias, not a claim that the praise was false.'],
- ['Which communication qualities are being praised together?',['Brevity and clarity','Technical detail and length','Humour and musical ability'],0,'The contribution was concise and easy to understand.'],
- ['Which action shows that praise is also something the interviewee gives?',['Asking a manager for an assessment','Telling their mother she looked lovely','Buying clothes for a neighbour'],1,'The interviewee describes complimenting their mother that morning.']
- ],
- pt:[
- ['Which summary preserves both the present situation and the upcoming change?',['The speaker has two children and another is expected.','The speaker plans to have a first child in several years.','The speaker’s only child has already left home.'],0,'The speaker distinguishes existing children from another child on the way.'],
- ['Why should the afternoon outing be understood as conditional?',['It depends on a flight booking.','Traffic may affect whether the plan works.','A school has cancelled the activity.'],1,'Traffic in São Paulo qualifies the plan.'],
- ['What gives the evening family plan its personal importance?',['A planned move to another country','A school celebration','Four days apart from the children'],2,'Time apart explains the wish to spend the evening together.'],
- ['What cause-and-effect link is used to explain tomorrow morning?',['The party will probably leave the speaker tired, so they expect to sleep late.','An early appointment will force the speaker to stay awake all night.','A new work shift begins at midnight.'],0,'The expectation follows from tiredness after the party.'],
- ['Which distinction is essential to understanding the student’s situation?',['The course has finished but the job has not started.','Studying social work is different from the current job serving the public.','The speaker is already an experienced social worker.'],1,'The speaker has just started the course and currently works at Sesc.'],
- ['What makes this account more nuanced than “weekend work is only a sacrifice”?',['The speaker has stopped working weekends.','The work is unrelated to other people.','The work helps the public enjoy leisure and is personally enjoyable too.'],2,'The speaker presents work and enjoyment as compatible.'],
- ['Which response would avoid overstating the certainty of the project?',['The idea is being developed, but the details are not decided yet.','The project is fully confirmed for next month.','The project was cancelled after an argument.'],0,'The speaker says nothing is defined yet.'],
- ['What continuing role does the retirement plan suggest?',['Withdrawing from all community activity','Contributing through volunteering connected with animals','Immediately returning to full-time school'],1,'The speaker hopes to do community service involving animals.']
- ],
- ja:[
- ['Which description avoids confusing the family home with the new home?',['Haru moved from the family home in Tokyo to Saitama.','Haru moved from Saitama back into the family home in Tokyo.','Haru moved directly from Osaka to France.'],0,'The move discussed is from the family home in Tokyo to Saitama.'],
- ['What does the account show about the meaning of “moving” here?',['Returning, starting the lease and moving in all happened on one day.','Returning, beginning the lease and fully moving in were separate stages.','The lease began only after all furniture had arrived.'],1,'The timeline distinguishes October, late November and January.'],
- ['Which transport arrangement matches the smaller belongings?',['One removal van carried everything immediately.','An international company shipped them all.','Repeated train trips with luggage and a full backpack'],2,'Smaller possessions were carried on train journeys.'],
- ['How does concern for the cat explain the order of events?',['Haru prepared the home first to reduce disruption during the final move.','Haru cancelled the lease permanently.','The cat was moved before any deliveries were arranged.'],0,'Delaying the final move helped avoid stress caused by deliveries and visitors.'],
- ['What does the final transport add to the earlier train-trip account?',['All larger items were eventually carried by train too.','Haru’s father helped with a large van for the remaining load.','A neighbour took everything by bicycle.'],1,'The final larger load involved help from Haru’s father.'],
- ['What led Shun to judge a self-managed move feasible?',['A moving company had already agreed to do it.','The new home was in the same building.','The setup was simple and the furniture was small.'],2,'The apparent scale of the belongings shaped the initial judgement.'],
- ['Which distinction keeps the account of large items accurate?',['Smaller possessions were carried; large household items were bought new.','Every large item was brought on the train.','Haru decided never to have large household items.'],0,'Large items were bought for the new home, unlike the smaller belongings carried there.'],
- ['Which interpretation would misrepresent the reason for delaying the final move?',['The delay accommodated the cat’s wellbeing.','The delay simply shows that Haru failed to prepare.','Preparation happened before the final relocation.'],1,'The explanation describes a deliberate choice to reduce the cat’s stress.']
- ]};
-export const premiumVideoCourses=Object.entries(sources).map(([language,id])=>{const original=levelConversationLessons.find(l=>l.id===id);return {id:`${language}-premium-video-v1`,language,level:original.level,title:({en:'Read the intent behind a complaint',es:'Understand the social meaning of praise',pt:'Read certainty and intention in future plans',ja:'Understand decisions behind a move'})[language],description:'Use short, verified video sections to understand motives, nuance and practical communication.',conversation:original.conversation,examples:[],questions:tasks[language].map(([prompt,options,answer,note],i)=>({type:'video',prompt,options,answer,note,video:true,videoCue:original.questions[i].videoCue}))};});
+// Independent sources: never borrow ordinary-course videos or their question windows.
+// Original media remains on the publisher's player; authored exercises are Premium.
+const definitions={
+ en:{level:'B2',title:'Hear how two native speakers pronounce everyday words',youtubeId:'TQiHemDlOOk',credit:'British Council · Sophia and Natasha',sourcePage:'https://learnenglishteens.britishcouncil.org/study-break/youtubers/british-vs-american-accent-challenge',items:[
+ ['Where is Natasha from?',['California','London','Sydney'],0,'Natasha identifies California.'],
+ ['Where is Sophia from?',['New York','London','Toronto'],1,'Sophia identifies London.'],
+ ['What are they comparing?',['Spelling tests','Travel prices','Their pronunciations'],2,'They compare spoken everyday words.'],
+ ['Which consonant does Natasha compare to a D sound?',['T','H','V'],0,'She discusses T in water and butter.'],
+ ['What happens to H in Natasha’s pronunciation of herb?',['It becomes louder','It is silent','It becomes an R'],1,'Her example omits the initial H.'],
+ ['What does Natasha say about envelope?',['She never uses it','Only one pronunciation exists','Her own pronunciation sometimes varies'],2,'She acknowledges variation in her own speech.'],
+ ['Do they claim to know every historical reason for these differences?',['No','Yes','They avoid pronunciation entirely'],0,'They acknowledge uncertainty about explanations.'],
+ ['What is the safest conclusion from these two speakers?',['One accent is correct','Individual speakers illustrate variation','All Americans sound identical'],1,'Two speakers cannot represent everyone.']
+ ]},
+ es:{level:'B1',title:'Shop at a Mexican market with confidence',youtubeId:'CYaMj33yql4',credit:'Spring Spanish · Paulisima',sourcePage:'https://springlanguages.com/learn-spanish/buying-at-market-spanish/',items:[
+ ['Why do vendors call out?',['To attract buyers','To announce closing','To refuse customers'],0,'They invite customers to their stalls.'],
+ ['What amount of carrots is requested?',['Two kilos','Half a kilo','Ten kilos'],1,'The example requests half a kilo.'],
+ ['What does the shopper ask before paying?',['The closing date','The weather','The amount owed'],2,'The question asks how much to pay.'],
+ ['What is removed from the chicken?',['Its skin','Its price label','The whole stall'],0,'The customer requests skin removal.'],
+ ['How does the chicken order change?',['It is cancelled','The breast is requested filleted','It becomes fish'],1,'The customer revises the preparation request.'],
+ ['What helps the butcher recommend a cut?',['The customer’s age','The time of day','Its intended cooking use'],2,'Preparation plans guide the recommendation.'],
+ ['What should buyers check about displayed prices?',['The quantity they apply to','The vendor’s birthday','The stall number only'],0,'A price may cover less than a kilo.'],
+ ['What is a pilón in this shopping context?',['A tax','A small extra gift','A receipt'],1,'It is a small extra offered with a purchase.']
+ ]},
+ pt:{level:'B1',title:'Follow a playful dinner-table exchange in Portugal',youtubeId:'6i47YZuugAw',credit:'Practice Portuguese · Eliana and Joseph',sourcePage:'https://www.practiceportuguese.com/videos/hugo-e-patricia-a-mesa-de-jantar-animated/',items:[
+ ['What does Hugo think is missing?',['A fork and knife','A spoon','The table'],0,'He has a spoon but wants other cutlery.',1,14],
+ ['Why does Patrícia think a spoon is enough?',['They are eating cake','They are eating soup','They are leaving'],1,'A spoon suits the soup.',13,32],
+ ['Why is the planned soup rejected?',['It is cold','It is expensive','It tastes sour'],2,'Hugo reacts to its sour taste.',32,39],
+ ['What replacement meal is proposed?',['Fish and potatoes','Bread and cheese','Chicken and rice'],0,'Hugo proposes fish and potatoes.',38,43],
+ ['What drink do they discuss?',['Tea','Juice','Milk'],1,'They discuss fruit juice.',41,55],
+ ['How does Patrícia assess Hugo’s cooking?',['She dislikes everything','She says nothing','She praises it'],2,'She compliments his cooking.',57,68],
+ ['How does Patrícia distinguish enjoyment from ability?',['She likes cooking but says she cooks badly','She dislikes eating','She cannot taste food'],0,'Liking an activity differs from doing it well.',65,75],
+ ['What contrast makes their exchange playful?',['They both refuse food','He cooks while she eats everything','Neither likes dinner'],1,'They joke about their different roles.',74,85]
+ ]},
+ ja:{level:'B1',title:'Read family intentions while dinner is prepared',credit:'The Japan Foundation · Erin’s Challenge',sourcePage:'https://www.erin.jpf.go.jp/jp/lesson/03/advanced/',transcript:'https://www.erin.jpf.go.jp/materials/advanced/download/erin_lesson03_advanced_script.pdf',items:[
+ ['Who is already home when Saki arrives?',['Her sister','Her teacher','Her coach'],0,'Akane is already home.'],
+ ['How does Akane know their mother will return soon?',['A letter arrived','Their mother phoned','She guesses silently'],1,'She reports a recent phone call.'],
+ ['Why is their mother late?',['She missed school','She went abroad','She was asked to run an errand'],2,'An errand delayed her return.'],
+ ['What does Akane offer to do?',['Prepare dinner','Cancel dinner','Go to school'],0,'She offers practical help.'],
+ ['Why did their mother buy quickly prepared food?',['They have no plates','Dinner can be ready sooner','Nobody is hungry'],1,'It reduces preparation time.'],
+ ['How does Saki explain her appetite?',['She skipped a holiday','She dislikes dinner','Club activities leave her hungry'],2,'She connects hunger with club activities.'],
+ ['Who does their mother ask for help?',['Both daughters','Only the neighbour','Only Saki’s teacher'],0,'She addresses both daughters.'],
+ ['What does Akane advise about the item Saki points to?',['Throw it away','Leave it as it is','Heat it twice'],1,'She says it does not need heating.']
+ ]}
+};
+export const premiumVideoCourses=Object.entries(definitions).map(([language,d])=>({
+ id:`${language}-premium-video-v2`,contentVersion:3,language,level:d.level,title:d.title,
+ description:'New source material: understand intentions and practical details in an original publisher video.',
+ conversation:{provider:d.youtubeId?'youtube':'publisher',...(d.youtubeId?{youtubeId:d.youtubeId}:{}),source:d.youtubeId?`https://www.youtube.com/watch?v=${d.youtubeId}`:d.sourcePage,credit:d.credit,sourceTitle:d.title,hint:'Watch the indicated source section. These exercises use a different source from the ordinary lessons.'},
+ examples:[],references:[{title:'Publisher’s lesson and transcript',url:d.sourcePage}],
+ questions:d.items.map(([prompt,options,answer,note,start,end],i)=>({type:'video',video:true,prompt,options,answer,note,
+ ...(start!==undefined?{videoCue:{start,end,label:'Dinner-table exchange',precision:'section',evidence:'Section windows from the publisher’s timestamped script, checked 2026-10-21.'}}:{sourceReference:{label:language==='ja'?'Lesson 3 · Advanced skit · family dinner':language==='es'?['Vendor calls','At the stall','At the stall','Buying chicken','Buying chicken','Buying meat','Important notes','Important notes'][i]:['Introduction','Introduction','Introduction','Water and butter','Herb','Envelope','Explaining pronunciation','Conclusion'][i],url:d.transcript||d.sourcePage,evidence:'Publisher’s public lesson/script checked 2026-10-21; exact video offsets not verified.'}})
+ }))
+}));
 export const premiumVideoSources=premiumVideoCourses.map(({id,language,title,conversation})=>({id,language,title,conversation}));
