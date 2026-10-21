@@ -1,3 +1,6 @@
+import {assertSecureRuntime} from './runtime-policy.mjs';
+import {passwordHash,passwordMatches} from './password-security.mjs';
+import {migrateAuthLimits,createAuthLimiter,authClientAddress} from './auth-rate-limit.mjs';
 import {visiblePlacement} from './premium-policy.mjs';
 import {migrateBilling,handleBilling,handleBillingWebhook,membership} from './billing-api.mjs';
 import {migrateClassroom,handleClassroom,cancelUnsharedClasses} from './classroom-api.mjs';
@@ -23,10 +26,12 @@ import {assessSkill} from './ai-assessment.mjs';
 import {migrateSkills,handleSkills} from './skills-api.mjs';
 import {migrateAssessments,handleAssessment,assessmentHistory} from './assessment-api.mjs';
 
+assertSecureRuntime();
 const root=path.dirname(fileURLToPath(import.meta.url));
 const dist=path.join(root,'dist');
 const pool=new pg.Pool({connectionString:process.env.DATABASE_URL,max:6,connectionTimeoutMillis:8000});
 const sessionDays=30;
+const authLimited=createAuthLimiter(pool);
 
 const attempts=new Map();
 const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.mp4':'video/mp4','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon','.woff2':'font/woff2'};
@@ -36,6 +41,7 @@ const cookieName='continuum_session';
 const cookieAttrs=`HttpOnly; SameSite=Lax; Path=/; Max-Age=${sessionDays*86400}${process.env.NODE_ENV==='production'?' ; Secure':''}`;
 
 async function migrate(){
+ await migrateAuthLimits(pool);
  await pool.query(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), email text UNIQUE NOT NULL, name text NOT NULL, role text NOT NULL CHECK(role IN ('learner','teacher')), password_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
  ALTER TABLE users ADD COLUMN IF NOT EXISTS share_self_learning boolean NOT NULL DEFAULT true;
  CREATE TABLE IF NOT EXISTS sessions (token_hash text PRIMARY KEY, user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL);
@@ -74,8 +80,6 @@ async function currentUser(req){const token=(req.headers.cookie||'').split(';').
 async function required(req,role){const user=await currentUser(req);if(!user)fail(401,'Sign in to continue');if(role&&user.role!==role)fail(403,'Not allowed for this account');return user}
 async function linked(teacherId,learnerId){const r=await pool.query('SELECT 1 FROM teacher_links WHERE teacher_id=$1 AND learner_id=$2',[teacherId,learnerId]);if(!r.rowCount)fail(403,'This learner has not shared access with you')}
 async function startSession(res,user){const token=random();await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '30 days')",[hash(token),user.id]);send(res,200,{user},{'Set-Cookie':`${cookieName}=${token}; ${cookieAttrs}`})}
-function passwordHash(password,salt=crypto.randomBytes(16).toString('hex')){return salt+':'+crypto.scryptSync(password,salt,64).toString('hex')}
-function passwordMatches(password,stored){const [salt,key]=stored.split(':');if(!salt||!key||key.length!==128)return false;const a=Buffer.from(key,'hex'),b=crypto.scryptSync(password,salt,64);return crypto.timingSafeEqual(a,b)}
 function safeEmail(email){return String(email||'').trim().toLowerCase()}
 async function handle(req,res){
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
@@ -96,12 +100,15 @@ async function handle(req,res){
  if(route==='/api/health'&&req.method==='GET'){await pool.query('SELECT 1');return send(res,200,{ok:true})}
  if(route==='/api/auth/me'&&req.method==='GET')return send(res,200,{user:await currentUser(req)});
  if(route==='/api/auth/register'&&req.method==='POST'){
-  limited(req,'register',6);const data=await json(req);const email=safeEmail(data.email),name=String(data.name||'').trim(),password=String(data.password||'');
+  await authLimited('register-ip',authClientAddress(req),6);const data=await json(req);const email=safeEmail(data.email),name=String(data.name||'').trim(),password=String(data.password||'');
   if(!data.adult||!/^\S+@\S+\.\S+$/.test(email)||email.length>254||name.length<2||name.length>80||password.length<12||password.length>128||!['learner','teacher'].includes(data.role))fail(400,'Enter a valid name, email, 12+ character password, and confirm you are 18 or older');
-  try{const result=await pool.query('INSERT INTO users(email,name,role,password_hash) VALUES($1,$2,$3,$4) RETURNING id,email,name,role',[email,name,data.role,passwordHash(password)]);return startSession(res,result.rows[0])}catch(e){if(e.code==='23505')fail(409,'An account already uses this email');throw e}
+  try{const result=await pool.query('INSERT INTO users(email,name,role,password_hash) VALUES($1,$2,$3,$4) RETURNING id,email,name,role',[email,name,data.role,await passwordHash(password)]);return startSession(res,result.rows[0])}catch(e){if(e.code==='23505')fail(409,'An account already uses this email');throw e}
  }
  if(route==='/api/auth/login'&&req.method==='POST'){
-  limited(req,'login',12);const data=await json(req);const r=await pool.query('SELECT * FROM users WHERE email=$1',[safeEmail(data.email)]);if(!r.rowCount||!passwordMatches(String(data.password||''),r.rows[0].password_hash))fail(401,'Email or password is incorrect');const {id,email,name,role}=r.rows[0];return startSession(res,{id,email,name,role});
+  await authLimited('login-ip',authClientAddress(req),12);const data=await json(req);const email=safeEmail(data.email);
+  if(email.length>254||typeof data.password!=='string'||data.password.length<1||data.password.length>128)fail(401,'Email or password is incorrect');
+  await authLimited('login-account',email,30);
+  const r=await pool.query('SELECT * FROM users WHERE email=$1',[email]);if(!await passwordMatches(data.password,r.rows[0]?.password_hash))fail(401,'Email or password is incorrect');const {id,name,role}=r.rows[0];return startSession(res,{id,email,name,role});
  }
  if(route==='/api/auth/logout'&&req.method==='POST'){
   const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(token)await pool.query('DELETE FROM sessions WHERE token_hash=$1',[hash(token)]);return send(res,200,{ok:true},{'Set-Cookie':`${cookieName}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${process.env.NODE_ENV==='production'?'; Secure':''}`});
@@ -201,4 +208,4 @@ async function serve(req,res,route){if(req.method!=='GET'&&req.method!=='HEAD')r
 if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
 await migrate();
 if(process.env.NODE_ENV==='production'){void warmLocalization(pool);void warmPatternProvider();}
-http.createServer((req,res)=>handle(req,res).catch(err=>{if(err.status<500||err.status===503)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));
+http.createServer((req,res)=>handle(req,res).catch(err=>{if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));if(err.status<500||err.status===503)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));

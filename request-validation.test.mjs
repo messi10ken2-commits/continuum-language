@@ -14,10 +14,12 @@ try{
  }
  const allowed=await fetch(base+'/api/auth/login',{method:'POST',headers:{Origin:base,'Content-Type':'application/json'},body:'{}'});
  assert.equal(allowed.status,401);
- // Separate synthetic client address avoids sharing the preceding test budget.
+ // Reset this synthetic database budget before the boundary check.
+ await db.query('DELETE FROM auth_rate_limits');
  for(let i=0;i<13;i++){
-  const r=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json','X-Forwarded-For':'192.0.2.41'},body:'{}'});
+  const r=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json','X-Forwarded-For':'192.0.2.'+(i+1),'X-Real-IP':'192.0.2.'+(i+1)},body:'{}'});
   assert.equal(r.status,i<12?401:429);
+  if(i===12)assert.ok(Number(r.headers.get('retry-after'))>0);
  }
  const registration=await fetch(base+'/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'Validation QA',email:'validation-qa@example.test',password:'synthetic-validation-password',role:'learner',adult:true})});assert.equal(registration.status,200);
  const cookie=registration.headers.get('set-cookie').split(';')[0];

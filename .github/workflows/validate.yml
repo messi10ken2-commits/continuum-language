@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main]
+    branches: [main, 'security/**']
 permissions:
   contents: read
 jobs:
@@ -14,9 +14,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: '.node-version'
           cache: npm
+      - run: npm run check:runtime
       - run: npm ci
       - run: npm run test:qa
       - run: npm run build
       - run: npm audit --omit=dev
+      - name: Build production image
+        run: docker build --tag continuum-security-check .
+      - name: Verify production runtime and unprivileged user
+        run: |
+          docker run --rm continuum-security-check node scripts/check-runtime.mjs
+          test "$(docker run --rm continuum-security-check id -u)" != "0"
