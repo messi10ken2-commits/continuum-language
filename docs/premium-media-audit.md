@@ -31,3 +31,9 @@ Direct in-app recordings of every regional phrase are still outstanding. They re
 https://www.jpf.go.jp/j/kansai/clip/guide.html
 
 Regression checks prevent ordinary/Premium video duplication, copied exercises, missing source evidence, stale Kansai synthesis, and answer-key leakage. Browser QA checks the shared normal-lesson player, hidden transcripts, server grading, retry flow and mobile overflow.
+
+## Question playback (2026-10-21)
+
+English now uses eight context windows verified in the YouTube watch-page timestamped English transcript. Spanish uses the publisher’s explicit chapter boundaries (0:19, 1:33, 3:07, 4:10, 5:40; video ends 6:31), cross-checked against the public lesson script. Spanish windows intentionally cover the relevant chapter; they are not claimed as exact phrase timestamps. No unverified second-level offsets were invented.
+
+Timed Premium question players request autoplay from the assigned start and stop at the assigned end. The replay button remains available after choosing the optional full video, and returns to the question window. Introductory and Free previews retain click-to-play. Browser autoplay policy may require a user click; the replay button is always available.

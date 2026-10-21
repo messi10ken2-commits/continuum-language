@@ -3,6 +3,7 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {createServer} from 'vite';
 import {lessonList,gradeLesson,isCurrentLessonDraft,getLessonVariant} from './course.mjs';
+import {premiumVideoCourses} from './premium-video-lessons.mjs';
 import {conversationLessons} from './conversation-course.mjs';
 import {levelConversationLessons,levelConversationChapters} from './level-conversations.mjs';
 import sources from './level-video-sources.json' with {type:'json'};
@@ -106,6 +107,20 @@ try{
   const html=renderToStaticMarkup(React.createElement(SelfStudy,{language:l.language,activeLesson:l.id,attempts:[],onStart(){},onExit(){},onComplete(){}}));
   assert.ok(html.includes('Start practice'),'old draft returns to the introduction');
   storage.clear();
+ }
+ const {default:ClipPlayer}=await vite.ssrLoadModule('/ConversationVideo.jsx');
+ for(const l of premiumVideoCourses.filter(l=>['en','es'].includes(l.language))){
+  assert.equal(l.questions.length,8);
+  for(const q of l.questions){
+   const cue=reviewedVideoCue(q);assert.ok(cue,l.id+' requires reviewed timing');
+   assert.ok(cue.end<=(l.language==='en'?231:391));
+   const html=renderToStaticMarkup(React.createElement(ClipPlayer,{lesson:l,cue,practice:true,autoPlay:true}));
+   assert.ok(html.includes(`start=${cue.start}&amp;end=${cue.end}&amp;autoplay=1`));
+   assert.ok(html.includes('loading="eager"'));
+   assert.ok(html.includes('Replay this section'));
+  }
+  const preview=renderToStaticMarkup(React.createElement(ClipPlayer,{lesson:l,practice:true}));
+  assert.ok(!preview.includes('autoplay=1'),'free preview must remain click-to-play');
  }
  const lesson={title:'Past tense'};
  assert.equal(photoFor(questionScene(lesson,{prompt:'At the airport',options:['food','work'],answer:0})),photoFor(questionScene(lesson,{prompt:'At the airport',options:['food','work'],answer:1})));

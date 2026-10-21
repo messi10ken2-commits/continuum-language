@@ -65,7 +65,24 @@ try{
   if(course.conversation.provider==='youtube')assert.ok(await evaluate(`document.querySelector('.question-card iframe').src.includes(${JSON.stringify(course.conversation.youtubeId)})`));
   else assert.ok(await evaluate(`!!document.querySelector('.question-card a[href="${course.conversation.source}"]')`));
   assert.equal(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'),true,course.id);
-  await submit(course.questions[0]);await click('.practice-top','Save & exit');await wait("!!document.querySelector('.membership-courses')");
+  if(course.questions[0].videoCue){
+   const inspectClip=async q=>{
+    const src=new URL(await evaluate("document.querySelector('.question-card iframe').src"));
+    assert.equal(src.searchParams.get('start'),String(q.videoCue.start));
+    assert.equal(src.searchParams.get('end'),String(q.videoCue.end));
+    assert.equal(src.searchParams.get('autoplay'),'1');
+   };
+   await inspectClip(course.questions[0]);
+   await click('.question-card .conversation-tools','Watch full video (optional)');
+   assert.equal(new URL(await evaluate("document.querySelector('.question-card iframe').src")).searchParams.has('start'),false);
+   await evaluate("document.querySelector('.question-card .conversation-tools button').click()");await inspectClip(course.questions[0]);
+   // Walk every timed question: the assigned window must update on each turn.
+   for(let i=0;i<course.questions.length;i++){
+    await inspectClip(course.questions[i]);await submit(course.questions[i]);
+    if(i<course.questions.length-1){await evaluate("document.querySelector('.question-card>.primary').click()");await wait(`document.querySelector('.practice-top').textContent.includes(${JSON.stringify((i+2)+'/'+course.questions.length)})`);}
+   }
+  }else await submit(course.questions[0]);
+  await click('.practice-top','Save & exit');await wait("!!document.querySelector('.membership-courses')");
  }
  assert.deepEqual(exceptions,[]);
  console.log('PASS: mobile regional courses use the regular intro, tables, question controls, hidden transcripts and review flow; vos practice resumes, saves 7/8 after retry, and unavailable regional audio never offers a device substitute. All four languages render without overflow.');

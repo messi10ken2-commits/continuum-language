@@ -1,5 +1,14 @@
 // Independent sources: never borrow ordinary-course videos or their question windows.
 // Original media remains on the publisher's player; authored exercises are Premium.
+const cueWindows={
+ en:[[18,24],[23,28],[27,47],[103,122],[124,145],[172,191],[127,145],[27,47]],
+ // Publisher chapter boundaries: section windows, not claimed phrase-level offsets.
+ es:[[19,93],[93,187],[93,187],[187,250],[187,250],[250,340],[340,391],[340,391]]
+};
+const cueLabels={
+ en:['Introduction','Introduction','Introduction','Water and butter','Herb','Envelope','Explaining pronunciation','Introduction'],
+ es:['Vendor calls','At the stall','At the stall','Buying chicken','Buying chicken','Buying meat','Important notes','Important notes']
+};
 const definitions={
  en:{level:'B2',title:'Hear how two native speakers pronounce everyday words',youtubeId:'TQiHemDlOOk',credit:'British Council · Sophia and Natasha',sourcePage:'https://learnenglishteens.britishcouncil.org/study-break/youtubers/british-vs-american-accent-challenge',items:[
  ['Where is Natasha from?',['California','London','Sydney'],0,'Natasha identifies California.'],
@@ -47,8 +56,10 @@ export const premiumVideoCourses=Object.entries(definitions).map(([language,d])=
  description:'New source material: understand intentions and practical details in an original publisher video.',
  conversation:{provider:d.youtubeId?'youtube':'publisher',...(d.youtubeId?{youtubeId:d.youtubeId}:{}),source:d.youtubeId?`https://www.youtube.com/watch?v=${d.youtubeId}`:d.sourcePage,credit:d.credit,sourceTitle:d.title,hint:'Watch the indicated source section. These exercises use a different source from the ordinary lessons.'},
  examples:[],references:[{title:'Publisher’s lesson and transcript',url:d.sourcePage}],
- questions:d.items.map(([prompt,options,answer,note,start,end],i)=>({type:'video',video:true,prompt,options,answer,note,
- ...(start!==undefined?{videoCue:{start,end,label:'Dinner-table exchange',precision:'section',evidence:'Section windows from the publisher’s timestamped script, checked 2026-10-21.'}}:{sourceReference:{label:language==='ja'?'Lesson 3 · Advanced skit · family dinner':language==='es'?['Vendor calls','At the stall','At the stall','Buying chicken','Buying chicken','Buying meat','Important notes','Important notes'][i]:['Introduction','Introduction','Introduction','Water and butter','Herb','Envelope','Explaining pronunciation','Conclusion'][i],url:d.transcript||d.sourcePage,evidence:'Publisher’s public lesson/script checked 2026-10-21; exact video offsets not verified.'}})
- }))
+ questions:d.items.map(([prompt,options,answer,note,start,end],i)=>{
+ const window=cueWindows[language]?.[i];if(window)[start,end]=window;
+ return ({type:'video',video:true,prompt,options,answer,note,
+ ...(start!==undefined?{videoCue:{start,end,label:cueLabels[language]?.[i]||'Dinner-table exchange',precision:'section',evidence:language==='en'?'Context windows checked against the YouTube timestamped English transcript and publisher script, 2026-10-21.':language==='es'?'Publisher chapter boundaries checked in the YouTube description, with question content checked against the publisher lesson, 2026-10-21. These are chapter windows, not exact phrase offsets.':'Section windows from the publisher’s timestamped script, checked 2026-10-21.'}}:{sourceReference:{label:language==='ja'?'Lesson 3 · Advanced skit · family dinner':language==='es'?['Vendor calls','At the stall','At the stall','Buying chicken','Buying chicken','Buying meat','Important notes','Important notes'][i]:['Introduction','Introduction','Introduction','Water and butter','Herb','Envelope','Explaining pronunciation','Conclusion'][i],url:d.transcript||d.sourcePage,evidence:'Publisher’s public lesson/script checked 2026-10-21; exact video offsets not verified.'}})
+ });})
 }));
 export const premiumVideoSources=premiumVideoCourses.map(({id,language,title,conversation})=>({id,language,title,conversation}));
