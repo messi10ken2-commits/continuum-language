@@ -67,7 +67,7 @@ test('long replies finish every device utterance in all four languages before co
  for(const [locale,sentence]of [['en-US','Hello! Let us talk about your next trip. '],['es-ES','¡Hola! ¿Dónde quieres viajar este año? '],['pt-BR','Olá! Vamos conversar sobre a sua viagem. '],['ja-JP','こんにちは。次の旅行について話しましょう。']]){
   const spoken=[],text=sentence.repeat(20),synth={getVoices:()=>[{lang:locale}],cancel(){},resume(){},speak(u){spoken.push(u.text);queueMicrotask(()=>{u.onstart();u.onend()})}};
   const loop=new ConversationVoiceLoop({host:{speechSynthesis:synth,SpeechSynthesisUtterance:class{constructor(text){this.text=text}}}});loop.active=true;loop.epoch=1;loop.currentText=text;loop.currentLocale=locale;
-  await loop.speakDevice(1);assert.equal(spoken.join(''),text);assert.ok(spoken.length>1);assert.equal(loop.endPlayback,null);
+  await loop.speakDevice(1);assert.equal(spoken.join(''),text);assert.ok(spoken.length>1);assert.ok(spoken.every(chunk=>Array.from(chunk).length<=(locale.startsWith('ja')?60:180)));assert.equal(loop.endPlayback,null);
  }
 });
 test('intentional interruption cancels queued device chunks without duplicate playback',async()=>{

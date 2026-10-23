@@ -88,7 +88,7 @@ export class ConversationVoiceLoop{
   const synth=this.host.speechSynthesis,U=this.host.SpeechSynthesisUtterance;if(!synth||!U)throw Error('Device voice is unavailable. Choose natural voice or type your reply.');
   if(!synth.getVoices().length)await new Promise(resolve=>{const done=()=>{clearTimeout(timer);synth.removeEventListener?.('voiceschanged',done);this.cancelVoices=null;resolve()};const timer=setTimeout(done,1500);this.cancelVoices=done;synth.addEventListener?.('voiceschanged',done)});
   if(!this.valid(epoch))return;
-  for(const chunk of speechChunks(text)){
+  for(const chunk of speechChunks(text,locale.startsWith('ja')?60:180)){
   if(!this.valid(epoch))return;
   const u=new U(chunk);this.utterance=u;u.lang=locale||this.locale;u.rate=Math.min(.9,this.rate);u.volume=1;
   const voices=synth.getVoices(),lang=u.lang.replace('_','-').toLowerCase(),base=lang.split('-')[0];
