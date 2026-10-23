@@ -1,3 +1,4 @@
+import {speechChunks} from './speech-chunks.mjs';
 // End-of-turn detection is based on microphone energy, never a browser ASR vendor.
 export function newVoiceWindow(now){return {started:now,lastSpeech:now,heard:false,speechFrames:0,noise:0.002};}
 export function detectVoiceEnd(window,rms,now,{silenceMs=1500,maxMs=45000,idleMs=20000}={}){
@@ -51,13 +52,13 @@ export class ConversationVoiceLoop{
  async speak(url,epoch){
   if(this.deviceVoice)return this.speakDevice(epoch);
   this.abort=new AbortController();
-  const timeout=setTimeout(()=>this.abort?.abort(),30000);let response;try{response=await this.fetchImpl(url,{credentials:'same-origin',signal:this.abort.signal});}catch(e){if(!this.valid(epoch))return;return this.fallbackVoice(epoch);}finally{clearTimeout(timeout);}
+  const timeout=setTimeout(()=>this.abort?.abort(),30000);let response,bytes;try{response=await this.fetchImpl(url,{credentials:'same-origin',signal:this.abort.signal});if(response.ok)bytes=await response.arrayBuffer();}catch(e){if(!this.valid(epoch))return;return this.fallbackVoice(epoch);}finally{clearTimeout(timeout);}
   if(!response.ok){await response.arrayBuffer();if(!this.valid(epoch))return;if([429,503,504].includes(response.status))return this.fallbackVoice(epoch);throw Error('Natural voice is temporarily unavailable. Retry, or choose device voice.');}
   if(!response.headers.get('content-type')?.startsWith('audio/'))throw Error('The voice response could not be played. Please retry.');
-  const bytes=await response.arrayBuffer();if(!this.valid(epoch))return;
+  if(!this.valid(epoch))return;
   if(bytes.byteLength>8100000)throw Error('The voice response could not be played. Please retry.');
   const buffer=await this.context.decodeAudioData(bytes.slice(0));if(!this.valid(epoch))return;
-  if(this.player)return this.playMedia(bytes,epoch);
+  if(this.player)return this.playMedia(bytes,epoch,buffer.duration);
   if(this.context.state==='suspended')await this.context.resume();
   if(this.context.state!=='running')throw Error('Tap Resume conversation to allow audio playback.');
   const source=this.context.createBufferSource(),meter=this.context.createAnalyser();source.buffer=buffer;meter.fftSize=512;source.connect(meter);meter.connect(this.context.destination);this.source=source;
@@ -65,15 +66,15 @@ export class ConversationVoiceLoop{
   await new Promise((resolve,reject)=>{this.endPlayback=resolve;source.onended=resolve;try{source.start()}catch(e){reject(e)}});
   this.stopMeter();source.disconnect();meter.disconnect();this.source=null;this.endPlayback=null;
  }
- async playMedia(bytes,epoch){
+ async playMedia(bytes,epoch,expectedDuration=0){
   const player=this.player,URL=this.host.URL||globalThis.URL;
   this.playbackURL=URL.createObjectURL(new Blob([bytes],{type:'audio/wav'}));player.src=this.playbackURL;player.muted=false;player.volume=1;player.playbackRate=this.rate;player.preservesPitch=true;
   try{await new Promise((resolve,reject)=>{
    let lastTime=0,lastProgress=Date.now();
    const fail=()=>reject(Error('Tap Resume conversation to allow audio playback.'));
-   this.endPlayback=resolve;player.onended=resolve;player.onerror=fail;
+   this.endPlayback=resolve;player.onended=()=>{if(this.valid(epoch)&&expectedDuration&&player.currentTime+.25<expectedDuration){reject(Error('Audio stopped before the response finished. Tap Resume conversation to retry.'));return;}resolve();};player.onerror=fail;
    player.onplaying=()=>{if(!this.valid(epoch)){resolve();return;}lastProgress=Date.now();this.state('speaking');};
-   this.playbackWatch=setInterval(()=>{if(!this.valid(epoch)){resolve();return;}if(player.currentTime>lastTime){lastTime=player.currentTime;lastProgress=Date.now();}if(Date.now()-lastProgress>5000)fail();},250);
+   this.playbackWatch=setInterval(()=>{if(!this.valid(epoch)){resolve();return;}if(player.currentTime>lastTime){lastTime=player.currentTime;lastProgress=Date.now();}if(Date.now()-lastProgress>15000)fail();},250);
    const playback=player.play();playback?.catch(fail);
   });}finally{clearInterval(this.playbackWatch);player.onended=null;player.onerror=null;player.onplaying=null;player.pause();player.removeAttribute('src');player.load();URL.revokeObjectURL(this.playbackURL);this.playbackURL=null;this.endPlayback=null;this.onLevel?.(0);}
  }
@@ -87,7 +88,9 @@ export class ConversationVoiceLoop{
   const synth=this.host.speechSynthesis,U=this.host.SpeechSynthesisUtterance;if(!synth||!U)throw Error('Device voice is unavailable. Choose natural voice or type your reply.');
   if(!synth.getVoices().length)await new Promise(resolve=>{const done=()=>{clearTimeout(timer);synth.removeEventListener?.('voiceschanged',done);this.cancelVoices=null;resolve()};const timer=setTimeout(done,1500);this.cancelVoices=done;synth.addEventListener?.('voiceschanged',done)});
   if(!this.valid(epoch))return;
-  const u=new U(text);this.utterance=u;u.lang=locale||this.locale;u.rate=Math.min(.9,this.rate);u.volume=1;
+  for(const chunk of speechChunks(text)){
+  if(!this.valid(epoch))return;
+  const u=new U(chunk);this.utterance=u;u.lang=locale||this.locale;u.rate=Math.min(.9,this.rate);u.volume=1;
   const voices=synth.getVoices(),lang=u.lang.replace('_','-').toLowerCase(),base=lang.split('-')[0];
   const voice=voices.find(v=>v.lang.replace('_','-').toLowerCase()===lang)||voices.find(v=>v.lang.replace('_','-').toLowerCase().split('-')[0]===base);if(voice)u.voice=voice;
   try{await new Promise((resolve,reject)=>{
@@ -97,10 +100,11 @@ export class ConversationVoiceLoop{
    this.endPlayback=resolve;u.onstart=begin;u.onend=resolve;u.onerror=error;
    u.onboundary=()=>{begin();this.onLevel?.(.5);clearTimeout(this.boundary);this.boundary=setTimeout(()=>this.onLevel?.(0),160)};
    this.deviceStartTimer=setTimeout(error,this.deviceStartTimeout||5000);
-   this.deviceEndTimer=setTimeout(error,Math.min(90000,Math.max(15000,text.length*150)));
+   this.deviceEndTimer=setTimeout(error,Math.max(30000,Array.from(chunk).length*500));
    // A paused engine or an old queued utterance must not silently swallow a turn.
    synth.cancel();synth.resume();synth.speak(u);
   });}finally{clearTimeout(this.deviceStartTimer);clearTimeout(this.deviceEndTimer);clearTimeout(this.boundary);u.onstart=null;u.onend=null;u.onerror=null;u.onboundary=null;if(this.utterance===u){synth.cancel();this.utterance=null;}this.endPlayback=null;this.onLevel?.(0);}
+  }
  }
  meter(analyser,epoch){
   this.stopMeter();const bytes=new Uint8Array(analyser.fftSize);

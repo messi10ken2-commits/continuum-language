@@ -34,7 +34,7 @@ for(const l of lessonList){
  const targetHeader=h=>!/^(Subject|Viewpoint|Example|Meaning|Form|Statement|Negative|Question|Base|Type|Pattern|Positive|Past|Ending sound|Short answer|Purpose|Focus|Interpretation|Participle|Function|Time order|Reason|Condition|Result|Simple perfect|Continuous perfect|Difference|Time|Wording|Strength|Appropriate interpretation|Reference|Gerund|Construction|Verb|Auxiliary|Infinitive|Expression|Limit|Role|Particle \/ form|Group|Dictionary|Stem|Polite|Past negative|Nonpast|Ending|Change|Plain predicate|With possibility|Full form|Conversational form|Conditional|Passive|Causative|Status)$/i.test(h);
  const headers=(l.breakdown?.tables||[]).flatMap(t=>t.headers.filter(targetHeader));
  const preserve=[...headers,...terms,...forms,l.example,...(l.breakdown?.examples||[]).map(x=>x[0]),...(l.soundGuide?.pairs||[]).flatMap(([a,b])=>[a,...(/^[\p{L}\p{M}ー-]+$/u.test(b)?[b]:[])]),...(l.characters||[]).flatMap(x=>[x.glyph,x.reading])];
- for(const frame of visualFrames(l))for(const key of ['label','meaning','note'])add(frame[key],language,[...preserve,frame.text]);
+ for(const frame of visualFrames(l,{all:true}))for(const key of ['label','meaning','note'])add(frame[key],language,[...preserve,frame.text]);
  for(const k of ['title','explanation','priority','speak'])add(l[k],language,preserve);
  for(const w of [...(l.vocabulary||[]),...(l.expressions||[])])for(const k of ['meaning','translation','use','pitfall','type','register','region'])add(w[k],language,preserve);
  for(const s of l.breakdown?.steps||[])add(s,language,preserve);add(l.breakdown?.pitfall,language,preserve);
