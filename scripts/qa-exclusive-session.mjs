@@ -17,7 +17,7 @@ try{
  await mkdir('.media-build/exclusive-session',{recursive:true});
  for(const name of (process.env.QA_BROWSERS||'chromium').split(',')){
   const browser=await ({chromium,webkit}[name]).launch({headless:true,args:name==='chromium'?['--no-sandbox']:[]});
-  try{for(const language of ['en','es','pt','ja']){
+  try{for(const language of (process.env.QA_LANGUAGES||'en,es,pt,ja').split(',')){
    const course=premiumCourses.find(c=>c.id===language+'-premium-travel-v1'),frames=premiumGalleryFrames(course),locale={en:'en-US',es:'es-ES',pt:'pt-BR',ja:'ja-JP'}[language];
    const pcm=pcmWav(Buffer.alloc(4800));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(frames[1].text,locale),pcm,'synthetic','browser-gallery']);
    const context=await browser.newContext({viewport:{width:1280,height:900}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -26,6 +26,7 @@ try{
    await page.goto(origin);await open();await page.locator('.premium-gallery').waitFor();assert.equal(await page.locator('.premium-gallery .visual-steps>button').count(),frames.length);
    await page.locator('.premium-gallery .visual-steps>button').nth(1).click();assert.equal(await page.locator('.premium-gallery .visual-target').innerText(),frames[1].text);
    const audio=page.waitForResponse(r=>r.url().includes('/audio?gallery=1'));await page.locator('.premium-gallery .sentence-play').click();assert.equal((await audio).status(),200);
+   for(const width of [1280,390]){await page.setViewportSize({width,height:900});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:`.media-build/exclusive-session/${name}-${language}-gallery-${width}.png`});}
    await page.locator('.lesson-begin button').click();await page.locator('.question-card').waitFor();
    const storageKey=`continuum-exclusive:${person.data.user.id}:${course.id}:${course.contentVersion||1}`;
    const saved=await page.evaluate(key=>JSON.parse(sessionStorage.getItem(key)),storageKey);assert.ok(saved.shuffleSeed);const session=exclusiveSession(course,saved.shuffleSeed);
@@ -34,6 +35,7 @@ try{
     if(i===1){await page.reload();await open();await page.locator('.question-card').waitFor();assert.equal((await page.evaluate(key=>JSON.parse(sessionStorage.getItem(key)),storageKey)).shuffleSeed,saved.shuffleSeed);}
     await page.setViewportSize({width:i%2?390:1280,height:900});
     assert.equal(await page.locator('.question-card>h1').innerText(),q.prompt);
+    const image=await page.locator('.question-card>.premium-scene>img').boundingBox(),enlarge=await page.locator('.question-card>.premium-scene .premium-enlarge').boundingBox();assert.ok(enlarge.y+enlarge.height<=image.y+image.height+1,'Enlarge stays inside the photo');
     const before=await page.locator('.question-card>h1').innerText();await page.locator('[aria-label="Correct-answer sound effects"]').click();assert.equal(await page.locator('.question-card>h1').innerText(),before);
     await answer(q,i===0);await page.locator('.question-card>.primary').click();await page.locator(i===0?'.feedback.retry':'.feedback.good').waitFor();
     await page.locator('.question-card>.primary').click();await page.waitForFunction(({i,total})=>!document.querySelector('.feedback')&&(i===total-1?!!document.querySelector('.retry-notice'):Number(document.querySelector('.practice-top>span')?.textContent.split('/')[0])===i+2),{i,total:session.questions.length});

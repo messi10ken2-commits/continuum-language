@@ -10,3 +10,4 @@
 .learning-log-group[open]>summary .log-count svg{transform:rotate(180deg)}
 
 .premium-gallery .premium-scene{margin:0;min-width:0}.premium-gallery .visual-focus{min-width:0}.premium-gallery .visual-target{overflow-wrap:anywhere}.premium-gallery .visual-stage{align-items:center}.question-card>.premium-scene>img{height:180px}@media(max-width:600px){.question-card>.premium-scene>img{height:140px}}
+.question-card>.premium-scene .premium-enlarge{top:126px}@media(max-width:600px){.question-card>.premium-scene .premium-enlarge{top:86px}}
