@@ -1,5 +1,6 @@
 import React,{useEffect,useState} from 'react';
-import PremiumVisual from './PremiumVisual.jsx';
+import PremiumVisual,{PremiumGallery} from './PremiumVisual.jsx';
+import {exclusiveSession,exclusiveAnswer,exclusiveAnswers} from './premium-session.mjs';
 import ConversationVideo from './ConversationVideo.jsx';
 import {formatVideoTime} from './conversation-cues.mjs';
 import {languageInfo} from './languages.mjs';
@@ -27,20 +28,22 @@ function CourseReference({course,lesson}){
 export function ExclusiveCoursePlayer({course,user,onExit,onFinish,initialDraft}){
  const storageKey=`continuum-exclusive:${user.id}:${course.id}:${course.contentVersion||1}`;
  const [draft]=useState(()=>{try{const saved=initialDraft||JSON.parse(sessionStorage.getItem(storageKey)||'null');
+  if(saved?.shuffleSeed!=null&&(typeof saved.shuffleSeed!=='string'||!/^[a-zA-Z0-9-]{12,100}$/.test(saved.shuffleSeed)))return null;
   if(!saved||!Array.isArray(saved.answers)||saved.answers.length>course.questions.length||typeof saved.key!=='string')return null;
   if(!saved.answers.every((a,i)=>saved.checks?.[i]?.first?.value===a&&typeof saved.checks[i].first.correct==='boolean'&&typeof saved.checks[i].answer==='string'&&typeof saved.checks[i].note==='string'))return null;
   return saved;
  }catch{return null}});
- const lesson=premiumLesson(course);
- const save=(answers,seed,checks,key)=>{sessionStorage.setItem(storageKey,JSON.stringify({answers,checks,key}));};
+ const [shuffleSeed,setShuffleSeed]=useState(()=>draft?.shuffleSeed||null);
+ const session=exclusiveSession(course,shuffleSeed),lesson=premiumLesson(session);
+ const save=(answers,seed,checks,key)=>{const nextSeed=answers.length===0?key:shuffleSeed;sessionStorage.setItem(storageKey,JSON.stringify({answers,checks,key,shuffleSeed:nextSeed}));if(answers.length===0)setShuffleSeed(nextSeed);};
  const [submissionKey]=useState(()=>draft?.key||crypto.randomUUID());
  return <LessonPlayer lesson={lesson} language={course.language} user={user} initialAnswers={draft?.answers} onDraft={save} onExit={onExit}
   external={{lesson,initialChecks:draft?.checks,initialSubmission:submissionKey,backLabel:'Back to courses',regional:course.scene==='varieties',
-   media:<PremiumVisual course={course}/>,reference:<CourseReference course={course} lesson={lesson}/>,
-   audioEndpoint:index=>'/api/billing/courses/'+course.id+'/audio?question='+index,
-   questionMedia:q=>(q.nativeReference||q.video)?<>{q.nativeReference&&<NativeReferences sources={[q.nativeReference]}/>} {q.video&&<>{q.videoCue?<p>{formatVideoTime(q.videoCue.start)}–{formatVideoTime(q.videoCue.end)}</p>:<p className="question-video-reference">{t('Source section:')} {t(q.sourceReference?.label)} · {t('Exact video timing has not been verified.')} {q.sourceReference?.url&&<a href={q.sourceReference.url} target="_blank" rel="noopener noreferrer">{t('Publisher’s lesson and transcript')}</a>}</p>}<ConversationVideo lesson={{...course,locale:lesson.locale}} practice cue={q.videoCue} autoPlay={!!q.videoCue}/></>}</>:null,
-   check:(question,answer)=>billingRequest('/courses/'+course.id+'/answer','POST',{question,answer})}}
-  onComplete={async({answers,submissionKey})=>{const result=await billingRequest('/courses/'+course.id+'/finish','POST',{answers,key:submissionKey});sessionStorage.removeItem(storageKey);onFinish?.();return {...result,score:Math.round(result.correct/result.total*100)};}}/>;
+   media:<PremiumGallery course={course}/>,reference:<CourseReference course={course} lesson={lesson}/>,
+   audioEndpoint:index=>'/api/billing/courses/'+course.id+'/audio?question='+session.questions[index]._sourceIndex,
+   questionMedia:q=>(q.nativeReference||q.video)?<>{q.nativeReference&&<NativeReferences sources={[q.nativeReference]}/>} {q.video&&<>{q.videoCue?<p>{formatVideoTime(q.videoCue.start)}–{formatVideoTime(q.videoCue.end)}</p>:<p className="question-video-reference">{t('Source section:')} {t(q.sourceReference?.label)} · {t('Exact video timing has not been verified.')} {q.sourceReference?.url&&<a href={q.sourceReference.url} target="_blank" rel="noopener noreferrer">{t('Publisher’s lesson and transcript')}</a>}</p>}<ConversationVideo lesson={{...course,locale:lesson.locale}} practice cue={q.videoCue} autoPlay={!!q.videoCue}/></>}</>:<PremiumVisual course={course} index={q._sourceIndex} context={q.context||q.prompt}/>,
+   check:(question,answer)=>billingRequest('/courses/'+course.id+'/answer','POST',{question:session.questions[question]._sourceIndex,answer:exclusiveAnswer(session.questions[question],answer)})}}
+  onComplete={async({answers,submissionKey})=>{const result=await billingRequest('/courses/'+course.id+'/finish','POST',{answers:exclusiveAnswers(session,answers),key:submissionKey});sessionStorage.removeItem(storageKey);onFinish?.();return {...result,score:Math.round(result.correct/result.total*100)};}}/>;
 }
 export default function PremiumLessons({user,language,showLocked=false,onAccount}){
  const [data,setData]=useState(null),[course,setCourse]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[videoPreview,setVideoPreview]=useState(null);
