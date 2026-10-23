@@ -1,3 +1,4 @@
+import {speechChunks} from './speech-chunks.mjs';
 import {t as uiText,tf as uiTemplate} from './interface-runtime.mjs';
 import {nativeWordEntry} from './native-word-map.mjs';
 import {nativeKanaKey} from './native-kana-map.mjs';
@@ -53,7 +54,7 @@ export default function SentenceAudio({text,lang='auto',compact=false,onPlayed,a
   active={owner:owner.current,stop,device:true};setLoading(true);
   if(!synth.getVoices().length)await new Promise(resolve=>{const done=()=>{clearTimeout(timer);synth.removeEventListener('voiceschanged',done);resolve();};const timer=setTimeout(done,1500);synth.addEventListener('voiceschanged',done);});
   if(token!==generation.current||!mounted.current)return;
-  const parts=remainingParts||speechParts(text,lang,locale);let index=0;
+  const parts=(remainingParts||speechParts(text,lang,locale)).flatMap(part=>speechChunks(part.text,part.lang.startsWith('ja')?60:180).map(text=>({...part,text})));let index=0;
   const next=()=>{if(token!==generation.current||!mounted.current)return;if(index===parts.length){stop();return;}
    const part=parts[index++],voices=synth.getVoices(),voice=voices.find(v=>v.lang.replace('_','-').toLowerCase()===part.lang.toLowerCase());
    if(!voice){stop();setError(`Install a ${part.lang} voice on this device, or retry the studio voice.`);return;}

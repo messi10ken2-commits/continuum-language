@@ -58,12 +58,12 @@ export function photoInfo(lesson={}){
 export const photoFor=lesson=>photoInfo(lesson).src;
 
 export const hasLessonMedia=lesson=>!!lesson&&!lesson.checkpoint&&!lesson.summaryTest&&!lesson.conversation;
-export function visualFrames(lesson){
+export function visualFrames(lesson,{all=false}={}){
  if(lesson.visualStory)return lesson.visualStory.frames;
  if(lesson.characters)return lesson.characters.slice(0,3).map(c=>({label:'Shape → sound',text:c.glyph,meaning:c.reading,note:c.meaning||'Connect the shape with its reading. Practise the full set below.'}));
  if(lesson.soundGuide)return lesson.soundGuide.pairs.slice(0,3).map(([a,b])=>({label:'Listen & compare',text:a,meaning:b,note:lesson.explanation}));
- if(lesson.vocabulary?.length)return lesson.vocabulary.slice(0,3).map(w=>({label:'Word → phrase',text:w.term,meaning:w.meaning,note:w.example||w.phrase}));
- if(lesson.expressions?.length)return lesson.expressions.slice(0,3).map(w=>({label:'Meaning → use',text:w.term,meaning:w.meaning,note:w.use||w.example}));
+ if(lesson.vocabulary?.length)return lesson.vocabulary.slice(0,all?undefined:3).map(w=>({label:'Word → phrase',text:w.term,meaning:w.meaning,note:w.example||w.phrase}));
+ if(lesson.expressions?.length)return lesson.expressions.slice(0,all?undefined:3).map(w=>({label:'Meaning → use',text:w.term,meaning:w.meaning,note:w.use||w.example}));
  if(lesson.breakdown?.examples?.length){const examples=lesson.breakdown.examples;return Array.from({length:3},(_,i)=>({label:['Notice the form','Connect the meaning','Apply the rule'][i],text:examples[i%examples.length][0],meaning:examples[i%examples.length][1],note:lesson.breakdown.steps?.[i]||lesson.breakdown.pitfall||lesson.explanation}));}
  return [{label:'Notice',text:lesson.example||lesson.title,meaning:'Read the model in context.',note:lesson.explanation},{label:'Understand',lang:'en-US',text:lesson.title,meaning:lesson.explanation,note:'What does the speaker want to communicate?'},{label:'Use it',text:lesson.example||lesson.title,meaning:'Change one detail and make this example your own.',note:'Then test your understanding in the exercises.'}];
 }

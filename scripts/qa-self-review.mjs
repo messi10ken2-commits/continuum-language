@@ -25,8 +25,12 @@ try{
   const q=variant.questions[index];assert.equal(await l.evaluate("!!document.querySelector('.retry-notice')"),false);
   if(q.mode==='order')throw Error('Choose non-order fixture');
   if(q.type==='text')await l.fill('#written-answer',index===0?'incorrect':q.answer);else await l.evaluate(`document.querySelectorAll('.answers .answer-with-audio>button')[${index===0?(q.answer+1)%q.options.length:q.answer}].click()`);
-  await l.click('.question-card>.primary');await l.wait("!!document.querySelector('.feedback')");await l.click('.question-card>.primary');
+  await l.click('.question-card>.primary');await l.wait("!!document.querySelector('.feedback')");
+  await l.call('Emulation.setDeviceMetricsOverride',{width:index%2?390:1280,height:index%2?844:900,deviceScaleFactor:1,mobile:!!(index%2)});
+  await l.evaluate("window.scrollTo({top:document.querySelector('.question-card').getBoundingClientRect().top+scrollY+100,behavior:'instant'})");
+  await l.click('.question-card>.primary');
   await l.wait(index===variant.questions.length-1?"!!document.querySelector('.retry-notice')":`Number(document.querySelector('.practice-top>span')?.textContent.split('/')[0])===${index+2}&&!document.querySelector('.feedback')`);
+  assert.ok(await l.evaluate("scrollY>0&&document.querySelector('.question-card').getBoundingClientRect().top>=0&&document.querySelector('.question-card').getBoundingClientRect().top<innerHeight*.5"),'Continue keeps active question visible instead of returning to page top');
  }
  assert.equal((await api('/practice','GET',null,learner)).attempts.length,0);
  // A full first-pass draft can resume the deferred review after a reload.

@@ -39,10 +39,10 @@ export function pcmWav(pcm,sampleRate=24000){
  const header=Buffer.alloc(44);header.write('RIFF');header.writeUInt32LE(data.length+36,4);header.write('WAVEfmt ',8);header.writeUInt32LE(16,16);header.writeUInt16LE(1,20);header.writeUInt16LE(1,22);header.writeUInt32LE(sampleRate,24);header.writeUInt32LE(sampleRate*2,28);header.writeUInt16LE(2,32);header.writeUInt16LE(16,34);header.write('data',36);header.writeUInt32LE(data.length,40);return Buffer.concat([header,data]);
 }
 const partnerVoices={mira:{openai:'marin',gemini:'Kore'},hana:{openai:'coral',gemini:'Aoede'},rafael:{openai:'cedar',gemini:'Puck'},lucia:{openai:'shimmer',gemini:'Leda'},theo:{openai:'onyx',gemini:'Charon'}};
-export function speechKey(text,locale,voiceProfile='default'){if(voiceProfile!=='default'){if(!partnerVoices[voiceProfile])throw Error('Unknown conversation voice');return crypto.createHash('sha256').update(JSON.stringify([speechVersion+'-partner-v1',locale,text.normalize('NFC').trim(),voiceProfile])).digest('hex');}return crypto.createHash('sha256').update(JSON.stringify([locale==='pt-BR'&&/\b(foi|fui)\b/i.test(text)?speechVersion+'-pt-contrast-v2':speechVersion,locale,text.normalize('NFC').trim()])).digest('hex');}
+export function speechKey(text,locale,voiceProfile='default'){if(voiceProfile!=='default'){if(!partnerVoices[voiceProfile])throw Error('Unknown conversation voice');return crypto.createHash('sha256').update(JSON.stringify([speechVersion+'-partner-v2',locale,text.normalize('NFC').trim(),voiceProfile])).digest('hex');}return crypto.createHash('sha256').update(JSON.stringify([locale==='pt-BR'&&/\b(foi|fui)\b/i.test(text)?speechVersion+'-pt-contrast-v2':speechVersion,locale,text.normalize('NFC').trim()])).digest('hex');}
 export async function synthesizeSpeech(text,locale,{fetchImpl=fetch,env=process.env,voiceProfile='default'}={}){
  const voice=voiceProfile==='default'?{openai:'marin',gemini:'Kore'}:partnerVoices[voiceProfile];if(!voice)throw Error('Unknown conversation voice');
- const recipe=speechRecipe(text,locale);if(voiceProfile!=='default')recipe.instructions+=' Use a warm natural conversational delivery, as if speaking to one person across a table.';const failures=[];let rateLimited=false;let retryAfter=60;
+ const recipe=speechRecipe(text,locale);if(voiceProfile!=='default')recipe.instructions+=' Use a warm natural conversational delivery, as if speaking to one person across a table. Read every supplied sentence through its final word; never summarize or stop after the first sentence.';const failures=[];let rateLimited=false;let retryAfter=60;
  if(env.OPENAI_API_KEY&&(env!==process.env||Date.now()>openAICooldown)){
   try{
    const r=await fetchImpl('https://api.openai.com/v1/audio/speech',{method:'POST',headers:{Authorization:`Bearer ${env.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({model:env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts',voice:voice.openai,input:recipe.input,instructions:recipe.instructions,response_format:'pcm',speed:1}),signal:AbortSignal.timeout(voiceProfile==='default'?35000:12000)});
@@ -54,10 +54,19 @@ export async function synthesizeSpeech(text,locale,{fetchImpl=fetch,env=process.
   try{
    const model=env.GEMINI_TTS_MODEL||'gemini-3.8-flash-tts';
    const r=await fetchImpl('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'x-goog-api-key':env.GEMINI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model,input:[{type:'user_input',content:[{type:'text',text:recipe.input,annotations:[{type:'speech_metadata',style:recipe.instructions}]}]}],response_format:{type:'audio',mime_type:'audio/l16',sample_rate:24000},generation_config:{speech_config:[{voice:voice.gemini}]},store:false}),signal:AbortSignal.timeout(voiceProfile==='default'?50000:15000)});
-   if(!r.ok){if(r.status===429){rateLimited=true;const detail=await r.json().catch(()=>({}));const entries=detail.error?.details||[];const delay=entries.find(x=>x.retryDelay)?.retryDelay;retryAfter=Math.max(1,Math.ceil(parseFloat(delay)||60));console.warn('Studio speech provider limit',JSON.stringify({provider:'gemini',model,retryAfter,quotas:entries.flatMap(x=>x.violations||[]).map(x=>({id:x.quotaId,value:x.quotaValue}))}));}throw Error('HTTP '+r.status);}const p=await r.json();const encoded=p.output_audio?.data||p.steps?.flatMap(x=>x.content||[]).find(x=>x.type==='audio')?.data||p.outputs?.find(x=>x.type==='audio')?.data||p.outputs?.flatMap(x=>x.content||[]).find(x=>x.type==='audio')?.data;
-   if(!encoded)throw Error('Missing audio');return {audio:pcmWav(Buffer.from(encoded,'base64')),provider:'gemini',model};
+   if(!r.ok){if(r.status===429){rateLimited=true;const detail=await r.json().catch(()=>({}));const entries=detail.error?.details||[];const delay=entries.find(x=>x.retryDelay)?.retryDelay;retryAfter=Math.max(1,Math.ceil(parseFloat(delay)||60));console.warn('Studio speech provider limit',JSON.stringify({provider:'gemini',model,retryAfter,quotas:entries.flatMap(x=>x.violations||[]).map(x=>({id:x.quotaId,value:x.quotaValue}))}));}throw Error('HTTP '+r.status);}const p=await r.json();const parts=geminiAudioParts(p);
+   if(!parts.length)throw Error('Missing audio');return {audio:pcmWav(Buffer.concat(parts.map(encoded=>Buffer.from(encoded,'base64')))),provider:'gemini',model};
   }catch(e){failures.push('Gemini '+(e.message.match(/HTTP \d+/)?.[0]||(['Missing audio','Invalid speech audio'].includes(e.message)?e.message:e.name==='TimeoutError'?'timeout':'unavailable')));}
  }
  console.warn('Studio speech unavailable:',failures.join('; ')||'No provider configured');
  const e=Error(rateLimited?'New studio audio is temporarily limited by the voice provider. Saved recordings still play. Please retry later, or explicitly choose your device voice.':'Studio voice is temporarily unavailable. Please retry, or explicitly choose your device voice.');e.status=503;e.retryAfter=rateLimited?retryAfter:undefined;throw e;
+}
+
+// Providers may return multiple PCM blocks. Selecting only the first silently
+// drops the remainder of a response. Prefer one representation, avoiding copies.
+export function geminiAudioParts(payload){
+ if(payload.output_audio?.data)return [payload.output_audio.data];
+ const steps=(payload.steps||[]).flatMap(x=>x.content||[]).filter(x=>x.type==='audio'&&x.data).map(x=>x.data);
+ if(steps.length)return steps;
+ return (payload.outputs||[]).flatMap(x=>x.type==='audio'?[x]:x.content||[]).filter(x=>x.type==='audio'&&x.data).map(x=>x.data);
 }
