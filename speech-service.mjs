@@ -1,4 +1,6 @@
 import crypto from 'node:crypto';
+import {isolatedSpeechWord} from './sentence-audio.mjs';
+import {pcmHasSpeechSignal} from './speech-audio-quality.mjs';
 export const speechVersion='studio-voice-v1';
 export const speechLocales=['ja-JP','pt-BR','es-ES','en-US','en-GB','en-AU','es-AR','es-MX','pt-PT','ja-JP-kansai'];
 let openAICooldown=0;
@@ -14,7 +16,8 @@ const styles={
  'es-ES':'Habla español de España de manera natural, clara y pausada. Conserva las cinco vocales y el acento léxico indicado por las tildes. Pronuncia la r inicial y la rr intervocálica como vibrante múltiple, y la r intervocálica simple como vibrante simple. No uses la r inglesa ni suprimas la vibración.',
  'en-US':'Speak natural General American English with clear articulation and comfortable teaching pace. Preserve vowel quality contrasts, word stress, weak forms and meaningful final consonants. Do not exaggerate or spell words.'
 };
-export function speechRecipe(text,locale){
+export const isIsolatedWord=isolatedSpeechWord;
+export function speechRecipe(text,locale,{repeatWord=true}={}){
  if(!speechLocales.includes(locale))throw Error('Unsupported speech locale');
  const value=text.normalize('NFC').trim();
  const character=locale==='ja-JP'&&/^[ぁ-ゖァ-ヺ]{1,2}$/u.test(value);
@@ -30,6 +33,7 @@ export function speechRecipe(text,locale){
   if(reading==='ん')instructions+=' 「ん」は撥音だけです。母音を足してヌやウンにしないでください。';
   input=`${value}。 ${value}。`;
  }
+ if(repeatWord&&!character&&isIsolatedWord(value)){input=`${value}. ${value}.`;instructions+=' This is isolated-word pronunciation practice. Say the supplied word twice, with a clear pause of about 0.7 seconds between repetitions. Speak both copies fully; do not spell or omit the word.';}
  return {input,instructions,character};
 }
 // PCM is padded, never trimmed or stretched: preserve short/long contrasts.
@@ -39,24 +43,24 @@ export function pcmWav(pcm,sampleRate=24000){
  const header=Buffer.alloc(44);header.write('RIFF');header.writeUInt32LE(data.length+36,4);header.write('WAVEfmt ',8);header.writeUInt32LE(16,16);header.writeUInt16LE(1,20);header.writeUInt16LE(1,22);header.writeUInt32LE(sampleRate,24);header.writeUInt32LE(sampleRate*2,28);header.writeUInt16LE(2,32);header.writeUInt16LE(16,34);header.write('data',36);header.writeUInt32LE(data.length,40);return Buffer.concat([header,data]);
 }
 const partnerVoices={mira:{openai:'marin',gemini:'Kore'},hana:{openai:'coral',gemini:'Aoede'},rafael:{openai:'cedar',gemini:'Puck'},lucia:{openai:'shimmer',gemini:'Leda'},theo:{openai:'onyx',gemini:'Charon'}};
-export function speechKey(text,locale,voiceProfile='default'){if(voiceProfile!=='default'){if(!partnerVoices[voiceProfile])throw Error('Unknown conversation voice');return crypto.createHash('sha256').update(JSON.stringify([speechVersion+'-partner-v2',locale,text.normalize('NFC').trim(),voiceProfile])).digest('hex');}return crypto.createHash('sha256').update(JSON.stringify([locale==='pt-BR'&&/\b(foi|fui)\b/i.test(text)?speechVersion+'-pt-contrast-v2':speechVersion,locale,text.normalize('NFC').trim()])).digest('hex');}
+export function speechKey(text,locale,voiceProfile='default'){if(voiceProfile!=='default'){if(!partnerVoices[voiceProfile])throw Error('Unknown conversation voice');return crypto.createHash('sha256').update(JSON.stringify([speechVersion+'-partner-v2',locale,text.normalize('NFC').trim(),voiceProfile])).digest('hex');}return crypto.createHash('sha256').update(JSON.stringify([locale==='pt-BR'&&/\b(foi|fui)\b/i.test(text)?speechVersion+'-pt-contrast-v3':isIsolatedWord(text)?speechVersion+'-word-v2':speechVersion,locale,text.normalize('NFC').trim()])).digest('hex');}
 export async function synthesizeSpeech(text,locale,{fetchImpl=fetch,env=process.env,voiceProfile='default'}={}){
  const voice=voiceProfile==='default'?{openai:'marin',gemini:'Kore'}:partnerVoices[voiceProfile];if(!voice)throw Error('Unknown conversation voice');
- const recipe=speechRecipe(text,locale);if(voiceProfile!=='default')recipe.instructions+=' Use a warm natural conversational delivery, as if speaking to one person across a table. Read every supplied sentence through its final word; never summarize or stop after the first sentence.';const failures=[];let rateLimited=false;let retryAfter=60;
- if(env.OPENAI_API_KEY&&(env!==process.env||Date.now()>openAICooldown)){
+ const recipe=speechRecipe(text,locale,{repeatWord:voiceProfile==='default'});if(voiceProfile!=='default')recipe.instructions+=' Use a warm natural conversational delivery, as if speaking to one person across a table. Read every supplied sentence through its final word; never summarize or stop after the first sentence.';const failures=[];let rateLimited=false;let retryAfter=60;
+ if(env.OPENAI_API_KEY&&(env!==process.env||Date.now()>openAICooldown))for(let attempt=0;attempt<2;attempt++){
   try{
    const r=await fetchImpl('https://api.openai.com/v1/audio/speech',{method:'POST',headers:{Authorization:`Bearer ${env.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({model:env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts',voice:voice.openai,input:recipe.input,instructions:recipe.instructions,response_format:'pcm',speed:1}),signal:AbortSignal.timeout(voiceProfile==='default'?35000:12000)});
    if(!r.ok){if(r.status===429){rateLimited=true;if(env===process.env)openAICooldown=Date.now()+600000;}throw Error('HTTP '+r.status);}
-   return {audio:pcmWav(Buffer.from(await r.arrayBuffer())),provider:'openai',model:env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts'};
-  }catch(e){failures.push('OpenAI '+(e.message.match(/HTTP \d+/)?.[0]||'unavailable'));}
+   const pcm=Buffer.from(await r.arrayBuffer());if(!pcmHasSpeechSignal(pcm))throw Error('Silent speech audio');return {audio:pcmWav(pcm),provider:'openai',model:env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts'};
+  }catch(e){if(attempt===0&&['Silent speech audio','Invalid speech audio'].includes(e.message))continue;failures.push('OpenAI '+(e.message.match(/HTTP \d+/)?.[0]||'unavailable'));break;}
  }
- if(env.GEMINI_API_KEY){
+ if(env.GEMINI_API_KEY)for(let attempt=0;attempt<2;attempt++){
   try{
    const model=env.GEMINI_TTS_MODEL||'gemini-3.8-flash-tts';
    const r=await fetchImpl('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'x-goog-api-key':env.GEMINI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model,input:[{type:'user_input',content:[{type:'text',text:recipe.input,annotations:[{type:'speech_metadata',style:recipe.instructions}]}]}],response_format:{type:'audio',mime_type:'audio/l16',sample_rate:24000},generation_config:{speech_config:[{voice:voice.gemini}]},store:false}),signal:AbortSignal.timeout(voiceProfile==='default'?50000:15000)});
    if(!r.ok){if(r.status===429){rateLimited=true;const detail=await r.json().catch(()=>({}));const entries=detail.error?.details||[];const delay=entries.find(x=>x.retryDelay)?.retryDelay;retryAfter=Math.max(1,Math.ceil(parseFloat(delay)||60));console.warn('Studio speech provider limit',JSON.stringify({provider:'gemini',model,retryAfter,quotas:entries.flatMap(x=>x.violations||[]).map(x=>({id:x.quotaId,value:x.quotaValue}))}));}throw Error('HTTP '+r.status);}const p=await r.json();const parts=geminiAudioParts(p);
-   if(!parts.length)throw Error('Missing audio');return {audio:pcmWav(Buffer.concat(parts.map(encoded=>Buffer.from(encoded,'base64')))),provider:'gemini',model};
-  }catch(e){failures.push('Gemini '+(e.message.match(/HTTP \d+/)?.[0]||(['Missing audio','Invalid speech audio'].includes(e.message)?e.message:e.name==='TimeoutError'?'timeout':'unavailable')));}
+   if(!parts.length)throw Error('Missing audio');const pcm=Buffer.concat(parts.map(encoded=>Buffer.from(encoded,'base64')));if(!pcmHasSpeechSignal(pcm))throw Error('Silent speech audio');return {audio:pcmWav(pcm),provider:'gemini',model};
+  }catch(e){if(attempt===0&&['Silent speech audio','Missing audio','Invalid speech audio'].includes(e.message))continue;failures.push('Gemini '+(e.message.match(/HTTP \d+/)?.[0]||(['Missing audio','Invalid speech audio'].includes(e.message)?e.message:e.name==='TimeoutError'?'timeout':'unavailable')));break;}
  }
  console.warn('Studio speech unavailable:',failures.join('; ')||'No provider configured');
  const e=Error(rateLimited?'New studio audio is temporarily limited by the voice provider. Saved recordings still play. Please retry later, or explicitly choose your device voice.':'Studio voice is temporarily unavailable. Please retry, or explicitly choose your device voice.');e.status=503;e.retryAfter=rateLimited?retryAfter:undefined;throw e;

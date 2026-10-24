@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {premiumCourses} from './premium-courses.mjs';
+import {premiumCourses,premiumCourseById} from './premium-courses.mjs';
 import {exclusiveSession,exclusiveAnswer,exclusiveAnswers,premiumGalleryFrames} from './premium-session.mjs';
 import {speechKey,pcmWav} from './speech-service.mjs';
 delete process.env.OPENAI_API_KEY;delete process.env.GEMINI_API_KEY;
@@ -15,10 +15,12 @@ try{
   const submitted=await api('/billing/courses/'+c.id+'/finish','POST',{answers:exclusiveAnswers(session,answers),key:crypto.randomUUID()},paid.cookie);assert.equal(submitted.status,200);assert.equal(submitted.data.correct,c.questions.length);
   if(!c.conversation){const frame=premiumGalleryFrames(c)[0],path='/billing/courses/'+c.id+'/audio?gallery=0';
    if(c.scene==='varieties'&&!frame.audioLocale){assert.equal((await api(path,'GET',null,paid.cookie)).status,404);continue;}
-   const locale=frame.audioLocale||{en:'en-US',es:'es-ES',pt:'pt-BR',ja:'ja-JP'}[c.language],bytes=pcmWav(Buffer.alloc(4800));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(frame.text,locale),bytes,'synthetic','gallery-test']);
+   const locale=frame.audioLocale||{en:'en-US',es:'es-ES',pt:'pt-BR',ja:'ja-JP'}[c.language],bytes=pcmWav(Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(frame.text,locale),bytes,'synthetic','gallery-test']);
    const audio=await api(path,'GET',null,paid.cookie);assert.equal(audio.status,200);assert.deepEqual(Buffer.from(audio.data),bytes);assert.equal(audio.r.headers.get('cache-control'),'private, no-store');
   }
  }
+ for(const archivedId of ['ja-premium-video-v2','ja-premium-video-v3']){const old=premiumCourseById(archivedId),opened=await api('/billing/courses/'+archivedId,'GET',null,paid.cookie);assert.equal(opened.status,200);assert.ok(opened.data.course.questions.every(q=>!('answer' in q)));const answers=old.questions.map(q=>q.answer),result=await api('/billing/courses/'+archivedId+'/finish','POST',{answers,key:crypto.randomUUID()},paid.cookie);assert.equal(result.status,200);assert.equal(result.data.correct,old.questions.length);}
+ const summary=(await api('/billing','GET',null,paid.cookie)).data;assert.ok(summary.archivedCourses.some(c=>c.id==='ja-premium-video-v3'));assert.ok(!summary.courses.some(c=>c.id==='ja-premium-video-v3'));assert.equal(summary.progress.find(p=>p.id==='ja-premium-video-v4').total,8);
  for(const value of ['', '-1','nope','1.5','99999'])assert.equal((await api('/billing/courses/en-workplace-diplomacy/audio?gallery='+value,'GET',null,paid.cookie)).status,404);
  await db.query("UPDATE billing_memberships SET status='cancelled',paid_until=NULL WHERE user_id=$1",[id]);assert.equal((await api('/billing/courses/en-workplace-diplomacy/audio?gallery=0','GET',null,paid.cookie)).status,403);
  console.log('PASS: all 28 shuffled courses grade correctly; protected gallery audio uses exact authored text, private caching, strict indexes and regional restrictions.');

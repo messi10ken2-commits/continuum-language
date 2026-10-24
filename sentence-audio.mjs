@@ -10,3 +10,5 @@ export function speechParts(text,lang='auto',fallback='es-ES'){
  // Quoted Spanish and Spanish sentences following English instructions get their own voice.
  return value.split(/([“«][^”»]+[”»]|"[^"]+"|(?<=:)\s+)/u).filter(s=>s.trim()).map(s=>({text:s,lang:languageFor(s)==='es-ES'?fallback:'en-US'}));
 }
+
+export const isolatedSpeechWord=text=>String(text).trim().length<=40&&/^[\p{Script=Latin}\p{M}]+(?:[-’'][\p{Script=Latin}\p{M}]+)*$/u.test(String(text).trim());

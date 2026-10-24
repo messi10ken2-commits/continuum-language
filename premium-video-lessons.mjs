@@ -1,3 +1,4 @@
+import {japaneseBasicVideoArchive} from './japanese-basic-video-archive.mjs';
 import {kansaiComparisonVideo} from './regional-audio-pairs.mjs';
 import {japaneseInlineVideoCourse} from './japanese-inline-video.mjs';
 // Independent sources: never borrow ordinary-course videos or their question windows.
@@ -64,7 +65,7 @@ const originalVideoCourses=Object.entries(definitions).map(([language,d])=>({
  ...(start!==undefined?{videoCue:{start,end,label:cueLabels[language]?.[i]||'Dinner-table exchange',precision:'section',evidence:language==='en'?'Context windows checked against the YouTube timestamped English transcript and publisher script, 2026-10-21.':language==='es'?'Publisher chapter boundaries checked in the YouTube description, with question content checked against the publisher lesson, 2026-10-21. These are chapter windows, not exact phrase offsets.':'Section windows from the publisher’s timestamped script, checked 2026-10-21.'}}:{sourceReference:{label:language==='ja'?'Lesson 3 · Advanced skit · family dinner':language==='es'?['Vendor calls','At the stall','At the stall','Buying chicken','Buying chicken','Buying meat','Important notes','Important notes'][i]:['Introduction','Introduction','Introduction','Water and butter','Herb','Envelope','Explaining pronunciation','Conclusion'][i],url:d.transcript||d.sourcePage,evidence:'Publisher’s public lesson/script checked 2026-10-21; exact video offsets not verified.'}})
  });})
 }));
-export const archivedPremiumVideoCourses=originalVideoCourses.filter(c=>c.language==='ja');
+export const archivedPremiumVideoCourses=[...originalVideoCourses.filter(c=>c.language==='ja'),japaneseBasicVideoArchive];
 export const premiumVideoCourses=[...originalVideoCourses.filter(c=>c.language!=='ja'),japaneseInlineVideoCourse];
 export const premiumVideoSources=premiumVideoCourses.map(({id,language,title,conversation})=>({id,language,title,conversation}));
 

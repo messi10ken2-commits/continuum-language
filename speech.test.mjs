@@ -10,7 +10,7 @@ test('isolated kana are repeated without stretching or changing morae; context r
  assert.match(speechRecipe('を','ja-JP').instructions,/オと/);
  assert.match(speechRecipe('ん','ja-JP').instructions,/母音を足/);
  assert.equal(speechRecipe('こうこう','ja-JP').input,'こうこう');
- assert.equal(speechRecipe('pão','pt-BR').input,'pão');assert.match(speechRecipe('pão','pt-BR').instructions,/brasileiro/);
+ assert.equal(speechRecipe('pão','pt-BR').input,'pão. pão.');assert.match(speechRecipe('pão','pt-BR').instructions,/brasileiro/);
  assert.match(speechRecipe('perro','es-ES').instructions,/vibrante múltiple/);
  assert.notEqual(speechKey('pão','pt-BR'),speechKey('pao','pt-BR'));
 });
@@ -26,7 +26,7 @@ test('PCM retains every sample and has safe leading/trailing silence',()=>{
 });
 test('provider request fixes locale-specific instruction and produces playable WAV',async()=>{
  let request;const result=await synthesizeSpeech('pão','pt-BR',{env:{OPENAI_API_KEY:'test-only'},fetchImpl:async(url,opts)=>{request=JSON.parse(opts.body);return new Response(pcm,{status:200});}});
- assert.equal(request.input,'pão');assert.equal(request.voice,'marin');assert.equal(request.response_format,'pcm');assert.match(request.instructions,/nasalização/);assert.equal(result.audio.toString('ascii',0,4),'RIFF');
+ assert.equal(request.input,'pão. pão.');assert.equal(request.voice,'marin');assert.equal(request.response_format,'pcm');assert.match(request.instructions,/nasalização/);assert.equal(result.audio.toString('ascii',0,4),'RIFF');
 });
 test('provider errors fall back to explicitly generated audio, never a device voice',async()=>{
  let n=0;const result=await synthesizeSpeech('へ','ja-JP',{env:{OPENAI_API_KEY:'test',GEMINI_API_KEY:'test'},fetchImpl:async()=>++n===1?new Response('',{status:429}):Response.json({steps:[{type:'model_output',content:[{type:'audio',data:pcm.toString('base64')}]}]})});assert.equal(result.provider,'gemini');assert.equal(n,2);
@@ -77,7 +77,7 @@ test('target pronunciation recordings bypass provider limits and preserve accent
  }
 });
 test('Portuguese foi/fui have distinct text and cache entries with contrast guidance',()=>{
- for(const word of ['foi','fui']){const recipe=speechRecipe(word,'pt-BR');assert.equal(recipe.input,word);assert.match(recipe.instructions,/foi \/foj\/ de fui \/fuj\//);}
+ for(const word of ['foi','fui']){const recipe=speechRecipe(word,'pt-BR');assert.equal(recipe.input,`${word}. ${word}.`);assert.match(recipe.instructions,/foi \/foj\/ de fui \/fuj\//);}
  assert.notEqual(speechKey('foi','pt-BR'),speechKey('fui','pt-BR'));
 });
 test('new practical sentence models can use studio audio',()=>{

@@ -6,7 +6,7 @@ let calls=0,failProvider=false,blockReply=null;
 globalThis.fetch=async(input,options)=>{
  if(String(input).startsWith('https://generativelanguage.googleapis.com/')){
   calls++;if(failProvider)return new Response(JSON.stringify({error:{status:'RESOURCE_EXHAUSTED'}}),{status:429});
-  if(String(input).endsWith('/interactions'))return Response.json({steps:[{content:[{type:'audio',data:Buffer.alloc(4800).toString('base64')}]}]});
+  if(String(input).endsWith('/interactions'))return Response.json({steps:[{content:[{type:'audio',data:Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])).toString('base64')}]}]});
   const body=JSON.parse(options.body),system=body.systemInstruction?.parts?.[0]?.text||'',context=body.contents?.[0]?.parts?.[0]?.text||'';
   let value;
   if(system.includes('startup availability'))value={items:[]};
