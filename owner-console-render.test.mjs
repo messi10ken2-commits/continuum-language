@@ -6,6 +6,7 @@ const vite=await createServer({server:{middlewareMode:true,hmr:false},appType:'c
 try{
  const {default:OwnerDashboard}=await vite.ssrLoadModule('/OwnerDashboard.jsx');
  const {default:SupportInbox}=await vite.ssrLoadModule('/SupportInbox.jsx');
+ const {BillingAdmin}=await vite.ssrLoadModule('/Membership.jsx');assert.ok(renderToStaticMarkup(React.createElement(BillingAdmin)).includes('Billing operations'));
  const {ReviewDashboard}=await vite.ssrLoadModule('/Profiles.jsx');
  const dashboard=renderToStaticMarkup(React.createElement(OwnerDashboard,{user:{id:'render-owner'}}));
  assert.ok(dashboard.includes('Administration'));assert.equal((dashboard.match(/aria-pressed=/g)||[]).length,9);for(const label of ['Accounts','Contacts','Services','Content','Teachers','Classes','Billing','Audit'])assert.ok(dashboard.includes(label));
