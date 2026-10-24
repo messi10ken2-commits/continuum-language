@@ -1,3 +1,4 @@
+import {safeSavedCorrections} from './correction-integrity.mjs';
 import {membership} from './billing-api.mjs';
 import {visiblePlacement} from './premium-policy.mjs';
 import {languages} from './languages.mjs';
@@ -17,7 +18,7 @@ export async function migrateAssessments(pool){
 }
 export async function assessmentHistory(pool,userId,language='es'){
  const r=await pool.query('SELECT id,kind,version,form,result,completed_at AS at FROM assessments WHERE user_id=$1 AND language=$2 AND completed_at IS NOT NULL ORDER BY completed_at DESC,id DESC LIMIT 20',[userId,language]);
- for(const h of r.rows){if(/-diagnostic-[234]$/.test(h.version)){const samples=await pool.query('SELECT task_id AS task,result FROM skill_submissions WHERE assessment_id=$1 AND user_id=$2 ORDER BY created_at DESC',[h.id,userId]);h.result={...h.result,productions:samples.rows};}}
+ for(const h of r.rows){if(/-diagnostic-[234]$/.test(h.version)){const samples=await pool.query('SELECT task_id AS task,result FROM skill_submissions WHERE assessment_id=$1 AND user_id=$2 ORDER BY created_at DESC',[h.id,userId]);h.result={...h.result,productions:samples.rows.map(s=>({...s,result:s.result?.aiAssessment?{...s.result,aiAssessment:safeSavedCorrections(s.result.aiAssessment,language)}:s.result?.status==='ai-reviewed'?safeSavedCorrections(s.result,language):s.result}))};}}
  return r.rows;
 }
 export async function handleAssessment({route,req,res,pool,required,json,send,fail}){

@@ -1,0 +1,12 @@
+// Executable structural/answer audit; not a claim of native-editor semantic certification.
+import assert from 'node:assert/strict';
+import {lessonList,getLessonVariant,hasExpandedExercises,isCorrect,validAnswer} from '../course.mjs';
+import {premiumCourses,gradeCourseAnswer,validCourseAnswer} from '../premium-courses.mjs';
+import {skillTasks} from '../skills-content.mjs';
+import {premiumSkillTasks} from '../premium-skills.mjs';
+let questions=0,alternatives=0,explanations=0;const languages={};const flags=[];
+const scanText=(id,text)=>{if(typeof text==='string'&&/pagar\s+(?:en|con)\s+(?:target|targeta|tarjecta)\b|lorem ipsum|explanation added here/i.test(text))flags.push({id,issue:'Invalid/placeholder teaching text',text});};
+for(const l of lessonList){languages[l.language||'es']=(languages[l.language||'es']||0)+1;scanText(l.id,l.explanation);scanText(l.id,l.example);explanations++;const seeds=[undefined,...(l.exerciseVersion?[l.exerciseVersion]:[]),...(hasExpandedExercises(l.id)?Array.from({length:7},(_,i)=>`v${i+2}-content-integrity-audit-123456789`):[])];for(const seed of seeds){const lesson=getLessonVariant(l.id,seed);for(const q of lesson.questions){questions++;scanText(l.id,q.prompt);scanText(l.id,q.note);scanText(l.id,q.answer);if(!validAnswer(q,q.answer)||!isCorrect(q,q.answer))flags.push({id:l.id,seed,issue:'Canonical answer does not grade',prompt:q.prompt});for(const a of [...(q.accepted||[]),...(q.acceptedAnswers||[])]){alternatives++;if(!(q.type==='text'?isCorrect(q,a):q.options?.[q.answer]===a))flags.push({id:l.id,issue:'Authored alternate does not grade',prompt:q.prompt});}}}}
+for(const c of premiumCourses){scanText(c.id,c.explanation);for(const q of c.questions){questions++;scanText(c.id,q.prompt);scanText(c.id,q.note);assert.ok(validCourseAnswer(q,q.answer)&&gradeCourseAnswer(q,q.answer),c.id);for(const a of [...(q.acceptedAnswers||[]),...(q.accepted||[])]){alternatives++;assert.ok(gradeCourseAnswer(q,a),c.id+' alternative');}}}
+for(const task of [...skillTasks,...premiumSkillTasks]){scanText(task.id,task.prompt);scanText(task.id,task.model);}
+console.log(JSON.stringify({scope:'structural-answer-and-known-regression-audit',lessons:lessonList.length,languages,explanations,questions,authoredAlternatives:alternatives,premiumCourses:premiumCourses.length,skillTasks:skillTasks.length+premiumSkillTasks.length,flags},null,2));assert.equal(flags.length,0,'Review all audit flags before release');

@@ -1,3 +1,4 @@
+import {equivalentAnswer} from './answer-equivalence.mjs';
 import {varietyCourses} from './premium-varieties.mjs';
 import {academicCourses} from './premium-academic.mjs';
 import {expandedPremiumCourses} from './premium-expansion.mjs';
@@ -58,7 +59,7 @@ for(const course of premiumCourses){
 }
 export function validCourseAnswer(q,a){return q.type==='typing'||q.type==='cloze'||q.type==='reorder'?typeof a==='string'&&a.trim().length>0&&a.length<=1500:Number.isInteger(a)&&!!q.options[a];}
 const normalized=value=>value.normalize('NFKC').toLocaleLowerCase().replace(/[.,!?。、「」！？]/g,'').replace(/\s+/g,' ').trim();
-export function gradeCourseAnswer(q,a){return typeof q.answer==='string'?typeof a==='string'&&[q.answer,...(q.acceptedAnswers||[])].some(expected=>normalized(a)===normalized(expected)):a===q.answer;}
+export function gradeCourseAnswer(q,a){return typeof q.answer==='string'?typeof a==='string'&&(equivalentAnswer(q,a)||[q.answer,...(q.acceptedAnswers||[]),...(q.accepted||[])].some(expected=>normalized(a)===normalized(expected))):a===q.answer;}
 export const courseAnswerText=q=>typeof q.answer==='string'?q.answer:q.options[q.answer];
 
 premiumCourses.push(...expandedPremiumCourses,...premiumVideoCourses,...varietyCourses,...academicCourses);

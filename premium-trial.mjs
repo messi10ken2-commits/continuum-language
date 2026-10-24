@@ -1,0 +1,2 @@
+export async function migrateTrial(c){await c.query(`CREATE TABLE IF NOT EXISTS premium_trials(user_id uuid PRIMARY KEY REFERENCES users(id),started_at timestamptz NOT NULL DEFAULT now(),ends_at timestamptz NOT NULL DEFAULT (now()+interval '72 hours'));`)}
+export async function trialStatus(c,userId){const r=(await c.query('SELECT started_at,ends_at,ends_at>now() AS active FROM premium_trials WHERE user_id=$1',[userId])).rows[0];return {trialUsed:!!r,trialActive:!!r?.active,trialStartedAt:r?.started_at||null,trialEndsAt:r?.ends_at||null};}

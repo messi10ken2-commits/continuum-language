@@ -1,3 +1,4 @@
+import {useStudyActivity} from './LearningActivity.jsx';
 import {t as uiText,tf as uiTemplate} from './interface-runtime.mjs';
 import {languageInfo} from './languages.mjs';
 import SentenceAudio,{SpokenText} from './SentenceAudio.jsx';
@@ -37,6 +38,7 @@ export default function Assessment({language='es',user,onAccount,onCourse,onUpda
   setChoice(undefined);
  }catch(e){setError(e.message)}finally{setBusy(false)}};
  const pause=async()=>{if(busy)return;setSession(null);setChoice(undefined);await load()};
+ useStudyActivity(user?.role==='learner'&&!!session?.question&&!busy);
  const errorBox=error&&<div className="auth-error" role="alert"><p>{uiText(error)}</p><button className="outline-button" disabled={busy} onClick={async()=>{setSession(null);await load()}}>{uiText("Reload saved test")}</button></div>;
  if(!user)return <section className="panel assessment-intro"><span className="eyebrow">{uiText(lang.name.toUpperCase())}{uiText(" PLACEMENT & REASSESSMENT")}</span><h1>{uiText("Know where to begin.")}</h1><p>{uiText("Sign in as a learner to take a diagnostic test and keep your results across devices.")}</p><button className="primary" onClick={onAccount}>{uiText("Sign in to take the test")}</button></section>;
  if(!data)return <section className="panel"><h2>{uiText("Loading your assessments…")}</h2>{errorBox}</section>;

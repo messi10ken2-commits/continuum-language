@@ -22,9 +22,10 @@ const accessSQL=`WITH access AS (
  SELECT u.id,u.name,u.email,u.role,u.created_at AS "createdAt",m.status AS "billingStatus",m.paid_until AS "paidUntil",m.cancel_at_period_end AS "cancelAtPeriodEnd",m.price_id AS "priceId",
  EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=u.id AND b.blocked) AS blocked,
  EXISTS(SELECT 1 FROM premium_invitations i WHERE i.redeemed_by=u.id AND i.active AND (i.access_until IS NULL OR i.access_until>now())) AS invited,
+ EXISTS(SELECT 1 FROM premium_trials t WHERE t.user_id=u.id AND t.ends_at>now()) AS trial,
  COALESCE(m.status='active' AND m.paid_until>now(),false) AS subscribed
  FROM users u LEFT JOIN billing_memberships m ON m.user_id=u.id
-), plans AS (SELECT *,CASE WHEN NOT blocked AND (subscribed OR invited) THEN 'premium' ELSE 'free' END AS tier FROM access)`;
+), plans AS (SELECT *,CASE WHEN NOT blocked AND (subscribed OR invited OR trial) THEN 'premium' ELSE 'free' END AS tier FROM access)`;
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 function params(req,fail){const p=new URL(req.url,'http://localhost').searchParams,offset=Number(p.get('offset')||0),q=(p.get('q')||'').trim(),role=p.get('role')||null,plan=p.get('plan')||null;if(!Number.isInteger(offset)||offset<0||offset>1000000||q.length>120||role&&!['learner','teacher'].includes(role)||plan&&!['free','premium'].includes(plan))fail(400,'Choose valid account filters');return {offset,q,role,plan};}
 const interval=price=>price&&price===process.env.STRIPE_PREMIUM_MONTHLY_PRICE_ID?'month':price&&price===process.env.STRIPE_PREMIUM_YEARLY_PRICE_ID?'year':price?'other':null;
@@ -43,7 +44,7 @@ export async function handleOwner({route,req,res,pool,required,currentUser,json,
  }
  if(route==='/api/owner/users'&&req.method==='GET'){
   const {offset,q,role,plan}=params(req,fail),r=await pool.query(accessSQL+` SELECT *,count(*) OVER()::int AS total FROM plans WHERE ($1::text IS NULL OR role=$1) AND ($2::text IS NULL OR tier=$2) AND (name ILIKE $3 OR email ILIKE $3) ORDER BY "createdAt" DESC,id LIMIT 50 OFFSET $4`,[role,plan,'%'+q+'%',offset]);
-  send(res,200,{users:r.rows.map(({priceId,subscribed,invited,blocked,total,...u})=>({...u,billingStatus:blocked?'payment_review':u.billingStatus||'free',source:blocked?'free':subscribed?'subscription':invited?'invitation':'free',interval:interval(priceId),owner:u.id===user.id})),total:r.rows[0]?.total||0,offset,limit:50});return true;
+  send(res,200,{users:r.rows.map(({priceId,subscribed,invited,trial,blocked,total,...u})=>({...u,billingStatus:blocked?'payment_review':u.billingStatus||'free',source:blocked?'free':subscribed?'subscription':invited?'invitation':trial?'trial':'free',interval:interval(priceId),owner:u.id===user.id})),total:r.rows[0]?.total||0,offset,limit:50});return true;
  }
  const account=route.match(/^\/api\/owner\/users\/([a-f0-9-]+)(?:\/(sync))?$/);
  if(account){if(!uuid.test(account[1]))fail(404,'Account not found');const target=(await pool.query('SELECT id,name,email,role,created_at AS "createdAt" FROM users WHERE id=$1',[account[1]])).rows[0];if(!target)fail(404,'Account not found');

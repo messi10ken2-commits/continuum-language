@@ -187,3 +187,5 @@ export function isCurrentLessonDraft(id,answers,seed){
  // Compare the base content revision, not expandedExercises' numeric format version.
  try{const base=getLesson(id),lesson=getLessonVariant(id,seed);return !!lesson&&(!base.exerciseVersion||seed===base.exerciseVersion)&&Array.isArray(answers)&&(answers.length<lesson.questions.length||answers.length===lesson.questions.length&&!lesson.checkpoint&&!lesson.summaryTest&&answers.some((a,i)=>!isCorrect(lesson.questions[i],a)))&&answers.every((a,i)=>validAnswer(lesson.questions[i],a));}catch{return false;}
 }
+
+export function gradeResolvedLesson(lesson,answers){if(!lesson||!Array.isArray(answers)||answers.length!==lesson.questions.length||!answers.every((a,i)=>validAnswer(lesson.questions[i],a)))throw Error('Invalid completed exercise');const correct=answers.filter((a,i)=>isCorrect(lesson.questions[i],a)).length;return {score:Math.round(correct/answers.length*100),total:answers.length,correct};}

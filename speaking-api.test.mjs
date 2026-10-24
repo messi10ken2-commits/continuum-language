@@ -59,7 +59,7 @@ try{
  failProvider=true;const failedReview=await call('/speaking/'+s.id+'/review','POST',{revision:3,aiConsent:true},a.cookie);assert.equal(failedReview.status,503);assert.ok(failedReview.data.error.startsWith('Your conversation is saved'));failProvider=false;
  const beforeRetry=(await call('/speaking/'+s.id,'GET',null,a.cookie)).data.session;assert.equal(beforeRetry.status,'active');assert.equal(beforeRetry.revision,3);assert.equal(beforeRetry.review,null);assert.equal(beforeRetry.messages.length,7);
  const review=await call('/speaking/'+s.id+'/review','POST',{revision:3,aiConsent:true},a.cookie);assert.equal(review.status,200,JSON.stringify(review.data));assert.equal(review.data.session.status,'completed');assert.equal(review.data.session.review.goals[0].evidence,'A coffee, please.');
- const correctionAudio=await originalFetch(base+'/api/speaking/'+s.id+'/audio/review/0?format=text',{headers:{cookie:a.cookie}});assert.equal((await correctionAudio.json()).text,'Could I have a coffee, please?');
+ const correctionAudio=await originalFetch(base+'/api/speaking/'+s.id+'/audio/review/0?format=text',{headers:{cookie:a.cookie}});assert.equal(correctionAudio.status,404,'unverified politeness changes must not be played as corrections');
  assert.equal((await originalFetch(base+'/api/speaking/'+s.id+'/audio/review/0',{headers:{cookie:b.cookie}})).status,404);
  const reviewedCalls=calls;assert.equal((await call('/speaking/'+s.id+'/review','POST',{revision:3,aiConsent:true},a.cookie)).status,200);assert.equal(calls,reviewedCalls);
  assert.equal((await post({revision:4,turnKey:'synthetic-after-end-0005'})).status,409);

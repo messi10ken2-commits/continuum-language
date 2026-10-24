@@ -1,3 +1,4 @@
+import {safeSavedCorrections} from './correction-integrity.mjs';
 import {membership,billingTransaction} from './billing-api.mjs';
 import {basicFeedback} from './premium-policy.mjs';
 import {migrateConversationBudget,budgetPublic,tickConversation,timeUsed,conversationLimit,conversationTurns,conversationDay} from './conversation-budget.mjs';
@@ -22,7 +23,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  if(!route.startsWith('/api/speaking'))return false;
  const user=await required(req,'learner');
  const premium=(await membership(pool,user.id)).premium;
- const visible=s=>({...publicSpeaking(s),messages:premium?s.messages:s.messages.map(({speechEvidence,...m})=>m),review:premium?s.review:basicFeedback(s.review),budget:budgetPublic(s,premium)});
+ const visible=s=>({...publicSpeaking(s),messages:premium?s.messages:s.messages.map(({speechEvidence,...m})=>m),review:premium?safeSavedCorrections(s.review,s.language):basicFeedback(s.review),budget:budgetPublic(s,premium)});
  const url=new URL(req.url,'http://localhost');
  if(route==='/api/speaking'&&req.method==='GET'){
   const language=url.searchParams.get('language');if(!validSpeakingLanguage(language))fail(400,'Choose a learning language');
@@ -49,7 +50,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   const record=await pool.query('SELECT * FROM speaking_sessions WHERE id=$1 AND user_id=$2',[audioRoute[1],user.id]),row=record.rows[0];
   if(!row)fail(404,'Conversation not found');
   const part=audioRoute[2],index=Number(part.split('/').at(-1));
-  const text=part.startsWith('review/')?(premium?row.review?.corrections?.[index]?.improved:null):row.messages[index]?.role==='assistant'?row.messages[index].text:null;
+  const text=part.startsWith('review/')?(premium?safeSavedCorrections(row.review,row.language)?.corrections?.[index]?.improved:null):row.messages[index]?.role==='assistant'?row.messages[index].text:null;
   if(!text)fail(404,'Conversation audio not found');
   if(url.searchParams.get('format')==='text'){send(res,200,{text,locale:languageInfo(row.language).locale});return true;}
   return serveAudio({req,res,pool,text,locale:languageInfo(row.language).locale,send,fail,limited,privateAudio:true,voiceProfile:conversationPartner(row.language,row.scenario).voice});
@@ -63,7 +64,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  if(match[2]==='activity'){if(typeof d.active!=='boolean')fail(400,'Choose an activity state');const row=await tickConversation(pool,user.id,s.id,premium,d.active);send(res,200,{budget:budgetPublic(row,premium)});return true;}
  if(d.aiConsent!==true)fail(400,'Confirm AI conversation processing before continuing');
  if(match[2]==='turn'&&typeof d.turnKey==='string'&&s.messages.some(m=>m.key===d.turnKey)){if(s.messages.find(m=>m.key===d.turnKey).inputHash!==turnFingerprint(d))fail(409,'This reply was already sent with different content. Reload the saved conversation.');send(res,200,{session:visible(s)});return true;}
- const refreshScores=match[2]==='review'&&d.refreshScores===true&&s.review?.communicationScore==null;
+ const refreshScores=match[2]==='review'&&d.refreshScores===true&&safeSavedCorrections(s.review,s.language)?.communicationScore==null;
  if(match[2]==='review'&&s.review&&!refreshScores){send(res,200,{session:visible(s)});return true;}
  if(s.status==='completed'&&!refreshScores)fail(409,'This conversation has ended. Start a new conversation.');
  if(d.revision!==s.revision)fail(409,'The conversation changed. Reload it before continuing.');
