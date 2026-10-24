@@ -25,7 +25,8 @@ export async function handleProfiles({route,req,res,pool,required,json,send,fail
   const user=await required(req),body=await json(req),d=body.profile||{};
   if(user.role==='learner'){
    if(!validSharedLanguages(d.languages)||!d.languages.length||!d.languages.includes(d.primaryLanguage)||!['manual','assessment'].includes(d.startMode)||!['A1','A2','B1','B2','C1'].includes(d.level))fail(400,'Choose your language, starting level and learning route');
-   const data={name:text(d.name,80),languages:d.languages,primaryLanguage:d.primaryLanguage,startMode:d.startMode,level:d.level,goal:text(d.goal,500)};if(data.name.length<2)fail(400,'Enter a display name');
+   if(d.dailyGoal!==undefined&&![5,10,15,20,30].includes(d.dailyGoal))fail(400,'Choose a supported daily study goal');
+   const data={dailyGoal:d.dailyGoal||10,name:text(d.name,80),languages:d.languages,primaryLanguage:d.primaryLanguage,startMode:d.startMode,level:d.level,goal:text(d.goal,500)};if(data.name.length<2)fail(400,'Enter a display name');
    await pool.query('INSERT INTO learner_profiles(user_id,data) VALUES($1,$2) ON CONFLICT(user_id) DO UPDATE SET data=EXCLUDED.data,updated_at=now()',[user.id,data]);send(res,200,{profile:data});return true;
   }
   if(!Number.isInteger(body.revision)||body.revision<0)fail(400,'Reload your profile before saving');
