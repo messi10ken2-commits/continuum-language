@@ -1,5 +1,7 @@
 # Premium trial, learning activity and language integrity
 
+The cardless-trial section below describes the previous release. Future trial checkout is superseded by [renewing trials](exclusive-layout-renewing-trials.md); existing cardless trials keep their original terms.
+
 ## Behaviour
 
 Free learners can explicitly start one 72-hour digital Premium trial from Account → membership. No payment method, automatic subscription, charge or class tickets are created. Server time determines expiry; concurrent requests cannot restart or extend a trial. Existing paid, invited, blocked and owner-preview memberships retain their rules. Premium scenario and focused-practice taps lead Free learners to the offer. The owner account list identifies real trial access separately from previews.

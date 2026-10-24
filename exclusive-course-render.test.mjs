@@ -12,6 +12,8 @@ try{
   const visible={...course,questions:course.questions.map(({answer,acceptedAnswers,note,...q})=>q)};
   const props={course:visible,user:{id:'synthetic-render-user'},onExit(){}};
   const intro=renderToStaticMarkup(React.createElement(ExclusiveCoursePlayer,props));
+  if(course.conversation)assert.ok(!intro.includes('class="lesson-example"'),course.id+' no empty example');
+  if(course.visualData){const {academicChartCopy}=await import('./academic-chart-copy.mjs');for(const value of Object.values(academicChartCopy[course.language]))assert.ok(intro.includes(value),course.id+': '+value);assert.ok(intro.includes('72/100')&&intro.includes('68/100'));}
   assert.ok(intro.includes('lesson-intro-card'),course.id);assert.ok(intro.includes('Start practice'),course.id);
   const question=renderToStaticMarkup(React.createElement(ExclusiveCoursePlayer,{...props,initialDraft:{answers:[],checks:{},key:'synthetic-render-attempt'}}));
   assert.ok(question.includes('question-card'),course.id);assert.ok(question.includes('Check answer'),course.id);
