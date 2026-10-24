@@ -1,3 +1,4 @@
+import {journeyReviewedCopy} from './journey-copy.mjs';
 import {reviewedComprehensionOptions} from './reviewed-comprehension-options.mjs';
 import {reviewedExerciseInstructions} from './reviewed-exercise-instructions.mjs';
 import {reviewedCourseTitles} from './reviewed-course-titles.mjs';
@@ -224,3 +225,5 @@ for(const locale of ['ja','es','pt','zh','fr'])Object.assign(reviewedInterfaceCo
 for(const locale of Object.keys(reviewedExerciseInstructions))Object.assign(reviewedInterfaceCopy[locale],reviewedExerciseInstructions[locale]);
 
 for(const locale of Object.keys(reviewedComprehensionOptions))Object.assign(reviewedInterfaceCopy[locale],reviewedComprehensionOptions[locale]);
+
+for(const locale of Object.keys(journeyReviewedCopy))Object.assign(reviewedInterfaceCopy[locale],journeyReviewedCopy[locale]);

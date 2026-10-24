@@ -37,12 +37,13 @@ const contextPhotos={
  'reading-home':{alt:'A person reading a book on a sofa',themes:['home','study']},
  'reading-water':{alt:'A person reading beside the water',themes:['nature','study']},
  'market-clothes':{alt:'People browsing clothing stalls in an indoor market',themes:['shopping','city']},
- 'airport-lounge':{alt:'Passengers seated in an airport waiting area',themes:['travel','station']}
+ 'airport-lounge':{alt:'Passengers seated in an airport waiting area',themes:['travel']}
 };
 const hash=value=>{let n=0;for(const c of String(value))n=(Math.imul(n,31)+c.charCodeAt(0))>>>0;return n;};
 export function photoInfo(lesson={}){
  if(lesson.conversation?.poster)return {src:lesson.conversation.poster,alt:lesson.conversation.alt||'Conversation video'};
  const theme=themeFor(lesson),text=(lesson.sceneText||lesson.title||'').toLowerCase();
+ if(theme==='station'&&!/airport|flight|boarding|aeroporto|aeropuerto|空港/.test(text))return {src:'/lesson-media/passenger-station-v3.webp',alt:'Passengers waiting beside a passenger train at Butterworth station, Malaysia'};
  let choices;
  if(/cook|kitchen|cozinh|cocin|料理|台所/.test(text))choices=['cooking','home'];
  else if(/read|book|library|livro|leitura|libro|biblioteca|読|図書/.test(text))choices=['library','reading-home','reading-water','study-garden'];

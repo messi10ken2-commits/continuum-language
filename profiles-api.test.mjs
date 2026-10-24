@@ -9,8 +9,11 @@ try{
  assert.equal((await call('/profile','GET',null,learner.cookie)).data.profile,null);
  const learnerProfile={name:'Learner display',languages:['ja','en'],primaryLanguage:'ja',startMode:'assessment',level:'A1',goal:'Travel'};
  assert.equal((await call('/profile','PUT',{profile:learnerProfile},learner.cookie)).status,200);
- assert.deepEqual((await call('/profile','GET',null,learner.cookie)).data.profile,learnerProfile);
+ assert.deepEqual((await call('/profile','GET',null,learner.cookie)).data.profile,{...learnerProfile,dailyGoal:10});
  assert.equal((await call('/profile','PUT',{profile:{...learnerProfile,primaryLanguage:'es'}},learner.cookie)).status,400);
+ for(const dailyGoal of [0,-1,1.5,999,'10'])assert.equal((await call('/profile','PUT',{profile:{...learnerProfile,dailyGoal}},learner.cookie)).status,400);
+ assert.equal((await call('/profile','PUT',{profile:{...learnerProfile,dailyGoal:15}},learner.cookie)).data.profile.dailyGoal,15);assert.equal((await call('/profile','GET',null,learner.cookie)).data.profile.dailyGoal,15);assert.equal((await call('/profile','GET',null,other.cookie)).data.profile,null);
+
  assert.equal((await call('/admin/teacher-profiles','GET',null,teacher.cookie)).status,403);
  const draft=await call('/profile','PUT',{revision:0,profile:{name:'Teacher',languages:['es']}},teacher.cookie);assert.equal(draft.status,200);assert.equal(draft.data.status,'draft');
  assert.equal((await call('/teachers')).data.teachers.length,0);
