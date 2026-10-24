@@ -364,3 +364,23 @@ export const journeyInterfaceSources=[
  "Your learning preferences, membership and privacy, in one place.",
  "Choose a chapter and connect learning with everyday life."
 ];
+
+const worldRows=[
+['World style','Estilo del mundo','Estilo do mundo','表示スタイル'],
+['Real photography','Fotografías reales','Fotografias reais','写真の世界'],
+['Illustrated world','Mundo ilustrado','Mundo ilustrado','イラストの世界'],
+['Switch your layout anytime. Your learning progress stays the same.','Cambia de diseño cuando quieras. Tu progreso se conserva.','Altere o visual quando quiser. Seu progresso continua salvo.','いつでも表示を切り替えられます。学習の進捗はそのまま保存されます。'],
+['Illustrated learning landscape','Paisaje de aprendizaje ilustrado','Paisagem de aprendizagem ilustrada','学びの風景のイラスト'],
+['Illustrated practice scene','Escena de práctica ilustrada','Cena de prática ilustrada','練習場面のイラスト'],
+['Your activity','Tu actividad','Sua atividade','学習の記録']
+];
+for(const [source,es,pt,ja] of worldRows){journeyInterfaceSources.push(source);Object.assign(journeyReviewedCopy.es,{[source]:es});Object.assign(journeyReviewedCopy.pt,{[source]:pt});Object.assign(journeyReviewedCopy.ja,{[source]:ja});}
+for(const [source,es,pt,ja] of [
+['About the illustrations','Acerca de las ilustraciones','Sobre as ilustrações','イラストについて'],
+['Original watercolor illustrations created for Continuum. Scenery is illustrative; your records and progress use your actual activity.','Ilustraciones originales de acuarela creadas para Continuum. Los paisajes son ilustrativos; tus registros y tu progreso reflejan tu actividad real.','Ilustrações originais em aquarela criadas para o Continuum. As paisagens são ilustrativas; seus registros e progresso refletem sua atividade real.','Continuumのために制作したオリジナルの水彩イラストです。風景はイメージで、学習記録と進捗は実際の活動に基づいています。']
+]){journeyInterfaceSources.push(source);for(const [locale,value] of [['es',es],['pt',pt],['ja',ja]])journeyReviewedCopy[locale][source]=value;}
+for(const [source,es,pt,ja] of [
+['Listen, record and compare.','Escucha, graba y compara.','Ouça, grave e compare.','聞いて、録音して、比べてみましょう。'],
+['From your classes','De tus clases','Das suas aulas','レッスンからの練習'],
+['Assignments and teacher-guided practice.','Tareas y práctica guiada por tu profesor.','Tarefas e prática orientada pelo professor.','課題と講師による練習。']
+]){journeyInterfaceSources.push(source);for(const [locale,value] of [['es',es],['pt',pt],['ja',ja]])journeyReviewedCopy[locale][source]=value;}

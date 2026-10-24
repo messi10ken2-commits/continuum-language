@@ -1,3 +1,4 @@
+import {useJourneyLayout,illustratedScene} from './JourneyLayout.jsx';
 import {t as uiText,tf as uiTemplate} from './interface-runtime.mjs';
 import ConversationVideo from './ConversationVideo.jsx';
 import React,{useEffect,useRef,useState} from 'react';
@@ -7,9 +8,9 @@ import {lessonList} from './course.mjs';
 import {hasLessonMedia,hasRecapVideo,mediaThemes,photoInfo,photoFor,themeFor,videoFor,visualFrames} from './lesson-media.mjs';
 import './lesson-media.css';
 export function LessonImage({lesson,className='',eager=false}){
- const [failed,setFailed]=useState(false);const theme=themeFor(lesson);
- useEffect(()=>setFailed(false),[photoFor(lesson)]);
- return failed?<div className={`media-image-fallback ${className}`} role="img" aria-label={mediaThemes[theme].name}><span>{mediaThemes[theme].name}</span></div>:<img className={className} src={photoFor(lesson)} alt={photoInfo(lesson).alt} width={640} height={360} loading={eager?'eager':'lazy'} decoding="async" onError={()=>setFailed(true)}/>;
+ const [failed,setFailed]=useState(false);const theme=themeFor(lesson);const {layout}=useJourneyLayout();const illustrated=layout==='illustrated'&&['station','cafe','study'].includes(theme);const source=illustrated?illustratedScene(lesson.language||'es',theme==='station'?'station':theme==='cafe'?'conversation':'study'):photoFor(lesson);
+ useEffect(()=>setFailed(false),[source]);
+ return failed?<div className={`media-image-fallback ${className}`} role="img" aria-label={mediaThemes[theme].name}><span>{mediaThemes[theme].name}</span></div>:<img className={className} src={source} alt={illustrated?uiText('Illustrated practice scene'):photoInfo(lesson).alt} width={640} height={360} loading={eager?'eager':'lazy'} decoding="async" onError={()=>setFailed(true)}/>;
 }
 export function VisualDiscovery({language='es',level,onStart}){
  const stories=lessonList.filter(l=>(l.language||'es')===language&&(l.visualStory||l.conversation)&&(!level||l.level===level));
