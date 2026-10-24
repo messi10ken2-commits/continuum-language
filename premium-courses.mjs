@@ -2,7 +2,7 @@ import {equivalentAnswer} from './answer-equivalence.mjs';
 import {varietyCourses} from './premium-varieties.mjs';
 import {academicCourses} from './premium-academic.mjs';
 import {expandedPremiumCourses} from './premium-expansion.mjs';
-import {premiumVideoCourses} from './premium-video-lessons.mjs';
+import {premiumVideoCourses,archivedPremiumVideoCourses} from './premium-video-lessons.mjs';
 // Server-only authored courses: answer keys are never bundled into the client.
 const q=(prompt,context,options,answer,note)=>({prompt,context,options,answer,note});
 export const premiumCourses=[
@@ -64,3 +64,6 @@ export const courseAnswerText=q=>typeof q.answer==='string'?q.answer:q.options[q
 
 premiumCourses.push(...expandedPremiumCourses,...premiumVideoCourses,...varietyCourses,...academicCourses);
 export const premiumCourseSummary=premiumCourses.map(({id,language,title,description,level,scene,questions})=>({id,language,title,description,level,scene,questions:questions.length}));
+
+export const premiumCourseById=id=>premiumCourses.find(c=>c.id===id)||archivedPremiumVideoCourses.find(c=>c.id===id);
+export const archivedPremiumCourseSummary=archivedPremiumVideoCourses.map(({id,language,title,description,questions,contentVersion})=>({id,language,title,description,questions:questions.length,contentVersion}));

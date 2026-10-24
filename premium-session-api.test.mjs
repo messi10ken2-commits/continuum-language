@@ -14,8 +14,8 @@ try{
   for(const [i,q]of session.questions.entries()){const feedback=await api('/billing/courses/'+c.id+'/answer','POST',{question:q._sourceIndex,answer:exclusiveAnswer(q,answers[i])},paid.cookie);assert.equal(feedback.status,200);assert.equal(feedback.data.correct,true,c.id+':'+i);}
   const submitted=await api('/billing/courses/'+c.id+'/finish','POST',{answers:exclusiveAnswers(session,answers),key:crypto.randomUUID()},paid.cookie);assert.equal(submitted.status,200);assert.equal(submitted.data.correct,c.questions.length);
   if(!c.conversation){const frame=premiumGalleryFrames(c)[0],path='/billing/courses/'+c.id+'/audio?gallery=0';
-   if(c.scene==='varieties'){assert.equal((await api(path,'GET',null,paid.cookie)).status,404);continue;}
-   const locale={en:'en-US',es:'es-ES',pt:'pt-BR',ja:'ja-JP'}[c.language],bytes=pcmWav(Buffer.alloc(4800));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(frame.text,locale),bytes,'synthetic','gallery-test']);
+   if(c.scene==='varieties'&&!frame.audioLocale){assert.equal((await api(path,'GET',null,paid.cookie)).status,404);continue;}
+   const locale=frame.audioLocale||{en:'en-US',es:'es-ES',pt:'pt-BR',ja:'ja-JP'}[c.language],bytes=pcmWav(Buffer.alloc(4800));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(frame.text,locale),bytes,'synthetic','gallery-test']);
    const audio=await api(path,'GET',null,paid.cookie);assert.equal(audio.status,200);assert.deepEqual(Buffer.from(audio.data),bytes);assert.equal(audio.r.headers.get('cache-control'),'private, no-store');
   }
  }

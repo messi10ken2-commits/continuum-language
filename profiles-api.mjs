@@ -1,3 +1,4 @@
+import {rankedTeachers,publicPopularity} from './teacher-ranking.mjs';
 import {validSharedLanguages} from './teacher-access.mjs';
 export const isPlatformOwner=user=>user?.role==='learner'&&!!process.env.CONTINUUM_OWNER_USER_ID&&user.id===process.env.CONTINUUM_OWNER_USER_ID;
 export async function migrateProfiles(pool){await pool.query(`
@@ -76,8 +77,8 @@ export async function handleProfiles({route,req,res,pool,required,json,send,fail
   }
  }
  if(route==='/api/teachers'&&req.method==='GET'){
-  const language=new URL(req.url,'http://localhost').searchParams.get('language');if(language&&!validSharedLanguages([language]))fail(400,'Unknown language');
-  const r=await pool.query("SELECT user_id,data,status FROM teacher_profiles WHERE status='approved' AND ($1::text IS NULL OR data->'languages' ? $1) ORDER BY updated_at DESC LIMIT 100",[language||null]);send(res,200,{teachers:r.rows.map(publicProfile)});return true;
+  const params=new URL(req.url,'http://localhost').searchParams,language=params.get('language'),sort=params.get('sort')||'popularity',query=(params.get('q')||'').trim();if(language&&!validSharedLanguages([language]))fail(400,'Unknown language');if(!['popularity','newest'].includes(sort)||query.length>120)fail(400,'Invalid teacher search');
+  const rows=await rankedTeachers(pool,{language:language||null,query,sort});send(res,200,{teachers:rows.map((row,i)=>({...publicProfile(row),popularity:publicPopularity(row,sort==='popularity'?i+1:null)})),ranking:{windowDays:90,sort}});return true;
  }
  const detail=route.match(/^\/api\/teachers\/([a-f0-9-]{36})$/);
  if(detail&&req.method==='GET'){const r=await pool.query("SELECT user_id,data,status FROM teacher_profiles WHERE user_id=$1 AND status='approved'",[detail[1]]);if(!r.rows.length)fail(404,'Teacher profile is not published');send(res,200,{teacher:publicProfile(r.rows[0])});return true;}

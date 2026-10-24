@@ -1,0 +1,13 @@
+// Original comprehension questions checked against the publisher's public transcript.
+const transcript='https://www.japanesepod101.com/lesson/absolute-beginner-japanese-for-every-day-1-the-25-most-common-phrases-that-we-use-in-japan';
+const items=[
+ ['What can the polite attention-getter introduce?',['A request for directions','A dinner reservation cancellation','A weather report'],0,'Risa uses it before requesting directions.','Phrase 2'],
+ ['Which casual response means no?',['ううん','うん','はい'],0,'The lesson contrasts casual affirmative and negative replies.','Phrases 3–4'],
+ ['What information does the station question request?',['Its opening date','Its location','Its ticket price'],1,'The station example asks where it is.','Phrase 5'],
+ ['What does the shopping question ask about?',['The colour','The price','The owner’s age'],1,'The shopping example asks how much something costs.','Phrase 7'],
+ ['What does the speaker offer with どうぞ?',['A seat to someone else','A refusal of help','A complaint about noise'],0,'The train example offers the seat.','Phrase 10'],
+ ['What does the negative understanding phrase communicate?',['Everything is clear','The speaker does not understand','The speaker is leaving tomorrow'],1,'The lesson uses it to signal missing understanding.','Phrase 12'],
+ ['What is requested in the restaurant example?',['A blanket','Water','A train ticket'],1,'The restaurant example requests water.','Phrase 22'],
+ ['What does the emergency expression request?',['A receipt','Permission to leave','Help'],2,'The speaker demonstrates asking for help.','Phrase 23']
+];
+export const japaneseInlineVideoCourse={id:'ja-premium-video-v3',contentVersion:1,language:'ja',level:'A2',title:'Understand everyday Japanese requests and replies',description:'Watch Risa’s everyday Japanese examples in the embedded player, then interpret the situations.',conversation:{provider:'youtube',youtubeId:'n6ciMT6KhVo',source:'https://www.youtube.com/watch?v=n6ciMT6KhVo',credit:'JapanesePod101 · Risa · Innovative Language',sourceTitle:'Learn the Top 25 Must-Know Japanese Phrases!',hint:'Use the numbered phrases to find each example. The questions assess the source examples; exact clip timing has not been verified.'},examples:[],references:[{title:'Publisher’s lesson and transcript',url:transcript}],questions:items.map(([prompt,options,answer,note,label])=>({type:'video',video:true,prompt,options,answer,note,...(label==='Phrases 3–4'?{optionsLang:'ja-JP',optionsRole:'utterance'}:{}),sourceReference:{label,url:transcript,evidence:'Publisher transcript and official YouTube identity checked 2026-10-24; numbered phrase references, not unverified timestamps.'}}))};

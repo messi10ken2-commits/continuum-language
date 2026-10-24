@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {popularityScore} from './teacher-ranking.mjs';
+test('rolling popularity has a neutral prior and responds both upward and downward',()=>{assert.equal(popularityScore({}),50);const m={learners:5,returning:3,completed:12,cancelled:1,replies:8,opportunities:10},base=popularityScore(m);assert.ok(popularityScore({...m,completed:20})>base);assert.ok(popularityScore({...m,returning:1})<base);assert.ok(popularityScore({...m,cancelled:8})<base);assert.ok(popularityScore({...m,replies:2})<base);assert.ok(popularityScore({...m,learners:10,returning:6})>base);for(let n=0;n<100;n++)assert.ok(popularityScore({learners:n,returning:n,completed:n,cancelled:n,replies:n,opportunities:n})<=100);});
