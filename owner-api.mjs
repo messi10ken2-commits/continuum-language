@@ -22,7 +22,7 @@ const accessSQL=`WITH access AS (
  SELECT u.id,u.name,u.email,u.role,u.created_at AS "createdAt",m.status AS "billingStatus",m.paid_until AS "paidUntil",m.cancel_at_period_end AS "cancelAtPeriodEnd",m.price_id AS "priceId",
  EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=u.id AND b.blocked) AS blocked,
  EXISTS(SELECT 1 FROM premium_invitations i WHERE i.redeemed_by=u.id AND i.active AND (i.access_until IS NULL OR i.access_until>now())) AS invited,
- EXISTS(SELECT 1 FROM premium_trials t WHERE t.user_id=u.id AND t.ends_at>now()) AS trial,
+ EXISTS(SELECT 1 FROM premium_trials t WHERE t.user_id=u.id AND t.ends_at>now() AND (t.kind='cardless' OR (m.status='trialing' AND m.subscription_id=t.subscription_id AND m.paid_until>now()))) AS trial,
  COALESCE(m.status='active' AND m.paid_until>now(),false) AS subscribed
  FROM users u LEFT JOIN billing_memberships m ON m.user_id=u.id
 ), plans AS (SELECT *,CASE WHEN NOT blocked AND (subscribed OR invited OR trial) THEN 'premium' ELSE 'free' END AS tier FROM access)`;

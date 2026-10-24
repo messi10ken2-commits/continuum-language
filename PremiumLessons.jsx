@@ -1,3 +1,4 @@
+import {academicChartCopy} from './academic-chart-copy.mjs';
 import React,{useEffect,useState} from 'react';
 import PremiumVisual,{PremiumGallery} from './PremiumVisual.jsx';
 import {exclusiveSession,exclusiveAnswer,exclusiveAnswers} from './premium-session.mjs';
@@ -18,10 +19,11 @@ export function premiumLesson(course){
 }
 function NativeReferences({sources}){return sources?.length?<section className="rule-pitfall"><h3>{t('Listen to native speakers')}</h3><p>{t('Open the publisher’s original recording. These are pronunciation references, not recordings of the exercise sentences.')}</p>{sources.map(s=><p key={s.url}><a className="outline-button" href={s.url} target="_blank" rel="noopener noreferrer">{s.label} ↗</a><small> · {s.credit}</small></p>)}</section>:null;}
 function CourseReference({course,lesson}){
+ const chart=academicChartCopy[course.language]||academicChartCopy.en;
  return <><NativeReferences sources={course.nativeReferences}/><LessonReference lesson={{...lesson,vocabulary:undefined}} audioEnabled={course.scene!=='varieties'}/>
  {course.exampleNote&&<section className="rule-pitfall"><h3>{t('Usage note')}</h3><p>{t(course.exampleNote)}</p></section>}
  {course.reading&&<section><h3>{t('Read the scenario')}</h3><p lang={course.language}>{course.reading}</p></section>}
- {course.visualData&&<figure className="academic-chart"><figcaption>{t('Hypothetical study · end-of-study mean scores')}</figcaption>{[['Daily practice',course.visualData.daily],['Weekly practice',course.visualData.weekly]].map(([label,value])=><div key={label}><span>{t(label)}</span><div><i style={{width:value+'%'}}/></div><b>{value}/100</b></div>)}<small>{t('40 adults · self-selected groups · no baseline or follow-up. The chart does not establish causation.')}</small></figure>}
+ {course.visualData&&<figure className="academic-chart" lang={course.language}><figcaption>{chart.title}</figcaption>{[[chart.daily,course.visualData.daily],[chart.weekly,course.visualData.weekly]].map(([label,value])=><div key={label}><span>{label}</span><div><i style={{width:value+'%'}}/></div><b>{value}/100</b></div>)}<small>{chart.note}</small></figure>}
  {course.vocabulary&&<section className="lesson-reference"><h3>{t('Useful expressions for this situation')}</h3>{course.vocabulary.map(({phrase,meaning})=><div className="translated-example" key={phrase}><b lang={course.language}>{phrase}</b><p>{t(meaning)}</p></div>)}</section>}
  {course.references&&<details><summary>{t('Further reading')}</summary><ul>{course.references.map(r=><li key={r.url}><a href={r.url} target="_blank" rel="noopener noreferrer">{r.title}</a></li>)}</ul></details>}</>;
 }

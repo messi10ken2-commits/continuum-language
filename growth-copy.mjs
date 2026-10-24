@@ -1,4 +1,5 @@
 export const growthInterfaceSources=[
+  "Renewal price",
   "/api/activity",
   "Your learning consistency",
   "Studied today",
@@ -118,5 +119,25 @@ export const growthInterfaceSources=[
   "Answer review is unavailable. Your answer and saved progress are unchanged.",
   "This task tests an exact form, word order or recording. Only the authored correct alternatives apply.",
   "Checking alternative…",
-  "Review my alternative answer"
+  "Review my alternative answer",
+  "en",
+  "/trial-offer?interval=",
+  "Payment details required. After 3 days, Premium renews automatically at the price and frequency shown unless you cancel before the trial ends. One trial per learner account. No class ticket is granted during the free trial.",
+  "After 3 days: {0} per {1}, automatically.",
+  "Your exact first billing date and final total are shown in Stripe Checkout before confirmation. Cancel trial renewal in Account → Membership before that date to avoid a charge. Applicable taxes, if any, are shown at checkout.",
+  "I agree to the recurring price and frequency above and automatic paid renewal after 3 days unless I cancel before the trial ends.",
+  "Continue to Stripe · 3-day trial",
+  "Loading trial price…",
+  "/checkout",
+  "/cancel-trial",
+  "continuum-membership-changed",
+  "Cancel trial renewal",
+  "/portal",
+  "/sync",
+  "Trial renewal cancelled. Your access continues until the trial ends.",
+  "Trial renewal is cancelled. Premium access continues until the trial ends.",
+  "Your payment method will be charged automatically when the trial ends unless you cancel renewal first.",
+  "This earlier cardless trial will not automatically charge you. Your saved learning stays after the trial.",
+  "year",
+  "month"
 ];
