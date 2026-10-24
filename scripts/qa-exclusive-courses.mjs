@@ -59,6 +59,8 @@ try{
   await wait("!!document.querySelector('.result-card')");assert.ok(await evaluate("document.querySelector('.result-card h1').textContent.includes('100%')"));assert.deepEqual((await db.query('SELECT correct FROM premium_course_attempts WHERE user_id=$1 AND course_id=$2 ORDER BY correct',[premium.id,course.id])).rows.map(r=>r.correct),[7,8],'Try again must create a new attempt');
   await click('.result-card','Back to courses');await wait("!!document.querySelector('.membership-courses')");
  }
+ // This suite exercises playback after an explicit optional-media choice.
+ await evaluate("localStorage.setItem('continuumPrivacyV1',JSON.stringify({version:1,externalMedia:true}));window.dispatchEvent(new Event('continuum-media-privacy'))");
  for(const course of premiumCourses.filter(c=>c.conversation)){
   await open(course);await click('.lesson-begin','Start practice');await wait("!!document.querySelector('.question-card')");
   assert.ok(await evaluate("!!document.querySelector('.question-card .conversation-video')"),course.id);
