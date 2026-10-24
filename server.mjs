@@ -1,3 +1,4 @@
+import {migrateTeacherRanking} from './teacher-ranking.mjs';
 import {migrateAnswerReviews,withVerifiedAnswers} from './verified-answers.mjs';
 import {handleAnswerReview} from './answer-review-api.mjs';
 import {gradeResolvedLesson} from './course.mjs';
@@ -77,7 +78,7 @@ async function migrate(){
  await migrateReview(pool);
  await migrateLocalization(pool);
  await migrateSpeaking(pool);
- await migrateClassroom(pool);
+ await migrateClassroom(pool);await migrateTeacherRanking(pool);
  await migrateBilling(pool);
  await migrateActivity(pool);
  await migrateAnswerReviews(pool);

@@ -1,3 +1,5 @@
+import {kansaiComparisonVideo} from './regional-audio-pairs.mjs';
+import {japaneseInlineVideoCourse} from './japanese-inline-video.mjs';
 // Independent sources: never borrow ordinary-course videos or their question windows.
 // Original media remains on the publisher's player; authored exercises are Premium.
 const cueWindows={
@@ -51,7 +53,7 @@ const definitions={
  ['What does Akane advise about the item Saki points to?',['Throw it away','Leave it as it is','Heat it twice'],1,'She says it does not need heating.']
  ]}
 };
-export const premiumVideoCourses=Object.entries(definitions).map(([language,d])=>({
+const originalVideoCourses=Object.entries(definitions).map(([language,d])=>({
  id:`${language}-premium-video-v2`,contentVersion:3,language,level:d.level,title:d.title,
  description:'New source material: understand intentions and practical details in an original publisher video.',
  conversation:{provider:d.youtubeId?'youtube':'publisher',...(d.youtubeId?{youtubeId:d.youtubeId}:{}),source:d.youtubeId?`https://www.youtube.com/watch?v=${d.youtubeId}`:d.sourcePage,credit:d.credit,sourceTitle:d.title,hint:'Watch the indicated source section. These exercises use a different source from the ordinary lessons.'},
@@ -62,4 +64,9 @@ export const premiumVideoCourses=Object.entries(definitions).map(([language,d])=
  ...(start!==undefined?{videoCue:{start,end,label:cueLabels[language]?.[i]||'Dinner-table exchange',precision:'section',evidence:language==='en'?'Context windows checked against the YouTube timestamped English transcript and publisher script, 2026-10-21.':language==='es'?'Publisher chapter boundaries checked in the YouTube description, with question content checked against the publisher lesson, 2026-10-21. These are chapter windows, not exact phrase offsets.':'Section windows from the publisher’s timestamped script, checked 2026-10-21.'}}:{sourceReference:{label:language==='ja'?'Lesson 3 · Advanced skit · family dinner':language==='es'?['Vendor calls','At the stall','At the stall','Buying chicken','Buying chicken','Buying meat','Important notes','Important notes'][i]:['Introduction','Introduction','Introduction','Water and butter','Herb','Envelope','Explaining pronunciation','Conclusion'][i],url:d.transcript||d.sourcePage,evidence:'Publisher’s public lesson/script checked 2026-10-21; exact video offsets not verified.'}})
  });})
 }));
+export const archivedPremiumVideoCourses=originalVideoCourses.filter(c=>c.language==='ja');
+export const premiumVideoCourses=[...originalVideoCourses.filter(c=>c.language!=='ja'),japaneseInlineVideoCourse];
 export const premiumVideoSources=premiumVideoCourses.map(({id,language,title,conversation})=>({id,language,title,conversation}));
+
+// Native comparison remains watchable without purchasing the exercises.
+premiumVideoSources.push({id:'ja-premium-varieties-v1',language:'ja',title:kansaiComparisonVideo.sourceTitle,conversation:kansaiComparisonVideo});

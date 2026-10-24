@@ -14,7 +14,7 @@ try{
  const path='/teacher/learners/'+learner.id+'?language=en';
  let r=await api(path,'GET',null,teacher.cookie);assert.equal(r.status,200);assert.equal(r.data.membership.tier,'free');assert.ok(!r.data.assessment.result.skills);assert.equal((await api('/skills/'+saved.id,'GET',null,teacher.cookie)).data.submission.result.reviewTier,'basic');
  assert.equal((await api(path,'GET',null,stranger.cookie)).status,403);
- const billing=await api('/billing','GET',null,learner.cookie);assert.equal(billing.data.courses.length,28);assert.equal(billing.data.videoSources.length,4);assert.ok(!JSON.stringify(billing.data.videoSources).includes('"answer"'));
+ const billing=await api('/billing','GET',null,learner.cookie);assert.equal(billing.data.courses.length,28);assert.equal(billing.data.videoSources.length,5);assert.ok(!JSON.stringify(billing.data.videoSources).includes('"answer"'));
  for(const lang of ['en','es','pt','ja'])assert.equal(billing.data.courses.filter(c=>c.language===lang).length,7);
  for(const c of billing.data.courses)assert.equal((await api('/billing/courses/'+c.id,'GET',null,learner.cookie)).status,403);
  await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[learner.id]);

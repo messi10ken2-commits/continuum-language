@@ -7,7 +7,7 @@ const normalize=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/\s+/g,
 const signature=q=>JSON.stringify([normalize(q.context||q.audio),q.options?.map(normalize),q.answer]);
 test('Every Premium video source is distinct from ordinary lessons and other Premium video courses',()=>{
  const ordinary=new Set(lessonList.map(l=>media(getLesson(l.id)?.conversation)).filter(Boolean));const seen=new Set();
- for(const c of premiumCourses.filter(c=>c.conversation)){const id=media(c.conversation);assert.ok(id);assert.ok(!ordinary.has(id),c.id+' reuses a normal lesson video');assert.ok(!seen.has(id),c.id+' repeats a Premium video');seen.add(id);assert.equal(c.contentVersion,3);assert.ok(c.id.endsWith('video-v2'));}
+ for(const c of premiumCourses.filter(c=>c.conversation)){const id=media(c.conversation);assert.ok(id);assert.ok(!ordinary.has(id),c.id+' reuses a normal lesson video');assert.ok(!seen.has(id),c.id+' repeats a Premium video');seen.add(id);assert.equal(c.contentVersion,c.id==='ja-premium-video-v3'?1:3);assert.ok(/video-v[23]$/.test(c.id));}
  assert.equal(seen.size,4);
 });
 test('Premium exercises do not duplicate complete normal-lesson exercises',()=>{

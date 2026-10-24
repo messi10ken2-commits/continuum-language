@@ -17,3 +17,5 @@
 .answer-review{margin:16px 0;padding:16px;background:#f3f2ff;border:1px solid #ddd9f4;border-radius:12px}.answer-review label{display:flex;align-items:flex-start;gap:8px;margin:12px 0}.answer-review p{line-height:1.5}
 
 .trial-renewal-consent{display:flex;gap:10px;align-items:flex-start;line-height:1.6;margin:16px 0}.trial-renewal-consent input{flex-shrink:0;margin-top:5px}.trial-renewal-price{font-size:18px}
+
+.regional-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.regional-pair>div{padding:14px;border:1px solid #e3dff0;border-radius:12px;background:#f8f7fc}.teacher-popularity{color:#6256a7;font-weight:600}.ranking-explanation{margin-bottom:20px}@media(max-width:600px){.regional-pair{grid-template-columns:1fr}}
