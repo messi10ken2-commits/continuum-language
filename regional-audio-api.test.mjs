@@ -13,7 +13,7 @@ try{
   const response=await fetch(base+'/api/billing/courses/'+course.id,{headers:{cookie:paid.cookie}});assert.equal(response.status,200);const {course:visible}=await response.json();assert.ok(visible.breakdown.tables.length);assert.ok(visible.questions.every(q=>!('answer'in q)&&!('note'in q)));
   if(course.language==='ja'){for(const index of [0,4])assert.equal((await fetch(base+'/api/billing/courses/'+course.id+'/audio?question='+index,{headers:{cookie:paid.cookie}})).status,404);}
   for(const [index,q] of course.questions.entries())if(q.audio){
-   const pcm=Buffer.alloc(4800,index+course.language.charCodeAt(0)),audio=pcmWav(pcm);
+   const pcm=Buffer.alloc(4800,index+course.language.charCodeAt(0)),audio=pcmWav(Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])));
    await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4)',[speechKey(q.audio,q.audioLocale),audio,'synthetic-test','locale-sentinel']);
    const endpoint=base+'/api/billing/courses/'+course.id+'/audio?question='+index+'&locale=en-US';
    assert.equal((await fetch(endpoint)).status,401);assert.equal((await fetch(endpoint,{headers:{cookie:free.cookie}})).status,403);
@@ -23,7 +23,7 @@ try{
  for(const course of varietyCourses)for(const [i,pair] of regionalAudioPairs[course.language].entries())for(const [j,v] of pair.variants.entries()){
  const endpoint=base+'/api/billing/courses/'+course.id+'/audio?comparison='+i+'&variant='+j;
  if(!v.locale){assert.equal((await fetch(endpoint,{headers:{cookie:paid.cookie}})).status,404);continue;}
- const bytes=pcmWav(Buffer.alloc(4800,i+j+3));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(v.text,v.locale),bytes,'synthetic-test','pair-locale-sentinel']);
+ const bytes=pcmWav(Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(v.text,v.locale),bytes,'synthetic-test','pair-locale-sentinel']);
  assert.equal((await fetch(endpoint,{headers:{cookie:free.cookie}})).status,403);const r=await fetch(endpoint+'&locale=ja-JP-kansai',{headers:{cookie:paid.cookie}});assert.equal(r.status,200);assert.equal(r.headers.get('cache-control'),'private, no-store');if(r.headers.get('x-audio-locale'))assert.equal(r.headers.get('x-audio-locale'),v.locale);
  }
  assert.equal((await fetch(base+'/api/billing/courses/en-premium-varieties-v1/audio?comparison=0&variant=9',{headers:{cookie:paid.cookie}})).status,404);

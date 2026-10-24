@@ -1,4 +1,10 @@
 export const growthInterfaceSources=[
+  "Scene playback position",
+  "Full-video timestamps · playback is limited to this scene.",
+  "Press play in the video to start this scene.",
+  "The scene timeline is unavailable. Use the video’s own playback controls.",
+  "Short words are repeated twice.",
+  "Studio recording contained no audible speech. Please retry.",
   "Present indicative · Spain / Río de la Plata",
   "Affirmative command · Spain / Río de la Plata",
   "Renewal price",

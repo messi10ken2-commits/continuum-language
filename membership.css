@@ -19,3 +19,5 @@
 .trial-renewal-consent{display:flex;gap:10px;align-items:flex-start;line-height:1.6;margin:16px 0}.trial-renewal-consent input{flex-shrink:0;margin-top:5px}.trial-renewal-price{font-size:18px}
 
 .regional-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.regional-pair>div{padding:14px;border:1px solid #e3dff0;border-radius:12px;background:#f8f7fc}.teacher-popularity{color:#6256a7;font-weight:600}.ranking-explanation{margin-bottom:20px}@media(max-width:600px){.regional-pair{grid-template-columns:1fr}}
+
+.scene-timeline{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem 1rem;padding:1rem 0}.scene-timeline label{flex:1 1 240px;font-weight:600}.scene-timeline input{display:block;width:100%;margin:.6rem 0;accent-color:var(--primary,#665ad8)}.scene-timeline output{font-variant-numeric:tabular-nums}.scene-timeline small{flex-basis:100%;color:var(--muted,#74728a)}

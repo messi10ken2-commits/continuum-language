@@ -1,3 +1,4 @@
+import {wavHasSpeechSignal} from './speech-audio-quality.mjs';
 import {appliedQuestionBank} from './applied-exercises.mjs';
 import {practicalFormQuestions} from './practical-form-questions.mjs';
 import practicalBank from './practical-exercises.json' with {type:'json'};
@@ -36,7 +37,7 @@ export async function handleSpeech({route,req,res,pool,json,send,fail,limited,sy
  return serveStudioSpeech({req,res,pool,text,locale,send,fail,limited,synthesize});
 }
 // Call only after the caller has authorized the exact server-owned text.
-export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limited,synthesize=synthesizeSpeech,privateAudio=false,voiceProfile='default'}){
+export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limited,synthesize=synthesizeSpeech,privateAudio=false,voiceProfile='default',validateAudio=false}){
  const cacheControl=privateAudio?'private, no-store':null;
  if(typeof text!=='string'||!text.trim()||text.length>1800||!speechLocales.includes(locale))fail(400,'Invalid speech content');
  const word=voiceProfile==='default'?nativeWordEntry(text,locale):null;
@@ -44,7 +45,7 @@ export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limi
  const native=voiceProfile==='default'?nativeKanaKey(text,locale):null;
  if(native){const bytes=Buffer.from(nativeKanaAudio[native],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':cacheControl||'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Version':'native-kana-v1'});res.end(bytes);return true;}
  const key=speechKey(text,locale,voiceProfile);const existing=await pool.query('SELECT audio,provider,model FROM speech_cache WHERE cache_key=$1',[key]);
- let result=existing.rows[0],cached=!!result;
+ let result=existing.rows[0];if(result&&validateAudio&&!wavHasSpeechSignal(Buffer.from(result.audio)))result=null;const cached=!!result;
  if(!result){
   limited(req,'studio-speech',180);
   if(!inFlight.has(key)){
@@ -52,8 +53,8 @@ export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limi
    const task=(async()=>{active++;try{
     const budget=await pool.query(`INSERT INTO speech_daily_budget(day,generated) VALUES(CURRENT_DATE,1) ON CONFLICT(day) DO UPDATE SET generated=speech_daily_budget.generated+1 WHERE speech_daily_budget.generated<$1 RETURNING generated`,[Number(process.env.TTS_DAILY_LIMIT)||1000]);
     if(!budget.rows.length)fail(429,'Today’s new-audio limit has been reached. Saved audio is still available.');
-    const generated=await synthesize(text,locale,{voiceProfile});
-    await pool.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT(cache_key) DO NOTHING',[key,generated.audio,generated.provider,generated.model]);
+    const generated=await synthesize(text,locale,{voiceProfile});if(validateAudio&&!wavHasSpeechSignal(generated.audio))throw Object.assign(Error('Studio recording contained no audible speech. Please retry.'),{status:503});
+    await pool.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT(cache_key) DO UPDATE SET audio=EXCLUDED.audio,provider=EXCLUDED.provider,model=EXCLUDED.model,created_at=now()',[key,generated.audio,generated.provider,generated.model]);
     // Bound persistent audio storage to the newest 256 MB. Evicted clips can be regenerated.
     await pool.query(`DELETE FROM speech_cache WHERE cache_key IN (SELECT cache_key FROM (SELECT cache_key,SUM(octet_length(audio)) OVER (ORDER BY created_at DESC,cache_key) AS bytes FROM speech_cache) ranked WHERE bytes>268435456)`);return generated;
    }finally{active--;}})();inFlight.set(key,task);
