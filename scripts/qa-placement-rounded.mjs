@@ -22,7 +22,7 @@ try{
 
  const l=await page(learner);
  for(const language of ['en','es','pt','ja']){
-  await l.wait("!!document.querySelector('.language-picker select')");await l.fill('.language-picker select',language);await l.button('.app>aside nav','Level test');await l.wait("!!document.querySelector('.assessment-consent input')");await l.click('.assessment-consent input');await l.click('.assessment-intro>.primary');await l.wait("!!document.querySelector('.assessment-question')");
+  await l.wait("!!document.querySelector('.language-picker select')");await l.fill('.language-picker select',language);await l.button('.app>aside nav','Overview');await l.button('.learner-shortcuts','Level test');await l.wait("!!document.querySelector('.assessment-consent input')");await l.click('.assessment-consent input');await l.click('.assessment-intro>.primary');await l.wait("!!document.querySelector('.assessment-question')");
   const active=(await api('/assessments?language='+language,'GET',null,learner)).active;assert.equal(active.version,language+'-diagnostic-4');const items=assessmentItems(active.form,active.version),count=language==='en'?45:4;
   for(let i=0;i<count;i++){
    const q=items[i];await l.wait(`document.querySelector('.assessment-question input[type=radio]')?.name===${JSON.stringify(q.id)}`);
