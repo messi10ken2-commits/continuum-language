@@ -1,3 +1,4 @@
+import {privacyInterfaceSources} from './privacy-copy.mjs';
 import {ownerInterfaceSources} from './owner-copy.mjs';
 import premiumDisplaySources from './premium-display-sources.json' with {type:'json'};
 import assessmentDisplaySources from './assessment-display-sources.json' with {type:'json'};
@@ -24,6 +25,7 @@ function add(text,language='',protectedValues=[]){if(typeof text!=='string'||!/[
 for(const text of [...uiSources,...Object.keys(interfaceCopy),...Object.values(reviewedInterfaceCopy).flatMap(Object.keys)])add(text);
 for(const text of premiumDisplaySources)add(text);
 for(const text of ownerInterfaceSources)add(text);
+for(const text of privacyInterfaceSources)add(text);
 for(const source of assessmentDisplaySources)add(source.text,source.language,source.protectedValues);
 for(const text of feedbackTemplates)add(text.trim());
 for(const level of levels){add(level.name);add(level.description);}

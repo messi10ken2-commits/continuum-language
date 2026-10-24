@@ -16,10 +16,10 @@ try{
  for(const l of lessonList){
   const props={language:l.language||'es',activeLesson:l.id,attempts:[],onStart(){},onExit(){},onComplete(){}};
   const render=()=>renderToStaticMarkup(React.createElement(SelfStudy,props));
-  const intro=render();assert.ok(intro.includes(l.conversation?.provider==='youtube'?'class="conversation-embed"':l.conversation?'poster="/lesson-media/voa-':'<img'),l.id+' intro image');
+  const intro=render();assert.ok(intro.includes(l.conversation?'External video is paused for privacy':'<img'),l.id+' intro image');
   storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));
   if(l.exerciseVersion)storage.set('continuumTestSeeds',JSON.stringify({[l.id]:l.exerciseVersion}));
-  const exercise=render();assert.ok(exercise.includes(l.conversation?'Conversation video:':'Enlarge page image'),l.id+' practice visual');
+  const exercise=render();assert.ok(exercise.includes(l.conversation?'External video is paused for privacy':'Enlarge page image'),l.id+' practice visual');
   assert.ok(!exercise.includes('visual-focus'),l.id+' no recap answers in exercise');storage.clear();
  }
  for(const language of ['es','en','pt','ja']){
@@ -40,7 +40,7 @@ try{
    assert.ok(l.questions.every(q=>q.videoCue?.evidence||q.sourceReference?.evidence));
    const {default:Player}=await vite.ssrLoadModule('/ConversationVideo.jsx');
    const markup=renderToStaticMarkup(React.createElement(Player,{lesson:l}));
-   assert.ok(markup.includes('strict-origin-when-cross-origin'));
+   assert.ok(markup.includes('External video is paused for privacy'));assert.ok(!markup.includes('<iframe'));
    assert.ok(markup.includes('Open original video'));
    assert.ok(!markup.includes('Practice phrases'));
    assert.ok(!markup.includes('autoplay=1'));
@@ -89,7 +89,7 @@ try{
   if(cue){
    assert.ok(html.includes(`Listen at ${formatVideoTime(cue.start)}–${formatVideoTime(cue.end)}`));
    assert.ok(html.includes('Replay this section'));
-   if(l.conversation.provider==='youtube')assert.ok(html.includes(`start=${cue.start}&amp;end=${cue.end}`));
+   if(l.conversation.provider==='youtube')assert.ok(!html.includes('<iframe'),'clip player is gated until browser permission');
   }else{
    assert.equal(l.conversation.youtubeId,'ewP08J78Y9U');
    assert.ok(q.sourceReference.evidence);
@@ -115,8 +115,8 @@ try{
    const cue=reviewedVideoCue(q);assert.ok(cue,l.id+' requires reviewed timing');
    assert.ok(cue.end<=(l.language==='en'?231:391));
    const html=renderToStaticMarkup(React.createElement(ClipPlayer,{lesson:l,cue,practice:true,autoPlay:true}));
-   assert.ok(html.includes(`start=${cue.start}&amp;end=${cue.end}&amp;autoplay=1`));
-   assert.ok(html.includes('loading="eager"'));
+   assert.ok(html.includes('External video is paused for privacy'));
+   assert.ok(!html.includes('<iframe'),'server render never loads a provider before permission');
    assert.ok(html.includes('Replay this section'));
   }
   const preview=renderToStaticMarkup(React.createElement(ClipPlayer,{lesson:l,practice:true}));

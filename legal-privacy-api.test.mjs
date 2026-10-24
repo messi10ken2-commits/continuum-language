@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+const {testServer,db}=await import('./test-server.mjs'),origin='http://127.0.0.1:'+testServer.address().port;
+async function api(path,method='GET',body,person){const r=await fetch(origin+'/api'+path,{method,headers:{'Content-Type':'application/json',...(person?{cookie:person.cookie}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,data:await r.json(),cookie:r.headers.get('set-cookie')?.split(';')[0]};}
+async function register(name,role='learner'){const r=await api('/auth/register','POST',{name,email:name+'@example.test',password:'synthetic-privacy-test-password',adult:true,role});assert.equal(r.status,200);return {...r.data.user,cookie:r.cookie};}
+try{
+ const a=await register('PrivacyLearner'),b=await register('OtherLearner'),t=await register('PrivacyTeacher','teacher');
+ for(const path of ['/terms','/privacy','/help']){const r=await fetch(origin+path),html=await r.text();assert.equal(r.status,200);assert.ok(r.headers.get('content-type').startsWith('text/html'));assert.ok(r.headers.get('content-security-policy').includes("frame-ancestors 'none'"));assert.ok(html.includes('mailto:continuum.language@gmail.com'));assert.ok(!html.includes('src="/assets/'),'public documents do not need JavaScript or authentication');assert.ok(html.includes('/privacy-settings'));const head=await fetch(origin+path,{method:'HEAD'});assert.equal(head.status,200);assert.equal(await head.text(),'');}
+ const searched=await (await fetch(origin+'/help?q='+encodeURIComponent('<script>alert(1)</script>'))).text();assert.ok(!searched.includes('<script>'));assert.ok(searched.includes('&lt;script&gt;'));assert.ok(searched.includes('No matching topics'));
+ const query=await (await fetch(origin+'/help?q=subscriptions')).text();assert.ok(query.includes('<h2>Subscriptions and billing</h2>'));assert.ok(!query.includes('<h2>Teachers and classes</h2>'));
+ assert.equal((await fetch(origin+'/terms',{method:'POST'})).status,405);
+ assert.equal((await api('/privacy/settings')).status,401);assert.equal((await api('/privacy/patterns','DELETE',{language:'all'})).status,401);assert.equal((await api('/privacy/patterns','DELETE',{language:'all'},t)).status,403);
+ await db.query("INSERT INTO learning_pattern_reports(user_id,language,enabled,report,fingerprint,request_token) SELECT $1,l,true,'{}'::jsonb,'fingerprint','in-flight' FROM unnest(ARRAY['en','es','pt','ja']) l",[a.id]);await db.query("INSERT INTO learning_pattern_reports(user_id,language,enabled,report) VALUES($1,'en',true,'{}')",[b.id]);
+ let d=(await api('/privacy/settings','GET',null,a)).data;assert.equal(d.patterns.length,4);assert.ok(d.patterns.every(p=>p.enabled));assert.equal(typeof d.shareSelfLearning,'boolean');
+ assert.deepEqual((await api('/privacy/settings','GET',null,t)).data,{role:'teacher',shareSelfLearning:null,patterns:[]});
+ assert.equal((await api('/privacy/patterns','DELETE',{language:'bad'},a)).status,400);assert.equal((await api('/privacy/patterns','DELETE',{language:'en',userId:b.id},a)).status,200);
+ d=(await api('/privacy/settings','GET',null,a)).data;assert.equal(d.patterns.find(p=>p.language==='en').enabled,false);assert.equal(d.patterns.filter(p=>p.enabled).length,3);
+ assert.equal((await api('/privacy/patterns','DELETE',{language:'all'},a)).status,200);assert.ok((await api('/privacy/settings','GET',null,a)).data.patterns.every(p=>!p.enabled));
+ const rows=(await db.query('SELECT * FROM learning_pattern_reports WHERE user_id=$1',[a.id])).rows;assert.ok(rows.every(r=>!r.enabled&&r.report===null&&r.request_token===null&&r.fingerprint===null));assert.equal((await api('/privacy/settings','GET',null,b)).data.patterns.find(p=>p.language==='en').enabled,true);
+ const saved=await db.query("UPDATE learning_pattern_reports SET report='{}' WHERE user_id=$1 AND enabled=true AND request_token='in-flight' RETURNING user_id",[a.id]);assert.equal(saved.rows.length,0,'revocation invalidates the old provider response');
+ assert.equal((await api('/privacy','PUT',{shareSelfLearning:false},a)).status,200);assert.equal((await api('/privacy/settings','GET',null,a)).data.shareSelfLearning,false);
+ console.log('PASS: public legal/help/contact documents, search escaping, no-JS access, owner-independent learner/teacher privacy, scoped report revocation and in-flight invalidation.');
+}finally{await new Promise(r=>testServer.close(r));await db.close()}

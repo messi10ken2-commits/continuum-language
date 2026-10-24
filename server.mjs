@@ -1,3 +1,5 @@
+import {renderPublicDocument} from './public-documents.mjs';
+import {handlePrivacySettings} from './privacy-api.mjs';
 import {migrateOwner,handleOwner,enforcePlatformControls} from './owner-api.mjs';
 import {migrateSupport,handleSupport} from './support-api.mjs';
 import {assertSecureRuntime} from './runtime-policy.mjs';
@@ -92,6 +94,7 @@ async function handle(req,res){
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(await handleBillingWebhook({route,req,res,pool,send,fail}))return;
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
+ if(await handlePrivacySettings({route,req,res,pool,required,json,send,fail}))return;
  if(await handleOwner({route,req,res,pool,required,currentUser,json,send,fail,limited}))return;
  if(await handleSupport({route,req,res,pool,required,json,send,fail,limited}))return;
  await enforcePlatformControls({route,req,pool,currentUser,json,fail});
@@ -212,7 +215,7 @@ async function handle(req,res){
  if(route==='/api/notes'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.revision,n.suggested_lesson_id AS "lessonId",(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[user.id]);return send(res,200,{notes:r.rows})}
  fail(404,'Not found');
 }
-async function serve(req,res,route){if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});let filename=path.resolve(dist,'.'+route);if(!filename.startsWith(dist+path.sep)&&filename!==dist)return send(res,404,{error:'Not found'});if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');try{const data=await fs.readFile(filename);res.writeHead(200,{'Content-Type':mime[path.extname(filename)]||'application/octet-stream','Cache-Control':filename.endsWith('index.html')?'no-cache':'public, max-age=31536000, immutable'});res.end(req.method==='HEAD'?undefined:data)}catch{send(res,404,{error:'Not found'})}}
+async function serve(req,res,route){const page={ '/terms':'terms','/privacy':'privacy','/help':'help'}[route];if(page&&(req.method==='GET'||req.method==='HEAD')){const query=new URL(req.url,'http://localhost').searchParams.get('q')?.slice(0,120)||'';const html=renderPublicDocument(page,query);res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"});res.end(req.method==='HEAD'?undefined:html);return;}if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});let filename=path.resolve(dist,'.'+route);if(!filename.startsWith(dist+path.sep)&&filename!==dist)return send(res,404,{error:'Not found'});if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');try{const data=await fs.readFile(filename);res.writeHead(200,{'Content-Type':mime[path.extname(filename)]||'application/octet-stream','Cache-Control':filename.endsWith('index.html')||route==='/legal.css'?'no-cache':'public, max-age=31536000, immutable'});res.end(req.method==='HEAD'?undefined:data)}catch{send(res,404,{error:'Not found'})}}
 if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
 await migrate();
 if(process.env.NODE_ENV==='production'){void warmLocalization(pool);void warmPatternProvider();}
