@@ -1,3 +1,4 @@
+import {safeSavedCorrections} from './correction-integrity.mjs';
 import {serveStudioSpeech} from './speech-api.mjs';
 import {premiumSkillTasks,premiumSkillSummary} from './premium-skills.mjs';
 import {membership} from './billing-api.mjs';
@@ -22,7 +23,7 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
  const user=await required(req);
  const premium=(await membership(pool,user.id)).premium;
  let sharedPremium=false;
- const visible=s=>{const task=getSkillTask(s.task||s.task_id);return {...s,...(task?.premium?{taskInfo:{id:task.id,title:task.title,language:task.language,locale:task.locale,skill:task.skill,level:task.level,premium:true}}:{}),result:visibleSkillResult(s.result,user.role==='teacher'?sharedPremium:premium,{assessment:!!(s.assessment||s.assessment_id)})};};
+ const visible=s=>{const task=getSkillTask(s.task||s.task_id);return {...s,...(task?.premium?{taskInfo:{id:task.id,title:task.title,language:task.language,locale:task.locale,skill:task.skill,level:task.level,premium:true}}:{}),result:visibleSkillResult(s.result?.aiAssessment?{...s.result,aiAssessment:safeSavedCorrections(s.result.aiAssessment,task?.language||'es')}:s.result?.status==='ai-reviewed'?safeSavedCorrections(s.result,task?.language||'es'):s.result,user.role==='teacher'?sharedPremium:premium,{assessment:!!(s.assessment||s.assessment_id)})};};
  if(route==='/api/skills/catalog'&&req.method==='GET'){send(res,200,{premium,tasks:premiumSkillSummary});return true;}
  const taskRoute=route.match(/^\/api\/skills\/tasks\/([a-z0-9-]+)(?:\/(audio))?$/);if(taskRoute&&req.method==='GET'){if(!premium)fail(403,'Premium is required for scenario-focused practice.');const task=getSkillTask(taskRoute[1]);if(!task?.premium)fail(404,'Practice not found');if(taskRoute[2]){const sample=new URL(req.url,'http://localhost').searchParams.get('sample');return serveStudioSpeech({req,res,pool,text:sample==='model'?task.model:task.audio,locale:task.locale,privateAudio:true,send,fail,limited});}send(res,200,{task});return true;}
  if(route==='/api/skills/ai-status'&&req.method==='GET'){send(res,200,{available:aiConfigured()});return true;}

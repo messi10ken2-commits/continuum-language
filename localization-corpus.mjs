@@ -1,3 +1,4 @@
+import {growthInterfaceSources} from './growth-copy.mjs';
 import {privacyInterfaceSources} from './privacy-copy.mjs';
 import {ownerInterfaceSources} from './owner-copy.mjs';
 import premiumDisplaySources from './premium-display-sources.json' with {type:'json'};
@@ -26,6 +27,7 @@ for(const text of [...uiSources,...Object.keys(interfaceCopy),...Object.values(r
 for(const text of premiumDisplaySources)add(text);
 for(const text of ownerInterfaceSources)add(text);
 for(const text of privacyInterfaceSources)add(text);
+for(const text of growthInterfaceSources)add(text);
 for(const text of ['View lesson history','Learning tools','Review your learning history and recurring patterns.','Check your level and see your skill report.','Contact the Continuum team and check your replies.','Open Support'])add(text);
 for(const source of assessmentDisplaySources)add(source.text,source.language,source.protectedValues);
 for(const text of feedbackTemplates)add(text.trim());

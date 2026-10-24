@@ -1,3 +1,4 @@
+import {withVerifiedAnswers} from './verified-answers.mjs';
 import {correctEntryNote} from './expression-watchouts.mjs';
 import {listeningReviewQuestion} from './review-listening.mjs';
 import {getLesson,getLessonVariant,isCorrect,validAnswer} from './course.mjs';
@@ -29,7 +30,7 @@ export async function handleReview({route,req,res,pool,required,json,send,fail})
    const previous=await c.query('SELECT item_id,result FROM review_answers WHERE user_id=$1 AND submission_key=$2',[user.id,data.submissionKey]);
    if(previous.rowCount){if(previous.rows[0].item_id!==match[1]||(previous.rows[0].result.mode||'context')!==mode)fail(409,'Submission already used');await c.query('COMMIT');return reply(res,200,previous.rows[0].result);}
    const found=await c.query('SELECT * FROM review_items WHERE user_id=$1 AND id=$2 FOR UPDATE',[user.id,match[1]]);if(!found.rowCount)fail(404,'Review item not found');
-   const item=found.rows[0],q=mode==='listening'?listeningReviewQuestion(item):correctEntryNote(getLesson(item.lesson_id),item.question);if(!q)fail(400,'This item has no listening exercise');if(!validAnswer(q,data.answer))fail(400,'Choose or enter an answer');
+   const item=found.rows[0],rawQuestion=mode==='listening'?listeningReviewQuestion(item):correctEntryNote(getLesson(item.lesson_id),item.question);if(!rawQuestion)fail(400,'This item has no listening exercise');const q=mode==='context'?(await withVerifiedAnswers(c,user.id,{language:item.language,questions:[rawQuestion]})).questions[0]:rawQuestion;if(!validAnswer(q,data.answer))fail(400,'Choose or enter an answer');
    const correct=isCorrect(q,data.answer),strength=correct?Math.min(3,item.strength+1):0,days=[0,1,3,7][strength];
    const updated=await c.query("UPDATE review_items SET strength=$3,due_at=now()+($4*interval '1 day'),updated_at=now() WHERE user_id=$1 AND id=$2 RETURNING due_at",[user.id,item.id,strength,days]);
    const result={mode,correct,strength,dueAt:updated.rows[0].due_at,answer:q.type==='text'?q.answer:q.options[q.answer],note:q.note};

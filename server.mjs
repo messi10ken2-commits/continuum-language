@@ -1,3 +1,7 @@
+import {migrateAnswerReviews,withVerifiedAnswers} from './verified-answers.mjs';
+import {handleAnswerReview} from './answer-review-api.mjs';
+import {gradeResolvedLesson} from './course.mjs';
+import {migrateActivity,handleActivity} from './activity-api.mjs';
 import {renderPublicDocument} from './public-documents.mjs';
 import {handlePrivacySettings} from './privacy-api.mjs';
 import {migrateOwner,handleOwner,enforcePlatformControls} from './owner-api.mjs';
@@ -75,6 +79,8 @@ async function migrate(){
  await migrateSpeaking(pool);
  await migrateClassroom(pool);
  await migrateBilling(pool);
+ await migrateActivity(pool);
+ await migrateAnswerReviews(pool);
  await migrateOwner(pool);
  await migrateSupport(pool);
 }
@@ -94,6 +100,8 @@ async function handle(req,res){
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(await handleBillingWebhook({route,req,res,pool,send,fail}))return;
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
+ if(await handleAnswerReview({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleActivity({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handlePrivacySettings({route,req,res,pool,required,json,send,fail}))return;
  if(await handleOwner({route,req,res,pool,required,currentUser,json,send,fail,limited}))return;
  if(await handleSupport({route,req,res,pool,required,json,send,fail,limited}))return;
@@ -154,21 +162,21 @@ async function handle(req,res){
   if(!isCurrentLessonDraft(draftMatch[1],data.answers,data.seed))fail(400,'Invalid lesson progress');
   const c=await pool.connect();try{await c.query('BEGIN');
   await c.query('INSERT INTO lesson_drafts(user_id,lesson_id,answers,variant_seed) VALUES($1,$2,$3::jsonb,$4) ON CONFLICT(user_id,lesson_id) DO UPDATE SET answers=EXCLUDED.answers,variant_seed=EXCLUDED.variant_seed,updated_at=now()',[user.id,lesson.id,JSON.stringify(data.answers),data.seed||null]);
-  await ingestReview(c,user.id,missedReviewItems(lesson.id,data.answers,data.seed),reviewRun(lesson.id,data.seed,'draft:'+lesson.id));
+  await ingestReview(c,user.id,missedReviewItems(lesson.id,data.answers,data.seed,await withVerifiedAnswers(c,user.id,lesson)),reviewRun(lesson.id,data.seed,'draft:'+lesson.id));
   await c.query('COMMIT');}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
   return send(res,200,{ok:true});
  }
  if(route==='/api/practice'&&req.method==='POST'){
-  const user=await required(req,'learner'),data=await json(req);let result;
-  try{const current=getLesson(data.lesson);if(current?.exerciseVersion&&current.exerciseVersion!==data.seed)throw Error('Updated exercise: reload this lesson');result=gradeLesson(data.lesson,data.answers,data.seed)}catch{fail(400,'Invalid completed exercise')}
+  const user=await required(req,'learner'),data=await json(req);let result,resolved;
+  try{const current=getLesson(data.lesson);if(current?.exerciseVersion&&current.exerciseVersion!==data.seed)throw Error('Updated exercise: reload this lesson');resolved=await withVerifiedAnswers(pool,user.id,getLessonVariant(data.lesson,data.seed));result=gradeResolvedLesson(resolved,data.answers)}catch{fail(400,'Invalid completed exercise')}
   const key=data.submissionKey||null;if(key!==null&&(typeof key!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(key)))fail(400,'Invalid submission key');
   const c=await pool.connect();try{
    await c.query('BEGIN');
-   let r=await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,submission_key,variant_seed,evidence) VALUES($1,$2,$3,$4,'exercise',$5,$6,$7::jsonb) ON CONFLICT(user_id,submission_key) DO NOTHING RETURNING id,lesson_id AS lesson,score,total,source,created_at AS at",[user.id,data.lesson,result.score,result.total,key,data.seed||null,JSON.stringify(questionEvidence(data.lesson,data.answers,data.seed))]);
+   let r=await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,submission_key,variant_seed,evidence) VALUES($1,$2,$3,$4,'exercise',$5,$6,$7::jsonb) ON CONFLICT(user_id,submission_key) DO NOTHING RETURNING id,lesson_id AS lesson,score,total,source,created_at AS at",[user.id,data.lesson,result.score,result.total,key,data.seed||null,JSON.stringify(questionEvidence(data.lesson,data.answers,data.seed,resolved))]);
    const created=r.rowCount>0;
    if(!created)r=await c.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 AND submission_key=$2',[user.id,key]);
    if(r.rows[0].lesson!==data.lesson)fail(409,'Submission key already used');
-   if(created)await ingestReview(c,user.id,missedReviewItems(data.lesson,data.answers,data.seed),reviewRun(data.lesson,data.seed,r.rows[0].id));
+   if(created)await ingestReview(c,user.id,missedReviewItems(data.lesson,data.answers,data.seed,resolved),reviewRun(data.lesson,data.seed,r.rows[0].id));
    if(created)await c.query('DELETE FROM lesson_drafts WHERE user_id=$1 AND lesson_id=$2',[user.id,data.lesson]);await c.query('COMMIT');return send(res,201,{attempt:r.rows[0]});
   }catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
  }

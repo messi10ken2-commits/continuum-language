@@ -1,3 +1,5 @@
+import {withVerifiedAnswers} from './verified-answers.mjs';
+import {migrateTrial,trialStatus} from './premium-trial.mjs';
 import {premiumGalleryFrames} from './premium-session.mjs';
 import {premiumVideoSources} from './premium-video-lessons.mjs';
 import {serveStudioSpeech} from './speech-api.mjs';
@@ -26,13 +28,13 @@ export async function migrateBilling(pool){await pool.query(`
  ALTER TABLE class_bookings ADD COLUMN IF NOT EXISTS premium_ticket_id uuid REFERENCES premium_class_tickets(id);
  CREATE TABLE IF NOT EXISTS premium_course_attempts(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),user_id uuid NOT NULL REFERENCES users(id),course_id text NOT NULL,correct integer NOT NULL,total integer NOT NULL,client_key text NOT NULL,created_at timestamptz NOT NULL DEFAULT now(),UNIQUE(user_id,client_key));
  CREATE TABLE IF NOT EXISTS billing_ad_campaign(id integer PRIMARY KEY CHECK(id=1),title text NOT NULL,body text NOT NULL,url text NOT NULL,enabled boolean NOT NULL DEFAULT false);
- `);await migratePremiumAccess(pool)}
+ `);await migratePremiumAccess(pool);await migrateTrial(pool)}
 export async function membership(c,userId,{actual=false}={}){
- const r=(await c.query(`SELECT m.*,EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=m.user_id AND b.blocked) AS blocked FROM billing_memberships m WHERE user_id=$1`,[userId])).rows[0];
- const access=await premiumAccess(c,userId),billingPremium=!!(r&&!r.blocked&&r.status==='active'&&Date.parse(r.paid_until)>Date.now()),tester=!!access.testerActive&&!r?.blocked;
+ const r=(await c.query(`SELECT m.*,EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=$1 AND b.blocked) AS blocked FROM users u LEFT JOIN billing_memberships m ON m.user_id=u.id WHERE u.id=$1`,[userId])).rows[0];
+ const trial=await trialStatus(c,userId);const access=await premiumAccess(c,userId),billingPremium=!!(r&&!r.blocked&&r.status==='active'&&Date.parse(r.paid_until)>Date.now()),tester=!!access.testerActive&&!r?.blocked;
  if(actual)access.previewMode=null;
- const premium=access.previewMode?access.previewMode==='premium':billingPremium||tester;
- return {tier:premium?'premium':'free',premium,adFree:premium,allFunctions:premium,exclusiveCourses:premium,status:r?.blocked?'payment_review':r?.status||'free',paidUntil:r?.paid_until||null,cancelAtPeriodEnd:r?.cancel_at_period_end||false,customer:!!r?.customer_id,billingPremium,previewMode:access.previewMode,testerUntil:access.testerUntil,testerPermanent:access.testerPermanent,source:access.previewMode?'owner_preview':billingPremium?'subscription':tester?'invitation':'free'};
+ const premium=access.previewMode?access.previewMode==='premium':billingPremium||tester||trial.trialActive&&!r?.blocked;
+ return {...trial,trialEligible:!premium&&!trial.trialUsed&&!r?.blocked,tier:premium?'premium':'free',premium,adFree:premium,allFunctions:premium,exclusiveCourses:premium,status:r?.blocked?'payment_review':r?.status||'free',paidUntil:r?.paid_until||null,cancelAtPeriodEnd:r?.cancel_at_period_end||false,customer:!!r?.customer_id,billingPremium,previewMode:access.previewMode,testerUntil:access.testerUntil,testerPermanent:access.testerPermanent,source:access.previewMode?'owner_preview':billingPremium?'subscription':tester?'invitation':trial.trialActive&&!r?.blocked?'trial':'free'};
 }
 export async function syncClassTickets(c,userId){
  // Move a reservation only after the replacement is actually confirmed.
@@ -107,6 +109,10 @@ async function status(c,user){await syncClassTickets(c,user.id);const m=await me
 async function handleBillingCore({route,req,res,pool,required,json,send,fail,limited,stripe}){
  if(!route.startsWith('/api/billing'))return false;const user=await required(req);
  if(await handlePremiumAccess({route,req,res,pool,user,json,send,fail,limited,transaction:billingTransaction}))return true;
+ if(route==='/api/billing/trial'&&req.method==='POST'){
+  if(user.role!=='learner')fail(403,'Learner membership only');limited(req,'premium-trial',12);const d=await json(req);if(d.consent!==true||Object.keys(d).some(k=>k!=='consent'))fail(400,'Confirm the free 72-hour digital Premium trial.');
+  await billingTransaction(pool,async c=>{await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[user.id]);const m=await membership(c,user.id,{actual:true});if(m.trialUsed)return;if(m.premium||m.status==='payment_review')fail(409,'This account is not eligible for a free trial.');await c.query('INSERT INTO premium_trials(user_id) VALUES($1) ON CONFLICT DO NOTHING',[user.id]);});send(res,200,await status(pool,user));return true;
+ }
  if(route==='/api/billing'&&req.method==='GET'){send(res,200,await status(pool,user));return true;}
  if(route==='/api/billing/admin'&&req.method==='GET'){
   if(!isPlatformOwner(user))fail(403,'Platform owner only');const members=(await pool.query('SELECT u.id,u.name,m.status,m.paid_until AS "paidUntil",m.cancel_at_period_end AS "cancelAtPeriodEnd",EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=u.id AND b.blocked) AS "paymentReview" FROM users u JOIN billing_memberships m ON m.user_id=u.id ORDER BY m.updated_at DESC LIMIT 100')).rows;
@@ -120,7 +126,7 @@ async function handleBillingCore({route,req,res,pool,required,json,send,fail,lim
   send(res,200,{ok:true});return true;
  }
  const course=route.match(/^\/api\/billing\/courses\/([a-z0-9-]+)(?:\/(answer|finish|audio))?$/);
- if(course){if(!(await membership(pool,user.id)).premium)fail(403,'Premium is required for this course.');const lesson=premiumCourses.find(x=>x.id===course[1]);if(!lesson)fail(404,'Course not found');if(req.method==='GET'&&course[2]==='audio'){const params=new URL(req.url,'http://localhost').searchParams;
+ if(course){if(!(await membership(pool,user.id)).premium)fail(403,'Premium is required for this course.');let lesson=premiumCourses.find(x=>x.id===course[1]);if(!lesson)fail(404,'Course not found');if(req.method==='POST')lesson=await withVerifiedAnswers(pool,user.id,lesson);if(req.method==='GET'&&course[2]==='audio'){const params=new URL(req.url,'http://localhost').searchParams;
  const gallery=params.has('gallery'),raw=params.get(gallery?'gallery':'question');
  if(raw===null||!/^\d+$/.test(raw))fail(404,'Audio not found');
  const index=Number(raw);if(!Number.isSafeInteger(index))fail(404,'Audio not found');

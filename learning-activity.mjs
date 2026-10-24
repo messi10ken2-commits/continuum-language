@@ -1,0 +1,3 @@
+export function validZone(value){try{if(typeof value!=='string'||value.length>80)return false;new Intl.DateTimeFormat('en',{timeZone:value}).format();return true}catch{return false}}
+export function activityDay(at,zone){return new Intl.DateTimeFormat('en-CA',{timeZone:zone,year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(at));}
+export function splitStudyInterval(start,end,zone){const out=[];while(start<end){const day=activityDay(start,zone);let stop=end;if(activityDay(end-1,zone)!==day){let lo=start,hi=end;while(hi-lo>1){const m=Math.floor((lo+hi)/2);if(activityDay(m,zone)===day)lo=m;else hi=m;}stop=hi;}out.push({day,ms:stop-start});start=stop;}return out;}

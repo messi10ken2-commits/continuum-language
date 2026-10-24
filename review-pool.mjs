@@ -16,8 +16,8 @@ export function reviewCandidate(lessonId,q){
  const key=entry?`entry:${match[1]}`:q.coverage||q.prompt;
  return {key:base.id+':'+key,lesson:base.id,language:base.language||'es',kind:base.expressions?'expression':'vocabulary',term,meaning:entry?.meaning||question.note||'',example:entry?.example||'',question};
 }
-export function missedReviewItems(id,answers,seed){
- const lesson=getLessonVariant(id,seed);if(!lesson)return [];
+export function missedReviewItems(id,answers,seed,resolved=null){
+ const lesson=resolved||getLessonVariant(id,seed);if(!lesson)return [];
  return answers.flatMap((answer,i)=>{const q=lesson.questions[i];if(!q||isCorrect(q,answer))return [];const item=reviewCandidate(id,q);return item?[{...item,index:i}]:[];});
 }
 export async function migrateReview(pool){await pool.query(`

@@ -3,8 +3,8 @@ import {getSkillTask,rubricFor} from './skills-content.mjs';
 import {languageOf} from './languages.mjs';
 import {assessmentItems} from './assessment-bank.mjs';
 const time=x=>new Date(x||0).getTime()||0;
-export function questionEvidence(id,answers,seed){
- const lesson=getLessonVariant(id,seed),byTopic=new Map();
+export function questionEvidence(id,answers,seed,resolved=null){
+ const lesson=resolved||getLessonVariant(id,seed),byTopic=new Map();
  lesson.questions.forEach((q,i)=>{const topic=getLesson(q.sourceLesson)?q.sourceLesson:id;const row=byTopic.get(topic)||{lesson:topic,correct:0,total:0,items:[]};row.total++;const correct=isCorrect(q,answers[i]);if(correct)row.correct++;row.items.push({prompt:q.prompt,correct,response:q.type==='text'?answers[i]:q.options[answers[i]],expected:q.type==='text'?q.answer:q.options[q.answer],explanation:q.note||''});byTopic.set(topic,row);});
  return [...byTopic.values()];
 }

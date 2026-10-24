@@ -11,12 +11,12 @@ export const platformFeatures=[
  {key:'teacherApplications',label:'Teacher applications',description:'Allow teachers to create or update their teaching profile.'},
  {key:'teacherDirectory',label:'Teacher directory',description:'Publish the approved teacher directory.'},
  {key:'studioAudio',label:'Studio audio',description:'Allow studio audio requests. Device voice and existing downloaded recordings are unaffected.'},
- {key:'checkout',label:'New subscription checkout',description:'Allow new Stripe checkout requests. Subscription management and webhooks remain available.'}
+ {key:'checkout',label:'New subscription checkout',description:'Allow new Stripe checkout requests and free trial starts. Subscription management and webhooks remain available.'}
 ];
 export function controlledFeature(route,method){
  if(method==='POST'&&route==='/api/auth/register')return 'registration';
  if(route==='/api/speech')return 'studioAudio';
- if(method==='POST'&&route==='/api/billing/checkout')return 'checkout';
+ if(method==='POST'&&['/api/billing/checkout','/api/billing/trial'].includes(route))return 'checkout';
  if(method==='PUT'&&route==='/api/profile')return 'teacherApplications';
  if(method==='GET'&&/^\/api\/teachers(?:\/|$)/.test(route))return 'teacherDirectory';
  if(method==='POST'&&route==='/api/speaking'||method==='POST'&&/^\/api\/speaking\/[^/]+\/turn$/.test(route))return 'aiConversation';

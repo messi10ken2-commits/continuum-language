@@ -11,8 +11,9 @@ export const expandContractions=value=>normalizeAnswer(value).replace(pattern,wo
  .replace(/\b(he|she|it|that|what|who|there)'s (?=been\b)/g,'$1 has ')
  .replace(/\b(he|she|it|that|what|who|there)'s (?=(?:a|an|the|from|here|there|ready|happy|tired|late|busy|fine|raining|working|studying|going|coming)\b)/g,'$1 is ');
 export function equivalentAnswer(q,value){
- const expected=[q.answer,...(q.accepted||[])],actual=normalizeAnswer(value);
+ const expected=[q.answer,...(q.accepted||[]),...(q.acceptedAnswers||[])],actual=normalizeAnswer(value);
  if(expected.some(answer=>normalizeAnswer(answer)===actual))return true;
- const strict=q.answerMatch==='exact'||q.mode==='order'||/without (?:a |any )?contractions?|do not (?:use contractions|contract)|uncontracted|(?:full|contracted|shortened) forms?|(?:write|use|give|form) (?:the |a )?(?:casual )?contraction|contraction of/i.test(q.prompt||'');
+ if(/[ぁ-んァ-ン一-龯]/.test(q.answer)&&q.answerMatch!=='exact'&&q.mode!=='order'&&expected.some(a=>normalizeAnswer(a).replace(/\s+/g,'')===actual.replace(/\s+/g,'')))return true;
+ const strict=q.answerMatch==='exact'||q.mode==='order'||q.type==='reorder'||/without (?:a |any )?contractions?|do not (?:use contractions|contract)|uncontracted|(?:full|contracted|shortened) forms?|(?:write|use|give|form) (?:the |a )?(?:casual )?contraction|contraction of/i.test(q.prompt||'');
  return !strict&&expected.some(answer=>expandContractions(answer)===expandContractions(value));
 }

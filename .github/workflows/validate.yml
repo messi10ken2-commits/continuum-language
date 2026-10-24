@@ -19,6 +19,7 @@ jobs:
       - run: npm run check:runtime
       - run: npm ci
       - run: npm run test:qa
+      - run: npm run audit:language
       - run: npm run build
       - run: npm audit --omit=dev
       - name: Build production image

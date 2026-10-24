@@ -1,3 +1,4 @@
+import {useActivityTracker,LearningConsistency} from './LearningActivity.jsx';
 import {learnerNavigation,learnerPrimaryTab,LearningShortcuts,AccountSupport} from './LearnerNavigation.jsx';
 import PrivacySettings,{PolicyLinks} from './PrivacySettings.jsx';
 import OwnerDashboard from './OwnerDashboard.jsx';
@@ -277,6 +278,7 @@ function ConnectedTeacher({section='Overview',onNavigate,user}){
 
 function App(){
  const [membershipRevision,setMembershipRevision]=useState(0),[membershipNotice,setMembershipNotice]=useState('');
+ useEffect(()=>{const open=()=>{setMembershipNotice('Explore Premium or start your free 3-day trial below.');setTab('Account');setActiveLesson(null);window.scrollTo({top:0,behavior:'smooth'})};window.addEventListener('continuum-premium-request',open);return()=>window.removeEventListener('continuum-premium-request',open)},[]);
  useEffect(()=>{const changed=e=>{setMembershipRevision(n=>n+1);setMembershipNotice(e.detail?.message||'');};window.addEventListener('continuum-membership-changed',changed);return()=>window.removeEventListener('continuum-membership-changed',changed)},[]);
  useInterfaceLanguage();
  const [welcome,setWelcome]=useState(true);
@@ -287,6 +289,7 @@ function App(){
 
  const [role,setRole]=useState('learner'),[tab,setTab]=useState(()=>{if(typeof window==='undefined')return 'Overview';const p=new URLSearchParams(window.location.search);return p.get('open')==='support'?'Support':p.get('open')==='account'||p.has('billing')?'Account':'Overview'}),[activeLesson,setActiveLesson]=useState(null);
  const [user,setUser]=useState(null),[authReady,setAuthReady]=useState(false),[authError,setAuthError]=useState('');
+ useActivityTracker(user);
  const classroomUnread=useClassroomUnread(user);
  const manageLearner=(learnerId,language)=>{sessionStorage.setItem('continuumTeachingContext:'+user.id,JSON.stringify({learnerId,language}));navigate('Overview')};
  const accountRevision=useRef(0);
@@ -325,7 +328,7 @@ function App(){
  else if(!profileReady)page=<section className="panel"><h2>{uiText(profileError?'Profile unavailable':'Loading your profile…')}</h2>{profileError&&<><p role="alert">{profileError}</p><button onClick={()=>setProfileRetry(x=>x+1)}>{uiText("Try again")}</button><button className="text-button" onClick={signedOut}>{uiText("Sign out")}</button></>}</section>;
  else if(user&&(needsProfile||tab==='Profile'))page=<><div className="onboarding-exit"><button className="text-button" onClick={()=>navigate('Support')}>{uiText("Contact support")}</button><button className="text-button" onClick={signedOut}>{uiText("Sign out")}</button></div><ProfileEditor key={user.id} user={user} record={profileRecord} onSaved={saveProfile} onCancel={needsProfile?undefined:()=>navigate('Account')}/></>;
  else if(['Admin','Review teachers'].includes(tab)&&profileRecord?.reviewer)page=profileRecord.owner?<OwnerDashboard key={user.id} user={user}/>:<ReviewDashboard owner={false}/>;
- else if(tab==='Account')page=<><AccountSupport onOpen={()=>navigate('Support')} unread={supportUnread}/><InterfaceLanguagePicker/>{user?.role==='learner'&&<Membership user={user} language={language} onLearn={()=>navigate('Practice Studio')}/>}<div className="profile-entry-actions">{profileRecord?.owner&&<button className="primary" onClick={()=>navigate('Admin')}>{uiText("Open your admin dashboard")}</button>}{profileRecord?.reviewer&&!profileRecord.owner&&<button className="outline-button" onClick={()=>navigate('Review teachers')}>{uiText('Review teachers')}</button>}{user&&<><button className="outline-button" onClick={()=>navigate('Profile')}>{uiText(user.role==='teacher'?'Edit teaching profile':'Edit learning profile')}</button>{user.role==='teacher'&&<p>{uiText("Teacher profile: ")}{profileRecord?.status?.replaceAll('_',' ')}{profileRecord?.feedback&&' · '+profileRecord.feedback}</p>}</>}</div><Account key={user?.id||authChoice.mode+authChoice.role} initialMode={authChoice.mode} initialRole={authChoice.role} user={user} onLogin={signedIn} onLogout={signedOut} deviceHistory={user?.role==='learner'&&!practiceHistory.length?deviceHistory:[]} onImport={importProgress} onOpenTeacher={()=>navigate('Overview')}/></>;
+ else if(tab==='Account')page=<><AccountSupport onOpen={()=>navigate('Support')} unread={supportUnread}/><InterfaceLanguagePicker/>{user?.role==='learner'&&<Membership user={user} focusOffer={!!membershipNotice} language={language} onLearn={()=>navigate('Practice Studio')}/>}<div className="profile-entry-actions">{profileRecord?.owner&&<button className="primary" onClick={()=>navigate('Admin')}>{uiText("Open your admin dashboard")}</button>}{profileRecord?.reviewer&&!profileRecord.owner&&<button className="outline-button" onClick={()=>navigate('Review teachers')}>{uiText('Review teachers')}</button>}{user&&<><button className="outline-button" onClick={()=>navigate('Profile')}>{uiText(user.role==='teacher'?'Edit teaching profile':'Edit learning profile')}</button>{user.role==='teacher'&&<p>{uiText("Teacher profile: ")}{profileRecord?.status?.replaceAll('_',' ')}{profileRecord?.feedback&&' · '+profileRecord.feedback}</p>}</>}</div><Account key={user?.id||authChoice.mode+authChoice.role} initialMode={authChoice.mode} initialRole={authChoice.role} user={user} onLogin={signedIn} onLogout={signedOut} deviceHistory={user?.role==='learner'&&!practiceHistory.length?deviceHistory:[]} onImport={importProgress} onOpenTeacher={()=>navigate('Overview')}/></>;
  else if(user?.role==='teacher'&&['My classes','Assignments','Schedule','Teaching insights'].includes(tab)){let context={};try{context=JSON.parse(sessionStorage.getItem('continuumTeachingContext:'+user.id)||'{}')}catch{}page=<ClassWorkspace key={tab} user={user} initialTab={tab==='Assignments'?'assignments':tab==='Schedule'?'schedule':tab==='Teaching insights'?'insights':'classes'} initialLearner={context.learnerId} initialLanguage={context.language} onAccount={()=>navigate('Account')} onManageLearner={manageLearner}/>;}
  else if(user?.role==='teacher')page=<ConnectedTeacher user={user} section={tab} onNavigate={navigate}/>;
  else if(tab==='Level test'||user?.role==='learner'&&tab==='Full report')page=<Assessment language={language} key={(user?.id||'guest')+language} user={user} onAccount={()=>navigate('Account')} onUpdated={setAssessment} onCourse={level=>{try{localStorage.setItem('continuumCourseLevel'+(language==='es'?'':':'+language),level)}catch{}navigate('Learn')}}/>;
@@ -344,7 +347,7 @@ function App(){
  else if(tab==='My classes')page=<Classes/>;
  else if(tab==='Learning memory')page=<Memory patterns={patterns} practiceHistory={practiceHistory} onPractice={start}/>;
  else page=<Overview teacher={teacher} onPractice={()=>start('subjunctive')} onNavigate={navigate} patterns={patterns} practiceHistory={practiceHistory}/>;
- if(user?.role==='learner'&&tab==='Overview'&&!needsProfile&&profileReady)page=<><LearningShortcuts onNavigate={navigate}/>{page}</>;
+ if(user?.role==='learner'&&tab==='Overview'&&!needsProfile&&profileReady)page=<><LearningShortcuts onNavigate={navigate}/><LearningConsistency user={user}/>{page}</>;
  const pausedKey={'Learn':'selfStudy','Level test':'assessments','AI conversation':'aiConversation'}[tab];
  if(!profileRecord?.owner&&!needsProfile&&pausedKey&&platformFeatures[pausedKey]===false)page=<FeaturePaused onSupport={()=>navigate('Support')}/>;
  if(tab==='My classes'&&platformFeatures.bookings===false&&!profileRecord?.owner)page=<><p className="panel" role="status">{uiText('New booking proposals are paused. You can still manage existing classes.')}</p>{page}</>;
