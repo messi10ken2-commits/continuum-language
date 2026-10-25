@@ -6,7 +6,7 @@ import {Headphones,Mic2,BookOpen,NotebookPen,Target,ChevronRight} from 'lucide-r
 
 const definitions=[['Reading','reading',BookOpen,'#219d8d'],['Listening','listening',Headphones,'#6172ee'],['Speaking','speaking',Mic2,'#9566da'],['Writing','writing',NotebookPen,'#dc9438'],['Language use','languageUse',Target,'#ea7957']];
 const descriptions={Reading:'Understand written Spanish, from everyday messages to longer arguments.',Listening:'Follow spoken Spanish and identify the main message and relevant details.',Speaking:'Express your ideas aloud with clear meaning, intelligible speech and appropriate language.',Writing:'Write a clear response with relevant detail, suitable vocabulary and organised ideas.','Language use':'Choose grammar and vocabulary that express the intended meaning.'};
-function skillEvidence(r,name,key){
+export function skillEvidence(r,name,key){
  const s=r.skills?.find(s=>s.name===name);
  if(s){let band=null;for(const b of r.bands||[]){if(b[key]===undefined)break;if(b[key]<2)break;band=b.level;}
   return {level:s.level||band||(r.bands?.length?'Below A1':'—'),label:'Provisional task band',score:s.total?Math.round(s.correct/s.total*100):null,raw:`${s.correct}/${s.total}`,source:'Diagnostic questions',feedback:'Your band reflects consecutive difficulty bands meeting the test threshold. The score below retains all your answers across A1–C1.'};}
