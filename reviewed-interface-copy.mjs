@@ -1,3 +1,4 @@
+import {approvedDesignCopy} from './approved-design-copy.mjs';
 import {lessonClarityCopy} from './lesson-clarity-copy.mjs';
 import {journeyReviewedCopy} from './journey-copy.mjs';
 import {reviewedComprehensionOptions} from './reviewed-comprehension-options.mjs';
@@ -230,3 +231,5 @@ for(const locale of Object.keys(reviewedComprehensionOptions))Object.assign(revi
 for(const locale of Object.keys(journeyReviewedCopy))Object.assign(reviewedInterfaceCopy[locale],journeyReviewedCopy[locale]);
 
 for(const locale of Object.keys(lessonClarityCopy))Object.assign(reviewedInterfaceCopy[locale],lessonClarityCopy[locale]);
+
+for(const locale of Object.keys(approvedDesignCopy))Object.assign(reviewedInterfaceCopy[locale],approvedDesignCopy[locale]);

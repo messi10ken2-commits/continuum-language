@@ -1,0 +1,633 @@
+{
+  "version": 1,
+  "provenance": "Original Continuum watercolor atlases generated for this release; scenic hero crops from user-approved Continuum concept references.",
+  "assets": [
+    {
+      "file": "ja-station.webp",
+      "language": "ja",
+      "context": "station",
+      "width": 479,
+      "height": 268,
+      "bytes": 52746,
+      "sha256": "1e872aa1dafbdb8060ef9de84f422b6b5103407e42e3c76215db4f0fb3c1057b",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-cafe.webp",
+      "language": "ja",
+      "context": "cafe",
+      "width": 478,
+      "height": 268,
+      "bytes": 49984,
+      "sha256": "1e252f3dfe253a16e35bd6b75276613dc4f4555e8778f9eb995a77c5028f96e1",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-market.webp",
+      "language": "ja",
+      "context": "market",
+      "width": 479,
+      "height": 268,
+      "bytes": 51836,
+      "sha256": "2b27e3960d8ed9a9f23d16dd4c897e0c663fb854dacd5aca603ea80295c13cea",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-home.webp",
+      "language": "ja",
+      "context": "home",
+      "width": 479,
+      "height": 267,
+      "bytes": 38782,
+      "sha256": "8b6e6cc74c36f5c33bcc392bbf895a71a324274d909ac9f1462d7f651f42512b",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-work.webp",
+      "language": "ja",
+      "context": "work",
+      "width": 478,
+      "height": 267,
+      "bytes": 37302,
+      "sha256": "540f2e500b79cdb7c0739a4fc630db2f7104d55332af07cebecb5511d043c927",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-study.webp",
+      "language": "ja",
+      "context": "study",
+      "width": 479,
+      "height": 267,
+      "bytes": 40320,
+      "sha256": "0e6bd7e799bd7fe86055ce2e79d5903e7a9cb252069ca2e79307af62a5e88d35",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-nature.webp",
+      "language": "ja",
+      "context": "nature",
+      "width": 479,
+      "height": 268,
+      "bytes": 50958,
+      "sha256": "3516d710962dc1907411ea0d918fda0184cc20c60958ab05c09aba74b21ad5ea",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-city.webp",
+      "language": "ja",
+      "context": "city",
+      "width": 478,
+      "height": 268,
+      "bytes": 46924,
+      "sha256": "2ac896bc3b16aff0a4a4ec52ea3968a4a1e8598e91b7a344adc1ac381322702f",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-health.webp",
+      "language": "ja",
+      "context": "health",
+      "width": 479,
+      "height": 268,
+      "bytes": 28890,
+      "sha256": "c728dd9e5ee44827cb261b91ac635f5f2e191c91a5ffa404f8830ad94873320e",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-travel.webp",
+      "language": "ja",
+      "context": "travel",
+      "width": 479,
+      "height": 267,
+      "bytes": 39702,
+      "sha256": "db437c1c9e9fb8903e47646e0772680138d78616d7f24d0af774930fa5a9c99e",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-food.webp",
+      "language": "ja",
+      "context": "food",
+      "width": 478,
+      "height": 267,
+      "bytes": 38778,
+      "sha256": "d67cafdc8b56cce2920ce5191efb15b38d8643cfbc950c018d6d132866de1545",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "ja-culture.webp",
+      "language": "ja",
+      "context": "culture",
+      "width": 479,
+      "height": 267,
+      "bytes": 31514,
+      "sha256": "b3bc359071916bf74b03f7f41c1fb63608c1bfb8a674b506d1ee4424661b5634",
+      "source": "exec-dbd03f9d-ff0e-48cb-a3c6-5fa1dc3328e7.png",
+      "sourceSha256": "8c65070e6dd2d581fb936b668e91a5a450acb0c109234ea73768eb1b96c6f602"
+    },
+    {
+      "file": "en-station.webp",
+      "language": "en",
+      "context": "station",
+      "width": 479,
+      "height": 268,
+      "bytes": 47306,
+      "sha256": "d85fdf908e5e094402ef8de87e857e7e2b7eee2ceb0ecb635143e84fa0b99ed9",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-cafe.webp",
+      "language": "en",
+      "context": "cafe",
+      "width": 478,
+      "height": 268,
+      "bytes": 54634,
+      "sha256": "6d2733efa71242b492d796ff448d845d907f08e969e17e855fa2dfa8b54b609f",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-market.webp",
+      "language": "en",
+      "context": "market",
+      "width": 479,
+      "height": 268,
+      "bytes": 55558,
+      "sha256": "133150d6997243d94c34e03abf8ef8a47d75ad7201cb09d05b2dd42877ffa05b",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-home.webp",
+      "language": "en",
+      "context": "home",
+      "width": 479,
+      "height": 267,
+      "bytes": 40172,
+      "sha256": "3397a471e4f17eb8a79c44f8ceffb849e2f09c2bed54f515f447452e22d29ddd",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-work.webp",
+      "language": "en",
+      "context": "work",
+      "width": 478,
+      "height": 267,
+      "bytes": 34350,
+      "sha256": "9f139db3f782e36b1c478b51b59f3378d1f6e8e04bc84380b30f676918306efc",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-study.webp",
+      "language": "en",
+      "context": "study",
+      "width": 479,
+      "height": 267,
+      "bytes": 41894,
+      "sha256": "3d11f1e487b629210efb342301d717133b73bec4b0063827b487ac15a9d0c46c",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-nature.webp",
+      "language": "en",
+      "context": "nature",
+      "width": 479,
+      "height": 268,
+      "bytes": 54332,
+      "sha256": "251fb1e4357188413a42d59ecfc8f1f8827550896cfcc00d97d29e4eb193b937",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-city.webp",
+      "language": "en",
+      "context": "city",
+      "width": 478,
+      "height": 268,
+      "bytes": 44888,
+      "sha256": "8c3d3c0ae880571e796ec8f1d706b8e904a54a37c097292b2a10a30f4095a460",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-health.webp",
+      "language": "en",
+      "context": "health",
+      "width": 479,
+      "height": 268,
+      "bytes": 29686,
+      "sha256": "6f3ec4be0115ef93a00ed302814ea49bccd38e2523894c17fbdc5f4ab8880032",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-travel.webp",
+      "language": "en",
+      "context": "travel",
+      "width": 479,
+      "height": 267,
+      "bytes": 34908,
+      "sha256": "8031428612ea27faba2b3d275440c66a16629d2d50821bfcf0c44e4c04e5bf72",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-food.webp",
+      "language": "en",
+      "context": "food",
+      "width": 478,
+      "height": 267,
+      "bytes": 46568,
+      "sha256": "344004a7cb0ca4e87991f1073c7d5d8e8e316afb10e1c40a5c83b22e5e248751",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "en-culture.webp",
+      "language": "en",
+      "context": "culture",
+      "width": 479,
+      "height": 267,
+      "bytes": 33496,
+      "sha256": "63faf7d967883111146d89e232e329083eae238c1d6e54eb12772a285e7ddd8d",
+      "source": "exec-27a297be-05f4-42d7-bb29-a0b33535248b.png",
+      "sourceSha256": "04ee2ea472dee73588ac75f92635abfc7141607f41db7a70dd2fc4a6f1134556"
+    },
+    {
+      "file": "es-station.webp",
+      "language": "es",
+      "context": "station",
+      "width": 479,
+      "height": 268,
+      "bytes": 49020,
+      "sha256": "0ab571867a512ed49f535d7f0eade4aae200b093ff0a687b82719746f9c6ae45",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-cafe.webp",
+      "language": "es",
+      "context": "cafe",
+      "width": 478,
+      "height": 268,
+      "bytes": 54394,
+      "sha256": "41f2bf2ccd6c1a69a598c5f7515e3495776858c20a56986d77b3eacaba63e1b5",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-market.webp",
+      "language": "es",
+      "context": "market",
+      "width": 479,
+      "height": 268,
+      "bytes": 55902,
+      "sha256": "90d43790df242e89e47f238ba3ca150ce8eee590632de4bae08c3199904e24e3",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-home.webp",
+      "language": "es",
+      "context": "home",
+      "width": 479,
+      "height": 267,
+      "bytes": 41268,
+      "sha256": "a82510b2b60a1653154a282eb4b64d9b87387f72eef17a8e194e55e2bdc7494f",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-work.webp",
+      "language": "es",
+      "context": "work",
+      "width": 478,
+      "height": 267,
+      "bytes": 40702,
+      "sha256": "cbcdc78b35055ebe0cc6ff82c865fde19560b402bc76d2b6485d20ca8887495a",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-study.webp",
+      "language": "es",
+      "context": "study",
+      "width": 479,
+      "height": 267,
+      "bytes": 39358,
+      "sha256": "4b06fd1a9d6c96c3e21b66e8c4d6fe1ebdffcca8bcd250643ec7e15c4089f60a",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-nature.webp",
+      "language": "es",
+      "context": "nature",
+      "width": 479,
+      "height": 268,
+      "bytes": 52572,
+      "sha256": "170d9b4e426c08c4b984d74b88e8e2d9db6caa754ebd04198ec0d107b1e5c888",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-city.webp",
+      "language": "es",
+      "context": "city",
+      "width": 478,
+      "height": 268,
+      "bytes": 49810,
+      "sha256": "26b06e3d147110c4d28587836c2e05d4fbb3fc8d61ad644409ea97ca493491d7",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-health.webp",
+      "language": "es",
+      "context": "health",
+      "width": 479,
+      "height": 268,
+      "bytes": 29816,
+      "sha256": "13afe4897133b76a65b0b497b722ff45f5d60fca6913a629eb0b86860e5dea17",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-travel.webp",
+      "language": "es",
+      "context": "travel",
+      "width": 479,
+      "height": 267,
+      "bytes": 35450,
+      "sha256": "c1cf6ad0c5506bf5a3e5de1c5f98104b7f9f6b2eeede4897ad8385a19667c508",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-food.webp",
+      "language": "es",
+      "context": "food",
+      "width": 478,
+      "height": 267,
+      "bytes": 47870,
+      "sha256": "9b6b75bd943af4913d847c5ae4b90d1c4ef8cffd91c70adadebc9c7a28a10610",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "es-culture.webp",
+      "language": "es",
+      "context": "culture",
+      "width": 479,
+      "height": 267,
+      "bytes": 31144,
+      "sha256": "67b26ba0b20e000aa2ea545728b44818a7ba07b4955f9dd4ace69bf8ab0d921f",
+      "source": "exec-310c614c-1e66-40db-a043-c73478409c0b.png",
+      "sourceSha256": "9d87a452b2159617917f6243537866110ee4d9615f86ad622c7aac15e3a66532"
+    },
+    {
+      "file": "pt-station.webp",
+      "language": "pt",
+      "context": "station",
+      "width": 479,
+      "height": 268,
+      "bytes": 48250,
+      "sha256": "79a227d2ea9f9f5561863aef58904dfd9d0a5e46b559c567e7c6cf35df1d5820",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-cafe.webp",
+      "language": "pt",
+      "context": "cafe",
+      "width": 478,
+      "height": 268,
+      "bytes": 49076,
+      "sha256": "8af9e3537b3600de08b9375ebc225e6feee1aed9cab1ab6ff8326d0e0c6070e9",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-market.webp",
+      "language": "pt",
+      "context": "market",
+      "width": 479,
+      "height": 268,
+      "bytes": 53416,
+      "sha256": "2626b6bfa153cd26765e1f0575b46343d50a9b4afdfcd1305f65d93c4517ea27",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-home.webp",
+      "language": "pt",
+      "context": "home",
+      "width": 479,
+      "height": 267,
+      "bytes": 38400,
+      "sha256": "13bb0358ad048097b98112fdef5f77a8994b10befc4514b9b238dccdf4ea95eb",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-work.webp",
+      "language": "pt",
+      "context": "work",
+      "width": 478,
+      "height": 267,
+      "bytes": 39662,
+      "sha256": "d11e75fcfeef58f5cd28084306a4a67f8f3aeedefcdce243b64208dede852ce0",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-study.webp",
+      "language": "pt",
+      "context": "study",
+      "width": 479,
+      "height": 267,
+      "bytes": 41930,
+      "sha256": "4463baeac9cf736ce346048d5f9d8e2a30b109d59a9198292fd6ad1b2e12017a",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-nature.webp",
+      "language": "pt",
+      "context": "nature",
+      "width": 479,
+      "height": 268,
+      "bytes": 51058,
+      "sha256": "859b8d452b85c156ef7b211729ee27a7162c147eb55f6e17f4c91925be9e2a64",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-city.webp",
+      "language": "pt",
+      "context": "city",
+      "width": 478,
+      "height": 268,
+      "bytes": 49646,
+      "sha256": "6e82fe2eb9eae4e8db6ebfe6c4bcf5c8be852e21b3c742289f1484ff7bf0df6a",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-health.webp",
+      "language": "pt",
+      "context": "health",
+      "width": 479,
+      "height": 268,
+      "bytes": 29732,
+      "sha256": "f24c1fe9d81830317d79ddb64bca190e64dbb642769548c0e480694950b35555",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-travel.webp",
+      "language": "pt",
+      "context": "travel",
+      "width": 479,
+      "height": 267,
+      "bytes": 37122,
+      "sha256": "575e5e4f95a140d7461f0c677633188e5c918e203451cea608c92778d1ba9ebd",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-food.webp",
+      "language": "pt",
+      "context": "food",
+      "width": 478,
+      "height": 267,
+      "bytes": 41126,
+      "sha256": "6e2760b56671841e5237a1dee0337f09c3956b3420d4ae1166e97efc29bbad6d",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "pt-culture.webp",
+      "language": "pt",
+      "context": "culture",
+      "width": 479,
+      "height": 267,
+      "bytes": 32364,
+      "sha256": "c912722ca516ecf2d51f8b6c802354a6574fdf5b30f46fb4b9d09828dbf702de",
+      "source": "exec-bcdfb7ed-0a44-4eee-bfed-abab62cebc15.png",
+      "sourceSha256": "fda218d6b2eb45c8b0d0baeaad0722b5cc8d312be10606a18855a2995b803425"
+    },
+    {
+      "file": "ja-memory-hero.webp",
+      "language": "ja",
+      "context": "reference-hero",
+      "bytes": 51722,
+      "sha256": "8bdc214149a5a462801ac1ae900613fc378afd7920bfe28db1fd83c113e7f047",
+      "source": "Continuum learning memory journey(2).png",
+      "sourceSha256": "dd2cc1bbd0d93ab6b3bda1de675b4746c670652d5558258c0cf870d0a45d9109",
+      "crop": {
+        "left": 875,
+        "top": 70,
+        "width": 655,
+        "height": 190
+      }
+    },
+    {
+      "file": "ja-classroom-hero.webp",
+      "language": "ja",
+      "context": "reference-hero",
+      "bytes": 40326,
+      "sha256": "d38e4d2ebfb25e1a1c1c00b49e3065f451a0e858002e68de4571b67168d1fa6d",
+      "source": "My classes_ Japanese learning dashboard(1).png",
+      "sourceSha256": "886f59c1de2d16acd7821bd0dbb59ca92d2149257f405250b3df4797e12888a5",
+      "crop": {
+        "left": 790,
+        "top": 0,
+        "width": 746,
+        "height": 178
+      }
+    },
+    {
+      "file": "ja-practice-hero.webp",
+      "language": "ja",
+      "context": "reference-hero",
+      "bytes": 44074,
+      "sha256": "b2d39e906b3563cdc5bf015a1899db7d5b4ccfaca071f8ee21efb3e8a025bf77",
+      "source": "Practice Studio_ Choose your next adventure(1).png",
+      "sourceSha256": "f6d7e9127d74ab8e101036e3c88cf4bf50eebb9029fd70d5fab0f0cb5d4f0c4e",
+      "crop": {
+        "left": 600,
+        "top": 80,
+        "width": 930,
+        "height": 145
+      }
+    },
+    {
+      "file": "ja-assessment-hero.webp",
+      "language": "ja",
+      "context": "reference-hero",
+      "bytes": 35502,
+      "sha256": "4a2e477d604c37e79d6b1316355cb6f3ad64345122517c4e82f7e3808822396f",
+      "source": "Japanese level test journey preview(2).png",
+      "sourceSha256": "6d369635523c3d86b471ee2341c4d2badd5f4f5613b761d013f7d54bee20cf90",
+      "crop": {
+        "left": 495,
+        "top": 20,
+        "width": 290,
+        "height": 345
+      }
+    },
+    {
+      "file": "ja-report-hero.webp",
+      "language": "ja",
+      "context": "reference-hero",
+      "bytes": 25326,
+      "sha256": "6bf9c36de1527fc6c56125cbe154994e46407839735b70346c769303d0ce5b08",
+      "source": "Japanese level test journey preview(2).png",
+      "sourceSha256": "6d369635523c3d86b471ee2341c4d2badd5f4f5613b761d013f7d54bee20cf90",
+      "crop": {
+        "left": 860,
+        "top": 145,
+        "width": 650,
+        "height": 125
+      }
+    },
+    {
+      "file": "ja-pattern-art.webp",
+      "language": "ja",
+      "context": "reference-hero",
+      "bytes": 12938,
+      "sha256": "b7b458a49fe6f255d9daae89845890128d3e90839270b50ad60d561714cfe953",
+      "source": "Continuum learning memory journey(2).png",
+      "sourceSha256": "dd2cc1bbd0d93ab6b3bda1de675b4746c670652d5558258c0cf870d0a45d9109",
+      "crop": {
+        "left": 1370,
+        "top": 435,
+        "width": 140,
+        "height": 230
+      }
+    },
+    {
+      "file": "ja-learning-map.webp",
+      "language": "ja",
+      "context": "learning-map",
+      "bytes": 590002,
+      "sha256": "4eb0476fbfedfaa730635bcbf21496a07730e43ef33370f90190ea189e735657",
+      "source": "exec-5ca57efa-a02f-4650-8ea3-372684483e4b.png",
+      "sourceSha256": "a2012a2aa946e6e73e175ea918cba3b8be761478185cb2a555de3a13ec84fc96"
+    }
+  ]
+}

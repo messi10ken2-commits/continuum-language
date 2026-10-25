@@ -34,7 +34,7 @@ test('Practice Studio renders Japanese menu headings in photography and illustra
   const runtime=await vite.ssrLoadModule('/interface-runtime.mjs');runtime.setInterfaceLanguage('ja',{persist:false});
   for(const layout of ['photo','illustrated']){
    const html=renderToStaticMarkup(React.createElement(JourneyLayoutContext.Provider,{value:{layout,setLayout:()=>{}}},React.createElement(Studio,{language:'ja',user:null})));
-   assert.ok(html.includes('<strong>AI会話</strong>'));assert.ok(html.includes('<strong>語彙の復習</strong>'));
+   assert.ok(html.includes('<strong>AI会話</strong>'));assert.ok(html.includes(layout==='illustrated'?'<strong>語彙と表現</strong>':'<strong>語彙の復習</strong>'));
    assert.ok(!html.includes('<strong>AI conversation</strong>'));assert.ok(!html.includes('<strong>Vocabulary review</strong>'));
   }
  }finally{await vite.close();}
