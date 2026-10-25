@@ -1,13 +1,16 @@
+import {useInterfaceLanguage} from './InterfaceLanguage.jsx';
 import {t as uiText,tf as uiTemplate} from './interface-runtime.mjs';
 import React,{useEffect,useRef,useState} from 'react';
 import {Sparkles,Target,ChevronRight} from 'lucide-react';
-async function request(language,method='GET'){const r=await fetch('/api/patterns?language='+language,{method,headers:{'Content-Type':'application/json'},...(method==='POST'?{body:JSON.stringify({consent:true})}:{})});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not load learning patterns.');return d;}
+async function request(language,displayLanguage,method='GET'){const r=await fetch('/api/patterns?language='+language+'&displayLanguage='+displayLanguage,{method,headers:{'Content-Type':'application/json'},...(method==='POST'?{body:JSON.stringify({consent:true})}:{})});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not load learning patterns.');return d;}
 export default function RecurringPatterns({language,user,onPractice,onNavigate}){
- const [data,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[consent,setConsent]=useState(false),[expanded,setExpanded]=useState(false);const live=useRef(true),tried=useRef(new Set());
- useEffect(()=>{live.current=true;if(user)request(language).then(d=>{if(live.current){setData(d);setConsent(d.enabled)}}).catch(e=>{if(live.current)setError(e.message)});return()=>{live.current=false}},[language,user?.id]);
- async function analyze(){if(busy)return;setBusy(true);setError('');try{const d=await request(language,'POST');if(live.current){setData(d);setConsent(true)}}catch(e){if(live.current)setError(e.message)}finally{if(live.current)setBusy(false)}}
+ const displayLanguage=useInterfaceLanguage(),generation=useRef(0);
+ const [savedData,setData]=useState(null),[error,setError]=useState(''),[busy,setBusy]=useState(false),[consent,setConsent]=useState(false),[expanded,setExpanded]=useState(false);const live=useRef(true),tried=useRef(new Set());
+ const data=savedData?.displayLanguage===displayLanguage?savedData:null;
+ useEffect(()=>{const token=++generation.current;live.current=true;setData(null);setError('');setBusy(false);tried.current.clear();if(user)request(language,displayLanguage).then(d=>{if(live.current&&token===generation.current){setData(d);setConsent(d.enabled)}}).catch(e=>{if(live.current&&token===generation.current)setError(e.message)});return()=>{live.current=false;generation.current++}},[language,user?.id,displayLanguage]);
+ async function analyze(){if(busy)return;const token=generation.current;setBusy(true);setError('');try{const d=await request(language,displayLanguage,'POST');if(live.current&&token===generation.current){setData(d);setConsent(true)}}catch(e){if(live.current&&token===generation.current)setError(e.message)}finally{if(live.current&&token===generation.current)setBusy(false)}}
  useEffect(()=>{if(data?.enabled&&data.stale&&data.available&&data.topics.length&&!tried.current.has(data.revision)){tried.current.add(data.revision);analyze()}},[data?.revision]);
- async function disable(){setConsent(false);setError('');try{await request(language,'DELETE');if(live.current)setData(d=>({...d,enabled:false,analysis:null,stale:true}))}catch(e){if(live.current){setError(e.message);setConsent(true)}}}
+ async function disable(){const token=generation.current;setConsent(false);setError('');try{await request(language,displayLanguage,'DELETE');if(live.current&&token===generation.current)setData(d=>({...d,enabled:false,analysis:null,stale:true}))}catch(e){if(live.current&&token===generation.current){setError(e.message);setConsent(true)}}}
  const topics=data?.topics||[],items=data?.analysis?.items||[],visible=expanded?topics:topics.slice(0,4),coverage=data?.coverage;
  return <section className="panel recurring live-patterns"><div className="section-title"><div><span className="eyebrow">{uiText("YOUR NEXT IMPROVEMENT")}</span><h2><Target size={23}/>{uiText(" Recurring patterns")}</h2></div><span className="pattern-badge">{uiText(data?.analysis?'AI + saved evidence':'Saved evidence')}</span></div>
  <p>{uiText("Spot repeated difficulties, see the evidence, and choose what to practise next.")}</p>
