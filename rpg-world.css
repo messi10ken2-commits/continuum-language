@@ -29,3 +29,6 @@
 .rpg-scene[data-motion=off] .rpg-quest-toast{animation:none!important;opacity:1}
 
 .rpg-walk-preload{display:none!important}
+
+/* Legal documents and privacy controls remain reachable from the traveller account. */
+.app.rpg-mode[data-page=Account]>main .policy-links{display:flex!important}
