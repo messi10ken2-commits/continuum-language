@@ -1,3 +1,5 @@
+> Superseded presentation: Illustrated world is now the full-screen RPG described in [immersive-rpg-world.md](immersive-rpg-world.md). The photography mode and original visual assets remain available.
+
 # Optional illustrated world
 
 Learners can switch World style in the app header or Account between the existing Real photography layout and Illustrated world. The choice is saved per signed-in account on the current browser. Default is photography. Switching does not change routes, remount exercises, write progress, alter CEFR evidence or trigger a payment. Onboarding keeps the current photo-based layout; only its age checkbox layout is repaired. Teacher and owner operations retain their existing permissions.
@@ -8,4 +10,4 @@ Artwork is generated for Continuum with the built-in image generation tool. Prom
 
 The map, progress, dates, categories, activity totals, sharing permissions, subscription state and class records continue to use the existing sources. A theme is presentation only. No database migration, secrets or Railway configuration changes.
 
-Validation: `npm run test:qa`, `npm run build`, `npm run audit:language`, `npm audit --omit=dev`, runtime check, Chromium `qa-illustrated-world`, existing `qa-journey`, `qa-learner-navigation`, `qa-lesson-session`. Illustration browser checks cover all four maps and main screens at 1600/390px, both style selectors, persistence, active-question continuity, six real practice links and consent bounds. WebKit validation is pending: browser archive was available but system dependencies could not be installed because this environment blocks apt privilege changes. Run `QA_BROWSERS=webkit npm run test:illustrated:browser` after `npx playwright install --with-deps webkit` on a supported machine.
+Validation: `npm run test:qa`, `npm run build`, `npm run audit:language`, `npm audit --omit=dev`, runtime check, Chromium `qa-illustrated-world`, existing `qa-journey`, `qa-learner-navigation`, `qa-lesson-session`. Illustration browser checks cover all four maps and main screens at 1600/390px, both style selectors, persistence, active-question continuity, six real practice links and consent bounds. The historical photo/illustration release used Chromium browser verification. The current RPG release is verified with Chromium and WebKit; see immersive-rpg-world.md for the current suites.
