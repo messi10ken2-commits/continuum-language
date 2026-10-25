@@ -7,7 +7,8 @@ const vite=await createServer({server:{middlewareMode:true},appType:'custom'});
 try{
  const {default:SelfStudy}=await vite.ssrLoadModule('/SelfStudy.jsx');
  const {getLessonVariant}=await vite.ssrLoadModule('/course.mjs');
- const {setInterfaceLanguage}=await vite.ssrLoadModule('/interface-runtime.mjs');
+ const {questionPromptSource}=await vite.ssrLoadModule('/question-presentation.mjs');
+ const {setInterfaceLanguage,t}=await vite.ssrLoadModule('/interface-runtime.mjs');
  for(const [id,coverage] of [['en-b2-v2-lesson-3','table:0:0:1'],['en-c1-v2-lesson-5','application:3']]){
   let seed,lesson,index;
   for(let i=0;i<30;i++){seed='v6-render-quality-'+i+'-123456789';lesson=getLessonVariant(id,seed);index=lesson.questions.findIndex(q=>q.coverage===coverage);if(index>=0)break;}
@@ -15,7 +16,7 @@ try{
   store.set('continuumTestSeeds',JSON.stringify({[id]:seed}));store.set('continuumLessonDrafts',JSON.stringify({[id]:lesson.questions.slice(0,index).map(q=>q.answer)}));
   for(const locale of ['en','ja','es','pt','zh','fr']){
    setInterfaceLanguage(locale,{persist:false});const html=renderToStaticMarkup(React.createElement(SelfStudy,{language:'en',activeLesson:id,attempts:[],onStart(){},onExit(){},onComplete(){}}));
-   const expected=renderToStaticMarkup(React.createElement('h1',null,q.promptTranslations[locale]));assert.ok(html.includes(expected),locale+': '+id);assert.ok(!html.includes('Complete with should:'));assert.ok(!html.includes('Complete this part of the lesson'));
+   const parts=questionPromptSource(q),expected=renderToStaticMarkup(React.createElement('h1',null,parts?t(parts.instruction):q.promptTranslations[locale]));assert.ok(html.includes(expected),locale+': '+id);if(parts)for(const line of q.promptTranslations[locale].split('\n').slice(1)){const escaped=renderToStaticMarkup(React.createElement(React.Fragment,null,line));assert.ok(html.includes(escaped),locale+' preserved context: '+line);}assert.ok(!html.includes('Complete with should:'));assert.ok(!html.includes('Complete this part of the lesson'));
   }
  }
  console.log('PASS: both reported question patterns render clearly in all six interface languages without giving the required answer.');
