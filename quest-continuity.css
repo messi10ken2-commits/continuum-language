@@ -1,0 +1,75 @@
+/* One illustrated shell across destinations. Account deliberately keeps its settings layout. */
+.app.quest-continuity.rpg-window-open{position:fixed;inset:0;display:block;height:100dvh;min-height:0;overflow:hidden;background:#e9e5ef}
+.app.quest-continuity.rpg-window-open>aside{display:none!important}
+.app.quest-continuity.rpg-window-open .rpg-scene{display:block;inset:0}
+.app.quest-continuity.rpg-window-open .rpg-horizon{opacity:.65;filter:blur(3px)}
+.app.quest-continuity.rpg-window-open .rpg-viewport{opacity:.36;pointer-events:none}
+.app.quest-continuity.rpg-window-open>main{position:absolute;inset:145px 24px 106px;display:flex;flex-direction:column;overflow:hidden;max-width:1380px;margin:auto;border:1px solid #ffffff;border-radius:24px;background:#fcfafff5;box-shadow:0 12px 50px #39285635;backdrop-filter:blur(12px)}
+.app.quest-continuity.rpg-window-open>main>header,.app.quest-continuity.rpg-window-open .mobile-nav{display:none!important}
+.app.quest-continuity.rpg-window-open .rpg-window-bar{display:flex;flex-shrink:0;background:#f3eefb;border-color:#e3dbf0;min-height:46px}
+.app.quest-continuity.rpg-window-open>main .content{overflow:auto;overscroll-behavior:contain;flex:1;min-height:0;max-width:none;width:100%;padding:0 28px 36px;scroll-padding-top:20px}
+.app.quest-continuity .rpg-hud,.app.quest-continuity .rpg-status-strip,.app.quest-continuity .rpg-dock{z-index:30}
+.app.quest-continuity .rpg-dock{background:#fffdf7f5;border:1px solid #dfd5ee;box-shadow:0 5px 24px #39285625}
+.app.quest-continuity .rpg-dock button[aria-current=page]{background:#7760d5;color:white}
+.app.quest-continuity.rpg-window-open .journey-visual{display:flex!important;min-height:220px!important;margin:0 -28px 22px!important;border:0;border-radius:0;background:#f8f6fd;overflow:hidden}
+.app.quest-continuity .journey-visual>div{padding:30px 32px;position:relative;z-index:2;width:66%}
+.app.quest-continuity .journey-visual h1{font-size:clamp(26px,3vw,38px);line-height:1.2;letter-spacing:-.035em;margin:10px 0}
+.app.quest-continuity .journey-visual p{font-size:15px;line-height:1.65;max-width:550px;margin:0;color:#555477}
+.app.quest-continuity .journey-visual small{display:none}
+.app.quest-continuity .journey-visual>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 50%}
+.app.quest-continuity .journey-visual-wash{background:linear-gradient(90deg,#faf8ff 8%,#faf8fff0 32%,#faf8ff66 60%,transparent 85%)}
+/* Each screen has one prominent heading, instead of two stacked introductions. */
+.app.quest-continuity .practice-studio[data-view=home]>h1,.app.quest-continuity .practice-studio[data-view=home]>.eyebrow,.app.quest-continuity .practice-studio[data-view=home]>p,.app.quest-continuity[data-page='My classes'] .class-workspace>.page-intro,.app.quest-continuity[data-page=Learn] .self-study>.page-intro{display:none}
+.app.quest-continuity.rpg-window-open .journey-ribbon{display:flex!important;min-height:60px;margin:0 0 22px;padding:12px 18px;border-radius:16px;background:#fff;border:1px solid #e3ddef;box-shadow:none}
+.app.quest-continuity .studio-menu{gap:18px}
+.app.quest-continuity .studio-menu>button{border:1px solid #e2ddec;border-radius:16px;padding:0 18px 18px;background:#fff;box-shadow:0 3px 16px #5141750a;gap:9px;overflow:hidden}
+.app.quest-continuity .studio-menu .studio-card-photo{display:block;width:calc(100% + 36px)!important;max-width:none;height:170px!important;margin:0 -18px 8px!important;object-fit:cover}
+.app.quest-continuity .studio-menu>button>svg{display:none}
+.app.quest-continuity .studio-menu strong{font-size:20px;line-height:1.35;color:#202044}
+.app.quest-continuity .studio-menu>button>span:not(.illustrated-card-action){font-size:14px;line-height:1.6;color:#6a6580}
+.app.quest-continuity .illustrated-card-action{display:inline-flex;align-self:flex-start;width:auto!important;min-height:40px;padding:9px 18px;border-radius:11px;background:linear-gradient(110deg,#6b50d8,#8168e4)!important;color:white;margin-top:auto}
+.app.quest-continuity .class-tabs{gap:8px;border-bottom:1px solid #e5ddf0;background:transparent;padding:0 0 12px}
+.app.quest-continuity .class-tabs button{border:0;background:transparent;border-radius:8px;padding:12px 16px}
+.app.quest-continuity .class-tabs button.selected{color:#6247c9;background:#eee7fd;border-bottom:3px solid #7860d7}
+.app.quest-continuity .class-card{background:white;border:1px solid #e2dcec;border-radius:18px;padding:24px;box-shadow:0 3px 18px #5141750a}
+.app.quest-continuity .study-lesson{max-width:820px;margin:24px auto;background:transparent!important;padding:0!important}
+.app.quest-continuity .lesson-intro-card,.app.quest-continuity .question-card{background:#fff!important;border-radius:22px;border:1px solid #e5dfed;box-shadow:0 8px 30px #63508012;padding:28px}
+.app.quest-continuity .lesson-intro-card h1,.app.quest-continuity .question-card h1{font-family:Georgia,'Noto Serif',serif;font-weight:500;color:#232044;font-size:30px}
+.app.quest-continuity .lesson-media,.app.quest-continuity .page-scene{border-radius:12px;overflow:hidden}
+.app.quest-continuity .practice-top{padding:16px;background:#faf8fff5;border-bottom:1px solid #e4ddef;border-radius:14px}
+.app.quest-continuity .answers>div>button{min-height:58px;border:1px solid #ddd7e8;background:#fff;border-radius:12px;box-shadow:none}
+.app.quest-continuity .record-evidence-layout,.app.quest-continuity .learning-log-group,.app.quest-continuity .record-detail{background:#fff!important;border-radius:18px;box-shadow:none}
+.app.quest-continuity .live-patterns{background:linear-gradient(120deg,#fff,#f4effb)!important;border-radius:18px}
+.app.quest-continuity .assessment-chips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.app.quest-continuity .assessment-chips span{padding:14px;line-height:1.6;border-radius:12px}
+@media(min-width:1100px){.app.quest-continuity .studio-menu{grid-template-columns:repeat(3,minmax(0,1fr))}.app.quest-continuity .class-booking-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.app.quest-continuity[data-page='Learning memory'] .record-evidence-layout{display:flex!important;flex-direction:column}.app.quest-continuity.rpg-world-open .rpg-move-controls{bottom:112px}.app.quest-continuity.rpg-world-open .rpg-help-button{bottom:30px;left:auto;right:350px}}
+@media(max-width:760px){.app.quest-continuity.rpg-window-open>main{inset:112px 8px 100px;border-radius:18px}.app.quest-continuity.rpg-window-open>main .content{padding:0 16px 28px}.app.quest-continuity.rpg-window-open .journey-visual{min-height:190px!important;margin:0 -16px 18px!important}.app.quest-continuity .journey-visual>div{padding:24px 20px;width:100%;padding-right:18%}.app.quest-continuity .journey-visual-wash{background:linear-gradient(90deg,#faf8ffed,#faf8ffba 60%,#faf8ff44)}.app.quest-continuity .journey-visual h1{font-size:27px}.app.quest-continuity .journey-visual p{font-size:13px}.app.quest-continuity .rpg-dock{overflow-x:auto;justify-content:flex-start;gap:2px;bottom:max(8px,env(safe-area-inset-bottom));padding:5px}.app.quest-continuity .rpg-dock>button{flex:1 0 46px;min-width:46px;min-height:60px;font-size:9px}.app.quest-continuity .rpg-dock>.rpg-admin{flex:0 0 44px}.app.quest-continuity .studio-menu{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.app.quest-continuity .studio-menu>button{padding:0 12px 14px}.app.quest-continuity .studio-menu .studio-card-photo{width:calc(100% + 24px)!important;margin:0 -12px 4px!important;height:110px!important}.app.quest-continuity .studio-menu strong{font-size:15px}.app.quest-continuity .studio-menu>button>span:not(.illustrated-card-action){font-size:12px}.app.quest-continuity .illustrated-card-action{font-size:11px;padding:8px 11px;min-height:36px}.app.quest-continuity .journey-ribbon{font-size:12px;flex-wrap:wrap}.app.quest-continuity .lesson-intro-card,.app.quest-continuity .question-card{padding:18px}.app.quest-continuity .lesson-intro-card h1,.app.quest-continuity .question-card h1{font-size:25px}.app.quest-continuity .assessment-chips{grid-template-columns:1fr}.app.quest-continuity .rpg-window-bar{min-height:42px}.app.quest-continuity .rpg-window-bar>span{font-size:13px}}
+@media(max-width:359px){.app.quest-continuity .studio-menu{grid-template-columns:1fr}}
+
+/* Painted rolling stock: wheel baseline follows the rail, with the roof above it. */
+.rpg-scene .rpg-train{width:240px;height:auto;offset-anchor:50% 93%;filter:drop-shadow(0 2px 1px #35353750)}
+.app.quest-continuity[data-page=Learn] .study-intro>div:first-child{display:none}
+.app.quest-continuity[data-page=Learn] .study-intro{justify-content:flex-end;margin:0 0 18px}
+
+.app.quest-continuity.rpg-window-open .rpg-status-strip{display:flex}
+.app.quest-continuity .rpg-dock>button{background:transparent;color:#756381;box-shadow:none}
+.app.quest-continuity .rpg-dock>button[aria-current=page]{background:#7760d5;color:#fff;box-shadow:0 3px 0 #5f49b5}
+.app.quest-continuity .rpg-dock>button:focus-visible{outline:3px solid #937bd1;outline-offset:-3px}
+.app.quest-continuity .learning-consistency{padding:20px;margin:0 0 18px}
+.app.quest-continuity .learning-consistency h2{font-size:18px;margin:0 0 14px}
+.app.quest-continuity .consistency-metrics{margin-bottom:14px}
+.app.quest-continuity .connected-memory-hero{padding:14px;margin:0 0 18px}
+.app.quest-continuity .connected-memory-hero .assessment-ring{width:70px;height:70px}
+.app.quest-continuity .connected-memory-hero .assessment-ring b{font-size:22px}
+.app.quest-continuity .connected-memory-hero .assessment-ring small{font-size:9px}
+.app.quest-continuity .learning-consistency>.reference-hint{font-size:10px;line-height:1.5;margin-bottom:0}
+@media(max-width:760px){.app.quest-continuity .journey-ribbon{display:grid!important;grid-template-columns:1fr 1fr;padding:12px;gap:10px}.app.quest-continuity .journey-ribbon>div:first-child{grid-column:1/-1}.app.quest-continuity .journey-ribbon>div:first-child small{display:none}.app.quest-continuity .journey-daily-goal progress{width:100%}.app.quest-continuity .learning-consistency .consistency-metrics{grid-template-columns:1fr 1fr}}
+@media(min-width:1100px){
+.app.quest-continuity[data-page='Learning memory'] .illustrated-record>.journey-visual{grid-row:1}
+.app.quest-continuity[data-page='Learning memory'] .illustrated-record>.learning-consistency{grid-row:2}
+.app.quest-continuity[data-page='Learning memory'] .illustrated-record>.memory-hero{grid-row:3}
+.app.quest-continuity[data-page='Learning memory'] .illustrated-record>.record-evidence-layout{grid-row:4;grid-column:1}
+.app.quest-continuity[data-page='Learning memory'] .illustrated-record>.live-patterns{grid-row:4;grid-column:2}
+.app.quest-continuity[data-page='Learning memory'] .illustrated-record>.skills-record{grid-row:5;grid-column:1/-1}
+.app.quest-continuity[data-page='Learning memory'] .illustrated-record>.record-privacy{grid-row:6}
+}
