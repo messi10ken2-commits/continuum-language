@@ -73,3 +73,5 @@
 .app.quest-continuity[data-page='Learning memory'] .illustrated-record>.skills-record{grid-row:5;grid-column:1/-1}
 .app.quest-continuity[data-page='Learning memory'] .illustrated-record>.record-privacy{grid-row:6}
 }
+/* Portuguese tunnel/station curve: control points are in the map's 1600×1000 coordinates. */
+.rpg-scene[data-language=pt] .rpg-train{offset-path:path('M 20 600 C -10 700 80 750 260 825 C 450 910 750 980 1200 976')}
