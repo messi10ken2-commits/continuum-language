@@ -59,7 +59,7 @@ export function photoInfo(lesson={}){
 export const photoFor=lesson=>photoInfo(lesson).src;
 
 export const hasLessonMedia=lesson=>!!lesson&&!lesson.checkpoint&&!lesson.summaryTest&&!lesson.conversation;
-export function visualFrames(lesson,{all=false}={}){
+function authoredFrames(lesson,{all=false}={}){
  if(lesson.visualStory)return lesson.visualStory.frames;
  if(lesson.characters)return lesson.characters.slice(0,3).map(c=>({label:'Shape → sound',text:c.glyph,meaning:c.reading,note:c.meaning||'Connect the shape with its reading. Practise the full set below.'}));
  if(lesson.soundGuide)return lesson.soundGuide.pairs.slice(0,3).map(([a,b])=>({label:'Listen & compare',text:a,meaning:b,note:lesson.explanation}));
@@ -68,7 +68,17 @@ export function visualFrames(lesson,{all=false}={}){
  if(lesson.breakdown?.examples?.length){const examples=lesson.breakdown.examples;return Array.from({length:3},(_,i)=>({label:['Notice the form','Connect the meaning','Apply the rule'][i],text:examples[i%examples.length][0],meaning:examples[i%examples.length][1],note:lesson.breakdown.steps?.[i]||lesson.breakdown.pitfall||lesson.explanation}));}
  return [{label:'Notice',text:lesson.example||lesson.title,meaning:'Read the model in context.',note:lesson.explanation},{label:'Understand',lang:'en-US',text:lesson.title,meaning:lesson.explanation,note:'What does the speaker want to communicate?'},{label:'Use it',text:lesson.example||lesson.title,meaning:'Change one detail and make this example your own.',note:'Then test your understanding in the exercises.'}];
 }
-export const hasRecapVideo=lesson=>Object.hasOwn(recapManifest,lesson.id);
+// A recap contains actual authored examples, never a title voiced as target
+// language or a repeated model padded out to three artificial steps.
+export function visualFrames(lesson,options={}){
+ const frames=authoredFrames(lesson,options);
+ if(!lesson.visualStory&&!lesson.characters&&!lesson.soundGuide&&!lesson.vocabulary?.length&&!lesson.expressions?.length&&!lesson.breakdown?.examples?.length)
+  return lesson.example?.trim()?[{label:'Example',text:lesson.example,lang:lesson.exampleLang}]:[];
+ return frames.filter((frame,index)=>frames.findIndex(f=>f.text.trim()===frame.text.trim()&&f.meaning===frame.meaning)===index);
+}
+// Existing pre-rendered clips must still agree with their visible transcript.
+// Keep compatible clips; do not advertise stale, repeated fallback recaps.
+export const hasRecapVideo=lesson=>Object.hasOwn(recapManifest,lesson.id)&&JSON.stringify(visualFrames(lesson))===JSON.stringify(authoredFrames(lesson));
 export const videoFor=lesson=>`/api/lesson-video/${mediaVersion}/${encodeURIComponent(lesson.id)}.mp4`;
 
 // Use only the visible prompt to select context; never inspect the correct answer.

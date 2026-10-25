@@ -1,3 +1,4 @@
+import {questionPromptSource} from './question-presentation.mjs';
 import {journeyInterfaceSources} from './journey-copy.mjs';
 import {growthInterfaceSources} from './growth-copy.mjs';
 import {privacyInterfaceSources} from './privacy-copy.mjs';
@@ -58,6 +59,7 @@ for(const l of lessonList){
   const meaningOptions=displayLanguageOptions(q,l);
   const targetOptions=!meaningOptions&&(!q.optionsLang||q.optionsLang.split('-')[0]===language)?q.options||[]:[];
   const protectedQ=[...preserve,...questionLearningText(q,language),...targetOptions];
+  const parts=questionPromptSource(q);if(parts){add(parts.instruction);add(parts.hint);add(parts.context,language,protectedQ);if(!parts.learningText)add(parts.body,language,protectedQ);}
   add(q.prompt,language,q.instructionOnly?[]:protectedQ);add(q.note,language,protectedQ);
   for(const value of Object.values(q.mistakeFeedback||{}))add(value,language,protectedQ);
   if(q.prompt?.includes('Complete with tocar:'))for(const answer of ['ligou','tocava','tocar','toquei','tocaram'])add(mistakeFeedback(q,answer),language,protectedQ);
