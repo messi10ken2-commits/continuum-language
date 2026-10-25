@@ -1,6 +1,11 @@
 // Reviewed dynamic interface templates. Values are inserted after translation;
 // learner evidence and target-language examples are never translated as UI.
 const rows=`
+Your learning|学習設定|Tu aprendizaje|Seu aprendizado|学习设置|Votre apprentissage
+Sharing & privacy|共有とプライバシー|Datos compartidos y privacidad|Compartilhamento e privacidade|共享与隐私|Partage et confidentialité
+Help & contact|ヘルプとお問い合わせ|Ayuda y contacto|Ajuda e contato|帮助与联系|Aide et contact
+View subscription options|会員プランを見る|Ver opciones de suscripción|Ver opções de assinatura|查看订阅方案|Voir les options d’abonnement
+
 AI conversation|AI会話|Conversación con IA|Conversa com IA|AI 对话|Conversation avec l’IA
 Vocabulary review|語彙の復習|Repaso de vocabulario|Revisão de vocabulário|词汇复习|Révision du vocabulaire
 Introduce yourself, describe your world and order with confidence.|自己紹介や身の回りの説明を練習し、自信を持って注文できるようになりましょう。|Preséntate, describe tu entorno y haz pedidos con confianza.|Apresente-se, descreva seu mundo e faça pedidos com confiança.|练习自我介绍、描述身边的事物，并自信地点餐。|Présentez-vous, décrivez votre univers et commandez avec assurance.
@@ -51,7 +56,7 @@ Request failed ({0})|リクエストに失敗しました（{0}）|La solicitud 
 words|語|palabras|palavras|词|mots
 characters|文字|caracteres|caracteres|字|caractères
 `;
-export const interfaceReliabilityCopy=Object.fromEntries(rows.trim().split('\n').map(line=>{const [key,...values]=line.split('|');if(values.length!==5)throw Error('Missing interface template translation: '+key);return [key,Object.fromEntries(['ja','es','pt','zh','fr'].map((lang,i)=>[lang,values[i]]))]}));
+export const interfaceReliabilityCopy=Object.fromEntries(rows.trim().split('\n').filter(Boolean).map(line=>{const [key,...values]=line.split('|');if(values.length!==5)throw Error('Missing interface template translation: '+key);return [key,Object.fromEntries(['ja','es','pt','zh','fr'].map((lang,i)=>[lang,values[i]]))]}));
 
 // These authored headings are composed in the skill catalog. Bundle every band
 // so saved records never depend on a translation provider or its cache.
