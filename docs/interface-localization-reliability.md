@@ -20,3 +20,9 @@ Validation commands:
 - `npm run test:rpg:browser`
 
 The header suite uses disposable learner/teacher accounts, all six display locales, 320/390/768/1440px layouts, all four course languages and A1–C1 bands. It checks logo/control bounds, row alignment, touch targets, account navigation and photo/RPG switching. AI providers are disabled in local browser QA; no production accounts, real payments, secrets or infrastructure settings are changed.
+
+## Saved skill headings and Practice Studio cards
+
+Skill history and expanded records translate the authored task title at render time and subscribe to display-language changes. Original prompts, learner responses, teacher feedback, scores, dates and task IDs remain saved as before. All 60 composed core headings (five bands, three skills, four learning languages) have bundled translations, as do the AI conversation and Vocabulary review card headings. Reviewed copy covers Japanese, Spanish, Portuguese, Chinese and French without a provider request or cached translation.
+
+`node --test skill-title-localization.test.mjs` checks every core/lesson/assessment/premium heading in all five non-English interface languages, preserved band labels and original English titles. It also renders the Japanese Studio menu in both photography and illustrated contexts. These are runtime translation and server-render checks, not physical-device certification.
