@@ -75,3 +75,10 @@
 }
 /* Portuguese tunnel/station curve: control points are in the map's 1600×1000 coordinates. */
 .rpg-scene[data-language=pt] .rpg-train{offset-path:path('M 20 600 C -10 700 80 750 260 825 C 450 910 750 980 1200 976')}
+
+/* Reserve the same safe-area allowance for the scroll pane and mobile dock. */
+@media(max-width:760px){
+.app.quest-continuity.rpg-window-open>main{bottom:calc(92px + max(8px,env(safe-area-inset-bottom)))}
+.app.quest-continuity .rpg-dock{scroll-padding-inline:8px;overscroll-behavior-x:contain}
+.app.quest-continuity .rpg-dock>button>span{overflow-wrap:anywhere;line-height:1.25}
+}
