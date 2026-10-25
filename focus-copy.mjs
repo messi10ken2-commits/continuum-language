@@ -1,3 +1,4 @@
+import {focusedLevelCopy,levelRequirements,levelTaskPrompt} from './focused-level-copy.mjs';
 const rows=`
 Focused practice|技能別の集中レッスン|Práctica enfocada|Prática focada|专项练习|Entraînement ciblé
 Build a specific skill, then put it to work in AI conversation.|苦手な技能を集中的に練習し、AI会話で使ってみましょう。|Entrena una habilidad y aplícala en conversaciones con la IA.|Treine uma habilidade e coloque-a em prática nas conversas com a IA.|集中训练一项技能，再到 AI 对话中实际运用。|Travaillez une compétence, puis utilisez-la en conversation avec l’IA.
@@ -125,3 +126,6 @@ Write to your landlord about a leaking kitchen pipe. Describe when it started an
 Call your landlord about a leaking kitchen pipe. Explain the problem, arrange access for a repair and confirm the next step.|台所の配管の水漏れについて大家さんに電話してください。状況を説明し、修理のための入室を相談して、次の対応を確認しましょう。|Llama al propietario por una fuga en la cocina. Explica el problema, acuerda el acceso para repararla y confirma el siguiente paso.|Ligue para o proprietário sobre um cano vazando na cozinha. Explique o problema, combine o acesso para o conserto e confirme o próximo passo.|致电房东说明厨房水管漏水，安排维修人员入户，并确认下一步处理。|Appelez le propriétaire pour une fuite dans la cuisine. Expliquez le problème, organisez l’accès pour la réparation et confirmez la prochaine étape.
 `;
 export const focusCopy=Object.fromEntries(rows.trim().split('\n').filter(Boolean).map(line=>{const [k,...v]=line.split('|');if(v.length!==5)throw Error('Focused practice translation missing: '+k);return [k,Object.fromEntries(['ja','es','pt','zh','fr'].map((l,i)=>[l,v[i]]))]}));
+
+Object.assign(focusCopy,focusedLevelCopy);
+for(const [base,translations] of Object.entries({...focusCopy}).filter(([key])=>/^(Write |Introduce |Leave |Explain |Call |Tell )/.test(key)))for(const level of Object.keys(levelRequirements)){const instruction=focusCopy[levelRequirements[level]];focusCopy[levelTaskPrompt(base,level)]=Object.fromEntries(Object.keys(translations).map(lang=>[lang,translations[lang]+' '+instruction[lang]]));}
