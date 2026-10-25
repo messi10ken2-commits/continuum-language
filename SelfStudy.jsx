@@ -1,3 +1,4 @@
+import {resetLessonViewport,revealLessonQuestion} from './lesson-scroll.mjs';
 import AnswerReview from './AnswerReview.jsx';
 import {useStudyActivity} from './LearningActivity.jsx';
 import {displayLanguageOptions} from './answer-language.mjs';
@@ -88,16 +89,14 @@ export function LessonPlayer({external,lesson:baseLesson,language='es',user,init
  useEffect(()=>{if(user?.role!=='learner'||external)return;let live=true;fetch('/api/answer-review/accepted?'+new URLSearchParams({kind:'lesson',lesson:baseLesson.id,...(seed?{seed}:{})}),{credentials:'same-origin'}).then(r=>r.ok?r.json():null).then(d=>{if(live&&d?.accepted)setChecks(c=>{const next={...c};for(const item of d.accepted)next[item.question]={...next[item.question],verified:item.answers};return next})}).catch(()=>{});return()=>{live=false}},[user?.id,baseLesson.id,seed]);
  // Only opening a lesson or changing phase starts a new screen.
  useLayoutEffect(()=>{
-  window.scrollTo({top:0,left:0,behavior:'instant'});
+  resetLessonViewport(document.querySelector('.study-lesson'));
  },[lesson.id,phase]);
  // Keep the question in view after Continue, including deferred retries.
  // Do not steal focus while selecting an answer or reading feedback.
  useLayoutEffect(()=>{
   if(phase!=='exercise')return;
   const card=document.querySelector('.question-card');
-  card?.focus({preventScroll:true});
-  const rect=card?.getBoundingClientRect();
-  if(rect&&(rect.top<0||rect.top>window.innerHeight*.4))card.scrollIntoView({block:'start',behavior:'instant'});
+  revealLessonQuestion(card);
  },[lesson.id,phase,answers.length,reviewIndex]);
  const missed=external?missedQuestions(answers):null;
  const position=external?{reviewing:missed.length>0,index:missed.length?missed[reviewIndex]:answers.length,missed}:lessonPosition(lesson,answers,reviewIndex),retrying=position.reviewing;
