@@ -1,3 +1,4 @@
+import {interfaceReliabilityCopy} from './interface-reliability-copy.mjs';
 import {studioCopy} from './studio-copy.mjs';
 import {invitationCopy} from './invitation-copy.mjs';
 import {focusCopy} from './focus-copy.mjs';
@@ -214,3 +215,5 @@ Object.assign(interfaceCopy,focusCopy);
 Object.assign(interfaceCopy,invitationCopy);
 
 Object.assign(interfaceCopy,studioCopy);
+
+Object.assign(interfaceCopy,interfaceReliabilityCopy);

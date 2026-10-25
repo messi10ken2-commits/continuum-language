@@ -57,7 +57,7 @@ export default function SentenceAudio({text,lang='auto',compact=false,onPlayed,a
   const parts=(remainingParts||speechParts(text,lang,locale)).flatMap(part=>speechChunks(part.text,part.lang.startsWith('ja')?60:180).map(text=>({...part,text})));let index=0;
   const next=()=>{if(token!==generation.current||!mounted.current)return;if(index===parts.length){stop();return;}
    const part=parts[index++],voices=synth.getVoices(),voice=voices.find(v=>v.lang.replace('_','-').toLowerCase()===part.lang.toLowerCase());
-   if(!voice){stop();setError(`Install a ${part.lang} voice on this device, or retry the studio voice.`);return;}
+   if(!voice){stop();setError(uiTemplate('Install a {0} voice on this device, or retry the studio voice.',[part.lang]));return;}
    const u=new SpeechSynthesisUtterance(part.text);utterance.current=u;u.lang=part.lang;u.voice=voice;u.rate=speed.current;u.onstart=()=>{if(token===generation.current){setLoading(false);setPlaying(true);if(index===1&&!alreadyStarted)onPlayed?.();}};u.onend=next;u.onerror=()=>{if(token===generation.current){stop();setError('Device speech could not start. Tap Listen again, or check that this language voice is installed on your device.');}};synth.speak(u);
   };next();
  };

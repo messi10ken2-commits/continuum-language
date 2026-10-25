@@ -33,6 +33,16 @@ try{
  const deps={route:'/api/patterns',req:{url:'/api/patterns?language=en',method:'POST'},res:{},pool:{query:(...args)=>db.query(...args)},required:async()=>user,json:async()=>({consent:true}),send:(res,status,data)=>{res.status=status;res.data=data},fail:(status,message)=>{throw Object.assign(Error(message),{status})},limited(){}};
  let analyses=0;await handlePatterns({...deps,analyze:async()=>{analyses++;return report}});assert.equal(deps.res.status,200);
  await handlePatterns({...deps,analyze:async()=>{analyses++;return report}});assert.equal(analyses,1,'cache prevents unnecessary provider calls');
+ // Display-language changes cannot reuse an English coaching report.
+ for(const displayLanguage of ['ja','es','pt','zh','fr']){
+  const localized={...deps,req:{...deps.req,url:'/api/patterns?language=en&displayLanguage='+displayLanguage}};
+  await handlePatterns({...localized,req:{...localized.req,method:'GET'}});assert.equal(deps.res.data.analysis,null);assert.equal(deps.res.data.stale,true);
+  let generated=0;const analyze=async(_topics,_language,options)=>{generated++;assert.equal(options.displayLanguage,displayLanguage);return report};
+  await handlePatterns({...localized,analyze});assert.equal(deps.res.data.displayLanguage,displayLanguage);assert.equal(deps.res.data.analysis.displayLanguage,displayLanguage);
+  await handlePatterns({...localized,analyze});assert.equal(generated,1,'same-language reports remain cached');
+ }
+ assert.equal((await call('/patterns?language=en&displayLanguage=unknown')).status,400);
+ await analyzePatterns(full.topics,'en',{displayLanguage:'ja',fetchImpl:async(_url,options)=>{const body=JSON.parse(options.body);const system=JSON.stringify(body.systemInstruction||body.instructions);assert.ok(system.includes('Japanese evidence-based explanation'));assert.ok(!system.includes('English evidence-based explanation'));assert.ok(system.includes('original language'));return {ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify({items:[item]})}]}}]})}}});
  await handlePatterns({...deps,req:{...deps.req,method:'DELETE'}});
  assert.equal((await call('/patterns?language=en')).data.enabled,false);
  await handlePatterns({...deps,analyze:async()=>{await handlePatterns({...deps,req:{...deps.req,method:'DELETE'}});return report}});assert.equal(deps.res.status,409,'revocation wins an in-flight request');

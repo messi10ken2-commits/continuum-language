@@ -30,7 +30,7 @@ try{
   setInterfaceLanguage(locale,{persist:false});
   for(const language of ['es','en','pt','ja'])for(const level of ['A1','A2','B1','B2','C1']){
    store.set('continuumCourseLevel'+(language==='es'?'':':'+language),level);
-   const html=render(SelfStudy,{language,attempts:[],onStart(){},onExit(){},onComplete(){}});
+   const html=render(SelfStudy,{language,attempts:[],onStart(){},onExit(){},onComplete(){}});assert.ok(!html.includes('Build your '),locale+' '+language+' '+level+' course band description');
    for(const chapter of chapters.filter(c=>(c.language||'es')===language&&!c.legacy&&c.level===level)){
     assert.ok(html.includes(escaped(reviewedCourseTitles[locale][chapter.title])),locale+': '+chapter.title);
     assert.ok(html.includes(escaped(reviewedCourseTitles[locale][chapter.goal])),locale+': '+chapter.goal);
