@@ -15,3 +15,26 @@
 .journey-app .learner-shortcuts{margin:16px 0}.journey-app .learner-shortcuts>button{padding:15px 20px;border-radius:16px}.learning-log-filters{display:flex;flex-wrap:wrap;gap:7px;margin:20px 0}.learning-log-filters button{background:#faf8fe;border:1px solid #e6dff1;color:#756a89;padding:8px 12px;border-radius:20px;font:600 12px 'DM Sans';cursor:pointer}.learning-log-filters button[aria-pressed=true]{background:#7c68c7;color:white;border-color:#7c68c7}
 
 .journey-app .primary:disabled,.journey-onboarding .primary:disabled{opacity:.5;cursor:not-allowed}.journey-photo-unavailable{display:block;min-height:150px;background:linear-gradient(145deg,#f2eef9,#edf2e7)}
+/* Keep account identity and layout switching in a single balanced toolbar. */
+.app>main>header{gap:12px;flex-wrap:nowrap}
+.app>main>header .mobile-brand{white-space:nowrap;flex:0 0 auto;overflow-wrap:normal}
+.app>main>header .app-header-actions{display:flex;align-items:center;flex-wrap:nowrap;gap:8px;flex:0 0 auto;width:auto;max-width:100%;background:transparent;padding:0}
+.app>main>header .journey-layout-picker.compact{margin:0;flex:0 0 auto}
+.app>main>header .journey-layout-picker.compact label{gap:7px;white-space:nowrap}
+.app>main>header .journey-layout-picker.compact select{min-height:44px;border-radius:10px}
+.app>main>header .header-account-button{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:8px 10px;border:1px solid #e5e1ef;border-radius:10px;white-space:nowrap;box-shadow:none;background:#fff;color:#49417e}
+.header-account-short{display:none}
+@media(max-width:900px){
+ .app>main>header{padding:0 14px;gap:8px}
+ .app>main>header .journey-layout-picker.compact select{width:103px;max-width:103px;font-size:11px;padding:7px 5px}
+ .app>main>header .header-account-full{display:none}
+ .app>main>header .header-account-short{display:inline}
+ .app>main>header .header-account-button{font-size:11px;padding:7px 8px;gap:5px}
+}
+@media(max-width:360px){
+ .app>main>header{padding:0 12px;gap:6px}
+ .app>main>header .mobile-brand{font-size:15px}
+ .app>main>header .app-header-actions{gap:6px}
+ .app>main>header .journey-layout-picker.compact select{width:88px;max-width:88px;font-size:10.5px}
+ .app>main>header .header-account-button{font-size:10.5px;padding:7px 6px;gap:4px}
+}
