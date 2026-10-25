@@ -21,6 +21,10 @@ let browser;try{
    assert.ok(main.x>=0&&main.x+main.width<=width+1&&main.y+main.height<=dock.y+2,'content fits above navigation');
    await page.screenshot({path:'.media-build/reference/quest-'+tab.replaceAll(' ','-')+'-'+width+'.png'});
   }
+  await page.locator('.rpg-status-strip button').click();
+  await page.locator('.rpg-journal').waitFor();
+  assert.equal(await page.locator('.app').getAttribute('data-page'),'Overview','journal returns to map and stays open');
+  await page.locator('.rpg-journal .rpg-close').click();
   await page.locator('.rpg-dock button').filter({hasText:/^World map$/}).click();
   await page.locator('.rpg-world-open').waitFor();
   assert.ok(await page.locator('.rpg-train').evaluate(e=>e.complete&&e.naturalWidth>0));
