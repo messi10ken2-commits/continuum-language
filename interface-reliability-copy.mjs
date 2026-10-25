@@ -1,6 +1,8 @@
 // Reviewed dynamic interface templates. Values are inserted after translation;
 // learner evidence and target-language examples are never translated as UI.
 const rows=`
+AI conversation|AI会話|Conversación con IA|Conversa com IA|AI 对话|Conversation avec l’IA
+Vocabulary review|語彙の復習|Repaso de vocabulario|Revisão de vocabulário|词汇复习|Révision du vocabulaire
 Introduce yourself, describe your world and order with confidence.|自己紹介や身の回りの説明を練習し、自信を持って注文できるようになりましょう。|Preséntate, describe tu entorno y haz pedidos con confianza.|Apresente-se, descreva seu mundo e faça pedidos com confiança.|练习自我介绍、描述身边的事物，并自信地点餐。|Présentez-vous, décrivez votre univers et commandez avec assurance.
 Tell a short story, make plans and develop your ear for Spanish.|短い出来事を話し、予定を立て、スペイン語を聞き取る力を育てましょう。|Cuenta una historia breve, haz planes y mejora tu comprensión del español hablado.|Conte uma história curta, faça planos e desenvolva sua compreensão do espanhol falado.|讲述简短的故事、制定计划，并培养西班牙语听力。|Racontez une courte histoire, faites des projets et entraînez votre oreille à l’espagnol.
 Express uncertainty, explain reasons and connect your ideas.|不確かなことを表現し、理由を説明し、考えをつなげて話しましょう。|Expresa incertidumbre, explica motivos y conecta tus ideas.|Expresse incerteza, explique motivos e conecte suas ideias.|表达不确定性、解释原因，并有条理地衔接观点。|Exprimez l’incertitude, expliquez vos raisons et reliez vos idées.
@@ -50,3 +52,21 @@ words|語|palabras|palavras|词|mots
 characters|文字|caracteres|caracteres|字|caractères
 `;
 export const interfaceReliabilityCopy=Object.fromEntries(rows.trim().split('\n').map(line=>{const [key,...values]=line.split('|');if(values.length!==5)throw Error('Missing interface template translation: '+key);return [key,Object.fromEntries(['ja','es','pt','zh','fr'].map((lang,i)=>[lang,values[i]]))]}));
+
+// These authored headings are composed in the skill catalog. Bundle every band
+// so saved records never depend on a translation provider or its cache.
+const skillTitleParts={
+ 'Listen for meaning':['意味を聞き取る','Escuchar para comprender','Ouvir para compreender','听懂含义','Écouter pour comprendre'],
+ 'Write with purpose':['目的に合わせて書く','Escribir con un propósito','Escrever com um objetivo','有目的地写作','Écrire avec un objectif'],
+ 'Speak in your own words':['自分の言葉で話す','Hablar con tus propias palabras','Falar com suas próprias palavras','用自己的话表达','Parler avec ses propres mots'],
+ Japanese:['日本語','Japonés','Japonês','日语','Japonais'],
+ 'Portuguese (Brazil)':['ポルトガル語（ブラジル）','Portugués (Brasil)','Português (Brasil)','葡萄牙语（巴西）','Portugais (Brésil)'],
+ English:['英語','Inglés','Inglês','英语','Anglais'],
+ Listening:['リスニング','Comprensión oral','Compreensão oral','听力','Compréhension orale'],
+ Writing:['ライティング','Expresión escrita','Expressão escrita','写作','Expression écrite'],
+ Speaking:['スピーキング','Expresión oral','Expressão oral','口语','Expression orale']
+};
+for(const band of ['A1','A2','B1','B2','C1']){
+ for(const base of ['Listen for meaning','Write with purpose','Speak in your own words'])interfaceReliabilityCopy[base+' · '+band]=Object.fromEntries(['ja','es','pt','zh','fr'].map((locale,i)=>[locale,skillTitleParts[base][i]+' · '+band]));
+ for(const language of ['Japanese','Portuguese (Brazil)','English'])for(const skill of ['Listening','Writing','Speaking'])interfaceReliabilityCopy[language+' · '+skill+' · '+band]=Object.fromEntries(['ja','es','pt','zh','fr'].map((locale,i)=>[locale,skillTitleParts[language][i]+' · '+skillTitleParts[skill][i]+' · '+band]));
+}
