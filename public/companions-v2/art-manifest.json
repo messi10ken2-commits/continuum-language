@@ -68,5 +68,25 @@
     "file": "cat-head-happy.webp",
     "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
     "sha256": "32e727e086cd9bd6b70e048c827def4d406cf08acbdc9cd9a4a1bde3685b6a69"
+  },
+  {
+    "file": "dog-head.webp",
+    "source": "exec-82fde980-15eb-4b4b-810c-6415d302e2b8.png",
+    "sha256": "919179bee40599db42134be4194b194f30b19cd9fcd295a8090b84bf1ec574c0"
+  },
+  {
+    "file": "dog-head-happy.webp",
+    "source": "exec-82fde980-15eb-4b4b-810c-6415d302e2b8.png",
+    "sha256": "27abecb330874f61df92abe9061082a0b1d80f378b8d6da73a5365c009ef9ce1"
+  },
+  {
+    "file": "dog-body.webp",
+    "source": "exec-82fde980-15eb-4b4b-810c-6415d302e2b8.png",
+    "sha256": "f227e997269c986e3dd439eee3c223849874fe13ee58716aa2f325b9eb88f7d5"
+  },
+  {
+    "file": "dog-tail.webp",
+    "source": "exec-82fde980-15eb-4b4b-810c-6415d302e2b8.png",
+    "sha256": "48ffa30f82bb0ba1ab8ce4eccc895dee747558f1f2bcf86f1210c3ca85fdca01"
   }
 ]

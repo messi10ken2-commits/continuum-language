@@ -25,5 +25,14 @@
     "source": "https://commons.wikimedia.org/wiki/File:Red_Fox_(Vulpes_vulpes)_(W1CDR0001529_BD12).ogg",
     "changes": "Excerpt, mono AAC conversion and loudness adjustment",
     "file": "fox-call.m4a"
+  },
+  {
+    "kind": "dog",
+    "author": "Broadbeer",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:George_vuf_1996.ogg",
+    "changes": "Excerpt, mono AAC conversion and loudness adjustment",
+    "file": "dog-call.m4a"
   }
 ]
