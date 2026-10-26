@@ -1,3 +1,4 @@
+import Adventure,{useAdventure} from './Adventure.jsx';
 import React,{useContext,useEffect,useState} from 'react';
 import {CalendarDays,Clock3,Flag,BookOpen,Award,ArrowRight,ChevronLeft,ChevronRight} from 'lucide-react';
 import {ActivityContext,ActivityBars} from './LearningActivity.jsx';
@@ -31,7 +32,8 @@ export function IllustratedActivity({onNavigate}){
  return <section className="panel illustrated-activity"><div className="illustrated-section-heading"><div><h2>{t('Your activity')}</h2><p>{t('Every step, in one place.')}</p></div><CalendarDays size={22}/></div><div className="illustrated-periods" role="group" aria-label={t('Activity period')}>{['Week','Month','All time'].map(p=><button key={p} aria-pressed={period===p} onClick={()=>setPeriod(p)}>{t(p)}</button>)}</div>{error&&<p role="status">{t(error)}</p>}<div className="illustrated-activity-totals"><span><b>{data?Math.floor(ms/60000):'—'} {t('min')}</b><small>{t(period==='Week'?'this week':period==='Month'?'this month':'Total tracked study time')}</small></span><span><b>{data?active:'—'}</b><small>{t('active days')}</small></span></div>{data&&period==='Week'&&<ActivityBars data={data}/>}<button className="text-button" onClick={()=>onNavigate('Learning memory')}>{t('Daily learning record')} <ArrowRight size={16}/></button></section>;
 }
 export function IllustratedOverview({user,language,attempts,dailyGoal,onLanguage,onNavigate,onStart}){
- return <div className="illustrated-overview"><JourneyVisual language={language} section="Overview" title="Your next chapter awaits" description="Explore, practise and make real progress."/><IllustratedMetrics attempts={attempts} dailyGoal={dailyGoal}/><section className="panel approved-map-panel"><div className="illustrated-section-heading"><div><h2>{t('Your learning map')}</h2><p>{t('Choose a topic and follow your curiosity.')}</p></div></div><IllustratedMap language={language} attempts={attempts} onStart={onStart}/></section><LearningShortcuts onNavigate={onNavigate}/><IllustratedActivity onNavigate={onNavigate}/></div>;
+ const adventure=useAdventure(user,language);
+ return <div className="illustrated-overview"><JourneyVisual language={language} section="Overview" title="Your next chapter awaits" description="Explore, practise and make real progress."/><IllustratedMetrics attempts={attempts} dailyGoal={dailyGoal}/><Adventure state={adventure} onStart={onStart} onNavigate={onNavigate}/><section className="panel approved-map-panel"><div className="illustrated-section-heading"><div><h2>{t('Your learning map')}</h2><p>{t('Choose a topic and follow your curiosity.')}</p></div></div><IllustratedMap adventure={adventure.data} language={language} attempts={attempts} onStart={onStart}/></section><LearningShortcuts onNavigate={onNavigate}/><IllustratedActivity onNavigate={onNavigate}/></div>;
 }
 export function IllustratedStudioResume({user,language,attempts=[],onPractice}){
  const [draft,setDraft]=useState(null);

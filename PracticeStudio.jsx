@@ -15,7 +15,7 @@ export default function PracticeStudio({user,attempts=[],language,onSpeaking,onA
  const {layout}=useJourneyLayout();
  const screen=useRef(null),opened=useRef(false);
 
- const [view,setView]=useState('home'),[level,setLevel]=useState(()=>{try{return localStorage.getItem('continuumCourseLevel'+(language==='es'?'':':'+language))||'A1'}catch{return 'A1'}});
+ const [view,setView]=useState(()=>{try{const key='continuumPracticeDestination:'+user?.id,value=sessionStorage.getItem(key);sessionStorage.removeItem(key);return value==='review'?'review':'home'}catch{return 'home'}}),[level,setLevel]=useState(()=>{try{return localStorage.getItem('continuumCourseLevel'+(language==='es'?'':':'+language))||'A1'}catch{return 'A1'}});
  useLayoutEffect(()=>{if(opened.current){revealPracticeSection(screen.current)}opened.current=true},[view]);
  const blocked=id=>features[{conversation:'aiConversation',review:'review',courses:'exclusiveCourses',focus:'focusedPractice',pronunciation:'selfStudy'}[id]]===false;
  const choices=[['conversation','AI conversation','Keep a natural conversation going and review your performance.',MessageCircle],['review','Vocabulary review','Revisit the words and expressions you missed.',RotateCcw],['courses','Exclusive courses','Explore practical situations with richer language and mixed exercises.',Sparkles],['focus','Focused practice','Train listening, writing or speaking for a specific situation.',Headphones]];
