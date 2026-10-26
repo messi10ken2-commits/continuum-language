@@ -7,6 +7,7 @@ Choose your companion|旅の仲間を選ぶ|Elige tu compañero|Escolha seu comp
 Bird|小鳥|Pájaro|Pássaro|小鸟|Oiseau
 Fox|キツネ|Zorro|Raposa|狐狸|Renard
 Cat|ネコ|Gato|Gato|猫|Chat
+Dog|イヌ|Perro|Cachorro|狗|Chien
 Earned through learning|学びの足あと|Ganado aprendiendo|Conquistado aprendendo|学习所得|Obtenu en apprenant
 Your first stamp awaits. Complete a chapter, revisit a difficulty, or study on three days.|章の修了、苦手なレッスンの再挑戦、3日間の学習で、最初のスタンプを集めましょう。|Completa un capítulo, retoma una dificultad o estudia durante tres días para conseguir tu primer sello.|Conclua um capítulo, retome uma dificuldade ou estude em três dias para ganhar seu primeiro carimbo.|完成章节、重温难点或累计学习三天，收集第一枚印章。|Terminez un chapitre, reprenez une difficulté ou étudiez trois jours pour obtenir votre premier tampon.
 One small quest|今日の小さなクエスト|Una pequeña misión|Uma pequena missão|一个小任务|Une petite quête
