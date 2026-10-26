@@ -69,6 +69,38 @@ TOPICS = [
     "preparing for a first conversation",
 ]
 
+# Editorial source of truth for the launch-preparation campaign (updated 2026-10-27).
+# These are pilot / development facts, NOT claims of a public app release.
+PRELAUNCH_PROGRESS_FACTS = (
+    "Continuum is approaching its public launch, but is still IN DEVELOPMENT. "
+    "Its core concept joins structured AI-supported self-study and human-taught "
+    "classes through shared learning memory. Learner/teacher workflows have been "
+    "implemented and tested in a trial environment, including scheduling, "
+    "class notes, assignments, and teacher feedback. Self-study covers English, "
+    "Spanish, Portuguese and Japanese. The team is refining learner-facing "
+    "progress views, lesson audio, mobile usability, illustrated learning maps, "
+    "daily quests, localization and quality checks. "
+    "Do NOT claim app-store approval, an available public paid-class system, "
+    "completed payments/payouts, completed final testing, a confirmed launch "
+    "date, or generally available features that are still in trial."
+)
+
+EVENING_PROGRESS_ANGLES = (
+    "We are in the late development phase: explain what is being polished before launch, without promising a date.",
+    "Shared learner memory: connect self-study, recurring weak points and teacher feedback across the same learning journey.",
+    "Teacher-and-learner pilot workflow: class planning, notes, assignments and feedback are being refined together.",
+    "Learning experience polish: chapter maps, daily quests and illustrated progress elements that make studying more engaging.",
+    "Quality assurance: check lesson explanations, natural audio, pronunciation, navigation and mobile readability.",
+    "Cross-language consistency: review learning content, translations and interfaces across the four study languages.",
+    "The human side: show why combining teachers and AI-supported independent learning matters as release gets closer.",
+)
+
+
+def evening_progress_angle(day):
+    """Pick a concrete, stable topic based on the publication date."""
+    return EVENING_PROGRESS_ANGLES[(day - date(2026, 10, 27)).days % len(EVENING_PROGRESS_ANGLES)]
+
+
 def api_json(url, payload, token, timeout=30):
     req = Request(url, data=json.dumps(payload, ensure_ascii=False).encode(), headers={
         "Content-Type": "application/json", "Authorization": f"Bearer {token}",
@@ -166,7 +198,7 @@ Audience: adults worldwide; English main language, Japanese examples with accura
 Brand truth: Kotoba is already launched and offers practical Japanese for travelers.
 Continuum is an IN-DEVELOPMENT project combining AI self-study and human language
 teaching with the goal of connecting learners' progress. Never claim Continuum is launched,
-publicly available as an app, or that any planned feature already works.
+publicly available as an app, or that pilot-only features are already publicly available.
 No made-up statistics, trending news, false service claims, or misleading statements.
 X posts max 235 characters; Threads posts max 365. No URLs; at most one hashtag.
 Write distinct messages for each network and slot. Use friendly, natural English.
@@ -182,9 +214,22 @@ Give accurate Japanese and English; avoid claiming every shop has the same polic
 No generic language tips, product pitches, or development updates in these four.
 """
     else:
-        guidance += """Morning: a practical Japanese travel mini-lesson.
+        guidance += f"""Morning: a practical Japanese travel mini-lesson.
 Afternoon: an engaging language-learning insight or thoughtful question.
-Evening: an honest build-in-public note about the Continuum vision, clearly in development.
+Evening: a concrete behind-the-scenes UPDATE about Continuum's real, late-stage
+development progress. Move beyond generic "we're building something" statements.
+Product facts (editorial grounding; do not copy wholesale): {PRELAUNCH_PROGRESS_FACTS}
+The specific angle for this publication date: {evening_progress_angle(day)}
+For x_evening and threads_evening ONLY: convey that launch is getting closer
+while final checks and refinements continue. Name one specific verified element
+from the progress facts and share its user benefit or the current polishing work.
+Write TWO DISTINCT, believable posts, each with a human, conversational tone.
+Do NOT claim that Continuum has officially launched or is ready to purchase.
+Do NOT promise an exact launch date, finalized payment/payout support, perfect
+test results, any exact completion percentage, or unrealized live capabilities.
+Do NOT repeat the same generic pitch daily. No empty hype like "big news soon".
+Keep the usual Japanese travel tips in the morning and the conversational
+learning post in the afternoon UNCHANGED in editorial purpose and cadence.
 """
     guidance += "Output ONLY a JSON object with these keys: " + ", ".join(keys)
     payload = {
@@ -211,10 +256,12 @@ def localize_pair(day, posts, key):
     source_posts = {k: posts[k] for k in keys}
     print(f"Day's synchronized multilingual language: {language} ({keys[0]}, {keys[1]})", flush=True)
     special = (
-        "IMPORTANT: This is a Continuum founder/build-in-public update, NOT a Japanese "
-        "language-learning tip. Write the full editorial text naturally in Japanese for "
-        "Japanese-speaking readers. Continuum remains IN DEVELOPMENT. Do not announce "
-        "any completion, features that already work, or a launch."
+        "IMPORTANT: This is a Continuum founder/build-in-public progress update, NOT "
+        "a Japanese language-learning tip. Write naturally and fully in Japanese "
+        "for Japanese-speaking readers. Preserve the specific late-stage "
+        "development / testing insight from the source text; do not dilute "
+        "it to a generic vision pitch. Continuum is NOT publicly launched. "
+        "Never invent a launch date or represent pilot features as public."
         if language == "Japanese" else
         "Translate/adapt the practical travel-Japanese teaching post into natural, "
         f"fluent {language} for speakers of that language who are learning Japanese. "
