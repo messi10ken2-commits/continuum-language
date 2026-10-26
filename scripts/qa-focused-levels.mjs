@@ -15,15 +15,15 @@ try{
  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);await page.goto(base);await page.locator('.unified-learning-record').waitFor();
  const nav=label=>page.locator('.mobile-nav button').filter({hasText:new RegExp('^'+label+'$')}).click();
  for(const style of ['photo','illustrated']){
- if(style==='illustrated'){await nav('Overview');await page.getByLabel('World style',{exact:true}).first().selectOption(style);await page.locator('.rpg-world-open').waitFor()}
- const studio=async()=>{if(style==='photo')await nav('Practice');else await page.locator('.rpg-dock button').filter({hasText:/^Practice$/}).click();await page.locator('.studio-menu').waitFor()};
- const section=title=>page.locator('.studio-menu>button').filter({has:page.locator('strong',{hasText:new RegExp('^'+title+'$')})}).click();
+ if(style==='illustrated'){await nav('Overview');await page.getByLabel('World style',{exact:true}).first().selectOption(style);await page.locator('.approved-illustrated').waitFor()}
+ const studio=async()=>{await nav('Practice');await page.locator('.studio-menu').waitFor()};
+ const section=title=>page.locator('.studio-menu>button').filter({has:page.locator('strong',{hasText:new RegExp('^'+(style==='illustrated'?({'Vocabulary review':'Vocabulary & expressions','Focused practice':'Listening & video'}[title]||title):title)+'$')})}).click();
  const back=()=>page.getByRole('button',{name:'Back to Practice Studio',exact:true}).click();
  for(const language of ['en','es','pt','ja']){
-  if(style==='photo'){await page.getByLabel('Learning language',{exact:true}).selectOption(language);await nav('Overview');await page.locator('.unified-learning-record').waitFor();assert.equal(await page.locator('.journey-map,.journey-visual').count(),0)}else{await page.locator('.rpg-dock button').filter({hasText:/^World map$/}).click();await page.locator('.rpg-world-open').waitFor();await page.locator('.rpg-language select').selectOption(language)}
+  if(style==='photo'){await page.getByLabel('Learning language',{exact:true}).selectOption(language);await nav('Overview');await page.locator('.unified-learning-record').waitFor();assert.equal(await page.locator('.journey-map,.journey-visual').count(),0)}else{await nav('Overview');await page.locator('.approved-illustrated').waitFor();await page.locator('.illustrated-header select[aria-label="Learning language"]').selectOption(language)}
   await studio();
   for(const title of ['Vocabulary review','Exclusive courses','Focused practice']){
-   await section(title);assert.equal(await page.locator('.studio-menu').count(),0);const b=await page.locator('.practice-studio').boundingBox(),pane=style==='photo'?{y:await page.locator('main>header').evaluate(e=>e.getBoundingClientRect().bottom),height:900}:await page.locator('main>.content').boundingBox();assert.ok(b.y>=pane.y-1&&b.y<pane.y+100,`${style} ${title}: destination is at visible top, got ${b.y}, pane ${pane.y}`);assert.equal(await page.locator('.practice-studio').evaluate(e=>e===document.activeElement),true);await back();await page.locator('.studio-menu').waitFor();
+   await section(title);assert.equal(await page.locator('.studio-menu').count(),0);const b=await page.locator('.practice-studio').boundingBox(),pane={y:style==='photo'?await page.locator('main>header').evaluate(e=>e.getBoundingClientRect().bottom):0,height:900};assert.ok(b.y>=pane.y-1&&b.y<pane.y+100,`${style} ${title}: destination is at visible top, got ${b.y}, pane ${pane.y}`);assert.equal(await page.locator('.practice-studio').evaluate(e=>e===document.activeElement),true);await back();await page.locator('.studio-menu').waitFor();
   }
   await section('Focused practice');
   const signatures=[];
