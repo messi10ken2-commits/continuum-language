@@ -105,3 +105,14 @@
 .illustrated-header-actions{flex-wrap:wrap;justify-content:flex-end}.illustrated-header-actions .journey-layout-picker.compact{margin:0;padding:0;background:transparent;border:0}.illustrated-header-actions .journey-layout-picker.compact label{font-size:0;display:block}.illustrated-header-actions .journey-layout-picker select{width:118px}
 @media(max-width:600px){.app.approved-illustrated .illustrated-header-actions{width:100%;justify-content:space-between}.illustrated-header-actions>label{flex:1}.illustrated-header-actions>label select{width:100%}.illustrated-header-actions .journey-layout-picker select{width:125px}}
 .app.approved-illustrated .owner-membership-preview .membership-actions button[aria-pressed="true"]{background:#6259c5;color:#fff;border-color:#6259c5;box-shadow:0 0 0 2px #6259c530;font-weight:700}
+
+/* Give translated progress labels their full width on phones. */
+@media(max-width:600px){
+ .illustrated-metrics{grid-template-columns:minmax(0,1fr)}
+ .illustrated-metrics>div,.memory-metrics>div{flex-direction:row;flex-wrap:nowrap;align-items:center;padding:14px 16px;gap:12px}
+ .illustrated-metrics>div>span:last-child{flex:1 1 0;width:auto;min-width:0}
+ .illustrated-metrics b{white-space:normal;overflow-wrap:anywhere;font-size:21px}
+ .illustrated-metrics small{font-size:12px;line-height:1.5;white-space:normal;overflow-wrap:anywhere}
+ .memory-metrics>div{border-right:0;border-bottom:1px solid #e9e3f2}
+ .memory-metrics>div:last-child{border-bottom:0}
+}

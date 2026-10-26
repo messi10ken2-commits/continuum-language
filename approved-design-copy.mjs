@@ -1,5 +1,7 @@
 // Reviewed UI copy: target-language examples and private records are never translated here.
 const rows=[
+["Upcoming", "今後の授業", "Próximas clases", "Próximas aulas", "即将开始", "À venir"],
+["Past classes", "過去の授業", "Clases anteriores", "Aulas anteriores", "以往课程", "Cours passés"],
 ["Choose what you want to strengthen today.", "今日は、伸ばしたい力を選びましょう。", "Elige qué quieres reforzar hoy.", "Escolha o que quer fortalecer hoje.", "选择今天想提升的能力。", "Choisissez ce que vous souhaitez renforcer aujourd’hui."],
 ["Your journey, with a human guide.", "講師と一緒に、学びの旅を。", "Tu viaje, con un guía humano.", "Sua jornada, com a orientação de um professor.", "与老师一起，踏上学习之旅。", "Votre parcours, accompagné par un professeur."],
 ["Start", "始める", "Comenzar", "Começar", "开始", "Commencer"],
