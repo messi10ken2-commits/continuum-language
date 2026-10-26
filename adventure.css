@@ -19,3 +19,5 @@
 
 /* Keep the same rump attachment, with the tip curving upward; wag around the hidden lower root. */
 .companion-rig.quokka .tail{left:6%;top:36%;width:40%;height:31%;transform-origin:67% 91%}.companion-rig.quokka .tail>img{width:100%;height:100%;object-fit:contain;transform:scaleX(-1);transform-origin:center}
+/* Reserve room for jumps and turns so the complete silhouette stays inside the reward stage. */
+.bond-stage{min-height:310px;padding:52px 16px 20px;box-sizing:border-box}.bond-stage .companion-rig{width:65%;max-width:180px;flex-shrink:0}
