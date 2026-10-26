@@ -6,9 +6,48 @@ from social_automation.poster import (KEYS, FIRST_DAY_INTROS, FIRST_DAY_TIP_KEYS
                                      ROTATION, first_day, multilingual_plan, generate,
                                      target_datetimes, validate, demo_posts,
                                      with_link, content_schema, schedule, scheduled_slots,
-                                     discover_channels, posting_dates, missing_future_slots)
+                                     discover_channels, posting_dates, missing_future_slots,
+                                     PRELAUNCH_PROGRESS_FACTS, EVENING_PROGRESS_ANGLES,
+                                     evening_progress_angle)
 
 class TestPoster(unittest.TestCase):
+    def test_prelaunch_brief_stays_specific_and_cautious(self):
+        self.assertIn('IN DEVELOPMENT', PRELAUNCH_PROGRESS_FACTS)
+        self.assertIn('teacher feedback', PRELAUNCH_PROGRESS_FACTS)
+        self.assertIn('mobile usability', PRELAUNCH_PROGRESS_FACTS)
+        self.assertIn('payments/payouts', PRELAUNCH_PROGRESS_FACTS)
+        self.assertGreaterEqual(len(EVENING_PROGRESS_ANGLES), 6)
+        self.assertEqual(evening_progress_angle(date(2026, 10, 27)),
+                         EVENING_PROGRESS_ANGLES[0])
+        self.assertEqual(evening_progress_angle(date(2026, 11, 3)),
+                         EVENING_PROGRESS_ANGLES[0])
+
+    @patch('social_automation.poster.api_json')
+    def test_evening_prompt_describes_current_progress_without_touching_tips(self, mock_api):
+        english = demo_posts()
+        localized = {
+            'x_morning': 'Viaje ao Japão? Diga すみません para chamar alguém com educação. Uma frase muito prática.',
+            'threads_morning': 'Uma expressão útil no Japão: すみません. Você pode dizer isso ao chamar a atenção de alguém educadamente.',
+        }
+        mock_api.side_effect = [
+            {'output': [{'content': [{'type': 'output_text',
+                                      'text': json.dumps(english, ensure_ascii=False)}]}]},
+            {'output': [{'content': [{'type': 'output_text',
+                                      'text': json.dumps(localized, ensure_ascii=False)}]}]},
+        ]
+        with patch.dict('os.environ', {'OPENAI_API_KEY': 'fake', 'INTRO_POST_DATE': '2026-10-19'}):
+            result = generate(date(2026, 10, 28))
+        prompt = mock_api.call_args_list[0].args[1]['input']
+        self.assertIn('x_evening and threads_evening ONLY', prompt)
+        self.assertIn('late-stage', prompt)
+        self.assertIn('human-taught', prompt)
+        self.assertIn('Morning: a practical Japanese travel mini-lesson', prompt)
+        self.assertIn('Afternoon: an engaging language-learning insight', prompt)
+        self.assertEqual(result['x_evening'], english['x_evening'])
+        self.assertEqual(result['threads_evening'], english['threads_evening'])
+        self.assertEqual(result['x_morning'], localized['x_morning'])
+        self.assertEqual(result['threads_morning'], localized['threads_morning'])
+
     def test_launch_intro_is_first_for_each_network(self):
         with patch.dict('os.environ', {'INTRO_POST_DATE': '2026-10-19'}):
             self.assertTrue(first_day(date(2026, 10, 19)))
