@@ -1,6 +1,6 @@
 # Companion bonds and profile avatars
 
-Eight painted companions use independent head/body/tail parts, with happy eyes and finite reactions. Bird/fox/cat/dog are free choices. Subscribing to Premium grants capybara, guinea pig, quokka and panda choices; granted choices and earned avatars remain available after Premium ends. Companion entitlement and avatar selection are validated on the server.
+Eight painted companions use independent head/body/tail parts, with happy eyes and finite reactions. Bird/fox/cat/dog are free choices. Active Premium unlocks capybara, guinea pig, quokka and panda as companions. On expiry, they are locked again and the active companion falls back to Bird; the saved Premium preference and bond records are preserved for renewal. Already-earned profile avatars remain available after Premium ends. Companion entitlement and avatar selection are validated on the server.
 
 Each language and companion retains its chapter credits. Existing completed history is backfilled once for newly introduced companions; existing companion credits are preserved. Newly completed chapters credit the selected companion once, with no repeat farming or bond decay. Thresholds are now 5 chapters for greeting, 15 for sound, 30 for delighted reaction. The separate five-second C1 celebration requires an exercise-source pass at the authored pass mark for EVERY basic Learn C1 lesson, including its final summary. A final summary pass alone no longer unlocks it.
 
