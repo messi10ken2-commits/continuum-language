@@ -1,6 +1,9 @@
 import {getLesson} from './course.mjs';
 import {journeyChapters,journeyLevels} from './journey-model.mjs';
-export const companions=['bird','fox','cat','dog'];
+export const baseCompanions=['bird','fox','cat','dog'];
+export const premiumCompanions=['capybara','guinea-pig','quokka','panda'];
+export const companions=[...baseCompanions,...premiumCompanions];
+export const companionNames={bird:'Bird',fox:'Fox',cat:'Cat',dog:'Dog',capybara:'Capybara','guinea-pig':'Guinea pig',quokka:'Quokka',panda:'Panda'};
 export const quests=['listening','revisit','review','class'];
 export function adventureRecord({language,attempts=[],days=[],classes=[],assignments=[],reviewCount=0,selection}){
  const valid=attempts.filter(a=>a.source==='exercise'&&getLesson(a.lesson)&&(getLesson(a.lesson).language||'es')===language&&Number.isFinite(a.score)&&a.score>=0&&a.score<=100&&Number.isFinite(Date.parse(a.at))),ordered=[...valid].sort((a,b)=>Date.parse(a.at)-Date.parse(b.at));

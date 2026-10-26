@@ -34,5 +34,41 @@
     "source": "https://commons.wikimedia.org/wiki/File:George_vuf_1996.ogg",
     "changes": "Excerpt, mono AAC conversion and loudness adjustment",
     "file": "dog-call.m4a"
+  },
+  {
+    "kind": "capybara",
+    "author": "Continuum",
+    "license": "Original sound design",
+    "licenseUrl": "https://continuum-language-production.up.railway.app",
+    "source": "https://continuum-language-production.up.railway.app",
+    "changes": "Original stylized companion sound, not a wildlife recording",
+    "file": "capybara-call.m4a"
+  },
+  {
+    "kind": "guinea-pig",
+    "author": "Continuum",
+    "license": "Original sound design",
+    "licenseUrl": "https://continuum-language-production.up.railway.app",
+    "source": "https://continuum-language-production.up.railway.app",
+    "changes": "Original stylized companion sound, not a wildlife recording",
+    "file": "guinea-pig-call.m4a"
+  },
+  {
+    "kind": "quokka",
+    "author": "Continuum",
+    "license": "Original sound design",
+    "licenseUrl": "https://continuum-language-production.up.railway.app",
+    "source": "https://continuum-language-production.up.railway.app",
+    "changes": "Original stylized companion sound, not a wildlife recording",
+    "file": "quokka-call.m4a"
+  },
+  {
+    "kind": "panda",
+    "author": "Continuum",
+    "license": "Original sound design",
+    "licenseUrl": "https://continuum-language-production.up.railway.app",
+    "source": "https://continuum-language-production.up.railway.app",
+    "changes": "Original stylized companion sound, not a wildlife recording",
+    "file": "panda-call.m4a"
   }
 ]
