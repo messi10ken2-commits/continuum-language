@@ -48,6 +48,12 @@ let browser;try{
  await db.query("INSERT INTO assessments(user_id,kind,version,form,language,result,completed_at) VALUES($1,'placement','ja-diagnostic-4',0,'ja',$2,now())",[lid,result]);
  await page.reload();await page.locator('.mobile-nav button').first().click();await page.getByRole('button',{name:/Level test/}).first().click();await page.locator('.illustrated-skill-row').first().waitFor();assert.equal(await page.locator('.illustrated-skill-row').count(),4);assert.equal(await page.locator('.illustrated-skill-row progress').first().getAttribute('value'),'60');await page.screenshot({path:'.media-build/lesson-clarity/approved-report.png',fullPage:true});await page.getByRole('button',{name:'Review assessment details',exact:true}).click();await page.locator('.illustrated-full-report').waitFor();
  }
+ if(layout==='illustrated'){
+ await db.query("UPDATE premium_invitations SET active=false WHERE redeemed_by=$1",[lid]);await db.query("UPDATE billing_memberships SET status='canceled',paid_until=now()-interval '1 day' WHERE user_id=$1",[lid]);
+ await page.reload();await page.locator('.mobile-nav button').first().click();await page.getByRole('button',{name:'Choose your companion',exact:true}).click();await page.locator('.companion-button .bird').waitFor();
+ for(const name of ['Capybara','Guinea pig','Quokka','Panda'])assert.ok((await page.getByRole('button',{name,exact:true}).textContent()).includes('Premium'));
+ await page.screenshot({path:'.media-build/lesson-clarity/premium-companions-locked.png',fullPage:true});await page.getByRole('button',{name:'Quokka',exact:true}).click();await page.locator('.account-settings').waitFor();assert.equal(await page.locator('.adventure-hub').count(),0);
+ }
  assert.deepEqual(errors,[]);await context.close();console.log('PASS approved navigation widths and overflow',layout);
  }
 }finally{await browser?.close();await new Promise(r=>testServer.close(r));await db.close();}
