@@ -1,3 +1,4 @@
+import {companionBondCopy} from './companion-bond-copy.mjs';
 import {adventureCopy} from './adventure-copy.mjs';
 import {approvedDesignCopy} from './approved-design-copy.mjs';
 import {lessonClarityCopy} from './lesson-clarity-copy.mjs';
@@ -236,3 +237,5 @@ for(const locale of Object.keys(lessonClarityCopy))Object.assign(reviewedInterfa
 for(const locale of Object.keys(approvedDesignCopy))Object.assign(reviewedInterfaceCopy[locale],approvedDesignCopy[locale]);
 
 for(const locale of Object.keys(adventureCopy))Object.assign(reviewedInterfaceCopy[locale],adventureCopy[locale]);
+
+for(const locale of Object.keys(companionBondCopy))Object.assign(reviewedInterfaceCopy[locale],companionBondCopy[locale]);

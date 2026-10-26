@@ -1,0 +1,72 @@
+[
+  {
+    "file": "fox-head-happy.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "088fec8e0c71b4b338a2bf397308f7beb0384f5b2691e3d98876bf090199673b"
+  },
+  {
+    "file": "fox-body.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "24db05c9a865e5a398680e571c3dd278b7d281b49860a7c109451563e745feb2"
+  },
+  {
+    "file": "fox-tail.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "31ad2d3feaf5efeff1cb18039437d90c0048432d8af0dc69a64997de1647697a"
+  },
+  {
+    "file": "fox-arm-left.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "a286b7157689ce08dd4c378e058eb84884990b02603ad6fdf3f88dd6ca414ad0"
+  },
+  {
+    "file": "fox-arm-right.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "6d010a28a8f71175c90eefce2f36fd233955c74aa6c375ff0a3efe2723a5873c"
+  },
+  {
+    "file": "fox-head.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "0afa13a53782780c3f59ae1d3c8a32b699f8f19b7018c1732d17c39ca468a6d7"
+  },
+  {
+    "file": "bird-head.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "423df3f731b3325d10fa76633b21119611e719c175e56419eb4016e83b39fb09"
+  },
+  {
+    "file": "bird-body.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "39fb9fb7b016d462fedd76eef12dce81d51acc677dfa99772c2e5db36aeddc97"
+  },
+  {
+    "file": "bird-wing.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "186442e9014c0da89c84bbf86cbacac797fc2b98570533fb3ff8e7bf18d9a2d2"
+  },
+  {
+    "file": "bird-tail.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "93394c8aad0b9959c10628cb985172613e9c4ebb2bd8f89c15f0836cac67307f"
+  },
+  {
+    "file": "cat-head.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "6131f1c8c8eccf5608c11c5cad7789bc7295d793cc122c851aa6827e298f87a2"
+  },
+  {
+    "file": "cat-body.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "3f13d5e06408bd99266c1e6f9fec567000bf5c84a5b242d72282b8b0dfd24a04"
+  },
+  {
+    "file": "cat-tail.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "11eefa4a13362dbfe6e6ad06eb292d4c7064b502e218c4f91e0d1948b80ca1f4"
+  },
+  {
+    "file": "cat-head-happy.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "32e727e086cd9bd6b70e048c827def4d406cf08acbdc9cd9a4a1bde3685b6a69"
+  }
+]
