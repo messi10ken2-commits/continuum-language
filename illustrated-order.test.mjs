@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {journeyChapters,journeyLevels} from './journey-model.mjs';
+test('all language/level maps place summary chapter last and checkpoints last within chapters',()=>{for(const language of ['es','en','pt','ja'])for(const level of journeyLevels){const cs=journeyChapters(language,level);assert.ok(cs.at(-1).lessons.some(l=>l.summaryTest),language+level);for(const c of cs){let testSeen=false;for(const l of c.lessons){if(l.checkpoint||l.summaryTest)testSeen=true;else assert.equal(testSeen,false,c.id)}}}});
