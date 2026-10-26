@@ -1,0 +1,29 @@
+[
+  {
+    "kind": "cat",
+    "author": "Dan Crosby",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Meow.ogg",
+    "changes": "Excerpt, mono AAC conversion and loudness adjustment",
+    "file": "cat-call.m4a"
+  },
+  {
+    "kind": "bird",
+    "author": "mary905",
+    "license": "Public domain",
+    "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Budgerigar_chirping.ogg",
+    "changes": "Excerpt, mono AAC conversion and loudness adjustment",
+    "file": "bird-call.m4a"
+  },
+  {
+    "kind": "fox",
+    "author": "Aubrey John Williams / The British Library Board",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Red_Fox_(Vulpes_vulpes)_(W1CDR0001529_BD12).ogg",
+    "changes": "Excerpt, mono AAC conversion and loudness adjustment",
+    "file": "fox-call.m4a"
+  }
+]
