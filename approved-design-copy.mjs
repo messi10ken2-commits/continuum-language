@@ -1,5 +1,16 @@
 // Reviewed UI copy: target-language examples and private records are never translated here.
 const rows=[
+["Collected stamps", "獲得済みスタンプ", "Sellos conseguidos", "Selos conquistados", "已获得的印章", "Tampons obtenus"],
+["Your illustrated stamps", "旅のイラストスタンプ", "Tus sellos ilustrados", "Seus selos ilustrados", "你的插画印章", "Vos tampons illustrés"],
+["Every stamp here is earned. Tap one to see your achievement.", "ここに並ぶスタンプはすべて獲得済みです。タップすると達成内容を確認できます。", "Todos estos sellos ya son tuyos. Toca uno para ver tu logro.", "Todos estes selos já são seus. Toque em um para ver sua conquista.", "这里的印章均已获得。点击可查看成就详情。", "Tous ces tampons sont acquis. Touchez-en un pour découvrir votre réussite."],
+["Earned", "獲得済み", "Conseguido", "Conquistado", "已获得", "Obtenu"],
+["Earned on", "獲得日", "Fecha de obtención", "Data da conquista", "获得日期", "Obtenu le"],
+["View stamp", "スタンプを見る", "Ver sello", "Ver selo", "查看印章", "Voir le tampon"],
+["View stamp: {0}", "スタンプを見る：{0}", "Ver sello: {0}", "Ver selo: {0}", "查看印章：{0}", "Voir le tampon : {0}"],
+["Close stamp", "スタンプを閉じる", "Cerrar sello", "Fechar selo", "关闭印章", "Fermer le tampon"],
+["Completed every activity in this chapter.", "この章のすべてのレッスンに合格しました。", "Has superado todas las actividades de este capítulo.", "Você concluiu com aprovação todas as atividades deste capítulo.", "你已通过本章的全部学习活动。", "Vous avez réussi toutes les activités de ce chapitre."],
+["Returned to a lesson after an earlier difficulty.", "以前苦手だったレッスンに再挑戦しました。", "Has vuelto a una lección que antes te resultó difícil.", "Você voltou a uma lição que antes foi difícil.", "你重新挑战了之前遇到困难的课程。", "Vous avez repris une leçon qui vous avait posé des difficultés."],
+["Studied for at least one minute on three different days.", "異なる3日間に、それぞれ1分以上学習しました。", "Has estudiado al menos un minuto en tres días diferentes.", "Você estudou por pelo menos um minuto em três dias diferentes.", "你在三个不同的日子里各学习了至少一分钟。", "Vous avez étudié au moins une minute lors de trois journées différentes."],
 ["Could not load your learning record.", "学習記録を読み込めませんでした。", "No se pudo cargar tu registro de aprendizaje.", "Não foi possível carregar seu histórico de aprendizagem.", "无法加载你的学习记录。", "Impossible de charger votre historique d’apprentissage."],
 ["Upcoming", "今後の授業", "Próximas clases", "Próximas aulas", "即将开始", "À venir"],
 ["Past classes", "過去の授業", "Clases anteriores", "Aulas anteriores", "以往课程", "Cours passés"],

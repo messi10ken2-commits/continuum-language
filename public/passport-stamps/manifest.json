@@ -1,0 +1,1546 @@
+{
+  "es:chapter:a1-hello": {
+    "src": "/passport-stamps/es-891a4ef4535c64.svg",
+    "title": "Meet your world",
+    "level": "A1",
+    "theme": "world",
+    "source": "/illustrated-lessons/es-city.webp",
+    "sha256": "bfd2a76d5282199a063c9f3a6f59233aa36bd97c37edee04e24d28e2b2cf2ade"
+  },
+  "es:chapter:a1-day": {
+    "src": "/passport-stamps/es-9446f8b7f10506.svg",
+    "title": "Your everyday Spanish",
+    "level": "A1",
+    "theme": "daily",
+    "source": "/illustrated-lessons/es-home.webp",
+    "sha256": "c7ac0fc2be2d8a97075fe67b57941d97b042033233d89f19e34bf1073c66d806"
+  },
+  "es:chapter:a2-stories": {
+    "src": "/passport-stamps/es-f0a38861664859.svg",
+    "title": "Stories & plans",
+    "level": "A2",
+    "theme": "stories",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "00424be27f12234f19a268213dc54d18b9c9ee4beb76a4fee07517c88c1d04f0"
+  },
+  "es:chapter:a2-sound": {
+    "src": "/passport-stamps/es-d6af5072f663ca.svg",
+    "title": "Listen, stress, connect",
+    "level": "A2",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "0f5b4f2f2d976d804e28de8764de3cd5eb359504359f909de3242fc954e01e53"
+  },
+  "es:chapter:b1-choice": {
+    "src": "/passport-stamps/es-2c2ad6d71a3228.svg",
+    "title": "Purpose & uncertainty",
+    "level": "B1",
+    "theme": "purpose",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "21f750d158274f87f32626f2b346f769fba55ff905f259ba66fcac630ff61c10"
+  },
+  "es:chapter:b1-express": {
+    "src": "/passport-stamps/es-b60e51f0d7a5b3.svg",
+    "title": "Make your point",
+    "level": "B1",
+    "theme": "point",
+    "source": "/illustrated-lessons/es-cafe.webp",
+    "sha256": "c12c0607b009c686ba0240d76188337bcdf498bab853aa0438f720b0d43fa520"
+  },
+  "es:chapter:b2-travel": {
+    "src": "/passport-stamps/es-05888bfd9eb7bb.svg",
+    "title": "Listen beyond the textbook",
+    "level": "B2",
+    "theme": "listening",
+    "source": "/illustrated-lessons/es-travel.webp",
+    "sha256": "c3b934db79972af80aa900d0c4897520d799e8c42d7cff6c37bf0b4862d72618"
+  },
+  "es:chapter:b2-ideas": {
+    "src": "/passport-stamps/es-a52eaf4440c893.svg",
+    "title": "Possibility & argument",
+    "level": "B2",
+    "theme": "possibility",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "1f78ac3aab3aabc8a1367a6961c751c1c7b6caacea2de84ef28c5219ee31ff16"
+  },
+  "es:chapter:c1-register": {
+    "src": "/passport-stamps/es-32d8b4efe40635.svg",
+    "title": "Choose your voice",
+    "level": "C1",
+    "theme": "voice",
+    "source": "/illustrated-lessons/es-culture.webp",
+    "sha256": "941ba043d6d8259093e970e801a5c6a267fae21cc9cb2dc867386cd849a2f73a"
+  },
+  "es:chapter:c1-precision": {
+    "src": "/passport-stamps/es-41b705ee505d19.svg",
+    "title": "Build a precise argument",
+    "level": "C1",
+    "theme": "precision",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "f87a76981c7347bf5201cb04658b07a71cd3ecd406d3063e2a92f735d4bc8a6e"
+  },
+  "es:chapter:a1-verb-lab": {
+    "src": "/passport-stamps/es-b6e469fcc6ece6.svg",
+    "title": "Grammar lab · Present tense",
+    "level": "A1",
+    "theme": "present",
+    "source": "/illustrated-lessons/es-home.webp",
+    "sha256": "16510ab7ea4d4e8f17ddcc911089ad8095349ab99a9e5deeb93bc9ee275a6720"
+  },
+  "es:chapter:a2-past-lab": {
+    "src": "/passport-stamps/es-d642a31298ca96.svg",
+    "title": "Grammar lab · Two views of the past",
+    "level": "A2",
+    "theme": "past",
+    "source": "/illustrated-lessons/es-culture.webp",
+    "sha256": "5785286ed218c9dd89a9655ba45c9ff10b850ceddc54f909a8ee76312f5048bd"
+  },
+  "es:chapter:b1-perfect-lab": {
+    "src": "/passport-stamps/es-18101ec2c39645.svg",
+    "title": "Grammar lab · Perfect tenses",
+    "level": "B1",
+    "theme": "perfect",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "e688a3eac602b41ab896e05fed33af220369037124e8d023b89c25215a13b42f"
+  },
+  "es:chapter:b1-future-lab": {
+    "src": "/passport-stamps/es-5f75de42d17ea3.svg",
+    "title": "Grammar lab · Future and conditional",
+    "level": "B1",
+    "theme": "future",
+    "source": "/illustrated-lessons/es-travel.webp",
+    "sha256": "801ec90875e77858dfe1a5caa5c89e23252a74239b4c23b721644f747f1e7d7c"
+  },
+  "es:chapter:b2-mood-lab": {
+    "src": "/passport-stamps/es-1c087cfd295066.svg",
+    "title": "Grammar lab · Subjunctive forms",
+    "level": "B2",
+    "theme": "mood",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "7afde428646c8eb62cb366cf0eee520c3421c859110a762ab91e9ba0a89e3136"
+  },
+  "es:chapter:c1-perfect-mood": {
+    "src": "/passport-stamps/es-def6bca8c66f47.svg",
+    "title": "Grammar lab · Perfect subjunctive",
+    "level": "C1",
+    "theme": "inference",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "6d80d0b1155fcd6f9884f5ab3f9c315f92227e3182075763b63ae1684249f842"
+  },
+  "es:chapter:a1-word-lab": {
+    "src": "/passport-stamps/es-a793c1b5aefc48.svg",
+    "title": "Vocabulary lab · Everyday essentials",
+    "level": "A1",
+    "theme": "words",
+    "source": "/illustrated-lessons/es-market.webp",
+    "sha256": "573dc1c42b0637b76fe8db52a49a8d4054a60826726510f363d433a88b55e56a"
+  },
+  "es:chapter:a2-word-lab": {
+    "src": "/passport-stamps/es-a44a6d093b8a6d.svg",
+    "title": "Vocabulary lab · Travel and work",
+    "level": "A2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/es-travel.webp",
+    "sha256": "4eaf756683c632244f0a82c9c8a8550bb6c37c3e515262937cab4751ff4b6122"
+  },
+  "es:chapter:a1-expressions-social": {
+    "src": "/passport-stamps/es-99bf5cac3e2f2f.svg",
+    "title": "Expression lab · Small conversations",
+    "level": "A1",
+    "theme": "social",
+    "source": "/illustrated-lessons/es-cafe.webp",
+    "sha256": "b71eef92b1b54271b7e22720bb9857c2b3ad14de9d8d06d28e93e5272e614def"
+  },
+  "es:chapter:a1-expressions-daily": {
+    "src": "/passport-stamps/es-e7a300167e3820.svg",
+    "title": "Expression lab · Everyday combinations",
+    "level": "A1",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/es-food.webp",
+    "sha256": "115540f5eb3d4fcc9b323971961747a325f9c12b20d20c3ac79c6516ceeeddb0"
+  },
+  "es:chapter:a2-expressions-plans": {
+    "src": "/passport-stamps/es-b3990982470115.svg",
+    "title": "Expression lab · Plans and practical requests",
+    "level": "A2",
+    "theme": "plans",
+    "source": "/illustrated-lessons/es-work.webp",
+    "sha256": "6d30f25e539187a9a99f76e2bab125b625796b898498b0c71cdadddf95188cb4"
+  },
+  "es:chapter:a2-expressions-stories": {
+    "src": "/passport-stamps/es-ea94e3aa23f1b4.svg",
+    "title": "Expression lab · Everyday stories",
+    "level": "A2",
+    "theme": "everydaystories",
+    "source": "/illustrated-lessons/es-home.webp",
+    "sha256": "22a36439c2dd1f2f8c2a07d9c80f9e868663474bbf7a4bbee152532e21bf01df"
+  },
+  "es:chapter:b1-expressions-conversation": {
+    "src": "/passport-stamps/es-e640fba1114a59.svg",
+    "title": "Expression lab · Keep the conversation moving",
+    "level": "B1",
+    "theme": "conversation",
+    "source": "/illustrated-lessons/es-cafe.webp",
+    "sha256": "0e37b8c5ed0521063895308a4cf13401b38ae8288d2ac1460b4063832e7fcd31"
+  },
+  "es:chapter:b1-expressions-idioms": {
+    "src": "/passport-stamps/es-06f86c2211f3b7.svg",
+    "title": "Expression lab · Beyond literal meaning",
+    "level": "B1",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/es-culture.webp",
+    "sha256": "946dbecf650b2944c821c8cbd049d817f522a24dc259ae3588673a828db4f2d9"
+  },
+  "es:chapter:b2-expressions-decisions": {
+    "src": "/passport-stamps/es-ec78671e1bfcef.svg",
+    "title": "Expression lab · Decisions and collaboration",
+    "level": "B2",
+    "theme": "decisions",
+    "source": "/illustrated-lessons/es-work.webp",
+    "sha256": "35429719d9470996c892247e65e22c5b7f86ee9f02be93d7fd1d4d0a4aa0c130"
+  },
+  "es:chapter:b2-expressions-idioms": {
+    "src": "/passport-stamps/es-978eedfa218a5c.svg",
+    "title": "Expression lab · Idioms in real situations",
+    "level": "B2",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/es-culture.webp",
+    "sha256": "61bcf35f004ab8e4a68accde9029ba9bd106e0b11c1ca30d37db5a89650ebff8"
+  },
+  "es:chapter:c1-expressions-argument": {
+    "src": "/passport-stamps/es-03d0703c6d72a5.svg",
+    "title": "Expression lab · Precise arguments",
+    "level": "C1",
+    "theme": "precision",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "7c17ceecd50000c212b235168fd6bd30c0c5b2012cc9873a006e79540bfd4128"
+  },
+  "es:chapter:c1-expressions-nuance": {
+    "src": "/passport-stamps/es-54ecef1958d006.svg",
+    "title": "Expression lab · Subtext and register",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/es-culture.webp",
+    "sha256": "a45af7b060f6d4fa2cc2bf47e0d7292f912a4605b421e3ec222be71e61a8e482"
+  },
+  "es:chapter:a1-summary-test": {
+    "src": "/passport-stamps/es-2cf47a54d1e30a.svg",
+    "title": "A1 summary test",
+    "level": "A1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "c20d7b596d96e6f75fd4a0ac5af5b4534eb685ca180d6137f64a44fd3e2c77d1"
+  },
+  "es:chapter:a2-summary-test": {
+    "src": "/passport-stamps/es-d6399d186181cf.svg",
+    "title": "A2 summary test",
+    "level": "A2",
+    "theme": "summary",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "936462f23e208df0a307ec7278d4576fd6f81e32e8e8efc2310ba52930fa5644"
+  },
+  "es:chapter:b1-summary-test": {
+    "src": "/passport-stamps/es-48ae3951466ebb.svg",
+    "title": "B1 summary test",
+    "level": "B1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "5d2c223d30f50f4a74791cc1ad932010e301020a7a3745cd30acef09673734d2"
+  },
+  "es:chapter:b2-summary-test": {
+    "src": "/passport-stamps/es-3d1d86861f17e8.svg",
+    "title": "B2 summary test",
+    "level": "B2",
+    "theme": "summary",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "24b3b19a06056dae1103016098b4de3c1bc725d3b1bc37a83acca2b2157aca7d"
+  },
+  "es:chapter:c1-summary-test": {
+    "src": "/passport-stamps/es-1734d7f25a8948.svg",
+    "title": "C1 summary test",
+    "level": "C1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "057f280b647b6ca6c991b876fc812db6841380b1f234e8c2f1d4333ad040347b"
+  },
+  "es:chapter:es-sound-v1-0": {
+    "src": "/passport-stamps/es-1b756caaa1ef5a.svg",
+    "title": "Pronunciation: build clear sounds",
+    "level": "A1",
+    "theme": "sound",
+    "source": "/illustrated-lessons/es-station.webp",
+    "sha256": "e871fd8c8db12dede0723ff004e5782d5256b5149c53bb5759e1fc2eaec9d092"
+  },
+  "es:chapter:es-sound-v1-1": {
+    "src": "/passport-stamps/es-35aa3169d72ff0.svg",
+    "title": "Pronunciation: rhythm & phrases",
+    "level": "A2",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "486185172a4472a14f7ad520f6a5e500c969f2ec4e32e3d7cc9b9a4826451b86"
+  },
+  "es:chapter:es-visual-v1-cafe-chapter": {
+    "src": "/passport-stamps/es-103eea746e2921.svg",
+    "title": "A café order, step by step",
+    "level": "A1",
+    "theme": "cafe",
+    "source": "/illustrated-lessons/es-cafe.webp",
+    "sha256": "15030bd6e085a02a1f8cdd886222b924e5f9bb0efeb3ce1c3f0335798e6072b2"
+  },
+  "es:chapter:es-visual-v1-station-chapter": {
+    "src": "/passport-stamps/es-2add95dd5e66f1.svg",
+    "title": "A change of platform",
+    "level": "A2",
+    "theme": "station",
+    "source": "/illustrated-lessons/es-station.webp",
+    "sha256": "9a89d6c2fe39ea5ceedf328967b8719e5b40885c836dd7bd6019346c4be30030"
+  },
+  "es:chapter:es-visual-v1-meeting-chapter": {
+    "src": "/passport-stamps/es-d14afe52b555a2.svg",
+    "title": "Renegotiate a deadline",
+    "level": "B1",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/es-work.webp",
+    "sha256": "45e03b66a8a6769604f654868ed25d1a10e8b9f5dae11c552067aee1193e4b2a"
+  },
+  "es:chapter:es-visual-v1-city-chapter": {
+    "src": "/passport-stamps/es-59abff10d006db.svg",
+    "title": "A neighbourhood proposal",
+    "level": "B2",
+    "theme": "city",
+    "source": "/illustrated-lessons/es-city.webp",
+    "sha256": "003f284b2cae06a1de575f8d0b018c38a041046826a8c72d32780ad131af4840"
+  },
+  "es:chapter:es-visual-v1-evidence-chapter": {
+    "src": "/passport-stamps/es-f2175e63b2670f.svg",
+    "title": "Read a claim critically",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "3f0ecb81b4bf1b4895c1e6f88531c59992ef13829410c92bbf3b236c5d52df9d"
+  },
+  "es:chapter:es-conversation-v1-introductions-chapter": {
+    "src": "/passport-stamps/es-6ec25587ead646.svg",
+    "title": "Introduce yourself in Spanish",
+    "level": "A1",
+    "theme": "greeting",
+    "source": "/illustrated-lessons/es-city.webp",
+    "sha256": "d2f57b492f0f3c394b6ba1c72071d8fffd663a7fb2edb33c7279c5f121f79819"
+  },
+  "es:chapter:es-conversation-v2-a2-morning-chapter": {
+    "src": "/passport-stamps/es-a817c2d252302d.svg",
+    "title": "Follow a morning routine",
+    "level": "A2",
+    "theme": "morning",
+    "source": "/illustrated-lessons/es-home.webp",
+    "sha256": "e194dc9341be06eb6b42e17bd9ed8cc1aa80b798589ab31304655fd62bd7dca6"
+  },
+  "es:chapter:es-conversation-v2-b1-compliments-chapter": {
+    "src": "/passport-stamps/es-58aa8eccf38821.svg",
+    "title": "Respond to a compliment",
+    "level": "B1",
+    "theme": "compliment",
+    "source": "/illustrated-lessons/es-culture.webp",
+    "sha256": "fd9435b7af7b52695015315cb42fa0113286c64716b63f76c9c79a5c71417df6"
+  },
+  "es:chapter:es-conversation-v2-b2-technology-chapter": {
+    "src": "/passport-stamps/es-266e17c7ec9e85.svg",
+    "title": "Discuss how technology may change us",
+    "level": "B2",
+    "theme": "technology",
+    "source": "/illustrated-lessons/es-work.webp",
+    "sha256": "19dcba3830693c9fc56bdb0cab15983f307055c6b5b4ea5178c684eb7ac08497"
+  },
+  "es:chapter:es-conversation-v2-c1-travel-motives-chapter": {
+    "src": "/passport-stamps/es-0729a202c80a6d.svg",
+    "title": "Explore the motives behind travel",
+    "level": "C1",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/es-travel.webp",
+    "sha256": "25656a056a47d623f11f2dd91346a7aaaf85a8f07fc8c8ec0b0448f7c9747311"
+  },
+  "es:return": {
+    "src": "/passport-stamps/es-f8006771bcd6a0.svg",
+    "title": "A brave return",
+    "level": "",
+    "theme": "return",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "39b2b60485246a0c1a9ebf76bba96879fcc0aab90ee1d735098be9c8d33f4120"
+  },
+  "es:rhythm": {
+    "src": "/passport-stamps/es-7b8c265608bdef.svg",
+    "title": "Three learning days",
+    "level": "",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "c20c6a74be0da0e40f49237f2f1baf632550fd349570b4703ef82a3c486692a2"
+  },
+  "en:chapter:en-a1-v2-chapter-1": {
+    "src": "/passport-stamps/en-5a9e5453a5863c.svg",
+    "title": "Meet your world",
+    "level": "A1",
+    "theme": "world",
+    "source": "/illustrated-lessons/en-city.webp",
+    "sha256": "d1cbebc483a15d08c5d24d6de507dbaeb1645156da9390212a6a0280b355d877"
+  },
+  "en:chapter:en-a1-v2-chapter-2": {
+    "src": "/passport-stamps/en-c4e13b433172e3.svg",
+    "title": "Your everyday English",
+    "level": "A1",
+    "theme": "daily",
+    "source": "/illustrated-lessons/en-home.webp",
+    "sha256": "47d99c23559eb4fd30ed71a2de01b77f29083907af4b8912c62ab6b82c533c92"
+  },
+  "en:chapter:en-a1-v2-chapter-3": {
+    "src": "/passport-stamps/en-3a128c41619180.svg",
+    "title": "Grammar lab · Present tense",
+    "level": "A1",
+    "theme": "present",
+    "source": "/illustrated-lessons/en-home.webp",
+    "sha256": "9f9f34abdb8e42d6a3fc2e025bc1547613e8ef45e7fd306a4f0886270dc6c28a"
+  },
+  "en:chapter:en-a1-v2-chapter-4": {
+    "src": "/passport-stamps/en-116e49ac25f598.svg",
+    "title": "Vocabulary lab · Everyday essentials",
+    "level": "A1",
+    "theme": "words",
+    "source": "/illustrated-lessons/en-market.webp",
+    "sha256": "fbfc0691c88e4372b780be332d14085eb67494862a25d9aa6233af8d4766e251"
+  },
+  "en:chapter:en-a1-v2-chapter-5": {
+    "src": "/passport-stamps/en-6058e8aeb7a933.svg",
+    "title": "Expression lab · Small conversations",
+    "level": "A1",
+    "theme": "social",
+    "source": "/illustrated-lessons/en-cafe.webp",
+    "sha256": "74418de425c13ba1395226eba5d51601ca1fc392686c08d28b0236e15fd0ea37"
+  },
+  "en:chapter:en-a1-v2-chapter-6": {
+    "src": "/passport-stamps/en-d64d95ef5c45df.svg",
+    "title": "Expression lab · Everyday combinations",
+    "level": "A1",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/en-food.webp",
+    "sha256": "8b2bb73bd385a3a591aaf439648408e70ea4ed0a64b9a4813382420cd1634a92"
+  },
+  "en:chapter:en-a1-v2-summary-test": {
+    "src": "/passport-stamps/en-756a1da78a53a6.svg",
+    "title": "A1 summary test",
+    "level": "A1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "a9a54205c382af7750ba011084d22eafc883d46de29bc75a90166f2f879708a6"
+  },
+  "en:chapter:en-a2-v2-chapter-1": {
+    "src": "/passport-stamps/en-b83006defd3ab7.svg",
+    "title": "Stories & plans",
+    "level": "A2",
+    "theme": "stories",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "aa664b9fae98c99cfdea3b9b641da16a9f607897569d5fb005b162f6f473aecf"
+  },
+  "en:chapter:en-a2-v2-chapter-2": {
+    "src": "/passport-stamps/en-7d305b8b39ce3f.svg",
+    "title": "Listen, stress, connect",
+    "level": "A2",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/en-nature.webp",
+    "sha256": "e910960a9f01a93f8b89b2ba50a0d50ba04d11efc86d3417b5183ccc2e7071b1"
+  },
+  "en:chapter:en-a2-v2-chapter-3": {
+    "src": "/passport-stamps/en-d732c8c65d1701.svg",
+    "title": "Grammar lab · Two views of the past",
+    "level": "A2",
+    "theme": "past",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "7b5468b721da561d4b35fac44f6846a0aaab5dade2ff48ff3cac0ff3986cf413"
+  },
+  "en:chapter:en-a2-v2-chapter-4": {
+    "src": "/passport-stamps/en-9fa3e730fcec33.svg",
+    "title": "Vocabulary lab · Travel and work",
+    "level": "A2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/en-travel.webp",
+    "sha256": "f354dea9c486432baade1b2f20074ee4ff71f3533e9f9a4b87643d2f067fb335"
+  },
+  "en:chapter:en-a2-v2-chapter-5": {
+    "src": "/passport-stamps/en-3dafd9e22ab500.svg",
+    "title": "Expression lab · Plans and practical requests",
+    "level": "A2",
+    "theme": "plans",
+    "source": "/illustrated-lessons/en-work.webp",
+    "sha256": "bee06ad614def9663547e453e971347e4324946c81b30bf56e79cef985df04c8"
+  },
+  "en:chapter:en-a2-v2-chapter-6": {
+    "src": "/passport-stamps/en-7b802adc3ca9fe.svg",
+    "title": "Expression lab · Everyday stories",
+    "level": "A2",
+    "theme": "everydaystories",
+    "source": "/illustrated-lessons/en-home.webp",
+    "sha256": "1156a65b2053ef1ac67c05c7a2ca95010e9e4f5b6cbae43668ef058e16ce2b9d"
+  },
+  "en:chapter:en-a2-v2-summary-test": {
+    "src": "/passport-stamps/en-fd40c8dcf331ad.svg",
+    "title": "A2 summary test",
+    "level": "A2",
+    "theme": "summary",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "e086379a34ec947aada80fa39e392df1b6aa5395d1d0f434cb9b0d6198700730"
+  },
+  "en:chapter:en-b1-v2-chapter-1": {
+    "src": "/passport-stamps/en-1dea0686be14eb.svg",
+    "title": "Purpose & uncertainty",
+    "level": "B1",
+    "theme": "purpose",
+    "source": "/illustrated-lessons/en-nature.webp",
+    "sha256": "f36e50d2b887c3a4486dd57c5c1e5c588bc41bfdc79fdd8626870003f6a72eb3"
+  },
+  "en:chapter:en-b1-v2-chapter-2": {
+    "src": "/passport-stamps/en-de00377376df82.svg",
+    "title": "Make your point",
+    "level": "B1",
+    "theme": "point",
+    "source": "/illustrated-lessons/en-cafe.webp",
+    "sha256": "9306a5308df6188def0c244d98a6fdf5511a9f5ebfb52407cb168acef696d368"
+  },
+  "en:chapter:en-b1-v2-chapter-3": {
+    "src": "/passport-stamps/en-a4c827123384f4.svg",
+    "title": "Grammar lab · Perfect tenses",
+    "level": "B1",
+    "theme": "perfect",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "8b6f26eb73d45f355450fb6ce5030f58fceffbefac9d598e37c362e1530777b0"
+  },
+  "en:chapter:en-b1-v2-chapter-4": {
+    "src": "/passport-stamps/en-995844b6a549ec.svg",
+    "title": "Grammar lab · Future and conditional",
+    "level": "B1",
+    "theme": "future",
+    "source": "/illustrated-lessons/en-travel.webp",
+    "sha256": "35be9a06c4dfab9e8e279fd1757fc422100ca83ae101f5251be8c238d2e6d520"
+  },
+  "en:chapter:en-b1-v2-chapter-5": {
+    "src": "/passport-stamps/en-e35812aeb0f34c.svg",
+    "title": "Expression lab · Keep the conversation moving",
+    "level": "B1",
+    "theme": "conversation",
+    "source": "/illustrated-lessons/en-cafe.webp",
+    "sha256": "d11f1a31ef887c47a293ba4a62eb2218877d477d7c7c30d4a42c448308eca3a7"
+  },
+  "en:chapter:en-b1-v2-chapter-6": {
+    "src": "/passport-stamps/en-b7a4f540706888.svg",
+    "title": "Expression lab · Beyond literal meaning",
+    "level": "B1",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "a15264d5043870db5134bddc1553306dc35d0eb906bf23a7e80d8a5da8918885"
+  },
+  "en:chapter:en-b1-v2-summary-test": {
+    "src": "/passport-stamps/en-e2f695935b5242.svg",
+    "title": "B1 summary test",
+    "level": "B1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "7318e748f8d306cbd6fd8961a934c4e32bf89119afb17b848bda026ea9325d48"
+  },
+  "en:chapter:en-b2-v2-chapter-1": {
+    "src": "/passport-stamps/en-bc7b3054367e5b.svg",
+    "title": "Listen beyond the textbook",
+    "level": "B2",
+    "theme": "listening",
+    "source": "/illustrated-lessons/en-travel.webp",
+    "sha256": "c4e42f971a823d326a5d2729a2a966421674f0517be920168ff5e0fb2dc0dbf7"
+  },
+  "en:chapter:en-b2-v2-chapter-2": {
+    "src": "/passport-stamps/en-53174310151795.svg",
+    "title": "Possibility & argument",
+    "level": "B2",
+    "theme": "possibility",
+    "source": "/illustrated-lessons/en-nature.webp",
+    "sha256": "a0c5b89721690ad0a72f5ac837070fd8d3465752f6129b1d6f83e282574a473d"
+  },
+  "en:chapter:en-b2-v2-chapter-3": {
+    "src": "/passport-stamps/en-6cee200a0b0deb.svg",
+    "title": "Grammar lab · Perfect aspect and counterfactuals",
+    "level": "B2",
+    "theme": "inference",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "89869eb66f87ac3352838f460580209de6583f7ff34a255e15dc4abed849c41f"
+  },
+  "en:chapter:en-b2-v2-chapter-4": {
+    "src": "/passport-stamps/en-ea481f0160669b.svg",
+    "title": "Expression lab · Decisions and collaboration",
+    "level": "B2",
+    "theme": "decisions",
+    "source": "/illustrated-lessons/en-work.webp",
+    "sha256": "7f3616135f9776b72f7698abdf1be53d364d7edcc60f22cd6fda69682ed89821"
+  },
+  "en:chapter:en-b2-v2-chapter-5": {
+    "src": "/passport-stamps/en-c6cbb5ebd6a636.svg",
+    "title": "Expression lab · Idioms in real situations",
+    "level": "B2",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "767e813c71b03eb1b2a8535ae3cdf0cf159bba2bc3a691f40aa71ba32c800e13"
+  },
+  "en:chapter:en-b2-v2-summary-test": {
+    "src": "/passport-stamps/en-e3939408e6b850.svg",
+    "title": "B2 summary test",
+    "level": "B2",
+    "theme": "summary",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "a1855ad03a588a3b405efe9d37e4cdb1961ab31c686716d959d31cea9b54e024"
+  },
+  "en:chapter:en-c1-v2-chapter-1": {
+    "src": "/passport-stamps/en-374afea5d9f2ce.svg",
+    "title": "Choose your voice",
+    "level": "C1",
+    "theme": "voice",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "b9b550c172b7e5b03e748a9cb7415c1bd73d47985e38ca2015e1a897001602ff"
+  },
+  "en:chapter:en-c1-v2-chapter-2": {
+    "src": "/passport-stamps/en-91e07e2d348167.svg",
+    "title": "Build a precise argument",
+    "level": "C1",
+    "theme": "precision",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "fac21c15013a5b685c8a2d8ea25ba21388baad29a4de0a073c45efbafd144335"
+  },
+  "en:chapter:en-c1-v2-chapter-3": {
+    "src": "/passport-stamps/en-389b9afeb2ccd8.svg",
+    "title": "Grammar lab · Past inference and regret",
+    "level": "C1",
+    "theme": "inference",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "0568efd1a01aad1668a9223766a3ae967563f0783c00564899b978b8b688acc8"
+  },
+  "en:chapter:en-c1-v2-chapter-4": {
+    "src": "/passport-stamps/en-d73605f2f09b23.svg",
+    "title": "Expression lab · Precise arguments",
+    "level": "C1",
+    "theme": "precision",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "af48b5f285d001578f44f1abbd113f58e4a922227e6838819e4b5df930208f5a"
+  },
+  "en:chapter:en-c1-v2-chapter-5": {
+    "src": "/passport-stamps/en-067847c9e2d5c9.svg",
+    "title": "Expression lab · Subtext and register",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "fcf1d77c1777253d667be8343f29f44d8348612eea17073c581a39285fd3bb0c"
+  },
+  "en:chapter:en-c1-v2-summary-test": {
+    "src": "/passport-stamps/en-94418227346f47.svg",
+    "title": "C1 summary test",
+    "level": "C1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "90ce8b6723ba198a7f185196c0ddcadf54a3c19f9d1f27d3940e5407ce2db55d"
+  },
+  "en:chapter:en-sound-v1-0": {
+    "src": "/passport-stamps/en-0eda0b37669278.svg",
+    "title": "Pronunciation: build clear sounds",
+    "level": "A1",
+    "theme": "sound",
+    "source": "/illustrated-lessons/en-station.webp",
+    "sha256": "dbf49e8da90d15e68098e1b8da04604513717cb5407a4b32bf4011a3a370d8e3"
+  },
+  "en:chapter:en-sound-v1-1": {
+    "src": "/passport-stamps/en-4888cbbb7d73ed.svg",
+    "title": "Pronunciation: rhythm & phrases",
+    "level": "A2",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/en-nature.webp",
+    "sha256": "8af24b402f3583c680a774a4710d10866f4a8cce6bff9d9afb447550731c17de"
+  },
+  "en:chapter:en-visual-v1-cafe-chapter": {
+    "src": "/passport-stamps/en-0a2bc22320f7a1.svg",
+    "title": "A café order, step by step",
+    "level": "A1",
+    "theme": "cafe",
+    "source": "/illustrated-lessons/en-cafe.webp",
+    "sha256": "46c2cca325e3c07dd22393ac85792b310ed2da1bb281cdf90f4ebb9f406b86f9"
+  },
+  "en:chapter:en-visual-v1-station-chapter": {
+    "src": "/passport-stamps/en-7da999e1dfc28d.svg",
+    "title": "A change of platform",
+    "level": "A2",
+    "theme": "station",
+    "source": "/illustrated-lessons/en-station.webp",
+    "sha256": "01b87b875589e714f46f6b56db29626fe2695ac48680b6a49d3f26290a8f1af6"
+  },
+  "en:chapter:en-visual-v1-meeting-chapter": {
+    "src": "/passport-stamps/en-3db1149f647aae.svg",
+    "title": "Renegotiate a deadline",
+    "level": "B1",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/en-work.webp",
+    "sha256": "c98ffaaa0c3e861c022f25e12c5a7fbf340ef1a188cf7aaded5103df86862964"
+  },
+  "en:chapter:en-visual-v1-city-chapter": {
+    "src": "/passport-stamps/en-14ab50c1fbe3ab.svg",
+    "title": "A neighbourhood proposal",
+    "level": "B2",
+    "theme": "city",
+    "source": "/illustrated-lessons/en-city.webp",
+    "sha256": "44dd3994a7d8c40310145115b626abaf1a1d548a07838e3fcd4f3c9309cc740e"
+  },
+  "en:chapter:en-visual-v1-evidence-chapter": {
+    "src": "/passport-stamps/en-68764c0e779f4b.svg",
+    "title": "Read a claim critically",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "e4dd1d3d5c35255bfe7f11575a21e5bf53c3960070fc63fa65a1fe6e8d83406b"
+  },
+  "en:chapter:en-conversation-v1-welcome-chapter": {
+    "src": "/passport-stamps/en-30c7591ca82134.svg",
+    "title": "Meet a new neighbour",
+    "level": "A1",
+    "theme": "greeting",
+    "source": "/illustrated-lessons/en-city.webp",
+    "sha256": "788e2e648e0276a2bbe6d732f1223e5d7e4ee3ea0a36db6be23ca0b7f529691d"
+  },
+  "en:chapter:en-conversation-v1-neighbours-chapter": {
+    "src": "/passport-stamps/en-38193d029a1789.svg",
+    "title": "Meet the people in your building",
+    "level": "A1",
+    "theme": "greeting",
+    "source": "/illustrated-lessons/en-city.webp",
+    "sha256": "7a9caa1d061327c6c84676e443c6644e36d31a96279f7c91ca46b14e3ccc8333"
+  },
+  "en:chapter:en-conversation-v2-a2-daily-routine-chapter": {
+    "src": "/passport-stamps/en-8c447bf0cbb0fb.svg",
+    "title": "Talk through your daily routine",
+    "level": "A2",
+    "theme": "morning",
+    "source": "/illustrated-lessons/en-home.webp",
+    "sha256": "c4a2dff4b2ee51b7c76894a78e02d637809973284345bf82e46ceadc560c0a33"
+  },
+  "en:chapter:en-conversation-v2-b1-complaints-chapter": {
+    "src": "/passport-stamps/en-fd13d2bc480b67.svg",
+    "title": "Make a complaint politely",
+    "level": "B1",
+    "theme": "point",
+    "source": "/illustrated-lessons/en-cafe.webp",
+    "sha256": "b4fb31537ac254d6e77f8d0c9c2da6d1092839280670801481e8e62d71089ed6"
+  },
+  "en:chapter:en-conversation-v2-b2-conversation-skills-chapter": {
+    "src": "/passport-stamps/en-6e1ef5991160e2.svg",
+    "title": "Explore the art of conversation",
+    "level": "B2",
+    "theme": "rhetoric",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "93501d7d9ab30ee1d76f174f5c504c9defde9b92d4616fe36cef66cf4222e5cf"
+  },
+  "en:chapter:en-conversation-v2-c1-rhetoric-chapter": {
+    "src": "/passport-stamps/en-de2b17ba365fb3.svg",
+    "title": "Analyse persuasive advice about conversation",
+    "level": "C1",
+    "theme": "rhetoric",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "f5cd04b1ef37920e53da0dfd4952e18093019b980a7727b7bbce4182522c5569"
+  },
+  "en:return": {
+    "src": "/passport-stamps/en-703e5b58f3da20.svg",
+    "title": "A brave return",
+    "level": "",
+    "theme": "return",
+    "source": "/illustrated-lessons/en-nature.webp",
+    "sha256": "e5c7a1e2f98d6007668e3daa03724a720c259b9670dcf7bce317c2e030d3b5e1"
+  },
+  "en:rhythm": {
+    "src": "/passport-stamps/en-6b445e98f047f0.svg",
+    "title": "Three learning days",
+    "level": "",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/en-nature.webp",
+    "sha256": "20d3cfc61f707afdc5b498ede25d28ae7c6ee00a7dc2da6abd91bce33aecc237"
+  },
+  "pt:chapter:pt-a1-v2-chapter-1": {
+    "src": "/passport-stamps/pt-46128f1d7888be.svg",
+    "title": "Meet your world",
+    "level": "A1",
+    "theme": "world",
+    "source": "/illustrated-lessons/pt-city.webp",
+    "sha256": "b441618e19090fa2bdaf1bed3637b0e01d13c56334c22641650bf192e970c005"
+  },
+  "pt:chapter:pt-a1-v2-chapter-2": {
+    "src": "/passport-stamps/pt-0159851c0a3931.svg",
+    "title": "Your everyday Portuguese",
+    "level": "A1",
+    "theme": "daily",
+    "source": "/illustrated-lessons/pt-home.webp",
+    "sha256": "61c5afb9690beb101f324a570470e9ee9fb8f879f0dff3206b16d76a8606289f"
+  },
+  "pt:chapter:pt-a1-v2-chapter-3": {
+    "src": "/passport-stamps/pt-2678f5afc6ac07.svg",
+    "title": "Grammar lab · Present tense",
+    "level": "A1",
+    "theme": "present",
+    "source": "/illustrated-lessons/pt-home.webp",
+    "sha256": "61411ea5a739ba55d1b318bcf53f073cd7a63be4aed6f8340900969a51db9b3b"
+  },
+  "pt:chapter:pt-a1-v2-chapter-4": {
+    "src": "/passport-stamps/pt-d0583c30e6f88f.svg",
+    "title": "Vocabulary lab · Everyday essentials",
+    "level": "A1",
+    "theme": "words",
+    "source": "/illustrated-lessons/pt-market.webp",
+    "sha256": "8548bb17be801e5c1c99c7cb965fdb7ec726e0c0e77371357ae2272c31f8fc3f"
+  },
+  "pt:chapter:pt-a1-v2-chapter-5": {
+    "src": "/passport-stamps/pt-a604cb434ce1bb.svg",
+    "title": "Expression lab · Small conversations",
+    "level": "A1",
+    "theme": "social",
+    "source": "/illustrated-lessons/pt-cafe.webp",
+    "sha256": "c5f45ba95017ab66606bad4e36c1703c76a1f845246efec4b0cbe6e3728e4085"
+  },
+  "pt:chapter:pt-a1-v2-chapter-6": {
+    "src": "/passport-stamps/pt-4968f5cab30910.svg",
+    "title": "Expression lab · Everyday combinations",
+    "level": "A1",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/pt-food.webp",
+    "sha256": "4578e0419515b1d101c916e618b280634e79e663e962316c4ec1e0930f22c575"
+  },
+  "pt:chapter:pt-a1-v2-summary-test": {
+    "src": "/passport-stamps/pt-93eee7f132cff6.svg",
+    "title": "A1 summary test",
+    "level": "A1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "4c29a1b5ef1bb6aa2724212b37e4a350eef66fab07d56bdd4a8c86a813ea649c"
+  },
+  "pt:chapter:pt-a2-v2-chapter-1": {
+    "src": "/passport-stamps/pt-286bee13b15745.svg",
+    "title": "Stories & plans",
+    "level": "A2",
+    "theme": "stories",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "1f3484d7ba4e3d9d7ab23a6258ea74c3d1db575903f884cb7613af9081611739"
+  },
+  "pt:chapter:pt-a2-v2-chapter-2": {
+    "src": "/passport-stamps/pt-d2c098f8625079.svg",
+    "title": "Listen, nasal vowels, connect",
+    "level": "A2",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "fc1d8229a0394ed5b07bdd0cba43bf2572035deef2fa5040b95d45304b1dbd91"
+  },
+  "pt:chapter:pt-a2-v2-chapter-3": {
+    "src": "/passport-stamps/pt-ee2213374252e1.svg",
+    "title": "Grammar lab · Two views of the past",
+    "level": "A2",
+    "theme": "past",
+    "source": "/illustrated-lessons/pt-culture.webp",
+    "sha256": "351f1b1a14a8faa1b7c04ab4a7b26336dbdc7fea7aa7388ac05c5a06dbec53d2"
+  },
+  "pt:chapter:pt-a2-v2-chapter-4": {
+    "src": "/passport-stamps/pt-d5f08c3eb0bf15.svg",
+    "title": "Vocabulary lab · Travel and work",
+    "level": "A2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/pt-travel.webp",
+    "sha256": "58d07a8445f9f78bf9f2f52a445bf6513bd32b0f77beb1f9a150d81180f37a29"
+  },
+  "pt:chapter:pt-a2-v2-chapter-5": {
+    "src": "/passport-stamps/pt-c08c99c9907a4a.svg",
+    "title": "Expression lab · Plans and practical requests",
+    "level": "A2",
+    "theme": "plans",
+    "source": "/illustrated-lessons/pt-work.webp",
+    "sha256": "800f4ad4d9e52610d5482a6addf685f701be7f92315919d776799d3647b9ca90"
+  },
+  "pt:chapter:pt-a2-v2-chapter-6": {
+    "src": "/passport-stamps/pt-30d3e7a6f6a1b0.svg",
+    "title": "Expression lab · Everyday stories",
+    "level": "A2",
+    "theme": "everydaystories",
+    "source": "/illustrated-lessons/pt-home.webp",
+    "sha256": "35893dc8b7e687a4d33324f78a80116a2a65150f5b6343b66609b2907224e80f"
+  },
+  "pt:chapter:pt-a2-v2-summary-test": {
+    "src": "/passport-stamps/pt-f44c42504bffeb.svg",
+    "title": "A2 summary test",
+    "level": "A2",
+    "theme": "summary",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "fac816fc21b82b6af1af125c0843aadf12ad5a8470b93652903c6a2c164ed54a"
+  },
+  "pt:chapter:pt-b1-v2-chapter-1": {
+    "src": "/passport-stamps/pt-67335e206a50f4.svg",
+    "title": "Purpose & uncertainty",
+    "level": "B1",
+    "theme": "purpose",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "0c76be0c2fa4599ebe08eeaa05bcdcfa6e0746f02513047fe159e3c53fd32476"
+  },
+  "pt:chapter:pt-b1-v2-chapter-2": {
+    "src": "/passport-stamps/pt-024f2653379de9.svg",
+    "title": "Make your point",
+    "level": "B1",
+    "theme": "point",
+    "source": "/illustrated-lessons/pt-cafe.webp",
+    "sha256": "b5a5a2fc713e932cf48d1c155d8c541bcc54d720363b1a9a0190a7fa4b596be4"
+  },
+  "pt:chapter:pt-b1-v2-chapter-3": {
+    "src": "/passport-stamps/pt-e0c880adaa5371.svg",
+    "title": "Grammar lab · Compound tenses",
+    "level": "B1",
+    "theme": "perfect",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "b48ccd070deb7526c455547ac1bcee4f8955cb881213f598c0cbbc1a0c80ea0c"
+  },
+  "pt:chapter:pt-b1-v2-chapter-4": {
+    "src": "/passport-stamps/pt-4d5899167f9d5f.svg",
+    "title": "Grammar lab · Future and conditional",
+    "level": "B1",
+    "theme": "future",
+    "source": "/illustrated-lessons/pt-travel.webp",
+    "sha256": "9a0bb0ce33cbd0544b4e6f33323f7de239031e17446f8c2e869a2d8c30f12e2e"
+  },
+  "pt:chapter:pt-b1-v2-chapter-5": {
+    "src": "/passport-stamps/pt-1f0927255d70fe.svg",
+    "title": "Expression lab · Keep the conversation moving",
+    "level": "B1",
+    "theme": "conversation",
+    "source": "/illustrated-lessons/pt-cafe.webp",
+    "sha256": "c23c1d1d45cc7bc1af598475e06e7c575d6ad168b64ef3eadd709131fb2bb6ab"
+  },
+  "pt:chapter:pt-b1-v2-chapter-6": {
+    "src": "/passport-stamps/pt-8342c4ece3309b.svg",
+    "title": "Expression lab · Beyond literal meaning",
+    "level": "B1",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/pt-culture.webp",
+    "sha256": "37490491a13f606fd91656f6892c8d1ef869d4f8fae7b3f594d93abe1ee196a3"
+  },
+  "pt:chapter:pt-b1-v2-summary-test": {
+    "src": "/passport-stamps/pt-ec6a8f276192dd.svg",
+    "title": "B1 summary test",
+    "level": "B1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "c4675bea25884a71ea76e7b8d409052a2b01ed61e5e9b95a20209e047b3a8dbb"
+  },
+  "pt:chapter:pt-b2-v2-chapter-1": {
+    "src": "/passport-stamps/pt-a03867cfe47598.svg",
+    "title": "Listen beyond the textbook",
+    "level": "B2",
+    "theme": "listening",
+    "source": "/illustrated-lessons/pt-travel.webp",
+    "sha256": "90ad5f20575fed350b09350ac97b87d84c95871d3a0191a992208976db925e3b"
+  },
+  "pt:chapter:pt-b2-v2-chapter-2": {
+    "src": "/passport-stamps/pt-f45c78e6b5e1cc.svg",
+    "title": "Possibility & argument",
+    "level": "B2",
+    "theme": "possibility",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "b5a4822ef0f746c08b83c56fdde9cf985b638779202992d0de7ce90a86b3864a"
+  },
+  "pt:chapter:pt-b2-v2-chapter-3": {
+    "src": "/passport-stamps/pt-54dcd25fa8558e.svg",
+    "title": "Grammar lab · Subjunctive forms",
+    "level": "B2",
+    "theme": "mood",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "d2972e30d25f7eb7d04077dc40a7c7d6e976efc2a842cbdf7c9c316de6a65567"
+  },
+  "pt:chapter:pt-b2-v2-chapter-4": {
+    "src": "/passport-stamps/pt-94cd0b1b0a228c.svg",
+    "title": "Expression lab · Decisions and collaboration",
+    "level": "B2",
+    "theme": "decisions",
+    "source": "/illustrated-lessons/pt-work.webp",
+    "sha256": "068dcec561196ebb056561fae3835e772f6c0ecab4bb0decbba3dc3de8370de1"
+  },
+  "pt:chapter:pt-b2-v2-chapter-5": {
+    "src": "/passport-stamps/pt-0d7a64b44c2752.svg",
+    "title": "Expression lab · Idioms in real situations",
+    "level": "B2",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/pt-culture.webp",
+    "sha256": "0e289aaef93fe10de185732863b9d1271b2cd202fa8110a7d9ad34f47598bc19"
+  },
+  "pt:chapter:pt-b2-v2-summary-test": {
+    "src": "/passport-stamps/pt-8be81009c6a210.svg",
+    "title": "B2 summary test",
+    "level": "B2",
+    "theme": "summary",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "c16dffdb28656197e98f46ac8190c0450b414b049ecc7b4560d7163db663ff35"
+  },
+  "pt:chapter:pt-c1-v2-chapter-1": {
+    "src": "/passport-stamps/pt-c10f620e3c9eb6.svg",
+    "title": "Choose your voice",
+    "level": "C1",
+    "theme": "voice",
+    "source": "/illustrated-lessons/pt-culture.webp",
+    "sha256": "7091db55f239698e0f56fdfc83cb6cff92c206a771e87e2dd50876a8ee12a627"
+  },
+  "pt:chapter:pt-c1-v2-chapter-2": {
+    "src": "/passport-stamps/pt-90117945df12a1.svg",
+    "title": "Build a precise argument",
+    "level": "C1",
+    "theme": "precision",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "b181a934a60c6dc9be953da1747167f9ada991018374560719563ff4b7c1822c"
+  },
+  "pt:chapter:pt-c1-v2-chapter-3": {
+    "src": "/passport-stamps/pt-a2719f7065c21d.svg",
+    "title": "Grammar lab · Compound subjunctive",
+    "level": "C1",
+    "theme": "inference",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "30f85552a84e655d99625fb905a5b65ad8ceb2f27911893fc169c06498dc5e25"
+  },
+  "pt:chapter:pt-c1-v2-chapter-4": {
+    "src": "/passport-stamps/pt-f1f0bdf1e33678.svg",
+    "title": "Expression lab · Precise arguments",
+    "level": "C1",
+    "theme": "precision",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "97d4d836d9924ab470d146388658591074892875896809819639d771b5d302be"
+  },
+  "pt:chapter:pt-c1-v2-chapter-5": {
+    "src": "/passport-stamps/pt-6ea95a4c795fd6.svg",
+    "title": "Expression lab · Subtext and register",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/pt-culture.webp",
+    "sha256": "d051514a02fa3fa8e973c649b2dd3ccebf894acaab20664e793f9f067a6d64d8"
+  },
+  "pt:chapter:pt-c1-v2-summary-test": {
+    "src": "/passport-stamps/pt-35150f30c0a20c.svg",
+    "title": "C1 summary test",
+    "level": "C1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "ee2f86fbb9d215ae9600b631be15eba278d349e14ca7352062013870ceb2ec1b"
+  },
+  "pt:chapter:pt-sound-v1-0": {
+    "src": "/passport-stamps/pt-5cdd044984b4b1.svg",
+    "title": "Pronunciation: build clear sounds",
+    "level": "A1",
+    "theme": "sound",
+    "source": "/illustrated-lessons/pt-station.webp",
+    "sha256": "23030096afae9a26de9da683ae40ca1f3169b7de6299ca64e64f1389a6a676b3"
+  },
+  "pt:chapter:pt-sound-v1-1": {
+    "src": "/passport-stamps/pt-2edc8411ffc836.svg",
+    "title": "Pronunciation: rhythm & phrases",
+    "level": "A2",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "9619489290161231370fcd44b3214cdb92205480fd248dad813c98eadd90b6fb"
+  },
+  "pt:chapter:pt-visual-v1-cafe-chapter": {
+    "src": "/passport-stamps/pt-583857980355cd.svg",
+    "title": "A café order, step by step",
+    "level": "A1",
+    "theme": "cafe",
+    "source": "/illustrated-lessons/pt-cafe.webp",
+    "sha256": "e21569032fcf1cabde1d02e78f3c2d63d7dcba66ec24b06204639b95cc814b76"
+  },
+  "pt:chapter:pt-visual-v1-station-chapter": {
+    "src": "/passport-stamps/pt-daa2fa26f695b4.svg",
+    "title": "A change of platform",
+    "level": "A2",
+    "theme": "station",
+    "source": "/illustrated-lessons/pt-station.webp",
+    "sha256": "568357f113ad915bf4dc2471aed11a3e213deddaa479cfa9f2d6114ad8dd3c39"
+  },
+  "pt:chapter:pt-visual-v1-meeting-chapter": {
+    "src": "/passport-stamps/pt-1496013f561c0b.svg",
+    "title": "Renegotiate a deadline",
+    "level": "B1",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/pt-work.webp",
+    "sha256": "db50c722d4a7e818d10aae46b06b0240db20e4d8e6e4dd4ee1d4bdd165971002"
+  },
+  "pt:chapter:pt-visual-v1-city-chapter": {
+    "src": "/passport-stamps/pt-214ef2a9aad225.svg",
+    "title": "A neighbourhood proposal",
+    "level": "B2",
+    "theme": "city",
+    "source": "/illustrated-lessons/pt-city.webp",
+    "sha256": "5501457e5c34233e37d0add183c3f3202eff8456484d1c7469208fc01f91fd9b"
+  },
+  "pt:chapter:pt-visual-v1-evidence-chapter": {
+    "src": "/passport-stamps/pt-3539fcb8bff6ef.svg",
+    "title": "Read a claim critically",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "e0ccc37882cd7ce5b13a82170b89965ea9622fe18dd027e859ef5c7cb684107a"
+  },
+  "pt:chapter:pt-conversation-v1-introductions-chapter": {
+    "src": "/passport-stamps/pt-b2ee467b12e643.svg",
+    "title": "Introduce yourself in Brazilian Portuguese",
+    "level": "A1",
+    "theme": "greeting",
+    "source": "/illustrated-lessons/pt-city.webp",
+    "sha256": "7c8e6cf4940fb0e1f31af5a570b7231d52e1f11abac729f79937a19a7835bdc9"
+  },
+  "pt:chapter:pt-conversation-v2-a2-morning-chapter": {
+    "src": "/passport-stamps/pt-5c7fe250877f1d.svg",
+    "title": "Describe a morning in Portuguese",
+    "level": "A2",
+    "theme": "morning",
+    "source": "/illustrated-lessons/pt-home.webp",
+    "sha256": "cf4bcf824c453a998dd217ff0af61b8b56d76f66a3faf70e764b83500e51011a"
+  },
+  "pt:chapter:pt-conversation-v2-b1-future-chapter": {
+    "src": "/passport-stamps/pt-976feb7e4b5aaf.svg",
+    "title": "Talk about plans and uncertain futures",
+    "level": "B1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "ac914e448cc9a84b98731352611ba75950c1929675be7fbbb1cb250d3272b8e2"
+  },
+  "pt:chapter:pt-conversation-v2-b2-reflections-chapter": {
+    "src": "/passport-stamps/pt-8f7b152a163cab.svg",
+    "title": "Reflect on change and expectations",
+    "level": "B2",
+    "theme": "growth",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "367b167e12ae1e0ae031bae48266649238a07593e7f04861ba4b471c67b07f69"
+  },
+  "pt:chapter:pt-conversation-v2-c1-goals-values-chapter": {
+    "src": "/passport-stamps/pt-9e101ae04cb386.svg",
+    "title": "Evaluate goals, values and personal growth",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "87e39fe68e7f02a252a06d8180033fc397178c131a9c3ae809a7ac0f0d464d1f"
+  },
+  "pt:return": {
+    "src": "/passport-stamps/pt-06d1eb2d0596b3.svg",
+    "title": "A brave return",
+    "level": "",
+    "theme": "return",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "e3bef50f0f821f1428ec776de3b1a668dc8f6363b48202eba7e18401a259de91"
+  },
+  "pt:rhythm": {
+    "src": "/passport-stamps/pt-5fb9f147d2e134.svg",
+    "title": "Three learning days",
+    "level": "",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "be0d2cbb9d9c8f4304b6b8466743f3d605fb8494ebbc743c8d093eeb03dcf13c"
+  },
+  "ja:chapter:ja-a1-v2-chapter-1": {
+    "src": "/passport-stamps/ja-64a4428f00c586.svg",
+    "title": "Meet your world",
+    "level": "A1",
+    "theme": "world",
+    "source": "/illustrated-lessons/ja-city.webp",
+    "sha256": "0338ecd922c8502bdf641b3449255a1875204d4235e99f6d5827bcd18bf61c9d"
+  },
+  "ja:chapter:ja-a1-v2-chapter-2": {
+    "src": "/passport-stamps/ja-02aca56daaa2e3.svg",
+    "title": "Your everyday Japanese",
+    "level": "A1",
+    "theme": "daily",
+    "source": "/illustrated-lessons/ja-home.webp",
+    "sha256": "85a69c730ef0621196bb8d2007a7f52662e595f90d014d3587361d845889ecb6"
+  },
+  "ja:chapter:ja-a1-v2-chapter-3": {
+    "src": "/passport-stamps/ja-e943ed1856f590.svg",
+    "title": "Grammar lab · Verb forms",
+    "level": "A1",
+    "theme": "present",
+    "source": "/illustrated-lessons/ja-home.webp",
+    "sha256": "eab355f793590064810cd486c4b22600fd479cf651588ce2b4199dedcef29cea"
+  },
+  "ja:chapter:ja-a1-v2-chapter-4": {
+    "src": "/passport-stamps/ja-ded3e996014a92.svg",
+    "title": "Vocabulary lab · Everyday essentials",
+    "level": "A1",
+    "theme": "words",
+    "source": "/illustrated-lessons/ja-market.webp",
+    "sha256": "5803cd857527535092cefecf9d9c68df76a604fdee4850b85666f31d47470be6"
+  },
+  "ja:chapter:ja-a1-v2-chapter-5": {
+    "src": "/passport-stamps/ja-cf419d8944fca3.svg",
+    "title": "Expression lab · Small conversations",
+    "level": "A1",
+    "theme": "social",
+    "source": "/illustrated-lessons/ja-cafe.webp",
+    "sha256": "2cc4542aa2fe37ec23c1d588c5ca4a5258ed95db87f4b12e4ced8b3b9d347c40"
+  },
+  "ja:chapter:ja-a1-v2-chapter-6": {
+    "src": "/passport-stamps/ja-b5a103debfa11d.svg",
+    "title": "Expression lab · Everyday combinations",
+    "level": "A1",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/ja-food.webp",
+    "sha256": "b0fc29607c0fa45ac91e96762912641ef6774f0caae4bb4477cd231b555a50d9"
+  },
+  "ja:chapter:ja-a1-v2-summary-test": {
+    "src": "/passport-stamps/ja-d8b9b0416c3c22.svg",
+    "title": "A1 summary test",
+    "level": "A1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "cf6ccb5526a0d6f6d971013a6dd58a76caab4f161962bbc018bb532cd127bcd3"
+  },
+  "ja:chapter:ja-a2-v2-chapter-1": {
+    "src": "/passport-stamps/ja-143711f4c5fdee.svg",
+    "title": "Stories & plans",
+    "level": "A2",
+    "theme": "stories",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "f38df8151c7dcebfe4b2b1a3176506124f8c3f8f3af88e6fdd2990fa5e60018c"
+  },
+  "ja:chapter:ja-a2-v2-chapter-2": {
+    "src": "/passport-stamps/ja-92d094d7729a43.svg",
+    "title": "Listen, length, connect",
+    "level": "A2",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "83bb052c3eddfedbe0b77fff78729f5e71806e2bb50d6cf2e4a044bb2427515f"
+  },
+  "ja:chapter:ja-a2-v2-chapter-3": {
+    "src": "/passport-stamps/ja-ec0ecf3f62f44f.svg",
+    "title": "Grammar lab · Actions and aspect",
+    "level": "A2",
+    "theme": "past",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "7204e27af54a1893919c86a60462303a655608460bfde45278b9b9b13a35cd12"
+  },
+  "ja:chapter:ja-a2-v2-chapter-4": {
+    "src": "/passport-stamps/ja-380f4311e969e1.svg",
+    "title": "Vocabulary lab · Travel and work",
+    "level": "A2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/ja-travel.webp",
+    "sha256": "a82cc178a8517389cca0c804ab71b2d38f23698ae4224de7810a2891ba237282"
+  },
+  "ja:chapter:ja-a2-v2-chapter-5": {
+    "src": "/passport-stamps/ja-3b9eb3aa09aa89.svg",
+    "title": "Expression lab · Plans and practical requests",
+    "level": "A2",
+    "theme": "plans",
+    "source": "/illustrated-lessons/ja-work.webp",
+    "sha256": "688ba5a4cba64f3034f61fe863ca0659ca59b6ca5ddd078875ba68f382e5471f"
+  },
+  "ja:chapter:ja-a2-v2-chapter-6": {
+    "src": "/passport-stamps/ja-e78b6cdf8b7714.svg",
+    "title": "Expression lab · Everyday stories",
+    "level": "A2",
+    "theme": "everydaystories",
+    "source": "/illustrated-lessons/ja-home.webp",
+    "sha256": "21d5bfd7b6c376411658531d84874d4abef65d63984fce1d86aaee4242a94f87"
+  },
+  "ja:chapter:ja-a2-v2-summary-test": {
+    "src": "/passport-stamps/ja-22640589353997.svg",
+    "title": "A2 summary test",
+    "level": "A2",
+    "theme": "summary",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "238953206b7184f1310f9f9e15743d3530b164d880f4a76b3816181eeedfec2b"
+  },
+  "ja:chapter:ja-b1-v2-chapter-1": {
+    "src": "/passport-stamps/ja-819fd7da27cfaa.svg",
+    "title": "Purpose & uncertainty",
+    "level": "B1",
+    "theme": "purpose",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "5c42ee397a2a624983cd9eca01e434d4e42d6d76eef08a0ae497d7173ff1281d"
+  },
+  "ja:chapter:ja-b1-v2-chapter-2": {
+    "src": "/passport-stamps/ja-57d8f8cf54e605.svg",
+    "title": "Make your point",
+    "level": "B1",
+    "theme": "point",
+    "source": "/illustrated-lessons/ja-cafe.webp",
+    "sha256": "8c39f8870f65566a85c016c674a7f27779f6e86b27da3361ef2f61c9b1e399ba"
+  },
+  "ja:chapter:ja-b1-v2-chapter-3": {
+    "src": "/passport-stamps/ja-b02d578d7f2830.svg",
+    "title": "Grammar lab · Experience and preparation",
+    "level": "B1",
+    "theme": "perfect",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "80d6a0cb1a10c92ffd7e532960e75dc3eac24ce6de1ef026e003b0dbb30d5968"
+  },
+  "ja:chapter:ja-b1-v2-chapter-4": {
+    "src": "/passport-stamps/ja-989936931ea39d.svg",
+    "title": "Grammar lab · Intentions and conditions",
+    "level": "B1",
+    "theme": "future",
+    "source": "/illustrated-lessons/ja-travel.webp",
+    "sha256": "64820f0ab936f298103ed14af7e3b8c7b914d972b4df245b2a551ef76e6a80b5"
+  },
+  "ja:chapter:ja-b1-v2-chapter-5": {
+    "src": "/passport-stamps/ja-ee96f6e772952f.svg",
+    "title": "Expression lab · Keep the conversation moving",
+    "level": "B1",
+    "theme": "conversation",
+    "source": "/illustrated-lessons/ja-cafe.webp",
+    "sha256": "d8813cc61aa1b54f877e9e039df8b3536f63b869b4eed8f8056bea7bd87a2f6f"
+  },
+  "ja:chapter:ja-b1-v2-chapter-6": {
+    "src": "/passport-stamps/ja-3a341645fb7dfb.svg",
+    "title": "Expression lab · Beyond literal meaning",
+    "level": "B1",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "3def677beb3cc6305f9f55845dbb6210d1ce09630c1ffaacf476c89bd38a2222"
+  },
+  "ja:chapter:ja-b1-v2-summary-test": {
+    "src": "/passport-stamps/ja-4a93fd5406c42e.svg",
+    "title": "B1 summary test",
+    "level": "B1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "78742c4f4bbd609c07786aefc3186560bd716954e716dd15271419de6a1a84dc"
+  },
+  "ja:chapter:ja-b2-v2-chapter-1": {
+    "src": "/passport-stamps/ja-65bc2460a8c51b.svg",
+    "title": "Listen beyond the textbook",
+    "level": "B2",
+    "theme": "listening",
+    "source": "/illustrated-lessons/ja-travel.webp",
+    "sha256": "e4de01737c937958a0e8de75c25a9e50f499a4e4199584f7a3d34ada4f9ee723"
+  },
+  "ja:chapter:ja-b2-v2-chapter-2": {
+    "src": "/passport-stamps/ja-033b87dd889fbb.svg",
+    "title": "Possibility & argument",
+    "level": "B2",
+    "theme": "possibility",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "dc89aa5093a1b3ae761c1eb4cb0dfa1eca3f1c6ef62348a203ba6a7715593e30"
+  },
+  "ja:chapter:ja-b2-v2-chapter-3": {
+    "src": "/passport-stamps/ja-e669f375736c67.svg",
+    "title": "Grammar lab · Voice and counterfactuals",
+    "level": "B2",
+    "theme": "mood",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "65221e4f9b8942a45714b1e413e9fc6ce094b0aec0957ce28c86f77ca213084f"
+  },
+  "ja:chapter:ja-b2-v2-chapter-4": {
+    "src": "/passport-stamps/ja-92a0e46aedc98c.svg",
+    "title": "Expression lab · Decisions and collaboration",
+    "level": "B2",
+    "theme": "decisions",
+    "source": "/illustrated-lessons/ja-work.webp",
+    "sha256": "3e6a4c7c312d351bb960ec03a99996182482b83224b317aa7f061ab858d11e6b"
+  },
+  "ja:chapter:ja-b2-v2-chapter-5": {
+    "src": "/passport-stamps/ja-31f852d3dbdbe5.svg",
+    "title": "Expression lab · Idioms in real situations",
+    "level": "B2",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "70fb2846b2622bbaed55da6a793335f7bc138d1c206e3f3372b56d1d3696b6a8"
+  },
+  "ja:chapter:ja-b2-v2-summary-test": {
+    "src": "/passport-stamps/ja-709cbc16e1b1dc.svg",
+    "title": "B2 summary test",
+    "level": "B2",
+    "theme": "summary",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "008685c75052da193825fd25e8de4608943b3519623b3e1a688944494aef4190"
+  },
+  "ja:chapter:ja-c1-v2-chapter-1": {
+    "src": "/passport-stamps/ja-4d314a53677060.svg",
+    "title": "Choose your voice",
+    "level": "C1",
+    "theme": "voice",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "db5e28554980d4362b8bcab607a932956a0667e32c69459d083127bf859fc6d3"
+  },
+  "ja:chapter:ja-c1-v2-chapter-2": {
+    "src": "/passport-stamps/ja-a2e7f9fade33c0.svg",
+    "title": "Build a precise argument",
+    "level": "C1",
+    "theme": "precision",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "dd334b59e186cd3ce831e590a2ae6d474fa9001c980e599f5f9273498b683bce"
+  },
+  "ja:chapter:ja-c1-v2-chapter-3": {
+    "src": "/passport-stamps/ja-9d9b3fb19d5d15.svg",
+    "title": "Grammar lab · Inference and regret",
+    "level": "C1",
+    "theme": "inference",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "eb9bbdb904b8b0b53b7c788317599628c33a601c52e78d35396ea594e746e379"
+  },
+  "ja:chapter:ja-c1-v2-chapter-4": {
+    "src": "/passport-stamps/ja-a6e686a5500093.svg",
+    "title": "Expression lab · Precise arguments",
+    "level": "C1",
+    "theme": "precision",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "f9b21762c93a49dd2738f381b56d26ec74c8539bc74c5fd3509dbf7873bdae08"
+  },
+  "ja:chapter:ja-c1-v2-chapter-5": {
+    "src": "/passport-stamps/ja-211db1ae51a83d.svg",
+    "title": "Expression lab · Subtext and register",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "81f76e4e626aa000c661d820f097fedec5976dda0014c685a1a74310625873a6"
+  },
+  "ja:chapter:ja-c1-v2-summary-test": {
+    "src": "/passport-stamps/ja-65dc65231a8524.svg",
+    "title": "C1 summary test",
+    "level": "C1",
+    "theme": "summary",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "eaba7891e45af8b2eb4e9e26ceca5b22aaa9dfa9a5c39f46b6c028a0c805c4b3"
+  },
+  "ja:chapter:ja-sound-v1-0": {
+    "src": "/passport-stamps/ja-ecaa4956206918.svg",
+    "title": "Pronunciation: build clear sounds",
+    "level": "A1",
+    "theme": "sound",
+    "source": "/illustrated-lessons/ja-station.webp",
+    "sha256": "8dd1f8fdb3078d483b4f1da806f30c0270218e74e577bde7341a206d33925d9c"
+  },
+  "ja:chapter:ja-sound-v1-1": {
+    "src": "/passport-stamps/ja-89e2e743624c96.svg",
+    "title": "Pronunciation: rhythm & phrases",
+    "level": "A2",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "6edda0771c07327aa67e6e6f1c0feb618aee35d08390ee7e2ee46cf2f98884d8"
+  },
+  "ja:chapter:ja-script-v1-hiragana": {
+    "src": "/passport-stamps/ja-9bd355c5fe5112.svg",
+    "title": "Hiragana with sound",
+    "level": "A1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "c6f8846fa603ba3321fb8b5d25adda20557ffeee785f3ece364472633c3f519e"
+  },
+  "ja:chapter:ja-script-v1-katakana": {
+    "src": "/passport-stamps/ja-76e792daaaa189.svg",
+    "title": "Katakana with sound",
+    "level": "A1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "4b2ae1df70b7c864f8a355ab719a2c27e7f23ff60aef2e3aab758a88d6ff23a7"
+  },
+  "ja:chapter:ja-script-v1-combinations": {
+    "src": "/passport-stamps/ja-e0faf709cc0649.svg",
+    "title": "Small kana & long sounds",
+    "level": "A1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "2eeae9d7eca6f7aefec18e72b9bb35303afd9908a49b75e6eb1b4a2fa6d98aa4"
+  },
+  "ja:chapter:ja-script-v1-kanji": {
+    "src": "/passport-stamps/ja-8e5b6244e91c65.svg",
+    "title": "Kanji in useful words",
+    "level": "A2",
+    "theme": "kanji",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "9f9526149ab39686a6740ac4484c19380a5b610fd706887eee93efddee191545"
+  },
+  "ja:chapter:ja-visual-v1-cafe-chapter": {
+    "src": "/passport-stamps/ja-38ba24f1f89ffa.svg",
+    "title": "A café order, step by step",
+    "level": "A1",
+    "theme": "cafe",
+    "source": "/illustrated-lessons/ja-cafe.webp",
+    "sha256": "25b9f1ad03d30080dd75654399ef6b359831467c76351ead3b28bd6d9c04c653"
+  },
+  "ja:chapter:ja-visual-v1-station-chapter": {
+    "src": "/passport-stamps/ja-ec03c2a8cff022.svg",
+    "title": "A change of platform",
+    "level": "A2",
+    "theme": "station",
+    "source": "/illustrated-lessons/ja-station.webp",
+    "sha256": "a924acd2ac5fea6f680b1167f066b7abcab6e7702413ed32c7f62faacbdfbdc5"
+  },
+  "ja:chapter:ja-visual-v1-meeting-chapter": {
+    "src": "/passport-stamps/ja-dca8ac74b5d313.svg",
+    "title": "Renegotiate a deadline",
+    "level": "B1",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/ja-work.webp",
+    "sha256": "8572a4145fbd7a713b9313b9856e90f6436c8445d824e92e05d0643c4cd2d88d"
+  },
+  "ja:chapter:ja-visual-v1-city-chapter": {
+    "src": "/passport-stamps/ja-baedad97317fa9.svg",
+    "title": "A neighbourhood proposal",
+    "level": "B2",
+    "theme": "city",
+    "source": "/illustrated-lessons/ja-city.webp",
+    "sha256": "a1db30d51921aeff706a1c1e8421368c27b609c707db459621ec046705e63178"
+  },
+  "ja:chapter:ja-visual-v1-evidence-chapter": {
+    "src": "/passport-stamps/ja-6d25430fc6d213.svg",
+    "title": "Read a claim critically",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "e199b6832b52daf1de5822457d93f6ccbb9568b91ec55f5980cdc9072f42677a"
+  },
+  "ja:chapter:ja-conversation-v1-slow-conversation-chapter": {
+    "src": "/passport-stamps/ja-10471097ccccf1.svg",
+    "title": "Follow a slow Japanese conversation",
+    "level": "A1",
+    "theme": "greeting",
+    "source": "/illustrated-lessons/ja-city.webp",
+    "sha256": "a3eb25290ee20a852148f944365d13018ec92e7579c31ab148fe9f74335a742b"
+  },
+  "ja:chapter:ja-conversation-v2-a2-everyday-talk-chapter": {
+    "src": "/passport-stamps/ja-817de755b472b3.svg",
+    "title": "Follow everyday Japanese exchanges",
+    "level": "A2",
+    "theme": "daily",
+    "source": "/illustrated-lessons/ja-home.webp",
+    "sha256": "4791f3826ad0cccb8336405048c4a79fd68e659db8c7075ed2bd1d360b9c9fcd"
+  },
+  "ja:chapter:ja-conversation-v2-b1-travel-chapter": {
+    "src": "/passport-stamps/ja-f324330566faaa.svg",
+    "title": "Exchange travel experiences in Japanese",
+    "level": "B1",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/ja-travel.webp",
+    "sha256": "17b052249637a54580e6f457f68b46fb00159030c8dba685864bc2ed03ea0ade"
+  },
+  "ja:chapter:ja-conversation-v2-b2-moving-chapter": {
+    "src": "/passport-stamps/ja-d84c1d5bcb0c3c.svg",
+    "title": "Weigh up a move",
+    "level": "B2",
+    "theme": "moving",
+    "source": "/illustrated-lessons/ja-city.webp",
+    "sha256": "23d1cdd24b97c23908dcebdf2cc865df31e61e9c02135121e902667def46c752"
+  },
+  "ja:chapter:ja-conversation-v2-c1-implicit-meaning-chapter": {
+    "src": "/passport-stamps/ja-68ceadfc3ebfa1.svg",
+    "title": "Interpret subtext in a Japanese conversation",
+    "level": "C1",
+    "theme": "subtext",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "1e4d9da93aabbe076909314fd53cd9f4a364a69b4c3d4d10009c1d5f1d7cf111"
+  },
+  "ja:return": {
+    "src": "/passport-stamps/ja-f841e0f31d3152.svg",
+    "title": "A brave return",
+    "level": "",
+    "theme": "return",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "5a7a8efba64c60aefca0baaf73c6d353f31e76c6fb9160d20e89dca1f2a124a6"
+  },
+  "ja:rhythm": {
+    "src": "/passport-stamps/ja-5915a880e4988e.svg",
+    "title": "Three learning days",
+    "level": "",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "fa2c666f0f0bfd8429f9f36068129e61eca8f0d4ddc50be9bba55e479aee7a53"
+  }
+}

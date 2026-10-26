@@ -1,0 +1,15 @@
+import React,{useRef,useState,useEffect} from 'react';
+import {Check,Maximize2,X} from 'lucide-react';
+import art from './public/passport-stamps/manifest.json';
+import {t,tf,interfaceLanguage} from './interface-runtime.mjs';
+import './passport.css';
+export default function Passport({stamps=[],language='es'}){
+ const dialog=useRef(null),opener=useRef(null),[selected,setSelected]=useState(null);
+ useEffect(()=>{setSelected(null);dialog.current?.close()},[language]);
+ const date=s=>s.at?new Date(s.at).toLocaleDateString(interfaceLanguage(),{year:'numeric',month:'long',day:'numeric'}):'';
+ const open=(stamp,event)=>{opener.current=event.currentTarget;setSelected(stamp);dialog.current?.showModal()};
+ const close=()=>{dialog.current?.close();setSelected(null);opener.current?.focus()};
+ const image=stamp=>art[language+':'+stamp.id];
+ const description=s=>t(s.kind==='chapter'?'Completed every activity in this chapter.':s.kind==='return'?'Returned to a lesson after an earlier difficulty.':'Studied for at least one minute on three different days.');
+ return <section className="passport-collection" aria-label={t('Collected stamps')}><header><div><span className="eyebrow">{t('Journey passport')}</span><h3>{t('Your illustrated stamps')}</h3><p>{t('Every stamp here is earned. Tap one to see your achievement.')}</p></div><span className="passport-count">{stamps.length}</span></header><div className="passport-gallery">{stamps.length?stamps.map(stamp=>{const entry=image(stamp);return <button type="button" className="passport-stamp" key={stamp.id} onClick={e=>open(stamp,e)} aria-label={tf('View stamp: {0}',[t(stamp.title,language)])}>{entry&&<img src={entry.src} alt="" width="480" height="520" loading="lazy" decoding="async"/>}<span className="passport-earned"><Check size={14}/>{t('Earned')}</span><b>{t(stamp.title,language)}</b><small>{date(stamp)?<>{t('Earned on')} · {date(stamp)}</>:t('Earned through learning')}</small><span className="passport-view"><Maximize2 size={13}/>{t('View stamp')}</span></button>}):<p>{t('Your first stamp awaits. Complete a chapter, revisit a difficulty, or study on three days.')}</p>}</div><dialog ref={dialog} className="passport-dialog" aria-labelledby="passport-stamp-title" onClose={()=>{setSelected(null);opener.current?.focus()}} onClick={e=>{if(e.target===dialog.current)close()}}><button type="button" className="passport-close" onClick={close} aria-label={t('Close stamp')}><X size={22}/></button>{selected&&<><span className="passport-earned"><Check size={15}/>{t('Earned')}</span>{image(selected)&&<img className="passport-enlarged" src={image(selected).src} alt={t(selected.title,language)} width="480" height="520"/>}<h2 id="passport-stamp-title">{t(selected.title,language)}</h2><p className="passport-stamp-meta">{t(({es:'Spanish',en:'English',pt:'Portuguese',ja:'Japanese'})[language])}{image(selected)?.level?' · '+image(selected).level:''}</p><p>{description(selected)}</p>{date(selected)&&<p className="passport-earned-date">{t('Earned on')} · {date(selected)}</p>}</>}</dialog></section>
+}
