@@ -88,5 +88,75 @@
     "file": "dog-tail.webp",
     "source": "exec-82fde980-15eb-4b4b-810c-6415d302e2b8.png",
     "sha256": "48ffa30f82bb0ba1ab8ce4eccc895dee747558f1f2bcf86f1210c3ca85fdca01"
+  },
+  {
+    "file": "capybara-head.webp",
+    "source": "exec-d4aaaabe-5a8e-43c1-a215-df95d8e25690.png",
+    "sha256": "c72098680f21784986439f12b4864a11c4e5a13d97c758b4d209bcad80993eb6"
+  },
+  {
+    "file": "capybara-head-happy.webp",
+    "source": "exec-d4aaaabe-5a8e-43c1-a215-df95d8e25690.png",
+    "sha256": "b746939752cdb27916a930d4f0ebedb8959f7b88cd4fbbd38d7907dd1d540595"
+  },
+  {
+    "file": "capybara-body.webp",
+    "source": "exec-d4aaaabe-5a8e-43c1-a215-df95d8e25690.png",
+    "sha256": "b3a5ce4f70e3efa4d18eb9fa1090b1a54c76fd8c035da83cb3f56e622f65da21"
+  },
+  {
+    "file": "guinea-pig-head.webp",
+    "source": "exec-fa4b93b7-1ee7-4035-b332-4a7ecf646db8.png",
+    "sha256": "ad0f484855e75359a99b613921e2e65c5f11f3caa306de9689cfb8b407040ba0"
+  },
+  {
+    "file": "guinea-pig-head-happy.webp",
+    "source": "exec-fa4b93b7-1ee7-4035-b332-4a7ecf646db8.png",
+    "sha256": "499d9877ff8d5c1fca574bc6cf7ee64bcd9c6be6c94001e4ab9be0058c58297b"
+  },
+  {
+    "file": "guinea-pig-body.webp",
+    "source": "exec-fa4b93b7-1ee7-4035-b332-4a7ecf646db8.png",
+    "sha256": "c1f7f3704962faead136b8d663df1978a690ff173a657c31c6c6ee5be0fec048"
+  },
+  {
+    "file": "quokka-head.webp",
+    "source": "exec-87414139-8678-4e44-b966-47fa9e90219c.png",
+    "sha256": "5019fbdcac0136b990aa8521b41dab3b0a147158926e1beb0e722f68f6531bb6"
+  },
+  {
+    "file": "quokka-head-happy.webp",
+    "source": "exec-87414139-8678-4e44-b966-47fa9e90219c.png",
+    "sha256": "f5cf12808debf79fbb13f78f8473751b1dece025bb85c4eb9dfbfd2f3220ea7a"
+  },
+  {
+    "file": "quokka-body.webp",
+    "source": "exec-87414139-8678-4e44-b966-47fa9e90219c.png",
+    "sha256": "8c21f16117439ca65a236125a2f022ef9de5b4f686676b4af111d2ba5dbe291d"
+  },
+  {
+    "file": "quokka-tail.webp",
+    "source": "exec-87414139-8678-4e44-b966-47fa9e90219c.png",
+    "sha256": "d69d7422ca2873be6c2363ef767095b9e00ad52a1f56c5b462b8c254f404570e"
+  },
+  {
+    "file": "panda-head.webp",
+    "source": "exec-139bccc5-85e6-4169-a85c-265050c05201.png",
+    "sha256": "6f39f2e61121c93934989aeb8355931adf4b7e7496ccb7c916dc377726036f2c"
+  },
+  {
+    "file": "panda-head-happy.webp",
+    "source": "exec-139bccc5-85e6-4169-a85c-265050c05201.png",
+    "sha256": "8f87f7590d5cbe27bf3f9c3956f0dc473d03529443587a3dbd82908851240d32"
+  },
+  {
+    "file": "panda-body.webp",
+    "source": "exec-139bccc5-85e6-4169-a85c-265050c05201.png",
+    "sha256": "43c1da6be7717fdd5c5675ab255be4541f8e00c67b3db7851f63dc28bd74d67c"
+  },
+  {
+    "file": "panda-tail.webp",
+    "source": "exec-139bccc5-85e6-4169-a85c-265050c05201.png",
+    "sha256": "6cde247bb7c1922fa035804ad89d51d003c8bc9132f797f8d85b47020907b82b"
   }
 ]
