@@ -26,8 +26,8 @@ class TestPoster(unittest.TestCase):
     def test_evening_prompt_describes_current_progress_without_touching_tips(self, mock_api):
         english = demo_posts()
         localized = {
-            'x_morning': 'Viaje ao Japão? Diga すみません para chamar alguém com educação. Uma frase muito prática.',
-            'threads_morning': 'Uma expressão útil no Japão: すみません. Você pode dizer isso ao chamar a atenção de alguém educadamente.',
+            'x_morning': 'Au Japon, すみません permet d\'attirer poliment l\'attention de quelqu\'un. Utile en voyage !',
+            'threads_morning': 'Au Japon, un mot très pratique est すみません. Vous pouvez l\'utiliser pour interpeller quelqu\'un poliment.',
         }
         mock_api.side_effect = [
             {'output': [{'content': [{'type': 'output_text',
