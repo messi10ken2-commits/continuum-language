@@ -1,3 +1,4 @@
+import {migrateAdventure,handleAdventure} from './adventure-api.mjs';
 import {migrateTeacherRanking} from './teacher-ranking.mjs';
 import {migrateAnswerReviews,withVerifiedAnswers} from './verified-answers.mjs';
 import {handleAnswerReview} from './answer-review-api.mjs';
@@ -83,7 +84,7 @@ async function migrate(){
  await migrateActivity(pool);
  await migrateAnswerReviews(pool);
  await migrateOwner(pool);
- await migrateSupport(pool);
+ await migrateSupport(pool);await migrateAdventure(pool);
 }
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
@@ -112,6 +113,7 @@ async function handle(req,res){
  if(await handleClassroom({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleSpeaking({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleReview({route,req,res,pool,required,json,send,fail}))return;
+ if(await handleAdventure({route,req,res,pool,required,json,send,fail}))return;
  if(await handleProfiles({route,req,res,pool,required,json,send,fail}))return;
  if(await handleSpeech({route,req,res,pool,json,send,fail,limited}))return;
  if(await handlePatterns({route,req,res,pool,required,json,send,fail,limited}))return;
