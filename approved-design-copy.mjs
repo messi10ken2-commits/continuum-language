@@ -1,5 +1,6 @@
 // Reviewed UI copy: target-language examples and private records are never translated here.
 const rows=[
+["Could not load your learning record.", "学習記録を読み込めませんでした。", "No se pudo cargar tu registro de aprendizaje.", "Não foi possível carregar seu histórico de aprendizagem.", "无法加载你的学习记录。", "Impossible de charger votre historique d’apprentissage."],
 ["Upcoming", "今後の授業", "Próximas clases", "Próximas aulas", "即将开始", "À venir"],
 ["Past classes", "過去の授業", "Clases anteriores", "Aulas anteriores", "以往课程", "Cours passés"],
 ["Choose what you want to strengthen today.", "今日は、伸ばしたい力を選びましょう。", "Elige qué quieres reforzar hoy.", "Escolha o que quer fortalecer hoje.", "选择今天想提升的能力。", "Choisissez ce que vous souhaitez renforcer aujourd’hui."],
