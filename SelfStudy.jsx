@@ -1,3 +1,4 @@
+import {finalSummaryLast} from './illustrated-order.mjs';
 import IllustratedCourse from './IllustratedCourse.jsx';
 import {useJourneyLayout} from './JourneyLayout.jsx';
 import QuestionPrompt from './QuestionPrompt.jsx';
@@ -65,7 +66,7 @@ export default function SelfStudy({language='es',user,attempts,notes=[],courseSu
  const rows=Object.fromEntries(progress.map(x=>[x.lesson,x])),passed=id=>rows[id]?.best>=(getLesson(id)?.passScore||80);
  if(!ready)return <section className="panel"><h2>{uiText("Loading your learning path…")}</h2>{error&&<><p role="alert">{uiText(error)}</p><button className="primary" onClick={load}>{uiText("Try again")}</button></>}</section>;
  if(activeLesson){const lesson=getLesson(activeLesson);return lesson?<LessonPlayer key={activeLesson} lesson={lesson} language={language} user={user} initialAnswers={drafts[activeLesson]} initialSeed={draftSeeds[activeLesson]} onDraft={(answers,seed)=>saveDraft(activeLesson,answers,seed)} onComplete={complete} onExit={onExit}/>:<section className="panel"><h2>{uiText("Lesson not found")}</h2><button className="primary" onClick={onExit}>{uiText("Back to learning path")}</button></section>}
- const selected={...levels.find(x=>x.id===level),description:language==='es'?uiText(levels.find(x=>x.id===level).description):uiTemplate('Build your {0} communication skills at {1}.',[uiText(lang.name),level])},all=lessonList.filter(l=>l.level===level),done=all.filter(l=>passed(l.id)).length,totalDone=lessonList.filter(l=>passed(l.id)).length;
+ const selected={...levels.find(x=>x.id===level),description:language==='es'?uiText(levels.find(x=>x.id===level).description):uiTemplate('Build your {0} communication skills at {1}.',[uiText(lang.name),level])},all=layout==='illustrated'?finalSummaryLast(lessonList.filter(l=>l.level===level),l=>l.summaryTest):lessonList.filter(l=>l.level===level),done=all.filter(l=>passed(l.id)).length,totalDone=lessonList.filter(l=>passed(l.id)).length;
  const currentDraft=all.find(l=>Array.isArray(drafts[l.id]));
  const nextLesson=currentDraft||all.find(l=>!passed(l.id))||all[0];
  const classMatch=classPractice(notes,language),classNote=classMatch.saved;
