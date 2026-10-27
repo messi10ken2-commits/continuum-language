@@ -763,5 +763,209 @@
       "changes": "Cropped and resized"
     },
     "sha256": "f29596aa3192f2d8457de2f8dab27d7db7f40e0f4e2e8fde76494af4a5c46a4a"
+  },
+  {
+    "id": "en-ws",
+    "language": "en",
+    "country": "WS",
+    "place": "To Sua Ocean Trench",
+    "src": "/passport-real/en-ws.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:To Sua Ocean Trench.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:To_Sua_Ocean_Trench.jpg",
+      "author": "Gelu Purcelu",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e56edfaf8818a944f73c28e606c2f36cdbd3a2bd52c57e3061754962cee5fe1f"
+  },
+  {
+    "id": "en-sc",
+    "language": "en",
+    "country": "SC",
+    "place": "Anse Source dArgent",
+    "src": "/passport-real/en-sc.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Anse Source dArgent on La Digue 2015.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Anse_Source_dArgent_on_La_Digue_2015.JPG",
+      "author": "Bjørn Christian Tørrissen",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "0379bb770af75527d5a3bb8c24361ad8413d4b4874305f40334d392b6559cf3a"
+  },
+  {
+    "id": "en-sl",
+    "language": "en",
+    "country": "SL",
+    "place": "Freetown Sierra Leone",
+    "src": "/passport-real/en-sl.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:MV Karadeniz Powership Doğan Bey, Freetown, Sierra Leone.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:MV_Karadeniz_Powership_Do%C4%9Fan_Bey,_Freetown,_Sierra_Leone.jpg",
+      "author": "Adrian Turner",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "4cb3172fb5b154b34a6ba717e58554a0f7a61e1dea96b0bedf609af39b87ab43"
+  },
+  {
+    "id": "en-sg",
+    "language": "en",
+    "country": "SG",
+    "place": "Singapore skyline",
+    "src": "/passport-real/en-sg.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Singapore Skyline-01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Singapore_Skyline-01.jpg",
+      "author": "CEphoto, Uwe Aranas",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "1529bf8aeed541bd73e7a11f1a48d4c45c026c5fdf291f50c8253b529b0c3270"
+  },
+  {
+    "id": "en-sb",
+    "language": "en",
+    "country": "SB",
+    "place": "Marovo Lagoon",
+    "src": "/passport-real/en-sb.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Marovo Lagoon (16 August 2008).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Marovo_Lagoon_(16_August_2008).jpg",
+      "author": "Xplore Dive from Mooloolaba, Australia",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c58505070f9edd643a6823d7805e06c31e12ea585aefde4ba301a9f8166c711a"
+  },
+  {
+    "id": "en-za",
+    "language": "en",
+    "country": "ZA",
+    "place": "Cape Town Table Mountain",
+    "src": "/passport-real/en-za.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Cape Town Table Mountain.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Cape_Town_Table_Mountain.jpg",
+      "author": "Matthiasmullie",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "03a3da5544148ade15a636af7bb1b1d5b3afc8cdb87a525fe51b88386db5630a"
+  },
+  {
+    "id": "en-ss",
+    "language": "en",
+    "country": "SS",
+    "place": "Nile Juba",
+    "src": "/passport-real/en-ss.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Sunken boat on the White Nile , Juba South Sudan.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sunken_boat_on_the_White_Nile_,_Juba_South_Sudan.jpg",
+      "author": "Umar sheriff habibullah",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "6dd0f80906985b6feca1e7c91ac8acd048563e25cc8616e1d862630eafa11f87"
+  },
+  {
+    "id": "en-sd",
+    "language": "en",
+    "country": "SD",
+    "place": "Meroe pyramids",
+    "src": "/passport-real/en-sd.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Meröe pyramids reliefs (7) (34721618275).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mer%C3%B6e_pyramids_reliefs_(7)_(34721618275).jpg",
+      "author": "Hans Birger Nilsen",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "77659d99bf6955ad72e23039e1deab0748b636c2559febbb747344f79eb18db2"
+  },
+  {
+    "id": "en-tz",
+    "language": "en",
+    "country": "TZ",
+    "place": "Mount Kilimanjaro",
+    "src": "/passport-real/en-tz.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Elephants at Amboseli national park against Mount Kilimanjaro.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Elephants_at_Amboseli_national_park_against_Mount_Kilimanjaro.jpg",
+      "author": "Amoghavarsha JS amoghavarsha.com",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "8cf79906bb9a9f8f7e4fd7add19b1b6c9e339e73292ffde8124da03dc92cc306"
+  },
+  {
+    "id": "en-tt",
+    "language": "en",
+    "country": "TT",
+    "place": "Maracas Bay",
+    "src": "/passport-real/en-tt.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Maracas Bay - panoramio.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Maracas_Bay_-_panoramio.jpg",
+      "author": "James Roberts (Jampp…",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "0143c29d83483add5bb9b9ce408b3df91b591e0262636a22631064830b8acafc"
+  },
+  {
+    "id": "en-tv",
+    "language": "en",
+    "country": "TV",
+    "place": "Funafuti atoll",
+    "src": "/passport-real/en-tv.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Maneapa and airport in Funafuti atoll, Tuvalu.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Maneapa_and_airport_in_Funafuti_atoll,_Tuvalu.jpg",
+      "author": "Rafael Ávila Coya",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "05d5de269d4a5ff6e088bf3f89e293a7016459170aea359f1bb1c32aec04e173"
+  },
+  {
+    "id": "en-ug",
+    "language": "en",
+    "country": "UG",
+    "place": "Murchison Falls",
+    "src": "/passport-real/en-ug.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:River Nile - Murchison Falls National Park 20190916 143022.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:River_Nile_-_Murchison_Falls_National_Park_20190916_143022.jpg",
+      "author": "Josefito123",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "884b11f6940ae4ce2938b70278ab451490d3b5e828570abf27ee0eb544a92a1d"
   }
 ]
