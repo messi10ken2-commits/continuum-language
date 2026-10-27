@@ -1,5 +1,8 @@
 // Reviewed UI copy: target-language examples and private records are never translated here.
 const rows=[
+["Not yet earned","未獲得","Aún no conseguido","Ainda não conquistado","尚未获得","Pas encore obtenu"],
+["AI-generated photographic scene","AI生成の写真風シーン","Escena fotográfica generada por IA","Cena fotográfica gerada por IA","AI生成的照片风格场景","Scène photographique générée par IA"],
+["Collect stamps through learning. Hidden frames show what is still to come.","学習を進めてスタンプを集めましょう。未獲得の枠はシルエットで表示しています。","Colecciona sellos aprendiendo. Los marcos ocultos muestran lo que falta.","Colecione selos aprendendo. As molduras ocultas mostram o que falta.","通过学习收集印章。隐藏的相框显示尚未获得的内容。","Collectionnez des timbres en apprenant. Les cadres masqués indiquent ce qu’il reste à obtenir."],
 ["Complete a whole level, return to a difficulty, or earn the three-day milestone.","レベル全体の修了、苦手への再挑戦、または3日間学習の節目で獲得できます。","Completa un nivel, vuelve a una dificultad o estudia durante tres días.","Conclua um nível, retome uma dificuldade ou estude em três dias.","完成一个级别、重新挑战难点或达成三天学习里程碑。","Terminez un niveau, reprenez une difficulté ou étudiez pendant trois jours."],
 ["Companion keepsake · Creative scene","コンパニオンとの記念写真・創作シーン","Recuerdo con tu compañero · Escena creativa","Lembrança com seu companheiro · Cena criativa","伙伴纪念图片 · 创作场景","Souvenir avec votre compagnon · Scène créative"],
 ["Photograph and credits","写真とクレジット","Fotografía y créditos","Fotografia e créditos","照片与署名","Photographie et crédits"],
