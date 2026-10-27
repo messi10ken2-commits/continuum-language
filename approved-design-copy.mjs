@@ -1,5 +1,6 @@
 // Reviewed UI copy: target-language examples and private records are never translated here.
 const rows=[
+["Complete a whole level, return to a difficulty, or earn the three-day milestone.","レベル全体の修了、苦手への再挑戦、または3日間学習の節目で獲得できます。","Completa un nivel, vuelve a una dificultad o estudia durante tres días.","Conclua um nível, retome uma dificuldade ou estude em três dias.","完成一个级别、重新挑战难点或达成三天学习里程碑。","Terminez un niveau, reprenez une difficulté ou étudiez pendant trois jours."],
 ["Companion keepsake · Creative scene","コンパニオンとの記念写真・創作シーン","Recuerdo con tu compañero · Escena creativa","Lembrança com seu companheiro · Cena criativa","伙伴纪念图片 · 创作场景","Souvenir avec votre compagnon · Scène créative"],
 ["Photograph and credits","写真とクレジット","Fotografía y créditos","Fotografia e créditos","照片与署名","Photographie et crédits"],
 ["Original photograph","元の写真","Fotografía original","Fotografia original","原始照片","Photographie originale"],
