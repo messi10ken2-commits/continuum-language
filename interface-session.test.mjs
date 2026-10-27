@@ -1,3 +1,4 @@
+import {dynamicTranslationSources} from './translation-test-fixtures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {translationKey} from './localization-corpus.mjs';
@@ -16,10 +17,10 @@ test('late translation failure cannot poison a new account translation queue',as
  try{
   const runtime=await import('./interface-runtime.mjs?qa-session-race');
   await runtime.bindInterfaceAccount({id:'account-a'});
-  runtime.t('Read the complete video transcript');await wait(()=>rejectOld);
+  runtime.t(dynamicTranslationSources[0]);await wait(()=>rejectOld);
   await runtime.bindInterfaceAccount(null);
   await runtime.bindInterfaceAccount({id:'account-b'});
-  const source='This device has no speech playback.';
+  const source=dynamicTranslationSources[1];
   runtime.t(source);
   rejectOld(Error('old account request failed'));
   await wait(()=>resolveNew);

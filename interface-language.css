@@ -11,3 +11,8 @@ html[dir=rtl] .approved-map-scroll,html[dir=rtl] .approved-map-canvas,html[dir=r
 html[dir=rtl] .approved-map-node,html[dir=rtl] .approved-map-chapter,html[dir=rtl] .journey-node,html[dir=rtl] .week-event{direction:rtl;text-align:start}
 html[dir=rtl] [lang]:not([lang|=ar]),html[dir=rtl] input[type=email],html[dir=rtl] input[type=url],html[dir=rtl] input[type=password],html[dir=rtl] input[type=number],html[dir=rtl] code{direction:ltr;unicode-bidi:isolate}
 html[dir=rtl] .interface-picker select,html[dir=rtl] .journey-layout-picker select{unicode-bidi:plaintext}
+
+/* Longer translated headings and learner names must not push the connection badge offscreen. */
+.note-workspace .note-head{flex-wrap:wrap;gap:12px}
+.note-workspace .note-head>div{flex:1 1 220px;min-width:0;overflow-wrap:anywhere}
+.note-workspace .teacher-connected-badge{flex:0 0 auto}

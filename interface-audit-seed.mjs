@@ -1,5 +1,12 @@
 // Reviewed common UI and name-safe templates. User values are inserted after translation.
 const rows=`
+Trial|お試し期間|Prueba|Período de teste|试用期|Période d’essai|체험 기간|Masa uji coba|Пробный период|الفترة التجريبية
+Past due|支払期限超過|Pago vencido|Pagamento em atraso|付款逾期|Paiement en retard|결제 기한 초과|Pembayaran terlambat|Просрочен платёж|متأخر السداد
+Unpaid|未払い|Sin pagar|Não pago|未付款|Impayé|미결제|Belum dibayar|Не оплачено|غير مدفوع
+Incomplete|手続き未完了|Incompleto|Incompleto|尚未完成|Incomplet|미완료|Belum selesai|Не завершено|غير مكتمل
+Expired|期限切れ|Caducado|Expirado|已过期|Expiré|만료됨|Kedaluwarsa|Срок истёк|منتهي الصلاحية
+Payment review|支払い確認中|Revisión del pago|Pagamento em análise|付款审核中|Paiement en cours de vérification|결제 검토 중|Pembayaran sedang ditinjau|Проверка платежа|مراجعة الدفع
+
 Link|リンク|Enlace|Link|链接|Lien|링크|Tautan|Ссылка|الرابط
 Waiting|対応待ち|En espera|Aguardando|等待中|En attente|대기 중|Menunggu|Ожидание|قيد الانتظار
 Resolved|解決済み|Resuelto|Resolvido|已解决|Résolu|해결됨|Selesai|Решено|تم الحل

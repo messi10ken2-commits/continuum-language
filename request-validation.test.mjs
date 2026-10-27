@@ -1,3 +1,4 @@
+import {dynamicTranslationSources} from './translation-test-fixtures.mjs';
 import assert from 'node:assert/strict';
 delete process.env.OPENAI_API_KEY;delete process.env.GEMINI_API_KEY;
 process.env.NODE_ENV='development';
@@ -23,7 +24,7 @@ try{
  }
  const registration=await fetch(base+'/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:'Validation QA',email:'validation-qa@example.test',password:'synthetic-validation-password',role:'learner',adult:true})});assert.equal(registration.status,200);
  const cookie=registration.headers.get('set-cookie').split(';')[0];
- const unavailable=await fetch(base+'/api/localization',{method:'POST',headers:{cookie,'Content-Type':'application/json'},body:JSON.stringify({locale:'ja',items:[{text:'Read the complete video transcript'}]})});
+ const unavailable=await fetch(base+'/api/localization',{method:'POST',headers:{cookie,'Content-Type':'application/json'},body:JSON.stringify({locale:'ja',items:[{text:dynamicTranslationSources[0]}]})});
  assert.equal(unavailable.status,503);assert.match((await unavailable.json()).error,/Original text is still available/);
  console.log('PASS: malformed JSON and origins are rejected, valid origin works and authentication rate limits remain enforced.');
 }finally{await new Promise(resolve=>testServer.close(resolve));await db.close();}
