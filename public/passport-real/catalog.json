@@ -4,7 +4,7 @@
     "language": "en",
     "country": "AG",
     "place": "English Harbour",
-    "src": "/passport-real/en-ag.webp",
+    "src": "/passport-real/en-ag-0c8622e2351a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Antigua English Harbour Nelson's Dockyard 2.jpg",
@@ -21,7 +21,7 @@
     "language": "en",
     "country": "AU",
     "place": "Sydney Harbour",
-    "src": "/passport-real/en-au.webp",
+    "src": "/passport-real/en-au-c1f11366361c.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Sydney Harbour Bridge from Circular Quay.jpg",
@@ -38,7 +38,7 @@
     "language": "en",
     "country": "BS",
     "place": "Nassau Bahamas",
-    "src": "/passport-real/en-bs.webp",
+    "src": "/passport-real/en-bs-57944a4c5d63.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Baha Mar Resort located in Nassau, Bahamas.jpg",
@@ -55,41 +55,41 @@
     "language": "en",
     "country": "BB",
     "place": "Bathsheba Barbados",
-    "src": "/passport-real/en-bb.webp",
+    "src": "/passport-real/en-bb-5388cb990042.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Abandoned Stone House, Bathsheba, Barbados.JPG",
-      "source": "https://commons.wikimedia.org/wiki/File:Abandoned_Stone_House,_Bathsheba,_Barbados.JPG",
-      "author": "Pgbk1987",
+      "title": "File:Bathsheba, Barbados 08.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Bathsheba,_Barbados_08.jpg",
+      "author": "Postdlf",
       "license": "CC BY-SA 3.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
       "changes": "Cropped and resized"
     },
-    "sha256": "9f318fada9b4693bdbcb7d1ded3fe891593e8fd1024d950fbb4f6fc0d03b976d"
+    "sha256": "5388cb99004256f8d03fbaa6dd93114675879f2d516358edbab10adaf4e1164a"
   },
   {
     "id": "en-bz",
     "language": "en",
     "country": "BZ",
     "place": "Great Blue Hole",
-    "src": "/passport-real/en-bz.webp",
+    "src": "/passport-real/en-bz-7b83a255bbf2.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:The Great Blue Hole, Belize.png",
-      "source": "https://commons.wikimedia.org/wiki/File:The_Great_Blue_Hole,_Belize.png",
-      "author": "SentinelHub",
-      "license": "CC BY 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "title": "File:Great Blue Hole.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Great_Blue_Hole.jpg",
+      "author": "U.S. Geological Survey (USGS)",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Great_Blue_Hole.jpg",
       "changes": "Cropped and resized"
     },
-    "sha256": "e70499cc9d3f6a4a818b389591b28e7f2b3f1da1621cfa69e8deab7f5c1883e4"
+    "sha256": "7b83a255bbf2b713fea3c776d328c5b856d2baefdf0ca91914942c67edefd188"
   },
   {
     "id": "en-bm",
     "language": "en",
     "country": "BM",
     "place": "Horseshoe Bay Bermuda",
-    "src": "/passport-real/en-bm.webp",
+    "src": "/passport-real/en-bm-b79f43f01c3e.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Eolianite, Horseshoe Bay, Bermuda.jpg",
@@ -106,7 +106,7 @@
     "language": "en",
     "country": "BW",
     "place": "Okavango Delta",
-    "src": "/passport-real/en-bw.webp",
+    "src": "/passport-real/en-bw-da6784520283.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Waterbuck, Okavango Delta, Botswana (2685372364).jpg",
@@ -123,31 +123,31 @@
     "language": "en",
     "country": "CM",
     "place": "Mount Cameroon",
-    "src": "/passport-real/en-cm.webp",
+    "src": "/passport-real/en-cm-74c5e40af959.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Tree on Mount Cameroon 3.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Tree_on_Mount_Cameroon_3.jpg",
-      "author": "Atabong Armstrong",
+      "title": "File:Mount Cameroon view from Buea (Soppo).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mount_Cameroon_view_from_Buea_(Soppo).jpg",
+      "author": "Yona Tientcheu",
       "license": "CC BY-SA 4.0",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "64d4468527a917d62da54537bf6a3993c8d6dd604ad9891677e7fcb2e8ae3f7e"
+    "sha256": "74c5e40af95908e679051e00cdbbdaeee92f2b7f78d4905d9d445886f2ce16ea"
   },
   {
     "id": "en-ca",
     "language": "en",
     "country": "CA",
     "place": "Moraine Lake",
-    "src": "/passport-real/en-ca.webp",
+    "src": "/passport-real/en-ca-0256289c7bf1.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Moraine Lake 17092005.jpg",
       "source": "https://commons.wikimedia.org/wiki/File:Moraine_Lake_17092005.jpg",
       "author": "Gorgo",
       "license": "Public domain",
-      "licenseUrl": null,
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Moraine_Lake_17092005.jpg",
       "changes": "Cropped and resized"
     },
     "sha256": "0256289c7bf18b9e155ac5f46e5fe226b8482e7c0d53da2cceaeac9114c633be"
@@ -157,7 +157,7 @@
     "language": "en",
     "country": "CK",
     "place": "Aitutaki Lagoon",
-    "src": "/passport-real/en-ck.webp",
+    "src": "/passport-real/en-ck-f1610a2d08a0.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Maina Island, Aitutaki Lagoon, Cook Islands.jpg",
@@ -174,7 +174,7 @@
     "language": "en",
     "country": "DM",
     "place": "Trafalgar Falls",
-    "src": "/passport-real/en-dm.webp",
+    "src": "/passport-real/en-dm-29f759077533.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Dominica (Caribbean) - Trafalgar Falls - double-falls (32724044870).jpg",
@@ -191,7 +191,7 @@
     "language": "en",
     "country": "ER",
     "place": "Asmara city",
-    "src": "/passport-real/en-er.webp",
+    "src": "/passport-real/en-er-4ad9628c867d.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Asmara City Eritrea.jpg",
@@ -208,24 +208,24 @@
     "language": "en",
     "country": "SZ",
     "place": "Mlilwane Wildlife Sanctuary",
-    "src": "/passport-real/en-sz.webp",
+    "src": "/passport-real/en-sz-87c9236000c6.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Causus rhombeatus in Mlilwane Wildlife Sanctuary 02.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Causus_rhombeatus_in_Mlilwane_Wildlife_Sanctuary_02.jpg",
-      "author": "Bernard Gagnon",
-      "license": "CC BY-SA 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "title": "File:Zabras in Mlilwane Wildlife Sanctuary.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Zabras_in_Mlilwane_Wildlife_Sanctuary.jpg",
+      "author": "Vaiz Ha",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "737f6c015dacfe296bb058bcbbeaaae5e13ef2a9c7d55d29b3def9ea09424ffd"
+    "sha256": "87c9236000c6144316e18eb0c884c76fe57d4c3e90306c732dd3cfb954610697"
   },
   {
     "id": "en-fj",
     "language": "en",
     "country": "FJ",
     "place": "Mamanuca Islands",
-    "src": "/passport-real/en-fj.webp",
+    "src": "/passport-real/en-fj-c5513b231b81.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Mamanuca Islands - panoramio.jpg",
@@ -242,7 +242,7 @@
     "language": "en",
     "country": "GM",
     "place": "River Gambia",
-    "src": "/passport-real/en-gm.webp",
+    "src": "/passport-real/en-gm-9cbef4e96af8.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Pirogue on the River Gambia (4383580158).jpg",
@@ -255,62 +255,28 @@
     "sha256": "9cbef4e96af8e6fa24d3b605689525f97208c2f46bb9e3ec8a14b6550f88129f"
   },
   {
-    "id": "en-gh",
-    "language": "en",
-    "country": "GH",
-    "place": "Cape Coast Castle",
-    "src": "/passport-real/en-gh.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:Cape Coast Castle in Ghana 12.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Cape_Coast_Castle_in_Ghana_12.jpg",
-      "author": "Esthee2010",
-      "license": "CC BY-SA 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-      "changes": "Cropped and resized"
-    },
-    "sha256": "618f53536af8984a5d950874602a47e83b132df79a31380cbcb7e6842ba476e8"
-  },
-  {
     "id": "en-gi",
     "language": "en",
     "country": "GI",
     "place": "Rock of Gibraltar",
-    "src": "/passport-real/en-gi.webp",
+    "src": "/passport-real/en-gi-9b9ec86138a4.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Rock of Gibraltar from Rosia Parade.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Rock_of_Gibraltar_from_Rosia_Parade.jpg",
-      "author": "Unknown authorUnknown author",
-      "license": "Public domain",
-      "licenseUrl": null,
+      "title": "File:Gibraltar S Rock (136247891).jpeg",
+      "source": "https://commons.wikimedia.org/wiki/File:Gibraltar_S_Rock_(136247891).jpeg",
+      "author": "Alex Wright",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "325ca8254d59d050074e6e8e04af812cdd14de918cfb4fd2b6a5c3effd9e4711"
-  },
-  {
-    "id": "en-gd",
-    "language": "en",
-    "country": "GD",
-    "place": "St Georges Grenada",
-    "src": "/passport-real/en-gd.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:Down by the Carenage - St. Georges, Grenada.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Down_by_the_Carenage_-_St._Georges,_Grenada.jpg",
-      "author": "madmack66",
-      "license": "CC BY 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
-      "changes": "Cropped and resized"
-    },
-    "sha256": "f9829769763f4acd517fe57aaef4761567d535a58a1f01261ccf468bf66a98dc"
+    "sha256": "9b9ec86138a4d941d91692ce0f59a79a1700ceda7547e771e27edc44c85d6e36"
   },
   {
     "id": "en-gy",
     "language": "en",
     "country": "GY",
     "place": "Kaieteur Falls",
-    "src": "/passport-real/en-gy.webp",
+    "src": "/passport-real/en-gy-8f4e483e0158.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Kaieteur Falls Guyana (2) 2007.jpg",
@@ -327,7 +293,7 @@
     "language": "en",
     "country": "HK",
     "place": "Hong Kong Victoria Harbour",
-    "src": "/passport-real/en-hk.webp",
+    "src": "/passport-real/en-hk-f01899c6a9c3.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:International Commerce Centre on Victoria Harbour.jpg",
@@ -344,7 +310,7 @@
     "language": "en",
     "country": "IN",
     "place": "Taj Mahal",
-    "src": "/passport-real/en-in.webp",
+    "src": "/passport-real/en-in-5dab547bb837.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Taj Mahal, Agra, India edit2.jpg",
@@ -361,7 +327,7 @@
     "language": "en",
     "country": "IE",
     "place": "Cliffs of Moher",
-    "src": "/passport-real/en-ie.webp",
+    "src": "/passport-real/en-ie-21cab1ac7403.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Ireland Cliffs of Moher BW 2025-09-11 14-27-51.jpg",
@@ -378,7 +344,7 @@
     "language": "en",
     "country": "JM",
     "place": "Dunns River Falls",
-    "src": "/passport-real/en-jm.webp",
+    "src": "/passport-real/en-jm-87eae9830934.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Dunns River Falls 2d Photo Don Ramey Logan.jpg",
@@ -395,7 +361,7 @@
     "language": "en",
     "country": "KE",
     "place": "Amboseli National Park",
-    "src": "/passport-real/en-ke.webp",
+    "src": "/passport-real/en-ke-8cf79906bb9a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Elephants at Amboseli national park against Mount Kilimanjaro.jpg",
@@ -412,24 +378,24 @@
     "language": "en",
     "country": "KI",
     "place": "Tarawa atoll",
-    "src": "/passport-real/en-ki.webp",
+    "src": "/passport-real/en-ki-3f6ee8d4a836.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Tarawa Atoll Target Areas, 1943.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Tarawa_Atoll_Target_Areas,_1943.jpg",
-      "author": "Archives Branch, USMC History Division",
-      "license": "CC BY 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "title": "File:South Tarawa from the air.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:South_Tarawa_from_the_air.jpg",
+      "author": "Photo taken by Government of Kiribati employee in the course of their work",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "af91d729746791de68630f0cde4ad96de9ab73e443eb745a5a04fe9875f6bdc7"
+    "sha256": "3f6ee8d4a83694eec63a0f63cea40c0686500d31f75baf422349e0800e3bf3b9"
   },
   {
     "id": "en-ls",
     "language": "en",
     "country": "LS",
     "place": "Maletsunyane Falls",
-    "src": "/passport-real/en-ls.webp",
+    "src": "/passport-real/en-ls-9dd0eae9a58c.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Lesotho maletsunyane falls.jpg",
@@ -446,7 +412,7 @@
     "language": "en",
     "country": "LR",
     "place": "Monrovia Liberia",
-    "src": "/passport-real/en-lr.webp",
+    "src": "/passport-real/en-lr-c817db458236.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Monrovia, Liberia - panoramio (7).jpg",
@@ -463,24 +429,24 @@
     "language": "en",
     "country": "MW",
     "place": "Lake Malawi",
-    "src": "/passport-real/en-mw.webp",
+    "src": "/passport-real/en-mw-0eb8007baa3b.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Mammals of Lake Malawi area exhibit - Lake Malawi Museum.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Mammals_of_Lake_Malawi_area_exhibit_-_Lake_Malawi_Museum.jpg",
-      "author": "TimCowley",
-      "license": "CC BY-SA 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "title": "File:Monoxylon beach Lake Malawi 1557.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Monoxylon_beach_Lake_Malawi_1557.jpg",
+      "author": "Stefan Kraft Stefan7",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
       "changes": "Cropped and resized"
     },
-    "sha256": "e0bb495d3a9adc8e512b37be512601f5529cff3a928dcbd4ada4a62c6cc852fd"
+    "sha256": "0eb8007baa3b75041a785c5c21700c597e9e336059bd20f38185621091c8ebf3"
   },
   {
     "id": "en-my",
     "language": "en",
     "country": "MY",
     "place": "Kuala Lumpur skyline",
-    "src": "/passport-real/en-my.webp",
+    "src": "/passport-real/en-my-4667b4d27f41.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Kuala Lumpur skyline late afternoon from 29-floor apartment 01.jpg",
@@ -497,41 +463,24 @@
     "language": "en",
     "country": "MT",
     "place": "Valletta Malta",
-    "src": "/passport-real/en-mt.webp",
+    "src": "/passport-real/en-mt-eb50973d4179.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Insulae Melitae Vulgo Malte. (inset) (Valletta, Malta). (IA dr insulae-melitae-vulgo-malte-inset-valletta-malta-10056024).jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Insulae_Melitae_Vulgo_Malte._(inset)_(Valletta,_Malta)._(IA_dr_insulae-melitae-vulgo-malte-inset-valletta-malta-10056024).jpg",
-      "author": "Jansson, Johannes, 1588-1664",
-      "license": "Public domain",
-      "licenseUrl": null,
+      "title": "File:St Sebastian Curtain (cropped).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:St_Sebastian_Curtain_(cropped).jpg",
+      "author": "Mandyy88",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "55cafb3e85a8b22a097cf78420dabf91ed6cf24997bb5ddca87ce44bf6bbdaf1"
-  },
-  {
-    "id": "en-mh",
-    "language": "en",
-    "country": "MH",
-    "place": "Majuro atoll",
-    "src": "/passport-real/en-mh.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:MAJURO ATOLL, Marshall Islands (Aug 22, 2019) (5737506).jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:MAJURO_ATOLL,_Marshall_Islands_(Aug_22,_2019)_(5737506).jpg",
-      "author": "U.S. Navy photo by [null Courtesy]",
-      "license": "Public domain",
-      "licenseUrl": null,
-      "changes": "Cropped and resized"
-    },
-    "sha256": "185fc9f3ec65ade01119971d07d930719b18bf7b28b61f038a7cdb053cc67b59"
+    "sha256": "eb50973d41798d845833946212443038a74f193deba9e70ce5a3e18ebac80517"
   },
   {
     "id": "en-mu",
     "language": "en",
     "country": "MU",
     "place": "Le Morne Brabant",
-    "src": "/passport-real/en-mu.webp",
+    "src": "/passport-real/en-mu-b156f42a8055.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Le Morne Brabant, Maurizio.jpg",
@@ -548,7 +497,7 @@
     "language": "en",
     "country": "FM",
     "place": "Nan Madol",
-    "src": "/passport-real/en-fm.webp",
+    "src": "/passport-real/en-fm-2f8f267a870c.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Nan Madol 1.jpg",
@@ -565,7 +514,7 @@
     "language": "en",
     "country": "NA",
     "place": "Sossusvlei",
-    "src": "/passport-real/en-na.webp",
+    "src": "/passport-real/en-na-30d2911c4128.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Duna en Sossusvlei, Namibia, 2018-08-06, DD 002.jpg",
@@ -578,11 +527,28 @@
     "sha256": "30d2911c4128cd7375cbc1e5123c6e64929b226a03789dc05a9bee2df4cd03d7"
   },
   {
+    "id": "en-nr",
+    "language": "en",
+    "country": "NR",
+    "place": "Anibare Bay",
+    "src": "/passport-real/en-nr-ba36cea170ab.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Living on a Blue Planet - Nauru.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Living_on_a_Blue_Planet_-_Nauru.jpg",
+      "author": "Hadi Zaher from Melbourne, Australia",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "ba36cea170ab71ab0ba58e1128e572c7aeddaae857edf86c0700ca31ff4ad618"
+  },
+  {
     "id": "en-nz",
     "language": "en",
     "country": "NZ",
     "place": "Milford Sound",
-    "src": "/passport-real/en-nz.webp",
+    "src": "/passport-real/en-nz-6f7c6f1acc2a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Milford Sound in Fiordland National Park 03.jpg",
@@ -599,7 +565,7 @@
     "language": "en",
     "country": "NG",
     "place": "Lagos skyline",
-    "src": "/passport-real/en-ng.webp",
+    "src": "/passport-real/en-ng-c08ae419bbc8.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Eko Atlantic (Lagos) Skyline.jpg",
@@ -616,7 +582,7 @@
     "language": "en",
     "country": "PK",
     "place": "Hunza Valley",
-    "src": "/passport-real/en-pk.webp",
+    "src": "/passport-real/en-pk-6077ef90ec0e.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Hunza Valley, view from Eagle's Nest.jpg",
@@ -633,7 +599,7 @@
     "language": "en",
     "country": "PW",
     "place": "Rock Islands Palau",
-    "src": "/passport-real/en-pw.webp",
+    "src": "/passport-real/en-pw-7ea203dd1c40.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Rock-Islands-Palau-1-2016-sea-view-Luka-Peternel.jpg",
@@ -650,7 +616,7 @@
     "language": "en",
     "country": "PG",
     "place": "Port Moresby",
-    "src": "/passport-real/en-pg.webp",
+    "src": "/passport-real/en-pg-501a100614af.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Port moresby (5986704365).jpg",
@@ -667,7 +633,7 @@
     "language": "en",
     "country": "PH",
     "place": "Chocolate Hills",
-    "src": "/passport-real/en-ph.webp",
+    "src": "/passport-real/en-ph-5380b67a0dd0.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Chocolate Hills - edit.jpg",
@@ -684,14 +650,14 @@
     "language": "en",
     "country": "PR",
     "place": "Old San Juan Puerto Rico",
-    "src": "/passport-real/en-pr.webp",
+    "src": "/passport-real/en-pr-15d342beda40.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Buildings at Plaza de Armas in Old San Juan, Puerto Rico, 2011.jpg",
       "source": "https://commons.wikimedia.org/wiki/File:Buildings_at_Plaza_de_Armas_in_Old_San_Juan,_Puerto_Rico,_2011.jpg",
       "author": "Daderot",
       "license": "Public domain",
-      "licenseUrl": null,
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Buildings_at_Plaza_de_Armas_in_Old_San_Juan,_Puerto_Rico,_2011.jpg",
       "changes": "Cropped and resized"
     },
     "sha256": "15d342beda402d67d75b3fd4ce0d2623a4c899bb5ee8b0a77641d530ccac87ef"
@@ -701,7 +667,7 @@
     "language": "en",
     "country": "RW",
     "place": "Lake Kivu",
-    "src": "/passport-real/en-rw.webp",
+    "src": "/passport-real/en-rw-c378e38ae54a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Along Lake Kivu.jpg",
@@ -718,7 +684,7 @@
     "language": "en",
     "country": "KN",
     "place": "Brimstone Hill Fortress",
-    "src": "/passport-real/en-kn.webp",
+    "src": "/passport-real/en-kn-2910aed255ea.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Saint Kitts - Brimstone Hill Fortress 03.JPG",
@@ -735,7 +701,7 @@
     "language": "en",
     "country": "LC",
     "place": "Pitons Saint Lucia",
-    "src": "/passport-real/en-lc.webp",
+    "src": "/passport-real/en-lc-e1d637faa55a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Soufriere town and the Pitons, Saint Lucia.jpg",
@@ -752,7 +718,7 @@
     "language": "en",
     "country": "VC",
     "place": "Tobago Cays",
-    "src": "/passport-real/en-vc.webp",
+    "src": "/passport-real/en-vc-f29596aa3192.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Tobago Cays (50002453711).jpg",
@@ -769,7 +735,7 @@
     "language": "en",
     "country": "WS",
     "place": "To Sua Ocean Trench",
-    "src": "/passport-real/en-ws.webp",
+    "src": "/passport-real/en-ws-e56edfaf8818.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:To Sua Ocean Trench.jpg",
@@ -786,7 +752,7 @@
     "language": "en",
     "country": "SC",
     "place": "Anse Source dArgent",
-    "src": "/passport-real/en-sc.webp",
+    "src": "/passport-real/en-sc-0379bb770af7.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Anse Source dArgent on La Digue 2015.JPG",
@@ -803,7 +769,7 @@
     "language": "en",
     "country": "SL",
     "place": "Freetown Sierra Leone",
-    "src": "/passport-real/en-sl.webp",
+    "src": "/passport-real/en-sl-4cb3172fb5b1.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:MV Karadeniz Powership Doğan Bey, Freetown, Sierra Leone.jpg",
@@ -820,7 +786,7 @@
     "language": "en",
     "country": "SG",
     "place": "Singapore skyline",
-    "src": "/passport-real/en-sg.webp",
+    "src": "/passport-real/en-sg-1529bf8aeed5.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Singapore Skyline-01.jpg",
@@ -837,7 +803,7 @@
     "language": "en",
     "country": "SB",
     "place": "Marovo Lagoon",
-    "src": "/passport-real/en-sb.webp",
+    "src": "/passport-real/en-sb-c58505070f9e.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Marovo Lagoon (16 August 2008).jpg",
@@ -854,7 +820,7 @@
     "language": "en",
     "country": "ZA",
     "place": "Cape Town Table Mountain",
-    "src": "/passport-real/en-za.webp",
+    "src": "/passport-real/en-za-03a3da554414.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Cape Town Table Mountain.jpg",
@@ -871,7 +837,7 @@
     "language": "en",
     "country": "SS",
     "place": "Nile Juba",
-    "src": "/passport-real/en-ss.webp",
+    "src": "/passport-real/en-ss-6dd0f8090698.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Sunken boat on the White Nile , Juba South Sudan.jpg",
@@ -888,24 +854,24 @@
     "language": "en",
     "country": "SD",
     "place": "Meroe pyramids",
-    "src": "/passport-real/en-sd.webp",
+    "src": "/passport-real/en-sd-1d6e33f6356d.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Meröe pyramids reliefs (7) (34721618275).jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Mer%C3%B6e_pyramids_reliefs_(7)_(34721618275).jpg",
-      "author": "Hans Birger Nilsen",
+      "title": "File:Sudan Meroe Pyramids 30sep2005 2.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sudan_Meroe_Pyramids_30sep2005_2.jpg",
+      "author": "Fabrizio Demartis",
       "license": "CC BY-SA 2.0",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "77659d99bf6955ad72e23039e1deab0748b636c2559febbb747344f79eb18db2"
+    "sha256": "1d6e33f6356dfc30987d475167944c8a5caaffa7cbf2d9b5c6556afb28337f39"
   },
   {
     "id": "en-tz",
     "language": "en",
     "country": "TZ",
     "place": "Mount Kilimanjaro",
-    "src": "/passport-real/en-tz.webp",
+    "src": "/passport-real/en-tz-8cf79906bb9a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Elephants at Amboseli national park against Mount Kilimanjaro.jpg",
@@ -918,11 +884,28 @@
     "sha256": "8cf79906bb9a9f8f7e4fd7add19b1b6c9e339e73292ffde8124da03dc92cc306"
   },
   {
+    "id": "en-to",
+    "language": "en",
+    "country": "TO",
+    "place": "Vavau Tonga",
+    "src": "/passport-real/en-to-37a015d35fc8.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Vavaʻu.gif",
+      "source": "https://commons.wikimedia.org/wiki/File:Vava%CA%BBu.gif",
+      "author": "Tauʻolunga",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "37a015d35fc8887e5bddcbe955ab572fbfb52f43dd01584c1ae1865fc494a18d"
+  },
+  {
     "id": "en-tt",
     "language": "en",
     "country": "TT",
     "place": "Maracas Bay",
-    "src": "/passport-real/en-tt.webp",
+    "src": "/passport-real/en-tt-0143c29d8348.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Maracas Bay - panoramio.jpg",
@@ -939,24 +922,24 @@
     "language": "en",
     "country": "TV",
     "place": "Funafuti atoll",
-    "src": "/passport-real/en-tv.webp",
+    "src": "/passport-real/en-tv-f4f3df8f6fd8.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Maneapa and airport in Funafuti atoll, Tuvalu.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Maneapa_and_airport_in_Funafuti_atoll,_Tuvalu.jpg",
-      "author": "Rafael Ávila Coya",
-      "license": "CC BY-SA 3.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "title": "File:Funafuti airport - Fiji Airways.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Funafuti_airport_-_Fiji_Airways.jpg",
+      "author": "Michael Coghlan",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "05d5de269d4a5ff6e088bf3f89e293a7016459170aea359f1bb1c32aec04e173"
+    "sha256": "f4f3df8f6fd8326178656fbc762428d12283da9b394f4933e23d7a7236473e1c"
   },
   {
     "id": "en-ug",
     "language": "en",
     "country": "UG",
     "place": "Murchison Falls",
-    "src": "/passport-real/en-ug.webp",
+    "src": "/passport-real/en-ug-884b11f6940a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:River Nile - Murchison Falls National Park 20190916 143022.jpg",
@@ -973,7 +956,7 @@
     "language": "en",
     "country": "GB",
     "place": "London Westminster",
-    "src": "/passport-real/en-gb.webp",
+    "src": "/passport-real/en-gb-6dc8e9b9292b.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:London Westminster Abbey P1130951.jpg",
@@ -990,7 +973,7 @@
     "language": "en",
     "country": "US",
     "place": "Grand Canyon",
-    "src": "/passport-real/en-us.webp",
+    "src": "/passport-real/en-us-259fb308f35f.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Grand Canyon Hopi Point with rainbow 2013.jpg",
@@ -1003,28 +986,11 @@
     "sha256": "259fb308f35f2af4342709d6f0a09be950cce0af03fd33ebcee6ce2363325582"
   },
   {
-    "id": "en-vu",
-    "language": "en",
-    "country": "VU",
-    "place": "Mount Yasur",
-    "src": "/passport-real/en-vu.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:Tanna Mount Yasur.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Tanna_Mount_Yasur.jpg",
-      "author": "",
-      "license": "CC BY-SA 3.0",
-      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
-      "changes": "Cropped and resized"
-    },
-    "sha256": "a61e90f98eb8f7c0039336fb29354c528aa4d05fccae0959715a3b5232e70470"
-  },
-  {
     "id": "en-zm",
     "language": "en",
     "country": "ZM",
     "place": "Victoria Falls Zambia",
-    "src": "/passport-real/en-zm.webp",
+    "src": "/passport-real/en-zm-68e3b162264e.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Victoria falls, zambia.jpg",
@@ -1041,7 +1007,7 @@
     "language": "en",
     "country": "ZW",
     "place": "Great Zimbabwe",
-    "src": "/passport-real/en-zw.webp",
+    "src": "/passport-real/en-zw-0ecf2758f4cd.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Great Zimbabwe 8.jpg",
@@ -1058,7 +1024,7 @@
     "language": "es",
     "country": "AR",
     "place": "Perito Moreno Glacier",
-    "src": "/passport-real/es-ar.webp",
+    "src": "/passport-real/es-ar-6dea40a6f8f2.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Perito Moreno Glacier Patagonia Argentina Luca Galuzzi 2005.JPG",
@@ -1075,7 +1041,7 @@
     "language": "es",
     "country": "BO",
     "place": "Salar de Uyuni",
-    "src": "/passport-real/es-bo.webp",
+    "src": "/passport-real/es-bo-a2bf87cffd7a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Watching Sunset Salar de Uyuni Bolivia Luca Galuzzi 2006.jpg",
@@ -1092,7 +1058,7 @@
     "language": "es",
     "country": "CL",
     "place": "Torres del Paine",
-    "src": "/passport-real/es-cl.webp",
+    "src": "/passport-real/es-cl-4e38a5d33894.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Cuernos del Paine in Torres del Paine National Park.jpg",
@@ -1109,24 +1075,24 @@
     "language": "es",
     "country": "CO",
     "place": "Cartagena Colombia",
-    "src": "/passport-real/es-co.webp",
+    "src": "/passport-real/es-co-2aec62253814.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:License plate of Cartagena, Colombia.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:License_plate_of_Cartagena,_Colombia.jpg",
-      "author": "Bernard Gagnon",
-      "license": "CC BY-SA 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "title": "File:Cartagena skyline, Colombia.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Cartagena_skyline,_Colombia.jpg",
+      "author": "poirpom",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "b957ced19bfe38f85e6caf717673639615634dc1db6467971bf2b7347144f12a"
+    "sha256": "2aec62253814721d02585ad9cbac5e5f4c28443e765d902d823ed918ee5b843b"
   },
   {
     "id": "es-cr",
     "language": "es",
     "country": "CR",
     "place": "Arenal Volcano",
-    "src": "/passport-real/es-cr.webp",
+    "src": "/passport-real/es-cr-2482df748cb1.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Arenal volcano (70785p).jpg",
@@ -1139,62 +1105,45 @@
     "sha256": "2482df748cb145e95891f43d6fbaa6d6a8d99439ece95e908fb1c8421aed9817"
   },
   {
-    "id": "es-cu",
-    "language": "es",
-    "country": "CU",
-    "place": "Havana Cuba",
-    "src": "/passport-real/es-cu.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:Havana - Cuba - Man giving a V sign - 1326.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Havana_-_Cuba_-_Man_giving_a_V_sign_-_1326.jpg",
-      "author": "Jorge Royan",
-      "license": "CC BY-SA 3.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-      "changes": "Cropped and resized"
-    },
-    "sha256": "90ca3e86c605d25e60ccc34cd25a369cf2243bdae124e5a1433fe19157419728"
-  },
-  {
     "id": "es-do",
     "language": "es",
     "country": "DO",
     "place": "Punta Cana",
-    "src": "/passport-real/es-do.webp",
+    "src": "/passport-real/es-do-ae285cb4f53b.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Punta Cana Music & Art Festival 2013 (31), Hard Rock Cafe Punta Cana, 2013-08-16.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Punta_Cana_Music_%26_Art_Festival_2013_(31),_Hard_Rock_Cafe_Punta_Cana,_2013-08-16.jpg",
-      "author": "Angel Ramos G",
-      "license": "CC BY 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "title": "File:Natura Park beach, view towards the southeast, Punta Cana, 2004.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Natura_Park_beach,_view_towards_the_southeast,_Punta_Cana,_2004.jpg",
+      "author": "DimiTalen",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
       "changes": "Cropped and resized"
     },
-    "sha256": "f420bcfabcff616efd569ac3f9d31b11cba66c89a26ce1d451093deff0a003b5"
+    "sha256": "ae285cb4f53bf37c41a53d47ad09f6547ee79d07dd679621e02424dbe4766740"
   },
   {
     "id": "es-ec",
     "language": "es",
     "country": "EC",
     "place": "Galapagos Islands",
-    "src": "/passport-real/es-ec.webp",
+    "src": "/passport-real/es-ec-d766508408d2.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Grapsus grapsus Galapagos Islands.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Grapsus_grapsus_Galapagos_Islands.jpg",
-      "author": "Lieutenant Elizabeth Crapo, NOAA Corps",
-      "license": "Public domain",
-      "licenseUrl": null,
+      "title": "File:Lobo marino (Zalophus californianus wollebaeki), Punta Pitt, isla de San Cristóbal, islas Galápagos, Ecuador, 2015-07-24, DD 11.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Lobo_marino_(Zalophus_californianus_wollebaeki),_Punta_Pitt,_isla_de_San_Crist%C3%B3bal,_islas_Gal%C3%A1pagos,_Ecuador,_2015-07-24,_DD_11.JPG",
+      "author": "Diego Delso",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "84cab6a4fe551c9cd482acd593076eefe5c23a95c256d1296d1373eda05fe20a"
+    "sha256": "d766508408d2a21196871af3bfefdcacbc014afddc2f5eb16e9b25ffddf64433"
   },
   {
     "id": "es-sv",
     "language": "es",
     "country": "SV",
     "place": "Santa Ana volcano",
-    "src": "/passport-real/es-sv.webp",
+    "src": "/passport-real/es-sv-da031fa53038.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Section of Santa Ana Volcano, El Salvador.jpg",
@@ -1211,7 +1160,7 @@
     "language": "es",
     "country": "GQ",
     "place": "Malabo Equatorial Guinea",
-    "src": "/passport-real/es-gq.webp",
+    "src": "/passport-real/es-gq-075cdcc6f681.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Sipopo Malabo, Equatorial Guinea (16492973176).jpg",
@@ -1228,41 +1177,41 @@
     "language": "es",
     "country": "GT",
     "place": "Tikal Guatemala",
-    "src": "/passport-real/es-gt.webp",
+    "src": "/passport-real/es-gt-93fbbc86d688.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:1989-Tikal-Guatemala-03.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:1989-Tikal-Guatemala-03.jpg",
-      "author": "Myotus",
-      "license": "CC0",
-      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "title": "File:Tikal 3.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Tikal_3.jpg",
+      "author": "Mundo Maya",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "90b11e5cb5cee1abd2010a411235c9fbc4707bf4330ea9e9cdff408cecc531ad"
+    "sha256": "93fbbc86d6887323721215b99403e74d3556f336f68c0677c9a1b48f4b28a00b"
   },
   {
     "id": "es-hn",
     "language": "es",
     "country": "HN",
     "place": "Copan Honduras",
-    "src": "/passport-real/es-hn.webp",
+    "src": "/passport-real/es-hn-0b0d74b7484d.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Recueil. Topographie et moeurs de l'Amérique du Sud. Dessins, croquis et notes manuscrites de Léonce Angrand. (21) (24 vues stéréoscopiques des ruines de Copan (Honduras)) - btv1b52503652m (46 of 48).jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Recueil._Topographie_et_moeurs_de_l%27Am%C3%A9rique_du_Sud._Dessins,_croquis_et_notes_manuscrites_de_L%C3%A9once_Angrand._(21)_(24_vues_st%C3%A9r%C3%A9oscopiques_des_ruines_de_Copan_(Honduras))_-_btv1b52503652m_(46_of_48).jpg",
-      "author": "Angrand, Léonce (1808-1886). Illustrateur",
-      "license": "Public domain",
-      "licenseUrl": null,
+      "title": "File:Copan sculpture.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Copan_sculpture.jpg",
+      "author": "Adalberto Hernandez Vega from Copan Ruinas, Honduras",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "944acc3b6a1d1ec6b8ea7cd0fb46087744b24539332aa906980363bb8b12851f"
+    "sha256": "0b0d74b7484d3f129131829f4d30850784a6b93f202a9d70a28285e41937d9e6"
   },
   {
     "id": "es-mx",
     "language": "es",
     "country": "MX",
     "place": "Chichen Itza",
-    "src": "/passport-real/es-mx.webp",
+    "src": "/passport-real/es-mx-631b7e55a810.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Chichen Itza 3.jpg",
@@ -1279,7 +1228,7 @@
     "language": "es",
     "country": "NI",
     "place": "Granada Nicaragua",
-    "src": "/passport-real/es-ni.webp",
+    "src": "/passport-real/es-ni-a3a548f35f1b.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Granada Nicaragua.jpg",
@@ -1296,7 +1245,7 @@
     "language": "es",
     "country": "PA",
     "place": "Panama City skyline",
-    "src": "/passport-real/es-pa.webp",
+    "src": "/passport-real/es-pa-e35af39b964b.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Panama City Skyline 2017.jpg",
@@ -1313,31 +1262,31 @@
     "language": "es",
     "country": "PE",
     "place": "Machu Picchu",
-    "src": "/passport-real/es-pe.webp",
+    "src": "/passport-real/es-pe-8b8b0aa8fb7e.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Machu Picchu.png",
-      "source": "https://commons.wikimedia.org/wiki/File:Machu_Picchu.png",
-      "author": "Hiram Bingham III",
-      "license": "Public domain",
-      "licenseUrl": null,
+      "title": "File:Machu Picchu, 2023 (012).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Machu_Picchu,_2023_(012).jpg",
+      "author": "Draceane",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "0c1c46c9bc43dc6a254df4df4a59520fc91f0292c527c3aa795f17937668e74a"
+    "sha256": "8b8b0aa8fb7e750a3c6d711638a0c31b4228f6fbd13f57a10e24d8784c28c5d2"
   },
   {
     "id": "es-pr",
     "language": "es",
     "country": "PR",
     "place": "Old San Juan Puerto Rico",
-    "src": "/passport-real/es-pr.webp",
+    "src": "/passport-real/es-pr-15d342beda40.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Buildings at Plaza de Armas in Old San Juan, Puerto Rico, 2011.jpg",
       "source": "https://commons.wikimedia.org/wiki/File:Buildings_at_Plaza_de_Armas_in_Old_San_Juan,_Puerto_Rico,_2011.jpg",
       "author": "Daderot",
       "license": "Public domain",
-      "licenseUrl": null,
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Buildings_at_Plaza_de_Armas_in_Old_San_Juan,_Puerto_Rico,_2011.jpg",
       "changes": "Cropped and resized"
     },
     "sha256": "15d342beda402d67d75b3fd4ce0d2623a4c899bb5ee8b0a77641d530ccac87ef"
@@ -1347,7 +1296,7 @@
     "language": "es",
     "country": "ES",
     "place": "Sagrada Familia",
-    "src": "/passport-real/es-es.webp",
+    "src": "/passport-real/es-es-ae9d98848fc1.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Sagrada Familia March 2015-10a.jpg",
@@ -1364,24 +1313,24 @@
     "language": "es",
     "country": "UY",
     "place": "Colonia del Sacramento",
-    "src": "/passport-real/es-uy.webp",
+    "src": "/passport-real/es-uy-5e463c435e94.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Colonia del Sacramento 2016 017.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Colonia_del_Sacramento_2016_017.jpg",
-      "author": "Photograph by Mike Peel (www.mikepeel.net).",
-      "license": "CC BY-SA 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "title": "File:Faro de Colonia del Sacramento, Uruguay2.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Faro_de_Colonia_del_Sacramento,_Uruguay2.JPG",
+      "author": "Diego Delso",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "f0da4d487cf05399ce44248edbf8d3213e216ce1c50d381b8b05ad8b954de476"
+    "sha256": "5e463c435e946f24fb22b917329e9011b619e1a2e6cc6d5ead701894189a33ed"
   },
   {
     "id": "es-ve",
     "language": "es",
     "country": "VE",
     "place": "Angel Falls",
-    "src": "/passport-real/es-ve.webp",
+    "src": "/passport-real/es-ve-f4e6bf8473b0.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Angel Falls evaporation.jpg",
@@ -1398,7 +1347,7 @@
     "language": "pt",
     "country": "AO",
     "place": "Kalandula Falls",
-    "src": "/passport-real/pt-ao.webp",
+    "src": "/passport-real/pt-ao-f1a0a6cca293.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Kalandula Falls Pan.jpg",
@@ -1415,24 +1364,24 @@
     "language": "pt",
     "country": "BR",
     "place": "Rio de Janeiro Sugarloaf",
-    "src": "/passport-real/pt-br.webp",
+    "src": "/passport-real/pt-br-941fa51482ae.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Callithrix jacchus 2008-02-03 Rio De Janeiro Sugarloaf IMG 1224.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Callithrix_jacchus_2008-02-03_Rio_De_Janeiro_Sugarloaf_IMG_1224.jpg",
-      "author": "Georges Néron",
-      "license": "CC BY-SA 3.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "title": "File:Rio-panorama-Botafogo-Sugarloaf.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Rio-panorama-Botafogo-Sugarloaf.jpg",
+      "author": "Acediscovery",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "ec68f9fbfa8db0fecb2fe49b9d1680b6a261b35cc6739989d3424edd4d5e1469"
+    "sha256": "941fa51482ae754d3bfabfeb8ca2d9a0873b7c8c57b5be6b3af0e024f84405b0"
   },
   {
     "id": "pt-cv",
     "language": "pt",
     "country": "CV",
     "place": "Pico do Fogo",
-    "src": "/passport-real/pt-cv.webp",
+    "src": "/passport-real/pt-cv-b0cb32a83907.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Cape Verde Pico do Fogo caldeira road.jpg",
@@ -1449,7 +1398,7 @@
     "language": "pt",
     "country": "GQ",
     "place": "Malabo Equatorial Guinea",
-    "src": "/passport-real/pt-gq.webp",
+    "src": "/passport-real/pt-gq-075cdcc6f681.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Sipopo Malabo, Equatorial Guinea (16492973176).jpg",
@@ -1466,7 +1415,7 @@
     "language": "pt",
     "country": "GW",
     "place": "Bissau Guinea Bissau",
-    "src": "/passport-real/pt-gw.webp",
+    "src": "/passport-real/pt-gw-e80210813436.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Mininistério dos Negócios Estrangeiros, Bissau, Guinea-Bissau.jpg",
@@ -1483,14 +1432,14 @@
     "language": "pt",
     "country": "MZ",
     "place": "Bazaruto Archipelago",
-    "src": "/passport-real/pt-mz.webp",
+    "src": "/passport-real/pt-mz-c8585bca569c.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Bazaruto Archipelago National Park (154448 - zm oli2 20240803).jpg",
       "source": "https://commons.wikimedia.org/wiki/File:Bazaruto_Archipelago_National_Park_(154448_-_zm_oli2_20240803).jpg",
       "author": "NASA",
       "license": "Public domain",
-      "licenseUrl": null,
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Bazaruto_Archipelago_National_Park_(154448_-_zm_oli2_20240803).jpg",
       "changes": "Cropped and resized"
     },
     "sha256": "c8585bca569c3cb77cf3a00dc3ab47c5a9332b59db689d1f689b92ed9f8329fd"
@@ -1500,14 +1449,14 @@
     "language": "pt",
     "country": "PT",
     "place": "Lisbon Belem Tower",
-    "src": "/passport-real/pt-pt.webp",
+    "src": "/passport-real/pt-pt-ade91876718c.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Portugal, Lisbon, Belem Tower (52594141394).jpg",
       "source": "https://commons.wikimedia.org/wiki/File:Portugal,_Lisbon,_Belem_Tower_(52594141394).jpg",
       "author": "Lark Ascending",
       "license": "Public domain",
-      "licenseUrl": null,
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Portugal,_Lisbon,_Belem_Tower_(52594141394).jpg",
       "changes": "Cropped and resized"
     },
     "sha256": "ade91876718cc2c689c628c8205e494b49856fa1ca814bfb92b208bbf15effda"
@@ -1517,7 +1466,7 @@
     "language": "pt",
     "country": "ST",
     "place": "Pico Cao Grande",
-    "src": "/passport-real/pt-st.webp",
+    "src": "/passport-real/pt-st-1ece525c846c.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Pico Cão Grande.jpg",
@@ -1534,7 +1483,7 @@
     "language": "pt",
     "country": "TL",
     "place": "Dili Timor Leste",
-    "src": "/passport-real/pt-tl.webp",
+    "src": "/passport-real/pt-tl-01272adac090.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:A cross above Dili, Timor Leste.jpg",
@@ -1551,7 +1500,7 @@
     "language": "es",
     "country": "ES",
     "place": "Park Guell",
-    "src": "/passport-real/es-barcelona.webp",
+    "src": "/passport-real/es-barcelona-b789fb484b8a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Park Güell 02.jpg",
@@ -1564,28 +1513,11 @@
     "sha256": "b789fb484b8a222be43339f37ac04f4e1541de6f446939227d47342a27245eda"
   },
   {
-    "id": "es-madrid",
-    "language": "es",
-    "country": "ES",
-    "place": "Madrid Gran Via",
-    "src": "/passport-real/es-madrid.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:Madrid - Gran Via (35956077793).jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Madrid_-_Gran_Via_(35956077793).jpg",
-      "author": "Fred Romero from Paris, France",
-      "license": "CC BY 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
-      "changes": "Cropped and resized"
-    },
-    "sha256": "1d0d671d73a90f24e88ec22f94b385bf5c95d940489b2c2e1e92d374820b9fb7"
-  },
-  {
     "id": "es-malaga",
     "language": "es",
     "country": "ES",
     "place": "Malaga Alcazaba",
-    "src": "/passport-real/es-malaga.webp",
+    "src": "/passport-real/es-malaga-c10c7c30d439.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Spain - Malaga, Alcazaba - panoramio.jpg",
@@ -1602,7 +1534,7 @@
     "language": "es",
     "country": "AR",
     "place": "Buenos Aires city",
-    "src": "/passport-real/es-buenos-aires.webp",
+    "src": "/passport-real/es-buenos-aires-2c772c2014d9.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Buenos Aires City Council building sculpture.jpg",
@@ -1619,7 +1551,7 @@
     "language": "es",
     "country": "MX",
     "place": "Palacio de Bellas Artes Mexico City",
-    "src": "/passport-real/es-mexico-city.webp",
+    "src": "/passport-real/es-mexico-city-8fa6dce2a357.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Funerals of Jose Jose at Palacio de Bellas Artes, Mexico City - 13.jpg",
@@ -1636,7 +1568,7 @@
     "language": "en",
     "country": "GB",
     "place": "Tower Bridge",
-    "src": "/passport-real/en-london.webp",
+    "src": "/passport-real/en-london-feb77066964c.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Tower Bridge London Dusk Feb 2006.jpg",
@@ -1653,7 +1585,7 @@
     "language": "en",
     "country": "CA",
     "place": "Banff National Park",
-    "src": "/passport-real/en-banff.webp",
+    "src": "/passport-real/en-banff-499519288285.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Lake Agnes im Banff National Park.jpg",
@@ -1670,7 +1602,7 @@
     "language": "en",
     "country": "AU",
     "place": "Uluru",
-    "src": "/passport-real/en-uluru.webp",
+    "src": "/passport-real/en-uluru-5c51e8b98c76.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Petermann Ranges (AU), Uluru-Kata Tjuta National Park, Uluru, Kuniya Walk -- 2019 -- 3659.jpg",
@@ -1687,7 +1619,7 @@
     "language": "en",
     "country": "US",
     "place": "New York skyline",
-    "src": "/passport-real/en-new-york.webp",
+    "src": "/passport-real/en-new-york-e2bdda026dc8.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Lower Manhattan, New York skyline from Liberty Island 2021.jpg",
@@ -1704,14 +1636,14 @@
     "language": "en",
     "country": "GB",
     "place": "Edinburgh Castle",
-    "src": "/passport-real/en-edinburgh.webp",
+    "src": "/passport-real/en-edinburgh-e23a9ea9f574.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Edinburgh Castle from Grass Market.jpg",
       "source": "https://commons.wikimedia.org/wiki/File:Edinburgh_Castle_from_Grass_Market.jpg",
       "author": "George Washington Wilson / Adam Cuerden",
       "license": "Public domain",
-      "licenseUrl": null,
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Edinburgh_Castle_from_Grass_Market.jpg",
       "changes": "Cropped and resized"
     },
     "sha256": "e23a9ea9f574ff3a9658a0f7376d9b6807e24f78888ee06b686815189a40f9d9"
@@ -1721,7 +1653,7 @@
     "language": "pt",
     "country": "PT",
     "place": "Porto Dom Luis bridge",
-    "src": "/passport-real/pt-porto.webp",
+    "src": "/passport-real/pt-porto-d6ce0c77afc3.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Porto Dom Luís bridge (53093438464).jpg",
@@ -1738,7 +1670,7 @@
     "language": "pt",
     "country": "PT",
     "place": "Pena Palace Sintra",
-    "src": "/passport-real/pt-sintra.webp",
+    "src": "/passport-real/pt-sintra-52e1178cb496.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Pena Palace, Sintra, Portugal, 20250606 1033 9992.jpg",
@@ -1755,7 +1687,7 @@
     "language": "pt",
     "country": "BR",
     "place": "Iguacu Falls",
-    "src": "/passport-real/pt-iguazu.webp",
+    "src": "/passport-real/pt-iguazu-f9aea50f0443.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Iguacu Falls, Brazil - 8595262697.jpg",
@@ -1772,7 +1704,7 @@
     "language": "pt",
     "country": "BR",
     "place": "Lencois Maranhenses",
-    "src": "/passport-real/pt-lencois.webp",
+    "src": "/passport-real/pt-lencois-014d1ab6afcb.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Parque Nacional dos Lençóis Maranhenses Paulo Cattelan (03).jpg",
@@ -1789,7 +1721,7 @@
     "language": "pt",
     "country": "BR",
     "place": "Pelourinho Salvador",
-    "src": "/passport-real/pt-salvador.webp",
+    "src": "/passport-real/pt-salvador-6681f440f342.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Largo do Pelourinho Salvador 2019-9754 (cropped).jpg",
@@ -1806,7 +1738,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Tokyo Tower",
-    "src": "/passport-real/ja-tokyo-tower.webp",
+    "src": "/passport-real/ja-tokyo-tower-744d6d94cca3.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Tokyo Tower, Minato City.jpg",
@@ -1823,7 +1755,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Tokyo Skytree",
-    "src": "/passport-real/ja-skytree.webp",
+    "src": "/passport-real/ja-skytree-510a95da5503.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Worm's-eye view of Tokyo Skytree with vertical symmetry impression, a sunny day, in Japan.jpg",
@@ -1840,7 +1772,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Kiyomizu dera",
-    "src": "/passport-real/ja-kiyomizu.webp",
+    "src": "/passport-real/ja-kiyomizu-c71b489d832c.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Kiyomizu-dera, Kyoto, November 2016 -01.jpg",
@@ -1857,7 +1789,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Okinawa beach",
-    "src": "/passport-real/ja-okinawa.webp",
+    "src": "/passport-real/ja-okinawa-d3231bf60f79.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Okinawa beach.jpg",
@@ -1870,28 +1802,11 @@
     "sha256": "d3231bf60f79645de8abfa2bdf1d3b27b38c36d298199c79499f030e607308d6"
   },
   {
-    "id": "ja-sapporo",
-    "language": "ja",
-    "country": "JP",
-    "place": "Sapporo Snow Festival",
-    "src": "/passport-real/ja-sapporo.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:US 7th Fleet band performs at Sapporo Snow Festival 120206-N-CZ945-182.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:US_7th_Fleet_band_performs_at_Sapporo_Snow_Festival_120206-N-CZ945-182.jpg",
-      "author": "Petty Officer 1st Class NAVCENT Public Affairs",
-      "license": "Public domain",
-      "licenseUrl": null,
-      "changes": "Cropped and resized"
-    },
-    "sha256": "e3286ccca9fb82a0802d1af9193f85d4c64c8b4ff38cf45b721d09f02104ba96"
-  },
-  {
     "id": "ja-miyajima",
     "language": "ja",
     "country": "JP",
     "place": "Itsukushima torii",
-    "src": "/passport-real/ja-miyajima.webp",
+    "src": "/passport-real/ja-miyajima-5f73b3b18c3a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Itsukushima torii angle.jpg",
@@ -1908,7 +1823,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Himeji Castle",
-    "src": "/passport-real/ja-himeji.webp",
+    "src": "/passport-real/ja-himeji-b3e31a09e689.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Himeji Castle, November 2016 -02.jpg",
@@ -1921,45 +1836,79 @@
     "sha256": "b3e31a09e6899a9b7769746a811fae481c8b458eb3f273918f5a78ac877489ee"
   },
   {
-    "id": "ja-nara",
-    "language": "ja",
-    "country": "JP",
-    "place": "Nara deer park",
-    "src": "/passport-real/ja-nara.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:Nara Deer Park and Temples (40890363593).jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Nara_Deer_Park_and_Temples_(40890363593).jpg",
-      "author": "Mike Steele",
-      "license": "CC BY 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
-      "changes": "Cropped and resized"
-    },
-    "sha256": "65528f6d4e038ca06dd7e5ac8776223dfdb12371797a09d9011e244c8d899c0b"
-  },
-  {
     "id": "ja-yakushima",
     "language": "ja",
     "country": "JP",
     "place": "Yakushima forest",
-    "src": "/passport-real/ja-yakushima.webp",
+    "src": "/passport-real/ja-yakushima-1898ea8ee70d.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Yakushima forest (52931205946).jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Yakushima_forest_(52931205946).jpg",
-      "author": "Raita Futo from Tokyo, Japan",
+      "title": "File:Moss-Covered Rocks (32190383762).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Moss-Covered_Rocks_(32190383762).jpg",
+      "author": "David Stanley from Nanaimo, Canada",
       "license": "CC BY 2.0",
       "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "d63718dc4ad22baa20412837a81409599697495159aa636543e0245a90cdaa83"
+    "sha256": "1898ea8ee70de140a6b1a7dda35e6c8e3d00d99deea24a31951689eb157b5cc3"
+  },
+  {
+    "id": "ja-hakone",
+    "language": "ja",
+    "country": "JP",
+    "place": "Lake Ashi Hakone",
+    "src": "/passport-real/ja-hakone-11845c2aca26.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Lake Ashi @ Hakone-En (13776857874).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Lake_Ashi_@_Hakone-En_(13776857874).jpg",
+      "author": "Guilhem Vellut from Annecy, France",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "11845c2aca269377aa9515210557f630f66a8b6eed5faafc6a54f9b1696e5d64"
+  },
+  {
+    "id": "ja-nikko",
+    "language": "ja",
+    "country": "JP",
+    "place": "Nikko Toshogu",
+    "src": "/passport-real/ja-nikko-fde2fea155be.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Nikko Toshogu Yomeimon Gate 2024.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Nikko_Toshogu_Yomeimon_Gate_2024.jpg",
+      "author": "Jpatokal",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "fde2fea155bef45658961c00053549a470228618c0c3a7ca025e74017df33380"
+  },
+  {
+    "id": "ja-kanazawa",
+    "language": "ja",
+    "country": "JP",
+    "place": "Kenrokuen",
+    "src": "/passport-real/ja-kanazawa-dfcae91d0400.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:131109 Kenrokuen Kanazawa Ishikawa pref Japan01s3.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:131109_Kenrokuen_Kanazawa_Ishikawa_pref_Japan01s3.jpg",
+      "author": "663highland",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "dfcae91d04009af84d91bbb64a056cd46fde9a676452b81cf480f6c56f17aa8e"
   },
   {
     "id": "ja-takayama",
     "language": "ja",
     "country": "JP",
     "place": "Takayama old town",
-    "src": "/passport-real/ja-takayama.webp",
+    "src": "/passport-real/ja-takayama-8830ece27163.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Drying persimmons, Takayama old town (31744396008).jpg",
@@ -1976,7 +1925,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Oirase Stream",
-    "src": "/passport-real/ja-aomori.webp",
+    "src": "/passport-real/ja-aomori-579615e67d90.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Oirase Stream, Towada-Hachimantai National Park, Japan.jpg",
@@ -1993,7 +1942,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Kamikochi",
-    "src": "/passport-real/ja-nagano.webp",
+    "src": "/passport-real/ja-nagano-bd3652d0f06b.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:20171028 Kamikochi 1487 (38001587494).jpg",
@@ -2010,41 +1959,24 @@
     "language": "ja",
     "country": "JP",
     "place": "Nagasaki harbour",
-    "src": "/passport-real/ja-nagasaki.webp",
+    "src": "/passport-real/ja-nagasaki-0efa8626c659.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Empire of Japan, Yedo ... Meaco. (insets) Nagasaki Harbour. Eastern Point of Yeso. (IA dr empire-of-japan-yedo-meaco-insets-nagasaki-harbour-eastern-point-o-2326054).jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Empire_of_Japan,_Yedo_..._Meaco._(insets)_Nagasaki_Harbour._Eastern_Point_of_Yeso._(IA_dr_empire-of-japan-yedo-meaco-insets-nagasaki-harbour-eastern-point-o-2326054).jpg",
-      "author": "Society for the Diffusion of Useful Knowledge (Great Britain)\nJ. & C. Walker\nMurchison, I.\nLubbock, John\nSmith, Philip\nWoodward, S.P.\nKey, T. Hewett",
-      "license": "Public domain",
-      "licenseUrl": null,
+      "title": "File:Panorama of Nagasaki harbour from Glover Garden, July 2017.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Panorama_of_Nagasaki_harbour_from_Glover_Garden,_July_2017.jpg",
+      "author": "NevinThompson",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "c70464b2628422983b6a7e7d6f1ddb864661a2bda18e92150db451a6250d507a"
-  },
-  {
-    "id": "ja-kagoshima",
-    "language": "ja",
-    "country": "JP",
-    "place": "Sakurajima",
-    "src": "/passport-real/ja-kagoshima.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:20100721 Sakurajima Ferry 4243.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:20100721_Sakurajima_Ferry_4243.jpg",
-      "author": "Jakub Hałun",
-      "license": "CC BY-SA 3.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-      "changes": "Cropped and resized"
-    },
-    "sha256": "16da6a1d9ee36560c467c48e08920fe7e98a0c98b487b6d125006ef3fe1d1c4f"
+    "sha256": "0efa8626c6594bb028720c1736abc4799184412fa6669683d5f148198f59dd81"
   },
   {
     "id": "es-extra-01",
     "language": "es",
     "country": "ES",
     "place": "Alhambra Granada",
-    "src": "/passport-real/es-extra-01.webp",
+    "src": "/passport-real/es-extra-01-769302db6c22.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Patio de los Arrayanes detail Alhambra Granada Spain.jpg",
@@ -2061,7 +1993,7 @@
     "language": "es",
     "country": "ES",
     "place": "Seville Plaza de Espana",
-    "src": "/passport-real/es-extra-02.webp",
+    "src": "/passport-real/es-extra-02-a05591408ccc.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Seville, Plaza de España (38625005691) (edited).jpg",
@@ -2078,7 +2010,7 @@
     "language": "es",
     "country": "ES",
     "place": "Toledo Spain",
-    "src": "/passport-real/es-extra-03.webp",
+    "src": "/passport-real/es-extra-03-f8b1018db434.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Puente de San Martín. Toledo, Spain.jpg",
@@ -2095,7 +2027,7 @@
     "language": "es",
     "country": "ES",
     "place": "Segovia aqueduct",
-    "src": "/passport-real/es-extra-04.webp",
+    "src": "/passport-real/es-extra-04-5130b979843b.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Segovia - Aqueduct - 2.jpg",
@@ -2108,11 +2040,28 @@
     "sha256": "5130b979843b66f3498350cb48f2566cc43c25bd3a37aea6c6ee316ff40d5564"
   },
   {
+    "id": "es-extra-05",
+    "language": "es",
+    "country": "ES",
+    "place": "Ronda bridge",
+    "src": "/passport-real/es-extra-05-6d344c12dd4e.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Ronda bridge 2 (4260827810).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ronda_bridge_2_(4260827810).jpg",
+      "author": "Weldon Kennedy from London, UK",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "6d344c12dd4e2dda413c31da0f5f867fd4268628f74c53a9f124f484aa6ec0bd"
+  },
+  {
     "id": "es-extra-08",
     "language": "es",
     "country": "MX",
     "place": "Cenote Ik Kil",
-    "src": "/passport-real/es-extra-08.webp",
+    "src": "/passport-real/es-extra-08-1846014473d8.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Cenote Ik Kil 13.jpg",
@@ -2125,11 +2074,28 @@
     "sha256": "1846014473d83b1606bfbd4d606433fd7122a54e5b06faae1cd87c4b4a3c6a2e"
   },
   {
+    "id": "es-extra-10",
+    "language": "es",
+    "country": "AR",
+    "place": "Ushuaia",
+    "src": "/passport-real/es-extra-10-4fafbddfde9b.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Ushuaia city view.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ushuaia_city_view.jpg",
+      "author": "Entropy1963",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:Ushuaia_city_view.jpg",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "4fafbddfde9bb07982b7724027592a0acdd163ed3afecbffa4dfe0833fe07d40"
+  },
+  {
     "id": "es-extra-11",
     "language": "es",
     "country": "PE",
     "place": "Cusco",
-    "src": "/passport-real/es-extra-11.webp",
+    "src": "/passport-real/es-extra-11-06518a3824b3.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Sacsayhuamán, Cusco, Perú, 2015-07-31, DD 05.JPG",
@@ -2146,7 +2112,7 @@
     "language": "es",
     "country": "PE",
     "place": "Lake Titicaca Peru",
-    "src": "/passport-real/es-extra-12.webp",
+    "src": "/passport-real/es-extra-12-0aac9b44c543.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:083 Reeds Lake Titicaca Peru 3138 (14995748030).jpg",
@@ -2163,24 +2129,24 @@
     "language": "es",
     "country": "CO",
     "place": "Cocora Valley",
-    "src": "/passport-real/es-extra-13.webp",
+    "src": "/passport-real/es-extra-13-bb7122b3c204.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Horses in Cocora Valley, Colombia.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Horses_in_Cocora_Valley,_Colombia.jpg",
+      "title": "File:Valle de Cocora, Colombia 04.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Valle_de_Cocora,_Colombia_04.jpg",
       "author": "Bernard Gagnon",
       "license": "CC BY-SA 4.0",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "b8c26e022e0d52996386b3f7ba620f85064e7a53cf94fe76bec7fe18f4ca3f1d"
+    "sha256": "bb7122b3c2040307a8fe738115086d35950c8a0a4f824dc4063e655ec4ab02ae"
   },
   {
     "id": "es-extra-14",
     "language": "es",
     "country": "CL",
     "place": "Atacama Desert",
-    "src": "/passport-real/es-extra-14.webp",
+    "src": "/passport-real/es-extra-14-7f8fffa1ca10.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:A Dusting of Snow in the Atacama desert.jpg",
@@ -2197,7 +2163,7 @@
     "language": "es",
     "country": "EC",
     "place": "Quito Ecuador",
-    "src": "/passport-real/es-extra-15.webp",
+    "src": "/passport-real/es-extra-15-a69640164a13.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Iglesia de San Francisco, Quito, Ecuador, 2015-07-22, DD 159-161 HDR.JPG",
@@ -2214,41 +2180,41 @@
     "language": "es",
     "country": "BO",
     "place": "La Paz Bolivia",
-    "src": "/passport-real/es-extra-16.webp",
+    "src": "/passport-real/es-extra-16-30cb36c183ab.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Manduca sexta MHNT CUT 2010 0 104 Caranavi, La Paz Bolivia male dorsal.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Manduca_sexta_MHNT_CUT_2010_0_104_Caranavi,_La_Paz_Bolivia_male_dorsal.jpg",
-      "author": "Didier Descouens",
-      "license": "CC BY-SA 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "title": "File:La paz panorama - panoramio.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:La_paz_panorama_-_panoramio.jpg",
+      "author": "nikola_pu",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "afadd1ef524eb3ab1b7e15186597e27fda1d8bdf24d3a9278394edeab59d77ae"
+    "sha256": "30cb36c183abda0c2cff17ea2c200de240c61db10a01dc8a096710f6a2f8cf86"
   },
   {
     "id": "es-extra-17",
     "language": "es",
     "country": "CR",
     "place": "Manuel Antonio National Park",
-    "src": "/passport-real/es-extra-17.webp",
+    "src": "/passport-real/es-extra-17-af7592942049.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:White-headed capuchin at Manuel Antonio National Park, Costa Rica.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:White-headed_capuchin_at_Manuel_Antonio_National_Park,_Costa_Rica.jpg",
-      "author": "CIA",
-      "license": "Public domain",
-      "licenseUrl": null,
+      "title": "File:Parque Nacional Manuel Antonio 02.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Parque_Nacional_Manuel_Antonio_02.jpg",
+      "author": "Bernard Gagnon",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
       "changes": "Cropped and resized"
     },
-    "sha256": "423a6abc83cbd7eb78deca766bdfa01d0e8344e3ddd6135e3e6f0304eb8efb85"
+    "sha256": "af75929420496dd39971aa15b1c4fdfefa027deb854901965d201c215011ab4f"
   },
   {
     "id": "es-extra-18",
     "language": "es",
     "country": "GT",
     "place": "Antigua Guatemala",
-    "src": "/passport-real/es-extra-18.webp",
+    "src": "/passport-real/es-extra-18-c045b53741cc.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Arco de Santa Catalina Antigua Guatemala edit2.jpg",
@@ -2265,7 +2231,7 @@
     "language": "es",
     "country": "UY",
     "place": "Punta del Este",
-    "src": "/passport-real/es-extra-19.webp",
+    "src": "/passport-real/es-extra-19-9f2b46d52095.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Faro de Isla de Lobos.jpg",
@@ -2282,7 +2248,7 @@
     "language": "es",
     "country": "PA",
     "place": "San Blas Islands Panama",
-    "src": "/passport-real/es-extra-20.webp",
+    "src": "/passport-real/es-extra-20-e69f6c4e24df.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Holandes Cayes - San Blas Islands - Panama - panoramio.jpg",
@@ -2299,7 +2265,7 @@
     "language": "pt",
     "country": "AO",
     "place": "Miradouro da Lua Angola",
-    "src": "/passport-real/pt-extra-01.webp",
+    "src": "/passport-real/pt-extra-01-4d8d2b7a9ecf.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Miradouro da Lua (Angola).jpg",
@@ -2316,7 +2282,7 @@
     "language": "pt",
     "country": "AO",
     "place": "Serra da Leba",
-    "src": "/passport-real/pt-extra-02.webp",
+    "src": "/passport-real/pt-extra-02-5f9f416f3c97.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Serra da Leba-Road.jpg",
@@ -2333,7 +2299,7 @@
     "language": "pt",
     "country": "AO",
     "place": "Luanda bay",
-    "src": "/passport-real/pt-extra-03.webp",
+    "src": "/passport-real/pt-extra-03-9e112e9b371a.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Luanda Bay 5 - panoramio (cropped) (cropped).jpg",
@@ -2350,7 +2316,7 @@
     "language": "pt",
     "country": "BR",
     "place": "Amazon rainforest Brazil",
-    "src": "/passport-real/pt-extra-04.webp",
+    "src": "/passport-real/pt-extra-04-5fb13c81d149.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Sunset at Amazon rainforest, Brazil - 2026 31.jpg",
@@ -2367,7 +2333,7 @@
     "language": "pt",
     "country": "BR",
     "place": "Manaus opera house",
-    "src": "/passport-real/pt-extra-05.webp",
+    "src": "/passport-real/pt-extra-05-dcff50e694b6.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Manaus Opera House.jpg",
@@ -2384,7 +2350,7 @@
     "language": "pt",
     "country": "BR",
     "place": "Brasilia Cathedral",
-    "src": "/passport-real/pt-extra-06.webp",
+    "src": "/passport-real/pt-extra-06-f52f01cb0fb1.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Brasilia Cathedral Bell Tower.jpg",
@@ -2401,7 +2367,7 @@
     "language": "pt",
     "country": "BR",
     "place": "Ouro Preto",
-    "src": "/passport-real/pt-extra-07.webp",
+    "src": "/passport-real/pt-extra-07-53b8a7961bd5.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Ouro Preto November 2009-13.jpg",
@@ -2418,24 +2384,24 @@
     "language": "pt",
     "country": "BR",
     "place": "Recife Brazil",
-    "src": "/passport-real/pt-extra-08.webp",
+    "src": "/passport-real/pt-extra-08-3cac8c9cf0a9.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:USAS American Mariner at Recife Brazil 1962.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:USAS_American_Mariner_at_Recife_Brazil_1962.jpg",
-      "author": "Wikited",
-      "license": "Public domain",
-      "licenseUrl": null,
+      "title": "File:Seafront View with Fishing Boats and Recife Skyline - Olinda - Brazil.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Seafront_View_with_Fishing_Boats_and_Recife_Skyline_-_Olinda_-_Brazil.jpg",
+      "author": "Adam Jones, Ph.D.",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "f5e41986e8f022771fc224844e8d7c27a38e0e4928f18488d5804315c2ea82c2"
+    "sha256": "3cac8c9cf0a97becd6cbef8be612833d181606c4ed31191cb88868bd3d2b4dd3"
   },
   {
     "id": "pt-extra-09",
     "language": "pt",
     "country": "BR",
     "place": "Bonito Brazil",
-    "src": "/passport-real/pt-extra-09.webp",
+    "src": "/passport-real/pt-extra-09-575009bde9f3.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Bonito, Brazil (40161245773).jpg",
@@ -2452,7 +2418,7 @@
     "language": "pt",
     "country": "BR",
     "place": "Pantanal Brazil",
-    "src": "/passport-real/pt-extra-10.webp",
+    "src": "/passport-real/pt-extra-10-ea2b34cdea1d.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Jabiru Mato Grosso Pantanal Brazil-3.jpg",
@@ -2469,7 +2435,7 @@
     "language": "pt",
     "country": "BR",
     "place": "Jericoacoara",
-    "src": "/passport-real/pt-extra-11.webp",
+    "src": "/passport-real/pt-extra-11-060cc2111309.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Jericoacoara (2) edit.jpg",
@@ -2482,11 +2448,28 @@
     "sha256": "060cc21113099221253e9d5c5dd625de244cf1119299a64bd77b666e19505cea"
   },
   {
+    "id": "pt-extra-12",
+    "language": "pt",
+    "country": "BR",
+    "place": "Fernando de Noronha",
+    "src": "/passport-real/pt-extra-12-9d7b01596a77.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Raia da Atalaia Fernando de Noronha 05.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Raia_da_Atalaia_Fernando_de_Noronha_05.jpg",
+      "author": "Hughes Leglise, Paris, France (Hugo*)",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "9d7b01596a77ab7d02424c7e54002cdbccd96d0370ba2ce2d86706fd19a3f81b"
+  },
+  {
     "id": "pt-extra-13",
     "language": "pt",
     "country": "PT",
     "place": "Douro Valley",
-    "src": "/passport-real/pt-extra-13.webp",
+    "src": "/passport-real/pt-extra-13-fb70fbdd0fbe.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Swimming pool and main building at Six Senses Douro Valley, Douro Valley, Portugal.jpg",
@@ -2503,7 +2486,7 @@
     "language": "pt",
     "country": "PT",
     "place": "Coimbra university",
-    "src": "/passport-real/pt-extra-14.webp",
+    "src": "/passport-real/pt-extra-14-c265a0514ab5.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Coimbra university view (9999891263).jpg",
@@ -2516,11 +2499,62 @@
     "sha256": "c265a0514ab52b9f62df2fd5269317f689329affb4de39f13c836c8a678fc79a"
   },
   {
+    "id": "pt-extra-15",
+    "language": "pt",
+    "country": "PT",
+    "place": "Benagil cave",
+    "src": "/passport-real/pt-extra-15-93f6eac33569.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Benagil Cave (3).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Benagil_Cave_(3).jpg",
+      "author": "Joseolgon",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "93f6eac3356997506d186ab464e643d741cd9943800d524a8efe09c6e7c2f468"
+  },
+  {
+    "id": "pt-extra-17",
+    "language": "pt",
+    "country": "PT",
+    "place": "Sete Cidades Azores",
+    "src": "/passport-real/pt-extra-17-1e4e691c8eec.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:AFR V3 D053 Lake of the Sete Cidades - Azores.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:AFR_V3_D053_Lake_of_the_Sete_Cidades_-_Azores.jpg",
+      "author": "Élisee Reclus, Translated by Augustus Henry Keane, 1833-1912",
+      "license": "Public domain",
+      "licenseUrl": "https://commons.wikimedia.org/wiki/File:AFR_V3_D053_Lake_of_the_Sete_Cidades_-_Azores.jpg",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "1e4e691c8eec96272b8f7d7af7ee322cef75c186cf44400b4e93253425abc767"
+  },
+  {
+    "id": "pt-extra-18",
+    "language": "pt",
+    "country": "PT",
+    "place": "Evora temple",
+    "src": "/passport-real/pt-extra-18-b65cf64ff24f.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:1971-3 Portugal Evora Temple (50878471121).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:1971-3_Portugal_Evora_Temple_(50878471121).jpg",
+      "author": "Donald Judge",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b65cf64ff24f615d320823bc1d28f5830e792f57ab85729a42515da0cc8da32d"
+  },
+  {
     "id": "pt-extra-19",
     "language": "pt",
     "country": "PT",
     "place": "Obidos Portugal",
-    "src": "/passport-real/pt-extra-19.webp",
+    "src": "/passport-real/pt-extra-19-ac80035c0956.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Casa, Óbidos, Portugal, 2021-09-09, DD 53.jpg",
@@ -2537,58 +2571,58 @@
     "language": "pt",
     "country": "PT",
     "place": "Guimaraes castle",
-    "src": "/passport-real/pt-extra-20.webp",
+    "src": "/passport-real/pt-extra-20-08452d71d69d.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Guimarães castle inner blueprint 1.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Guimar%C3%A3es_castle_inner_blueprint_1.jpg",
-      "author": "Luiz António de Souza Vianna",
-      "license": "Public domain",
-      "licenseUrl": null,
+      "title": "File:Guimaraes Castle exterior in 2007.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Guimaraes_Castle_exterior_in_2007.JPG",
+      "author": "Michael Fernandes, YBnormal2day13",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "b0a75504081c66bbb8b7ca931300cf7a558f4085913eebfd8c8781849fd0bc35"
+    "sha256": "08452d71d69dc44a18e1f0658e141adb743e1ba1a746c30d3ba477c5957873de"
   },
   {
     "id": "pt-extra-22",
     "language": "pt",
     "country": "CV",
     "place": "Mindelo Cape Verde",
-    "src": "/passport-real/pt-extra-22.webp",
+    "src": "/passport-real/pt-extra-22-ca5e65995e58.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Rainbow pedestrian crossing in Mindelo, Cape Verde.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Rainbow_pedestrian_crossing_in_Mindelo,_Cape_Verde.jpg",
-      "author": "Waldyrious",
+      "title": "File:Harbour in Mindelo.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Harbour_in_Mindelo.jpg",
+      "author": "Popenguine05",
       "license": "CC BY-SA 4.0",
       "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "f67b545f3c6c931d9b1a8ed1673b89226fabd171d4162f901e7240820215073b"
+    "sha256": "ca5e65995e58346a3bc95bb976494710f0a1e3f017da70fe2aeb3abfd856a53f"
   },
   {
     "id": "pt-extra-23",
     "language": "pt",
     "country": "CV",
     "place": "Santa Maria Sal Cape Verde",
-    "src": "/passport-real/pt-extra-23.webp",
+    "src": "/passport-real/pt-extra-23-acebd2f97763.webp",
     "kind": "photograph",
     "credit": {
-      "title": "File:Tourist sub, Santa Maria, Sal, Cape Verde (4334762334).jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Tourist_sub,_Santa_Maria,_Sal,_Cape_Verde_(4334762334).jpg",
-      "author": "IDS.photos from Tiverton, UK",
-      "license": "CC BY-SA 2.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "title": "File:Sal Sta Maria beach hotel.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sal_Sta_Maria_beach_hotel.jpg",
+      "author": "Cayambe",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
       "changes": "Cropped and resized"
     },
-    "sha256": "46dde021670810722988e8c6814e50f17a6e51336cf4e887de400259eac5d314"
+    "sha256": "acebd2f97763cc67ed58d906b6ccaa6889b947c4e8b0962cebf430cafd10d7b4"
   },
   {
     "id": "pt-extra-25",
     "language": "pt",
     "country": "MZ",
     "place": "Island of Mozambique",
-    "src": "/passport-real/pt-extra-25.webp",
+    "src": "/passport-real/pt-extra-25-b2c204d76bc0.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Boats outside Island of Mozambique.jpg",
@@ -2605,7 +2639,7 @@
     "language": "pt",
     "country": "MZ",
     "place": "Maputo railway station",
-    "src": "/passport-real/pt-extra-26.webp",
+    "src": "/passport-real/pt-extra-26-aec5671ed92f.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Maputo Railway Station and Praca dos Trabalhadores.jpg",
@@ -2622,7 +2656,7 @@
     "language": "pt",
     "country": "GQ",
     "place": "Pico Basile",
-    "src": "/passport-real/pt-extra-27.webp",
+    "src": "/passport-real/pt-extra-27-91e64d622a70.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Pico Basilé.jpg",
@@ -2635,11 +2669,28 @@
     "sha256": "91e64d622a7017f0b7793e88e36165818bb0831b455c184c8d8920968e0eea7b"
   },
   {
+    "id": "pt-extra-28",
+    "language": "pt",
+    "country": "GQ",
+    "place": "Bata Equatorial Guinea",
+    "src": "/passport-real/pt-extra-28-d2f1083d036d.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Bata, 2015-02 Restaurante Royal Okangong, Bata, Equatorial Guinea (16325436798).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Bata,_2015-02_Restaurante_Royal_Okangong,_Bata,_Equatorial_Guinea_(16325436798).jpg",
+      "author": "Ben Sutherland from Crystal Palace, London, UK",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "d2f1083d036d667a6ae56fb2b671abd8b738e60e15b506eee8b2ab544d670e04"
+  },
+  {
     "id": "pt-extra-29",
     "language": "pt",
     "country": "TL",
     "place": "Atauro island",
-    "src": "/passport-real/pt-extra-29.webp",
+    "src": "/passport-real/pt-extra-29-e57f87341dae.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Atauro Island seen from 'Backside' Beach (6898612974).jpg",
@@ -2652,11 +2703,28 @@
     "sha256": "e57f87341dae34177514e0e790f8f9e9ff18a1a4a34f5b5c2f9cd0f082aac742"
   },
   {
+    "id": "pt-extra-31",
+    "language": "pt",
+    "country": "MO",
+    "place": "Senado Square Macau",
+    "src": "/passport-real/pt-extra-31-9895ab1c4105.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Saint Dominic's Church , Senado Square , Macau - panoramio.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Saint_Dominic%27s_Church_,_Senado_Square_,_Macau_-_panoramio.jpg",
+      "author": "Николай Максимович",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "9895ab1c4105c919b0ce4d298534e6ecc7446d9e87434d604c9225e26b84eaf7"
+  },
+  {
     "id": "ja-extra-01",
     "language": "ja",
     "country": "JP",
     "place": "Shirakawa go",
-    "src": "/passport-real/ja-extra-01.webp",
+    "src": "/passport-real/ja-extra-01-c2be99bb04d4.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Ogi Shirakawa-gō, Gifu, Japan.jpg",
@@ -2669,11 +2737,45 @@
     "sha256": "c2be99bb04d4c203fece04d0853ea000dfb951265d1b3fb16d0243291c483064"
   },
   {
+    "id": "ja-extra-02",
+    "language": "ja",
+    "country": "JP",
+    "place": "Matsumoto Castle",
+    "src": "/passport-real/ja-extra-02-64bffc3aceff.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Matsumoto Castle 1-1.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Matsumoto_Castle_1-1.jpg",
+      "author": "柑橘類 (talk)",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "64bffc3aceff9bbe1d7adb09bab565f12c81f4043865cee2dac280cf6fc5345f"
+  },
+  {
+    "id": "ja-extra-03",
+    "language": "ja",
+    "country": "JP",
+    "place": "Arashiyama bamboo forest",
+    "src": "/passport-real/ja-extra-03-c0ec487790ec.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Arashiyama Bamboo Forest, Kyoto, Japan (Unsplash).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Arashiyama_Bamboo_Forest,_Kyoto,_Japan_(Unsplash).jpg",
+      "author": "Ståle Grut stalebg",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c0ec487790ece5335e36a4ed670096c75c7099ca5f9222589c50e63b334f5005"
+  },
+  {
     "id": "ja-extra-04",
     "language": "ja",
     "country": "JP",
     "place": "Fushimi Inari",
-    "src": "/passport-real/ja-extra-04.webp",
+    "src": "/passport-real/ja-extra-04-77057ce90e29.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Torii path with lantern at Fushimi Inari Taisha Shrine, Kyoto, Japan.jpg",
@@ -2686,11 +2788,62 @@
     "sha256": "77057ce90e294cc2c92c579da9edb53b2eb289abbec14378c7b38b3b66af913d"
   },
   {
+    "id": "ja-extra-05",
+    "language": "ja",
+    "country": "JP",
+    "place": "Ginkakuji",
+    "src": "/passport-real/ja-extra-05-82c3ed0dbcaf.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Ginkakuji 2008-11-21 (3107711897).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ginkakuji_2008-11-21_(3107711897).jpg",
+      "author": "KimonBerlin",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "82c3ed0dbcaf52db090ffd00e56bc8ad2d91e8642cab4fb53fc8e9831b32ded8"
+  },
+  {
+    "id": "ja-extra-06",
+    "language": "ja",
+    "country": "JP",
+    "place": "Kinkakuji",
+    "src": "/passport-real/ja-extra-06-6d560b98af54.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Japan Kyoto Kinkakuji DSC00117.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Japan_Kyoto_Kinkakuji_DSC00117.jpg",
+      "author": "David Monniaux",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "6d560b98af54a96368580d7277f5db9d4727c73a271ff2176ef0b58073363322"
+  },
+  {
+    "id": "ja-extra-07",
+    "language": "ja",
+    "country": "JP",
+    "place": "Dotonbori",
+    "src": "/passport-real/ja-extra-07-cc7df85c7e7e.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Dotonbori Neon Sign, Osaka 20190415 1.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Dotonbori_Neon_Sign,_Osaka_20190415_1.jpg",
+      "author": "DXR",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "cc7df85c7e7e79cf2af6f8dda2df042b522983560627b69a8afe8a8d1cb7ff84"
+  },
+  {
     "id": "ja-extra-08",
     "language": "ja",
     "country": "JP",
     "place": "Osaka Castle",
-    "src": "/passport-real/ja-extra-08.webp",
+    "src": "/passport-real/ja-extra-08-96b9b184e605.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Osaka Castle Outer Moat and Osaka Business Park, November 2016.jpg",
@@ -2707,7 +2860,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Hiroshima Peace Memorial",
-    "src": "/passport-real/ja-extra-09.webp",
+    "src": "/passport-real/ja-extra-09-2fd701131cb6.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Hiroshima Peace Memorial (Genbaku Dome), 20240817 1050 4231.jpg",
@@ -2720,45 +2873,11 @@
     "sha256": "2fd701131cb61f9ae29a3f59c52f2aeb335336c69c93b116f119a70ea354e731"
   },
   {
-    "id": "ja-extra-10",
-    "language": "ja",
-    "country": "JP",
-    "place": "Tottori sand dunes",
-    "src": "/passport-real/ja-extra-10.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:Tottori Tottori Sand Dunes 15.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Tottori_Tottori_Sand_Dunes_15.jpg",
-      "author": "Zairon",
-      "license": "CC BY 4.0",
-      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
-      "changes": "Cropped and resized"
-    },
-    "sha256": "af8db4318405e3330b43d98222bb4e3238d5d64b219f8f69154da2658c025c51"
-  },
-  {
-    "id": "ja-extra-11",
-    "language": "ja",
-    "country": "JP",
-    "place": "Amanohashidate",
-    "src": "/passport-real/ja-extra-11.webp",
-    "kind": "photograph",
-    "credit": {
-      "title": "File:Amanohashidate View Land09n4592.jpg",
-      "source": "https://commons.wikimedia.org/wiki/File:Amanohashidate_View_Land09n4592.jpg",
-      "author": "663highland",
-      "license": "CC BY 2.5",
-      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
-      "changes": "Cropped and resized"
-    },
-    "sha256": "99415a6a3c3a590356b11451179cb1f7f04744218407e00190be1b08c2213ed8"
-  },
-  {
     "id": "ja-extra-12",
     "language": "ja",
     "country": "JP",
     "place": "Lake Towada",
-    "src": "/passport-real/ja-extra-12.webp",
+    "src": "/passport-real/ja-extra-12-3abf3268b810.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Lake towada 20220813121522 (52652330999).jpg",
@@ -2775,7 +2894,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Ginzan Onsen",
-    "src": "/passport-real/ja-extra-14.webp",
+    "src": "/passport-real/ja-extra-14-aecf3b856bc4.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Small snowman and Ginzan Onsen town.jpg",
@@ -2792,7 +2911,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Zao snow monsters",
-    "src": "/passport-real/ja-extra-15.webp",
+    "src": "/passport-real/ja-extra-15-52fa489e1add.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Mt. Zao snow monsters (51843581919).jpg",
@@ -2809,7 +2928,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Daisetsuzan",
-    "src": "/passport-real/ja-extra-16.webp",
+    "src": "/passport-real/ja-extra-16-1cec9f4a218f.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Volcanic degassing at snow covered Mount Asahi (Daisetsuzan), April 2023 09.jpg",
@@ -2826,7 +2945,7 @@
     "language": "ja",
     "country": "JP",
     "place": "Biei Blue Pond",
-    "src": "/passport-real/ja-extra-17.webp",
+    "src": "/passport-real/ja-extra-17-382ac3d61d93.webp",
     "kind": "photograph",
     "credit": {
       "title": "File:Hokkaido - Biei, blue pond (3941455340).jpg",
@@ -2837,5 +2956,158 @@
       "changes": "Cropped and resized"
     },
     "sha256": "382ac3d61d93b31bb83db9ad90c570e07a9def2f1bbf5f11bc1ce85e99b7d6fb"
+  },
+  {
+    "id": "ja-extra-19",
+    "language": "ja",
+    "country": "JP",
+    "place": "Furano lavender",
+    "src": "/passport-real/ja-extra-19-d665e3b6f081.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:View from Rokugo Hill, Furano 20250726b.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:View_from_Rokugo_Hill,_Furano_20250726b.jpg",
+      "author": "掬茶",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "d665e3b6f08194d751d6621bea51f316d58b89e81436d27ec64b403b0a4d6c67"
+  },
+  {
+    "id": "ja-extra-20",
+    "language": "ja",
+    "country": "JP",
+    "place": "Taketomi island",
+    "src": "/passport-real/ja-extra-20-c133f135623a.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:2015-12-20 Kondoi Beach Taketomi-Island,Okinawa コンドイ浜（沖縄県八重山郡竹富町竹富）DSCF3031 (cropped 2025).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:2015-12-20_Kondoi_Beach_Taketomi-Island,Okinawa_%E3%82%B3%E3%83%B3%E3%83%89%E3%82%A4%E6%B5%9C%EF%BC%88%E6%B2%96%E7%B8%84%E7%9C%8C%E5%85%AB%E9%87%8D%E5%B1%B1%E9%83%A1%E7%AB%B9%E5%AF%8C%E7%94%BA%E7%AB%B9%E5%AF%8C%EF%BC%89DSCF3031_(cropped_2025).jpg",
+      "author": "松岡明芳",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c133f135623a75384507e6fa120dacebbc96cabf570fee6add52649c658c5cf8"
+  },
+  {
+    "id": "ja-extra-21",
+    "language": "ja",
+    "country": "JP",
+    "place": "Ishigaki Kabira Bay",
+    "src": "/passport-real/ja-extra-21-b88e1b2c02ec.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Ishigaki Kabira Bay.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Ishigaki_Kabira_Bay.JPG",
+      "author": "BenedettaR",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b88e1b2c02ece2f4b8efeec6265a8d62ba17970baf1b95e53b9fb6e521fc3926"
+  },
+  {
+    "id": "ja-extra-22",
+    "language": "ja",
+    "country": "JP",
+    "place": "Aso volcano",
+    "src": "/passport-real/ja-extra-22-89e539cb335f.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:阿蘇火山博物館 Aso Volcano Museum - panoramio.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:%E9%98%BF%E8%98%87%E7%81%AB%E5%B1%B1%E5%8D%9A%E7%89%A9%E9%A4%A8_Aso_Volcano_Museum_-_panoramio.jpg",
+      "author": "OS6",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "89e539cb335f3e243922a601d725890a47ecc84069037e5b0de49f8a88c26e51"
+  },
+  {
+    "id": "ja-extra-23",
+    "language": "ja",
+    "country": "JP",
+    "place": "Takachiho Gorge",
+    "src": "/passport-real/ja-extra-23-068a988be4d9.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Takachiho Gorge (52133238863).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Takachiho_Gorge_(52133238863).jpg",
+      "author": "Raita Futo from Tokyo, Japan",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "068a988be4d9afc9de0cca27167b5efa48aa33ce5b6fa66aefc8bc03debbfb2b"
+  },
+  {
+    "id": "ja-extra-24",
+    "language": "ja",
+    "country": "JP",
+    "place": "Beppu hot springs",
+    "src": "/passport-real/ja-extra-24-33d521397d2a.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Beppu Hot Springs (31338411912).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Beppu_Hot_Springs_(31338411912).jpg",
+      "author": "David Stanley from Nanaimo, Canada",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "33d521397d2a02f212dbb4086f12eaaf199a56305fae6d0ce89edc4329bed92f"
+  },
+  {
+    "id": "ja-extra-25",
+    "language": "ja",
+    "country": "JP",
+    "place": "Ritsurin garden",
+    "src": "/passport-real/ja-extra-25-305543fd311c.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Ritsurin Garden, Kagawa Prefecture; November 2019 (05).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ritsurin_Garden,_Kagawa_Prefecture;_November_2019_(05).jpg",
+      "author": "Sei F",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "305543fd311ce695742b47f1d62763a2e50c84e0da7f4e1fc0be9d06cdb9c489"
+  },
+  {
+    "id": "ja-extra-26",
+    "language": "ja",
+    "country": "JP",
+    "place": "Naruto whirlpools",
+    "src": "/passport-real/ja-extra-26-9bb0e8d6ca07.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Naruto Whirlpools taken 4-21-2008.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Naruto_Whirlpools_taken_4-21-2008.jpg",
+      "author": "Hellbuny",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "9bb0e8d6ca07de32c8a850f212f3bbf4c1678d84aaa2bce778a0b80d18a38eac"
+  },
+  {
+    "id": "ja-extra-28",
+    "language": "ja",
+    "country": "JP",
+    "place": "Ise shrine",
+    "src": "/passport-real/ja-extra-28-df2aae740ac7.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Ise Shrine (Kirishima, Kagoshima) VLux5 hdsr 01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ise_Shrine_(Kirishima,_Kagoshima)_VLux5_hdsr_01.jpg",
+      "author": "Hyppolyte de Saint-Rambert",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "df2aae740ac7a2b32e20f46b7b62e3c56102f0b39ef6bdec67a4965b522cd884"
   }
 ]

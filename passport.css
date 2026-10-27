@@ -2,3 +2,7 @@
 .adventure-journal>.passport-collection:first-child{margin-top:0;padding-top:0;border-top:0;margin-bottom:28px}.adventure-journal>.passport-collection+fieldset{border-top:1px solid #dfd3e9;padding-top:20px}
 
 .passport-scenery{display:block;width:100%;aspect-ratio:1;background-size:300% 300%;background-repeat:no-repeat;border:6px solid #fffdf5;outline:1px solid #dfd0bc;box-sizing:border-box;box-shadow:0 3px 9px #57415220;transform:rotate(-1deg);margin:4px 0 8px}.passport-scenery-large{max-width:410px;margin:22px auto 14px}.passport-place{font-family:Georgia,serif;color:#695277!important}.passport-stamp{border-radius:5px}.passport-stamp>.passport-place{font-size:12px}
+
+.passport-stamp>img.passport-real-photo{aspect-ratio:24/17;object-fit:cover;border:6px solid #fffdf5;outline:1px solid #dfd0bc;box-sizing:border-box;margin:4px 0 8px}.passport-enlarged.passport-real-photo{width:100%;max-width:430px;border:6px solid #fffdf5;box-sizing:border-box}.passport-photo-credit{font-size:12px;line-height:1.6;margin:12px 0}.passport-photo-credit a{color:#67488c}.passport-photo-credit p{font-size:12px}
+
+.passport-companion-photo{display:block;width:100%;aspect-ratio:1;background-size:200% 200%;background-repeat:no-repeat;border:6px solid #fffdf5;box-sizing:border-box}.passport-companion-large{max-width:410px;margin:20px auto}

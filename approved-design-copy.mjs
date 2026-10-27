@@ -1,5 +1,11 @@
 // Reviewed UI copy: target-language examples and private records are never translated here.
 const rows=[
+["Companion keepsake · Creative scene","コンパニオンとの記念写真・創作シーン","Recuerdo con tu compañero · Escena creativa","Lembrança com seu companheiro · Cena criativa","伙伴纪念图片 · 创作场景","Souvenir avec votre compagnon · Scène créative"],
+["Photograph and credits","写真とクレジット","Fotografía y créditos","Fotografia e créditos","照片与署名","Photographie et crédits"],
+["Original photograph","元の写真","Fotografía original","Fotografia original","原始照片","Photographie originale"],
+["License","ライセンス","Licencia","Licença","许可协议","Licence"],
+["Cropped and resized","トリミング・サイズ変更済み","Recortada y redimensionada","Recortada e redimensionada","已裁剪并调整尺寸","Recadrée et redimensionnée"],
+
 ["Collected stamps", "獲得済みスタンプ", "Sellos conseguidos", "Selos conquistados", "已获得的印章", "Tampons obtenus"],
 ["Your illustrated stamps", "旅のイラストスタンプ", "Tus sellos ilustrados", "Seus selos ilustrados", "你的插画印章", "Vos tampons illustrés"],
 ["Every stamp here is earned. Tap one to see your achievement.", "ここに並ぶスタンプはすべて獲得済みです。タップすると達成内容を確認できます。", "Todos estos sellos ya son tuyos. Toca uno para ver tu logro.", "Todos estes selos já são seus. Toque em um para ver sua conquista.", "这里的印章均已获得。点击可查看成就详情。", "Tous ces tampons sont acquis. Touchez-en un pour découvrir votre réussite."],
