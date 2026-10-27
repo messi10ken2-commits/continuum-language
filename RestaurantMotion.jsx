@@ -1,0 +1,6 @@
+import React from 'react';
+const size=([x,y,w,h])=>({left:x/19.2+'%',top:y/8.96+'%',width:w/19.2+'%',height:h/8.96+'%'});
+export default function RestaurantMotion({motion}){
+ return <>{motion.tables.flatMap(([x,y],table)=>[0,1].map(side=>{const view=side?'front':'back';return <span className="painted-diner" data-moving-object="diner" key={table+':'+side} style={{...size([x+(side?8:-30),y-(side?35:31),23,32]),'--diner-facing':side?-1:1,'--diner-period':(4.2+table*.6+side*.4)+'s','--diner-delay':(-table*1.7-side*2)+'s','--diner-hue':(table*12-16)+'deg'}}><img src={motion.dinerSprites[view].src} alt="" draggable="false"/></span>}))}
+ {motion.tables.map(([x,y],i)=><span className="painted-table" key={i} data-fixed-furniture="true" style={size([x-36,y-17,72,48])}><img src={motion.tableSprite.src} alt="" draggable="false"/></span>)}</>;
+}
