@@ -2667,5 +2667,22 @@
       "changes": "Cropped and resized"
     },
     "sha256": "c2be99bb04d4c203fece04d0853ea000dfb951265d1b3fb16d0243291c483064"
+  },
+  {
+    "id": "ja-extra-04",
+    "language": "ja",
+    "country": "JP",
+    "place": "Fushimi Inari",
+    "src": "/passport-real/ja-extra-04.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Torii path with lantern at Fushimi Inari Taisha Shrine, Kyoto, Japan.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Torii_path_with_lantern_at_Fushimi_Inari_Taisha_Shrine,_Kyoto,_Japan.jpg",
+      "author": "Basile Morin",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "77057ce90e294cc2c92c579da9edb53b2eb289abbec14378c7b38b3b66af913d"
   }
 ]
