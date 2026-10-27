@@ -1562,5 +1562,39 @@
       "changes": "Cropped and resized"
     },
     "sha256": "b789fb484b8a222be43339f37ac04f4e1541de6f446939227d47342a27245eda"
+  },
+  {
+    "id": "es-madrid",
+    "language": "es",
+    "country": "ES",
+    "place": "Madrid Gran Via",
+    "src": "/passport-real/es-madrid.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Madrid - Gran Via (35956077793).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Madrid_-_Gran_Via_(35956077793).jpg",
+      "author": "Fred Romero from Paris, France",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "1d0d671d73a90f24e88ec22f94b385bf5c95d940489b2c2e1e92d374820b9fb7"
+  },
+  {
+    "id": "es-malaga",
+    "language": "es",
+    "country": "ES",
+    "place": "Malaga Alcazaba",
+    "src": "/passport-real/es-malaga.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Spain - Malaga, Alcazaba - panoramio.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Spain_-_Malaga,_Alcazaba_-_panoramio.jpg",
+      "author": "Banja-Frans Mulder",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c10c7c30d439de54f64aef98c2ff695600e711086bdd86528dd59d24c970b288"
   }
 ]
