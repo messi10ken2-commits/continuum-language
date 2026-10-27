@@ -1,20 +1,90 @@
 {
-  "quiet": {
-    "src": "/living-map-v2/quiet.webp?v=dbd9e6e68c98",
-    "sha256": "dbd9e6e68c989a544680d127b85b250dffac2af3136a63419927d06e906cd7eb",
-    "width": 1059,
-    "height": 1485
+  "en": {
+    "quiet": {
+      "src": "/living-map-v2/quiet.webp?v=dbd9e6e68c98",
+      "sha256": "dbd9e6e68c989a544680d127b85b250dffac2af3136a63419927d06e906cd7eb",
+      "width": 1059,
+      "height": 1485
+    },
+    "day": {
+      "src": "/living-map-v2/day.webp?v=cd12e101b604",
+      "sha256": "cd12e101b60417f04b69c91c0dd7649177b3ef9e1f944171ec91900e93668b08",
+      "width": 1059,
+      "height": 1485
+    },
+    "evening": {
+      "src": "/living-map-v2/evening.webp?v=7305ca6b593c",
+      "sha256": "7305ca6b593c53ce1eaed06ecc42820a8181949334b6de7510de459f5c023d82",
+      "width": 1059,
+      "height": 1485
+    },
+    "region": "English riverside village",
+    "locomotiveSteam": true
   },
-  "day": {
-    "src": "/living-map-v2/day.webp?v=cd12e101b604",
-    "sha256": "cd12e101b60417f04b69c91c0dd7649177b3ef9e1f944171ec91900e93668b08",
-    "width": 1059,
-    "height": 1485
+  "ja": {
+    "region": "Japanese riverside town",
+    "locomotiveSteam": false,
+    "evening": {
+      "src": "/living-map-v2/ja/evening.webp?v=3309fbf7f0c3",
+      "sha256": "3309fbf7f0c394d7c5d334f401d7d84b735cfe5584b66641414bc878f590a473",
+      "width": 1059,
+      "height": 1485
+    },
+    "day": {
+      "src": "/living-map-v2/ja/day.webp?v=17eb8aca88f2",
+      "sha256": "17eb8aca88f2382e5df35488c446e80cfa902935055a73b8355ca1b40d62a022",
+      "width": 1059,
+      "height": 1485
+    },
+    "quiet": {
+      "src": "/living-map-v2/ja/quiet.webp?v=3b557e533dc6",
+      "sha256": "3b557e533dc6c8ed0d09031ba065389fc528df5549a7634ed8292a669d0ca62a",
+      "width": 1059,
+      "height": 1485
+    }
   },
-  "evening": {
-    "src": "/living-map-v2/evening.webp?v=7305ca6b593c",
-    "sha256": "7305ca6b593c53ce1eaed06ecc42820a8181949334b6de7510de459f5c023d82",
-    "width": 1059,
-    "height": 1485
+  "pt": {
+    "region": "Brazilian tropical hillside neighbourhood",
+    "locomotiveSteam": false,
+    "evening": {
+      "src": "/living-map-v2/pt/evening.webp?v=1133cf177191",
+      "sha256": "1133cf1771911b8f476c3c0d0fb364682300079b65da93cf6ff98ca116b9701d",
+      "width": 1059,
+      "height": 1485
+    },
+    "day": {
+      "src": "/living-map-v2/pt/day.webp?v=0e5fa417f394",
+      "sha256": "0e5fa417f3946b051d821ddd267f4ca33e3a96ac4937c8a00b33e72537524930",
+      "width": 1059,
+      "height": 1485
+    },
+    "quiet": {
+      "src": "/living-map-v2/pt/quiet.webp?v=3c0838361984",
+      "sha256": "3c08383619844f01d2d65d54a47d3339fbef311a69f678a1493d3359a1d30d1d",
+      "width": 1059,
+      "height": 1485
+    }
+  },
+  "es": {
+    "region": "Spanish Mediterranean town",
+    "locomotiveSteam": false,
+    "evening": {
+      "src": "/living-map-v2/es/evening.webp?v=5b2557e87c6e",
+      "sha256": "5b2557e87c6e2b0c0cf3abe2b14bf0db3604661667c6cea191c116fc19eb5b98",
+      "width": 1059,
+      "height": 1485
+    },
+    "day": {
+      "src": "/living-map-v2/es/day.webp?v=df2bd82a169e",
+      "sha256": "df2bd82a169e790fbf9b6b8aae83ce6d4cba8d24e8f953ab272738d193bb7b4d",
+      "width": 1059,
+      "height": 1485
+    },
+    "quiet": {
+      "src": "/living-map-v2/es/quiet.webp?v=f3fd0f79ee09",
+      "sha256": "f3fd0f79ee0983534dc2b092294b32bed323154022c48814c4d1e67a040d1ad3",
+      "width": 1059,
+      "height": 1485
+    }
   }
 }
