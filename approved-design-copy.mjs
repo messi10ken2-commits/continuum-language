@@ -1,5 +1,12 @@
 // Reviewed UI copy: target-language examples and private records are never translated here.
 const rows=[
+["The station is restored","駅がよみがえりました","La estación vuelve a la vida","A estação voltou à vida","车站恢复了生机","La gare reprend vie"],
+["The café is open","カフェがオープンしました","La cafetería está abierta","O café está aberto","咖啡馆开门了","Le café est ouvert"],
+["The neighbourhood is blooming","街に花が咲いています","El barrio está floreciendo","O bairro está florescendo","街区繁花盛开","Le quartier fleurit"],
+["Warm lights across your neighbourhood","街にあたたかな灯りがともります","Luces cálidas en tu barrio","Luzes acolhedoras no seu bairro","温暖的灯光照亮街区","Des lumières chaleureuses dans votre quartier"],
+["Replay world restoration","街の変化をもう一度見る","Repetir la restauración","Rever a transformação","重播街区变化","Revoir la transformation"],
+["Resume map motion","マップの動きを再開","Reanudar la animación","Retomar a animação","继续地图动画","Reprendre l’animation"],
+["Pause map motion","マップの動きを一時停止","Pausar la animación","Pausar a animação","暂停地图动画","Mettre l’animation en pause"],
 ["Not yet earned","未獲得","Aún no conseguido","Ainda não conquistado","尚未获得","Pas encore obtenu"],
 ["AI-generated photographic scene","AI生成の写真風シーン","Escena fotográfica generada por IA","Cena fotográfica gerada por IA","AI生成的照片风格场景","Scène photographique générée par IA"],
 ["Collect stamps through learning. Hidden frames show what is still to come.","学習を進めてスタンプを集めましょう。未獲得の枠はシルエットで表示しています。","Colecciona sellos aprendiendo. Los marcos ocultos muestran lo que falta.","Colecione selos aprendendo. As molduras ocultas mostram o que falta.","通过学习收集印章。隐藏的相框显示尚未获得的内容。","Collectionnez des timbres en apprenant. Les cadres masqués indiquent ce qu’il reste à obtenir."],

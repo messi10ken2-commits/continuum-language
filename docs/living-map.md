@@ -1,0 +1,9 @@
+# Living neighbourhood and companion reward visibility
+
+The illustrated learning map uses the selected language and CEFR level's full learning record. One completed chapter restores the station and introduces a passing train; two open the café, awning and door, with rising steam; three add growing flower beds and a gardener carrying flowers; four bring evening colour, stars, street lamps and gently varying warm windows. Restored features remain present on future visits. Later chapter completions replay the restoration sequence. This is a visual reward, not a change to assessment, grading, unlocks or stored progress.
+
+Map scenery is an SVG scene on the map canvas beneath the selectable route. It replaces the small per-node house/flower badges. Replay restarts the short rebuilding/opening/planting sequence; pause freezes all map animation. Reduced-motion preference shows completed scenery without animation. Chapter labels retain readable backgrounds at night, and map zoom, drag and selection still operate. Scenery leaves a dedicated lower band clear of chapter labels.
+
+Companion greeting, delighted reaction and finale buttons scroll the newly rendered stage into the viewport after React commits it. The voice button also creates a visible companion stage and scrolls to it. Sound starts directly from the click, and existing earned thresholds, finale eligibility, premium permissions, cleanup and error handling remain intact. Reduced-motion users get an immediate scroll and static companion art. Repeated clicks restart the presentation and its timer.
+
+Validation: build; existing journey/adventure/bond model checks; synthetic browser tests across all four learning languages for each restoration phase, train displacement, replay/pause, reduced motion, selection and 320/390/1440 widths. Companion browser checks cover stage visibility after reward clicks, voice, finale, cancellation and navigation.

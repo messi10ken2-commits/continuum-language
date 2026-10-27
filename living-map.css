@@ -1,0 +1,18 @@
+/* Scene layers belong to the map canvas, beneath selectable chapter routes. */
+.living-map{position:absolute;inset:0;pointer-events:none;overflow:hidden;isolation:isolate}.living-map-dusk{position:absolute;inset:0;background:linear-gradient(#202c64a6,#49446b4d 45%,#182e4a80);opacity:0;transition:opacity 3s ease}.phase-4 .living-map-dusk{opacity:1;animation:world-dusk 3s ease both}.living-map-scenery{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.living-map-controls{position:absolute;top:9px;left:10px;display:flex;align-items:center;gap:5px;max-width:calc(100% - 20px);pointer-events:auto;background:#fffaf0ee;border:1px solid #e0d5c3;border-radius:20px;padding:5px 8px;box-shadow:0 3px 15px #25304712;color:#544d67;font-size:10px}.living-map-controls>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.living-map-controls button{display:grid;place-items:center;border:0;background:#eae3f1;color:#675381;border-radius:50%;width:26px;height:26px;min-height:26px;flex-shrink:0;cursor:pointer}.living-map-controls button:focus-visible{outline:3px solid #8670c8}.approved-map-canvas>svg.learning-route{position:absolute;pointer-events:none}.world-station,.world-cafe{animation:world-rebuild 2.5s cubic-bezier(.22,.65,.28,1) both;transform-box:fill-box;transform-origin:center bottom}.world-cafe{animation-delay:.6s}.world-door{animation:world-door-open 3.2s ease both;transform-box:fill-box;transform-origin:left center}.cafe-awning{animation:world-awning 2.8s ease both;transform-box:fill-box;transform-origin:center top}.world-flower{animation:world-bloom 3.2s ease both;transform-box:fill-box;transform-origin:center bottom}.cafe-steam{animation:world-steam 4s ease-in-out infinite}.world-gardener{animation:world-deliver 6s ease both;transform-box:fill-box;transform-origin:center bottom}.gardener-arm{animation:world-plant 3s ease-in-out 2;transform-box:fill-box;transform-origin:left top}.world-train{animation:world-train-journey 16s linear infinite;transform-box:view-box}.world-lamps{animation:world-light-up 3.5s ease both}.phase-4 .world-window,.lamp-halo{animation:world-warm-light 6s ease-in-out infinite}.world-stars{animation:world-light-up 3s ease both}.living-map.motion-paused *{animation-play-state:paused!important;transition:none!important}.bond-stage{scroll-margin-block:100px}
+@keyframes world-rebuild{from{opacity:0;translate:0 25px;clip-path:inset(100% 0 0)}to{opacity:1;translate:0 0;clip-path:inset(0)}}
+@keyframes world-door-open{0%,40%{scale:1 1}70%,100%{scale:.35 1}}
+@keyframes world-awning{0%,30%{scale:1 .05}100%{scale:1 1}}
+@keyframes world-bloom{from{scale:.1;opacity:0}65%{scale:1.12;opacity:1}to{scale:1;opacity:1}}
+@keyframes world-steam{0%{opacity:0;translate:0 5px}35%{opacity:.8}100%{opacity:0;translate:4px -12px}}
+@keyframes world-deliver{0%{translate:-65px 0;opacity:0}20%{opacity:1}60%,100%{translate:0 0;opacity:1}}
+@keyframes world-plant{0%,100%{rotate:0deg}50%{rotate:20deg}}
+@keyframes world-train-journey{0%,8%{translate:0 0}80%,100%{translate:calc(100% + 170px) 0}}
+@keyframes world-light-up{0%,30%{opacity:0}100%{opacity:1}}
+@keyframes world-warm-light{0%,100%{opacity:.8;filter:drop-shadow(0 0 3px #ffd590)}50%{opacity:1;filter:drop-shadow(0 0 8px #ffe5a5)}}
+@media(prefers-reduced-motion:reduce){.living-map *{animation:none!important;transition:none!important}.world-train{translate:180px 0}.world-door{scale:.35 1}.living-map-controls button{display:none}}
+
+@keyframes world-dusk{from{opacity:0}to{opacity:1}}
+
+/* Leave the lower quarter of the map clear for the restored neighbourhood. */
+.approved-course-map:has(.living-map) .approved-map-drag{bottom:108px}
