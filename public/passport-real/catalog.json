@@ -1970,5 +1970,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "8830ece2716333f39436febc6f30f239571799ead2dc57544bc7dfe0bb8ca0e5"
+  },
+  {
+    "id": "ja-aomori",
+    "language": "ja",
+    "country": "JP",
+    "place": "Oirase Stream",
+    "src": "/passport-real/ja-aomori.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Oirase Stream, Towada-Hachimantai National Park, Japan.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Oirase_Stream,_Towada-Hachimantai_National_Park,_Japan.jpg",
+      "author": "OKJaguar",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "579615e67d90e7d1f66c7936d4b60785a5d7874569e392e3928f2ab7ba741216"
+  },
+  {
+    "id": "ja-nagano",
+    "language": "ja",
+    "country": "JP",
+    "place": "Kamikochi",
+    "src": "/passport-real/ja-nagano.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:20171028 Kamikochi 1487 (38001587494).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:20171028_Kamikochi_1487_(38001587494).jpg",
+      "author": "Ray Swi-hymn from Sijhih-Taipei, Taiwan",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "bd3652d0f06b965665d4a0742b93aa35c8150d74ce7012c2ad0f81993283cad8"
+  },
+  {
+    "id": "ja-nagasaki",
+    "language": "ja",
+    "country": "JP",
+    "place": "Nagasaki harbour",
+    "src": "/passport-real/ja-nagasaki.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Empire of Japan, Yedo ... Meaco. (insets) Nagasaki Harbour. Eastern Point of Yeso. (IA dr empire-of-japan-yedo-meaco-insets-nagasaki-harbour-eastern-point-o-2326054).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Empire_of_Japan,_Yedo_..._Meaco._(insets)_Nagasaki_Harbour._Eastern_Point_of_Yeso._(IA_dr_empire-of-japan-yedo-meaco-insets-nagasaki-harbour-eastern-point-o-2326054).jpg",
+      "author": "Society for the Diffusion of Useful Knowledge (Great Britain)\nJ. & C. Walker\nMurchison, I.\nLubbock, John\nSmith, Philip\nWoodward, S.P.\nKey, T. Hewett",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c70464b2628422983b6a7e7d6f1ddb864661a2bda18e92150db451a6250d507a"
   }
 ]
