@@ -2225,5 +2225,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "afadd1ef524eb3ab1b7e15186597e27fda1d8bdf24d3a9278394edeab59d77ae"
+  },
+  {
+    "id": "es-extra-17",
+    "language": "es",
+    "country": "CR",
+    "place": "Manuel Antonio National Park",
+    "src": "/passport-real/es-extra-17.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:White-headed capuchin at Manuel Antonio National Park, Costa Rica.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:White-headed_capuchin_at_Manuel_Antonio_National_Park,_Costa_Rica.jpg",
+      "author": "CIA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "423a6abc83cbd7eb78deca766bdfa01d0e8344e3ddd6135e3e6f0304eb8efb85"
+  },
+  {
+    "id": "es-extra-18",
+    "language": "es",
+    "country": "GT",
+    "place": "Antigua Guatemala",
+    "src": "/passport-real/es-extra-18.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Arco de Santa Catalina Antigua Guatemala edit2.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Arco_de_Santa_Catalina_Antigua_Guatemala_edit2.jpg",
+      "author": "Adalberto.H.Vega\nuploaded and derivative work: MrPanyGoff",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c045b53741ccafabf7473f7865aea1f2113f54c4015947cabe37bd78e6da24ee"
+  },
+  {
+    "id": "es-extra-19",
+    "language": "es",
+    "country": "UY",
+    "place": "Punta del Este",
+    "src": "/passport-real/es-extra-19.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Faro de Isla de Lobos.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Faro_de_Isla_de_Lobos.jpg",
+      "author": "Priscilla Jordão",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "9f2b46d520958a3f504a5dd4a0145ecf6a84b0f427282ade926f05b000a42613"
   }
 ]
