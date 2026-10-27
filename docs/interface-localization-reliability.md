@@ -34,3 +34,11 @@ The display-language picker supports English, Japanese, Spanish, Portuguese, Sim
 `additional-display-copy.json` bundles Korean, Indonesian, Russian and Arabic translations of the public interface catalog. `display-language-seed.mjs` supplies editorial overrides for navigation, privacy, placement, booking and restoration terminology. The build-time generator uses the same protected-source rules and locale guidance as runtime lesson explanations; it never reads learner data. Missing dynamic lesson explanations continue through the existing authenticated, cached translation service.
 
 Arabic sets document direction to RTL, and switching away restores LTR. Spatial maps and calendar geometry retain LTR coordinates; language-tagged learning examples, email addresses, URLs and code are isolated from the surrounding direction. Browser QA covers both themes, learner/teacher accounts and 320–1440px widths.
+
+## Static UI coverage regression
+
+`node scripts/audit-display-coverage.mjs` checks literal translation calls, display props, conditional labels, mapped string/tuple/object labels, and unsafe visible string concatenation across JSX screens. All authored UI sources must have offline copy in all nine non-English display locales. Known brand names, URL/code placeholders and explicitly language-tagged learning material are excluded.
+
+`interface-audit-copy.json` fills previously live-only UI gaps without overwriting established reviewed translations; `interface-audit-seed.mjs` overrides the reported overview labels and the name-safe learning-memory template. Personalized headings use `tf` placeholders: names are inserted after translation and are never sent to the translation service.
+
+Browser coverage checks learner/teacher navigation, expanded Account settings, Overview period buttons, memory headings, both visual layouts and phone/desktop bounds. It compares visible authored UI text against its translations, excluding learning-language examples and authored user content.

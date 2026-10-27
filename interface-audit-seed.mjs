@@ -1,5 +1,19 @@
 // Reviewed common UI and name-safe templates. User values are inserted after translation.
 const rows=`
+Link|リンク|Enlace|Link|链接|Lien|링크|Tautan|Ссылка|الرابط
+Waiting|対応待ち|En espera|Aguardando|等待中|En attente|대기 중|Menunggu|Ожидание|قيد الانتظار
+Resolved|解決済み|Resuelto|Resolvido|已解决|Résolu|해결됨|Selesai|Решено|تم الحل
+
+15 min|15分|15 min|15 min|15分钟|15 min|15분|15 menit|15 мин|15 دقيقة
+10 min|10分|10 min|10 min|10分钟|10 min|10분|10 menit|10 мин|10 دقائق
+5 min|5分|5 min|5 min|5分钟|5 min|5분|5 menit|5 мин|5 دقائق
+
+Subjunctive|接続法|Subjuntivo|Subjuntivo|虚拟式|Subjonctif|접속법|Subjungtif|Сослагательное наклонение|صيغة الشرط
+Por vs. para|por と para の使い分け|Por y para|Por e para|por 与 para 的区别|Por et para|por와 para의 차이|Perbedaan por dan para|Разница между por и para|الفرق بين por وpara
+Articles|冠詞|Artículos|Artigos|冠词|Articles|관사|Kata sandang|Артикли|أدوات التعريف والتنكير
+Fluency|流暢さ|Fluidez|Fluência|流利度|Aisance|유창성|Kelancaran|Беглость речи|الطلاقة
+Body|本文|Contenido|Conteúdo|正文|Contenu|본문|Isi|Текст|النص
+
 Week|週|Semana|Semana|周|Semaine|주|Minggu|Неделя|الأسبوع
 Month|月|Mes|Mês|月|Mois|월|Bulan|Месяц|الشهر
 All time|全期間|Todo el período|Todo o período|全部时间|Depuis le début|전체 기간|Sepanjang waktu|За всё время|كل الفترات
