@@ -2072,5 +2072,39 @@
       "changes": "Cropped and resized"
     },
     "sha256": "a05591408ccc4baed75fd47c0a64cdf8d5ed587f9b18fb167c4e2ac1db95d790"
+  },
+  {
+    "id": "es-extra-03",
+    "language": "es",
+    "country": "ES",
+    "place": "Toledo Spain",
+    "src": "/passport-real/es-extra-03.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Puente de San Martín. Toledo, Spain.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Puente_de_San_Mart%C3%ADn._Toledo,_Spain.jpg",
+      "author": "Ввласенко",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f8b1018db4348b784b3a304063879004f3233a3c840666aa7918d1683c552f6a"
+  },
+  {
+    "id": "es-extra-04",
+    "language": "es",
+    "country": "ES",
+    "place": "Segovia aqueduct",
+    "src": "/passport-real/es-extra-04.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Segovia - Aqueduct - 2.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Segovia_-_Aqueduct_-_2.jpg",
+      "author": "Benjamin Smith",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "5130b979843b66f3498350cb48f2566cc43c25bd3a37aea6c6ee316ff40d5564"
   }
 ]
