@@ -16,9 +16,9 @@ export default function LivingMap({chapters,width,height,identity='map',language
  <div className="painted-panorama" key={replay} style={{width,height}} aria-hidden="true">
  <div className="painted-layer painted-quiet" style={paint('quiet')}/>
  {!unlocked&&<>
- {phase>=1&&<div className="painted-layer painted-station" style={paint('day',mask(fx.station))}/>}
- {phase>=2&&<div className="painted-layer painted-cafe" style={paint('day',mask(fx.cafe))}/>}
- {phase>=3&&<div className="painted-layer painted-garden" style={paint('day',mask(fx.garden))}/>}
+ {phase>=1&&<div className="painted-layer painted-station" style={paint('restorationDay',mask(fx.station))}/>}
+ {phase>=2&&<div className="painted-layer painted-cafe" style={paint('restorationDay',mask(fx.cafe))}/>}
+ {phase>=3&&<div className="painted-layer painted-garden" style={paint('restorationDay',mask(fx.garden))}/>}
  </>}
  {unlocked&&<>
  <div className="painted-layer painted-evening painted-still" data-stationary-scenery="true" style={{backgroundImage:`url(${art.motion.still.src})`}}/>

@@ -147,6 +147,13 @@
         "polygon(0 0,19.5% 0,19.5% 100%,0 100%)",
         "polygon(21.05% 52.9%,21.7% 52.9%,21.65% 55.1%,21.45% 55.8%,21.6% 72.8%,21.9% 73.6%,21% 73.6%,21.25% 72.8%,21.25% 55.8%,21.05% 55.1%)"
       ]
+    },
+    "restorationDay": {
+      "src": "/living-map-motion/en-day-still.webp?v=76e2bdbb9e0f",
+      "sha256": "76e2bdbb9e0fac4e2eeb88726868304a9b26173ea199a508331dbb34ff94ba84",
+      "width": 1920,
+      "height": 896,
+      "trainFree": true
     }
   },
   "es": {
@@ -296,6 +303,13 @@
       "foreground": [
         "polygon(0 0,15.2% 0,15.2% 100%,0 100%)"
       ]
+    },
+    "restorationDay": {
+      "src": "/living-map-motion/es-day-still.webp?v=8d4628ab490e",
+      "sha256": "8d4628ab490e6f60303f9068d41d7740eb4f496d06a5e3534bb0f0e85dbc87be",
+      "width": 1920,
+      "height": 896,
+      "trainFree": true
     }
   },
   "ja": {
@@ -445,6 +459,13 @@
       "foreground": [
         "polygon(0 0,18.1% 0,18.1% 100%,0 100%)"
       ]
+    },
+    "restorationDay": {
+      "src": "/living-map-motion/ja-day-still.webp?v=158be41a5906",
+      "sha256": "158be41a59065a234b2aa927a76d8122293c22ec8562636aafd9ad874845bd88",
+      "width": 1920,
+      "height": 896,
+      "trainFree": true
     }
   },
   "pt": {
@@ -594,6 +615,13 @@
       "foreground": [
         "polygon(0 0,16.4% 0,16.4% 100%,0 100%)"
       ]
+    },
+    "restorationDay": {
+      "src": "/living-map-motion/pt-day-still.webp?v=f198227f3b41",
+      "sha256": "f198227f3b41141e41aec966db09baba26bbb9e829f1c357e4a24d793a687a55",
+      "width": 1920,
+      "height": 896,
+      "trainFree": true
     }
   }
 }
