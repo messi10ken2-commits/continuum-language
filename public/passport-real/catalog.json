@@ -1307,5 +1307,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "e35af39b964b587d001c609eb124e0ca2da9c3cca4a273e20249576997956e52"
+  },
+  {
+    "id": "es-pe",
+    "language": "es",
+    "country": "PE",
+    "place": "Machu Picchu",
+    "src": "/passport-real/es-pe.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Machu Picchu.png",
+      "source": "https://commons.wikimedia.org/wiki/File:Machu_Picchu.png",
+      "author": "Hiram Bingham III",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "0c1c46c9bc43dc6a254df4df4a59520fc91f0292c527c3aa795f17937668e74a"
+  },
+  {
+    "id": "es-pr",
+    "language": "es",
+    "country": "PR",
+    "place": "Old San Juan Puerto Rico",
+    "src": "/passport-real/es-pr.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Buildings at Plaza de Armas in Old San Juan, Puerto Rico, 2011.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Buildings_at_Plaza_de_Armas_in_Old_San_Juan,_Puerto_Rico,_2011.jpg",
+      "author": "Daderot",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "15d342beda402d67d75b3fd4ce0d2623a4c899bb5ee8b0a77641d530ccac87ef"
+  },
+  {
+    "id": "es-es",
+    "language": "es",
+    "country": "ES",
+    "place": "Sagrada Familia",
+    "src": "/passport-real/es-es.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Sagrada Familia March 2015-10a.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sagrada_Familia_March_2015-10a.jpg",
+      "author": "Alvesgaspar",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "ae9d98848fc1460ad156e4974971b6360b33428a89410641334d7166d9f89678"
   }
 ]
