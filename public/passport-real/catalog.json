@@ -2174,5 +2174,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "b8c26e022e0d52996386b3f7ba620f85064e7a53cf94fe76bec7fe18f4ca3f1d"
+  },
+  {
+    "id": "es-extra-14",
+    "language": "es",
+    "country": "CL",
+    "place": "Atacama Desert",
+    "src": "/passport-real/es-extra-14.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:A Dusting of Snow in the Atacama desert.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:A_Dusting_of_Snow_in_the_Atacama_desert.jpg",
+      "author": "ESO/S. Guisard",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "7f8fffa1ca1036455b1c1237d4005cee1c8781539162a6332975208038b1e9af"
+  },
+  {
+    "id": "es-extra-15",
+    "language": "es",
+    "country": "EC",
+    "place": "Quito Ecuador",
+    "src": "/passport-real/es-extra-15.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Iglesia de San Francisco, Quito, Ecuador, 2015-07-22, DD 159-161 HDR.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Iglesia_de_San_Francisco,_Quito,_Ecuador,_2015-07-22,_DD_159-161_HDR.JPG",
+      "author": "Diego Delso",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "a69640164a132022ea7fdc3f272386d748bc0c97ea63f21bc8bd3e8b5cf02ee5"
+  },
+  {
+    "id": "es-extra-16",
+    "language": "es",
+    "country": "BO",
+    "place": "La Paz Bolivia",
+    "src": "/passport-real/es-extra-16.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Manduca sexta MHNT CUT 2010 0 104 Caranavi, La Paz Bolivia male dorsal.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Manduca_sexta_MHNT_CUT_2010_0_104_Caranavi,_La_Paz_Bolivia_male_dorsal.jpg",
+      "author": "Didier Descouens",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "afadd1ef524eb3ab1b7e15186597e27fda1d8bdf24d3a9278394edeab59d77ae"
   }
 ]
