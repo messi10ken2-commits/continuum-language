@@ -1171,5 +1171,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "f420bcfabcff616efd569ac3f9d31b11cba66c89a26ce1d451093deff0a003b5"
+  },
+  {
+    "id": "es-ec",
+    "language": "es",
+    "country": "EC",
+    "place": "Galapagos Islands",
+    "src": "/passport-real/es-ec.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Grapsus grapsus Galapagos Islands.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Grapsus_grapsus_Galapagos_Islands.jpg",
+      "author": "Lieutenant Elizabeth Crapo, NOAA Corps",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "84cab6a4fe551c9cd482acd593076eefe5c23a95c256d1296d1373eda05fe20a"
+  },
+  {
+    "id": "es-sv",
+    "language": "es",
+    "country": "SV",
+    "place": "Santa Ana volcano",
+    "src": "/passport-real/es-sv.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Section of Santa Ana Volcano, El Salvador.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Section_of_Santa_Ana_Volcano,_El_Salvador.jpg",
+      "author": "Bobjgalindo",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "da031fa53038684fe200f5fcc5d879564eb56c3d2e767e8894e4b51c6d4e9f63"
+  },
+  {
+    "id": "es-gq",
+    "language": "es",
+    "country": "GQ",
+    "place": "Malabo Equatorial Guinea",
+    "src": "/passport-real/es-gq.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Sipopo Malabo, Equatorial Guinea (16492973176).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sipopo_Malabo,_Equatorial_Guinea_(16492973176).jpg",
+      "author": "Ben Sutherland from Crystal Palace, London, UK",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "075cdcc6f681fbb4c1fa2c4d4449bd6b2c10c43d8f421748ff52208fc1494aaa"
   }
 ]
