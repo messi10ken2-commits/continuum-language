@@ -2684,5 +2684,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "77057ce90e294cc2c92c579da9edb53b2eb289abbec14378c7b38b3b66af913d"
+  },
+  {
+    "id": "ja-extra-08",
+    "language": "ja",
+    "country": "JP",
+    "place": "Osaka Castle",
+    "src": "/passport-real/ja-extra-08.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Osaka Castle Outer Moat and Osaka Business Park, November 2016.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Osaka_Castle_Outer_Moat_and_Osaka_Business_Park,_November_2016.jpg",
+      "author": "Martin Falbisoner",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "96b9b184e605c61fa0e84c35471631a71683576b13c9aab76c946e996bdf74b0"
+  },
+  {
+    "id": "ja-extra-09",
+    "language": "ja",
+    "country": "JP",
+    "place": "Hiroshima Peace Memorial",
+    "src": "/passport-real/ja-extra-09.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Hiroshima Peace Memorial (Genbaku Dome), 20240817 1050 4231.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Hiroshima_Peace_Memorial_(Genbaku_Dome),_20240817_1050_4231.jpg",
+      "author": "Jakub Hałun",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "2fd701131cb61f9ae29a3f59c52f2aeb335336c69c93b116f119a70ea354e731"
+  },
+  {
+    "id": "ja-extra-10",
+    "language": "ja",
+    "country": "JP",
+    "place": "Tottori sand dunes",
+    "src": "/passport-real/ja-extra-10.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Tottori Tottori Sand Dunes 15.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Tottori_Tottori_Sand_Dunes_15.jpg",
+      "author": "Zairon",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "af8db4318405e3330b43d98222bb4e3238d5d64b219f8f69154da2658c025c51"
   }
 ]
