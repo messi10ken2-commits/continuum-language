@@ -10,10 +10,10 @@ try{
  const a=await account('LocaleLearner','learner'),b=await account('LocaleTeacher','teacher');
  assert.equal((await call('/interface-language')).status,401);
  assert.equal((await call('/interface-language','GET',null,a.cookie)).data.language,null);
- for(const language of ['en','ja','es','pt','zh','fr']){assert.equal((await call('/interface-language','PUT',{language},a.cookie)).status,200);assert.equal((await call('/interface-language','GET',null,a.cookie)).data.language,language);}
+ for(const language of ['en','ja','es','pt','zh','fr','ko','id','ru','ar']){assert.equal((await call('/interface-language','PUT',{language},a.cookie)).status,200);assert.equal((await call('/interface-language','GET',null,a.cookie)).data.language,language);}
  assert.equal((await call('/interface-language','GET',null,b.cookie)).data.language,null);
  assert.equal((await call('/interface-language','PUT',{language:'ja'},b.cookie)).status,200);
- assert.equal((await call('/interface-language','PUT',{language:'ko'},a.cookie)).status,400);
+ assert.equal((await call('/interface-language','PUT',{language:'de'},a.cookie)).status,400);
  assert.equal((await call('/profile','GET',null,a.cookie)).data.profile,null,'interface preference must not create a learning profile');
  assert.equal((await call('/localization','POST',{locale:'ja',items:[{text:'Sign in'}]})).status,401);
  let r=await call('/localization','POST',{locale:'ja',items:[{text:'Sign in'}]},a.cookie);assert.equal(r.status,200);assert.equal(r.data.translations[0].text,'ログイン');
@@ -25,6 +25,6 @@ try{
  const key2=crypto.createHash('sha256').update(JSON.stringify([translationRevision,'ja',s2])).digest('hex');
  await db.query('INSERT INTO interface_translations(cache_key,translated) VALUES($1,$2)',[key2,'動画の全文スクリプトを読む']);
  r=await call('/localization','POST',{locale:'ja',items:[{text:text2}]},a.cookie);assert.equal(r.status,200);assert.equal(r.data.translations[0].text,'動画の全文スクリプトを読む');
- assert.equal((await call('/interface-language','GET',null,a.cookie)).data.language,'fr');
- console.log('PASS: six saved interface languages, learner/teacher isolation, authentication, source allowlist, persisted translation cache, unchanged learning profile.');
+ assert.equal((await call('/interface-language','GET',null,a.cookie)).data.language,'ar');
+ console.log('PASS: ten saved interface languages, learner/teacher isolation, authentication, source allowlist, persisted translation cache, unchanged learning profile.');
 }finally{await new Promise(r=>testServer.close(r));await db.close();}

@@ -1,6 +1,8 @@
 // Editorial terminology for the four additional interface languages.
 // Columns: source | Korean | Indonesian | Russian | Modern Standard Arabic.
 const rows=`
+New source material: understand intentions and practical details in an original publisher video.|제작사의 원본 영상으로 말하는 의도와 실용적인 정보를 파악해 보세요.|Materi baru: pahami maksud dan informasi praktis dalam video asli dari penerbitnya.|Новые материалы: учитесь понимать намерения говорящих и практические детали в оригинальном видео автора.|محتوى جديد: تعرّف على مقاصد المتحدّثين والتفاصيل العملية من فيديو أصلي لناشره.
+
 Contact the Continuum team and check your replies.|Continuum 팀에 문의하고 답변을 확인하세요.|Hubungi tim Continuum dan lihat balasannya.|Свяжитесь с командой Continuum и проверьте ответы.|تواصل مع فريق Continuum وتابع الردود.
 Open Support|고객지원 열기|Buka bantuan|Открыть поддержку|فتح الدعم
 View lesson history|학습 이력 보기|Lihat riwayat pelajaran|Посмотреть историю занятий|عرض سجل الدروس
