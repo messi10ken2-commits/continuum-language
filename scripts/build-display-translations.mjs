@@ -2,6 +2,9 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import savedCopy from '../additional-display-copy.json' with {type:'json'};
+import uiSources from '../interface-sources.json' with {type:'json'};
+import premiumSources from '../premium-display-sources.json' with {type:'json'};
 import {interfaceCopy} from '../interface-copy.mjs';
 import {reviewedInterfaceCopy} from '../reviewed-interface-copy.mjs';
 import {displayLanguageSeed} from '../display-language-seed.mjs';
@@ -10,13 +13,13 @@ import {translateBatch} from '../localization-api.mjs';
 import {keepsLocalizedInstructions} from '../learning-text-protection.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url)),locales=['ko','id','ru','ar'];
 export async function displayTranslationSources(){
- const keys=new Set([...Object.keys(interfaceCopy),...Object.values(reviewedInterfaceCopy).flatMap(Object.keys),...Object.keys(displayLanguageSeed)]);
+ const keys=new Set([...uiSources,...premiumSources,...Object.keys(interfaceCopy),...Object.values(reviewedInterfaceCopy).flatMap(Object.keys),...Object.keys(displayLanguageSeed)]);
  for(const file of (await fs.readdir(root)).filter(n=>n.endsWith('-copy.mjs'))){
   const module=await import(path.join(root,file));
   for(const [name,value] of Object.entries(module)){
    if(Array.isArray(value)&&name.endsWith('Sources'))for(const text of value)if(typeof text==='string')keys.add(text);
    if(value&&typeof value==='object'&&!Array.isArray(value))for(const [key,entry] of Object.entries(value)){
-    if(['ja','es','pt','zh','fr'].includes(key)&&entry&&typeof entry==='object')for(const source of Object.keys(entry))keys.add(source);
+    if(['ja','es','pt','zh','fr','ko','id','ru','ar'].includes(key)&&entry&&typeof entry==='object')for(const source of Object.keys(entry))keys.add(source);
     else if(entry&&typeof entry==='object'&&['ja','es','pt','zh','fr'].some(l=>typeof entry[l]==='string'))keys.add(key);
    }
   }
@@ -28,7 +31,7 @@ async function build(locale){
  if(!process.env.OPENAI_API_KEY&&!process.env.GEMINI_API_KEY)throw Error('Translation provider is not configured');
  const sources=await displayTranslationSources(),result={};
  const tasks=[];let batch=[],size=0;
- for(const text of sources){if(displayLanguageSeed[text]?.[locale]){result[text]=displayLanguageSeed[text][locale];continue;}if(batch.length>=30||size+text.length>4000){tasks.push(batch);batch=[];size=0;}batch.push(text);size+=text.length;}if(batch.length)tasks.push(batch);
+ for(const text of sources){if(displayLanguageSeed[text]?.[locale]||savedCopy[text]?.[locale]){result[text]=displayLanguageSeed[text]?.[locale]||savedCopy[text][locale];continue;}if(batch.length>=30||size+text.length>4000){tasks.push(batch);batch=[];size=0;}batch.push(text);size+=text.length;}if(batch.length)tasks.push(batch);
  const filename=path.join(root,'display-copy-'+locale+'.json');let cursor=0,done=0;
  async function translate(texts,attempt=0){
   const items=texts.map(text=>translationSource(text)||{text,language:'',context:'Public educational interface',protectedValues:[]});

@@ -1,6 +1,29 @@
 // Editorial terminology for the four additional interface languages.
 // Columns: source | Korean | Indonesian | Russian | Modern Standard Arabic.
 const rows=`
+Contact the Continuum team and check your replies.|Continuum 팀에 문의하고 답변을 확인하세요.|Hubungi tim Continuum dan lihat balasannya.|Свяжитесь с командой Continuum и проверьте ответы.|تواصل مع فريق Continuum وتابع الردود.
+Open Support|고객지원 열기|Buka bantuan|Открыть поддержку|فتح الدعم
+View lesson history|학습 이력 보기|Lihat riwayat pelajaran|Посмотреть историю занятий|عرض سجل الدروس
+Learning tools|학습 도구|Alat belajar|Инструменты обучения|أدوات التعلّم
+Review your learning history and recurring patterns.|학습 기록과 반복되는 어려움을 확인하세요.|Tinjau riwayat belajar dan kesulitan yang berulang.|Просмотрите историю обучения и повторяющиеся трудности.|راجع سجل تعلّمك والصعوبات المتكررة.
+Check your level and see your skill report.|현재 레벨과 영역별 결과를 확인하세요.|Periksa level dan laporan keterampilan Anda.|Определите свой уровень и просмотрите отчёт по навыкам.|تحقّق من مستواك واطّلع على تقرير مهاراتك.
+
+Your learning preferences, membership and privacy, in one place.|학습 설정, 멤버십, 개인정보 보호를 한곳에서 관리하세요.|Kelola preferensi belajar, keanggotaan, dan privasi Anda di satu tempat.|Управляйте настройками обучения, подпиской и конфиденциальностью в одном месте.|إعدادات التعلّم والعضوية والخصوصية، كلّها في مكان واحد.
+Warm lights across your neighbourhood|마을 곳곳에 따뜻한 불빛이 켜졌어요|Cahaya hangat menerangi lingkungan Anda|Ваш район озарился тёплым светом|أضواء دافئة تنير حيّك
+The station is restored|역이 새 단장을 마쳤어요|Stasiun sudah dipugar|Станция восстановлена|اكتمل ترميم المحطة
+The café is open|카페가 문을 열었어요|Kafe sudah buka|Кафе открыто|افتُتح المقهى
+The neighbourhood is blooming|마을에 꽃이 피었어요|Lingkungan mulai bermekaran|Район расцветает|ازدهر الحيّ
+A world that grows with you|함께 성장하는 세계|Dunia yang tumbuh bersama Anda|Мир, который растёт вместе с вами|عالم ينمو معك
+10 min a day|하루 10분|10 menit sehari|10 мин. в день|10 دقائق يوميًا
+5 min a day|하루 5분|5 menit sehari|5 мин. в день|5 دقائق يوميًا
+15 min a day|하루 15분|15 menit sehari|15 мин. в день|15 دقيقة يوميًا
+20 min a day|하루 20분|20 menit sehari|20 мин. в день|20 دقيقة يوميًا
+30 min a day|하루 30분|30 menit sehari|30 мин. в день|30 دقيقة يوميًا
+Replay world restoration|마을 변화 다시 보기|Putar ulang pemulihan dunia|Повторить восстановление мира|إعادة عرض استعادة العالم
+Pause map motion|지도 움직임 일시 정지|Jeda gerakan peta|Приостановить анимацию карты|إيقاف حركة الخريطة مؤقتًا
+Resume map motion|지도 움직임 재개|Lanjutkan gerakan peta|Продолжить анимацию карты|استئناف حركة الخريطة
+Drag to explore|드래그해서 둘러보기|Geser untuk menjelajah|Перетаскивайте, чтобы исследовать|اسحب للاستكشاف
+
 Overview|홈|Ringkasan|Обзор|نظرة عامة
 Learn|학습|Belajar|Обучение|تعلّم
 Practice|연습|Latihan|Практика|تدرّب
@@ -73,4 +96,4 @@ Your level, tested.|지금 내 언어 실력 알아보기|Ketahui level Anda saa
 Recurring patterns|반복되는 어려움|Kesulitan yang berulang|Повторяющиеся трудности|الصعوبات المتكررة
 From class to practice|수업에서 연습으로|Dari kelas ke latihan|От занятия к практике|من الدرس إلى التدريب
 `;
-export const displayLanguageSeed=Object.fromEntries(rows.trim().split('\n').map(row=>{const [source,...values]=row.split('|');if(values.length!==4)throw Error('Invalid display-language seed');return [source,Object.fromEntries(['ko','id','ru','ar'].map((l,i)=>[l,values[i]]))]}));
+export const displayLanguageSeed=Object.fromEntries(rows.trim().split('\n').filter(Boolean).map(row=>{const [source,...values]=row.split('|');if(values.length!==4)throw Error('Invalid display-language seed');return [source,Object.fromEntries(['ko','id','ru','ar'].map((l,i)=>[l,values[i]]))]}));
