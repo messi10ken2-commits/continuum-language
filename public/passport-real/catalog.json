@@ -1885,5 +1885,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "e3286ccca9fb82a0802d1af9193f85d4c64c8b4ff38cf45b721d09f02104ba96"
+  },
+  {
+    "id": "ja-miyajima",
+    "language": "ja",
+    "country": "JP",
+    "place": "Itsukushima torii",
+    "src": "/passport-real/ja-miyajima.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Itsukushima torii angle.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Itsukushima_torii_angle.jpg",
+      "author": "Rdsmith4",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "5f73b3b18c3a0f6cf5689fb26f1738fd82ee9ef96ac35525badb174ad9f55e53"
+  },
+  {
+    "id": "ja-himeji",
+    "language": "ja",
+    "country": "JP",
+    "place": "Himeji Castle",
+    "src": "/passport-real/ja-himeji.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Himeji Castle, November 2016 -02.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Himeji_Castle,_November_2016_-02.jpg",
+      "author": "Martin Falbisoner",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b3e31a09e6899a9b7769746a811fae481c8b458eb3f273918f5a78ac877489ee"
+  },
+  {
+    "id": "ja-nara",
+    "language": "ja",
+    "country": "JP",
+    "place": "Nara deer park",
+    "src": "/passport-real/ja-nara.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Nara Deer Park and Temples (40890363593).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Nara_Deer_Park_and_Temples_(40890363593).jpg",
+      "author": "Mike Steele",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "65528f6d4e038ca06dd7e5ac8776223dfdb12371797a09d9011e244c8d899c0b"
   }
 ]
