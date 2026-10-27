@@ -2123,5 +2123,22 @@
       "changes": "Cropped and resized"
     },
     "sha256": "1846014473d83b1606bfbd4d606433fd7122a54e5b06faae1cd87c4b4a3c6a2e"
+  },
+  {
+    "id": "es-extra-11",
+    "language": "es",
+    "country": "PE",
+    "place": "Cusco",
+    "src": "/passport-real/es-extra-11.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Sacsayhuamán, Cusco, Perú, 2015-07-31, DD 05.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Sacsayhuam%C3%A1n,_Cusco,_Per%C3%BA,_2015-07-31,_DD_05.JPG",
+      "author": "Diego Delso",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "06518a3824b34c8cedbeeb1b0375bf954e3f6574c5f0eb98dfcd2aa4090397b6"
   }
 ]
