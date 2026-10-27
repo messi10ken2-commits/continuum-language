@@ -1409,5 +1409,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "f1a0a6cca2932cee4cc4c77d9a8552d418119b83481b55726739eea33cb02915"
+  },
+  {
+    "id": "pt-br",
+    "language": "pt",
+    "country": "BR",
+    "place": "Rio de Janeiro Sugarloaf",
+    "src": "/passport-real/pt-br.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Callithrix jacchus 2008-02-03 Rio De Janeiro Sugarloaf IMG 1224.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Callithrix_jacchus_2008-02-03_Rio_De_Janeiro_Sugarloaf_IMG_1224.jpg",
+      "author": "Georges Néron",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "ec68f9fbfa8db0fecb2fe49b9d1680b6a261b35cc6739989d3424edd4d5e1469"
+  },
+  {
+    "id": "pt-cv",
+    "language": "pt",
+    "country": "CV",
+    "place": "Pico do Fogo",
+    "src": "/passport-real/pt-cv.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Cape Verde Pico do Fogo caldeira road.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Cape_Verde_Pico_do_Fogo_caldeira_road.jpg",
+      "author": "Cayambe",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b0cb32a839078a1d7a54e2b1b2818982dc2ac7e6d1e3438f9e9ee7dcaaa421e5"
+  },
+  {
+    "id": "pt-gq",
+    "language": "pt",
+    "country": "GQ",
+    "place": "Malabo Equatorial Guinea",
+    "src": "/passport-real/pt-gq.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Sipopo Malabo, Equatorial Guinea (16492973176).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sipopo_Malabo,_Equatorial_Guinea_(16492973176).jpg",
+      "author": "Ben Sutherland from Crystal Palace, London, UK",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "075cdcc6f681fbb4c1fa2c4d4449bd6b2c10c43d8f421748ff52208fc1494aaa"
   }
 ]
