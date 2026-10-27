@@ -967,5 +967,107 @@
       "changes": "Cropped and resized"
     },
     "sha256": "884b11f6940ae4ce2938b70278ab451490d3b5e828570abf27ee0eb544a92a1d"
+  },
+  {
+    "id": "en-gb",
+    "language": "en",
+    "country": "GB",
+    "place": "London Westminster",
+    "src": "/passport-real/en-gb.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:London Westminster Abbey P1130951.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:London_Westminster_Abbey_P1130951.jpg",
+      "author": "Ermell",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "6dc8e9b9292b8b00e0f72fecdd909b9ea3fae70044e6029d06c2b3e41385bbdd"
+  },
+  {
+    "id": "en-us",
+    "language": "en",
+    "country": "US",
+    "place": "Grand Canyon",
+    "src": "/passport-real/en-us.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Grand Canyon Hopi Point with rainbow 2013.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Grand_Canyon_Hopi_Point_with_rainbow_2013.jpg",
+      "author": "Tuxyso",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "259fb308f35f2af4342709d6f0a09be950cce0af03fd33ebcee6ce2363325582"
+  },
+  {
+    "id": "en-vu",
+    "language": "en",
+    "country": "VU",
+    "place": "Mount Yasur",
+    "src": "/passport-real/en-vu.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Tanna Mount Yasur.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Tanna_Mount_Yasur.jpg",
+      "author": "",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "a61e90f98eb8f7c0039336fb29354c528aa4d05fccae0959715a3b5232e70470"
+  },
+  {
+    "id": "en-zm",
+    "language": "en",
+    "country": "ZM",
+    "place": "Victoria Falls Zambia",
+    "src": "/passport-real/en-zm.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Victoria falls, zambia.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Victoria_falls,_zambia.jpg",
+      "author": "Someone35",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "68e3b162264e76740c296cfb6791192cf67ce7cc8e65e6c3d7611dbaa21cf8f7"
+  },
+  {
+    "id": "en-zw",
+    "language": "en",
+    "country": "ZW",
+    "place": "Great Zimbabwe",
+    "src": "/passport-real/en-zw.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Great Zimbabwe 8.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Great_Zimbabwe_8.jpg",
+      "author": "Mike from Vancouver, Canada",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "0ecf2758f4cd5bfbdd509e0bf8884f5c1f9fe02670f437100a0b04f33f08de9b"
+  },
+  {
+    "id": "es-ar",
+    "language": "es",
+    "country": "AR",
+    "place": "Perito Moreno Glacier",
+    "src": "/passport-real/es-ar.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Perito Moreno Glacier Patagonia Argentina Luca Galuzzi 2005.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Perito_Moreno_Glacier_Patagonia_Argentina_Luca_Galuzzi_2005.JPG",
+      "author": "Luca Galuzzi (Lucag)",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "6dea40a6f8f202639465910109f46210496c959bb4f8bdb66d9efb90a4fdce56"
   }
 ]
