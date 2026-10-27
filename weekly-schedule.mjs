@@ -3,7 +3,7 @@ import {dateInZone,shiftDate} from './calendar-picker.mjs';
 const minutes=s=>typeof s==='string'&&/^(?:[01]\d|2[0-3]):[0-5]\d$/.test(s)?Number(s.slice(0,2))*60+Number(s.slice(3)):s==='24:00'?1440:NaN;
 const clock=n=>String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0');
 export function normalizeWeeklySchedule(d){
- if(!d||!validTimeZone(d.timezone)||!Number.isInteger(d.duration)||d.duration<15||d.duration>120||d.duration%5||!Number.isInteger(d.gap)||d.gap<0||d.gap>60||d.gap%5||!Array.isArray(d.days)||d.days.length!==7)throw Error('Choose valid weekly hours, lesson duration and break time');
+ if(!d||!validTimeZone(d.timezone)||![25,50].includes(d.duration)||!Number.isInteger(d.gap)||d.gap<0||d.gap>60||d.gap%5||!Array.isArray(d.days)||d.days.length!==7)throw Error('Choose valid weekly hours, lesson duration and break time');
  const days=d.days.map((day,i)=>{if(day.day!==i+1||typeof day.enabled!=='boolean'||!Array.isArray(day.ranges)||day.ranges.length>4)throw Error('Choose valid weekly hours, lesson duration and break time');const ranges=day.enabled?day.ranges.map(r=>{const start=minutes(r.start),end=minutes(r.end);if(!Number.isFinite(start)||!Number.isFinite(end)||start>=end||end-start<d.duration||start%5||end%5)throw Error('Each time range needs a later end and enough room for a lesson');return {start:r.start,end:r.end}}).sort((a,b)=>minutes(a.start)-minutes(b.start)):[];if(day.enabled&&!ranges.length)throw Error('Add a time range or turn this weekday off');for(let i=1;i<ranges.length;i++)if(minutes(ranges[i].start)<minutes(ranges[i-1].end))throw Error('Time ranges on the same weekday cannot overlap');return {day:i+1,enabled:day.enabled,ranges};});
  return {timezone:d.timezone,duration:d.duration,gap:d.gap,days};
 }
@@ -20,7 +20,7 @@ export function weeklyOccurrences(schedule,now=Date.now(),horizon=60){
 }
 export async function migrateWeeklySchedule(pool){await pool.query(`CREATE TABLE IF NOT EXISTS class_weekly_schedule(teacher_id uuid PRIMARY KEY REFERENCES users(id),data jsonb NOT NULL,revision integer NOT NULL DEFAULT 1,generated_day text,updated_at timestamptz NOT NULL DEFAULT now());ALTER TABLE class_availability ADD COLUMN IF NOT EXISTS template_revision integer;`);}
 export async function materializeWeekly(c,teacherId,now=Date.now(),force=false){
- const row=(await c.query('SELECT * FROM class_weekly_schedule WHERE teacher_id=$1 FOR UPDATE',[teacherId])).rows[0];if(!row)return null;
+ const row=(await c.query('SELECT * FROM class_weekly_schedule WHERE teacher_id=$1 FOR UPDATE',[teacherId])).rows[0];if(!row)return null;if(![25,50].includes(row.data.duration))row.data={...row.data,duration:row.data.duration<50?25:50};
  const today=dateInZone(now,row.data.timezone);if(!force&&row.generated_day===today)return row;
  const {slots,skipped}=weeklyOccurrences(row.data,now);if(slots.length){
   const starts=slots.map(s=>s.startsAt),ends=slots.map(s=>s.endsAt),keys=starts.map(start=>'weekly-'+row.revision+'-'+start);

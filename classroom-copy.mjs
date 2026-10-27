@@ -2,6 +2,8 @@ import {scheduleUiCopy} from './schedule-copy.mjs';
 // Reviewed UI copy only. Names, chat, notes, assignments and target-language
 // examples are user content and are never sent through this dictionary.
 const rows=`
+Trial lesson|体験レッスン|Clase de prueba|Aula experimental|体验课|Cours d’essai
+
 Assignment complete. No further submission is needed.|この課題は完了しました。再提出は不要です。|Tarea completada. No necesitas volver a enviarla.|Tarefa concluída. Não é necessário enviar novamente.|作业已完成，无需再次提交。|Devoir terminé. Aucun nouvel envoi n’est nécessaire.
 Back to messages|会話一覧に戻る|Volver a los mensajes|Voltar às mensagens|返回消息列表|Retour aux messages
 Choose a conversation to start messaging.|相手を選ぶとメッセージを送れます。|Elige una conversación para enviar mensajes.|Escolha uma conversa para enviar mensagens.|选择一个会话开始聊天。|Choisissez une conversation pour échanger des messages.

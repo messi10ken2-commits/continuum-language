@@ -29,6 +29,17 @@ try{
  const rem=(await publish(14))[0];assert.equal((await call(path+'/availability/'+rem.id,'DELETE',null,other)).status,404);assert.equal(ok(await call(path+'/availability?threadId='+en,'GET',null,l)).slots.some(s=>s.id===rem.id),true);ok(await call(path+'/availability/'+rem.id,'DELETE',null,t));assert.equal((await call(path+'/bookings','POST',book(en,rem.id),l)).status,409);
  // A withdrawn reschedule slot cannot be accepted, and does not cancel the original.
  const original=ok(await call(path+'/bookings','POST',book(en,(await publish(16))[0].id),l),201).booking,target=(await publish(18))[0];const stale=ok(await call(path+'/bookings','POST',book(en,target.id,{replacesId:original.id,reason:'Please consider another time.'}),t),201).booking;ok(await call(path+'/availability/'+target.id,'DELETE',null,t));assert.equal((await status(stale,'confirmed',l)).status,409);assert.equal(ok(await call(path+'/bookings/'+original.id,'GET',null,l)).booking.status,'confirmed');
+ // Only 25/50 minute availability and bookings; trial duration is enforced by the server.
+ for(const duration of [15,30,45,60,90])assert.equal((await call(path+'/availability','POST',{...publishBody(22),duration},t)).status,400);
+ const trialSlot=(await publish(22))[0];
+ assert.equal((await call(path+'/bookings','POST',book(en,trialSlot.id,{duration:30}),l)).status,400);
+ const trial=ok(await call(path+'/bookings','POST',book(en,trialSlot.id,{lessonType:'trial',duration:50}),l),201).booking;
+ assert.equal(trial.lessonType,'trial');assert.equal(Date.parse(trial.endsAt)-Date.parse(trial.startsAt),25*60000);
+ const movedTrial=ok(await call(path+'/bookings','POST',book(en,(await publish(24))[0].id,{replacesId:trial.id,lessonType:'regular',duration:50}),l),201).booking;
+ assert.equal(movedTrial.lessonType,'trial');assert.equal(Date.parse(movedTrial.endsAt)-Date.parse(movedTrial.startsAt),25*60000);
+ const shortStart=publishBody(26),shortSlot=ok(await call(path+'/availability','POST',{...shortStart,duration:25},t),201).slots[0];
+ assert.equal((await call(path+'/bookings','POST',book(en,shortSlot.id,{duration:50}),l)).status,400);
+ const short=ok(await call(path+'/bookings','POST',book(en,shortSlot.id,{duration:25}),l),201).booking;assert.equal(short.lessonType,'regular');assert.equal(Date.parse(short.endsAt)-Date.parse(short.startsAt),25*60000);
  // Aggregate counts cannot leak another teacher's data or assume nonexistent attendance/earnings.
  const empty=ok(await call(path+'/insights','GET',null,other)).metrics;assert.equal(empty.totalCompleted,0);assert.equal(empty.responseRate,null);assert.equal(empty.reliability,null);assert.equal(empty.earnings.collectedMinor,0);
  console.log('PASS: published and recurring slots, instant booking, idempotency, cross-language collision prevention, simultaneous booking race, teacher/learner rescheduling, cancellation attribution, time off, withdrawal, private metrics and zero paid activity.');
