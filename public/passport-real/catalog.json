@@ -1358,5 +1358,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "ae9d98848fc1460ad156e4974971b6360b33428a89410641334d7166d9f89678"
+  },
+  {
+    "id": "es-uy",
+    "language": "es",
+    "country": "UY",
+    "place": "Colonia del Sacramento",
+    "src": "/passport-real/es-uy.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Colonia del Sacramento 2016 017.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Colonia_del_Sacramento_2016_017.jpg",
+      "author": "Photograph by Mike Peel (www.mikepeel.net).",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f0da4d487cf05399ce44248edbf8d3213e216ce1c50d381b8b05ad8b954de476"
+  },
+  {
+    "id": "es-ve",
+    "language": "es",
+    "country": "VE",
+    "place": "Angel Falls",
+    "src": "/passport-real/es-ve.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Angel Falls evaporation.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Angel_Falls_evaporation.jpg",
+      "author": "RajibP",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f4e6bf8473b0d2218275bed3ad8eedacd299662dd031c93426fe118ffdbadb37"
+  },
+  {
+    "id": "pt-ao",
+    "language": "pt",
+    "country": "AO",
+    "place": "Kalandula Falls",
+    "src": "/passport-real/pt-ao.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Kalandula Falls Pan.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Kalandula_Falls_Pan.jpg",
+      "author": "Zorglub",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f1a0a6cca2932cee4cc4c77d9a8552d418119b83481b55726739eea33cb02915"
   }
 ]
