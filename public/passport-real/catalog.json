@@ -1069,5 +1069,107 @@
       "changes": "Cropped and resized"
     },
     "sha256": "6dea40a6f8f202639465910109f46210496c959bb4f8bdb66d9efb90a4fdce56"
+  },
+  {
+    "id": "es-bo",
+    "language": "es",
+    "country": "BO",
+    "place": "Salar de Uyuni",
+    "src": "/passport-real/es-bo.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Watching Sunset Salar de Uyuni Bolivia Luca Galuzzi 2006.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Watching_Sunset_Salar_de_Uyuni_Bolivia_Luca_Galuzzi_2006.jpg",
+      "author": "Luca Galuzzi (Lucag)",
+      "license": "CC BY-SA 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "a2bf87cffd7ae062263888ea188a642bd9e5b7e3cdc72ed8096ed7538c3159e4"
+  },
+  {
+    "id": "es-cl",
+    "language": "es",
+    "country": "CL",
+    "place": "Torres del Paine",
+    "src": "/passport-real/es-cl.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Cuernos del Paine in Torres del Paine National Park.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Cuernos_del_Paine_in_Torres_del_Paine_National_Park.jpg",
+      "author": "Pedro Szekely from Los Angeles, USA",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "4e38a5d33894dfdea0a15e41e43fcbea0cce8e17b68c27e338fb32aea9656294"
+  },
+  {
+    "id": "es-co",
+    "language": "es",
+    "country": "CO",
+    "place": "Cartagena Colombia",
+    "src": "/passport-real/es-co.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:License plate of Cartagena, Colombia.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:License_plate_of_Cartagena,_Colombia.jpg",
+      "author": "Bernard Gagnon",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b957ced19bfe38f85e6caf717673639615634dc1db6467971bf2b7347144f12a"
+  },
+  {
+    "id": "es-cr",
+    "language": "es",
+    "country": "CR",
+    "place": "Arenal Volcano",
+    "src": "/passport-real/es-cr.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Arenal volcano (70785p).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Arenal_volcano_(70785p).jpg",
+      "author": "Rhododendrites",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "2482df748cb145e95891f43d6fbaa6d6a8d99439ece95e908fb1c8421aed9817"
+  },
+  {
+    "id": "es-cu",
+    "language": "es",
+    "country": "CU",
+    "place": "Havana Cuba",
+    "src": "/passport-real/es-cu.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Havana - Cuba - Man giving a V sign - 1326.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Havana_-_Cuba_-_Man_giving_a_V_sign_-_1326.jpg",
+      "author": "Jorge Royan",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "90ca3e86c605d25e60ccc34cd25a369cf2243bdae124e5a1433fe19157419728"
+  },
+  {
+    "id": "es-do",
+    "language": "es",
+    "country": "DO",
+    "place": "Punta Cana",
+    "src": "/passport-real/es-do.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Punta Cana Music & Art Festival 2013 (31), Hard Rock Cafe Punta Cana, 2013-08-16.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Punta_Cana_Music_%26_Art_Festival_2013_(31),_Hard_Rock_Cafe_Punta_Cana,_2013-08-16.jpg",
+      "author": "Angel Ramos G",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f420bcfabcff616efd569ac3f9d31b11cba66c89a26ce1d451093deff0a003b5"
   }
 ]
