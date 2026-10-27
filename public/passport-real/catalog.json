@@ -1460,5 +1460,39 @@
       "changes": "Cropped and resized"
     },
     "sha256": "075cdcc6f681fbb4c1fa2c4d4449bd6b2c10c43d8f421748ff52208fc1494aaa"
+  },
+  {
+    "id": "pt-gw",
+    "language": "pt",
+    "country": "GW",
+    "place": "Bissau Guinea Bissau",
+    "src": "/passport-real/pt-gw.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Mininistério dos Negócios Estrangeiros, Bissau, Guinea-Bissau.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mininist%C3%A9rio_dos_Neg%C3%B3cios_Estrangeiros,_Bissau,_Guinea-Bissau.jpg",
+      "author": "Jcornelius",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e80210813436309d1aca272f58be55dbdcf1c78f241b0e5e91a9c4c5e6c13a94"
+  },
+  {
+    "id": "pt-mz",
+    "language": "pt",
+    "country": "MZ",
+    "place": "Bazaruto Archipelago",
+    "src": "/passport-real/pt-mz.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Bazaruto Archipelago National Park (154448 - zm oli2 20240803).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Bazaruto_Archipelago_National_Park_(154448_-_zm_oli2_20240803).jpg",
+      "author": "NASA",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c8585bca569c3cb77cf3a00dc3ab47c5a9332b59db689d1f689b92ed9f8329fd"
   }
 ]
