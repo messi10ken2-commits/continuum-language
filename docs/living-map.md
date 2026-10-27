@@ -1,6 +1,6 @@
 # Painted living map — approved design implementation
 
-The approved October 27 preview is the visual reference. `public/living-map-v2` holds matched quiet/day/evening watercolor scene plates: stone station and railway on the left, central river and bridge, riverside café on the right, foreground garden and hillside village. All architecture is painted within the landscape; the prior flat vector scenery is removed. The map uses a portrait 5:7 scene ratio and real interactive route nodes above the artwork, retaining horizontal exploration, zoom and chapter selection. The same approved village style applies to all four learning languages.
+The approved October 27 preview is the visual reference. `public/living-map-v2` holds matched quiet/day/evening watercolor scene plates: stone station and railway on the left, central river and bridge, riverside café on the right, foreground garden and hillside village. All architecture is painted within the landscape; the prior flat vector scenery is removed. The map uses a portrait 5:7 scene ratio and real interactive route nodes above the artwork, retaining horizontal exploration, zoom and chapter selection. The approved watercolor treatment, scene composition and interaction design are shared across four distinct regional worlds.
 
 ## Completion criteria
 
@@ -19,3 +19,18 @@ Built-in image generation extracted the standalone landscape from the approved m
 Companion reward auto-scroll from the previous release is retained. Existing reward thresholds, sound gesture handling, navigation cleanup and Premium selection rules remain unchanged.
 
 Validation covers model criteria, immutable image bytes/dimensions, four learning languages, progressive phases, raster loading, short train movement, replay/pause, reduced motion, responsive bounds and chapter selection.
+
+## Language-specific worlds
+
+`LivingMap` receives the learning-language code explicitly from `IllustratedMap`. This selects a complete quiet/day/evening set through `livingMapTheme`; interface translation does not select the artwork. Unsupported codes fall back to the English set.
+
+- English retains the approved riverside village artwork.
+- Spanish uses a Mediterranean Spanish town inspired by the original Spanish map: terracotta roofs, olive/cypress planting, sea views and a regional train.
+- Portuguese uses a Brazilian tropical hillside setting as requested: colourful colonial houses, palms, rounded coastal mountains, Atlantic bay and a yellow heritage tram. It supersedes the earlier Portugal-inspired map.
+- Japanese uses a riverside Japanese town inspired by the original Japanese map: tiled wooden architecture, cherry blossoms, pagoda, Japanese station and a lavender local electric train.
+
+All regional scene plates share the same station/café/garden/river locations for the existing animation masks. Electric trains and the Brazilian tram do not emit locomotive steam; café steam, movement, light and water effects remain active. Existing chapter thresholds, selected-level rules, account/language/level replay markers and reduced-motion behaviour are retained.
+
+Nine additional scene assets were generated with the built-in image tool. Prompts used the approved evening composition and each original language map as references, required the corresponding local architecture/vegetation/vehicle identity, then produced aligned daytime-restored and quiet starting-state edits without changing scene geometry. All assets are normalized WebP at 1059×1485, with content hashes and versioned URLs in the per-language manifest. The prior English image paths are retained for cache stability.
+
+Verification additionally checks distinct language themes, Brazilian/Japanese mappings, safe fallback, all twelve asset hashes and dimensions, and switching English → Japanese → English in one signed-in session without exchanging completion state.
