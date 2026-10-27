@@ -423,5 +423,345 @@
       "changes": "Cropped and resized"
     },
     "sha256": "af91d729746791de68630f0cde4ad96de9ab73e443eb745a5a04fe9875f6bdc7"
+  },
+  {
+    "id": "en-ls",
+    "language": "en",
+    "country": "LS",
+    "place": "Maletsunyane Falls",
+    "src": "/passport-real/en-ls.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Lesotho maletsunyane falls.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Lesotho_maletsunyane_falls.jpg",
+      "author": "Tim Sandell",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "9dd0eae9a58cf50ba36ba843cecc448acc9d1b99b8d41e93b37bc9ad0f3d9033"
+  },
+  {
+    "id": "en-lr",
+    "language": "en",
+    "country": "LR",
+    "place": "Monrovia Liberia",
+    "src": "/passport-real/en-lr.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Monrovia, Liberia - panoramio (7).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Monrovia,_Liberia_-_panoramio_(7).jpg",
+      "author": "blk24ga",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c817db45823672fc32dcb5b5c390968ccbd82a4a98eb01b35ce5955df64ba90b"
+  },
+  {
+    "id": "en-mw",
+    "language": "en",
+    "country": "MW",
+    "place": "Lake Malawi",
+    "src": "/passport-real/en-mw.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Mammals of Lake Malawi area exhibit - Lake Malawi Museum.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mammals_of_Lake_Malawi_area_exhibit_-_Lake_Malawi_Museum.jpg",
+      "author": "TimCowley",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e0bb495d3a9adc8e512b37be512601f5529cff3a928dcbd4ada4a62c6cc852fd"
+  },
+  {
+    "id": "en-my",
+    "language": "en",
+    "country": "MY",
+    "place": "Kuala Lumpur skyline",
+    "src": "/passport-real/en-my.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Kuala Lumpur skyline late afternoon from 29-floor apartment 01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Kuala_Lumpur_skyline_late_afternoon_from_29-floor_apartment_01.jpg",
+      "author": "Pradana Aumars (talk · contribs)",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "4667b4d27f41a0582aae9bbb663ee26bff27530f543949083da3867baa75b447"
+  },
+  {
+    "id": "en-mt",
+    "language": "en",
+    "country": "MT",
+    "place": "Valletta Malta",
+    "src": "/passport-real/en-mt.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Insulae Melitae Vulgo Malte. (inset) (Valletta, Malta). (IA dr insulae-melitae-vulgo-malte-inset-valletta-malta-10056024).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Insulae_Melitae_Vulgo_Malte._(inset)_(Valletta,_Malta)._(IA_dr_insulae-melitae-vulgo-malte-inset-valletta-malta-10056024).jpg",
+      "author": "Jansson, Johannes, 1588-1664",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "55cafb3e85a8b22a097cf78420dabf91ed6cf24997bb5ddca87ce44bf6bbdaf1"
+  },
+  {
+    "id": "en-mh",
+    "language": "en",
+    "country": "MH",
+    "place": "Majuro atoll",
+    "src": "/passport-real/en-mh.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:MAJURO ATOLL, Marshall Islands (Aug 22, 2019) (5737506).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:MAJURO_ATOLL,_Marshall_Islands_(Aug_22,_2019)_(5737506).jpg",
+      "author": "U.S. Navy photo by [null Courtesy]",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "185fc9f3ec65ade01119971d07d930719b18bf7b28b61f038a7cdb053cc67b59"
+  },
+  {
+    "id": "en-mu",
+    "language": "en",
+    "country": "MU",
+    "place": "Le Morne Brabant",
+    "src": "/passport-real/en-mu.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Le Morne Brabant, Maurizio.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Le_Morne_Brabant,_Maurizio.jpg",
+      "author": "Jolaus",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b156f42a8055ca5c641822e7bfe8314b3064732fad7cf2f13078b361f4a068d4"
+  },
+  {
+    "id": "en-fm",
+    "language": "en",
+    "country": "FM",
+    "place": "Nan Madol",
+    "src": "/passport-real/en-fm.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Nan Madol 1.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Nan_Madol_1.jpg",
+      "author": "CT Snow from Hsinchu, Taiwan",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "2f8f267a870c7651051ccab60cc604cf3fd05704f45725e691c4cabef384e885"
+  },
+  {
+    "id": "en-na",
+    "language": "en",
+    "country": "NA",
+    "place": "Sossusvlei",
+    "src": "/passport-real/en-na.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Duna en Sossusvlei, Namibia, 2018-08-06, DD 002.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Duna_en_Sossusvlei,_Namibia,_2018-08-06,_DD_002.jpg",
+      "author": "Diego Delso",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "30d2911c4128cd7375cbc1e5123c6e64929b226a03789dc05a9bee2df4cd03d7"
+  },
+  {
+    "id": "en-nz",
+    "language": "en",
+    "country": "NZ",
+    "place": "Milford Sound",
+    "src": "/passport-real/en-nz.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Milford Sound in Fiordland National Park 03.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Milford_Sound_in_Fiordland_National_Park_03.jpg",
+      "author": "Krzysztof Golik",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "6f7c6f1acc2a2ff1b8f83ef3e3e9071b28ae43adb2b2bdd43df59e4e6e8e89a1"
+  },
+  {
+    "id": "en-ng",
+    "language": "en",
+    "country": "NG",
+    "place": "Lagos skyline",
+    "src": "/passport-real/en-ng.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Eko Atlantic (Lagos) Skyline.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Eko_Atlantic_(Lagos)_Skyline.jpg",
+      "author": "SmartAfricanBoy",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c08ae419bbc8ca90cb947cd5e3efb84f76ac62529c70205b215347d25b8bd6ce"
+  },
+  {
+    "id": "en-pk",
+    "language": "en",
+    "country": "PK",
+    "place": "Hunza Valley",
+    "src": "/passport-real/en-pk.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Hunza Valley, view from Eagle's Nest.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Hunza_Valley,_view_from_Eagle%27s_Nest.jpg",
+      "author": "Alllexxxis",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "6077ef90ec0ee1ae10bb6d42a47f2f73f63bcec6ea3088f203fec7c8665ef496"
+  },
+  {
+    "id": "en-pw",
+    "language": "en",
+    "country": "PW",
+    "place": "Rock Islands Palau",
+    "src": "/passport-real/en-pw.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Rock-Islands-Palau-1-2016-sea-view-Luka-Peternel.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Rock-Islands-Palau-1-2016-sea-view-Luka-Peternel.jpg",
+      "author": "Luka Peternel",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "7ea203dd1c403e18b06f22ab9c89098dc54efb89bbef172ef8494e254100fe3c"
+  },
+  {
+    "id": "en-pg",
+    "language": "en",
+    "country": "PG",
+    "place": "Port Moresby",
+    "src": "/passport-real/en-pg.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Port moresby (5986704365).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Port_moresby_(5986704365).jpg",
+      "author": "eGuide Travel",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "501a100614af27ae71cd89ee3a464a865c870e760f1382cfa00a07b4f17be88b"
+  },
+  {
+    "id": "en-ph",
+    "language": "en",
+    "country": "PH",
+    "place": "Chocolate Hills",
+    "src": "/passport-real/en-ph.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Chocolate Hills - edit.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Chocolate_Hills_-_edit.jpg",
+      "author": "Ramir Borja\nderivative work: MrPanyGoff",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "5380b67a0dd097c98c593b71db04e3ec626416ab3b5d77027d8f3c33b2bb3df2"
+  },
+  {
+    "id": "en-pr",
+    "language": "en",
+    "country": "PR",
+    "place": "Old San Juan Puerto Rico",
+    "src": "/passport-real/en-pr.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Buildings at Plaza de Armas in Old San Juan, Puerto Rico, 2011.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Buildings_at_Plaza_de_Armas_in_Old_San_Juan,_Puerto_Rico,_2011.jpg",
+      "author": "Daderot",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "15d342beda402d67d75b3fd4ce0d2623a4c899bb5ee8b0a77641d530ccac87ef"
+  },
+  {
+    "id": "en-rw",
+    "language": "en",
+    "country": "RW",
+    "place": "Lake Kivu",
+    "src": "/passport-real/en-rw.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Along Lake Kivu.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Along_Lake_Kivu.jpg",
+      "author": "Adebola Falade",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c378e38ae54ac69d12262067e08bbabf23a1a471f713c838e3c099d2e064b669"
+  },
+  {
+    "id": "en-kn",
+    "language": "en",
+    "country": "KN",
+    "place": "Brimstone Hill Fortress",
+    "src": "/passport-real/en-kn.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Saint Kitts - Brimstone Hill Fortress 03.JPG",
+      "source": "https://commons.wikimedia.org/wiki/File:Saint_Kitts_-_Brimstone_Hill_Fortress_03.JPG",
+      "author": "Martin Falbisoner",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "2910aed255ea2c733cd325eefe06749748601cc588db9d84e76efd86ee9c81ac"
+  },
+  {
+    "id": "en-lc",
+    "language": "en",
+    "country": "LC",
+    "place": "Pitons Saint Lucia",
+    "src": "/passport-real/en-lc.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Soufriere town and the Pitons, Saint Lucia.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Soufriere_town_and_the_Pitons,_Saint_Lucia.jpg",
+      "author": "DavidMPyle",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e1d637faa55aa20bceef9f0155a3f94d5bb65201b8c753d6e733ded137187eb3"
+  },
+  {
+    "id": "en-vc",
+    "language": "en",
+    "country": "VC",
+    "place": "Tobago Cays",
+    "src": "/passport-real/en-vc.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Tobago Cays (50002453711).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Tobago_Cays_(50002453711).jpg",
+      "author": "David Stanley from Nanaimo, Canada",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f29596aa3192f2d8457de2f8dab27d7db7f40e0f4e2e8fde76494af4a5c46a4a"
   }
 ]
