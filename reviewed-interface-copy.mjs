@@ -1,3 +1,5 @@
+import additionalDisplayCopy from './additional-display-copy.json' with {type:'json'};
+import {displayLanguageSeed} from './display-language-seed.mjs';
 import {companionBondCopy} from './companion-bond-copy.mjs';
 import {adventureCopy} from './adventure-copy.mjs';
 import {approvedDesignCopy} from './approved-design-copy.mjs';
@@ -239,3 +241,5 @@ for(const locale of Object.keys(approvedDesignCopy))Object.assign(reviewedInterf
 for(const locale of Object.keys(adventureCopy))Object.assign(reviewedInterfaceCopy[locale],adventureCopy[locale]);
 
 for(const locale of Object.keys(companionBondCopy))Object.assign(reviewedInterfaceCopy[locale],companionBondCopy[locale]);
+
+for(const locale of ['ko','id','ru','ar']){reviewedInterfaceCopy[locale]={};for(const [source,translations] of Object.entries(additionalDisplayCopy))if(translations[locale])reviewedInterfaceCopy[locale][source]=translations[locale];for(const [source,translations] of Object.entries(displayLanguageSeed))if(translations[locale])reviewedInterfaceCopy[locale][source]=translations[locale];}

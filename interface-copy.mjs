@@ -1,3 +1,5 @@
+import additionalDisplayCopy from './additional-display-copy.json' with {type:'json'};
+import {displayLanguageSeed} from './display-language-seed.mjs';
 import {interfaceReliabilityCopy} from './interface-reliability-copy.mjs';
 import {studioCopy} from './studio-copy.mjs';
 import {invitationCopy} from './invitation-copy.mjs';
@@ -217,3 +219,6 @@ Object.assign(interfaceCopy,invitationCopy);
 Object.assign(interfaceCopy,studioCopy);
 
 Object.assign(interfaceCopy,interfaceReliabilityCopy);
+
+for(const [source,translations] of Object.entries(additionalDisplayCopy))if(interfaceCopy[source])Object.assign(interfaceCopy[source],translations);
+for(const [source,translations] of Object.entries(displayLanguageSeed))if(interfaceCopy[source])Object.assign(interfaceCopy[source],translations);

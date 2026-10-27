@@ -1,1 +1,13 @@
 .interface-picker{margin-bottom:22px}.interface-picker label{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-weight:600}.interface-picker select{max-width:100%;min-width:150px;font:inherit;padding:10px 12px;border:1px solid #d9dae6;border-radius:10px;background:white;color:#30334a}.interface-picker p,.interface-picker small{font-size:14px;line-height:1.65}.interface-picker.compact{margin:0}.interface-picker.compact label{font-size:13px}.entry-shell header{gap:18px;flex-wrap:wrap}.interface-translation-status:empty{display:none}.interface-translation-status{font-size:13px;line-height:1.6;color:#656980;margin:0 0 14px}.interface-translation-status button{margin-left:8px}.content .interface-picker p{max-width:70ch}html[lang=ja],html[lang=zh-Hans]{line-break:strict;overflow-wrap:anywhere}.mobile-nav button span{white-space:normal}@media(max-width:600px){.entry-shell header .interface-picker{width:100%}.interface-picker.compact label{justify-content:space-between}}
+
+/* Arabic chrome mirrors; spatial maps, timelines and learning text keep their own direction. */
+html[dir=rtl] body{font-family:'DM Sans','Noto Sans Arabic',Tahoma,Arial,sans-serif}
+html[dir=rtl] .app,html[dir=rtl] .entry-shell{text-align:start}
+html[dir=rtl] .app>aside{right:0;left:auto;border-right:0;border-left:1px solid #e8eaf2}
+html[dir=rtl] nav button,html[dir=rtl] .settings-link,html[dir=rtl] .setting-row>summary,html[dir=rtl] .class-form{text-align:start}
+html[dir=rtl] .setting-row>summary>svg:last-child,html[dir=rtl] .settings-link>svg{margin-left:0;margin-right:auto}
+html[dir=rtl] .lucide-arrow-right,html[dir=rtl] .lucide-arrow-left,html[dir=rtl] .lucide-chevron-right,html[dir=rtl] .lucide-chevron-left{scale:-1 1}
+html[dir=rtl] .approved-map-scroll,html[dir=rtl] .approved-map-canvas,html[dir=rtl] .journey-map-viewport,html[dir=rtl] .rpg-scene,html[dir=rtl] .week-calendar,html[dir=rtl] .drawing-pad{direction:ltr}
+html[dir=rtl] .approved-map-node,html[dir=rtl] .approved-map-chapter,html[dir=rtl] .journey-node,html[dir=rtl] .week-event{direction:rtl;text-align:start}
+html[dir=rtl] [lang]:not([lang|=ar]),html[dir=rtl] input[type=email],html[dir=rtl] input[type=url],html[dir=rtl] input[type=password],html[dir=rtl] input[type=number],html[dir=rtl] code{direction:ltr;unicode-bidi:isolate}
+html[dir=rtl] .interface-picker select,html[dir=rtl] .journey-layout-picker select{unicode-bidi:plaintext}

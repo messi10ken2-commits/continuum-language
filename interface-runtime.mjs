@@ -3,7 +3,7 @@ import {keepsLocalizedInstructions} from './learning-text-protection.mjs';
 import {reviewedTranslation,translationRevision} from './reviewed-interface-copy.mjs';
 import {feedbackParts} from './localized-feedback.mjs';
 import {interfaceCopy} from './interface-copy.mjs';
-import {detectedInterfaceLanguage,validInterfaceLanguage} from './interface-languages.mjs';
+import {detectedInterfaceLanguage,validInterfaceLanguage,interfaceDirection} from './interface-languages.mjs';
 import {translationKey,translationSource,protectSource} from './localization-corpus.mjs';
 let locale='en';
 try{locale=localStorage.getItem('continuumInterfaceLanguage')||detectedInterfaceLanguage(navigator.languages||[navigator.language]);if(!validInterfaceLanguage(locale))locale='en';}catch{}
@@ -17,7 +17,7 @@ export const subscribeInterface=fn=>{listeners.add(fn);return()=>listeners.delet
 export const interfaceSnapshot=()=>version;
 export const interfaceLanguage=()=>locale;
 export const interfaceStatus=()=>({running:running||queue.size>0,failed:failed.size>0,saving,preferenceError});
-export function setInterfaceLanguage(id,{persist=true}={}){if(!validInterfaceLanguage(id))return;locale=id;failed.clear();queue.clear();if(typeof document!=='undefined')document.documentElement.lang=id==='zh'?'zh-Hans':id;if(persist)try{localStorage.setItem('continuumInterfaceLanguage',id)}catch{}emit();}
+export function setInterfaceLanguage(id,{persist=true}={}){if(!validInterfaceLanguage(id))return;locale=id;failed.clear();queue.clear();if(typeof document!=='undefined'){document.documentElement.lang=id==='zh'?'zh-Hans':id;document.documentElement.dir=interfaceDirection(id)}if(persist)try{localStorage.setItem('continuumInterfaceLanguage',id)}catch{}emit();}
 export async function bindInterfaceAccount(user){
  const token=++binding,selectionAtStart=selectionRevision;account=user?.id||null;preferenceError=false;
  if(!account){queue.clear();failed.clear();emit();return;}

@@ -5,9 +5,11 @@ import crypto from 'node:crypto';
 import {validInterfaceLanguage} from './interface-languages.mjs';
 import {interfaceCopy} from './interface-copy.mjs';
 import {translationSource,translationKey,protectSource} from './localization-corpus.mjs';
-const names={ja:'Japanese',es:'Spanish',pt:'Brazilian Portuguese',zh:'Simplified Chinese',fr:'French'};
+const names={ja:'Japanese',es:'Spanish',pt:'Brazilian Portuguese',zh:'Simplified Chinese',fr:'French',ko:'Korean',id:'Indonesian',ru:'Russian',ar:'Modern Standard Arabic'};
 export async function migrateLocalization(pool){await pool.query(`
  CREATE TABLE IF NOT EXISTS interface_preferences(user_id uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,language text NOT NULL CHECK(language IN ('en','ja','es','pt','zh','fr')),updated_at timestamptz NOT NULL DEFAULT now());
+ ALTER TABLE interface_preferences DROP CONSTRAINT IF EXISTS interface_preferences_language_check;
+ ALTER TABLE interface_preferences ADD CONSTRAINT interface_preferences_language_check CHECK(language IN ('en','ja','es','pt','zh','fr','ko','id','ru','ar'));
  CREATE TABLE IF NOT EXISTS interface_translations(cache_key text PRIMARY KEY,translated text NOT NULL,created_at timestamptz NOT NULL DEFAULT now());
 `);}
 export async function translateBatch(sources,locale,{fetchImpl=fetch}={}){
