@@ -2735,5 +2735,39 @@
       "changes": "Cropped and resized"
     },
     "sha256": "af8db4318405e3330b43d98222bb4e3238d5d64b219f8f69154da2658c025c51"
+  },
+  {
+    "id": "ja-extra-11",
+    "language": "ja",
+    "country": "JP",
+    "place": "Amanohashidate",
+    "src": "/passport-real/ja-extra-11.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Amanohashidate View Land09n4592.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Amanohashidate_View_Land09n4592.jpg",
+      "author": "663highland",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "99415a6a3c3a590356b11451179cb1f7f04744218407e00190be1b08c2213ed8"
+  },
+  {
+    "id": "ja-extra-12",
+    "language": "ja",
+    "country": "JP",
+    "place": "Lake Towada",
+    "src": "/passport-real/ja-extra-12.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Lake towada 20220813121522 (52652330999).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Lake_towada_20220813121522_(52652330999).jpg",
+      "author": "inunami",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "3abf3268b810c5d1462e71770dbe55ba1fc21674f9f8a2cb3cede4136671de09"
   }
 ]
