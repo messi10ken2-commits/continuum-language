@@ -1749,5 +1749,107 @@
       "changes": "Cropped and resized"
     },
     "sha256": "52e1178cb496b3c18656d562056952df575696d7fc80e6855c519de0ee7f38ea"
+  },
+  {
+    "id": "pt-iguazu",
+    "language": "pt",
+    "country": "BR",
+    "place": "Iguacu Falls",
+    "src": "/passport-real/pt-iguazu.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Iguacu Falls, Brazil - 8595262697.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Iguacu_Falls,_Brazil_-_8595262697.jpg",
+      "author": "sussexbirder",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f9aea50f044329d17d2f90858ab8df771380236ac64b51bda0bf2b180ccd566c"
+  },
+  {
+    "id": "pt-lencois",
+    "language": "pt",
+    "country": "BR",
+    "place": "Lencois Maranhenses",
+    "src": "/passport-real/pt-lencois.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Parque Nacional dos Lençóis Maranhenses Paulo Cattelan (03).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Parque_Nacional_dos_Len%C3%A7%C3%B3is_Maranhenses_Paulo_Cattelan_(03).jpg",
+      "author": "Paulo Cattelan",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "014d1ab6afcb403f6c635d554f3a5493761823bdecb8d2cb0f72575b4ea0aeef"
+  },
+  {
+    "id": "pt-salvador",
+    "language": "pt",
+    "country": "BR",
+    "place": "Pelourinho Salvador",
+    "src": "/passport-real/pt-salvador.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Largo do Pelourinho Salvador 2019-9754 (cropped).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Largo_do_Pelourinho_Salvador_2019-9754_(cropped).jpg",
+      "author": "Paul R. Burley",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "6681f440f342c501781c336e7bab7063e7d9bf949c3833760b9b5a4006b4cf8b"
+  },
+  {
+    "id": "ja-tokyo-tower",
+    "language": "ja",
+    "country": "JP",
+    "place": "Tokyo Tower",
+    "src": "/passport-real/ja-tokyo-tower.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Tokyo Tower, Minato City.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Tokyo_Tower,_Minato_City.jpg",
+      "author": "David Kernan",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "744d6d94cca39cab32ad0ef60a959c818df8cb7864fbc61482394e5d6906c4b1"
+  },
+  {
+    "id": "ja-skytree",
+    "language": "ja",
+    "country": "JP",
+    "place": "Tokyo Skytree",
+    "src": "/passport-real/ja-skytree.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Worm's-eye view of Tokyo Skytree with vertical symmetry impression, a sunny day, in Japan.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Worm%27s-eye_view_of_Tokyo_Skytree_with_vertical_symmetry_impression,_a_sunny_day,_in_Japan.jpg",
+      "author": "Basile Morin",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "510a95da55034abe6ed8c9fb64c8ef4b058e167469c4f38cad46e25c4ab009ed"
+  },
+  {
+    "id": "ja-kiyomizu",
+    "language": "ja",
+    "country": "JP",
+    "place": "Kiyomizu dera",
+    "src": "/passport-real/ja-kiyomizu.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Kiyomizu-dera, Kyoto, November 2016 -01.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Kiyomizu-dera,_Kyoto,_November_2016_-01.jpg",
+      "author": "Martin Falbisoner",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c71b489d832c0d0aaef0787e40eec449b24210334369eedb02e16b2bbb33ed24"
   }
 ]
