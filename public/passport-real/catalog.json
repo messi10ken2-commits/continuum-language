@@ -2820,5 +2820,22 @@
       "changes": "Cropped and resized"
     },
     "sha256": "1cec9f4a218f6ef6397fc3a4dd09100defaf55af73d7d0ae6d272540841cfc5a"
+  },
+  {
+    "id": "ja-extra-17",
+    "language": "ja",
+    "country": "JP",
+    "place": "Biei Blue Pond",
+    "src": "/passport-real/ja-extra-17.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Hokkaido - Biei, blue pond (3941455340).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Hokkaido_-_Biei,_blue_pond_(3941455340).jpg",
+      "author": "Kuruman from Tokyo, Japan",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "382ac3d61d93b31bb83db9ad90c570e07a9def2f1bbf5f11bc1ce85e99b7d6fb"
   }
 ]
