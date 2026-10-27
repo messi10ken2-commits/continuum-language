@@ -1,3 +1,4 @@
+import {dynamicTranslationSources} from './translation-test-fixtures.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
@@ -11,7 +12,7 @@ test('translation batches cache reads/writes and preserves duplicate request ent
   let queries=[],generations=0,output;
   const options={route:'/api/localization',req:{method:'POST'},res:{},
    pool:{query(sql,args){queries.push(sql);return db.query(sql,args);}},
-   required:async()=>({id:'test'}),json:async()=>({locale:'ja',items:Array.from({length:16},()=>({text:'Read the complete video transcript'}))}),
+   required:async()=>({id:'test'}),json:async()=>({locale:'ja',items:Array.from({length:16},()=>({text:dynamicTranslationSources[0]}))}),
    send:(res,status,body)=>{assert.equal(status,200);output=body;},
    fail:(status,message)=>{throw Error(status+': '+message);},limited(){},
    translate:async sources=>{generations++;return sources.map(()=>'動画の全文スクリプトを読む');}};
