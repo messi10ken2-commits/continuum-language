@@ -1647,5 +1647,107 @@
       "changes": "Cropped and resized"
     },
     "sha256": "feb77066964c29e6f2b55991058f7f1841675a3abd46eb6e37bf626b0d238e3d"
+  },
+  {
+    "id": "en-banff",
+    "language": "en",
+    "country": "CA",
+    "place": "Banff National Park",
+    "src": "/passport-real/en-banff.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Lake Agnes im Banff National Park.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Lake_Agnes_im_Banff_National_Park.jpg",
+      "author": "Florian Fuchs",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "499519288285b83937d027cfcda1385f21eb2d2a554d9464e80edac1613bc50c"
+  },
+  {
+    "id": "en-uluru",
+    "language": "en",
+    "country": "AU",
+    "place": "Uluru",
+    "src": "/passport-real/en-uluru.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Petermann Ranges (AU), Uluru-Kata Tjuta National Park, Uluru, Kuniya Walk -- 2019 -- 3659.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Petermann_Ranges_(AU),_Uluru-Kata_Tjuta_National_Park,_Uluru,_Kuniya_Walk_--_2019_--_3659.jpg",
+      "author": "Dietmar Rabich",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "5c51e8b98c768787f6ce72783e44e01fb9cf398d0f57f83ac016c865cf9ca93c"
+  },
+  {
+    "id": "en-new-york",
+    "language": "en",
+    "country": "US",
+    "place": "New York skyline",
+    "src": "/passport-real/en-new-york.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Lower Manhattan, New York skyline from Liberty Island 2021.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Lower_Manhattan,_New_York_skyline_from_Liberty_Island_2021.jpg",
+      "author": "Percival Kestreltail",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e2bdda026dc8f25dfa263bf72149e146c862c137445195b3e90fa501a4423709"
+  },
+  {
+    "id": "en-edinburgh",
+    "language": "en",
+    "country": "GB",
+    "place": "Edinburgh Castle",
+    "src": "/passport-real/en-edinburgh.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Edinburgh Castle from Grass Market.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Edinburgh_Castle_from_Grass_Market.jpg",
+      "author": "George Washington Wilson / Adam Cuerden",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e23a9ea9f574ff3a9658a0f7376d9b6807e24f78888ee06b686815189a40f9d9"
+  },
+  {
+    "id": "pt-porto",
+    "language": "pt",
+    "country": "PT",
+    "place": "Porto Dom Luis bridge",
+    "src": "/passport-real/pt-porto.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Porto Dom Luís bridge (53093438464).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Porto_Dom_Lu%C3%ADs_bridge_(53093438464).jpg",
+      "author": "tomislav medak",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "d6ce0c77afc33290c3f40a23a793da08feee6f8907f35b2f982afdd1fab41162"
+  },
+  {
+    "id": "pt-sintra",
+    "language": "pt",
+    "country": "PT",
+    "place": "Pena Palace Sintra",
+    "src": "/passport-real/pt-sintra.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Pena Palace, Sintra, Portugal, 20250606 1033 9992.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Pena_Palace,_Sintra,_Portugal,_20250606_1033_9992.jpg",
+      "author": "Jakub Hałun",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "52e1178cb496b3c18656d562056952df575696d7fc80e6855c519de0ee7f38ea"
   }
 ]
