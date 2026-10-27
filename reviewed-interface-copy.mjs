@@ -1,3 +1,5 @@
+import interfaceAuditCopy from './interface-audit-copy.json' with {type:'json'};
+import {interfaceAuditSeed} from './interface-audit-seed.mjs';
 import additionalDisplayCopy from './additional-display-copy.json' with {type:'json'};
 import {displayLanguageSeed} from './display-language-seed.mjs';
 import {companionBondCopy} from './companion-bond-copy.mjs';
@@ -243,3 +245,6 @@ for(const locale of Object.keys(adventureCopy))Object.assign(reviewedInterfaceCo
 for(const locale of Object.keys(companionBondCopy))Object.assign(reviewedInterfaceCopy[locale],companionBondCopy[locale]);
 
 for(const locale of ['ko','id','ru','ar']){reviewedInterfaceCopy[locale]={};for(const [source,translations] of Object.entries(additionalDisplayCopy))if(translations[locale]){reviewedInterfaceCopy[locale][source]=translations[locale];reviewedInterfaceCopy[locale][source.trim()]??=translations[locale].trim();}for(const [source,translations] of Object.entries(displayLanguageSeed))if(translations[locale])reviewedInterfaceCopy[locale][source]=translations[locale];}
+
+for(const [source,translations] of Object.entries(interfaceAuditCopy))for(const [locale,value] of Object.entries(translations)){const copy=reviewedInterfaceCopy[locale]??={};copy[source]??=value;copy[source.trim()]??=value.trim();}
+for(const [source,translations] of Object.entries(interfaceAuditSeed))for(const [locale,value] of Object.entries(translations))(reviewedInterfaceCopy[locale]??={})[source]=value;

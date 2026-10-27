@@ -1,0 +1,59 @@
+name: Repair display-language coverage
+on:
+  push:
+    branches: [fix/display-language-coverage]
+    paths:
+      - '.github/workflows/interface-coverage-repair.yml'
+      - 'scripts/build-interface-audit-copy.mjs'
+permissions:
+  contents: read
+jobs:
+  translate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        locale: [ja, es, pt, zh, fr, ko, id, ru, ar]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/build-interface-audit-copy.mjs ${{ matrix.locale }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: interface-audit-${{ matrix.locale }}
+          path: interface-audit-${{ matrix.locale }}.json
+          retention-days: 3
+  bundle:
+    needs: translate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/display-language-coverage
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: interface-audit-*
+          merge-multiple: true
+      - run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const result=JSON.parse(fs.readFileSync('interface-audit-copy.json'));
+          for(const locale of ['ja','es','pt','zh','fr','ko','id','ru','ar'])for(const [source,text] of Object.entries(JSON.parse(fs.readFileSync('interface-audit-'+locale+'.json')))){if(!text.trim())throw Error('Blank translation');(result[source]??={})[locale]=text;}
+          fs.writeFileSync('interface-audit-copy.json',JSON.stringify(Object.fromEntries(Object.entries(result).sort()),null,2)+'\n');
+          JS
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add interface-audit-copy.json
+          git diff --cached --quiet || git commit -m 'Bundle missing static interface translations for nine display languages'
+          git push origin HEAD:fix/display-language-coverage
