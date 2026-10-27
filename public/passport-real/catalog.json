@@ -2106,5 +2106,22 @@
       "changes": "Cropped and resized"
     },
     "sha256": "5130b979843b66f3498350cb48f2566cc43c25bd3a37aea6c6ee316ff40d5564"
+  },
+  {
+    "id": "es-extra-08",
+    "language": "es",
+    "country": "MX",
+    "place": "Cenote Ik Kil",
+    "src": "/passport-real/es-extra-08.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Cenote Ik Kil 13.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Cenote_Ik_Kil_13.jpg",
+      "author": "Álvaro de la Paz Franco",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "1846014473d83b1606bfbd4d606433fd7122a54e5b06faae1cd87c4b4a3c6a2e"
   }
 ]
