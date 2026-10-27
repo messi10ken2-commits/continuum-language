@@ -1273,5 +1273,39 @@
       "changes": "Cropped and resized"
     },
     "sha256": "631b7e55a8100c2044475220cfa15b921346db142ead31df945e3cc4c5a18a5e"
+  },
+  {
+    "id": "es-ni",
+    "language": "es",
+    "country": "NI",
+    "place": "Granada Nicaragua",
+    "src": "/passport-real/es-ni.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Granada Nicaragua.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Granada_Nicaragua.jpg",
+      "author": "Haakon S. Krohn",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "a3a548f35f1b1df6cc9bc5bc5b511595c76e8b68ec03482d8ab3c5a0a8cf8d1b"
+  },
+  {
+    "id": "es-pa",
+    "language": "es",
+    "country": "PA",
+    "place": "Panama City skyline",
+    "src": "/passport-real/es-pa.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Panama City Skyline 2017.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Panama_City_Skyline_2017.jpg",
+      "author": "Ángel López",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e35af39b964b587d001c609eb124e0ca2da9c3cca4a273e20249576997956e52"
   }
 ]
