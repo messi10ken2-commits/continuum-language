@@ -1,3 +1,5 @@
+import CurveTrain from './CurveTrain.jsx';
+import RestaurantMotion from './RestaurantMotion.jsx';
 import React,{useEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {Pause,Play,RotateCcw} from 'lucide-react';
@@ -21,18 +23,15 @@ export default function LivingMap({chapters,width,height,identity='map',language
  {phase>=3&&<div className="painted-layer painted-garden" style={paint('restorationDay',mask(fx.garden))}/>}
  </>}
  {unlocked&&<>
- <div className="painted-layer painted-evening painted-still" data-stationary-scenery="true" style={{backgroundImage:`url(${art.motion.still.src})`}}/>
+ <div className="painted-layer painted-evening painted-still" data-stationary-scenery="true" style={{backgroundImage:`url(${art.motion.restaurantStill.src})`}}/>
  <div className="painted-object-stage" data-object-motion="unlocked">
- {art.motion.clouds.map((cloud,i)=><span className="painted-cloud" data-moving-object="cloud" key={i} style={{...bounds(cloud),animationDelay:(-i*13)+'s'}}><svg viewBox="0 0 240 80" preserveAspectRatio="none"><path d="M8 53Q4 35 28 35Q30 13 58 22Q73 0 98 21Q127 5 143 29Q169 14 187 35Q218 29 227 49Q246 62 219 68Q155 82 90 70Q44 79 8 63Z" fill="#e5b5c7"/><path d="M18 56Q50 45 83 55Q128 43 161 54Q199 47 223 58Q158 75 99 65Q51 73 18 62Z" fill="#ffc995"/></svg></span>)}
- <span className="painted-train-rig" data-moving-object="train" style={bounds(art.motion.train.bounds)}>
- <img className="painted-train-sprite" src={art.motion.train.src} alt="" draggable="false"/>
- <i className="painted-headlight" data-moving-object="light" style={{left:art.motion.headlight[0]+"%",top:art.motion.headlight[1]+"%"}}/>
- {art.locomotiveSteam&&<span className="painted-steam train-steam"><i/><i/><i/></span>}
- </span>
+ <div className="painted-cloud-band">{art.motion.clouds.map((cloud,i)=><span className="painted-cloud" data-moving-object="cloud" key={i} style={{...bounds(cloud),animationDelay:(-8-i*9)+'s',animationDuration:(36+i*4)+'s'}}><img src={art.motion.cloudSprite.src} alt="" draggable="false"/></span>)}</div>
+ <CurveTrain language={language} paused={paused}/>
+ <RestaurantMotion motion={art.motion}/>
  <span className="painted-person-rig" data-moving-object="person" style={bounds(art.motion.person.bounds)}><img src={art.motion.person.src} alt="" draggable="false"/></span>
  {fx.lamps.map(([x,y],j)=><i className="painted-lamp" data-moving-object="light" key={j} style={{left:x+'%',top:y+'%',animationDelay:j*.5+'s'}}/>)}
  </div>
- {art.motion.foreground.map((clipPath,i)=><div key={i} className="painted-layer painted-foreground" style={{backgroundImage:`url(${art.motion.still.src})`,clipPath}}/>)}
+ {art.motion.foreground.map((clipPath,i)=><div key={i} className="painted-layer painted-foreground" style={{backgroundImage:`url(${art.motion.restaurantStill.src})`,clipPath}}/>)}
  </>}
 
  </div>

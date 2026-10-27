@@ -121,21 +121,27 @@
       },
       "clouds": [
         [
-          26,
-          6,
+          18,
+          11,
           17,
           7
         ],
         [
-          49,
-          10,
-          15,
-          6
+          40,
+          9,
+          18,
+          7
         ],
         [
-          68,
+          62,
           4,
-          13,
+          16,
+          7
+        ],
+        [
+          81,
+          2,
+          15,
           6
         ]
       ],
@@ -144,9 +150,59 @@
         44
       ],
       "foreground": [
-        "polygon(0 0,19.5% 0,19.5% 100%,0 100%)",
+        "polygon(0 0,19.5% 0,19.5% 66%,0 72%)",
         "polygon(21.05% 52.9%,21.7% 52.9%,21.65% 55.1%,21.45% 55.8%,21.6% 72.8%,21.9% 73.6%,21% 73.6%,21.25% 72.8%,21.25% 55.8%,21.05% 55.1%)"
-      ]
+      ],
+      "restaurantStill": {
+        "src": "/living-map-motion/en-restaurant-still.webp?v=0b27b79a2c18",
+        "sha256": "0b27b79a2c184d4e21b3f6b7e1bd21ae7b1ada6ca172ff66f3e3ef5be7020333",
+        "width": 1920,
+        "height": 896
+      },
+      "dinerSprites": {
+        "front": {
+          "src": "/living-map-motion/diner-front.webp?v=547b345d1bba",
+          "sha256": "547b345d1bba8fd2c87dea2fa5cca88d1d79cec18ec025c23494c01fdf86b087",
+          "width": 180,
+          "height": 169
+        },
+        "back": {
+          "src": "/living-map-motion/diner-back.webp?v=eef558ff1ddb",
+          "sha256": "eef558ff1ddb016f337730fbe426e905a5f72487c1b2da90cdfd8411595edd0a",
+          "width": 180,
+          "height": 161
+        }
+      },
+      "tables": [
+        [
+          1050,
+          606
+        ],
+        [
+          1118,
+          612
+        ],
+        [
+          1186,
+          618
+        ],
+        [
+          1254,
+          624
+        ]
+      ],
+      "cloudSprite": {
+        "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
+        "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
+        "width": 512,
+        "height": 171
+      },
+      "tableSprite": {
+        "src": "/living-map-motion/restaurant-table.webp?v=9cc9fd5715c9",
+        "sha256": "9cc9fd5715c913e5d6b12859825f429cdd45213a5f1bd46cd5efe399ba34908f",
+        "width": 225,
+        "height": 180
+      }
     },
     "restorationDay": {
       "src": "/living-map-motion/en-day-still.webp?v=76e2bdbb9e0f",
@@ -278,21 +334,27 @@
       },
       "clouds": [
         [
-          26,
-          6,
+          18,
+          11,
           17,
           7
         ],
         [
-          49,
-          10,
-          15,
-          6
+          40,
+          9,
+          18,
+          7
         ],
         [
-          68,
+          62,
           4,
-          13,
+          16,
+          7
+        ],
+        [
+          81,
+          2,
+          15,
           6
         ]
       ],
@@ -301,8 +363,58 @@
         72
       ],
       "foreground": [
-        "polygon(0 0,15.2% 0,15.2% 100%,0 100%)"
-      ]
+        "polygon(0 0,15.2% 0,15.2% 66%,0 72%)"
+      ],
+      "restaurantStill": {
+        "src": "/living-map-motion/es-restaurant-still.webp?v=f4e0508f851b",
+        "sha256": "f4e0508f851bc9dea645d6d9ab914ebd50aef560968f19a2d28f0bc3b05d3bd9",
+        "width": 1920,
+        "height": 896
+      },
+      "dinerSprites": {
+        "front": {
+          "src": "/living-map-motion/diner-front.webp?v=547b345d1bba",
+          "sha256": "547b345d1bba8fd2c87dea2fa5cca88d1d79cec18ec025c23494c01fdf86b087",
+          "width": 180,
+          "height": 169
+        },
+        "back": {
+          "src": "/living-map-motion/diner-back.webp?v=eef558ff1ddb",
+          "sha256": "eef558ff1ddb016f337730fbe426e905a5f72487c1b2da90cdfd8411595edd0a",
+          "width": 180,
+          "height": 161
+        }
+      },
+      "tables": [
+        [
+          1024,
+          626
+        ],
+        [
+          1092,
+          632
+        ],
+        [
+          1160,
+          638
+        ],
+        [
+          1228,
+          644
+        ]
+      ],
+      "cloudSprite": {
+        "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
+        "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
+        "width": 512,
+        "height": 171
+      },
+      "tableSprite": {
+        "src": "/living-map-motion/restaurant-table.webp?v=9cc9fd5715c9",
+        "sha256": "9cc9fd5715c913e5d6b12859825f429cdd45213a5f1bd46cd5efe399ba34908f",
+        "width": 225,
+        "height": 180
+      }
     },
     "restorationDay": {
       "src": "/living-map-motion/es-day-still.webp?v=8d4628ab490e",
@@ -434,21 +546,27 @@
       },
       "clouds": [
         [
-          26,
-          6,
+          18,
+          11,
           17,
           7
         ],
         [
-          49,
-          10,
-          15,
-          6
+          40,
+          9,
+          18,
+          7
         ],
         [
-          68,
+          62,
           4,
-          13,
+          16,
+          7
+        ],
+        [
+          81,
+          2,
+          15,
           6
         ]
       ],
@@ -457,8 +575,58 @@
         70
       ],
       "foreground": [
-        "polygon(0 0,18.1% 0,18.1% 100%,0 100%)"
-      ]
+        "polygon(0 0,18.1% 0,18.1% 70%,0 76%)"
+      ],
+      "restaurantStill": {
+        "src": "/living-map-motion/ja-restaurant-still.webp?v=3009df81e46c",
+        "sha256": "3009df81e46ccf82e0be90ffd951a23ef44f756d81b8acd81912744bad81516e",
+        "width": 1920,
+        "height": 896
+      },
+      "dinerSprites": {
+        "front": {
+          "src": "/living-map-motion/diner-front.webp?v=547b345d1bba",
+          "sha256": "547b345d1bba8fd2c87dea2fa5cca88d1d79cec18ec025c23494c01fdf86b087",
+          "width": 180,
+          "height": 169
+        },
+        "back": {
+          "src": "/living-map-motion/diner-back.webp?v=eef558ff1ddb",
+          "sha256": "eef558ff1ddb016f337730fbe426e905a5f72487c1b2da90cdfd8411595edd0a",
+          "width": 180,
+          "height": 161
+        }
+      },
+      "tables": [
+        [
+          1045,
+          622
+        ],
+        [
+          1113,
+          628
+        ],
+        [
+          1181,
+          634
+        ],
+        [
+          1249,
+          640
+        ]
+      ],
+      "cloudSprite": {
+        "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
+        "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
+        "width": 512,
+        "height": 171
+      },
+      "tableSprite": {
+        "src": "/living-map-motion/restaurant-table.webp?v=9cc9fd5715c9",
+        "sha256": "9cc9fd5715c913e5d6b12859825f429cdd45213a5f1bd46cd5efe399ba34908f",
+        "width": 225,
+        "height": 180
+      }
     },
     "restorationDay": {
       "src": "/living-map-motion/ja-day-still.webp?v=158be41a5906",
@@ -590,21 +758,27 @@
       },
       "clouds": [
         [
-          26,
-          6,
+          18,
+          11,
           17,
           7
         ],
         [
-          49,
-          10,
-          15,
-          6
+          40,
+          9,
+          18,
+          7
         ],
         [
-          68,
+          62,
           4,
-          13,
+          16,
+          7
+        ],
+        [
+          81,
+          2,
+          15,
           6
         ]
       ],
@@ -613,8 +787,58 @@
         72
       ],
       "foreground": [
-        "polygon(0 0,16.4% 0,16.4% 100%,0 100%)"
-      ]
+        "polygon(0 0,16.4% 0,16.4% 73%,0 79%)"
+      ],
+      "restaurantStill": {
+        "src": "/living-map-motion/pt-restaurant-still.webp?v=7d32e9a12242",
+        "sha256": "7d32e9a122423f9c9ea35f594c2977e3762f8567abdc8457d16cfe4ba999b531",
+        "width": 1920,
+        "height": 896
+      },
+      "dinerSprites": {
+        "front": {
+          "src": "/living-map-motion/diner-front.webp?v=547b345d1bba",
+          "sha256": "547b345d1bba8fd2c87dea2fa5cca88d1d79cec18ec025c23494c01fdf86b087",
+          "width": 180,
+          "height": 169
+        },
+        "back": {
+          "src": "/living-map-motion/diner-back.webp?v=eef558ff1ddb",
+          "sha256": "eef558ff1ddb016f337730fbe426e905a5f72487c1b2da90cdfd8411595edd0a",
+          "width": 180,
+          "height": 161
+        }
+      },
+      "tables": [
+        [
+          995,
+          630
+        ],
+        [
+          1063,
+          636
+        ],
+        [
+          1131,
+          642
+        ],
+        [
+          1199,
+          648
+        ]
+      ],
+      "cloudSprite": {
+        "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
+        "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
+        "width": 512,
+        "height": 171
+      },
+      "tableSprite": {
+        "src": "/living-map-motion/restaurant-table.webp?v=9cc9fd5715c9",
+        "sha256": "9cc9fd5715c913e5d6b12859825f429cdd45213a5f1bd46cd5efe399ba34908f",
+        "width": 225,
+        "height": 180
+      }
     },
     "restorationDay": {
       "src": "/living-map-motion/pt-day-still.webp?v=f198227f3b41",
