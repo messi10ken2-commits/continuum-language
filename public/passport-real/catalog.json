@@ -1851,5 +1851,39 @@
       "changes": "Cropped and resized"
     },
     "sha256": "c71b489d832c0d0aaef0787e40eec449b24210334369eedb02e16b2bbb33ed24"
+  },
+  {
+    "id": "ja-okinawa",
+    "language": "ja",
+    "country": "JP",
+    "place": "Okinawa beach",
+    "src": "/passport-real/ja-okinawa.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Okinawa beach.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Okinawa_beach.jpg",
+      "author": "VKaeru",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "d3231bf60f79645de8abfa2bdf1d3b27b38c36d298199c79499f030e607308d6"
+  },
+  {
+    "id": "ja-sapporo",
+    "language": "ja",
+    "country": "JP",
+    "place": "Sapporo Snow Festival",
+    "src": "/passport-real/ja-sapporo.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:US 7th Fleet band performs at Sapporo Snow Festival 120206-N-CZ945-182.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:US_7th_Fleet_band_performs_at_Sapporo_Snow_Festival_120206-N-CZ945-182.jpg",
+      "author": "Petty Officer 1st Class NAVCENT Public Affairs",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e3286ccca9fb82a0802d1af9193f85d4c64c8b4ff38cf45b721d09f02104ba96"
   }
 ]
