@@ -2633,5 +2633,39 @@
       "changes": "Cropped and resized"
     },
     "sha256": "91e64d622a7017f0b7793e88e36165818bb0831b455c184c8d8920968e0eea7b"
+  },
+  {
+    "id": "pt-extra-29",
+    "language": "pt",
+    "country": "TL",
+    "place": "Atauro island",
+    "src": "/passport-real/pt-extra-29.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Atauro Island seen from 'Backside' Beach (6898612974).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Atauro_Island_seen_from_%27Backside%27_Beach_(6898612974).jpg",
+      "author": "Kate Dixon",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e57f87341dae34177514e0e790f8f9e9ff18a1a4a34f5b5c2f9cd0f082aac742"
+  },
+  {
+    "id": "ja-extra-01",
+    "language": "ja",
+    "country": "JP",
+    "place": "Shirakawa go",
+    "src": "/passport-real/ja-extra-01.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Ogi Shirakawa-gō, Gifu, Japan.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ogi_Shirakawa-g%C5%8D,_Gifu,_Japan.jpg",
+      "author": "663highland",
+      "license": "CC BY 2.5",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.5",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c2be99bb04d4c203fece04d0853ea000dfb951265d1b3fb16d0243291c483064"
   }
 ]
