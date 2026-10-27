@@ -86,6 +86,67 @@
       "sha256": "e92407790f832ac4b0b8920b21f2a49ad900b7725ae14991f6fdf64866c3d4a9",
       "width": 1920,
       "height": 896
+    },
+    "motion": {
+      "unlockPhase": 4,
+      "still": {
+        "src": "/living-map-motion/en-still.webp?v=dc81bb830ce7",
+        "sha256": "dc81bb830ce73e65938e3b805855ddf0ebed7285deadabb603903a0213135cd9",
+        "width": 1920,
+        "height": 896
+      },
+      "train": {
+        "src": "/living-map-motion/en-train.webp?v=6334fc214393",
+        "sha256": "6334fc21439365d01ab42d12f1dab90b3a56f584214e57031ed909236e7b5723",
+        "width": 768,
+        "height": 362,
+        "bounds": [
+          19,
+          59.5,
+          12.1,
+          13.2
+        ]
+      },
+      "person": {
+        "src": "/living-map-motion/en-person.webp?v=f00ffc7cac57",
+        "sha256": "f00ffc7cac57829c5f2f16c16b592bf437c8cc7d1ea2388ee5dead37d7cf7a07",
+        "width": 180,
+        "height": 165,
+        "bounds": [
+          89,
+          72.8,
+          3.9,
+          11.6
+        ]
+      },
+      "clouds": [
+        [
+          26,
+          6,
+          17,
+          7
+        ],
+        [
+          49,
+          10,
+          15,
+          6
+        ],
+        [
+          68,
+          4,
+          13,
+          6
+        ]
+      ],
+      "headlight": [
+        90,
+        44
+      ],
+      "foreground": [
+        "polygon(0 0,19.5% 0,19.5% 100%,0 100%)",
+        "polygon(21.05% 52.9%,21.7% 52.9%,21.65% 55.1%,21.45% 55.8%,21.6% 72.8%,21.9% 73.6%,21% 73.6%,21.25% 72.8%,21.25% 55.8%,21.05% 55.1%)"
+      ]
     }
   },
   "es": {
@@ -175,6 +236,66 @@
       "sha256": "a1e886725fb7e87c29d53c8c72c58f97f6f29352d9714cd510ece09cdb79f545",
       "width": 1920,
       "height": 896
+    },
+    "motion": {
+      "unlockPhase": 4,
+      "still": {
+        "src": "/living-map-motion/es-still.webp?v=3427e47dfbd6",
+        "sha256": "3427e47dfbd61741ce9875269ec20808a51dabbe941ae25e3dee1270e62ca51f",
+        "width": 1920,
+        "height": 896
+      },
+      "train": {
+        "src": "/living-map-motion/es-train.webp?v=75bfaa7a28aa",
+        "sha256": "75bfaa7a28aabe7a86347fed5fe05d5e37cce4dc8b16fb38f38aa508f14e2931",
+        "width": 766,
+        "height": 512,
+        "bounds": [
+          14.7,
+          57,
+          12.8,
+          16.8
+        ]
+      },
+      "person": {
+        "src": "/living-map-motion/en-person.webp?v=f00ffc7cac57",
+        "sha256": "f00ffc7cac57829c5f2f16c16b592bf437c8cc7d1ea2388ee5dead37d7cf7a07",
+        "width": 180,
+        "height": 165,
+        "bounds": [
+          87.8,
+          73.5,
+          3.1,
+          10.5
+        ]
+      },
+      "clouds": [
+        [
+          26,
+          6,
+          17,
+          7
+        ],
+        [
+          49,
+          10,
+          15,
+          6
+        ],
+        [
+          68,
+          4,
+          13,
+          6
+        ]
+      ],
+      "headlight": [
+        85,
+        72
+      ],
+      "foreground": [
+        "polygon(0 0,15.2% 0,15.2% 100%,0 100%)"
+      ]
     }
   },
   "ja": {
@@ -264,6 +385,66 @@
       "sha256": "333a5db57494c0cc5c0e2a7ed80d6e8866156c9381d2b023f76dce8d1fdbacc6",
       "width": 1920,
       "height": 896
+    },
+    "motion": {
+      "unlockPhase": 4,
+      "still": {
+        "src": "/living-map-motion/ja-still.webp?v=3a896d02b561",
+        "sha256": "3a896d02b5615eed892963462fc5ee46c968dfa2d19def6a03380169b83fa1e5",
+        "width": 1920,
+        "height": 896
+      },
+      "train": {
+        "src": "/living-map-motion/ja-train.webp?v=e464af7f7317",
+        "sha256": "e464af7f7317da70a39be45adf2aa6cdf80b96ab2e71657cf2d5c8591a5fc9e4",
+        "width": 768,
+        "height": 353,
+        "bounds": [
+          17.3,
+          58.5,
+          11.1,
+          13
+        ]
+      },
+      "person": {
+        "src": "/living-map-motion/ja-person.webp?v=3224364863f8",
+        "sha256": "3224364863f8837e6de2e9391fe0d8b03fc0c9addc4194f09307f5f0b6af8deb",
+        "width": 180,
+        "height": 209,
+        "bounds": [
+          88,
+          76.5,
+          3.7,
+          12
+        ]
+      },
+      "clouds": [
+        [
+          26,
+          6,
+          17,
+          7
+        ],
+        [
+          49,
+          10,
+          15,
+          6
+        ],
+        [
+          68,
+          4,
+          13,
+          6
+        ]
+      ],
+      "headlight": [
+        87,
+        70
+      ],
+      "foreground": [
+        "polygon(0 0,18.1% 0,18.1% 100%,0 100%)"
+      ]
     }
   },
   "pt": {
@@ -353,6 +534,66 @@
       "sha256": "0ba44d815a8e5b8731b237ae5f99a51512155f2f93d5f435db5179c99d343cf0",
       "width": 1920,
       "height": 896
+    },
+    "motion": {
+      "unlockPhase": 4,
+      "still": {
+        "src": "/living-map-motion/pt-still.webp?v=2957c34091ba",
+        "sha256": "2957c34091ba895edcb25261bbd4df52b4484206bab9b51d7d0483fde043cc3b",
+        "width": 1920,
+        "height": 896
+      },
+      "train": {
+        "src": "/living-map-motion/pt-train.webp?v=9dab0326a30e",
+        "sha256": "9dab0326a30ef8e432a4c674de2a96f6823fda32f1a7ecea141835b93a859ef5",
+        "width": 632,
+        "height": 512,
+        "bounds": [
+          17.4,
+          57,
+          9.6,
+          18.4
+        ]
+      },
+      "person": {
+        "src": "/living-map-motion/en-person.webp?v=f00ffc7cac57",
+        "sha256": "f00ffc7cac57829c5f2f16c16b592bf437c8cc7d1ea2388ee5dead37d7cf7a07",
+        "width": 180,
+        "height": 165,
+        "bounds": [
+          87.5,
+          73.5,
+          3.1,
+          10.5
+        ]
+      },
+      "clouds": [
+        [
+          26,
+          6,
+          17,
+          7
+        ],
+        [
+          49,
+          10,
+          15,
+          6
+        ],
+        [
+          68,
+          4,
+          13,
+          6
+        ]
+      ],
+      "headlight": [
+        84,
+        72
+      ],
+      "foreground": [
+        "polygon(0 0,16.4% 0,16.4% 100%,0 100%)"
+      ]
     }
   }
 }
