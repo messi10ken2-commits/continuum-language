@@ -26,3 +26,11 @@ The header suite uses disposable learner/teacher accounts, all six display local
 Skill history and expanded records translate the authored task title at render time and subscribe to display-language changes. Original prompts, learner responses, teacher feedback, scores, dates and task IDs remain saved as before. All 60 composed core headings (five bands, three skills, four learning languages) have bundled translations, as do the AI conversation and Vocabulary review card headings. Reviewed copy covers Japanese, Spanish, Portuguese, Chinese and French without a provider request or cached translation.
 
 `node --test skill-title-localization.test.mjs` checks every core/lesson/assessment/premium heading in all five non-English interface languages, preserved band labels and original English titles. It also renders the Japanese Studio menu in both photography and illustrated contexts. These are runtime translation and server-render checks, not physical-device certification.
+
+## Additional display languages
+
+The display-language picker supports English, Japanese, Spanish, Portuguese, Simplified Chinese, French, Korean, Indonesian, Russian and Modern Standard Arabic. This does not add learning languages. Existing preferences migrate in place.
+
+`additional-display-copy.json` bundles Korean, Indonesian, Russian and Arabic translations of the public interface catalog. `display-language-seed.mjs` supplies editorial overrides for navigation, privacy, placement, booking and restoration terminology. The build-time generator uses the same protected-source rules and locale guidance as runtime lesson explanations; it never reads learner data. Missing dynamic lesson explanations continue through the existing authenticated, cached translation service.
+
+Arabic sets document direction to RTL, and switching away restores LTR. Spatial maps and calendar geometry retain LTR coordinates; language-tagged learning examples, email addresses, URLs and code are isolated from the surrounding direction. Browser QA covers both themes, learner/teacher accounts and 320–1440px widths.

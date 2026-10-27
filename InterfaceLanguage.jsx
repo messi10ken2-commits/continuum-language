@@ -1,8 +1,8 @@
 import React,{useEffect,useSyncExternalStore} from 'react';
-import {interfaceLanguages} from './interface-languages.mjs';
+import {interfaceLanguages,interfaceDirection} from './interface-languages.mjs';
 import {t,subscribeInterface,interfaceSnapshot,interfaceLanguage,interfaceStatus,chooseInterfaceLanguage,bindInterfaceAccount,retryInterfaceTranslations} from './interface-runtime.mjs';
 import './interface-language.css';
-export function useInterfaceLanguage(){useSyncExternalStore(subscribeInterface,interfaceSnapshot,()=>0);const language=interfaceLanguage();useEffect(()=>{if(typeof document!=='undefined')document.documentElement.lang=language==='zh'?'zh-Hans':language},[language]);return language;}
+export function useInterfaceLanguage(){useSyncExternalStore(subscribeInterface,interfaceSnapshot,()=>0);const language=interfaceLanguage();useEffect(()=>{if(typeof document!=='undefined'){document.documentElement.lang=language==='zh'?'zh-Hans':language;document.documentElement.dir=interfaceDirection(language)}},[language]);return language;}
 export function useInterfaceAccount(user){useEffect(()=>{void bindInterfaceAccount(user)},[user?.id]);}
 export function InterfaceLanguagePicker({compact=false}){
  const language=useInterfaceLanguage(),status=interfaceStatus();
