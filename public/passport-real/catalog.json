@@ -1596,5 +1596,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "c10c7c30d439de54f64aef98c2ff695600e711086bdd86528dd59d24c970b288"
+  },
+  {
+    "id": "es-buenos-aires",
+    "language": "es",
+    "country": "AR",
+    "place": "Buenos Aires city",
+    "src": "/passport-real/es-buenos-aires.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Buenos Aires City Council building sculpture.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Buenos_Aires_City_Council_building_sculpture.jpg",
+      "author": "The Cosmonaut",
+      "license": "CC BY-SA 2.5 ca",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5/ca/deed.en",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "2c772c2014d95a4c9f33c92a533df3e1695e17b6202dd47508a8e9805ca5cc0d"
+  },
+  {
+    "id": "es-mexico-city",
+    "language": "es",
+    "country": "MX",
+    "place": "Palacio de Bellas Artes Mexico City",
+    "src": "/passport-real/es-mexico-city.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Funerals of Jose Jose at Palacio de Bellas Artes, Mexico City - 13.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Funerals_of_Jose_Jose_at_Palacio_de_Bellas_Artes,_Mexico_City_-_13.jpg",
+      "author": "ProtoplasmaKid",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "8fa6dce2a3574a32aa690899f381ac22942a84c04c11bb1519b599ef4274f224"
+  },
+  {
+    "id": "en-london",
+    "language": "en",
+    "country": "GB",
+    "place": "Tower Bridge",
+    "src": "/passport-real/en-london.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Tower Bridge London Dusk Feb 2006.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Tower_Bridge_London_Dusk_Feb_2006.jpg",
+      "author": "Diliff",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "feb77066964c29e6f2b55991058f7f1841675a3abd46eb6e37bf626b0d238e3d"
   }
 ]
