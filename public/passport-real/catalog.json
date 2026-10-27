@@ -2514,5 +2514,124 @@
       "changes": "Cropped and resized"
     },
     "sha256": "c265a0514ab52b9f62df2fd5269317f689329affb4de39f13c836c8a678fc79a"
+  },
+  {
+    "id": "pt-extra-19",
+    "language": "pt",
+    "country": "PT",
+    "place": "Obidos Portugal",
+    "src": "/passport-real/pt-extra-19.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Casa, Óbidos, Portugal, 2021-09-09, DD 53.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Casa,_%C3%93bidos,_Portugal,_2021-09-09,_DD_53.jpg",
+      "author": "Diego Delso",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "ac80035c09562e7cd65d8bb0475aa74c0f254bf6c8c85dbfd7556f311a219d75"
+  },
+  {
+    "id": "pt-extra-20",
+    "language": "pt",
+    "country": "PT",
+    "place": "Guimaraes castle",
+    "src": "/passport-real/pt-extra-20.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Guimarães castle inner blueprint 1.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Guimar%C3%A3es_castle_inner_blueprint_1.jpg",
+      "author": "Luiz António de Souza Vianna",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b0a75504081c66bbb8b7ca931300cf7a558f4085913eebfd8c8781849fd0bc35"
+  },
+  {
+    "id": "pt-extra-22",
+    "language": "pt",
+    "country": "CV",
+    "place": "Mindelo Cape Verde",
+    "src": "/passport-real/pt-extra-22.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Rainbow pedestrian crossing in Mindelo, Cape Verde.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Rainbow_pedestrian_crossing_in_Mindelo,_Cape_Verde.jpg",
+      "author": "Waldyrious",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f67b545f3c6c931d9b1a8ed1673b89226fabd171d4162f901e7240820215073b"
+  },
+  {
+    "id": "pt-extra-23",
+    "language": "pt",
+    "country": "CV",
+    "place": "Santa Maria Sal Cape Verde",
+    "src": "/passport-real/pt-extra-23.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Tourist sub, Santa Maria, Sal, Cape Verde (4334762334).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Tourist_sub,_Santa_Maria,_Sal,_Cape_Verde_(4334762334).jpg",
+      "author": "IDS.photos from Tiverton, UK",
+      "license": "CC BY-SA 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "46dde021670810722988e8c6814e50f17a6e51336cf4e887de400259eac5d314"
+  },
+  {
+    "id": "pt-extra-25",
+    "language": "pt",
+    "country": "MZ",
+    "place": "Island of Mozambique",
+    "src": "/passport-real/pt-extra-25.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Boats outside Island of Mozambique.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Boats_outside_Island_of_Mozambique.jpg",
+      "author": "Stig Nygaard",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b2c204d76bc02aa2216b0f056babc41c41b20ba10f92c0da29294294bd2b93f3"
+  },
+  {
+    "id": "pt-extra-26",
+    "language": "pt",
+    "country": "MZ",
+    "place": "Maputo railway station",
+    "src": "/passport-real/pt-extra-26.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Maputo Railway Station and Praca dos Trabalhadores.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Maputo_Railway_Station_and_Praca_dos_Trabalhadores.jpg",
+      "author": "Claus Wonnemann",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "aec5671ed92fd726d799547479ffc72c02a2c00f58d4f56af5f34d2fce5fb3a1"
+  },
+  {
+    "id": "pt-extra-27",
+    "language": "pt",
+    "country": "GQ",
+    "place": "Pico Basile",
+    "src": "/passport-real/pt-extra-27.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Pico Basilé.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Pico_Basil%C3%A9.jpg",
+      "author": "Serge Moons",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "91e64d622a7017f0b7793e88e36165818bb0831b455c184c8d8920968e0eea7b"
   }
 ]
