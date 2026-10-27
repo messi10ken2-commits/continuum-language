@@ -2769,5 +2769,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "3abf3268b810c5d1462e71770dbe55ba1fc21674f9f8a2cb3cede4136671de09"
+  },
+  {
+    "id": "ja-extra-14",
+    "language": "ja",
+    "country": "JP",
+    "place": "Ginzan Onsen",
+    "src": "/passport-real/ja-extra-14.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Small snowman and Ginzan Onsen town.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Small_snowman_and_Ginzan_Onsen_town.jpg",
+      "author": "さかおり",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "aecf3b856bc4d99c84f55f3da0e3914d21a4769f2fabf54a7e8ee39928aeb282"
+  },
+  {
+    "id": "ja-extra-15",
+    "language": "ja",
+    "country": "JP",
+    "place": "Zao snow monsters",
+    "src": "/passport-real/ja-extra-15.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Mt. Zao snow monsters (51843581919).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Mt._Zao_snow_monsters_(51843581919).jpg",
+      "author": "Raita Futo from Tokyo, Japan",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "52fa489e1addbf3edd84803a2ab9cd0f935b4b6da8a728b6f948c44216f92660"
+  },
+  {
+    "id": "ja-extra-16",
+    "language": "ja",
+    "country": "JP",
+    "place": "Daisetsuzan",
+    "src": "/passport-real/ja-extra-16.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Volcanic degassing at snow covered Mount Asahi (Daisetsuzan), April 2023 09.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Volcanic_degassing_at_snow_covered_Mount_Asahi_(Daisetsuzan),_April_2023_09.jpg",
+      "author": "Calistemon",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "1cec9f4a218f6ef6397fc3a4dd09100defaf55af73d7d0ae6d272540841cfc5a"
   }
 ]
