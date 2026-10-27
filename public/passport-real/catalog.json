@@ -1494,5 +1494,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "c8585bca569c3cb77cf3a00dc3ab47c5a9332b59db689d1f689b92ed9f8329fd"
+  },
+  {
+    "id": "pt-pt",
+    "language": "pt",
+    "country": "PT",
+    "place": "Lisbon Belem Tower",
+    "src": "/passport-real/pt-pt.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Portugal, Lisbon, Belem Tower (52594141394).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Portugal,_Lisbon,_Belem_Tower_(52594141394).jpg",
+      "author": "Lark Ascending",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "ade91876718cc2c689c628c8205e494b49856fa1ca814bfb92b208bbf15effda"
+  },
+  {
+    "id": "pt-st",
+    "language": "pt",
+    "country": "ST",
+    "place": "Pico Cao Grande",
+    "src": "/passport-real/pt-st.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Pico Cão Grande.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Pico_C%C3%A3o_Grande.jpg",
+      "author": "Philippe Bourachot",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "1ece525c846cb061f933e69108f537461da521db4bf6b4c06d7856c4291f0533"
+  },
+  {
+    "id": "pt-tl",
+    "language": "pt",
+    "country": "TL",
+    "place": "Dili Timor Leste",
+    "src": "/passport-real/pt-tl.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:A cross above Dili, Timor Leste.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:A_cross_above_Dili,_Timor_Leste.jpg",
+      "author": "Kate Dixon",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "01272adac090a5101591dacefe2a02d8415bb8cc8d7b30955e79829bca4f3bad"
   }
 ]
