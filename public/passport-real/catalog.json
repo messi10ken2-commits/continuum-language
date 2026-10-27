@@ -2276,5 +2276,243 @@
       "changes": "Cropped and resized"
     },
     "sha256": "9f2b46d520958a3f504a5dd4a0145ecf6a84b0f427282ade926f05b000a42613"
+  },
+  {
+    "id": "es-extra-20",
+    "language": "es",
+    "country": "PA",
+    "place": "San Blas Islands Panama",
+    "src": "/passport-real/es-extra-20.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Holandes Cayes - San Blas Islands - Panama - panoramio.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Holandes_Cayes_-_San_Blas_Islands_-_Panama_-_panoramio.jpg",
+      "author": "David Broad",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "e69f6c4e24df9e345ee63ae4f55dadc1f63183bdfb42bce0c72e004499bd2cf0"
+  },
+  {
+    "id": "pt-extra-01",
+    "language": "pt",
+    "country": "AO",
+    "place": "Miradouro da Lua Angola",
+    "src": "/passport-real/pt-extra-01.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Miradouro da Lua (Angola).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Miradouro_da_Lua_(Angola).jpg",
+      "author": "Paulo César Santos",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "4d8d2b7a9ecf0b03ecaed80e3a1fc7b443cf0a81f44075d7d234f9253e2cb59f"
+  },
+  {
+    "id": "pt-extra-02",
+    "language": "pt",
+    "country": "AO",
+    "place": "Serra da Leba",
+    "src": "/passport-real/pt-extra-02.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Serra da Leba-Road.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Serra_da_Leba-Road.jpg",
+      "author": "User:Valmir144",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "5f9f416f3c973da94b5c97ce6e1d9cc8760f4c08d3990718277948e031d74319"
+  },
+  {
+    "id": "pt-extra-03",
+    "language": "pt",
+    "country": "AO",
+    "place": "Luanda bay",
+    "src": "/passport-real/pt-extra-03.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Luanda Bay 5 - panoramio (cropped) (cropped).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Luanda_Bay_5_-_panoramio_(cropped)_(cropped).jpg",
+      "author": "---=XEON=---",
+      "license": "CC BY 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "9e112e9b371a61ededcdf7f7c85e19d5df0ad4af1e19f014ee769ea30b8d5f1d"
+  },
+  {
+    "id": "pt-extra-04",
+    "language": "pt",
+    "country": "BR",
+    "place": "Amazon rainforest Brazil",
+    "src": "/passport-real/pt-extra-04.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Sunset at Amazon rainforest, Brazil - 2026 31.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Sunset_at_Amazon_rainforest,_Brazil_-_2026_31.jpg",
+      "author": "flowcomm",
+      "license": "CC BY 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "5fb13c81d14929d62dcad70b1b163a0e095431bddeb3f9dbfa9b302cd30aeedd"
+  },
+  {
+    "id": "pt-extra-05",
+    "language": "pt",
+    "country": "BR",
+    "place": "Manaus opera house",
+    "src": "/passport-real/pt-extra-05.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Manaus Opera House.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Manaus_Opera_House.jpg",
+      "author": "Flickr user: Brian Snelson Hockley, Essex, England",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "dcff50e694b6cd99ba628802f0c6d9d447e2c733261bbbaaec0dfc728658e532"
+  },
+  {
+    "id": "pt-extra-06",
+    "language": "pt",
+    "country": "BR",
+    "place": "Brasilia Cathedral",
+    "src": "/passport-real/pt-extra-06.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Brasilia Cathedral Bell Tower.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Brasilia_Cathedral_Bell_Tower.jpg",
+      "author": "Cayambe",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f52f01cb0fb1836949fa445eb1aa97353b55533bac4274d493dede630a3b7534"
+  },
+  {
+    "id": "pt-extra-07",
+    "language": "pt",
+    "country": "BR",
+    "place": "Ouro Preto",
+    "src": "/passport-real/pt-extra-07.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Ouro Preto November 2009-13.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Ouro_Preto_November_2009-13.jpg",
+      "author": "Alvesgaspar",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "53b8a7961bd5d3a47cb8b4d61f9d396e46f5ed294f310a07e6dd97342b94b51b"
+  },
+  {
+    "id": "pt-extra-08",
+    "language": "pt",
+    "country": "BR",
+    "place": "Recife Brazil",
+    "src": "/passport-real/pt-extra-08.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:USAS American Mariner at Recife Brazil 1962.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:USAS_American_Mariner_at_Recife_Brazil_1962.jpg",
+      "author": "Wikited",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "f5e41986e8f022771fc224844e8d7c27a38e0e4928f18488d5804315c2ea82c2"
+  },
+  {
+    "id": "pt-extra-09",
+    "language": "pt",
+    "country": "BR",
+    "place": "Bonito Brazil",
+    "src": "/passport-real/pt-extra-09.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Bonito, Brazil (40161245773).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Bonito,_Brazil_(40161245773).jpg",
+      "author": "Just a Brazilian man from Brazil",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "575009bde9f361c8be9485f7d1cf8c12e44b422e4a4fb32f56a5f116a6229081"
+  },
+  {
+    "id": "pt-extra-10",
+    "language": "pt",
+    "country": "BR",
+    "place": "Pantanal Brazil",
+    "src": "/passport-real/pt-extra-10.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Jabiru Mato Grosso Pantanal Brazil-3.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Jabiru_Mato_Grosso_Pantanal_Brazil-3.jpg",
+      "author": "Andreas Trepte",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "ea2b34cdea1ddedd7e77971e287f577b1bbc842765349d0d0aca6ce37160fb39"
+  },
+  {
+    "id": "pt-extra-11",
+    "language": "pt",
+    "country": "BR",
+    "place": "Jericoacoara",
+    "src": "/passport-real/pt-extra-11.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Jericoacoara (2) edit.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Jericoacoara_(2)_edit.jpg",
+      "author": "Roberto Garrido",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "060cc21113099221253e9d5c5dd625de244cf1119299a64bd77b666e19505cea"
+  },
+  {
+    "id": "pt-extra-13",
+    "language": "pt",
+    "country": "PT",
+    "place": "Douro Valley",
+    "src": "/passport-real/pt-extra-13.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Swimming pool and main building at Six Senses Douro Valley, Douro Valley, Portugal.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Swimming_pool_and_main_building_at_Six_Senses_Douro_Valley,_Douro_Valley,_Portugal.jpg",
+      "author": "Jcsantos85",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "fb70fbdd0fbeaba3b44522d9f6652b4ca0d434c9756d4802a8778227cb37fba6"
+  },
+  {
+    "id": "pt-extra-14",
+    "language": "pt",
+    "country": "PT",
+    "place": "Coimbra university",
+    "src": "/passport-real/pt-extra-14.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Coimbra university view (9999891263).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Coimbra_university_view_(9999891263).jpg",
+      "author": "Bobo Boom",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "c265a0514ab52b9f62df2fd5269317f689329affb4de39f13c836c8a678fc79a"
   }
 ]
