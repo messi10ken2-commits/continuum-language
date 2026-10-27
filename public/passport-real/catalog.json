@@ -2140,5 +2140,39 @@
       "changes": "Cropped and resized"
     },
     "sha256": "06518a3824b34c8cedbeeb1b0375bf954e3f6574c5f0eb98dfcd2aa4090397b6"
+  },
+  {
+    "id": "es-extra-12",
+    "language": "es",
+    "country": "PE",
+    "place": "Lake Titicaca Peru",
+    "src": "/passport-real/es-extra-12.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:083 Reeds Lake Titicaca Peru 3138 (14995748030).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:083_Reeds_Lake_Titicaca_Peru_3138_(14995748030).jpg",
+      "author": "bobistraveling",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "0aac9b44c54355a3d713981cffe0abd19ad215199389111811ede5d0b7c25737"
+  },
+  {
+    "id": "es-extra-13",
+    "language": "es",
+    "country": "CO",
+    "place": "Cocora Valley",
+    "src": "/passport-real/es-extra-13.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Horses in Cocora Valley, Colombia.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Horses_in_Cocora_Valley,_Colombia.jpg",
+      "author": "Bernard Gagnon",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b8c26e022e0d52996386b3f7ba620f85064e7a53cf94fe76bec7fe18f4ca3f1d"
   }
 ]
