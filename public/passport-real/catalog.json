@@ -2021,5 +2021,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "c70464b2628422983b6a7e7d6f1ddb864661a2bda18e92150db451a6250d507a"
+  },
+  {
+    "id": "ja-kagoshima",
+    "language": "ja",
+    "country": "JP",
+    "place": "Sakurajima",
+    "src": "/passport-real/ja-kagoshima.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:20100721 Sakurajima Ferry 4243.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:20100721_Sakurajima_Ferry_4243.jpg",
+      "author": "Jakub Hałun",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "16da6a1d9ee36560c467c48e08920fe7e98a0c98b487b6d125006ef3fe1d1c4f"
+  },
+  {
+    "id": "es-extra-01",
+    "language": "es",
+    "country": "ES",
+    "place": "Alhambra Granada",
+    "src": "/passport-real/es-extra-01.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Patio de los Arrayanes detail Alhambra Granada Spain.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Patio_de_los_Arrayanes_detail_Alhambra_Granada_Spain.jpg",
+      "author": "Jebulon",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "769302db6c22d48d62f3b6601563611ae86f1b18667a4ce9005d2e72c9eee0ee"
+  },
+  {
+    "id": "es-extra-02",
+    "language": "es",
+    "country": "ES",
+    "place": "Seville Plaza de Espana",
+    "src": "/passport-real/es-extra-02.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Seville, Plaza de España (38625005691) (edited).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Seville,_Plaza_de_Espa%C3%B1a_(38625005691)_(edited).jpg",
+      "author": "Dmitry Dzhus from London",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "a05591408ccc4baed75fd47c0a64cdf8d5ed587f9b18fb167c4e2ac1db95d790"
   }
 ]
