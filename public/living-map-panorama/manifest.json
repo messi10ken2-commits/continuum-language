@@ -1,0 +1,358 @@
+{
+  "en": {
+    "region": "English riverside village",
+    "layout": "panorama",
+    "locomotiveSteam": true,
+    "effects": {
+      "station": [
+        9,
+        59,
+        17,
+        25
+      ],
+      "train": [
+        25,
+        66,
+        9,
+        12
+      ],
+      "cafe": [
+        64,
+        63,
+        14,
+        23
+      ],
+      "garden": [
+        87,
+        82,
+        17,
+        19
+      ],
+      "steam": [
+        27,
+        54
+      ],
+      "cafeSteam": [
+        64,
+        62
+      ],
+      "water": [
+        26,
+        64,
+        49,
+        35
+      ],
+      "lamps": [
+        [
+          11,
+          83
+        ],
+        [
+          31,
+          66
+        ],
+        [
+          60,
+          62
+        ],
+        [
+          74,
+          75
+        ],
+        [
+          89,
+          87
+        ],
+        [
+          88,
+          47
+        ]
+      ]
+    },
+    "evening": {
+      "src": "/living-map-panorama/en/evening.webp?v=74a0462752d2",
+      "sha256": "74a0462752d2b4ac41a3122328be8ddca668d075b5dd1eae4932e1815f6d8c5f",
+      "width": 1920,
+      "height": 896
+    },
+    "day": {
+      "src": "/living-map-panorama/en/day.webp?v=5965cf323fe9",
+      "sha256": "5965cf323fe9549d97f1b05830f277316267c595ace955f23fe0e437a878ffde",
+      "width": 1920,
+      "height": 896
+    },
+    "quiet": {
+      "src": "/living-map-panorama/en/quiet.webp?v=e92407790f83",
+      "sha256": "e92407790f832ac4b0b8920b21f2a49ad900b7725ae14991f6fdf64866c3d4a9",
+      "width": 1920,
+      "height": 896
+    }
+  },
+  "es": {
+    "region": "Spanish Mediterranean town",
+    "layout": "panorama",
+    "locomotiveSteam": false,
+    "effects": {
+      "station": [
+        7,
+        59,
+        16,
+        24
+      ],
+      "train": [
+        21,
+        65,
+        10,
+        13
+      ],
+      "cafe": [
+        62,
+        65,
+        15,
+        22
+      ],
+      "garden": [
+        88,
+        84,
+        17,
+        18
+      ],
+      "steam": [
+        23,
+        54
+      ],
+      "cafeSteam": [
+        62,
+        65
+      ],
+      "water": [
+        26,
+        64,
+        49,
+        35
+      ],
+      "lamps": [
+        [
+          11,
+          83
+        ],
+        [
+          31,
+          66
+        ],
+        [
+          60,
+          62
+        ],
+        [
+          74,
+          75
+        ],
+        [
+          89,
+          87
+        ],
+        [
+          88,
+          47
+        ]
+      ]
+    },
+    "evening": {
+      "src": "/living-map-panorama/es/evening.webp?v=5e1bf6ea8a2f",
+      "sha256": "5e1bf6ea8a2fcb25008ab2e793adaebf363d3fce28539e438f6bf778147e9d8e",
+      "width": 1920,
+      "height": 896
+    },
+    "day": {
+      "src": "/living-map-panorama/es/day.webp?v=e2125232e81e",
+      "sha256": "e2125232e81e03a33076b9b1bcb97614bb02d004844fc82f45d458d1ce70f572",
+      "width": 1920,
+      "height": 896
+    },
+    "quiet": {
+      "src": "/living-map-panorama/es/quiet.webp?v=a1e886725fb7",
+      "sha256": "a1e886725fb7e87c29d53c8c72c58f97f6f29352d9714cd510ece09cdb79f545",
+      "width": 1920,
+      "height": 896
+    }
+  },
+  "ja": {
+    "region": "Japanese riverside town",
+    "layout": "panorama",
+    "locomotiveSteam": false,
+    "effects": {
+      "station": [
+        8,
+        59,
+        17,
+        25
+      ],
+      "train": [
+        23,
+        65,
+        10,
+        12
+      ],
+      "cafe": [
+        65,
+        63,
+        15,
+        24
+      ],
+      "garden": [
+        88,
+        85,
+        17,
+        18
+      ],
+      "steam": [
+        25,
+        54
+      ],
+      "cafeSteam": [
+        65,
+        63
+      ],
+      "water": [
+        26,
+        64,
+        49,
+        35
+      ],
+      "lamps": [
+        [
+          11,
+          83
+        ],
+        [
+          31,
+          66
+        ],
+        [
+          60,
+          62
+        ],
+        [
+          74,
+          75
+        ],
+        [
+          89,
+          87
+        ],
+        [
+          88,
+          47
+        ]
+      ]
+    },
+    "evening": {
+      "src": "/living-map-panorama/ja/evening.webp?v=a5c4297d5954",
+      "sha256": "a5c4297d59542d0f3ba1fd8785059ed28c44210d403b9a6ba0a9c3df167c5b48",
+      "width": 1920,
+      "height": 896
+    },
+    "day": {
+      "src": "/living-map-panorama/ja/day.webp?v=6517773f515a",
+      "sha256": "6517773f515a0777cd1857314a5dfb3d15ddb43615f05c9d582bdb7f7381b6b7",
+      "width": 1920,
+      "height": 896
+    },
+    "quiet": {
+      "src": "/living-map-panorama/ja/quiet.webp?v=333a5db57494",
+      "sha256": "333a5db57494c0cc5c0e2a7ed80d6e8866156c9381d2b023f76dce8d1fdbacc6",
+      "width": 1920,
+      "height": 896
+    }
+  },
+  "pt": {
+    "region": "Brazilian tropical hillside neighbourhood",
+    "layout": "panorama",
+    "locomotiveSteam": false,
+    "effects": {
+      "station": [
+        8,
+        59,
+        17,
+        27
+      ],
+      "train": [
+        22,
+        67,
+        10,
+        13
+      ],
+      "cafe": [
+        59,
+        66,
+        16,
+        25
+      ],
+      "garden": [
+        88,
+        83,
+        17,
+        20
+      ],
+      "steam": [
+        24,
+        54
+      ],
+      "cafeSteam": [
+        59,
+        65
+      ],
+      "water": [
+        26,
+        64,
+        49,
+        35
+      ],
+      "lamps": [
+        [
+          11,
+          83
+        ],
+        [
+          31,
+          66
+        ],
+        [
+          60,
+          62
+        ],
+        [
+          74,
+          75
+        ],
+        [
+          89,
+          87
+        ],
+        [
+          88,
+          47
+        ]
+      ]
+    },
+    "evening": {
+      "src": "/living-map-panorama/pt/evening.webp?v=3edcc5b4b9a4",
+      "sha256": "3edcc5b4b9a40ac892f57a391d00d9fb54a94a5645bd8b9653fc69eba593e56f",
+      "width": 1920,
+      "height": 896
+    },
+    "day": {
+      "src": "/living-map-panorama/pt/day.webp?v=18efe16b883a",
+      "sha256": "18efe16b883a1c322b6f323dcb517759753fc661a4bc4ad33efe4367e207e3ae",
+      "width": 1920,
+      "height": 896
+    },
+    "quiet": {
+      "src": "/living-map-panorama/pt/quiet.webp?v=0ba44d815a8e",
+      "sha256": "0ba44d815a8e5b8731b237ae5f99a51512155f2f93d5f435db5179c99d343cf0",
+      "width": 1920,
+      "height": 896
+    }
+  }
+}
