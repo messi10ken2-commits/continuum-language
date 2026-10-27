@@ -1953,5 +1953,22 @@
       "changes": "Cropped and resized"
     },
     "sha256": "d63718dc4ad22baa20412837a81409599697495159aa636543e0245a90cdaa83"
+  },
+  {
+    "id": "ja-takayama",
+    "language": "ja",
+    "country": "JP",
+    "place": "Takayama old town",
+    "src": "/passport-real/ja-takayama.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Drying persimmons, Takayama old town (31744396008).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Drying_persimmons,_Takayama_old_town_(31744396008).jpg",
+      "author": "RachelH_",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "8830ece2716333f39436febc6f30f239571799ead2dc57544bc7dfe0bb8ca0e5"
   }
 ]
