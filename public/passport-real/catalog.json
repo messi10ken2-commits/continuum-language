@@ -1936,5 +1936,22 @@
       "changes": "Cropped and resized"
     },
     "sha256": "65528f6d4e038ca06dd7e5ac8776223dfdb12371797a09d9011e244c8d899c0b"
+  },
+  {
+    "id": "ja-yakushima",
+    "language": "ja",
+    "country": "JP",
+    "place": "Yakushima forest",
+    "src": "/passport-real/ja-yakushima.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Yakushima forest (52931205946).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Yakushima_forest_(52931205946).jpg",
+      "author": "Raita Futo from Tokyo, Japan",
+      "license": "CC BY 2.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "d63718dc4ad22baa20412837a81409599697495159aa636543e0245a90cdaa83"
   }
 ]
