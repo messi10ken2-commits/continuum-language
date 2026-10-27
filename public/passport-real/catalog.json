@@ -1222,5 +1222,56 @@
       "changes": "Cropped and resized"
     },
     "sha256": "075cdcc6f681fbb4c1fa2c4d4449bd6b2c10c43d8f421748ff52208fc1494aaa"
+  },
+  {
+    "id": "es-gt",
+    "language": "es",
+    "country": "GT",
+    "place": "Tikal Guatemala",
+    "src": "/passport-real/es-gt.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:1989-Tikal-Guatemala-03.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:1989-Tikal-Guatemala-03.jpg",
+      "author": "Myotus",
+      "license": "CC0",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "90b11e5cb5cee1abd2010a411235c9fbc4707bf4330ea9e9cdff408cecc531ad"
+  },
+  {
+    "id": "es-hn",
+    "language": "es",
+    "country": "HN",
+    "place": "Copan Honduras",
+    "src": "/passport-real/es-hn.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Recueil. Topographie et moeurs de l'Amérique du Sud. Dessins, croquis et notes manuscrites de Léonce Angrand. (21) (24 vues stéréoscopiques des ruines de Copan (Honduras)) - btv1b52503652m (46 of 48).jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Recueil._Topographie_et_moeurs_de_l%27Am%C3%A9rique_du_Sud._Dessins,_croquis_et_notes_manuscrites_de_L%C3%A9once_Angrand._(21)_(24_vues_st%C3%A9r%C3%A9oscopiques_des_ruines_de_Copan_(Honduras))_-_btv1b52503652m_(46_of_48).jpg",
+      "author": "Angrand, Léonce (1808-1886). Illustrateur",
+      "license": "Public domain",
+      "licenseUrl": null,
+      "changes": "Cropped and resized"
+    },
+    "sha256": "944acc3b6a1d1ec6b8ea7cd0fb46087744b24539332aa906980363bb8b12851f"
+  },
+  {
+    "id": "es-mx",
+    "language": "es",
+    "country": "MX",
+    "place": "Chichen Itza",
+    "src": "/passport-real/es-mx.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Chichen Itza 3.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Chichen_Itza_3.jpg",
+      "author": "Daniel Schwen",
+      "license": "CC BY-SA 4.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "631b7e55a8100c2044475220cfa15b921346db142ead31df945e3cc4c5a18a5e"
   }
 ]
