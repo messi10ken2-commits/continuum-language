@@ -1,0 +1,20 @@
+{
+  "quiet": {
+    "src": "/living-map-v2/quiet.webp?v=dbd9e6e68c98",
+    "sha256": "dbd9e6e68c989a544680d127b85b250dffac2af3136a63419927d06e906cd7eb",
+    "width": 1059,
+    "height": 1485
+  },
+  "day": {
+    "src": "/living-map-v2/day.webp?v=cd12e101b604",
+    "sha256": "cd12e101b60417f04b69c91c0dd7649177b3ef9e1f944171ec91900e93668b08",
+    "width": 1059,
+    "height": 1485
+  },
+  "evening": {
+    "src": "/living-map-v2/evening.webp?v=7305ca6b593c",
+    "sha256": "7305ca6b593c53ce1eaed06ecc42820a8181949334b6de7510de459f5c023d82",
+    "width": 1059,
+    "height": 1485
+  }
+}
