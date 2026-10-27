@@ -1545,5 +1545,22 @@
       "changes": "Cropped and resized"
     },
     "sha256": "01272adac090a5101591dacefe2a02d8415bb8cc8d7b30955e79829bca4f3bad"
+  },
+  {
+    "id": "es-barcelona",
+    "language": "es",
+    "country": "ES",
+    "place": "Park Guell",
+    "src": "/passport-real/es-barcelona.webp",
+    "kind": "photograph",
+    "credit": {
+      "title": "File:Park Güell 02.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Park_G%C3%BCell_02.jpg",
+      "author": "Bernard Gagnon",
+      "license": "CC BY-SA 3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+      "changes": "Cropped and resized"
+    },
+    "sha256": "b789fb484b8a222be43339f37ac04f4e1541de6f446939227d47342a27245eda"
   }
 ]
