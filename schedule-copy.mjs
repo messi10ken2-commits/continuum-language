@@ -1,5 +1,8 @@
 // UI copy only. Teacher topics, reasons, messages and lesson content remain authored text.
 const rows=`
+Lesson type|レッスンの種類|Tipo de clase|Tipo de aula|课程类型|Type de cours
+Regular lesson|通常レッスン|Clase regular|Aula regular|常规课程|Cours normal
+Trial lesson|体験レッスン|Clase de prueba|Aula experimental|体验课|Cours d’essai
 All day|終日|Todo el día|Dia inteiro|全天|Toute la journée
 YOUR REGULAR WEEK|毎週の基本スケジュール|TU SEMANA HABITUAL|SUA SEMANA HABITUAL|每周固定安排|VOTRE SEMAINE HABITUELLE
 Weekly teaching hours|曜日ごとの授業時間|Horario semanal de clases|Horários semanais de aula|每周授课时间|Horaires hebdomadaires de cours

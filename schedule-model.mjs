@@ -1,6 +1,6 @@
 import {classTimeChoices,validTimeZone} from './class-time.mjs';
 export function availabilityDates({local,timezone,duration,weeks=1,startsAt},now=Date.now()){
- if(!validTimeZone(timezone)||!Number.isInteger(duration)||duration<15||duration>120||duration%5||!Number.isInteger(weeks)||weeks<1||weeks>12)throw Error('Choose a valid availability time, duration and repeat count');
+ if(!validTimeZone(timezone)||![25,50].includes(duration)||!Number.isInteger(weeks)||weeks<1||weeks>12)throw Error('Choose a valid availability time, duration and repeat count');
  const first=classTimeChoices(local,timezone);if(!first.includes(startsAt))throw Error('Choose a valid local time and UTC offset');
  const result=[];
  for(let i=0;i<weeks;i++){
