@@ -242,4 +242,4 @@ for(const locale of Object.keys(adventureCopy))Object.assign(reviewedInterfaceCo
 
 for(const locale of Object.keys(companionBondCopy))Object.assign(reviewedInterfaceCopy[locale],companionBondCopy[locale]);
 
-for(const locale of ['ko','id','ru','ar']){reviewedInterfaceCopy[locale]={};for(const [source,translations] of Object.entries(additionalDisplayCopy))if(translations[locale])reviewedInterfaceCopy[locale][source]=translations[locale];for(const [source,translations] of Object.entries(displayLanguageSeed))if(translations[locale])reviewedInterfaceCopy[locale][source]=translations[locale];}
+for(const locale of ['ko','id','ru','ar']){reviewedInterfaceCopy[locale]={};for(const [source,translations] of Object.entries(additionalDisplayCopy))if(translations[locale]){reviewedInterfaceCopy[locale][source]=translations[locale];reviewedInterfaceCopy[locale][source.trim()]??=translations[locale].trim();}for(const [source,translations] of Object.entries(displayLanguageSeed))if(translations[locale])reviewedInterfaceCopy[locale][source]=translations[locale];}
