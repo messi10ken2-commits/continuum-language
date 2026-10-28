@@ -1,15 +1,17 @@
 // Fixed orthographic camera. Rails are authored in panorama pixels, then lifted onto a 3D ground plane.
+// The bend ends at the rail apex. A separate exit curve meets a truly straight
+// foreground run tangentially; extending one broad bend used to cut inside it.
 const routes={
- en:[[100,570],[340,575],[625,615],[530,650],[500,675],[240,703],[-330,780]],
- es:[[80,530],[290,555],[530,600],[445,650],[430,685],[180,710],[-330,780]],
- pt:[[100,590],[325,607],[530,633],[470,676],[450,705],[220,735],[-330,790]],
- ja:[[100,565],[350,580],[630,603],[525,650],[490,672],[180,685],[-330,755]]
+ en:[[100,570],[340,575],[534,617.65],[534,638],[534,658.35],[501,669.76],[250,730],[150,754],[-100,814],[-330,869.2]],
+ es:[[80,530],[290,555],[454,605.9],[454,630],[454,654.1],[453,665.22],[250,718],[150,744],[-100,809],[-330,868.8]],
+ pt:[[100,590],[325,607],[466,629.4],[466,666],[466,702.6],[465,700.3],[250,739],[150,757],[-100,802],[-330,843.4]],
+ ja:[[100,565],[350,580],[511,613.7],[511,631],[511,648.3],[510,661],[250,700],[150,715],[-100,752.5],[-330,787]]
 };
 const tables=new Map(),depth=.42,ground=560;
 function cubic(a,b,c,d,t){const u=1-t;return {x:u*u*u*a[0]+3*u*u*t*b[0]+3*u*t*t*c[0]+t*t*t*d[0],z:(u*u*u*a[1]+3*u*u*t*b[1]+3*u*t*t*c[1]+t*t*t*d[1]-ground)/depth};}
 export function trainTrack(language='en'){
  const key=routes[language]?language:'en';if(tables.has(key))return tables.get(key);const p=routes[key],points=[];let distance=0;
- for(let segment=0;segment<2;segment++)for(let i=segment?1:0;i<=256;i++){const a=cubic(...p.slice(segment*3,segment*3+4),i/256),last=points.at(-1);if(last)distance+=Math.hypot(a.x-last.x,a.z-last.z);points.push({...a,distance});}
+ for(let segment=0;segment<(p.length-1)/3;segment++)for(let i=segment?1:0;i<=1024;i++){const a=cubic(...p.slice(segment*3,segment*3+4),i/1024),last=points.at(-1);if(last)distance+=Math.hypot(a.x-last.x,a.z-last.z);points.push({...a,distance});}
  const track={points,length:distance};tables.set(key,track);return track;
 }
 export function railPoint(language,distance){const {points,length}=trainTrack(language),d=Math.max(0,Math.min(length,distance));let lo=0,hi=points.length-1;while(lo+1<hi){const mid=(lo+hi)>>1;if(points[mid].distance<d)lo=mid;else hi=mid;}const a=points[lo],b=points[hi],q=(d-a.distance)/(b.distance-a.distance||1);return {x:a.x+(b.x-a.x)*q,z:a.z+(b.z-a.z)*q,distance:d};}
