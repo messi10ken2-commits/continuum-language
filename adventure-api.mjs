@@ -1,3 +1,4 @@
+import {learningLanguageIds} from './languages.mjs';
 import {membership} from './billing-api.mjs';
 import {premiumCompanions} from './adventure-model.mjs';
 import {migrateCompanionAvatars,companionEntitlements,languageLearningDays,avatarRewards,handleCompanionAvatar} from './companion-avatar-api.mjs';
@@ -7,7 +8,7 @@ import {activityDay} from './learning-activity.mjs';
 export async function migrateAdventure(pool){await pool.query(`CREATE TABLE IF NOT EXISTS learner_adventure(user_id uuid PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,companion text NOT NULL DEFAULT 'bird');CREATE TABLE IF NOT EXISTS learner_daily_quests(user_id uuid REFERENCES users(id) ON DELETE CASCADE,language text NOT NULL,day date NOT NULL,quest text NOT NULL,started_at timestamptz NOT NULL DEFAULT now(),PRIMARY KEY(user_id,language,day));ALTER TABLE review_answers ADD COLUMN IF NOT EXISTS created_at timestamptz;ALTER TABLE review_answers ALTER COLUMN created_at SET DEFAULT now();`);await migrateBonds(pool);await migrateCompanionAvatars(pool)}
 export async function handleAdventure({route,req,res,pool,required,json,send,fail}){
  if(route==='/api/companion-avatar')return handleCompanionAvatar({route,req,res,pool,required,json,send,fail});if(route!=='/api/adventure')return false;
- const user=await required(req,'learner'),language=new URL(req.url,'http://localhost').searchParams.get('language')||'es';if(!['es','en','pt','ja'].includes(language))fail(400,'Unknown language');
+ const user=await required(req,'learner'),language=new URL(req.url,'http://localhost').searchParams.get('language')||'es';if(!learningLanguageIds.includes(language))fail(400,'Unknown language');
  const access=await membership(pool,user.id),entitlements=await companionEntitlements(pool,user.id,access.premium);
  const zone=(await pool.query('SELECT zone FROM learner_presence WHERE user_id=$1',[user.id])).rows[0]?.zone||'UTC',day=activityDay(Date.now(),zone);
  if(req.method==='PUT'){const d=await json(req);if(d.companion!==undefined){if(!companions.includes(d.companion))fail(400,'Invalid companion');if(premiumCompanions.includes(d.companion)&&!access.premium)fail(403,'Premium companion is locked');await pool.query('INSERT INTO learner_adventure(user_id,companion) VALUES($1,$2) ON CONFLICT(user_id) DO UPDATE SET companion=EXCLUDED.companion',[user.id,d.companion]);}

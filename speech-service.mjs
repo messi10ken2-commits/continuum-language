@@ -2,9 +2,16 @@ import crypto from 'node:crypto';
 import {isolatedSpeechWord} from './sentence-audio.mjs';
 import {pcmHasSpeechSignal} from './speech-audio-quality.mjs';
 export const speechVersion='studio-voice-v1';
-export const speechLocales=['ja-JP','pt-BR','es-ES','en-US','en-GB','en-AU','es-AR','es-MX','pt-PT','ja-JP-kansai'];
+export const speechLocales=['ja-JP','pt-BR','es-ES','en-US','en-GB','en-AU','es-AR','es-MX','pt-PT','ja-JP-kansai','zh-CN','ko-KR','fr-FR','de-DE','ar-SA','it-IT'];
 let openAICooldown=0;
 const styles={
+ 'zh-CN':'请用自然、清晰的普通话朗读。准确保留声调、轻声和变调，不要把汉字拼读成字母，也不要加入拼音或翻译。',
+ 'ko-KR':'표준 한국어로 자연스럽고 또렷하게 읽으세요. 받침, 연음, 자음의 구별과 문장 억양을 지키고 영어나 로마자 발음을 섞지 마세요.',
+ 'fr-FR':'Lisez en français de France, naturellement et clairement. Respectez les voyelles nasales, les accents, les liaisons obligatoires et les consonnes finales muettes. Ne prononcez pas les lettres comme en anglais.',
+ 'de-DE':'Lies in klarem, natürlichem Standarddeutsch. Unterscheide ä, ö, ü von a, o, u, beachte Vokallänge und Auslautverhärtung. Sprich ß wie stimmloses s und füge keine Erklärung hinzu.',
+ 'ar-SA':'اقرأ النص بالعربية الفصحى المعاصرة، لا باللهجة المحلية. حافظ على مخارج الحروف والحركات المكتوبة والتشديد وطول الحركات، واقرأ الأرقام في سياقها دون إضافة شرح أو ترجمة.',
+ 'it-IT':'Leggi in italiano standard naturale e chiaro. Rispetta le consonanti doppie, gli accenti e il ritmo della frase; non usare una pronuncia inglese e non aggiungere spiegazioni.',
+
  'en-GB':'Use a natural contemporary British English style, with clear speech and no caricature. Preserve the supplied vocabulary.',
  'en-AU':'Use a natural contemporary Australian English style, with clear speech and no caricature. Preserve the supplied vocabulary.',
  'es-AR':'Habla con un estilo rioplatense de Buenos Aires, sin caricaturizar. Respeta el voseo, el acento final de tenés, hablás y vení, y el yeísmo rehilado rioplatense. No sustituyas vos por tú ni uses distinción peninsular de s y z.',

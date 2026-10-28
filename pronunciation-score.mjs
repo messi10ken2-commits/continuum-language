@@ -1,9 +1,9 @@
 // A transparent word-sequence match for fixed model sentences. This is not a
 // phoneme, accent, or CEFR assessment; the UI labels it accordingly.
 export function normalizeSpeech(value){
- return String(value||'').toLocaleLowerCase('es').normalize('NFD').replace(/\p{Diacritic}/gu,'').replace(/[^a-zñü0-9\s]/g,' ').replace(/\s+/g,' ').trim();
+ return String(value||'').toLocaleLowerCase('es').normalize('NFD').replace(/\p{Diacritic}/gu,'').normalize('NFC').replace(/[^\p{L}\p{N}\s]/gu,' ').replace(/\s+/g,' ').trim();
 }
-export function speechTokens(value){const normalized=normalizeSpeech(value);return normalized?normalized.split(' '):[]}
+export function speechTokens(value){const normalized=normalizeSpeech(value);if(!normalized)return [];if(/[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]/u.test(normalized))return [...new Intl.Segmenter('zh',{granularity:'word'}).segment(normalized.replace(/\s+/g,''))].filter(x=>x.isWordLike).map(x=>x.segment);return normalized.split(' ')}
 function lcs(a,b){
  const row=new Array(b.length+1).fill(0);
  for(let i=1;i<=a.length;i++){let diagonal=0;for(let j=1;j<=b.length;j++){const old=row[j];row[j]=a[i-1]===b[j-1]?diagonal+1:Math.max(row[j],row[j-1]);diagonal=old}}

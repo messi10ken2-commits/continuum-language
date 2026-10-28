@@ -177,14 +177,14 @@ export function getLessonVariant(id,seed){
  let state=2166136261;for(const c of seed+id){state^=c.charCodeAt(0);state=Math.imul(state,16777619)>>>0;}
  const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
  const shuffle=xs=>{const a=[...xs];for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
- const archived=base?.language&&base.curriculumVersion!==2;
+ const archived=legacyInternationalLessons.includes(base);
  const availableChapters=archived?legacyInternationalChapters:chapters;
  const groups=base.summaryTest?availableChapters.filter(c=>(!base.testSeedPrefix||seed.startsWith(base.testSeedPrefix)||!idiomChapters.some(x=>x.id===c.id))&&c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest&&!c.specialist):availableChapters.filter(c=>c.id===base.chapter);
  const chosen=groups.flatMap(c=>{const pool=archived?legacyInternationalTransfer[c.id]:transferBank[c.id]||internationalTransfer[c.id]||soundTransfer[c.id]||visualTransfer[c.id];if(!pool?.length)throw Error('Missing transfer questions');const count=base.summaryTest?(archived?7:3):4;
   const shuffled=shuffle(pool);
   // The repaired path samples fresh tasks, always including both taught lessons.
   let selected=shuffled.slice(0,count);
-  if(base.curriculumVersion===2){
+  if(base.curriculumVersion>=2){
    const required=[...new Set(pool.map(q=>q.sourceLesson))].map(id=>shuffled.find(q=>q.sourceLesson===id));
    selected=[...required,...shuffled.filter(q=>!required.includes(q)).slice(0,count-required.length)];
   }

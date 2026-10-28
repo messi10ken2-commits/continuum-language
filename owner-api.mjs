@@ -1,3 +1,4 @@
+import {learningLanguageIds} from './languages.mjs';
 import {isPlatformOwner} from './profiles-api.mjs';
 import {membership,billingTransaction,billingSettings,billingReady,reconcileCustomer,stripeClient} from './billing-api.mjs';
 import {platformFeatures,controlledFeatures} from './platform-controls.mjs';
@@ -62,7 +63,7 @@ export async function handleOwner({route,req,res,pool,required,currentUser,json,
  }
  if(route==='/api/owner/catalog'&&req.method==='GET'){
   const {q,offset}=params(req,fail),p=new URL(req.url,'http://localhost').searchParams,language=p.get('language')||'',type=p.get('type')||'';
-  if(language&&!['en','es','pt','ja'].includes(language)||type&&!['selfStudy','exclusive'].includes(type))fail(400,'Choose a supported catalog filter');
+  if(language&&!learningLanguageIds.includes(language)||type&&!['selfStudy','exclusive'].includes(type))fail(400,'Choose a supported catalog filter');
   const rows=[...lessonList.map(l=>({id:l.id,title:l.title,language:l.language||'es',level:l.level,skill:l.skill,type:'selfStudy',questions:l.questions.length})),...premiumCourseSummary.map(c=>({...c,type:'exclusive',skill:c.scene||'Practice'}))].filter(l=>(!language||l.language===language)&&(!type||l.type===type)&&[l.id,l.title].some(v=>v.toLowerCase().includes(q.toLowerCase())));send(res,200,{items:rows.slice(offset,offset+50),total:rows.length,offset});return true;
  }
  if(route==='/api/owner/audit'&&req.method==='GET'){const {offset}=params(req,fail),r=await pool.query('SELECT e.id,e.kind,e.target,e.detail,e.created_at AS at,u.name AS actor FROM owner_events e JOIN users u ON u.id=e.actor_id ORDER BY e.created_at DESC,e.id DESC LIMIT 50 OFFSET $1',[offset]);send(res,200,{events:r.rows,offset,hasMore:r.rows.length===50});return true;}
