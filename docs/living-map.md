@@ -75,3 +75,11 @@ Vehicle proportions were corrected: a single 115×36×54-unit heritage tram; two
 The animation clock, four-chapter motion gate, pause/replay and reduced-motion behavior are preserved. Frames are limited to roughly 30fps and stop rendering when the map/tab is not visible. The renderer disposes GPU resources on unmount. If graphics initialization is unavailable, the existing detailed transparent train artwork is shown as a static fallback; the old box/cutout-warping renderer is not used. No new graphics dependency or generated raster asset is required.
 
 Regression coverage includes finite projected geometry over the complete bend, vehicle proportions, rounded roof geometry, separately modeled glazing and running gear, rail-bound bogies and inter-vehicle spacing, plus all language/CEFR restoration states. Browser QA captures multiple positions through each turn, checks independent object movement against fixed scenery, observes asynchronous page errors and verifies the real learner controls at phone/desktop sizes.
+
+### Early-level map spacing
+
+A1/A2 share the same full-height panel layout as the other levels. The geometry reserves 72px above the first node and 164px beneath the last for multi-line labels and the map controls. Each panel distributes its own node count evenly through the usable height. Small viewports reduce panel capacity instead of stacking labels on top of one another, and every node has at least 60px horizontal edge clearance.
+
+At normal or reduced zoom, selecting a chapter reveals its whole panel. At enlarged zoom, the map centres the selected node and clamps scrolling to the canvas. This scrolls only the map; reduced-motion preferences disable smooth movement. Chapter order, progress and companion targets still come from the shared journey model.
+
+Regression coverage: `living-map-model.test.mjs` exercises all eight A1/A2 language pathways at narrow/mobile/desktop widths. `scripts/qa-map-spacing.mjs` checks real rendered node bounds and overlaps, selection and both zoom limits at 320, 390 and 1280px, with completed chapters and a companion.

@@ -8,9 +8,16 @@ export function livingMapTheme(language='en'){return Object.hasOwn(themes,langua
 
 // A continuous world spans at least three viewports; chapter order stays authored.
 export function livingMapGeometry(chapters=[],viewportWidth=360){
- const w=Math.max(240,Number(viewportWidth)||360),columns=Math.max(3,Math.ceil(chapters.length/5)),perColumn=Math.max(1,Math.ceil(chapters.length/columns)),height=Math.round(w*1.4);
- // Three chapters per panorama panel need vertical separation for multi-line
- // idiom labels. Keep the first and last nodes clear of the clipped edges.
- const xs=perColumn===3?[.30,.70,.30]:[.27,.34,.75,.42,.78],ys=perColumn===3?[.17,.48,.79]:[.09,.28,.18,.46,.39];
- return {width:columns*w,height,columns,points:chapters.map((_,i)=>({x:Math.floor(i/perColumn)*w+Math.max(76,Math.min(w-76,w*xs[i%perColumn])),y:height*ys[i%perColumn]}))};
+ const w=Math.max(240,Number(viewportWidth)||360),height=Math.max(360,Math.round(w*1.4));
+ // Spread every panel over its usable height, including the denser A1/A2
+ // pathways. Narrow screens get another panel rather than overlapping nodes.
+ const top=72,bottom=164,minRowStep=60;
+ const capacity=Math.min(5,Math.max(3,Math.floor((height-top-bottom)/minRowStep)+1));
+ const columns=Math.max(3,Math.ceil(chapters.length/capacity)),perColumn=Math.max(1,Math.ceil(chapters.length/columns));
+ return {width:columns*w,height,columns,points:chapters.map((_,i)=>{
+  const column=Math.floor(i/perColumn),row=i%perColumn,count=Math.min(perColumn,chapters.length-column*perColumn);
+  const x=column*w+Math.max(60,Math.min(w-60,w*(row%2?.75:.25)));
+  const y=count===1?(top+height-bottom)/2:top+(height-top-bottom)*row/(count-1);
+  return {x,y};
+ })};
 }

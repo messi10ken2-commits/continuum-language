@@ -9,7 +9,7 @@ import {reviewedTranslation} from './reviewed-interface-copy.mjs';
 test('each C1 pathway adds exactly two idiom lessons and a checkpoint before the level summary',()=>{
  assert.equal(idiomChapters.length,4);assert.equal(idiomLessons.length,12);
  for(const c of idiomChapters){const language=c.language||'es',path=journeyChapters(language,'C1'),row=path.find(x=>x.id===c.id);assert.equal(row.lessons.length,3);assert.ok(row.lessons.at(-1).checkpoint);assert.equal(path.at(-1).lessons[0].summaryTest,true);assert.ok(path.findIndex(x=>x.id===c.id)<path.length-1);assert.equal(chapters.find(x=>x.id===c.id),c);assert.ok(row.mapTitle.length<32);
-  for(const width of [266,332,774]){const g=livingMapGeometry(path,width);assert.equal(g.points.length,path.length);assert.equal(new Set(g.points.map(p=>p.x+':'+p.y)).size,path.length);assert.ok(g.points.every(p=>p.x>=76&&p.x<=g.width-76&&p.y>=40&&p.y<g.height-40));}
+  for(const width of [266,332,774]){const g=livingMapGeometry(path,width);assert.equal(g.points.length,path.length);assert.equal(new Set(g.points.map(p=>p.x+':'+p.y)).size,path.length);assert.ok(g.points.every(p=>p.x>=60&&p.x<=g.width-60&&p.y>=40&&p.y<g.height-40));}
  }
 });
 test('requested English expressions and all three Japanese categories have complete native models and playable audio',()=>{
