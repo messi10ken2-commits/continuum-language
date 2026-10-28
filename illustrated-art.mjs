@@ -1,3 +1,5 @@
+import {learningArtFamily} from './learning-art-families.mjs';
+import {isLearningLanguage} from './languages.mjs';
 // Decorative scenes use only the authored setting, never an answer or score.
 export const illustratedContexts=['station','cafe','market','home','work','study','nature','city','health','travel','food','culture'];
 export const illustratedLanguages=['en','es','pt','ja'];
@@ -18,12 +20,12 @@ export function illustratedContext(lesson={}){
  return ({travel:'travel',station:'station',cafe:'cafe',city:'city',work:'work',food:'food',shopping:'market',study:'study',japan:'culture',nature:'nature',home:'home'})[theme]||'study';
 }
 export function illustratedLessonArt(lesson={}){
- const language=illustratedLanguages.includes(lesson.language)?lesson.language:illustratedLanguages.includes(lesson.locale?.slice(0,2))?lesson.locale.slice(0,2):'es',context=illustratedContext(lesson);
+ const language=isLearningLanguage(lesson.language)?lesson.language:isLearningLanguage(lesson.locale?.slice(0,2))?lesson.locale.slice(0,2):'es',context=illustratedContext(lesson);
  const selected=context;
- return {src:`/illustrated-lessons/${language}-${selected}.webp`,context:selected,language,alt:'Illustrated learning scene'};
+ return {src:`/illustrated-lessons/${learningArtFamily(language)}-${selected}.webp`,context:selected,language,alt:'Illustrated learning scene'};
 }
 export function illustratedHero(language,section){
- const lang=illustratedLanguages.includes(language)?language:'en';
+ const lang=learningArtFamily(language);
  if(lang==='ja'&&section==='Skill report')return '/illustrated-lessons/ja-station.webp';
  const japanese={'Learning memory':'memory','My classes':'classroom','Practice Studio':'practice','Level test':'assessment','Skill report':'report'}[section];
  if(lang==='ja'&&japanese)return `/illustrated-lessons/ja-${japanese}-hero.webp`;

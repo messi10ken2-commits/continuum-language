@@ -1,3 +1,6 @@
+import {expandedChapters,expandedLessons,expandedTransfer} from './expanded-language-catalog.mjs';
+import {expandedScriptChapters,expandedScriptLessons} from './expanded-script-course.mjs';
+import {expandedSoundChapters,expandedSoundLessons,expandedSoundTransfer} from './expanded-sound-course.mjs';
 import {idiomChapters,idiomLessons,idiomTransfer} from './c1-idioms.mjs';
 import {enrichEverydayLessons} from './everyday-expressions.mjs';
 import {equivalentAnswer} from './answer-equivalence.mjs';
@@ -128,7 +131,7 @@ for(const level of levels){
  lessonList.push(entry(id,level.id,id,`${level.id} level summary test`,'Level test',`A cumulative ${level.id} review across grammar, vocabulary, expressions and communication. Score 85% or higher to receive a completion recommendation for the next level.`,`Take the ${level.id} review when you are ready to check the whole level.`,questions,{summaryTest:true,passScore:85,minutes:15}));
 }
 const international=buildInternationalCourse(chapters,lessonList);
-const internationalTransfer={...international.transfer,...idiomTransfer};
+const internationalTransfer={...international.transfer,...idiomTransfer,...expandedTransfer,...expandedSoundTransfer};
 chapters.push(...international.chapters);
 lessonList.push(...international.lessons);
 // Add the new C1 material without renumbering any existing course or saved ID.
@@ -157,6 +160,8 @@ chapters.push(...visualChapters);
 lessonList.push(...visualLessons);
 chapters.push(...conversationChapters);
 lessonList.push(...conversationLessons);
+chapters.push(...expandedChapters,...expandedSoundChapters,...expandedScriptChapters);
+lessonList.push(...expandedLessons,...expandedSoundLessons,...expandedScriptLessons);
 enrichEverydayLessons(lessonList);
 export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';

@@ -1,3 +1,4 @@
+import {expandedSpeakingOpenings} from './expanded-speaking-openings.mjs';
 import {languages,courseBands} from './languages.mjs';
 export const speakingScenarios=[
  {id:'cafe',title:'Order at a café',role:'a café server',goals:['Order a drink and something to eat.','Ask about an ingredient or an alternative.','Confirm the order and ask for the bill.'],opening:{en:'Hi! What can I get you today?',es:'¡Hola! ¿Qué te gustaría tomar?',pt:'Olá! O que você gostaria de pedir?',ja:'いらっしゃいませ。何になさいますか？'}},
@@ -9,6 +10,7 @@ export const speakingScenarios=[
  ,{id:'free',title:'Open conversation',role:'a friendly conversation partner exploring the learner’s chosen topic',goals:['Talk about a topic that interests you.','Ask a follow-up question.','Share an opinion or experience.'],opening:{en:'Hi! What would you like to talk about today?',es:'¡Hola! ¿De qué te gustaría hablar hoy?',pt:'Oi! Sobre o que você gostaria de conversar hoje?',ja:'こんにちは！今日はどんなことを話しましょうか？'}}
  ,{id:'living',premium:true,title:'Handle problems living abroad',role:'a landlord arranging a repair for a tenant; ask realistic follow-up questions, negotiate access and confirm arrangements without pretending to give legal advice',goals:['Describe a household problem and its impact.','Discuss repair times and access.','Confirm responsibilities and the next step.'],opening:{en:'Hello, you mentioned a problem in your apartment. What has happened?',pt:'Olá, você comentou que está com um problema no apartamento. O que aconteceu?',es:'Hola, me has comentado que hay un problema en tu piso. ¿Qué ha pasado?',ja:'こんにちは。お部屋で何か問題があったとのことですが、どうされましたか。'}}
 ];
+for(const scenario of speakingScenarios)for(const [language,openings] of Object.entries(expandedSpeakingOpenings)){if(!openings[scenario.id])throw Error('Missing native conversation opening');scenario.opening[language]=openings[scenario.id];}
 export const scenarioById=id=>speakingScenarios.find(s=>s.id===id);
 export const validSpeakingLanguage=id=>languages.some(l=>l.id===id);
 export const validSpeakingLevel=id=>courseBands.includes(id);
