@@ -9,6 +9,8 @@ export function livingMapTheme(language='en'){return Object.hasOwn(themes,langua
 // A continuous world spans at least three viewports; chapter order stays authored.
 export function livingMapGeometry(chapters=[],viewportWidth=360){
  const w=Math.max(240,Number(viewportWidth)||360),columns=Math.max(3,Math.ceil(chapters.length/5)),perColumn=Math.max(1,Math.ceil(chapters.length/columns)),height=Math.round(w*1.4);
- const xs=[.27,.34,.75,.42,.78],ys=[.09,.28,.18,.46,.39];
+ // Three chapters per panorama panel need vertical separation for multi-line
+ // idiom labels. Keep the first and last nodes clear of the clipped edges.
+ const xs=perColumn===3?[.30,.70,.30]:[.27,.34,.75,.42,.78],ys=perColumn===3?[.17,.48,.79]:[.09,.28,.18,.46,.39];
  return {width:columns*w,height,columns,points:chapters.map((_,i)=>({x:Math.floor(i/perColumn)*w+Math.max(76,Math.min(w-76,w*xs[i%perColumn])),y:height*ys[i%perColumn]}))};
 }

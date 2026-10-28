@@ -1,3 +1,5 @@
+import idiomAdditionalCopy from './idiom-additional-copy.json' with {type:'json'};
+import {idiomReviewedCopy} from './idiom-display-copy.mjs';
 import interfaceAuditCopy from './interface-audit-copy.json' with {type:'json'};
 import {interfaceAuditSeed} from './interface-audit-seed.mjs';
 import additionalDisplayCopy from './additional-display-copy.json' with {type:'json'};
@@ -248,3 +250,7 @@ for(const locale of ['ko','id','ru','ar']){reviewedInterfaceCopy[locale]={};for(
 
 for(const [source,translations] of Object.entries(interfaceAuditCopy))for(const [locale,value] of Object.entries(translations)){const copy=reviewedInterfaceCopy[locale]??={};copy[source]??=value;copy[source.trim()]??=value.trim();}
 for(const [source,translations] of Object.entries(interfaceAuditSeed))for(const [locale,value] of Object.entries(translations))(reviewedInterfaceCopy[locale]??={})[source]=value;
+
+for(const [locale,copy] of Object.entries(idiomReviewedCopy))Object.assign(reviewedInterfaceCopy[locale],copy);
+
+for(const [source,values] of Object.entries(idiomAdditionalCopy))for(const [locale,value] of Object.entries(values))reviewedInterfaceCopy[locale][source]=value;

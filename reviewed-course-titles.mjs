@@ -1,3 +1,4 @@
+import {idiomReviewedCopy} from './idiom-display-copy.mjs';
 // Editorial course headings: English source | Japanese | Spanish | Brazilian Portuguese | Simplified Chinese | French.
 // These overrides take precedence over generated translations and saved caches.
 const rows=`
@@ -490,3 +491,5 @@ for(const level of ['A1','A2','B1','B2','C1']){
  const translations={ja:level+'の学習内容全体を復習してから、次に進む。',es:'Repasa todo el contenido de '+level+' antes de seguir.',pt:'Revise todo o conteúdo de '+level+' antes de continuar.',zh:'复习完整的 '+level+' 学习内容后，再继续下一步。',fr:'Révisez l’ensemble du parcours '+level+' avant de poursuivre.'};
  for(const locale of ['ja','es','pt','zh','fr'])reviewedCourseTitles[locale][source]=translations[locale];
 }
+
+for(const locale of ['ja','es','pt','zh','fr'])Object.assign(reviewedCourseTitles[locale],idiomReviewedCopy[locale]);

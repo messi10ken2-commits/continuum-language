@@ -1,3 +1,4 @@
+import {premiumIdiomCourses} from './premium-idioms.mjs';
 import {equivalentAnswer} from './answer-equivalence.mjs';
 import {varietyCourses} from './premium-varieties.mjs';
 import {academicCourses} from './premium-academic.mjs';
@@ -62,7 +63,7 @@ const normalized=value=>value.normalize('NFKC').toLocaleLowerCase().replace(/[.,
 export function gradeCourseAnswer(q,a){return typeof q.answer==='string'?typeof a==='string'&&(equivalentAnswer(q,a)||[q.answer,...(q.acceptedAnswers||[]),...(q.accepted||[])].some(expected=>normalized(a)===normalized(expected))):a===q.answer;}
 export const courseAnswerText=q=>typeof q.answer==='string'?q.answer:q.options[q.answer];
 
-premiumCourses.push(...expandedPremiumCourses,...premiumVideoCourses,...varietyCourses,...academicCourses);
+premiumCourses.push(...expandedPremiumCourses,...premiumVideoCourses,...varietyCourses,...academicCourses,...premiumIdiomCourses);
 export const premiumCourseSummary=premiumCourses.map(({id,language,title,description,level,scene,questions})=>({id,language,title,description,level,scene,questions:questions.length}));
 
 export const premiumCourseById=id=>premiumCourses.find(c=>c.id===id)||archivedPremiumVideoCourses.find(c=>c.id===id);

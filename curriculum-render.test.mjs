@@ -13,7 +13,7 @@ try{
  for(const language of ['en','pt','ja']){
   for(const level of ['A1','A2','B1','B2','C1']){
    storage.set('continuumCourseLevel:'+language,level);
-   const html=render(language);assert.equal((html.match(/<h4>Chapter checkpoint<\/h4>/g)||[]).length,['B2','C1'].includes(level)?5:6);
+   const html=render(language);assert.equal((html.match(/<h4>Chapter checkpoint<\/h4>/g)||[]).length,level==='B2'?5:6);
    assert.ok(!html.includes('grammar in context'));assert.ok(!html.includes('vocabulary retrieval'));
   }
   for(const l of lessonList.filter(l=>l.language===language)){
@@ -22,7 +22,7 @@ try{
    assert.ok(html.includes(l.productionTask?'Optional understanding check':'Start practice'));
    if(l.skill==='Speaking')assert.ok(html.includes('Start recording'),l.id);
    if(l.skill==='Writing')assert.ok(html.includes('<textarea'),l.id);
-   if(l.checkpoint||l.summaryTest)assert.ok(html.includes(getLessonVariant(l.id,l.exerciseVersion||'v1-preview-123456789').questions.length+' questions'),l.id);
+   if(l.checkpoint||l.summaryTest)assert.ok(html.includes(getLessonVariant(l.id,l.exerciseVersion||(l.testSeedPrefix||'v1-')+'preview-123456789').questions.length+' questions'),l.id);
    // Render an actual in-progress question as well, including locale-bearing transcript.
    const seed=l.exerciseVersion||(l.checkpoint||l.summaryTest?'v1-render-draft-123456789':undefined);
    storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));

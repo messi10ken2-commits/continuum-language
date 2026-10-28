@@ -1542,5 +1542,37 @@
     "theme": "rhythm",
     "source": "/illustrated-lessons/ja-nature.webp",
     "sha256": "fa2c666f0f0bfd8429f9f36068129e61eca8f0d4ddc50be9bba55e479aee7a53"
+  },
+  "es:chapter:c1-everyday-idioms": {
+    "src": "/passport-stamps/es-0fe26960926ff2.svg",
+    "title": "Expression lab · Everyday idioms",
+    "level": "C1",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/es-culture.webp",
+    "sha256": "ab8ea431f9547b2aaf356389ff4f3c43373c2087a84dca958cfd2801e59e470d"
+  },
+  "en:chapter:en-c1-everyday-idioms": {
+    "src": "/passport-stamps/en-b3fdde1c0baf80.svg",
+    "title": "Expression lab · Everyday idioms",
+    "level": "C1",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "90d6f8580d2a480dcdf54c7c917ef4bc8280b5836c5d1d928396d7e2b3b883fd"
+  },
+  "pt:chapter:pt-c1-everyday-idioms": {
+    "src": "/passport-stamps/pt-4f51501dfbdb6e.svg",
+    "title": "Expression lab · Everyday idioms",
+    "level": "C1",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/pt-culture.webp",
+    "sha256": "41fe914d5c147a75dc0cff353d2c20f22ddb6888054b0973d6b0767b50baa027"
+  },
+  "ja:chapter:ja-c1-everyday-idioms": {
+    "src": "/passport-stamps/ja-8b317e146ef37f.svg",
+    "title": "Expression lab · Idioms and proverbs",
+    "level": "C1",
+    "theme": "idioms",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "bbb71302f165fabb40b87c89b7a2e23d2056d9923a54f58167cdf7afe65bd1dd"
   }
 }
