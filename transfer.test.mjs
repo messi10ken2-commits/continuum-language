@@ -1,3 +1,4 @@
+import {idiomTransfer} from './c1-idioms.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {chapters,lessonList,getLesson,getLessonVariant,gradeLesson} from './course.mjs';
@@ -7,7 +8,7 @@ test('Every original Spanish chapter has original application items with valid c
  const practice=new Set(lessonList.filter(l=>!l.checkpoint&&!l.summaryTest).flatMap(l=>l.questions.map(q=>q.prompt)));
  assert.equal(Object.keys(transferBank).length,28);
  for(const c of chapters.filter(c=>!c.summaryTest&&!c.language&&!c.specialist)){
-  const pool=transferBank[c.id];assert.equal(pool.length,6,c.id);
+  const pool=transferBank[c.id]||idiomTransfer[c.id];assert.equal(pool.length,c.id==='c1-everyday-idioms'?10:6,c.id);
   for(const q of pool){assert.ok(!practice.has(q.prompt),q.prompt);assert.equal(new Set(q.options).size,3);assert.ok(q.note);}
   const test=getLessonVariant(c.id+'-checkpoint',seed);assert.equal(test.questions.length,4);
   assert.equal(gradeLesson(test.id,test.questions.map(q=>q.answer),seed).score,100);
@@ -16,8 +17,8 @@ test('Every original Spanish chapter has original application items with valid c
 });
 test('Retakes vary selection/order and saved seeds reproduce exact questions',()=>{
  for(const l of lessonList.filter(l=>l.checkpoint||l.summaryTest)){
-  const a=getLessonVariant(l.id,seed),b=getLessonVariant(l.id,'v1-another-attempt-23456789');
-  assert.deepEqual(a,getLessonVariant(l.id,seed));assert.notDeepEqual(a.questions,b.questions);
+  const currentSeed=(l.testSeedPrefix||'v1-')+seed.slice(3),a=getLessonVariant(l.id,currentSeed),b=getLessonVariant(l.id,(l.testSeedPrefix||'v1-')+'another-attempt-23456789');
+  assert.deepEqual(a,getLessonVariant(l.id,currentSeed));assert.notDeepEqual(a.questions,b.questions);
   // Listening tasks deliberately share an instruction; their audio/context
   // and choices identify the task, not the instruction alone.
   const fingerprint=q=>JSON.stringify([q.prompt,q.context||'',q.audio||'',q.options?[...q.options].sort():q.answer]);

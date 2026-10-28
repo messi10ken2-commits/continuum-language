@@ -67,7 +67,7 @@ for(const l of lessonList){
  }
 }
 lessonContext='Course roadmap';
-for(const c of chapters)for(const k of ['title','goal']){add(c[k],c.language||languageOf(c.id));add(c[k]);}
+for(const c of chapters)for(const k of ['title','mapTitle','goal']){add(c[k],c.language||languageOf(c.id));add(c[k]);}
 for(const task of skillTasks){
  lessonContext=task.level+' '+(task.language||'es')+' workshop: '+task.title;
  const language=task.language||'es',preserve=[task.model,task.audio,...(task.questions||[]).flatMap(q=>[q.audio,...(q.options||[])])];

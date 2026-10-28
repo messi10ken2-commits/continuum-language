@@ -23,5 +23,5 @@ try{
  const summary=(await api('/billing','GET',null,paid.cookie)).data;assert.ok(summary.archivedCourses.some(c=>c.id==='ja-premium-video-v3'));assert.ok(!summary.courses.some(c=>c.id==='ja-premium-video-v3'));assert.equal(summary.progress.find(p=>p.id==='ja-premium-video-v4').total,8);
  for(const value of ['', '-1','nope','1.5','99999'])assert.equal((await api('/billing/courses/en-workplace-diplomacy/audio?gallery='+value,'GET',null,paid.cookie)).status,404);
  await db.query("UPDATE billing_memberships SET status='cancelled',paid_until=NULL WHERE user_id=$1",[id]);assert.equal((await api('/billing/courses/en-workplace-diplomacy/audio?gallery=0','GET',null,paid.cookie)).status,403);
- console.log('PASS: all 28 shuffled courses grade correctly; protected gallery audio uses exact authored text, private caching, strict indexes and regional restrictions.');
+ console.log('PASS: all 36 shuffled courses grade correctly; protected gallery audio uses exact authored text, private caching, strict indexes and regional restrictions.');
 }finally{await new Promise(r=>testServer.close(r));await db.close()}

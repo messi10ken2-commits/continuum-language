@@ -31,7 +31,7 @@ for(const language of languages){
  });
  test(`${language}: learning content is unique beyond IDs/titles, and tests use unseen sentences`,()=>{
   const learning=lessonList.filter(l=>l.language===language&&!l.checkpoint&&!l.summaryTest);
-  assert.equal(learning.length,56);
+  assert.equal(learning.length,58);
   for(const key of ['explanation','example'])assert.equal(new Set(learning.map(l=>normalized(l[key]))).size,learning.length,`reused ${key}`);
   assert.equal(new Set(learning.map(l=>JSON.stringify(l.questions.map(fingerprint)))).size,learning.length);
   const learningContexts=new Set(learning.map(l=>normalized(l.example)));
@@ -56,7 +56,7 @@ for(const language of languages){
  });
  test(`${language}: summaries use only current chapters, match Spanish question counts and replay deterministically`,()=>{
   for(const level of bands){
-   const summary=lessonList.find(l=>l.language===language&&l.level===level&&l.summaryTest),seed='v1-parity-test-123456789';
+   const summary=lessonList.find(l=>l.language===language&&l.level===level&&l.summaryTest),seed=(lessonList.find(l=>l.language===language&&l.level===level&&l.summaryTest)?.testSeedPrefix||'v1-')+'parity-test-123456789';
    const variant=getLessonVariant(summary.id,seed),sources=chapters.filter(c=>c.language===language&&c.level===level&&!c.summaryTest);
    assert.equal(variant.questions.length,sources.length*3);
    assert.deepEqual(getLessonVariant(summary.id,seed),variant);

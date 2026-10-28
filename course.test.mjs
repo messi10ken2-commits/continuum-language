@@ -21,7 +21,7 @@ test('Expression curriculum covers every level with distinct phrases and playabl
  assert.match(expressionGuidance.note,/not official CEFR/);
 });
 test('Every roadmap item is playable and grades right/wrong answers',()=>{
- assert.equal(new Set(lessonList.map(l=>l.id)).size,356);
+ assert.equal(new Set(lessonList.map(l=>l.id)).size,368);
  for(const l of lessonList){
   assert.ok(levels.some(x=>x.id===l.level));assert.ok(chapters.some(x=>x.id===l.chapter));
   assert.ok(l.questions.length>=3);

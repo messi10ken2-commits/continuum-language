@@ -29,7 +29,7 @@ test('conversation pronunciation is audio-only; old and typed turns cannot fabri
 });
 test('all expression watch-outs are entry-specific; feedback no longer repeats an unrelated shared warning',()=>{
  let count=0;for(const l of lessonList.filter(l=>l.expressions)){count+=l.expressions.length;assert.equal(new Set(l.expressions.map(x=>x.pitfall)).size,l.expressions.length,l.id);for(const e of l.expressions)assert.ok(e.pitfall);}
- assert.equal(count,380);
+ assert.equal(count,420);
  const l=lessonList.find(l=>l.id==='en-b2-v2-lesson-9');const keep=l.expressions.find(x=>x.term==='keep up with'),spread=l.expressions.find(x=>x.term==='spread too thin');assert.match(keep.pitfall,/with before/);assert.match(spread.pitfall,/resources are divided/);assert.ok(!spread.pitfall.includes('under control'));
  for(const v of [3,6,7])for(const q of getLessonVariant(l.id,`v${v}-watchout-regression-123456789`).questions.filter(q=>q.coverage?.startsWith('entry:2:')))assert.ok(!q.note.includes('Under pressure describes demands; under control'));
 });

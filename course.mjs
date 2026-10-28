@@ -1,3 +1,4 @@
+import {idiomChapters,idiomLessons,idiomTransfer} from './c1-idioms.mjs';
 import {enrichEverydayLessons} from './everyday-expressions.mjs';
 import {equivalentAnswer} from './answer-equivalence.mjs';
 import {pastAspectLessons, pastAspectCheckpointQuestions} from './past-aspect-lessons.mjs';
@@ -127,9 +128,19 @@ for(const level of levels){
  lessonList.push(entry(id,level.id,id,`${level.id} level summary test`,'Level test',`A cumulative ${level.id} review across grammar, vocabulary, expressions and communication. Score 85% or higher to receive a completion recommendation for the next level.`,`Take the ${level.id} review when you are ready to check the whole level.`,questions,{summaryTest:true,passScore:85,minutes:15}));
 }
 const international=buildInternationalCourse(chapters,lessonList);
-const internationalTransfer=international.transfer;
+const internationalTransfer={...international.transfer,...idiomTransfer};
 chapters.push(...international.chapters);
 lessonList.push(...international.lessons);
+// Add the new C1 material without renumbering any existing course or saved ID.
+for(const chapter of idiomChapters){
+ const language=chapter.language||'es',summary=chapters.findIndex(c=>c.level==='C1'&&c.summaryTest&&(c.language||'es')===language);
+ chapters.splice(summary,0,chapter);
+ const units=idiomLessons.filter(l=>l.chapter===chapter.id),summaryIndex=lessonList.findIndex(l=>l.level==='C1'&&l.summaryTest&&(l.language||'es')===language);
+ const summaryLesson=lessonList[summaryIndex];
+ lessonList.splice(summaryIndex,0,...units);
+ summaryLesson.testSeedPrefix='v1-c1-idioms-';
+ summaryLesson.questions.push(...idiomTransfer[chapter.id].slice(0,2),idiomTransfer[chapter.id][5]);
+}
 for(const comparison of pastAspectLessons){
  const index=lessonList.findIndex(l=>l.chapter===comparison.chapter&&l.checkpoint);
  if(index<0)throw new Error('Missing past-aspect chapter checkpoint');
@@ -168,7 +179,7 @@ export function getLessonVariant(id,seed){
  const shuffle=xs=>{const a=[...xs];for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
  const archived=base?.language&&base.curriculumVersion!==2;
  const availableChapters=archived?legacyInternationalChapters:chapters;
- const groups=base.summaryTest?availableChapters.filter(c=>c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest&&!c.specialist):availableChapters.filter(c=>c.id===base.chapter);
+ const groups=base.summaryTest?availableChapters.filter(c=>(!base.testSeedPrefix||seed.startsWith(base.testSeedPrefix)||!idiomChapters.some(x=>x.id===c.id))&&c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest&&!c.specialist):availableChapters.filter(c=>c.id===base.chapter);
  const chosen=groups.flatMap(c=>{const pool=archived?legacyInternationalTransfer[c.id]:transferBank[c.id]||internationalTransfer[c.id]||soundTransfer[c.id]||visualTransfer[c.id];if(!pool?.length)throw Error('Missing transfer questions');const count=base.summaryTest?(archived?7:3):4;
   const shuffled=shuffle(pool);
   // The repaired path samples fresh tasks, always including both taught lessons.

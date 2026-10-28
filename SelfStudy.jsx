@@ -90,7 +90,7 @@ export function LessonPlayer({external,lesson:baseLesson,language='es',user,init
  const missedQuestions=full=>full.length===lesson.questions.length&&!baseLesson.checkpoint&&!baseLesson.summaryTest?lesson.questions.flatMap((q,i)=>answerCorrect(q,full[i])?[]:[i]):[];
  const [soundEnabled,setSoundEnabled]=useState(feedbackSoundEnabled);
  const [reviewIndex,setReviewIndex]=useState(0);
- const questionCount=baseLesson.checkpoint||baseLesson.summaryTest?getLessonVariant(baseLesson.id,seed||'v1-preview-123456789').questions.length:lesson.questions.length;
+ const questionCount=baseLesson.checkpoint||baseLesson.summaryTest?getLessonVariant(baseLesson.id,seed||(baseLesson.testSeedPrefix||'v1-')+'preview-123456789').questions.length:lesson.questions.length;
  const restored=Array.isArray(initialAnswers)?initialAnswers:[];
  const [phase,setPhase]=useState(initialAnswers?'exercise':'intro'),[answers,setAnswers]=useState(restored),[choice,setChoice]=useState(null),[tiles,setTiles]=useState([]),[checked,setChecked]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[result,setResult]=useState(null),[submission,setSubmission]=useState(()=>external?.initialSubmission||crypto.randomUUID());
  useStudyActivity(user?.role==='learner'&&phase!=='result'&&!busy);
@@ -112,7 +112,7 @@ export function LessonPlayer({external,lesson:baseLesson,language='es',user,init
  const checkAnswer=async()=>{if(checked||busy||choice===null)return;
   if(external){setBusy(true);setError('');try{const feedback=await external.check(position.index,choice);setChecks(c=>({...c,[position.index]:{...feedback,value:choice,first:c[position.index]?.first||{value:choice,correct:feedback.correct}}}));setChecked(true);if(feedback.correct&&soundEnabled)void playCorrectSound();}catch(e){setError(e.message)}finally{setBusy(false)}return;}
   setChecked(true);if(good&&soundEnabled)void playCorrectSound();};
- const start=async()=>{if(busy)return;setBusy(true);setError('');try{const nextSeed=baseLesson.exerciseVersion||(baseLesson.checkpoint||baseLesson.summaryTest?'v1-'+crypto.randomUUID():hasExpandedExercises(baseLesson.id)?'v8-'+crypto.randomUUID():undefined);const nextSubmission=crypto.randomUUID();await onDraft([],nextSeed,{},nextSubmission);setChecks({});setSeed(nextSeed);setReviewIndex(0);setAnswers([]);setChoice(null);setTiles([]);setChecked(false);setSubmission(nextSubmission);setPhase('exercise')}catch(e){setError(e.message)}finally{setBusy(false)}};
+ const start=async()=>{if(busy)return;setBusy(true);setError('');try{const nextSeed=baseLesson.exerciseVersion||(baseLesson.checkpoint||baseLesson.summaryTest?(baseLesson.testSeedPrefix||'v1-')+crypto.randomUUID():hasExpandedExercises(baseLesson.id)?'v8-'+crypto.randomUUID():undefined);const nextSubmission=crypto.randomUUID();await onDraft([],nextSeed,{},nextSubmission);setChecks({});setSeed(nextSeed);setReviewIndex(0);setAnswers([]);setChoice(null);setTiles([]);setChecked(false);setSubmission(nextSubmission);setPhase('exercise')}catch(e){setError(e.message)}finally{setBusy(false)}};
  const next=async()=>{if(busy||!checked)return;setBusy(true);setError('');try{
   const full=retrying?answers:[...answers,choice];
   const missed=external?missedQuestions(full):endReviewIndices(lesson,full);

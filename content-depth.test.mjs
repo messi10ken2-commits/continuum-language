@@ -5,8 +5,8 @@ const lessonList=fullLessonList.filter(l=>!l.specialist);
 
 import {assessmentItems,gradeAssessment,publicAssessment,assessmentFormCount} from './assessment-bank.mjs';
 const bands=['A1','A2','B1','B2','C1'];
-for(const lang of ['en','pt','ja'])test(`${lang}: all 56 normal lessons have substantive references`,()=>{
- const lessons=lessonList.filter(l=>l.language===lang&&!l.checkpoint&&!l.summaryTest);assert.equal(lessons.length,56);
+for(const lang of ['en','pt','ja'])test(`${lang}: all 58 normal lessons have substantive references`,()=>{
+ const lessons=lessonList.filter(l=>l.language===lang&&!l.checkpoint&&!l.summaryTest);assert.equal(lessons.length,58);
  for(const l of lessons){
   if(l.skill==='Grammar'){assert.ok(l.breakdown.steps.length>=4,l.id);assert.ok(l.breakdown.tables.length>=1,l.id);assert.ok(l.breakdown.examples.length>=3,l.id);for(const t of l.breakdown.tables){assert.ok(t.rows.length>=3,l.id);for(const r of t.rows)assert.equal(r.length,t.headers.length,l.id);}}
   else if(l.skill==='Expressions'){assert.ok(l.expressions.length>=4,l.id);assert.equal(new Set(l.expressions.map(x=>x.term)).size,l.expressions.length);for(const e of l.expressions)for(const key of ['meaning','example','translation','use','pitfall','register'])assert.ok(e[key],l.id+' '+key);}
