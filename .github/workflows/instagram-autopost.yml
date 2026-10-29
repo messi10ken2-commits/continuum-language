@@ -41,7 +41,7 @@ jobs:
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
           INSTAGRAM_CHANNEL_ID: ${{ vars.INSTAGRAM_CHANNEL_ID }}
           SOCIAL_AUTOPUBLISH_ENABLED: ${{ vars.SOCIAL_AUTOPUBLISH_ENABLED }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
             python -m social_automation.instagram_poster --dry-run
