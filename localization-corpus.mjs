@@ -1,3 +1,6 @@
+import expandedExclusiveSources from './expanded-exclusive-display-sources.json' with {type:'json'};
+import expandedAssessmentSources from './expanded-assessment-display-sources.json' with {type:'json'};
+import expandedFocusedSources from './expanded-focused-display-sources.json' with {type:'json'};
 import {questionPromptSource} from './question-presentation.mjs';
 import {journeyInterfaceSources} from './journey-copy.mjs';
 import {growthInterfaceSources} from './growth-copy.mjs';
@@ -45,7 +48,7 @@ for(const l of lessonList){
  const headers=(l.breakdown?.tables||[]).flatMap(t=>t.headers.filter(targetHeader));
  const preserve=[...headers,...terms,...forms,l.example,...(l.breakdown?.examples||[]).map(x=>x[0]),...(l.soundGuide?.pairs||[]).flatMap(([a,b])=>[a,...(/^[\p{L}\p{M}ー-]+$/u.test(b)?[b]:[])]),...(l.characters||[]).flatMap(x=>[x.glyph,x.reading])];
  for(const frame of visualFrames(l,{all:true}))for(const key of ['label','meaning','note'])add(frame[key],language,[...preserve,frame.text]);
- for(const k of ['title','explanation','priority','speak'])add(l[k],language,preserve);
+ for(const k of ['title','explanation','priority','speak','characterGuidance'])add(l[k],language,preserve);
  for(const w of [...(l.vocabulary||[]),...(l.expressions||[])])for(const k of ['meaning','translation','use','pitfall','type','register','region'])add(w[k],language,preserve);
  for(const s of l.breakdown?.steps||[])add(s,language,preserve);add(l.breakdown?.pitfall,language,preserve);
  for(const [,en] of l.breakdown?.examples||[])add(en,language,preserve);
@@ -66,6 +69,9 @@ for(const l of lessonList){
   if(meaningOptions)for(const o of q.options||[])add(o);
  }
 }
+
+lessonContext='Placement and focused practice';
+for(const source of [...expandedAssessmentSources,...expandedFocusedSources,...expandedExclusiveSources])add(source.text,source.language,source.protectedValues);
 lessonContext='Course roadmap';
 for(const c of chapters)for(const k of ['title','mapTitle','goal']){add(c[k],c.language||languageOf(c.id));add(c[k]);}
 for(const task of skillTasks){

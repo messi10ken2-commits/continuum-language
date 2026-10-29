@@ -13,4 +13,5 @@ const cast={
  es:{living:'lucia',free:'lucia',cafe:'rafael',directions:'theo',shopping:'mira',plans:'hana',appointment:'lucia',work:'theo'},
  ja:{living:'hana',free:'hana',cafe:'mira',directions:'rafael',shopping:'theo',plans:'lucia',appointment:'hana',work:'mira'}
 };
+for(const language of ['zh','ko','fr','de','ar','it'])cast[language]={living:'mira',free:'hana',cafe:'theo',directions:'mira',shopping:'lucia',plans:'rafael',appointment:'hana',work:'theo'};
 export const conversationPartner=(language,scenario)=>conversationPartners[cast[language]?.[scenario]||'mira'];

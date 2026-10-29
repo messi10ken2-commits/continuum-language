@@ -20,7 +20,7 @@ export function IllustratedTeacherPhoto({id,name}){
 }
 
 export function IllustratedHeader({user,language,onLanguage,onAccount}){
- return <header className="illustrated-header"><div className="illustrated-brand"><span aria-hidden="true">C</span><b>Continuum</b></div><div className="illustrated-header-actions"><JourneyLayoutPicker compact/><label><span className="sr-only">{t('Learning language')}</span><select aria-label={t('Learning language')} value={language} onChange={e=>onLanguage(e.target.value)}>{languages.map(l=><option key={l.id} value={l.id}>{({en:'🇬🇧',es:'🇪🇸',pt:'🇧🇷',ja:'🇯🇵'})[l.id]} {t(l.name)}</option>)}</select></label><button className="illustrated-avatar" aria-label={t('Your account')} onClick={onAccount}><CompanionAvatar user={user}/></button></div></header>;
+ return <header className="illustrated-header"><div className="illustrated-brand"><span aria-hidden="true">C</span><b>Continuum</b></div><div className="illustrated-header-actions"><JourneyLayoutPicker compact/><label><span className="sr-only">{t('Learning language')}</span><select aria-label={t('Learning language')} value={language} onChange={e=>onLanguage(e.target.value)}>{languages.map(l=><option key={l.id} value={l.id}>{({en:'🇬🇧',es:'🇪🇸',pt:'🇧🇷',ja:'🇯🇵',zh:'🇨🇳',ko:'🇰🇷',fr:'🇫🇷',de:'🇩🇪',ar:'🌐',it:'🇮🇹'})[l.id]} {t(l.name)}</option>)}</select></label><button className="illustrated-avatar" aria-label={t('Your account')} onClick={onAccount}><CompanionAvatar user={user}/></button></div></header>;
 }
 function weekDays(data){if(!data?.today)return [];const end=Date.parse(data.today+'T12:00:00Z');return (data.days||[]).filter(d=>{const at=Date.parse(d.day+'T12:00:00Z');return at<=end&&at>end-7*86400000})}
 export function IllustratedMetrics({attempts=[],dailyGoal=10,memory=false}){

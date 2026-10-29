@@ -1,3 +1,4 @@
+import {learningArtFamily} from './learning-art-families.mjs';
 // Fixed orthographic camera. Rails are authored in panorama pixels, then lifted onto a 3D ground plane.
 // The bend ends at the rail apex. A separate exit curve meets a truly straight
 // foreground run tangentially; extending one broad bend used to cut inside it.
@@ -10,13 +11,14 @@ const routes={
 const tables=new Map(),depth=.42,ground=560;
 function cubic(a,b,c,d,t){const u=1-t;return {x:u*u*u*a[0]+3*u*u*t*b[0]+3*u*t*t*c[0]+t*t*t*d[0],z:(u*u*u*a[1]+3*u*u*t*b[1]+3*u*t*t*c[1]+t*t*t*d[1]-ground)/depth};}
 export function trainTrack(language='en'){
- const key=routes[language]?language:'en';if(tables.has(key))return tables.get(key);const p=routes[key],points=[];let distance=0;
+ const key=learningArtFamily(language);if(tables.has(key))return tables.get(key);const p=routes[key],points=[];let distance=0;
  for(let segment=0;segment<(p.length-1)/3;segment++)for(let i=segment?1:0;i<=1024;i++){const a=cubic(...p.slice(segment*3,segment*3+4),i/1024),last=points.at(-1);if(last)distance+=Math.hypot(a.x-last.x,a.z-last.z);points.push({...a,distance});}
  const track={points,length:distance};tables.set(key,track);return track;
 }
 export function railPoint(language,distance){const {points,length}=trainTrack(language),d=Math.max(0,Math.min(length,distance));let lo=0,hi=points.length-1;while(lo+1<hi){const mid=(lo+hi)>>1;if(points[mid].distance<d)lo=mid;else hi=mid;}const a=points[lo],b=points[hi],q=(d-a.distance)/(b.distance-a.distance||1);return {x:a.x+(b.x-a.x)*q,z:a.z+(b.z-a.z)*q,distance:d};}
 export const projectRail=(p,h=0)=>[p.x,ground+depth*p.z-h*(.95+Math.max(0,p.z)*.0002)];
 export function curvedTrainPose(language='en',progress=0){
+ language=learningArtFamily(language);
  const track=trainTrack(language),distance=((progress+.34)%1+1)%1*track.length,cars=[];
  const dimensions=language==='pt'?[[115,36,54]]:language==='en'?[[88,31,51],[104,30,47],[104,30,47]]:[[132,29,47],[132,29,47]];
  let d=distance;

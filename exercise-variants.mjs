@@ -1,3 +1,4 @@
+import {expandedExerciseBank} from './expanded-language-catalog.mjs';
 import {idiomExercises} from './c1-idioms.mjs';
 import {correctEntryNote} from './expression-watchouts.mjs';
 import {everydayQuestions} from './everyday-expressions.mjs';
@@ -6,9 +7,9 @@ import {appliedExercises} from './applied-exercises.mjs';
 import {practicalFormQuestions} from './practical-form-questions.mjs';
 import exerciseBank from './lesson-exercises.json' with {type:'json'};
 import practicalBank from './practical-exercises.json' with {type:'json'};
-export function hasExpandedExercises(id){return Object.hasOwn(exerciseBank,id)||Object.hasOwn(idiomExercises,id);}
+export function hasExpandedExercises(id){return Object.hasOwn(exerciseBank,id)||Object.hasOwn(idiomExercises,id)||Object.hasOwn(expandedExerciseBank,id);}
 export function expandedExercises(base,seed){
- let source=(/^v[3456788]-/.test(seed)&&practicalBank[base.id])||exerciseBank[base.id]||idiomExercises[base.id];if(!source)throw Error('No expanded exercises for this lesson');
+ let source=(/^v[3456788]-/.test(seed)&&practicalBank[base.id])||exerciseBank[base.id]||idiomExercises[base.id]||expandedExerciseBank[base.id];if(!source)throw Error('No expanded exercises for this lesson');
  if(/^v[45678]-/.test(seed))source=source.flatMap(q=>{
   const replacement=practicalFormQuestions[base.id]?.[q.coverage];
   if(!replacement)return [q];

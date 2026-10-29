@@ -1,0 +1,6252 @@
+[
+  {
+    "text": "Where does Eva work?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "In a bakery",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "In a school",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "In a hospital",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "In a bank",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the word or phrase that fits the situation.",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "What should Eva bring?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "A chair",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Some bread",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Two cups",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Two plates",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When does she start on Monday?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "At eight",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "At noon",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "At ten",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "At seven",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the response that best fits the situation.",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should she take them?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "To the shop",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To the kitchen",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To the garden",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To school",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Who works in a school?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Eva",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Tom",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Her brother",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Her mother",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the plates?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "On the table",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Under a chair",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "In a bag",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "By the door",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Nora change her transport?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "It was raining",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The lake was closed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Her cousin had no bike",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Her bike had a problem",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What was replaced?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The whole jacket",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The zip",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The buttons",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The sleeves",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "How did she reach the lake?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "By car",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "By train",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "By bus",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "On foot",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When can the jacket be collected?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "After two today",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Only tomorrow",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Before two today",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "After seven today",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What did she do with her cousin?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Took a train",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Walked home",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Repaired the bike",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Had breakfast",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is unusual today?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The shop opens earlier",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Repairs are free",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Collection is impossible",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The shop closes earlier",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is the choir considering a move?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The choir needs a larger kitchen",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The library will pay members",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Noise disrupts rehearsals",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The restaurant has closed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Which task still needs volunteers?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Washing up",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Serving lunch",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Buying ingredients",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Opening the building",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What drawback does the new room have?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Poor sound insulation",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Limited availability",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "No heating",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A higher floor",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition does the speaker attach to staying?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Lunch finishes before noon",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The venue changes",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Everyone stays until three",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Someone covers the morning shift",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the group's next step?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "A one-month trial",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "An immediate permanent move",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Cancelling rehearsals",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Waiting a year",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is a reply needed tonight?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "To pay the staff",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To reserve a restaurant",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To confirm the rota",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To cancel lunch",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What supports management's optimism?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Unanimous trustee approval",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Longer visits and higher café spending",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Attendance exceeding forecasts",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Reduced security costs",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What concerns the speaker about a flat allowance?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "It is impossible to administer",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Nobody needs help with travel",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It will prevent all car use",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It may distribute benefits unfairly",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What limits the published evaluation?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Some costs are omitted",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Visitor numbers were never counted",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The café was closed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "All figures are from another museum",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they propose first?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Cancel the scheme",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Ask only high earners",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Check costs and transport access",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Pay everyone the maximum",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the trustees' position?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "End the trial solely because attendance was low",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Extend it without conditions",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Ignore visitor spending",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Review full costs before considering extension",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What trade-off do they acknowledge?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Less access in exchange for more parking",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A slower launch for a more defensible scheme",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Higher speed at the expense of fairness",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Lower costs but no evidence",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What most directly weakens the causal claim?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Participants differed before using the service",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Graduates received salaries",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The university collected any data",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Mentoring was available on campus",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction structures the argument?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Search tools versus paper costs",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Secrecy versus banning annexes",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Access to documents versus usable scrutiny",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Public contracts versus private employment",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the author explicitly avoid concluding?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "That selection matters",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "That grades differed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "That further evaluation is needed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "That the service is worthless",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "How does the speaker assess the proposal?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "A reason to stop publishing",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A worthwhile but insufficient beginning",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A fully completed reform",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "An entirely worthless action",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What would strengthen the case for expansion?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Removing non-users from the report",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Equating participation with random assignment",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "An evaluation accounting for initial differences",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Repeating the same earnings comparison",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why object to calling it full accountability?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "It could conceal the remaining work",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It would make contracts searchable",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It would remove all annexes",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It admits too much uncertainty",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critical briefing on a voluntary mentoring programme whose users earn more but had stronger prior results. Separate observation from causation and propose an evaluation. Make the final request or recommendation clear. Respond in Chinese (Mandarin).",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a transparency policy that publishes contracts in hard-to-search files. Distinguish disclosure from meaningful accountability. Make the final request or recommendation clear. Respond in Chinese (Mandarin).",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the pool?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Inside the school",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Behind the bank",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Opposite the station",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Next to the park",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is the bag?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Black",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Red",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Blue",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "White",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When does it open on Saturday?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "At five",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "At nine",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "At three",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the keys?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "In the bag",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "In the office",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "At home",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "On a table",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "How much does a child pay?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Nothing",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Three euros",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Five euros",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Nine euros",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should Ben take the bag?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "To the house",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To the park",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To the pool",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To the office",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What was wrong with the delivery?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Two lamps arrived",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Nothing arrived",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The colour was wrong",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The lamp was broken",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the lesson move?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The original kitchen was too small",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The teacher was ill",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The café closed permanently",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The fee increased",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What solution did the customer choose?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "A discount on the green lamp",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A replacement",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A refund",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A repair",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What should participants bring?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "All ingredients",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A cooker",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A recipe book",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A container",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What will happen on Friday?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The green lamp will be collected",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The customer will pay again",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The shop will close",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The customer will order a lamp",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the fee include?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "A new container",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A restaurant meal",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Ingredients",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Transport home",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Mina initially choose an online course?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "It provided a free camera",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It fitted around her job",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It guaranteed a qualification",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Her local group had closed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What has changed?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Reception has closed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "All ink has arrived",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The printer has moved",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The printer has been repaired",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What was missing from that course?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Feedback on her work",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Video lessons",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Evening access",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Photography topics",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Which work should still go to reception?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Only confidential letters",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "All black-and-white jobs",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Large colour jobs",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Every single page",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why does she accept the higher cost now?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "She meets every day",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The videos are longer",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "She no longer works",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "She values discussion of her work",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "How should confidential documents be handled?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Send them to everyone",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Stay by the printer",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Ask any colleague to collect them",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Leave them until evening",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What benefit do teachers recognise?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Corrections can be made quickly",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "All devices will be replaced",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Printing becomes compulsory",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Students need no equipment",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction does the speaker make?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Salary versus working hours",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Confidence versus punctuality",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Presentation skill versus evidence of leadership",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Experience versus academic qualifications",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Which concern does downloading address?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The price of older devices",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Every compatibility problem",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Teacher training shortages",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Access during internet outages",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the speaker recommend?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Repeating the same presentation",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A targeted follow-up interview",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Immediate rejection",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Immediate appointment",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What remains unresolved?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether the publisher exists",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether teachers want printed errors",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether older devices can use the files",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether textbooks contain corrections",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "How strong is the speaker's negative judgment?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "A reservation needing further evidence",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A final rejection",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A claim of dishonesty",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A denial that the presentation was good",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is representativeness questioned?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "All letters were written by officials",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The curator rejects personal testimony",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The exhibition contains no originals",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Several historical filters shaped the surviving letters",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's main reservation?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The reviewer has no authority",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The lack of a recorded distinguishing principle",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The applicant's claim is disproved",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "All exceptions are inherently unfair",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What does 'broaden without closing gaps' imply?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Every missing voice is now recovered",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The archive should discard older material",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The contribution is valuable but incomplete",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The new material adds nothing",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they accept?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "This particular exception can be justified",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Every applicant deserves the same exception",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Documentation is unnecessary",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Fairness means identical outcomes",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What error does the final sentence warn against?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Acknowledging preservation limits",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Mistaking vivid evidence for complete coverage",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Reading letters in chronological order",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Including ordinary residents",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What future risk is identified?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Guaranteed rejection of every application",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Excessively clear rules",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Automatic approval by law",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Inconsistent decisions between reviewers",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Write an exhibition note explaining how personal letters broaden history while remaining shaped by literacy, preservation and donation. Avoid claiming representativeness. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Chinese (Mandarin).",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Discuss how to justify an exceptional decision fairly. Distinguish equal treatment from identical outcomes and propose a consistent review principle. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Chinese (Mandarin).",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Who lives in the house?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Three nurses",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "One family",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Two students",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A teacher and a child",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Which shop is closed?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The fruit shop",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The bakery",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The bookshop",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The pharmacy",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is in the room?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Only a television",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A bed and a desk",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A television and a sofa",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Only a bed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What can people buy at the market?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Books",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Shoes",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Medicine",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Apples",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the bus stop?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "In front of the house",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Behind the market",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Near a bridge",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Inside the station",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When does the market close?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "At six",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "At one",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "At two",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did they see a later showing?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "They disliked the earlier film",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The earlier one was full",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They missed the bus",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The cinema opened late",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is scheduled for tomorrow?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "A job interview",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A cooking class",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A film",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A dental appointment",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What did they do while waiting?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Had dinner",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Went home",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Visited a friend",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Bought groceries",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why arrive early?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "To meet a friend",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To choose a doctor",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To complete a form",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To pay for parking",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "How did they feel about the film?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "They found it boring",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They left before it started",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They could not understand it",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They found it funny",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When should they call if cancelling?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Next week",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Today",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Tomorrow morning",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "After the appointment",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What must the residents pay for?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Electricity",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Buying the shop",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The owner's furniture",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A six-year lease",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is there a different guide?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The tickets were wrong",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The original guide is at the market",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The original guide is ill",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The tour language changed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why inspect the wiring first?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The school requires new furniture",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The owner has cancelled",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They want to sell the building",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Repair costs may affect their choice",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What changes for visitors?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The tour date",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The meeting place",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The starting time",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The ticket price",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is their alternative?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "A new shop outside town",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "An outdoor pool",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The school hall",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A restaurant kitchen",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What should visitors do with their tickets?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Use the existing ones",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Buy new ones",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Exchange them at the school",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Request a refund before joining",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What unintended consequence is reported?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "More disposable cups at every café",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Supermarkets closing earlier",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A ban on borrowing cups",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Extra car trips to return cups",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What would removing reports achieve?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Expand the agreed scope",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Meet the delivery date",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Improve the core system's accuracy",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Guarantee client satisfaction",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the campaigners' stance?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Support only for disposable cups",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Opposition to all collection points",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Support with a practical modification",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Complete rejection",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is cutting reports sensitive?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The client particularly valued them",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They are legally required",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They are the only working feature",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They were never demonstrated",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What broader principle do they advocate?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Replace all cafés with supermarkets",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Assess the whole user process",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Measure only borrowing speed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Ignore customer journeys",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What should happen before the cut?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Remove it without notice",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Cancel the whole project",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Promise both options at no cost",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Explain the trade-off and obtain agreement",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What do the critics primarily challenge?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether packaging contains any material",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The concept of recycling in principle",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The practical implication conveyed by the claim",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether the laboratory result exists",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Which framing does the speaker reject?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Expertise and participation as mutually exclusive",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Technical assessment as useful",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Residents having local knowledge",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Testing proposed solutions",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why can a technically true claim mislead here?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Laminated layers never exist",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Available facilities cannot usually realise the claimed potential",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Laboratory findings are always false",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Customers are required to run laboratories",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What relationship do they propose?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Public opinion replacing all expertise",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Experts excluding residents",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Either contribution being sufficient alone",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Complementary contributions",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Which revision best addresses the criticism?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Qualify the claim with local processing limitations",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Repeat the word recyclable more prominently",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Remove all information about disposal",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Claim that collection guarantees recovery",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When would participation become merely nominal?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "When feasibility is examined",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When proposals can still change",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When meaningful decisions are already fixed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When residents identify constraints",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critique of a technically recyclable package that local facilities cannot process. Analyse the implied claim and recommend accurate wording. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Chinese (Mandarin).",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Argue for a relationship between expertise and public participation that avoids a false choice. Explain when consultation becomes merely symbolic. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Chinese (Mandarin).",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is Luna?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Grey",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Brown",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "When is the class?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "On Thursday",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "On Monday",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "On Sunday",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "On Tuesday",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does she sleep in the afternoon?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "On a chair",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Under a bed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "In a box",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Outside",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Which room is it in?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Room ten",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Room four",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Room six",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Room two",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What does Luna dislike?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Her chair",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Sam",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Sleeping",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Milk",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A pencil",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Paper",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Paint",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Who cared for the plants?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "A neighbour",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A colleague",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A gardener hired by the city",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A relative",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the meeting point?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Inside the museum",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A neighbour's house",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The station entrance",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The usual café",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What did the writer leave?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Train tickets",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A shopping list",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A key for the museum",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Watering instructions",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why bring a sandwich?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The walk ends before breakfast",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Lunch will be outdoors",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The café only sells drinks",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It is a gift for the guide",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the writer give tea?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "To apologise for damaged plants",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To invite someone to travel",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To say thank you",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "To ask for money",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens if it rains?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "They visit a museum",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They cancel every activity",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They walk farther",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They meet the next week",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What did Leo miss at home?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Café meals",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "A long commute",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Having his own desk",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Conversations with colleagues",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What label is requested?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Date of purchase",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Suitable age group",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Original price",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Owner's address",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did cafés not solve the problem?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "They banned laptops",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "He had to work at night",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "He could not concentrate",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They were all closed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Who can take a book?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "People who bring no books too",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Only people who donate two",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Only children",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Only registered authors",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "How does his current arrangement help?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "It requires less work each week",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It combines interaction and quiet work",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It removes all office costs",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It lets him stop working at home entirely",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens to leftover books by default?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "They are destroyed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They are sold back to owners",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They remain indefinitely",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "They are donated",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What improved after the change?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Exam scores explicitly measured",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "School income",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Homework completion",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Teachers' free time",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition comes with the free room?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Ordering the set menu",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Paying for a larger room",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Bringing all food",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Arriving after midnight",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What do some teachers question?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether fixed deadlines are illegal",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether the support leads to independence",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether meetings take place",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Whether homework exists",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What could undermine the apparent saving?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "The restaurant being too close",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The room having windows",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Too many menu alternatives",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Unsuitable food for some guests",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What change do those teachers imply is needed?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Gradually reduce support",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Remove all homework immediately",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Increase dependence on meetings",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "End individual feedback permanently",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the proposed next step?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Reject every restaurant",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Ask guests to skip dinner",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Check alternatives before accepting",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Accept immediately",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What assumption underlies the employer's interpretation?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Training is compulsory",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Low participation directly reflects low demand",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "All requests were approved",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Staff prefer larger budgets",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's concern about the revision?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "It is less fluent than the original",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It contains no narrator",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It makes every word harder",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "It may remove deliberate ambiguity",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What alternative mechanism do interviews suggest?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Fear of negative judgment discourages applications",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Staff have all required skills",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The fund has no money",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Managers must attend training first",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction is central?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Author identity versus publication date",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Reader age versus reading speed",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Clarifying wording versus resolving interpretation",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Literal spelling versus punctuation",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What follows for policy?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Double the budget and assume the issue is solved",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "End training because nobody needs it",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Treat every non-user as unmotivated",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Address approval barriers, not only funding",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "What stance toward fluency is implied?",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Unrelated to translation",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Valuable, but not sufficient on its own",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Always harmful",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "The sole measure of quality",
+    "language": "",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a briefing on low use of a generous training fund when manager approval may discourage applications. Evaluate explanations and propose targeted changes. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Chinese (Mandarin).",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a translation that improves fluency by making an ambiguous motive explicit. Discuss readability, interpretation and fidelity. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Chinese (Mandarin).",
+    "language": "zh",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does Eva work?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the word or phrase that fits the situation.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What should Eva bring?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "When does she start on Monday?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the response that best fits the situation.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should she take them?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Who works in a school?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the plates?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Nora change her transport?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What was replaced?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "How did she reach the lake?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "When can the jacket be collected?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What did she do with her cousin?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is unusual today?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is the choir considering a move?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Which task still needs volunteers?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What drawback does the new room have?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition does the speaker attach to staying?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the group's next step?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is a reply needed tonight?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What supports management's optimism?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What concerns the speaker about a flat allowance?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What limits the published evaluation?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they propose first?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the trustees' position?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What trade-off do they acknowledge?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What most directly weakens the causal claim?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction structures the argument?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the author explicitly avoid concluding?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "How does the speaker assess the proposal?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What would strengthen the case for expansion?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why object to calling it full accountability?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critical briefing on a voluntary mentoring programme whose users earn more but had stronger prior results. Separate observation from causation and propose an evaluation. Make the final request or recommendation clear. Respond in Korean.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a transparency policy that publishes contracts in hard-to-search files. Distinguish disclosure from meaningful accountability. Make the final request or recommendation clear. Respond in Korean.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the pool?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is the bag?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "When does it open on Saturday?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the keys?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "How much does a child pay?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should Ben take the bag?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What was wrong with the delivery?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the lesson move?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What solution did the customer choose?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What should participants bring?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What will happen on Friday?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the fee include?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Mina initially choose an online course?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What has changed?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What was missing from that course?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Which work should still go to reception?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why does she accept the higher cost now?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "How should confidential documents be handled?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What benefit do teachers recognise?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction does the speaker make?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Which concern does downloading address?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the speaker recommend?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What remains unresolved?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "How strong is the speaker's negative judgment?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is representativeness questioned?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's main reservation?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What does 'broaden without closing gaps' imply?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they accept?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What error does the final sentence warn against?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What future risk is identified?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Write an exhibition note explaining how personal letters broaden history while remaining shaped by literacy, preservation and donation. Avoid claiming representativeness. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Korean.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Discuss how to justify an exceptional decision fairly. Distinguish equal treatment from identical outcomes and propose a consistent review principle. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Korean.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Who lives in the house?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Which shop is closed?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is in the room?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What can people buy at the market?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the bus stop?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "When does the market close?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did they see a later showing?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is scheduled for tomorrow?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What did they do while waiting?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why arrive early?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "How did they feel about the film?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "When should they call if cancelling?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What must the residents pay for?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is there a different guide?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why inspect the wiring first?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What changes for visitors?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is their alternative?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What should visitors do with their tickets?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What unintended consequence is reported?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What would removing reports achieve?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the campaigners' stance?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is cutting reports sensitive?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What broader principle do they advocate?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What should happen before the cut?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What do the critics primarily challenge?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Which framing does the speaker reject?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why can a technically true claim mislead here?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What relationship do they propose?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Which revision best addresses the criticism?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "When would participation become merely nominal?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critique of a technically recyclable package that local facilities cannot process. Analyse the implied claim and recommend accurate wording. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Korean.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Argue for a relationship between expertise and public participation that avoids a false choice. Explain when consultation becomes merely symbolic. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Korean.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is Luna?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "When is the class?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does she sleep in the afternoon?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Which room is it in?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What does Luna dislike?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Who cared for the plants?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the meeting point?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What did the writer leave?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why bring a sandwich?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the writer give tea?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens if it rains?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What did Leo miss at home?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What label is requested?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did cafés not solve the problem?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Who can take a book?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "How does his current arrangement help?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens to leftover books by default?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What improved after the change?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition comes with the free room?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What do some teachers question?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What could undermine the apparent saving?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What change do those teachers imply is needed?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the proposed next step?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What assumption underlies the employer's interpretation?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's concern about the revision?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What alternative mechanism do interviews suggest?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction is central?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What follows for policy?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "What stance toward fluency is implied?",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a briefing on low use of a generous training fund when manager approval may discourage applications. Evaluate explanations and propose targeted changes. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Korean.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a translation that improves fluency by making an ambiguous motive explicit. Discuss readability, interpretation and fidelity. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Korean.",
+    "language": "ko",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does Eva work?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the word or phrase that fits the situation.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What should Eva bring?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "When does she start on Monday?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the response that best fits the situation.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should she take them?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Who works in a school?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the plates?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Nora change her transport?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What was replaced?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "How did she reach the lake?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "When can the jacket be collected?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What did she do with her cousin?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is unusual today?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is the choir considering a move?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Which task still needs volunteers?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What drawback does the new room have?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition does the speaker attach to staying?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the group's next step?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is a reply needed tonight?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What supports management's optimism?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What concerns the speaker about a flat allowance?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What limits the published evaluation?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they propose first?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the trustees' position?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What trade-off do they acknowledge?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What most directly weakens the causal claim?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction structures the argument?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the author explicitly avoid concluding?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "How does the speaker assess the proposal?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What would strengthen the case for expansion?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why object to calling it full accountability?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critical briefing on a voluntary mentoring programme whose users earn more but had stronger prior results. Separate observation from causation and propose an evaluation. Make the final request or recommendation clear. Respond in French.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a transparency policy that publishes contracts in hard-to-search files. Distinguish disclosure from meaningful accountability. Make the final request or recommendation clear. Respond in French.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the pool?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is the bag?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "When does it open on Saturday?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the keys?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "How much does a child pay?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should Ben take the bag?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What was wrong with the delivery?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the lesson move?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What solution did the customer choose?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What should participants bring?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What will happen on Friday?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the fee include?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Mina initially choose an online course?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What has changed?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What was missing from that course?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Which work should still go to reception?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why does she accept the higher cost now?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "How should confidential documents be handled?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What benefit do teachers recognise?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction does the speaker make?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Which concern does downloading address?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the speaker recommend?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What remains unresolved?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "How strong is the speaker's negative judgment?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is representativeness questioned?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's main reservation?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What does 'broaden without closing gaps' imply?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they accept?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What error does the final sentence warn against?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What future risk is identified?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Write an exhibition note explaining how personal letters broaden history while remaining shaped by literacy, preservation and donation. Avoid claiming representativeness. Address someone unfamiliar with your situation and make your purpose explicit. Respond in French.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Discuss how to justify an exceptional decision fairly. Distinguish equal treatment from identical outcomes and propose a consistent review principle. Address someone unfamiliar with your situation and make your purpose explicit. Respond in French.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Who lives in the house?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Which shop is closed?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is in the room?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What can people buy at the market?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the bus stop?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "When does the market close?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did they see a later showing?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is scheduled for tomorrow?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What did they do while waiting?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why arrive early?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "How did they feel about the film?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "When should they call if cancelling?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What must the residents pay for?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is there a different guide?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why inspect the wiring first?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What changes for visitors?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is their alternative?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What should visitors do with their tickets?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What unintended consequence is reported?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What would removing reports achieve?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the campaigners' stance?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is cutting reports sensitive?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What broader principle do they advocate?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What should happen before the cut?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What do the critics primarily challenge?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Which framing does the speaker reject?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why can a technically true claim mislead here?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What relationship do they propose?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Which revision best addresses the criticism?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "When would participation become merely nominal?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critique of a technically recyclable package that local facilities cannot process. Analyse the implied claim and recommend accurate wording. Address someone unfamiliar with your situation and make your purpose explicit. Respond in French.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Argue for a relationship between expertise and public participation that avoids a false choice. Explain when consultation becomes merely symbolic. Address someone unfamiliar with your situation and make your purpose explicit. Respond in French.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is Luna?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "When is the class?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does she sleep in the afternoon?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Which room is it in?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What does Luna dislike?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Who cared for the plants?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the meeting point?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What did the writer leave?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why bring a sandwich?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the writer give tea?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens if it rains?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What did Leo miss at home?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What label is requested?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did cafés not solve the problem?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Who can take a book?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "How does his current arrangement help?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens to leftover books by default?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What improved after the change?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition comes with the free room?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What do some teachers question?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What could undermine the apparent saving?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What change do those teachers imply is needed?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the proposed next step?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What assumption underlies the employer's interpretation?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's concern about the revision?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What alternative mechanism do interviews suggest?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction is central?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What follows for policy?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "What stance toward fluency is implied?",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a briefing on low use of a generous training fund when manager approval may discourage applications. Evaluate explanations and propose targeted changes. Address someone unfamiliar with your situation and make your purpose explicit. Respond in French.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a translation that improves fluency by making an ambiguous motive explicit. Discuss readability, interpretation and fidelity. Address someone unfamiliar with your situation and make your purpose explicit. Respond in French.",
+    "language": "fr",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does Eva work?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the word or phrase that fits the situation.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What should Eva bring?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "When does she start on Monday?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the response that best fits the situation.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should she take them?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Who works in a school?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the plates?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Nora change her transport?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What was replaced?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "How did she reach the lake?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "When can the jacket be collected?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What did she do with her cousin?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is unusual today?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is the choir considering a move?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Which task still needs volunteers?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What drawback does the new room have?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition does the speaker attach to staying?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the group's next step?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is a reply needed tonight?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What supports management's optimism?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What concerns the speaker about a flat allowance?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What limits the published evaluation?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they propose first?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the trustees' position?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What trade-off do they acknowledge?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What most directly weakens the causal claim?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction structures the argument?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the author explicitly avoid concluding?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "How does the speaker assess the proposal?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What would strengthen the case for expansion?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why object to calling it full accountability?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critical briefing on a voluntary mentoring programme whose users earn more but had stronger prior results. Separate observation from causation and propose an evaluation. Make the final request or recommendation clear. Respond in German.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a transparency policy that publishes contracts in hard-to-search files. Distinguish disclosure from meaningful accountability. Make the final request or recommendation clear. Respond in German.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the pool?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is the bag?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "When does it open on Saturday?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the keys?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "How much does a child pay?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should Ben take the bag?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What was wrong with the delivery?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the lesson move?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What solution did the customer choose?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What should participants bring?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What will happen on Friday?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the fee include?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Mina initially choose an online course?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What has changed?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What was missing from that course?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Which work should still go to reception?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why does she accept the higher cost now?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "How should confidential documents be handled?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What benefit do teachers recognise?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction does the speaker make?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Which concern does downloading address?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the speaker recommend?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What remains unresolved?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "How strong is the speaker's negative judgment?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is representativeness questioned?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's main reservation?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What does 'broaden without closing gaps' imply?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they accept?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What error does the final sentence warn against?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What future risk is identified?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Write an exhibition note explaining how personal letters broaden history while remaining shaped by literacy, preservation and donation. Avoid claiming representativeness. Address someone unfamiliar with your situation and make your purpose explicit. Respond in German.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Discuss how to justify an exceptional decision fairly. Distinguish equal treatment from identical outcomes and propose a consistent review principle. Address someone unfamiliar with your situation and make your purpose explicit. Respond in German.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Who lives in the house?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Which shop is closed?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is in the room?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What can people buy at the market?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the bus stop?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "When does the market close?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did they see a later showing?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is scheduled for tomorrow?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What did they do while waiting?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why arrive early?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "How did they feel about the film?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "When should they call if cancelling?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What must the residents pay for?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is there a different guide?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why inspect the wiring first?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What changes for visitors?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is their alternative?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What should visitors do with their tickets?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What unintended consequence is reported?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What would removing reports achieve?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the campaigners' stance?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is cutting reports sensitive?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What broader principle do they advocate?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What should happen before the cut?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What do the critics primarily challenge?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Which framing does the speaker reject?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why can a technically true claim mislead here?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What relationship do they propose?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Which revision best addresses the criticism?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "When would participation become merely nominal?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critique of a technically recyclable package that local facilities cannot process. Analyse the implied claim and recommend accurate wording. Address someone unfamiliar with your situation and make your purpose explicit. Respond in German.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Argue for a relationship between expertise and public participation that avoids a false choice. Explain when consultation becomes merely symbolic. Address someone unfamiliar with your situation and make your purpose explicit. Respond in German.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is Luna?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "When is the class?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does she sleep in the afternoon?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Which room is it in?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What does Luna dislike?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Who cared for the plants?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the meeting point?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What did the writer leave?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why bring a sandwich?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the writer give tea?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens if it rains?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What did Leo miss at home?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What label is requested?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did cafés not solve the problem?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Who can take a book?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "How does his current arrangement help?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens to leftover books by default?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What improved after the change?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition comes with the free room?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What do some teachers question?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What could undermine the apparent saving?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What change do those teachers imply is needed?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the proposed next step?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What assumption underlies the employer's interpretation?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's concern about the revision?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What alternative mechanism do interviews suggest?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction is central?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What follows for policy?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "What stance toward fluency is implied?",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a briefing on low use of a generous training fund when manager approval may discourage applications. Evaluate explanations and propose targeted changes. Address someone unfamiliar with your situation and make your purpose explicit. Respond in German.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a translation that improves fluency by making an ambiguous motive explicit. Discuss readability, interpretation and fidelity. Address someone unfamiliar with your situation and make your purpose explicit. Respond in German.",
+    "language": "de",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does Eva work?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the word or phrase that fits the situation.",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What should Eva bring?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "When does she start on Monday?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the response that best fits the situation.",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should she take them?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Who works in a school?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the plates?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Nora change her transport?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What was replaced?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "How did she reach the lake?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "When can the jacket be collected?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What did she do with her cousin?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is unusual today?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is the choir considering a move?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Which task still needs volunteers?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What drawback does the new room have?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition does the speaker attach to staying?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the group's next step?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is a reply needed tonight?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What supports management's optimism?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What concerns the speaker about a flat allowance?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What limits the published evaluation?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they propose first?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the trustees' position?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What trade-off do they acknowledge?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What most directly weakens the causal claim?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction structures the argument?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the author explicitly avoid concluding?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "How does the speaker assess the proposal?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What would strengthen the case for expansion?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why object to calling it full accountability?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critical briefing on a voluntary mentoring programme whose users earn more but had stronger prior results. Separate observation from causation and propose an evaluation. Make the final request or recommendation clear. Respond in Arabic (Modern Standard).",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a transparency policy that publishes contracts in hard-to-search files. Distinguish disclosure from meaningful accountability. Make the final request or recommendation clear. Respond in Arabic (Modern Standard).",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the pool?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is the bag?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "When does it open on Saturday?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the keys?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "How much does a child pay?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should Ben take the bag?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What was wrong with the delivery?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the lesson move?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What solution did the customer choose?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What should participants bring?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What will happen on Friday?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the fee include?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Mina initially choose an online course?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What has changed?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What was missing from that course?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Which work should still go to reception?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why does she accept the higher cost now?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "How should confidential documents be handled?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What benefit do teachers recognise?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction does the speaker make?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Which concern does downloading address?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the speaker recommend?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What remains unresolved?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "How strong is the speaker's negative judgment?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is representativeness questioned?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's main reservation?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What does 'broaden without closing gaps' imply?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they accept?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What error does the final sentence warn against?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What future risk is identified?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Write an exhibition note explaining how personal letters broaden history while remaining shaped by literacy, preservation and donation. Avoid claiming representativeness. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Arabic (Modern Standard).",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Discuss how to justify an exceptional decision fairly. Distinguish equal treatment from identical outcomes and propose a consistent review principle. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Arabic (Modern Standard).",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Who lives in the house?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Which shop is closed?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is in the room?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What can people buy at the market?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the bus stop?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "When does the market close?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did they see a later showing?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is scheduled for tomorrow?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What did they do while waiting?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why arrive early?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "How did they feel about the film?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "When should they call if cancelling?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What must the residents pay for?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is there a different guide?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why inspect the wiring first?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What changes for visitors?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is their alternative?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What should visitors do with their tickets?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What unintended consequence is reported?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What would removing reports achieve?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the campaigners' stance?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is cutting reports sensitive?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What broader principle do they advocate?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What should happen before the cut?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What do the critics primarily challenge?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Which framing does the speaker reject?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why can a technically true claim mislead here?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What relationship do they propose?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Which revision best addresses the criticism?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "When would participation become merely nominal?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critique of a technically recyclable package that local facilities cannot process. Analyse the implied claim and recommend accurate wording. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Arabic (Modern Standard).",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Argue for a relationship between expertise and public participation that avoids a false choice. Explain when consultation becomes merely symbolic. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Arabic (Modern Standard).",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is Luna?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "When is the class?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does she sleep in the afternoon?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Which room is it in?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What does Luna dislike?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Who cared for the plants?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the meeting point?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What did the writer leave?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why bring a sandwich?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the writer give tea?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens if it rains?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What did Leo miss at home?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What label is requested?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did cafés not solve the problem?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Who can take a book?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "How does his current arrangement help?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens to leftover books by default?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What improved after the change?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "State that participants must be informed BEFORE the change takes effect.",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition comes with the free room?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What do some teachers question?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What could undermine the apparent saving?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What change do those teachers imply is needed?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the proposed next step?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What assumption underlies the employer's interpretation?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's concern about the revision?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What alternative mechanism do interviews suggest?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction is central?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What follows for policy?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "What stance toward fluency is implied?",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a briefing on low use of a generous training fund when manager approval may discourage applications. Evaluate explanations and propose targeted changes. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Arabic (Modern Standard).",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a translation that improves fluency by making an ambiguous motive explicit. Discuss readability, interpretation and fidelity. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Arabic (Modern Standard).",
+    "language": "ar",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does Eva work?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the word or phrase that fits the situation.",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What should Eva bring?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "When does she start on Monday?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Choose the response that best fits the situation.",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should she take them?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Who works in a school?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the plates?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Nora change her transport?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What was replaced?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "How did she reach the lake?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "When can the jacket be collected?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What did she do with her cousin?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is unusual today?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is the choir considering a move?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Which task still needs volunteers?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What drawback does the new room have?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition does the speaker attach to staying?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the group's next step?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is a reply needed tonight?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What supports management's optimism?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What concerns the speaker about a flat allowance?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What limits the published evaluation?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they propose first?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the trustees' position?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What trade-off do they acknowledge?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What most directly weakens the causal claim?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction structures the argument?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the author explicitly avoid concluding?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "How does the speaker assess the proposal?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What would strengthen the case for expansion?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why object to calling it full accountability?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critical briefing on a voluntary mentoring programme whose users earn more but had stronger prior results. Separate observation from causation and propose an evaluation. Make the final request or recommendation clear. Respond in Italian.",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a transparency policy that publishes contracts in hard-to-search files. Distinguish disclosure from meaningful accountability. Make the final request or recommendation clear. Respond in Italian.",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the pool?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is the bag?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "When does it open on Saturday?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Where are the keys?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "How much does a child pay?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Where should Ben take the bag?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What was wrong with the delivery?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the lesson move?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What solution did the customer choose?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What should participants bring?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What will happen on Friday?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the fee include?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did Mina initially choose an online course?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What has changed?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What was missing from that course?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Which work should still go to reception?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why does she accept the higher cost now?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "How should confidential documents be handled?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What benefit do teachers recognise?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction does the speaker make?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Which concern does downloading address?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What does the speaker recommend?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What remains unresolved?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "How strong is the speaker's negative judgment?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is representativeness questioned?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's main reservation?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What does 'broaden without closing gaps' imply?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What do they accept?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What error does the final sentence warn against?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What future risk is identified?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Write an exhibition note explaining how personal letters broaden history while remaining shaped by literacy, preservation and donation. Avoid claiming representativeness. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Italian.",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Discuss how to justify an exceptional decision fairly. Distinguish equal treatment from identical outcomes and propose a consistent review principle. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Italian.",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Who lives in the house?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Which shop is closed?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is in the room?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What can people buy at the market?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the bus stop?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "When does the market close?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did they see a later showing?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is scheduled for tomorrow?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What did they do while waiting?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why arrive early?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "How did they feel about the film?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "When should they call if cancelling?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What must the residents pay for?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is there a different guide?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why inspect the wiring first?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What changes for visitors?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is their alternative?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What should visitors do with their tickets?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What unintended consequence is reported?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What would removing reports achieve?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the campaigners' stance?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why is cutting reports sensitive?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What broader principle do they advocate?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What should happen before the cut?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What do the critics primarily challenge?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Which framing does the speaker reject?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why can a technically true claim mislead here?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What relationship do they propose?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Which revision best addresses the criticism?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "When would participation become merely nominal?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a critique of a technically recyclable package that local facilities cannot process. Analyse the implied claim and recommend accurate wording. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Italian.",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Argue for a relationship between expertise and public participation that avoids a false choice. Explain when consultation becomes merely symbolic. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Italian.",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What colour is Luna?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "When is the class?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Where does she sleep in the afternoon?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Which room is it in?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What does Luna dislike?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Who cared for the plants?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Where is the meeting point?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What did the writer leave?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why bring a sandwich?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did the writer give tea?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens if it rains?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What did Leo miss at home?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What label is requested?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Why did cafés not solve the problem?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Who can take a book?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "How does his current arrangement help?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What happens to leftover books by default?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What improved after the change?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What condition comes with the free room?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What do some teachers question?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What could undermine the apparent saving?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What change do those teachers imply is needed?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the proposed next step?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What assumption underlies the employer's interpretation?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What is the speaker's concern about the revision?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What alternative mechanism do interviews suggest?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What distinction is central?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What follows for policy?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "What stance toward fluency is implied?",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Write a briefing on low use of a generous training fund when manager approval may discourage applications. Evaluate explanations and propose targeted changes. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Italian.",
+    "language": "it",
+    "protectedValues": []
+  },
+  {
+    "text": "Evaluate a translation that improves fluency by making an ambiguous motive explicit. Discuss readability, interpretation and fidelity. Address someone unfamiliar with your situation and make your purpose explicit. Respond in Italian.",
+    "language": "it",
+    "protectedValues": []
+  }
+]

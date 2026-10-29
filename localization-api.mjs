@@ -1,3 +1,4 @@
+import {learningLanguageIds} from './languages.mjs';
 import {keepsLocalizedInstructions} from './learning-text-protection.mjs';
 import {reviewedTranslation,translationRevision} from './reviewed-interface-copy.mjs';
 import {translationGuidance} from './translation-guidance.mjs';
@@ -49,7 +50,7 @@ export async function handleLocalization({route,req,res,pool,required,json,send,
  if(route!=='/api/localization')return false;
  const user=await required(req);if(req.method!=='POST')fail(405,'Method not allowed');
  const body=await json(req);if(!validInterfaceLanguage(body.locale)||!Array.isArray(body.items)||body.items.length>16||body.items.length<1)fail(400,'Invalid translation request');
- const sources=body.items.map(i=>typeof i?.text==='string'&&i.text.length<=6000&&['','es','en','pt','ja'].includes(i.language||'')?translationSource(i.text,i.language||''):null);
+ const sources=body.items.map(i=>typeof i?.text==='string'&&i.text.length<=6000&&['',...learningLanguageIds].includes(i.language||'')?translationSource(i.text,i.language||''):null);
  if(sources.some(s=>!s)||sources.reduce((n,s)=>n+s.text.length,0)>14000)fail(400,'Only published course and interface text can be translated');
  const output=[],missing=[],lookups=[];
  for(let i=0;i<sources.length;i++){

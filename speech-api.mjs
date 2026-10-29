@@ -1,3 +1,4 @@
+import {learningLanguageIds} from './languages.mjs';
 import {wavHasSpeechSignal} from './speech-audio-quality.mjs';
 import {appliedQuestionBank} from './applied-exercises.mjs';
 import {practicalFormQuestions} from './practical-form-questions.mjs';
@@ -23,7 +24,7 @@ function collect(value){
 }
 collect(appliedQuestionBank);collect(practicalFormQuestions);collect(lessonList);collect(skillTasks);collect(exerciseBank);collect(practicalBank);
 for(const recording of nativeWordRecordings)collect(recording.text);
-for(const lang of ['es','en','pt','ja'])for(let form=0;form<assessmentFormCount;form++){
+for(const lang of learningLanguageIds)for(let form=0;form<assessmentFormCount;form++){
  for(const v of [1,2,3,4])try{collect(assessmentItems(form,lang+'-diagnostic-'+v));}catch{/* Unsupported historical form is not in the public catalog. */}
 }
 export const allowedSpeech=(text,locale)=>typeof text==='string'&&speechLocales.includes(locale)&&catalog.has(text.normalize('NFC').trim());

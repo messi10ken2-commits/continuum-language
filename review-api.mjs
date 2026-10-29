@@ -1,3 +1,4 @@
+import {learningLanguageIds} from './languages.mjs';
 import {withVerifiedAnswers} from './verified-answers.mjs';
 import {correctEntryNote} from './expression-watchouts.mjs';
 import {listeningReviewQuestion} from './review-listening.mjs';
@@ -19,7 +20,7 @@ export async function handleReview({route,req,res,pool,required,json,send,fail})
    }
    await c.query('COMMIT');
   }catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
-  const language=new URL(req.url,'http://localhost').searchParams.get('language');if(!['es','en','pt','ja'].includes(language))fail(400,'Choose a supported language');
+  const language=new URL(req.url,'http://localhost').searchParams.get('language');if(!learningLanguageIds.includes(language))fail(400,'Choose a supported language');
   const rows=await pool.query('SELECT id,language,lesson_id AS lesson,kind,term,meaning,example,question,misses,strength,due_at AS "dueAt" FROM review_items WHERE user_id=$1 AND language=$2 ORDER BY strength,due_at,term',[user.id,language]);
   return reply(res,200,{items:rows.rows.map(item=>({...item,question:correctEntryNote(getLesson(item.lesson),item.question)}))});
  }

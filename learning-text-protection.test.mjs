@@ -25,7 +25,7 @@ test('all authored exercise versions mask their declared learning text, not just
    assert.equal(p.restore(p.text),q.prompt);
   }
  }
- assert.deepEqual([...languages].sort(),['en','es','ja','pt']);assert.ok(count>10000);
+ assert.deepEqual([...languages].sort(),['ar','de','en','es','fr','it','ja','ko','pt','zh']);assert.ok(count>10000);
 });
 
 test('sentences, gaps, deliberate errors, lemmas, kana and sound contrasts survive in five display languages',async()=>{

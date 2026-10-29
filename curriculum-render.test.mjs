@@ -10,7 +10,7 @@ const storage=new Map();globalThis.localStorage={getItem:k=>storage.get(k)||null
 try{
  const {default:SelfStudy}=await vite.ssrLoadModule('/SelfStudy.jsx');
  const render=(language,activeLesson)=>renderToStaticMarkup(React.createElement(SelfStudy,{language,activeLesson,attempts:[],onStart(){},onExit(){},onComplete(){}}));
- for(const language of ['en','pt','ja']){
+ for(const language of ['en','pt','ja','zh','ko','fr','de','ar','it']){
   for(const level of ['A1','A2','B1','B2','C1']){
    storage.set('continuumCourseLevel:'+language,level);
    const html=render(language);assert.equal((html.match(/<h4>Chapter checkpoint<\/h4>/g)||[]).length,level==='B2'?5:6);
@@ -29,6 +29,8 @@ try{
    storage.set('continuumTestSeeds',JSON.stringify({[l.id]:seed}));
    const exercise=render(language,l.id);
    assert.ok(exercise.includes('question-card'),l.id);
+   const question=getLessonVariant(l.id,seed).questions[0];
+   if(question.displayContext&&question.context&&!question.prompt.includes(question.context)){const expected=renderToStaticMarkup(React.createElement('blockquote',{lang:l.locale,dir:'auto'},question.context));assert.ok(exercise.includes(expected),l.id+': native exercise context must be visible');}
    if(l.skill==='Listening'){assert.ok(exercise.includes('Show transcript'));assert.ok(exercise.includes(`lang="${l.locale}"`));}
    storage.delete('continuumLessonDrafts');storage.delete('continuumTestSeeds');
   }

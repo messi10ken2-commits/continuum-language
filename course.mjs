@@ -1,3 +1,7 @@
+import {expandedVisualChapters,expandedVisualLessons,expandedVisualTransfer} from './expanded-visual-course.mjs';
+import {expandedChapters,expandedLessons,expandedTransfer} from './expanded-language-catalog.mjs';
+import {expandedScriptChapters,expandedScriptLessons} from './expanded-script-course.mjs';
+import {expandedSoundChapters,expandedSoundLessons,expandedSoundTransfer} from './expanded-sound-course.mjs';
 import {idiomChapters,idiomLessons,idiomTransfer} from './c1-idioms.mjs';
 import {enrichEverydayLessons} from './everyday-expressions.mjs';
 import {equivalentAnswer} from './answer-equivalence.mjs';
@@ -128,7 +132,7 @@ for(const level of levels){
  lessonList.push(entry(id,level.id,id,`${level.id} level summary test`,'Level test',`A cumulative ${level.id} review across grammar, vocabulary, expressions and communication. Score 85% or higher to receive a completion recommendation for the next level.`,`Take the ${level.id} review when you are ready to check the whole level.`,questions,{summaryTest:true,passScore:85,minutes:15}));
 }
 const international=buildInternationalCourse(chapters,lessonList);
-const internationalTransfer={...international.transfer,...idiomTransfer};
+const internationalTransfer={...international.transfer,...idiomTransfer,...expandedTransfer,...expandedSoundTransfer,...expandedVisualTransfer};
 chapters.push(...international.chapters);
 lessonList.push(...international.lessons);
 // Add the new C1 material without renumbering any existing course or saved ID.
@@ -157,6 +161,8 @@ chapters.push(...visualChapters);
 lessonList.push(...visualLessons);
 chapters.push(...conversationChapters);
 lessonList.push(...conversationLessons);
+chapters.push(...expandedChapters,...expandedSoundChapters,...expandedScriptChapters,...expandedVisualChapters);
+lessonList.push(...expandedLessons,...expandedSoundLessons,...expandedScriptLessons,...expandedVisualLessons);
 enrichEverydayLessons(lessonList);
 export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
@@ -177,14 +183,14 @@ export function getLessonVariant(id,seed){
  let state=2166136261;for(const c of seed+id){state^=c.charCodeAt(0);state=Math.imul(state,16777619)>>>0;}
  const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
  const shuffle=xs=>{const a=[...xs];for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
- const archived=base?.language&&base.curriculumVersion!==2;
+ const archived=legacyInternationalLessons.includes(base);
  const availableChapters=archived?legacyInternationalChapters:chapters;
  const groups=base.summaryTest?availableChapters.filter(c=>(!base.testSeedPrefix||seed.startsWith(base.testSeedPrefix)||!idiomChapters.some(x=>x.id===c.id))&&c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest&&!c.specialist):availableChapters.filter(c=>c.id===base.chapter);
  const chosen=groups.flatMap(c=>{const pool=archived?legacyInternationalTransfer[c.id]:transferBank[c.id]||internationalTransfer[c.id]||soundTransfer[c.id]||visualTransfer[c.id];if(!pool?.length)throw Error('Missing transfer questions');const count=base.summaryTest?(archived?7:3):4;
   const shuffled=shuffle(pool);
   // The repaired path samples fresh tasks, always including both taught lessons.
   let selected=shuffled.slice(0,count);
-  if(base.curriculumVersion===2){
+  if(base.curriculumVersion>=2){
    const required=[...new Set(pool.map(q=>q.sourceLesson))].map(id=>shuffled.find(q=>q.sourceLesson===id));
    selected=[...required,...shuffled.filter(q=>!required.includes(q)).slice(0,count-required.length)];
   }

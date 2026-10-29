@@ -4,7 +4,7 @@ import {appliedCommunication} from './applied-communication.mjs';
 export {appliedScenarios,appliedListening,appliedCommunication};
 export const appliedQuestionBank=[...Object.values(appliedScenarios),...Object.values(appliedListening),...Object.values(appliedCommunication)].flat();
 const affectedSkills=new Set(['Grammar','Listening','Reading','Speaking','Writing','Pronunciation']);
-export const hasAppliedPractice=base=>!base.specialist&&!base.checkpoint&&!base.summaryTest&&affectedSkills.has(base.skill);
+export const hasAppliedPractice=base=>base.curriculumVersion!==3&&!base.specialist&&!base.checkpoint&&!base.summaryTest&&affectedSkills.has(base.skill);
 const classify=q=>({...q,viewpoint:q.viewpoint||(q.mode==='order'?'construction':/^Correct|^Remove|^Replace/.test(q.prompt)?'repair':q.type==='text'?'production':'interpretation')});
 function mixGroups(groups){const result=[];for(let i=0;groups.some(g=>i<g.length);i++)for(const g of groups)if(g[i])result.push(g[i]);return result;}
 export function appliedExercises(base,source,random){

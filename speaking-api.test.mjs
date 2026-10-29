@@ -28,7 +28,7 @@ try{
  assert.equal(a.status,200);assert.equal((await call('/speaking?language=en')).status,401);assert.equal((await call('/speaking?language=en','GET',null,teacher.cookie)).status,403);
  const create=language=>call('/speaking','POST',{language,scenario:'cafe',level:'B1',displayLanguage:'ja',aiConsent:true},a.cookie);
  assert.equal((await call('/speaking','POST',{language:'en',scenario:'cafe',level:'B1',displayLanguage:'ja'},a.cookie)).status,400);
- assert.equal((await create('fr')).status,400);
+ assert.equal((await create('xx')).status,400);
  for(const language of ['en','pt','es','ja']){const r=await create(language);assert.equal(r.status,201,JSON.stringify(r.data));assert.equal(r.data.session.language,language);assert.ok(r.data.session.messages[0].text);}
  const s=(await call('/speaking?language=en','GET',null,a.cookie)).data.sessions[0];
  assert.equal((await call('/speaking/'+s.id,'GET',null,b.cookie)).status,404);

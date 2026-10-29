@@ -1,3 +1,4 @@
+import {expandedFocusedSkillTasks} from './expanded-focused-skills.mjs';
 import {focusedVariants} from './focused-level-content.mjs';
 // Server-only scenario tasks: paid content is never imported by the client bundle.
 const scenes={
@@ -36,5 +37,5 @@ const additionalModels={
 for(const lang of Object.keys(scripts)){Object.assign(scripts[lang],additional[lang]);Object.assign(models[lang],additionalModels[lang]);}
 const locale={en:'en-US',es:'es-ES',pt:'pt-BR',ja:'ja-JP'};
 export const legacyPremiumSkillTasks=Object.entries(scripts).flatMap(([language,items])=>Object.entries(scenes).flatMap(([scene,s])=>['Listening','Writing','Speaking'].map(skill=>({id:`focus-${language}-${scene}-${skill.toLowerCase()}`,premium:true,language,locale:locale[language],scene,level:s.level,skill,title:s.title,topic:s.title,prompt:skill==='Listening'?'Listen to the recording and identify the practical details. Answer before opening the transcript.':s[skill.toLowerCase()],tips:['Identify the audience and the outcome you need.','Use specific details and a suitable polite register.','Check that your response answers every part of the task.'],words:s.level==='A2'?[60,100]:[100,150],seconds:s.level==='A2'?45:60,model:models[language][scene],audio:items[scene],questions:s.questions.map(([prompt,answer],i)=>({prompt,answer,options:s.options[i],note:'Compare the detail you chose with the information in the recording.'}))}))));
-export const premiumSkillTasks=[...legacyPremiumSkillTasks,...focusedVariants(legacyPremiumSkillTasks)];
+export const premiumSkillTasks=[...legacyPremiumSkillTasks,...focusedVariants(legacyPremiumSkillTasks),...expandedFocusedSkillTasks];
 export const premiumSkillSummary=premiumSkillTasks.filter(t=>/-[abc][12]$/.test(t.id)).map(({id,language,level,skill,title,scene})=>({id,language,level,skill,title,scene,premium:true}));

@@ -1,3 +1,4 @@
+import {expansionDisplayCopy} from './expansion-display-copy.mjs';
 import {idiomReviewedCopy} from './idiom-display-copy.mjs';
 // Editorial course headings: English source | Japanese | Spanish | Brazilian Portuguese | Simplified Chinese | French.
 // These overrides take precedence over generated translations and saved caches.
@@ -493,3 +494,5 @@ for(const level of ['A1','A2','B1','B2','C1']){
 }
 
 for(const locale of ['ja','es','pt','zh','fr'])Object.assign(reviewedCourseTitles[locale],idiomReviewedCopy[locale]);
+
+for(const [source,values] of Object.entries(expansionDisplayCopy))for(const [locale,value] of Object.entries(values))(reviewedCourseTitles[locale]??={})[source]??=value;

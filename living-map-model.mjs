@@ -1,10 +1,11 @@
+import {learningArtFamily} from './learning-art-families.mjs';
 import themes from './public/living-map-panorama/manifest.json' with {type:'json'};
 export function livingMapState(chapters=[]){
  const completed=chapters.filter(c=>Array.isArray(c.lessons)&&c.lessons.length>0&&c.completed===c.lessons.length).length;
  return {completed,phase:Math.min(4,completed)};
 }
 
-export function livingMapTheme(language='en'){return Object.hasOwn(themes,language)?themes[language]:themes.en}
+export function livingMapTheme(language='en'){return themes[learningArtFamily(language)]}
 
 // A continuous world spans at least three viewports; chapter order stays authored.
 export function livingMapGeometry(chapters=[],viewportWidth=360){

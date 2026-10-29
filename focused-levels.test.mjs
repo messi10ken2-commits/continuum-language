@@ -4,8 +4,8 @@ import {premiumSkillTasks,premiumSkillSummary,legacyPremiumSkillTasks} from './p
 import {focusCopy} from './focus-copy.mjs';
 const levels=['A1','A2','B1','B2','C1'];
 test('every language and focused scenario has distinct level-specific content and a safe public summary',()=>{
- assert.equal(legacyPremiumSkillTasks.length,60);assert.equal(new Set(premiumSkillTasks.map(t=>t.id)).size,300);
- assert.equal(premiumSkillSummary.length,240);
+ assert.equal(legacyPremiumSkillTasks.length,60);assert.equal(new Set(premiumSkillTasks.map(t=>t.id)).size,660);
+ assert.equal(premiumSkillSummary.length,600);
  for(const language of ['en','es','pt','ja'])for(const scene of ['interview','travel','work','living'])for(const skill of ['Listening','Writing','Speaking']){
   const tasks=levels.map(level=>premiumSkillTasks.find(t=>t.language===language&&t.scene===scene&&t.skill===skill&&t.level===level&&t.id.endsWith('-'+level.toLowerCase())));
   assert.ok(tasks.every(Boolean));assert.equal(new Set(tasks.map(t=>t.prompt)).size,skill==='Listening'?4:5);

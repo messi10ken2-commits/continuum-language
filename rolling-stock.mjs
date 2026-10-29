@@ -1,3 +1,4 @@
+import {learningArtFamily} from './learning-art-families.mjs';
 // Detailed rolling stock in world coordinates, shaded through the map's fixed camera.
 // No photographs/cutout fragments are stretched onto a box.
 import {curvedTrainPose,projectRail,railPoint} from './train-curve.mjs';
@@ -9,8 +10,9 @@ const STOCK={
  ja:{paint:'#d5cbb6',upper:'#e6ddca',band:'#917087',roof:'#64616b',frame:'#7b7772',glass:'#2b3d45'},
  en:{paint:'#254a3c',upper:'#254a3c',band:'#254a3c',roof:'#2e3943',frame:'#bd9d54',glass:'#273e3e'}
 };
-export function stockSpecification(language='en'){return STOCK[language]||STOCK.en;}
+export function stockSpecification(language='en'){return STOCK[learningArtFamily(language)];}
 export function buildRollingStock(language='en',progress=0){
+ language=learningArtFamily(language);
  const pose=curvedTrainPose(language,progress),faces=[],lines=[],shadows=[],details={archedRoofSegments:0,windows:0,wheels:0},spec=stockSpecification(language);
  const P=(c,x,w,h)=>[c.center.x+c.t.x*x+c.n.x*w,h,c.center.z+c.t.z*x+c.n.z*w];
  const screen=p=>projectRail({x:p[0],z:p[2]},p[1]);

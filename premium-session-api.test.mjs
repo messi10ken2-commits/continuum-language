@@ -1,3 +1,4 @@
+import {languageInfo} from './languages.mjs';
 import assert from 'node:assert/strict';
 import {premiumCourses,premiumCourseById} from './premium-courses.mjs';
 import {exclusiveSession,exclusiveAnswer,exclusiveAnswers,premiumGalleryFrames} from './premium-session.mjs';
@@ -15,7 +16,7 @@ try{
   const submitted=await api('/billing/courses/'+c.id+'/finish','POST',{answers:exclusiveAnswers(session,answers),key:crypto.randomUUID()},paid.cookie);assert.equal(submitted.status,200);assert.equal(submitted.data.correct,c.questions.length);
   if(!c.conversation){const frame=premiumGalleryFrames(c)[0],path='/billing/courses/'+c.id+'/audio?gallery=0';
    if(c.scene==='varieties'&&!frame.audioLocale){assert.equal((await api(path,'GET',null,paid.cookie)).status,404);continue;}
-   const locale=frame.audioLocale||{en:'en-US',es:'es-ES',pt:'pt-BR',ja:'ja-JP'}[c.language],bytes=pcmWav(Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(frame.text,locale),bytes,'synthetic','gallery-test']);
+   const locale=frame.audioLocale||languageInfo(c.language).locale,bytes=pcmWav(Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(frame.text,locale),bytes,'synthetic','gallery-test']);
    const audio=await api(path,'GET',null,paid.cookie);assert.equal(audio.status,200);assert.deepEqual(Buffer.from(audio.data),bytes);assert.equal(audio.r.headers.get('cache-control'),'private, no-store');
   }
  }
