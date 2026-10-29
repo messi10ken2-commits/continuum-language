@@ -211,7 +211,9 @@ def host_png(day,png):
 def buffer_schedule(token,ch,caption,url,due):
     mutation=f'''mutation {{ createPost(input: {{text: {q(caption)}, channelId: {q(ch["id"])},
     schedulingType: automatic, mode: customScheduled, dueAt: {q(iso(due))},
-    assets: [{{image: {{url: {q(url)}}}}}], aiAssisted: true}}) {{
+    assets: [{{image: {{url: {q(url)}}}}}],
+    metadata: {{instagram: {{type: post, shouldShareToFeed: true}}}},
+    aiAssisted: true}}) {{
     ... on PostActionSuccess {{ post {{ id dueAt assets {{ id mimeType }} }} }}
     ... on MutationError {{ message }} }} }}'''
     result=buffer_query(mutation,token)["createPost"]
