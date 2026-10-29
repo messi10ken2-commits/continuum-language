@@ -72,3 +72,5 @@ test('new-language class links, review sources, comprehension meanings and scrip
 test('new meaning questions always show their native situation or supply native audio',()=>{
  for(const l of lessonList.filter(l=>added.includes(l.language)))for(const q of [l,...(hasExpandedExercises(l.id)?[getLessonVariant(l.id,'v8-context-audit-123456789')]:[])].flatMap(v=>v.questions))if(q.optionsRole==='meaning')assert.ok(q.audio||q.displayContext&&q.context||q.prompt.includes(q.context)&&q.context,l.id+': missing meaning context');
 });
+
+test('script recap audio uses native letter names and the learning locale',async()=>{const {visualFrames,themeFor}=await import('./lesson-media.mjs'),{allowedSpeech}=await import('./speech-api.mjs');for(const l of lessonList.filter(l=>added.includes(l.language)&&l.characters)){assert.equal(themeFor(l),'study');for(const f of visualFrames(l)){assert.equal(f.lang,l.locale);assert.ok(allowedSpeech(f.audio,l.locale));assert.equal(f.audio,l.characters.find(c=>c.glyph===f.text).audio);}}});

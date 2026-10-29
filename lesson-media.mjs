@@ -25,7 +25,7 @@ export function themeFor(lesson={}){
  if(/environment|nature|weather/.test(t))return 'nature';
  if(/home|family|routine|day in|house/.test(t))return 'home';
  if(/town|city|direction|place|neighbou?r/.test(t))return 'city';
- if(lesson.characters)return 'japan';
+ if(lesson.characters)return lesson.language==='ja'?'japan':'study';
  return 'study';
 }
 const contextPhotos={
@@ -61,7 +61,7 @@ export const photoFor=lesson=>photoInfo(lesson).src;
 export const hasLessonMedia=lesson=>!!lesson&&!lesson.checkpoint&&!lesson.summaryTest&&!lesson.conversation;
 function authoredFrames(lesson,{all=false}={}){
  if(lesson.visualStory)return lesson.visualStory.frames;
- if(lesson.characters)return lesson.characters.slice(0,3).map(c=>({label:'Shape → sound',text:c.glyph,meaning:c.reading,note:c.meaning||'Connect the shape with its reading. Practise the full set below.'}));
+ if(lesson.characters)return lesson.characters.slice(0,3).map(c=>({label:'Shape → sound',text:c.glyph,meaning:c.reading,note:c.meaning||'Connect the shape with its reading. Practise the full set below.',...(lesson.language!=='ja'?{audio:c.audio||c.glyph,lang:lesson.locale}:{})}));
  if(lesson.soundGuide)return lesson.soundGuide.pairs.slice(0,3).map(([a,b])=>({label:'Listen & compare',text:a,meaning:b,note:lesson.explanation}));
  if(lesson.vocabulary?.length)return lesson.vocabulary.slice(0,all?undefined:3).map(w=>({label:'Word → phrase',text:w.term,meaning:w.meaning,note:w.example||w.phrase}));
  if(lesson.expressions?.length)return lesson.expressions.slice(0,all?undefined:3).map(w=>({label:'Meaning → use',text:w.term,meaning:w.meaning,note:w.use||w.example}));
