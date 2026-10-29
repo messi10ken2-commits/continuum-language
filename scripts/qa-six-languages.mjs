@@ -16,7 +16,7 @@ try{
    await page.locator('.question-card>.primary').click();await page.locator('.feedback.good').waitFor();await page.locator('.question-card>.primary').click();await page.waitForFunction(i=>Number(document.querySelector('.practice-top>span')?.textContent.split('/')[0])===i+2&&!document.querySelector('.feedback'),i);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'exercise overflow');
   }
   if(language==='ar')assert.equal(await page.locator('[lang="ar-SA"]').first().evaluate(e=>getComputedStyle(e).direction),'rtl');
-  await page.locator('img').evaluateAll(es=>Promise.all(es.map(e=>e.decode().catch(()=>{}))));await page.screenshot({path:`.media-build/six-languages/${language}-${layout}-${width}.png`,fullPage:true});
+  await page.waitForFunction(()=>{const image=document.querySelector('.page-scene img');return image?.complete&&image.naturalWidth>0;});await page.screenshot({path:`.media-build/six-languages/${language}-${layout}-${width}.png`,fullPage:true});
   if(['zh','ko','ar','de'].includes(language)){const id={zh:'zh-script-v1-pinyin-0',ko:'ko-script-v1-letters-0',ar:'ar-script-v1-alphabet-0',de:'de-script-v1-special-letters-0'}[language];await open(language,layout,'intro','&lesson='+id);if(layout==='illustrated')await page.locator('.illustrated-lesson-reference').evaluate(e=>e.open=true);assert.ok(await page.locator('.kana-grid button').count()>5);await page.locator('.kana-grid button').last().click();assert.ok(await page.locator('.copy-studio').count());assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'script overflow');}
   console.log('PASS six-language browser matrix',language,layout,width);
  }
