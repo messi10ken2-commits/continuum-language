@@ -27,3 +27,16 @@ Unit tests: `social_automation/test_instagram_poster.py`
 **Caution:** The Wednesday factual brand brief describes Continuum's status as of October 2026. Update this content when Continuum officially launches so you don't continue posting pre-launch statements afterward.
 
 **Future expansion:** swap a curated approved image library or authentic, permission-checked Continuum interface screenshots into the renderer if desired.
+## Photorealistic study-vlog carousel upgrade (from 2026-11-09)
+
+On **Mondays, starting 2026-11-09**, the existing weekly general language-tip Instagram post becomes a **four-image, photo-style language learner's day** with a human-readable caption and hashtags. Wednesday Continuum development diary and Friday mindset remain single branded illustrations. The four scheduled slots already in Buffer (2026-10-30, 11-02, 11-04, 11-06) remain untouched.
+
+- All four images are generated from a **single 2×2 photorealistic image** via OpenAI Images API, cropped and overlaid with reliably rendered captions using Pillow. The recurring vlogger is **fictional**, not a real learner testimonial or an authentic app screenshot.
+- Four slides: a cover; 10:00 AM listening/shadowing; 2:00 PM practicing in daily life; 8:30 PM speaking and reflecting. A **single Buffer carousel post** has all four JPEG assets, ordered, with an English lifestyle caption and hashtags.
+- Media is permanently hosted on the dedicated public `instagram-media` GitHub branch before Buffer scheduling. The GitHub action checks that every JPEG is reachable and verifies that Buffer recorded four image assets. Missing scheduled posts can be retried without regenerating images that are already hosted.
+- The standard daily recovery-check schedule remains active, and existing queued posts are not deleted or overwritten. Lookahead extended to 11 days to provide time for media generation.
+- Uses the **existing OPENAI_API_KEY**; image generation is a billable OpenAI API call (default one `gpt-image-1-mini` medium-quality 1024×1536 JPEG for each four-slide carousel). Optionally set GitHub Actions variables `INSTAGRAM_IMAGE_MODEL` and `INSTAGRAM_IMAGE_QUALITY` to override.
+- The four *ChatGPT-generated example images* shown in conversation are **design references**; there is no direct path from those private image attachments to the public GitHub media branch in this automation. The workflow renders new visuals matching the same vlog approach.
+- The carousel can be scheduled automatically only with a properly connected Instagram Professional account configured for Buffer automatic publishing.
+
+To verify, inspect the Instagram workflow log for **four-image lifestyle carousel scheduled in Buffer**, then check Instagram Queue to confirm four assets on one post and "Automatic".
