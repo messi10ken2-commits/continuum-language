@@ -6,7 +6,7 @@ on:
     - cron: '17 0,6,12,18 * * *'
   push:
     branches: [main]
-    paths: ['.github/workflows/instagram-autopost.yml', 'social_automation/instagram_poster.py']
+    paths: ['.github/workflows/instagram-autopost.yml', 'social_automation/instagram_poster.py', 'social_automation/vlog_carousel.py']
   workflow_dispatch:
     inputs:
       dry_run:
@@ -24,21 +24,23 @@ concurrency:
 jobs:
   visual-posts:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Install PNG renderer
-        run: python -m pip install 'CairoSVG>=2.7,<3'
+        run: python -m pip install 'CairoSVG>=2.7,<3' 'Pillow>=10,<13'
       - name: Test Instagram scheduling and image logic
-        run: python -m unittest social_automation.test_instagram_poster -v
+        run: python -m unittest social_automation.test_instagram_poster social_automation.test_vlog_carousel -v
       - name: Create images, generate captions and schedule Instagram posts
         env:
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          INSTAGRAM_IMAGE_MODEL: ${{ vars.INSTAGRAM_IMAGE_MODEL }}
+          INSTAGRAM_IMAGE_QUALITY: ${{ vars.INSTAGRAM_IMAGE_QUALITY }}
           INSTAGRAM_CHANNEL_ID: ${{ vars.INSTAGRAM_CHANNEL_ID }}
           SOCIAL_AUTOPUBLISH_ENABLED: ${{ vars.SOCIAL_AUTOPUBLISH_ENABLED }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

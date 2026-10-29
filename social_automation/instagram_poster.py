@@ -9,7 +9,7 @@ from social_automation.poster import buffer_query, q, iso, api_json, extract_res
 
 TZ = ZoneInfo("Asia/Kuala_Lumpur")
 LAUNCH = date(2026, 10, 30)
-LOOKAHEAD = 9
+LOOKAHEAD = 11
 SLOT = time(19, 0)
 ASSET_BRANCH = "instagram-media"
 TOPICS = {
@@ -249,6 +249,13 @@ def main():
         if due <= datetime.now(timezone.utc)+timedelta(minutes=15):continue
         if exists_in_buffer(token,ch,due):
             print(f"{d}: Instagram slot already in Buffer",flush=True)
+            continue
+        # Vlog Mondays receive four photorealistic lifestyle slides instead of
+        # the older single illustrated card. Existing Buffer slots are untouched.
+        from social_automation.vlog_carousel import is_vlog_day, produce_and_schedule
+        if is_vlog_day(d):
+            produce_and_schedule(d,token,ch)
+            count+=1
             continue
         p=plan_for(d)
         caption=caption_for(d,p)
