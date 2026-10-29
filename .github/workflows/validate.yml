@@ -18,9 +18,8 @@ jobs:
           cache: npm
       - run: npm run check:runtime
       - run: npm ci
-      - run: npm run test:qa
-      - run: npm run audit:language
       - run: npm run build
+      - run: node scripts/audit-expanded-bundle.mjs
       - name: Install browser QA runtime
         run: |
           npm install --no-save --package-lock=false playwright@1.62.1
@@ -33,6 +32,8 @@ jobs:
           name: six-language-browser-evidence
           path: .media-build/six-languages
           if-no-files-found: ignore
+      - run: npm run test:qa
+      - run: npm run audit:language
       - run: npm audit --omit=dev
       - name: Build production image
         run: docker build --tag continuum-security-check .

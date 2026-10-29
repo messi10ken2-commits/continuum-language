@@ -3,9 +3,9 @@ const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
 const vite=await createServer({server:{host:'127.0.0.1',port:0},appType:'custom'});
 vite.middlewares.use('/api/learning',(_req,res)=>{res.setHeader('Content-Type','application/json');res.end(JSON.stringify({progress:[],drafts:[]}));});
 vite.middlewares.use('/__six-languages',async(_req,res)=>{res.setHeader('Content-Type','text/html');res.end(await vite.transformIndexHtml('/__six-languages','<html><head><style>body{margin:0}.app{display:block!important}.app>main{margin:0!important}.content{padding:20px;max-width:1200px;margin:auto}</style></head><body><div id="root"></div><script type="module" src="/scripts/six-language-fixture.jsx"></script></body></html>'));});
-await vite.listen();const base='http://127.0.0.1:'+vite.httpServer.address().port;let browser;
+await vite.listen();const base='http://127.0.0.1:'+vite.httpServer.address().port;let browser,page;const errors=[];
 try{
- await fs.mkdir('.media-build/six-languages',{recursive:true});browser=await chromium.launch({headless:true,executablePath:process.env.QA_BROWSER_EXECUTABLE,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.emulateMedia({reducedMotion:'reduce'});
+ await fs.mkdir('.media-build/six-languages',{recursive:true});browser=await chromium.launch({headless:true,executablePath:process.env.QA_BROWSER_EXECUTABLE,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});page=await browser.newPage();page.on('pageerror',e=>errors.push(e.message));await page.emulateMedia({reducedMotion:'reduce'});
  const open=async(language,layout,view,extra='')=>{await page.goto(`${base}/__six-languages?language=${language}&layout=${layout}&view=${view}${extra}`);await page.locator(view==='map'?layout==='illustrated'?'.approved-map-node':'.study-page':view==='exercise'?'.question-card':'.lesson-intro-card').first().waitFor();};
  for(const language of ['zh','ko','fr','de','ar','it'])for(const layout of ['photo','illustrated'])for(const width of [390,1280]){
   await page.setViewportSize({width,height:900});
@@ -21,4 +21,4 @@ try{
   console.log('PASS six-language browser matrix',language,layout,width);
  }
  assert.deepEqual(errors,[]);
-}finally{await browser?.close();await vite.close();}
+}catch(error){console.error('Browser diagnostics',JSON.stringify({url:page?.url(),errors,body:await page?.locator('body').innerText().catch(()=>null)}));await page?.screenshot({path:'.media-build/six-languages/failure.png',fullPage:true}).catch(()=>{});throw error;}finally{await browser?.close();await vite.close();}

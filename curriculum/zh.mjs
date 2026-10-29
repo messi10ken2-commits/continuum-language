@@ -179,7 +179,7 @@ u('Tell the outcome and evaluate it','最后 gives an eventual outcome; 幸好 i
 他[终于]回信了。~He has at last replied after waiting.~一直没;明年才`)
 ],B1:[
 u('Express purpose and intended benefit','为了 introduces a purpose; 好让 can introduce the intended benefit for another person. A purpose is a goal, not proof that the goal was achieved.','因为 gives a reason; 为了 gives an intended goal. Do not interchange them solely because English uses for.',`
-我每天练习，[为了提高]发音。~I practise daily to improve pronunciation.~因为已经提高了;虽然不想提高
+我每天练习，[为了改善]发音。~I practise daily to improve pronunciation.~因为已经提高了;虽然不想提高
 我把地图发给你，[好让你找到]入口。~I send the map so you can find the entrance.~因为你已经找到了;虽然你不需要找
 我们早点出门，[以免堵车]。~We leave early to avoid being delayed by traffic.~因为已经到家;虽然从不出门
 她说得很慢，[让大家都能听懂]。~She speaks slowly so everyone can understand.~证明所有人早就懂了;因为她拒绝说话`, `

@@ -57,3 +57,14 @@ test('non-Latin speech transcripts are not discarded as empty text',()=>{
 });
 
 test('text matching preserves umlauts and Arabic hamza without claiming sound scoring',()=>{assert.notEqual(scorePronunciation('schön','schon','de-DE').score,100);assert.notEqual(scorePronunciation('Maße','Masse','de-DE').score,100);assert.equal(scorePronunciation('مَرْحَبًا','مرحبا','ar-SA').score,100);});
+
+test('new-language class links, review sources, comprehension meanings and script readings retain their identity',async()=>{
+ const {matchClassLesson}=await import('./class-practice.mjs'),{missedReviewItems}=await import('./review-pool.mjs'),{displayLanguageOptions}=await import('./answer-language.mjs'),{companionKeepsake}=await import('./passport-keepsakes.mjs'),{passportCards}=await import('./passport-cards.mjs');
+ for(const language of added){
+  for(const term of ['past perfect','conditional','idioms']){const l=matchClassLesson({language,focus:term,note:'Practise this concept.'},language);assert.ok(l,language+term);assert.equal(l.language,language);}
+  const id=`${language}-a1-core-v3-lesson-7`,seed='v8-review-expansion-123456789',l=getLessonVariant(id,seed),wrong=l.questions.map(q=>q.type==='text'?'incorrect':(q.answer+1)%q.options.length),review=missedReviewItems(id,wrong,seed);assert.ok(review.length);assert.ok(review.every(r=>r.language===language&&r.lesson===id));
+  const meaning=getLesson(id).questions[0];assert.equal(displayLanguageOptions(meaning,getLesson(id)),true);
+  for(const script of lessonList.filter(l=>l.language===language&&l.characters))for(const q of script.questions.filter(q=>q.options))assert.equal(displayLanguageOptions(q,script),false);
+  assert.ok(companionKeepsake('cat',language,{finale:true}));assert.ok(passportCards([],language,{includeLocked:true}).length>40);
+ }
+});
