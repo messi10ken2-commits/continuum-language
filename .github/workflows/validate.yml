@@ -4,12 +4,15 @@ on:
     branches: [main]
   push:
     branches: [main, 'security/**']
+concurrency:
+  group: validate-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,7 +28,7 @@ jobs:
           npm install --no-save --package-lock=false playwright@1.62.1
           npx playwright install --with-deps chromium
       - name: Verify six languages in both layouts on phone and desktop
-        run: node scripts/qa-six-languages.mjs
+        run: node scripts/qa-six-languages.mjs && node scripts/qa-six-language-app.mjs
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
