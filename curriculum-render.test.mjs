@@ -29,6 +29,8 @@ try{
    storage.set('continuumTestSeeds',JSON.stringify({[l.id]:seed}));
    const exercise=render(language,l.id);
    assert.ok(exercise.includes('question-card'),l.id);
+   const question=getLessonVariant(l.id,seed).questions[0];
+   if(question.displayContext&&question.context&&!question.prompt.includes(question.context)){const expected=renderToStaticMarkup(React.createElement('blockquote',{lang:l.locale,dir:'auto'},question.context));assert.ok(exercise.includes(expected),l.id+': native exercise context must be visible');}
    if(l.skill==='Listening'){assert.ok(exercise.includes('Show transcript'));assert.ok(exercise.includes(`lang="${l.locale}"`));}
    storage.delete('continuumLessonDrafts');storage.delete('continuumTestSeeds');
   }

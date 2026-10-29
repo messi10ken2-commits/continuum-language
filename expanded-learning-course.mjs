@@ -1,7 +1,7 @@
 import {languageInfo,courseBands} from './languages.mjs';
 import {expansionLayout} from './curriculum/layout.mjs';
 const plain=text=>text.replace(/[\[\]]/g,''),chunk=text=>text.match(/\[([^\]]+)\]/)?.[1];
-const choice=(prompt,context,options,index,note,extra={})=>{const shift=index%options.length;return {prompt,context,options:[...options.slice(shift),...options.slice(0,shift)],answer:(options.length-shift)%options.length,note,...extra};};
+const choice=(prompt,context,options,index,note,extra={})=>{const shift=index%options.length;return {prompt,context,displayContext:!!context,options:[...options.slice(shift),...options.slice(0,shift)],answer:(options.length-shift)%options.length,note,...extra};};
 function tiles(text,language){return language==='zh'?[...new Intl.Segmenter('zh',{granularity:'word'}).segment(text)].map(x=>x.segment).filter(x=>x.trim()):text.split(/\s+/);}
 const productionSpecs={
  A1:{words:[30,60],seconds:30,prompt:'Introduce yourself to a new classmate. Say where you live and what you enjoy, then ask a friendly question.'},

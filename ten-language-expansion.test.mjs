@@ -68,3 +68,7 @@ test('new-language class links, review sources, comprehension meanings and scrip
   assert.ok(companionKeepsake('cat',language,{finale:true}));assert.ok(passportCards([],language,{includeLocked:true}).length>40);
  }
 });
+
+test('new meaning questions always show their native situation or supply native audio',()=>{
+ for(const l of lessonList.filter(l=>added.includes(l.language)))for(const q of [l,...(hasExpandedExercises(l.id)?[getLessonVariant(l.id,'v8-context-audit-123456789')]:[])].flatMap(v=>v.questions))if(q.optionsRole==='meaning')assert.ok(q.audio||q.displayContext&&q.context||q.prompt.includes(q.context)&&q.context,l.id+': missing meaning context');
+});
