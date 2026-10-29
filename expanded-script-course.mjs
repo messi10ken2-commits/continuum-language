@@ -11,7 +11,7 @@ function chapter(language,key,title,goal,units){
   const questions=characters.flatMap((entry,i)=>{
    const wrong=characters.filter(x=>x.reading!==entry.reading).slice(0,2),options=[entry.reading,...wrong.map(x=>x.reading)],offset=i%options.length,rotated=[...options.slice(offset),...options.slice(0,offset)];
    if(options.length<2)throw Error('Insufficient script contrasts');
-   return [{prompt:`Choose the reading taught here for “${entry.glyph}”.`,context:entry.glyph,contextLang:locale,options:rotated,optionsLang:'en-US',answer:(options.length-offset)%options.length,note:`${entry.glyph}: ${entry.reading}. ${explanation}`,sourceLesson:lessonId},
+   return [{prompt:`Choose the reading taught here for “${entry.glyph}”.`,context:entry.glyph,contextLang:locale,options:rotated,optionsRole:'form',optionsLang:'en-US',answer:(options.length-offset)%options.length,note:`${entry.glyph}: ${entry.reading}. ${explanation}`,sourceLesson:lessonId},
     {type:'text',prompt:`Listen, then type the character or form. ${[entry.reading,entry.meaning].filter(Boolean).join('. ').replaceAll(entry.glyph,'[form]')}`,answer:entry.glyph,accepted:[entry.glyph],answerMatch:'exact',caseSensitive:true,audio:entry.audio,audioLocale:locale,note:'Compare the typed form with the model. '+explanation,sourceLesson:lessonId}];
   });
   expandedScriptLessons.push({...meta,id:lessonId,chapter:id,title,skill:'Characters',minutes:18,explanation,characterGuidance:guidance||explanation,example:characters.slice(0,5).map(x=>x.glyph).join(' '),exampleLang:locale,characters,questions});

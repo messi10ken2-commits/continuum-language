@@ -55,3 +55,5 @@ test('four new script paths have native audio, independent recall and honest sha
 test('non-Latin speech transcripts are not discarded as empty text',()=>{
  for(const text of ['你好，我叫安娜。','안녕하세요. 저는 학생이에요.','مرحبا اسمي آنا','こんにちは'])assert.equal(scorePronunciation(text,text).score,100);
 });
+
+test('text matching preserves umlauts and Arabic hamza without claiming sound scoring',()=>{assert.notEqual(scorePronunciation('schön','schon','de-DE').score,100);assert.notEqual(scorePronunciation('Maße','Masse','de-DE').score,100);assert.equal(scorePronunciation('مَرْحَبًا','مرحبا','ar-SA').score,100);});

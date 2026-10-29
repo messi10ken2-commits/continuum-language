@@ -2,7 +2,7 @@
 // paraphrases belong to the display language; actual utterances/forms do not.
 export function displayLanguageOptions(q,lesson={}){
  if(!q.options)return false;
- if(q.optionsRole)return q.optionsRole==='comprehension';
+ if(q.optionsRole)return ['comprehension','meaning'].includes(q.optionsRole);
  if(q.video||lesson.conversation)return true;
  if(lesson.visualStory&&!q.optionsLang)return true;
  if((lesson.skill==='Listening'||lesson.checkpoint||lesson.summaryTest)&&q.audio&&!q.optionsLang&&!lesson.specialist)return true;

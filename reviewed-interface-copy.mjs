@@ -1,3 +1,4 @@
+import {expansionDisplayCopy} from './expansion-display-copy.mjs';
 import idiomAdditionalCopy from './idiom-additional-copy.json' with {type:'json'};
 import {idiomReviewedCopy} from './idiom-display-copy.mjs';
 import interfaceAuditCopy from './interface-audit-copy.json' with {type:'json'};
@@ -254,3 +255,8 @@ for(const [source,translations] of Object.entries(interfaceAuditSeed))for(const 
 for(const [locale,copy] of Object.entries(idiomReviewedCopy))Object.assign(reviewedInterfaceCopy[locale],copy);
 
 for(const [source,values] of Object.entries(idiomAdditionalCopy))for(const [locale,value] of Object.entries(values))reviewedInterfaceCopy[locale][source]=value;
+
+for(const [source,values] of Object.entries(expansionDisplayCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
+
+// One canonical heading per display locale, including older editorial variants.
+for(const source of Object.keys(expansionDisplayCopy))for(const locale of Object.keys(expansionDisplayCopy[source]))reviewedCourseTitles[locale][source]=reviewedInterfaceCopy[locale][source];

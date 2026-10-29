@@ -33,13 +33,31 @@ const concepts=[
  [['hiragana','ひらがな'],{ja:'ja-script-v1-hiragana-0'}],
  [['katakana','カタカナ'],{ja:'ja-script-v1-katakana-0'}]
 ];
+// New curricula use authored concept IDs, never a Spanish fallback.
+const expandedIds=(band,index)=>Object.fromEntries(['zh','ko','fr','de','ar','it'].map(l=>[l,`${l}-${band}-core-v3-lesson-${index}`]));
+const extraConcepts=[
+ [['past perfect','pluperfect'],expandedIds('b1',6)],
+ [['past simple','simple past','completed past','passé composé','passe compose','perfekt','passato prossimo'],expandedIds('a2',1)],
+ [['past background','past habits','imperfect','imperfetto','imparfait'],expandedIds('a2',6)],
+ [['hypothetical','conditional','conditionals','konjunktiv ii'],expandedIds('b1',8)],
+ [['future','future plans','prediction'],expandedIds('b1',7)],
+ [['question formation','questions'],expandedIds('a1',5)],
+ [['negation','negative','negatives'],expandedIds('a1',6)],
+ [['subjunctive','subjuntivo','congiuntivo'],{fr:'fr-b1-core-v3-lesson-2',it:'it-b1-core-v3-lesson-2'}],
+ [['idiom','idioms','chengyu','proverbs'],expandedIds('c1',11)],
+ [['pinyin','tones','hanzi'],{zh:'zh-script-v1-pinyin-0'}],
+ [['hangul','hangeul','한글'],{ko:'ko-script-v1-letters-0'}],
+ [['arabic alphabet','arabic letters'],{ar:'ar-script-v1-alphabet-0'}],
+ [['umlaut','umlauts','eszett'],{de:'de-script-v1-special-letters-0'}]
+];
+for(const [terms,ids] of extraConcepts){const old=concepts.find(([existing])=>existing.some(t=>terms.includes(t)));if(old)Object.assign(old[1],ids);}
 export function matchClassLesson(note,language='es',extraTerms=topics){
  if(!note||(note.language||'es')!==language)return null;
  const text=normalize(`${note.focus||''} ${note.note||''}`);
  const eligible=lessonList.filter(l=>(l.language||'es')===language&&!l.checkpoint&&!l.summaryTest);
  if(note.lessonId)return eligible.find(l=>l.id===note.lessonId)||null;
  // Longer concepts take precedence: past perfect subjunctive is not past perfect.
- const hits=concepts.flatMap(([terms,ids])=>terms.filter(t=>has(text,t)).map(t=>({term:t,id:ids[language]}))).sort((a,b)=>normalize(b.term).length-normalize(a.term).length);
+ const hits=[...concepts,...extraConcepts.filter(([,ids])=>ids[language])].flatMap(([terms,ids])=>terms.filter(t=>has(text,t)).map(t=>({term:t,id:ids[language]}))).sort((a,b)=>normalize(b.term).length-normalize(a.term).length);
  if(hits.length)return eligible.find(l=>l.id===hits[0].id)||null;
  const ranked=eligible.map(l=>{
   const title=normalize(l.title),terms=extraTerms[l.id]?.terms||[];

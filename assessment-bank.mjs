@@ -1,3 +1,4 @@
+import {expandedPlacementItems,expandedPlacementLanguages} from './expanded-placement.mjs';
 import {roundedAssessmentItems} from './assessment-rounded.mjs';
 import {varietyFormCount,variedAssessmentItems,variedProductionPrompt} from './assessment-variety.mjs';
 import {internationalAssessmentItems} from './international-assessment.mjs';
@@ -107,6 +108,8 @@ const forms=[[
 forms.push(extraForm);
 export const assessmentFormCount=varietyFormCount;
 export function assessmentItems(form=0,version='es-diagnostic-1'){
+ if(expandedPlacementLanguages.includes(version.slice(0,2))){if(!/^(zh|ko|fr|de|ar|it)-diagnostic-4$/.test(version))throw Error('Unsupported placement version');return expandedPlacementItems(version.slice(0,2),form);}
+
  if(/^(es|ja|pt|en)-diagnostic-4$/.test(version))return roundedAssessmentItems(version.slice(0,2),form);
  if(/^(es|ja|pt|en)-diagnostic-3$/.test(version))return variedAssessmentItems(version.slice(0,2),form);
  if(!Number.isInteger(form)||form<0||form>=forms.length)throw Error('Unknown test form');

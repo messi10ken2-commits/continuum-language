@@ -10,7 +10,7 @@ try{
  assert.equal((await fetch(origin+'/terms',{method:'POST'})).status,405);
  assert.equal((await api('/privacy/settings')).status,401);assert.equal((await api('/privacy/patterns','DELETE',{language:'all'})).status,401);assert.equal((await api('/privacy/patterns','DELETE',{language:'all'},t)).status,403);
  await db.query("INSERT INTO learning_pattern_reports(user_id,language,enabled,report,fingerprint,request_token) SELECT $1,l,true,'{}'::jsonb,'fingerprint','in-flight' FROM unnest(ARRAY['en','es','pt','ja']) l",[a.id]);await db.query("INSERT INTO learning_pattern_reports(user_id,language,enabled,report) VALUES($1,'en',true,'{}')",[b.id]);
- let d=(await api('/privacy/settings','GET',null,a)).data;assert.equal(d.patterns.length,4);assert.ok(d.patterns.every(p=>p.enabled));assert.equal(typeof d.shareSelfLearning,'boolean');
+ let d=(await api('/privacy/settings','GET',null,a)).data;assert.equal(d.patterns.length,10);assert.ok(d.patterns.filter(p=>p.enabled).length===4);assert.equal(typeof d.shareSelfLearning,'boolean');
  assert.deepEqual((await api('/privacy/settings','GET',null,t)).data,{role:'teacher',shareSelfLearning:null,patterns:[]});
  assert.equal((await api('/privacy/patterns','DELETE',{language:'bad'},a)).status,400);assert.equal((await api('/privacy/patterns','DELETE',{language:'en',userId:b.id},a)).status,200);
  d=(await api('/privacy/settings','GET',null,a)).data;assert.equal(d.patterns.find(p=>p.language==='en').enabled,false);assert.equal(d.patterns.filter(p=>p.enabled).length,3);

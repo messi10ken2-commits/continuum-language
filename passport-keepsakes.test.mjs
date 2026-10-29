@@ -14,5 +14,5 @@ test('celebration keepsakes use earned finale, companion, and learning language'
   assert.equal(data.subarray(0,4).toString(),'RIFF');assert.equal(data.subarray(8,12).toString(),'WEBP');
  }
  assert.equal(companionKeepsake('../other','es',{finale:true}),null);
- assert.equal(companionKeepsake('cat','fr',{finale:true}),null);
+ assert.equal(companionKeepsake('cat','xx',{finale:true}),null);
 });

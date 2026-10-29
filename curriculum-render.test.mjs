@@ -10,7 +10,7 @@ const storage=new Map();globalThis.localStorage={getItem:k=>storage.get(k)||null
 try{
  const {default:SelfStudy}=await vite.ssrLoadModule('/SelfStudy.jsx');
  const render=(language,activeLesson)=>renderToStaticMarkup(React.createElement(SelfStudy,{language,activeLesson,attempts:[],onStart(){},onExit(){},onComplete(){}}));
- for(const language of ['en','pt','ja']){
+ for(const language of ['en','pt','ja','zh','ko','fr','de','ar','it']){
   for(const level of ['A1','A2','B1','B2','C1']){
    storage.set('continuumCourseLevel:'+language,level);
    const html=render(language);assert.equal((html.match(/<h4>Chapter checkpoint<\/h4>/g)||[]).length,level==='B2'?5:6);

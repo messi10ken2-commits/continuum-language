@@ -5,7 +5,7 @@ import {interfaceCopy} from './interface-copy.mjs';
 import {protectSource,translationSource} from './localization-corpus.mjs';
 import {translateBatch} from './localization-api.mjs';
 import {languages} from './languages.mjs';
-test('interface choices never expand the learning-language list',()=>{assert.equal(interfaceLanguages.length,10);assert.deepEqual(languages.map(l=>l.id),['es','ja','pt','en']);assert.equal(detectedInterfaceLanguage(['ja-JP']),'ja');assert.equal(detectedInterfaceLanguage(['zh-TW']),'zh');assert.equal(detectedInterfaceLanguage(['de-DE','fr-FR']),'fr');});
+test('interface choices never expand the learning-language list',()=>{assert.equal(interfaceLanguages.length,10);assert.deepEqual(languages.map(l=>l.id),['es','ja','pt','en','zh','ko','fr','de','ar','it']);assert.equal(detectedInterfaceLanguage(['ja-JP']),'ja');assert.equal(detectedInterfaceLanguage(['zh-TW']),'zh');assert.equal(detectedInterfaceLanguage(['de-DE','fr-FR']),'fr');});
 test('all bundled core copy has all five translations',()=>{for(const [text,entries] of Object.entries(interfaceCopy))for(const locale of ['ja','es','pt','zh','fr'])assert.ok(entries[locale]?.trim(),text+':'+locale);});
 test('target forms and English exercise sentences survive translation',()=>{
  const p=protectSource({text:'Compare foi with fui. Use fui for eu.',language:'pt',protectedValues:['foi','fui','eu']});assert.ok(!p.text.includes('foi'));const restored=p.restore(p.text.replace('Compare','比較：'));assert.match(restored,/foi/);assert.match(restored,/fui/);assert.throws(()=>p.restore(p.text.replace('⟦KEEP_0⟧','gone')));

@@ -1,3 +1,6 @@
+import expandedExclusiveSources from './expanded-exclusive-display-sources.json' with {type:'json'};
+import expandedAssessmentSources from './expanded-assessment-display-sources.json' with {type:'json'};
+import expandedFocusedSources from './expanded-focused-display-sources.json' with {type:'json'};
 import {questionPromptSource} from './question-presentation.mjs';
 import {journeyInterfaceSources} from './journey-copy.mjs';
 import {growthInterfaceSources} from './growth-copy.mjs';
@@ -66,6 +69,9 @@ for(const l of lessonList){
   if(meaningOptions)for(const o of q.options||[])add(o);
  }
 }
+
+lessonContext='Placement and focused practice';
+for(const source of [...expandedAssessmentSources,...expandedFocusedSources,...expandedExclusiveSources])add(source.text,source.language,source.protectedValues);
 lessonContext='Course roadmap';
 for(const c of chapters)for(const k of ['title','mapTitle','goal']){add(c[k],c.language||languageOf(c.id));add(c[k]);}
 for(const task of skillTasks){

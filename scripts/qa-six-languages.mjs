@@ -1,0 +1,24 @@
+import assert from 'node:assert/strict';import fs from 'node:fs/promises';import {createServer} from 'vite';
+const {chromium}=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
+const vite=await createServer({server:{host:'127.0.0.1',port:0},appType:'custom'});
+vite.middlewares.use('/api/learning',(_req,res)=>{res.setHeader('Content-Type','application/json');res.end(JSON.stringify({progress:[],drafts:[]}));});
+vite.middlewares.use('/__six-languages',async(_req,res)=>{res.setHeader('Content-Type','text/html');res.end(await vite.transformIndexHtml('/__six-languages','<html><head><style>body{margin:0}.app{display:block!important}.app>main{margin:0!important}.content{padding:20px;max-width:1200px;margin:auto}</style></head><body><div id="root"></div><script type="module" src="/scripts/six-language-fixture.jsx"></script></body></html>'));});
+await vite.listen();const base='http://127.0.0.1:'+vite.httpServer.address().port;let browser;
+try{
+ await fs.mkdir('.media-build/six-languages',{recursive:true});browser=await chromium.launch({headless:true,executablePath:process.env.QA_BROWSER_EXECUTABLE,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']});const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.emulateMedia({reducedMotion:'reduce'});
+ const open=async(language,layout,view,extra='')=>{await page.goto(`${base}/__six-languages?language=${language}&layout=${layout}&view=${view}${extra}`);await page.locator(view==='map'?layout==='illustrated'?'.approved-map-node':'.study-page':view==='exercise'?'.question-card':'.lesson-intro-card').first().waitFor();};
+ for(const language of ['zh','ko','fr','de','ar','it'])for(const layout of ['photo','illustrated'])for(const width of [390,1280]){
+  await page.setViewportSize({width,height:900});
+  for(const level of ['A1','A2','B1','B2','C1']){await open(language,layout,'map','&level='+level);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),`${language} ${layout} ${level} map overflow`);if(layout==='illustrated'){const nodes=page.locator('.approved-map-node');assert.ok(await nodes.count()>5);await nodes.last().evaluate(e=>e.click());await page.waitForFunction(()=>{const a=document.querySelector('.approved-map-node[aria-pressed=true]').getBoundingClientRect(),b=document.querySelector('.approved-map-scroll').getBoundingClientRect();return a.left>=b.left-1&&a.right<=b.right+1&&a.top>=b.top-1&&a.bottom<=b.bottom+1});}}
+  await open(language,layout,'exercise');const qs=await page.evaluate(()=>window.__qaQuestions);
+  for(let i=0;i<3;i++){
+   const q=qs[i];if(q.mode==='order'){const remaining=q.tokens.map((text,index)=>({text,index}));let prefix='';while(remaining.length){const next=remaining.findIndex(x=>q.answer.startsWith(prefix+(prefix?q.joiner:'')+x.text));assert.ok(next>=0,'rebuild canonical tile answer');const {text,index}=remaining.splice(next,1)[0];await page.locator('.word-builder-tiles button').nth(index).click();prefix+=(prefix?q.joiner:'')+text;}}else if(q.type==='text')await page.locator('#written-answer').fill(q.answer);else await page.locator('.answers .answer-with-audio>button').nth(q.answer).click();
+   await page.locator('.question-card>.primary').click();await page.locator('.feedback.good').waitFor();await page.locator('.question-card>.primary').click();await page.waitForFunction(i=>Number(document.querySelector('.practice-top>span')?.textContent.split('/')[0])===i+2&&!document.querySelector('.feedback'),i);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'exercise overflow');
+  }
+  if(language==='ar')assert.equal(await page.locator('[lang="ar-SA"]').first().evaluate(e=>getComputedStyle(e).direction),'rtl');
+  await page.screenshot({path:`.media-build/six-languages/${language}-${layout}-${width}.png`,fullPage:true});
+  if(['zh','ko','ar','de'].includes(language)){const id={zh:'zh-script-v1-pinyin-0',ko:'ko-script-v1-letters-0',ar:'ar-script-v1-alphabet-0',de:'de-script-v1-special-letters-0'}[language];await open(language,layout,'intro','&lesson='+id);if(layout==='illustrated')await page.locator('.illustrated-lesson-reference').evaluate(e=>e.open=true);assert.ok(await page.locator('.kana-grid button').count()>5);await page.locator('.kana-grid button').last().click();assert.ok(await page.locator('.copy-studio').count());assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),'script overflow');}
+  console.log('PASS six-language browser matrix',language,layout,width);
+ }
+ assert.deepEqual(errors,[]);
+}finally{await browser?.close();await vite.close();}

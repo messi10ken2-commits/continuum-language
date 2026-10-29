@@ -50,7 +50,7 @@ export async function handleAssessment({route,req,res,pool,required,json,send,fa
    await c.query('BEGIN');const r=await c.query('SELECT * FROM assessments WHERE id=$1 AND user_id=$2 FOR UPDATE',[match[1],user.id]);
    if(!r.rows.length||r.rows[0].language!==language)fail(404,'Test not found');
    let row=r.rows[0];
-   if(!(/^(es-diagnostic-1|(es|ja|pt|en)-diagnostic-[234])$/.test(row.version)))fail(409,'This test version is no longer supported');
+   if(!(/^(es-diagnostic-1|(es|ja|pt|en)-diagnostic-[234]|(zh|ko|fr|de|ar|it)-diagnostic-4)$/.test(row.version)))fail(409,'This test version is no longer supported');
    const items=assessmentItems(row.form,row.version),productive=/-diagnostic-[234]$/.test(row.version)&&data.index>=items.length;
    if(productive){if(data.index>=items.length+2)fail(400,'Invalid task index');if(data.answer!==null){if(!data.answer||typeof data.answer.sampleId!=='string'||!/^[a-f0-9-]{36}$/.test(data.answer.sampleId))fail(400,'Submit your response or skip');const sample=await c.query('SELECT task_id,result FROM skill_submissions WHERE id=$1 AND user_id=$2 AND assessment_id=$3',[data.answer.sampleId,user.id,row.id]);const expected=data.index===items.length?'writing':'speaking';if(!sample.rows[0]?.task_id.endsWith('-'+expected))fail(400,'Response does not belong to this test section');}}
    else if(!(data.answer===null||Number.isInteger(data.answer)&&data.answer>=0&&data.answer<(items[data.index]?.options.length||0)))fail(400,'Choose an answer or skip');
