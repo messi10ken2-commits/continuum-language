@@ -1,7 +1,6 @@
 import io, json, os, unittest
 from datetime import date
 from unittest.mock import patch
-from PIL import Image
 
 from social_automation.vlog_carousel import (
     VLOG_FIRST_DATE, is_vlog_day, media_paths, make_slides,
@@ -17,6 +16,10 @@ class TestVlogCarousel(unittest.TestCase):
         self.assertEqual(len(media_paths(date(2026,11,9))),4)
 
     def test_create_four_real_jpegs_with_fictional_label(self):
+        try:
+            from PIL import Image
+        except ImportError:
+            self.skipTest('Pillow installed in Instagram job, not required for text-only social tests')
         im=Image.new("RGB",(1024,1536),(40,90,110))
         b=io.BytesIO()
         im.save(b,format="JPEG")
