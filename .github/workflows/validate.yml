@@ -28,12 +28,14 @@ jobs:
           npm install --no-save --package-lock=false playwright@1.62.1
           npx playwright install --with-deps chromium
       - name: Verify six languages in both layouts on phone and desktop
-        run: node scripts/qa-six-languages.mjs && node scripts/qa-six-language-app.mjs
+        run: node scripts/qa-six-languages.mjs && node scripts/qa-six-language-app.mjs && node scripts/qa-language-records.mjs
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: six-language-browser-evidence
-          path: .media-build/six-languages
+          path: |
+            .media-build/six-languages
+            .media-build/language-records
           if-no-files-found: ignore
       - run: npm run test:qa
       - run: npm run audit:language
