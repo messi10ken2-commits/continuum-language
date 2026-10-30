@@ -1,3 +1,4 @@
+import {isLearningLanguage} from './languages.mjs';
 import {safeSavedCorrections} from './correction-integrity.mjs';
 import {serveStudioSpeech} from './speech-api.mjs';
 import {premiumSkillTasks,premiumSkillSummary} from './premium-skills.mjs';
@@ -27,7 +28,14 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
  if(route==='/api/skills/catalog'&&req.method==='GET'){send(res,200,{premium,tasks:premiumSkillSummary});return true;}
  const taskRoute=route.match(/^\/api\/skills\/tasks\/([a-z0-9-]+)(?:\/(audio))?$/);if(taskRoute&&req.method==='GET'){if(!premium)fail(403,'Premium is required for scenario-focused practice.');const task=getSkillTask(taskRoute[1]);if(!task?.premium)fail(404,'Practice not found');if(taskRoute[2]){const sample=new URL(req.url,'http://localhost').searchParams.get('sample');return serveStudioSpeech({req,res,pool,text:sample==='model'?task.model:task.audio,locale:task.locale,privateAudio:true,send,fail,limited});}send(res,200,{task});return true;}
  if(route==='/api/skills/ai-status'&&req.method==='GET'){send(res,200,{available:aiConfigured()});return true;}
- if(route==='/api/skills'&&req.method==='GET'){if(user.role!=='learner')fail(403,'Learner account required');const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 ORDER BY created_at DESC LIMIT 100`,[user.id]);send(res,200,{submissions:r.rows.map(visible)});return true;}
+ if(route==='/api/skills'&&req.method==='GET'){
+  if(user.role!=='learner')fail(403,'Learner account required');
+  const language=new URL(req.url,'http://localhost').searchParams.get('language');
+  if(language!==null&&!isLearningLanguage(language))fail(400,'Choose a valid language');
+  const ids=language?[...skillTasks,...premiumSkillTasks].filter(t=>(t.language||'es')===language).map(t=>t.id):null;
+  const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1${language?' AND task_id=ANY($2::text[])':''} ORDER BY created_at DESC LIMIT 100`,language?[user.id,ids]:[user.id]);
+  send(res,200,{submissions:r.rows.map(visible)});return true;
+ }
  const list=route.match(/^\/api\/skills\/learner\/([a-f0-9-]{36})$/);
  if(list&&req.method==='GET'){if(user.role!=='teacher')fail(403,'Teacher account required');const scope=await skillAccess(pool,user,{user_id:list[1]},fail),allowed=requestedScope(req,scope,fail),ids=[...skillTasks,...premiumSkillTasks].filter(t=>allowed.includes(t.language||'es')).map(t=>t.id);const r=await pool.query(`SELECT ${fields} FROM skill_submissions WHERE user_id=$1 AND task_id=ANY($2::text[]) ORDER BY created_at DESC LIMIT 100`,[list[1],ids]);sharedPremium=(await membership(pool,list[1],{actual:true})).premium;send(res,200,{submissions:r.rows.map(visible)});return true;}
  if(route==='/api/skills'&&req.method==='POST'){

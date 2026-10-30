@@ -22,7 +22,7 @@ function NativeReferences({sources}){return sources?.length?<section className="
 function CourseReference({course,lesson}){
  const chart=academicChartCopy[course.language]||academicChartCopy.en;
  return <><RegionalComparisons course={course}/><NativeReferences sources={course.nativeReferences}/><LessonReference lesson={{...lesson,vocabulary:undefined}} audioEnabled={course.scene!=='varieties'}/>
- {course.exampleNote&&<section className="rule-pitfall"><h3>{t('Usage note')}</h3><p>{t(course.exampleNote)}</p></section>}
+ {course.exampleNote&&<section className="rule-pitfall"><h3>{t('Usage note')}</h3><p>{t(course.exampleNote,course.language)}</p></section>}
  {course.reading&&<section><h3>{t('Read the scenario')}</h3><p lang={course.language}>{course.reading}</p></section>}
  {course.visualData&&<figure className="academic-chart" lang={course.language}><figcaption>{chart.title}</figcaption>{[[chart.daily,course.visualData.daily],[chart.weekly,course.visualData.weekly]].map(([label,value])=><div key={label}><span>{label}</span><div><i style={{width:value+'%'}}/></div><b>{value}/100</b></div>)}<small>{chart.note}</small></figure>}
  {course.vocabulary&&<section className="lesson-reference"><h3>{t('Useful expressions for this situation')}</h3>{course.vocabulary.map(({phrase,meaning})=><div className="translated-example" key={phrase}><b lang={course.language}>{phrase}</b><p>{t(meaning)}</p></div>)}</section>}

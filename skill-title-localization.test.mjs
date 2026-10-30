@@ -19,8 +19,8 @@ import {t,setInterfaceLanguage} from './interface-runtime.mjs';
 test('skill history and expanded record translate authored headings and react to display-language changes',()=>{
  const source=readFileSync(new URL('./SkillsWorkshop.jsx',import.meta.url),'utf8');
  assert.match(source,/export function SkillRecord[^]*?useInterfaceLanguage\(\)/);
- assert.ok(source.includes("uiText(getSkillTask(s.task)?.title,getSkillTask(s.task)?.language||'es')"));
- assert.ok(source.includes("uiText(getSkillTask(selected.task)?.title,getSkillTask(selected.task)?.language||'es')"));
+ assert.ok(source.includes("uiText(skillSubmissionTask(s)?.title,skillSubmissionTask(s)?.language||'es')"));
+ assert.ok(source.includes("uiText(skillSubmissionTask(selected)?.title,skillSubmissionTask(selected)?.language||'es')"));
  // Learner responses and saved feedback remain original evidence.
  assert.ok(source.includes('{selected.response}'));assert.ok(source.includes('{selected.result.feedback}'));
 });
