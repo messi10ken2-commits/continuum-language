@@ -1,3 +1,4 @@
+import {expandedVideoChapters,expandedVideoLessons} from './expanded-video-course.mjs';
 import {expandedVisualChapters,expandedVisualLessons,expandedVisualTransfer} from './expanded-visual-course.mjs';
 import {expandedChapters,expandedLessons,expandedTransfer} from './expanded-language-catalog.mjs';
 import {expandedScriptChapters,expandedScriptLessons} from './expanded-script-course.mjs';
@@ -163,6 +164,8 @@ chapters.push(...conversationChapters);
 lessonList.push(...conversationLessons);
 chapters.push(...expandedChapters,...expandedSoundChapters,...expandedScriptChapters,...expandedVisualChapters);
 lessonList.push(...expandedLessons,...expandedSoundLessons,...expandedScriptLessons,...expandedVisualLessons);
+chapters.push(...expandedVideoChapters);
+lessonList.push(...expandedVideoLessons);
 enrichEverydayLessons(lessonList);
 export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';

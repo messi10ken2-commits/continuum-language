@@ -34,7 +34,7 @@ try{
    width=index%2?1280:390;await page.setViewportSize({width,height:900});await api('/interface-language','PUT',{language:locale},cookie);await page.reload();await page.waitForFunction(l=>document.documentElement.lang===(l==='zh'?'zh-Hans':l),locale);await page.locator('.mobile-nav button').first().waitFor({state:'attached'});
    for(const language of ['zh','ko','fr','de','ar','it']){
     await nav().nth(0).click();await page.locator('.learner-shortcuts').waitFor();await page.getByRole('combobox',{name:copy('Learning language',locale),exact:true}).selectOption(language);await nav().nth(2).click();await page.locator('.studio-menu button').filter({hasText:copy('Exclusive courses',locale)}).click();await page.locator('.membership-courses article').first().waitFor();
-    const expected=premiumCourseSummary.filter(c=>c.language===language);assert.equal(await page.locator('.membership-courses article').count(),9);
+    const expected=premiumCourseSummary.filter(c=>c.language===language);assert.equal(await page.locator('.membership-courses article').count(),expected.length);
     assert.deepEqual(await page.locator('.membership-courses article h3').allTextContents(),expected.map(c=>copy(c.title,locale)));assert.deepEqual(await page.locator('.membership-courses article>p').allTextContents(),expected.map(c=>copy(c.description,locale)));
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),layout+' '+locale+' '+language+' cards overflow');
    }

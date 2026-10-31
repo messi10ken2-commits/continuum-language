@@ -1,3 +1,4 @@
+import {expandedPremiumVideoCourses} from './expanded-premium-video-courses.mjs';
 import {japaneseBasicVideoArchive} from './japanese-basic-video-archive.mjs';
 import {kansaiComparisonVideo} from './regional-audio-pairs.mjs';
 import {japaneseInlineVideoCourse} from './japanese-inline-video.mjs';
@@ -67,7 +68,7 @@ const originalVideoCourses=Object.entries(definitions).map(([language,d])=>({
 }));
 export const archivedPremiumVideoCourses=[...originalVideoCourses.filter(c=>c.language==='ja'),japaneseBasicVideoArchive];
 export const premiumVideoCourses=[...originalVideoCourses.filter(c=>c.language!=='ja'),japaneseInlineVideoCourse];
-export const premiumVideoSources=premiumVideoCourses.map(({id,language,title,conversation})=>({id,language,title,conversation}));
+export const premiumVideoSources=[...premiumVideoCourses,...expandedPremiumVideoCourses].map(({id,language,title,conversation})=>({id,language,title,conversation}));
 
 // Native comparison remains watchable without purchasing the exercises.
 premiumVideoSources.push({id:'ja-premium-varieties-v1',language:'ja',title:kansaiComparisonVideo.sourceTitle,conversation:kansaiComparisonVideo});

@@ -89,3 +89,20 @@ Normal lesson pages and example cards select relevant scenes from visible conten
 | reading-water | 1560759861-132aa16d4267 | https://unsplash.com/photos/WXYZx9AO-GA |
 | market-clothes | 1676583821204-1c80b1293206 | https://unsplash.com/photos/1U9hsiGseR8 |
 | airport-lounge | 1760654343460-e38c0db08a71 | https://unsplash.com/s/photos/airport-waiting |
+
+## Six-language video extension · 2026-10-31
+
+Thirty ordinary video lessons cover A1–C1 in Chinese, Korean, French, German, Arabic and Italian. Six independent recordings support their exclusive courses. The two source catalogs list the publisher, exact title, variety and learning focus. These are external YouTube embeds; no footage or publisher transcripts are copied or redistributed. External-media privacy consent, original-video fallback links and both learner layouts use the existing player.
+
+Publisher watch pages returned playable metadata for all 36 selected recordings on 2026-10-31. This does not guarantee playback in every region. A candidate requiring sign-in was excluded. Arabic varieties are explicitly identified, and level labels describe Continuum tasks rather than a certified rating of a video.
+
+The new six-question checks cover publisher-confirmed focus, contextual interpretation and evidence limits. Full dialogue transcripts and precise cue timings could not be independently verified. The interface states that limitation; these lessons do not claim transcript-verified detailed comprehension. Listening guides progress from recognising an exchange at A1 to attributed, qualified synthesis at C1. Publisher corrections are retained for the Korean chess collocation and Taiwanese Mandarin 再看看.
+
+| Language | A1 | A2 | B1 | B2 | C1 | Exclusive |
+| --- | --- | --- | --- | --- | --- | --- |
+| zh | [Video](https://www.youtube.com/watch?v=T3UWrgSoIxQ) | [Video](https://www.youtube.com/watch?v=i_Xw-kjNdU0) | [Video](https://www.youtube.com/watch?v=W9WD8bkbRMM) | [Video](https://www.youtube.com/watch?v=UDT4V80Xmhg) | [Video](https://www.youtube.com/watch?v=-9OuNeCadjc) | [Video](https://www.youtube.com/watch?v=ZQoiIKzAKug) |
+| ko | [Video](https://www.youtube.com/watch?v=zTldGa24mvk) | [Video](https://www.youtube.com/watch?v=6VTsafbqMGk) | [Video](https://www.youtube.com/watch?v=ZnEoJXGdLMM) | [Video](https://www.youtube.com/watch?v=V-1V-HnvGEs) | [Video](https://www.youtube.com/watch?v=zyFE5-7RQdw) | [Video](https://www.youtube.com/watch?v=kcbLFsEOniw) |
+| fr | [Video](https://www.youtube.com/watch?v=Ke9aDDtbLQ0) | [Video](https://www.youtube.com/watch?v=tcF32PewZqY) | [Video](https://www.youtube.com/watch?v=EAX8mc_ovDk) | [Video](https://www.youtube.com/watch?v=flS3MVNXWbw) | [Video](https://www.youtube.com/watch?v=-VWMMfdLw0U) | [Video](https://www.youtube.com/watch?v=nDCVXdenDII) |
+| de | [Video](https://www.youtube.com/watch?v=huwi-cjPPXU) | [Video](https://www.youtube.com/watch?v=F0CFFJLQUcM) | [Video](https://www.youtube.com/watch?v=7zRAEn1qXJ4) | [Video](https://www.youtube.com/watch?v=2YrvT07tixI) | [Video](https://www.youtube.com/watch?v=tnagbAbsmSU) | [Video](https://www.youtube.com/watch?v=vY7WCRyG-n8) |
+| ar | [Video](https://www.youtube.com/watch?v=0pb0F4HOCN8) | [Video](https://www.youtube.com/watch?v=Tu5oU-ftipI) | [Video](https://www.youtube.com/watch?v=HBgrEQpQ23c) | [Video](https://www.youtube.com/watch?v=_gX7hqsHBZc) | [Video](https://www.youtube.com/watch?v=dECCXUZOQFE) | [Video](https://www.youtube.com/watch?v=qDk1kS1iWAM) |
+| it | [Video](https://www.youtube.com/watch?v=ieyLUxtwch4) | [Video](https://www.youtube.com/watch?v=F4XWtchHCx8) | [Video](https://www.youtube.com/watch?v=_CFsYMzD5is) | [Video](https://www.youtube.com/watch?v=1D1QvZYVIkU) | [Video](https://www.youtube.com/watch?v=bKGm6hsYWuk) | [Video](https://www.youtube.com/watch?v=vJPWo4CEv_Q) |

@@ -196,15 +196,37 @@ D('ar','idioms-2',`
 لنحتفظ باحتياطي قبل الأزمة؛ [درهم وقاية خير من قنطار علاج].~Preventive preparation is preferable to a much larger later remedy.
 تنويع المصادر مهم؛ [لا تضع البيض كله في سلة واحدة].~Avoid concentrating all resources or dependence in a single option.`, 'These proverbs provide perspectives, not universal proofs. A figurative call for prevention is not medical guidance; discuss concrete risks and responsibilities in a formal plan.');
 
-export const expandedExclusiveCourses=Object.entries(expandedFocusedContent).flatMap(([language,focused])=>Object.entries(specs).map(([key,spec])=>{
+// Register practice for the original four learning languages.
+D('en','register',`
+[Can you send me the file when you get a minute]?~An informal request to a familiar colleague for a file when convenient.
+[Could you send the requested documents by Friday, please]?~A polite professional request with a clear deadline.
+[We would appreciate clarification of the scope of your proposal].~A formal written request to clarify what a proposal covers.
+[Please let us know if the schedule changes].~A neutral professional request for notice of scheduling changes.`, 'Can you is natural between familiar colleagues; could you softens the request without making it formal by itself. We would appreciate suits formal correspondence. Please is polite but does not cancel an unrealistic demand. Match the deadline to the agreement.');
+D('es','register',`
+[¿Me pasas el archivo cuando tengas un momento]?~A familiar singular request for a file when convenient.
+[¿Podría enviarme los documentos solicitados antes del viernes, por favor]?~A polite request using usted with a clear deadline before Friday.
+[Le agradeceríamos que aclarara el alcance de su propuesta].~A formal written request to clarify what a proposal covers.
+[Por favor, avísenos si cambia el horario].~A professional request addressed with usted for notice of scheduling changes.`, 'The first model uses tú; the other models use usted. Usted can express respect or distance, but its use varies by region and relationship. Conditional forms soften requests; they do not make the requested action optional if a deadline has already been agreed.');
+D('pt','register',`
+[Você me manda o arquivo quando tiver um tempinho]?~A familiar request in Brazilian Portuguese for a file when convenient.
+[Você poderia me enviar os documentos solicitados até sexta-feira, por favor]?~A polite professional request with a deadline no later than Friday.
+[Agradeceríamos um esclarecimento sobre o escopo da sua proposta].~A formal written request to clarify what a proposal covers.
+[Por favor, nos avise se houver alguma mudança no cronograma].~A professional request for notice of scheduling changes.`, 'These models use Brazilian Portuguese. Você can be neutral as well as familiar; it does not correspond mechanically to informal address in every region. Poderia softens a request. O senhor and a senhora may add respectful distance in appropriate relationships, but are not required for every professional message.');
+D('ja','register',`
+[時間があるときにファイルを送ってくれる]？~A casual request to someone close for a file when convenient.
+[金曜日までに必要な書類をお送りいただけますか]。~A polite professional request to receive the required documents by Friday.
+[ご提案の範囲について、ご説明いただけますと幸いです]。~A formal written request to clarify what a proposal covers.
+[予定に変更がありましたら、お知らせください]。~A polite professional request for notice of scheduling changes.`, 'The first model is casual and assumes familiarity. The other models use polite or honorific request forms suitable for professional communication. More elaborate honorifics do not automatically make a request considerate: give a realistic deadline and a specific action. Relationships within and outside an organisation also affect the choice.');
+
+export const expandedExclusiveCourses=Object.entries({...expandedFocusedContent,en:null,es:null,pt:null,ja:null}).flatMap(([language,focused])=>Object.entries(specs).filter(([key])=>focused||key==='register').map(([key,spec])=>{
  const row=key==='interview'?focused.interview:key==='housing'?focused.living:key==='travel'?focused.travel:packs[language]?.[key];
  if(!row||row.models.length!==4)throw Error('Incomplete exclusive course: '+language+' '+key);
  const locale=languageInfo(language).locale,models=row.models.map(m=>({...m,native:plain(m.text),target:chunk(m.text)})),guide=row.guide||spec.guide;
  const questions=models.map((m,i)=>({type:i%2?'listening':'interpretation',prompt:'Choose the intended meaning in this situation.',context:i%2?'':m.native,...(i%2?{audio:m.native,audioLocale:locale}:{}),options:[m.meaning,...models.filter((_,j)=>j!==i).slice(0,2).map(x=>x.meaning)],answer:0,note:m.meaning+'. '+guide}));
- const sample=models[0],reorder=models[2],tokens=language==='zh'?[...new Intl.Segmenter('zh',{granularity:'word'}).segment(reorder.native)].map(x=>x.segment).filter(x=>x.trim()):reorder.native.split(/\s+/);
+ const sample=models[0],reorder=models[2],tokens=['zh','ja'].includes(language)?[...new Intl.Segmenter(language,{granularity:'word'}).segment(reorder.native)].map(x=>x.segment).filter(x=>x.trim()):reorder.native.split(/\s+/);
  questions.push({type:'typing',prompt:'Type the full sentence you hear.',context:'',audio:sample.native,audioLocale:locale,answer:sample.native,note:'Use the wording of the recording. '+guide});
  questions.push({type:'cloze',prompt:'Complete the model with the wording taught here.',context:models[1].native.replace(models[1].target,'____'),answer:models[1].target,note:'Recall the complete phrase in its context. '+guide});
- questions.push({type:'reorder',prompt:'Put the words in order to rebuild the model.',context:'',tokens:[...tokens].reverse(),separator:language==='zh'?'':' ',answer:reorder.native,note:'Keep the expression and its grammatical connections intact. '+guide});
+ questions.push({type:'reorder',prompt:'Put the words in order to rebuild the model.',context:'',tokens:[...tokens].reverse(),separator:['zh','ja'].includes(language)?'':' ',answer:reorder.native,note:'Keep the expression and its grammatical connections intact. '+guide});
  questions.push({type:'choice',prompt:'Choose the response that expresses this intention: '+models[3].meaning,context:'',options:[models[3].native,models[0].native,models[1].native],answer:0,note:models[3].meaning+'. '+guide});
  return {id:`${language}-exclusive-v1-${key}`,language,locale,contentVersion:1,...spec,explanation:spec.guide,exampleNote:language==='ar'?'Models use Modern Standard Arabic; regional dialects are not presented as interchangeable.':'These are original authored practice models. AI studio audio is not an authenticated regional human recording.',examples:models.map(x=>x.native),...(key==='academic'?{reading:models.map(x=>x.native).join(' '),visualData:{daily:72,weekly:68,participants:40}}:{}),vocabulary:models.map(m=>({phrase:m.target,meaning:m.meaning})),breakdown:{steps:['Identify the situation, purpose and relationship.','Listen and compare the complete models before practising the form.','Choose wording that preserves the intended meaning and level of certainty.'],tables:[],pitfall:guide,examples:models.map(m=>[m.native,m.meaning])},questions:questions.map((q,i)=>{if(!q.options)return q;const offset=i%q.options.length;return {...q,options:[...q.options.slice(offset),...q.options.slice(0,offset)],answer:(q.options.length-offset)%q.options.length};})};
 }));
