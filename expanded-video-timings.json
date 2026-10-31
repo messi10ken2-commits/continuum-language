@@ -2551,101 +2551,101 @@
   },
   {
     "youtubeId": "0pb0F4HOCN8",
-    "analysisId": "d9dc9243-6e73-4bd0-b05b-ef9f0578eefa",
+    "analysisId": "644f5113-23eb-40b2-ad0f-f587901439f3",
     "questions": [
       {
-        "prompt": "Which kinds of expressions open the recording?",
+        "prompt": "What does the greeting 'Sabah al-khair' mean?",
         "options": [
-          "Greetings and asking how someone is",
-          "Instructions for repairing a car",
-          "A weather forecast"
+          "Good morning",
+          "Goodbye",
+          "Thank you"
         ],
-        "note": "The selected passage supports this answer: Greetings and asking how someone is. Attribute this account to the speaker and keep its context.",
+        "note": "The expression in the selected passage means: Good morning.",
         "videoCue": {
-          "start": 0,
-          "end": 17,
-          "label": "Which kinds of expressions open the recording?",
-          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 1, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "start": 1,
+          "end": 3,
+          "label": "What does the greeting 'Sabah al-khair' mean?",
+          "evidence": "Higgsfield scene analysis 644f5113-23eb-40b2-ad0f-f587901439f3, scene 2, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
           "precision": "analysis-assisted"
         }
       },
       {
-        "prompt": "Which personal information is asked about?",
+        "prompt": "Which time of day does 'Masa al-khair' greet?",
         "options": [
-          "Name, age and origin",
-          "Bank details and passwords",
-          "A train's departure platform"
+          "The evening or afternoon",
+          "The early morning",
+          "Only midnight"
         ],
-        "note": "The selected passage supports this answer: Name, age and origin. Attribute this account to the speaker and keep its context.",
+        "note": "The expression in the selected passage means: The evening or afternoon.",
         "videoCue": {
-          "start": 13,
-          "end": 32,
-          "label": "Which personal information is asked about?",
-          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 2, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "start": 3,
+          "end": 5,
+          "label": "Which time of day does 'Masa al-khair' greet?",
+          "evidence": "Higgsfield scene analysis 644f5113-23eb-40b2-ad0f-f587901439f3, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
           "precision": "analysis-assisted"
         }
       },
       {
-        "prompt": "Which topic is included among the questions?",
+        "prompt": "What is the purpose of 'Tusbih ala khair'?",
         "options": [
-          "Where someone lives and works",
-          "How to replace a tyre",
-          "How to register a patent"
+          "Wishing someone a good night",
+          "Asking someone's name",
+          "Asking for a price"
         ],
-        "note": "The selected passage supports this answer: Where someone lives and works. Attribute this account to the speaker and keep its context.",
+        "note": "The expression in the selected passage means: Wishing someone a good night.",
         "videoCue": {
-          "start": 28,
-          "end": 47,
-          "label": "Which topic is included among the questions?",
-          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "start": 5,
+          "end": 8,
+          "label": "What is the purpose of 'Tusbih ala khair'?",
+          "evidence": "Higgsfield scene analysis 644f5113-23eb-40b2-ad0f-f587901439f3, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
           "precision": "analysis-assisted"
         }
       },
       {
-        "prompt": "Which contrast appears in these phrases?",
+        "prompt": "What does 'Kayfa haluk' ask about?",
         "options": [
-          "Understanding someone and not understanding them",
-          "Arriving early and booking a room",
-          "Paying cash and paying by card"
+          "How someone is",
+          "Where someone works",
+          "How old someone is"
         ],
-        "note": "The selected passage supports this answer: Understanding someone and not understanding them. Attribute this account to the speaker and keep its context.",
+        "note": "The expression in the selected passage means: How someone is.",
         "videoCue": {
-          "start": 73,
-          "end": 92,
-          "label": "Which contrast appears in these phrases?",
-          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "start": 8,
+          "end": 12,
+          "label": "What does 'Kayfa haluk' ask about?",
+          "evidence": "Higgsfield scene analysis 644f5113-23eb-40b2-ad0f-f587901439f3, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
           "precision": "analysis-assisted"
         }
       },
       {
-        "prompt": "Which request helps when speech is unclear?",
+        "prompt": "What does 'Ana bikhayr' communicate?",
         "options": [
-          "Asking someone to repeat",
-          "Asking for a dessert menu",
-          "Asking to close an account"
+          "I am fine",
+          "I am leaving tomorrow",
+          "I am hungry"
         ],
-        "note": "The selected passage supports this answer: Asking someone to repeat. Attribute this account to the speaker and keep its context.",
+        "note": "The expression in the selected passage means: I am fine.",
         "videoCue": {
-          "start": 103,
-          "end": 122,
-          "label": "Which request helps when speech is unclear?",
-          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "start": 12,
+          "end": 16,
+          "label": "What does 'Ana bikhayr' communicate?",
+          "evidence": "Higgsfield scene analysis 644f5113-23eb-40b2-ad0f-f587901439f3, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
           "precision": "analysis-assisted"
         }
       },
       {
-        "prompt": "Which request concerns speaking speed?",
+        "prompt": "What information does 'Ma ismuk' request?",
         "options": [
-          "Asking someone to speak slowly",
-          "Asking someone to leave earlier",
-          "Asking someone to sing louder"
+          "A person's name",
+          "A person's address",
+          "A person's nationality"
         ],
-        "note": "The selected passage supports this answer: Asking someone to speak slowly. Attribute this account to the speaker and keep its context.",
+        "note": "The expression in the selected passage means: A person's name.",
         "videoCue": {
-          "start": 118,
-          "end": 137,
-          "label": "Which request concerns speaking speed?",
-          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "start": 16,
+          "end": 20,
+          "label": "What information does 'Ma ismuk' request?",
+          "evidence": "Higgsfield scene analysis 644f5113-23eb-40b2-ad0f-f587901439f3, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
           "precision": "analysis-assisted"
         }
       }

@@ -8,9 +8,9 @@ Scope: regional Mandarin plus Hakka/Hokkien and the distinct Indigenous Austrone
 
 ## AI-assisted video replay ranges
 
-All 36 additional-language video lessons (30 A1–C1 and six exclusive) now have six passage-specific questions and replay ranges. Each range comes from a selected speech scene returned by Higgsfield video analysis, with two seconds of surrounding context where possible. Ranges are **approximate and AI-assisted, not independently verified against playback or an authoritative transcript**. This limitation appears beside every question in all nine display languages. The full-video option remains available. No timing is derived from equal divisions of a recording.
+All 36 additional-language video lessons (30 A1–C1 and six exclusive) now have six passage-specific questions and replay ranges. Each range comes from a selected speech scene returned by Higgsfield video analysis, with two seconds of surrounding context where possible (short phrase boundaries are kept compact). Ranges are **approximate and AI-assisted, not independently verified against playback or an authoritative transcript**. This limitation appears beside every question in all nine display languages. The full-video option remains available. No timing is derived from equal divisions of a recording.
 
-Direct YouTube requests were blocked (HTTP 429 / transcript reader IpBlocked). The alternate analysis route supplied timed speech descriptions. Generated results were checked for topic and question consistency; an unrelated first result for German B2 was rejected and a fresh analysis was used. This review does not establish frame-level or word-level accuracy. Long recordings and translated analysis can omit or misalign speech. Publisher captions and the full recording remain the authority; independent playback review is still desirable.
+Direct YouTube requests were blocked (HTTP 429 / transcript reader IpBlocked). The alternate analysis route supplied timed speech descriptions. Generated results were checked for topic and question consistency; an unrelated first result for German B2 was rejected and a fresh analysis was used. Arabic A1 was cross-checked with a second analysis, and its questions use the explicitly segmented opening phrases rather than an unsegmented overview. This review does not establish frame-level or word-level accuracy. Long recordings and translated analysis can omit or misalign speech. Publisher captions and the full recording remain the authority; independent playback review is still desirable.
 
 The timing JSON files record the analysis job ID, scene number, review date and uncertainty in every cue. The source URL remains attached to each question. Normal lesson records are public; exclusive questions and their timing records stay in server-only modules. Both sets use new v2 exercise IDs, while v1 questions remain resolvable for earlier results and drafts. Normal chapter IDs remain stable to avoid duplicate map/passport entries.
 
@@ -43,7 +43,7 @@ The timing JSON files record the analysis job ID, scene number, review date and 
 | ko | B1 | [Publisher video](https://www.youtube.com/watch?v=ZnEoJXGdLMM) | `5af1da10-8ced-4e8d-bd1f-dc36d60997a2` |
 | ko | B2 | [Publisher video](https://www.youtube.com/watch?v=V-1V-HnvGEs) | `8ebeaacb-eab6-4b27-8c81-7eb9d83b0c6d` |
 | ko | C1 | [Publisher video](https://www.youtube.com/watch?v=zyFE5-7RQdw) | `9235e71d-8d18-467c-9085-82faf767d48a` |
-| ar | A1 | [Publisher video](https://www.youtube.com/watch?v=0pb0F4HOCN8) | `d9dc9243-6e73-4bd0-b05b-ef9f0578eefa` |
+| ar | A1 | [Publisher video](https://www.youtube.com/watch?v=0pb0F4HOCN8) | `644f5113-23eb-40b2-ad0f-f587901439f3` |
 | ar | A2 | [Publisher video](https://www.youtube.com/watch?v=Tu5oU-ftipI) | `09a36b79-ab10-4037-bafc-45d064f9ffd8` |
 | ar | B1 | [Publisher video](https://www.youtube.com/watch?v=HBgrEQpQ23c) | `306767e4-f156-4cd7-a090-482699b7dcb7` |
 | ar | B2 | [Publisher video](https://www.youtube.com/watch?v=_gX7hqsHBZc) | `3913e6b2-39e7-43f3-a8b3-7af9a5e5f3b0` |
