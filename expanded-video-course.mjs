@@ -1,3 +1,4 @@
+import timings from './expanded-video-timings.json' with {type:'json'};
 import sources from './expanded-video-sources.json' with {type:'json'};
 import {languageInfo} from './languages.mjs';
 // Source-focus checks are limited to publisher-confirmed titles/descriptions.
@@ -29,5 +30,16 @@ export function buildExpandedVideo(source){
  const levelNote=`${band} describes the Continuum listening task, not an official CEFR rating of the source. ${source.variety?`Variety: ${source.variety}. `:''}The checks cover publisher-confirmed focus and interpretation; detailed dialogue and exact timestamps have not been independently verified.`;
  return {id,chapter:id+'-chapter',language,locale,level:band,title,specialist:true,curriculumVersion:3,exerciseVersion:'v1-video-expansion-20261031',contentVersion:1,skill:'Listening',minutes:18,description:explanation,explanation,example:'Watch with the listening guide, then complete the source-focus checks.',exampleLang:'en-US',examples:[],scene:'listening',conversation:{provider:'youtube',youtubeId,source:url,sourceTitle:source.sourceTitle,credit:source.credit,poster:'/lesson-media/city.jpg',alt:title,watchTasks:guides[band],levelNote,hint:'Use replay and the publisher’s captions where available. Follow any publisher corrections. The questions do not quote or claim to transcribe unverified dialogue.'},questions:rows.map(([prompt,options,note],i)=>({...choice(id+'-q'+(i+1),prompt,options,note,i,reference),context:source.sourceTitle}))};
 }
-export const expandedVideoLessons=sources.filter(s=>s.level!=='exclusive').map(buildExpandedVideo);
+// Preserve version-one source-focus exercises for saved attempts and drafts.
+export function buildTimedExpandedVideo(source, timing){
+ const previous=buildExpandedVideo(source);
+ if(!timing||timing.youtubeId!==source.youtubeId||timing.questions.length!==6)throw new Error('Missing video timing record: '+source.youtubeId);
+ const id=previous.id.replace('-v1-','-v2-');
+ const explanation='Listen to selected passages, replay the suggested sections and answer questions about the speakers’ meaning.';
+ return {...previous,id,contentVersion:2,exerciseVersion:'v2-video-expansion-20261031',description:explanation,explanation,example:'Replay each suggested section, then answer from the recording.',
+  conversation:{...previous.conversation,levelNote:`${previous.level} describes the Continuum listening task, not an official CEFR rating of the source. ${source.variety?`Variety: ${source.variety}. `:''}Replay ranges are AI-assisted approximations, not independently verified against playback. Use the full video and publisher captions if a range misses context.`,hint:'Listen to the recording, use publisher captions where available, and keep each speaker’s account separate from a general rule.'},
+  questions:timing.questions.map((row,i)=>({...choice(id+'-q'+(i+1),row.prompt,row.options,row.note,i,{kind:'analysis-assisted',label:'Publisher’s original video',url:previous.conversation.source,evidence:row.videoCue.evidence}),context:source.sourceTitle,videoCue:row.videoCue}))};
+}
+export const archivedExpandedVideoLessons=sources.map(buildExpandedVideo);
+export const expandedVideoLessons=sources.map(s=>buildTimedExpandedVideo(s,timings.find(t=>t.youtubeId===s.youtubeId)));
 export const expandedVideoChapters=expandedVideoLessons.map(l=>({id:l.chapter,language:l.language,locale:l.locale,level:l.level,title:l.title,goal:l.explanation,kind:'Real conversations',specialist:true,curriculumVersion:3}));

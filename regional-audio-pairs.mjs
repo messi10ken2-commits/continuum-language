@@ -1,3 +1,4 @@
+import {expandedRegionalPairs} from './expanded-regional-pairs.mjs';
 // Original comparison examples. Locale requests are synthetic, not certified accents.
 const pair=(label,a,al,b,bl)=>({label,variants:[{text:a,locale:al},{text:b,locale:bl}]});
 export const regionalAudioPairs={
@@ -6,5 +7,6 @@ export const regionalAudioPairs={
  pt:[pair('Brazil / Portugal','Estou esperando o ônibus.','pt-BR','Estou a esperar o autocarro.','pt-PT'),pair('Brazil / Portugal','celular','pt-BR','telemóvel','pt-PT'),pair('Brazil / Portugal','trem','pt-BR','comboio','pt-PT'),pair('Brazil / Portugal','Estou estudando agora.','pt-BR','Estou a estudar agora.','pt-PT'),pair('Brazil / Portugal','café da manhã','pt-BR','pequeno-almoço','pt-PT')],
  ja:[pair('Standard Japanese / Kansai','ありがとう','ja-JP','おおきに',null),pair('Standard Japanese / Kansai','本当','ja-JP','ほんま',null),pair('Standard Japanese / Kansai','だめ','ja-JP','あかん',null),pair('Standard Japanese / Kansai','いくら','ja-JP','なんぼ',null),pair('Standard Japanese / Kansai','じゃあ','ja-JP','ほな',null)]
 };
+Object.assign(regionalAudioPairs,expandedRegionalPairs);
 export const kansaiComparisonVideo={provider:'youtube',youtubeId:'tW1kj38VZ2c',source:'https://www.youtube.com/watch?v=tW1kj38VZ2c',credit:'Miku Real Japanese · Miku and Yuyu',sourceTitle:'Standard Japanese VS Kansai dialect (関西弁 VS 標準語)',hint:'Compare the speakers’ regional forms and intonation. Examples in the written table are separate teaching material; the video is not a recording of every table entry.'};
 export const regionalFrameVoice=(course,text)=>(regionalAudioPairs[course.language]||[]).flatMap(p=>p.variants).find(v=>v.text===text)?.locale||null;

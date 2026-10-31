@@ -1,4 +1,5 @@
-import {expandedPremiumVideoCourses} from './expanded-premium-video-courses.mjs';
+import {expandedRegionalCourses} from './expanded-regional-courses.mjs';
+import {expandedPremiumVideoCourses,archivedExpandedPremiumVideoCourses} from './expanded-premium-video-courses.mjs';
 import {expandedExclusiveCourses} from './expanded-exclusive-courses.mjs';
 import {premiumIdiomCourses} from './premium-idioms.mjs';
 import {equivalentAnswer} from './answer-equivalence.mjs';
@@ -65,8 +66,10 @@ const normalized=value=>value.normalize('NFKC').toLocaleLowerCase().replace(/[.,
 export function gradeCourseAnswer(q,a){return typeof q.answer==='string'?typeof a==='string'&&(equivalentAnswer(q,a)||[q.answer,...(q.acceptedAnswers||[]),...(q.accepted||[])].some(expected=>normalized(a)===normalized(expected))):a===q.answer;}
 export const courseAnswerText=q=>typeof q.answer==='string'?q.answer:q.options[q.answer];
 
-premiumCourses.push(...expandedPremiumCourses,...premiumVideoCourses,...varietyCourses,...academicCourses,...premiumIdiomCourses,...expandedExclusiveCourses,...expandedPremiumVideoCourses);
+premiumCourses.push(...expandedPremiumCourses,...premiumVideoCourses,...varietyCourses,...academicCourses,...premiumIdiomCourses,...expandedExclusiveCourses.filter(c=>!c.id.endsWith('-exclusive-v1-listening')),...expandedRegionalCourses,...expandedPremiumVideoCourses);
+const archivedExpandedListening=expandedExclusiveCourses.filter(c=>c.id.endsWith('-exclusive-v1-listening'));
+const archivedCourses=[...archivedPremiumVideoCourses,...archivedExpandedPremiumVideoCourses,...archivedExpandedListening];
 export const premiumCourseSummary=premiumCourses.map(({id,language,title,description,level,scene,questions})=>({id,language,title,description,level,scene,questions:questions.length}));
 
-export const premiumCourseById=id=>premiumCourses.find(c=>c.id===id)||archivedPremiumVideoCourses.find(c=>c.id===id);
-export const archivedPremiumCourseSummary=archivedPremiumVideoCourses.map(({id,language,title,description,questions,contentVersion})=>({id,language,title,description,questions:questions.length,contentVersion}));
+export const premiumCourseById=id=>premiumCourses.find(c=>c.id===id)||archivedCourses.find(c=>c.id===id);
+export const archivedPremiumCourseSummary=archivedCourses.map(({id,language,title,description,questions,contentVersion})=>({id,language,title,description,questions:questions.length,contentVersion}));

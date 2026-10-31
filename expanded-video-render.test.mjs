@@ -12,7 +12,7 @@ try{
   const render=()=>renderToStaticMarkup(React.createElement(JourneyLayoutContext.Provider,{value:{layout}},React.createElement(SelfStudy,{language:lesson.language,activeLesson:lesson.id,attempts:[],onStart(){},onExit(){},onComplete(){}})));
   const intro=render();assert.ok(intro.includes('External video is paused for privacy'),lesson.id);assert.ok(intro.includes(lesson.conversation.youtubeId));assert.ok(intro.includes('Your listening guide'));
   storage.set('continuumLessonDrafts',JSON.stringify({[lesson.id]:[]}));storage.set('continuumTestSeeds',JSON.stringify({[lesson.id]:lesson.exerciseVersion}));
-  const exercise=render();assert.ok(exercise.includes('question-card'));assert.ok(exercise.includes('Source-focus check:'));assert.ok(!exercise.includes('official episode transcript'));assert.ok(exercise.includes('Check answer'));
+  const exercise=render();assert.ok(exercise.includes('question-card'));assert.ok(exercise.includes('Listen at '));assert.ok(exercise.includes('AI-assisted approximate replay range.'));assert.ok(exercise.includes('Replay this section'));assert.ok(exercise.includes('Watch full video (optional)'));assert.ok(!exercise.includes('Source-focus check:'));assert.ok(!exercise.includes('official episode transcript'));assert.ok(exercise.includes('Check answer'));
   storage.clear();
  }
  console.log('PASS: all 30 video lessons render introductions and questions in both layouts with consent and accurate source labels.');

@@ -38,7 +38,7 @@ try{
     assert.deepEqual(await page.locator('.membership-courses article h3').allTextContents(),expected.map(c=>copy(c.title,locale)));assert.deepEqual(await page.locator('.membership-courses article>p').allTextContents(),expected.map(c=>copy(c.description,locale)));
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),layout+' '+locale+' '+language+' cards overflow');
    }
-   if(locale==='ja'){await page.locator('.membership-courses article').filter({hasText:'第一印象にとらわれずに聞く'}).screenshot({path:'.media-build/language-records/'+layout+'-ja-course-card.png'});}
+   if(locale==='ja'){const regional=premiumCourseSummary.find(c=>c.language==='it'&&c.scene==='varieties');assert.ok(regional);await page.locator('.membership-courses article').filter({hasText:copy(regional.title,locale)}).screenshot({path:'.media-build/language-records/'+layout+'-ja-regional-course-card.png'});}
   }
   console.log('PASS cards: six new learning languages ×nine display languages, no provider needed',layout);await context.close();page=null;
  }
