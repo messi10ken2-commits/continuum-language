@@ -3710,5 +3710,245 @@
     "theme": "rhythm",
     "source": "/illustrated-lessons/pt-nature.webp",
     "sha256": "3f11fdbd1522d95103393c492aee805c6a81e26fb4c2dc52296100c08fe63f1b"
+  },
+  "zh:chapter:zh-conversation-v1-a1-chapter": {
+    "src": "/passport-stamps/zh-e29a7c1514343a.svg",
+    "title": "Ask about today’s plans in Mandarin",
+    "level": "A1",
+    "theme": "plans",
+    "source": "/illustrated-lessons/ja-work.webp",
+    "sha256": "74ab9417080102ce4ce2536a85e60cdbb0c95e6186ceb7e7d3dbc386ca84ebd9"
+  },
+  "zh:chapter:zh-conversation-v1-a2-chapter": {
+    "src": "/passport-stamps/zh-7bb61cdc59add4.svg",
+    "title": "Follow daily routines in Mandarin",
+    "level": "A2",
+    "theme": "morning",
+    "source": "/illustrated-lessons/ja-home.webp",
+    "sha256": "caca9a2ece32b6ffd6dda0f62129895313d592032aef70814ddd875baf58b4b8"
+  },
+  "zh:chapter:zh-conversation-v1-b1-chapter": {
+    "src": "/passport-stamps/zh-ae0f73f7060406.svg",
+    "title": "Follow a hotel conversation in Mandarin",
+    "level": "B1",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/ja-travel.webp",
+    "sha256": "0a9a807b6c84aeb10cb4528cef7512e0d4502a7686fc487c670c1e1f2ae3ec0b"
+  },
+  "zh:chapter:zh-conversation-v1-b2-chapter": {
+    "src": "/passport-stamps/zh-171fe5c426f487.svg",
+    "title": "Follow an unscripted exchange between friends in Mandarin",
+    "level": "B2",
+    "theme": "conversation",
+    "source": "/illustrated-lessons/ja-cafe.webp",
+    "sha256": "10ba8b2a9262aa97c01df9aedbb3b05e06cb085f0d8b5dbe3bb276892bfcb02d"
+  },
+  "zh:chapter:zh-conversation-v1-c1-chapter": {
+    "src": "/passport-stamps/zh-c2bfd6e5c23dca.svg",
+    "title": "Interpret politeness beyond literal wording in Mandarin",
+    "level": "C1",
+    "theme": "voice",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "48591267b70e48f5ef67c232c4910adbf36a18e0bd13fec76acf1d842b25f01a"
+  },
+  "ko:chapter:ko-conversation-v1-a1-chapter": {
+    "src": "/passport-stamps/ko-e157fe68834048.svg",
+    "title": "Introduce yourself in Korean",
+    "level": "A1",
+    "theme": "greeting",
+    "source": "/illustrated-lessons/ja-city.webp",
+    "sha256": "972f6ab81ebdecf0a32a3d63b299a31b41dab4f9e693e90136f51137ee5612a5"
+  },
+  "ko:chapter:ko-conversation-v1-a2-chapter": {
+    "src": "/passport-stamps/ko-1d481d0bf514cc.svg",
+    "title": "Listen to Korean speakers describe free time",
+    "level": "A2",
+    "theme": "growth",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "068f661cc93db28ec75d1482aa4bced74c791a0288ce0bbd7b70e9ba495477c4"
+  },
+  "ko:chapter:ko-conversation-v1-b1-chapter": {
+    "src": "/passport-stamps/ko-4c9e86a948382d.svg",
+    "title": "Explore Seoul’s Olympic Park through conversation",
+    "level": "B1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "45c7e7739e99d5385c40ce6c110f83e723bbb463465a97d5bdd3eea0870f35d5"
+  },
+  "ko:chapter:ko-conversation-v1-b2-chapter": {
+    "src": "/passport-stamps/ko-090e43159cbd18.svg",
+    "title": "Follow a Korean conversation about hiking",
+    "level": "B2",
+    "theme": "growth",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "ec88bfc05d828e8cd93e3c8f3a972e34a0697e52591845af4f7e94ea80059664"
+  },
+  "ko:chapter:ko-conversation-v1-c1-chapter": {
+    "src": "/passport-stamps/ko-a8eecc0ab2af50.svg",
+    "title": "Interpret Korean speakers’ attitudes to language learners",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "6e5bac761fcedb69fdd77a84ebac190afbeaac08d620bb949d140d707a70ea04"
+  },
+  "fr:chapter:fr-conversation-v1-a1-chapter": {
+    "src": "/passport-stamps/fr-5135b7b06b38ae.svg",
+    "title": "Polite first exchanges in French",
+    "level": "A1",
+    "theme": "voice",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "686c6bc38d0a1256d71c0657b9ca7a6661adcaec28caa8d8677a9da4b62a92b2"
+  },
+  "fr:chapter:fr-conversation-v1-a2-chapter": {
+    "src": "/passport-stamps/fr-b4a919c7a6e8fb.svg",
+    "title": "Follow a morning routine in French",
+    "level": "A2",
+    "theme": "morning",
+    "source": "/illustrated-lessons/en-home.webp",
+    "sha256": "9c64b4d7dd22d6e832d83498776e92a63d1ad81b8245d7445ce8d18fc2c54082"
+  },
+  "fr:chapter:fr-conversation-v1-b1-chapter": {
+    "src": "/passport-stamps/fr-74fb251371f803.svg",
+    "title": "Compare breakfast habits in French",
+    "level": "B1",
+    "theme": "cafe",
+    "source": "/illustrated-lessons/en-cafe.webp",
+    "sha256": "badbc293beba5f6b3e3120fef8f56d941174d660dfb8bde46bc9df0c8bf6c2e6"
+  },
+  "fr:chapter:fr-conversation-v1-b2-chapter": {
+    "src": "/passport-stamps/fr-514a61f8bcaeee.svg",
+    "title": "Explore perspectives on happiness in French",
+    "level": "B2",
+    "theme": "growth",
+    "source": "/illustrated-lessons/en-nature.webp",
+    "sha256": "cf7ae0cd5a2dc7f99be7208d8191681186276ab4f90ab702c45a5e6fe56a7271"
+  },
+  "fr:chapter:fr-conversation-v1-c1-chapter": {
+    "src": "/passport-stamps/fr-249548b8bc4fb1.svg",
+    "title": "Interpret unpopular opinions in French",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "a2990ad893df620efecfc478c9771d7e3c50aeb970d792d0b3bc58186182e145"
+  },
+  "de:chapter:de-conversation-v1-a1-chapter": {
+    "src": "/passport-stamps/de-81d87f65a8394b.svg",
+    "title": "Introduce yourself in slow German",
+    "level": "A1",
+    "theme": "greeting",
+    "source": "/illustrated-lessons/en-city.webp",
+    "sha256": "197dc6e2affb15cf15a5a3bf5b510f1ebc1b22b158ea137351484740e394b406"
+  },
+  "de:chapter:de-conversation-v1-a2-chapter": {
+    "src": "/passport-stamps/de-8c05216a7cf595.svg",
+    "title": "Follow a daily routine in German",
+    "level": "A2",
+    "theme": "morning",
+    "source": "/illustrated-lessons/en-home.webp",
+    "sha256": "9e17bc7a1f66b466c8b42d8d8a2b0ec8c0a077508f5bf1532c62c2f1d3db1980"
+  },
+  "de:chapter:de-conversation-v1-b1-chapter": {
+    "src": "/passport-stamps/de-524eaafd12c255.svg",
+    "title": "Compare morning and night routines in German",
+    "level": "B1",
+    "theme": "morning",
+    "source": "/illustrated-lessons/en-home.webp",
+    "sha256": "743478e1f4c0ce47802448f696424020432c318a50b055595dc41627778e64c4"
+  },
+  "de:chapter:de-conversation-v1-b2-chapter": {
+    "src": "/passport-stamps/de-97d6cd9d1617ae.svg",
+    "title": "Question cultural labels in German",
+    "level": "B2",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "34d08bdd8ad81a531f131f66aa15c99d03e3febf0b80819b3b119b6535bbfd6b"
+  },
+  "de:chapter:de-conversation-v1-c1-chapter": {
+    "src": "/passport-stamps/de-f3984ddc5847ad.svg",
+    "title": "Assess predictions about robots and work in German",
+    "level": "C1",
+    "theme": "technology",
+    "source": "/illustrated-lessons/en-work.webp",
+    "sha256": "17bf9efc3a98375d9fbc31023fb09e7bf4b1f55b63bc04ca5eaf32dfb60091f4"
+  },
+  "ar:chapter:ar-conversation-v1-a1-chapter": {
+    "src": "/passport-stamps/ar-36943a1547d17a.svg",
+    "title": "Recognise common Arabic phrases",
+    "level": "A1",
+    "theme": "rhythm",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "b9bd22ee7c86edd9c5016e07e7331658c2947c74417e12b063b929ec28c2c017"
+  },
+  "ar:chapter:ar-conversation-v1-a2-chapter": {
+    "src": "/passport-stamps/ar-339fb20da40047.svg",
+    "title": "Explore Cairo in Egyptian Arabic",
+    "level": "A2",
+    "theme": "city",
+    "source": "/illustrated-lessons/es-city.webp",
+    "sha256": "a1ac811eb1f019994b66a81532ece79d9c34e7a93f42bfecd9f2775e621f0cc4"
+  },
+  "ar:chapter:ar-conversation-v1-b1-chapter": {
+    "src": "/passport-stamps/ar-3f9107741c121a.svg",
+    "title": "Buy groceries in Egyptian Arabic",
+    "level": "B1",
+    "theme": "cafe",
+    "source": "/illustrated-lessons/es-cafe.webp",
+    "sha256": "4804d6dd770ff31aeb4a7c5bfd93b7e9161e7b495f8895397affce182b7dd410"
+  },
+  "ar:chapter:ar-conversation-v1-b2-chapter": {
+    "src": "/passport-stamps/ar-c48e38a3622009.svg",
+    "title": "Explore personal happiness in Egyptian Arabic",
+    "level": "B2",
+    "theme": "growth",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "5d023f84331153ea4ff6ff296e0d4e188d1e22d1a6bd165b13b1cf086e1d7583"
+  },
+  "ar:chapter:ar-conversation-v1-c1-chapter": {
+    "src": "/passport-stamps/ar-d791c7e33627a2.svg",
+    "title": "Examine Standard Arabic and everyday language use",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/es-culture.webp",
+    "sha256": "53df8f71b5a0fd66225070d8013b89557519b5ce6c513708dca554d1b1496f60"
+  },
+  "it:chapter:it-conversation-v1-a1-chapter": {
+    "src": "/passport-stamps/it-40e1d5fad81a38.svg",
+    "title": "Introduce yourself in Italian",
+    "level": "A1",
+    "theme": "greeting",
+    "source": "/illustrated-lessons/pt-city.webp",
+    "sha256": "148ff0dacc8f63a0e158294a41b17894fbbec03ac390f97692277e34b3454078"
+  },
+  "it:chapter:it-conversation-v1-a2-chapter": {
+    "src": "/passport-stamps/it-d8eab5e65aacf8.svg",
+    "title": "Describe a daily routine in Italian",
+    "level": "A2",
+    "theme": "morning",
+    "source": "/illustrated-lessons/pt-home.webp",
+    "sha256": "edbe52669ef0b0cc82f5523ce1184f816e2cb79c58311e7c84c95de6efe9ec9b"
+  },
+  "it:chapter:it-conversation-v1-b1-chapter": {
+    "src": "/passport-stamps/it-337c4b27361b88.svg",
+    "title": "Listen to Italians describe their mornings",
+    "level": "B1",
+    "theme": "morning",
+    "source": "/illustrated-lessons/pt-home.webp",
+    "sha256": "45d014fef4573e6f2a19a84e4e22437f0ef44516031ef346c39f784e7e16731e"
+  },
+  "it:chapter:it-conversation-v1-b2-chapter": {
+    "src": "/passport-stamps/it-b351d6213f3308.svg",
+    "title": "Compare a happiness ranking with personal experience",
+    "level": "B2",
+    "theme": "growth",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "e9f4d0e14d80fa2ec7078bb234e77feb09bd0eaa6b263810f3851a634498eb51"
+  },
+  "it:chapter:it-conversation-v1-c1-chapter": {
+    "src": "/passport-stamps/it-e182ff6ece80d6.svg",
+    "title": "Examine Italian stereotypes critically",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/pt-culture.webp",
+    "sha256": "ac8945b7e78c4097d56ccf881b77e724104368a1f014fa8b6dd86fc24cf510d5"
   }
 }

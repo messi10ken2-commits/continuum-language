@@ -1,3 +1,4 @@
+import {expandedPremiumVideoCourses} from '../expanded-premium-video-courses.mjs';
 import {expandedExclusiveCourses} from '../expanded-exclusive-courses.mjs';
 // Publish translation sources only, never an assessment passage, answer key or
 // private task catalog. Run after editing authored placement/focused practice.
@@ -17,12 +18,14 @@ for(const task of expandedFocusedSkillTasks){for(const key of ['title','topic','
 fs.writeFileSync(new URL('../expanded-focused-display-sources.json',import.meta.url),JSON.stringify([...sources.values()],null,2)+'\n');
 
 sources.clear();
-for(const course of expandedExclusiveCourses){
+for(const course of [...expandedExclusiveCourses,...expandedPremiumVideoCourses]){
  const addCourse=text=>add(text,course.language);
  for(const key of ['title','description','explanation','exampleNote'])addCourse(course[key]);
- for(const value of course.vocabulary) addCourse(value.meaning);
- for(const step of course.breakdown.steps)addCourse(step);
- addCourse(course.breakdown.pitfall);
- for(const q of course.questions){addCourse(q.prompt);addCourse(q.note);if(['interpretation','listening'].includes(q.type))for(const option of q.options)add(option);}
+ for(const value of course.vocabulary||[]) addCourse(value.meaning);
+ for(const step of course.breakdown?.steps||[])addCourse(step);
+ addCourse(course.breakdown?.pitfall);
+ for(const task of course.conversation?.watchTasks||[])addCourse(task);
+ for(const key of ['levelNote','hint'])addCourse(course.conversation?.[key]);
+ for(const q of course.questions){addCourse(q.prompt);addCourse(q.note);addCourse(q.sourceReference?.label);if(['interpretation','listening','video'].includes(q.type))for(const option of q.options)add(option);}
 }
 fs.writeFileSync(new URL('../expanded-exclusive-display-sources.json',import.meta.url),JSON.stringify([...sources.values()],null,2)+'\n');
