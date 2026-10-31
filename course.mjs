@@ -199,7 +199,17 @@ export function getLessonVariant(id,seed){
   }
   return selected.map(q=>({...q,topic:c.title}));});
  const questions=shuffle(chosen).map(q=>{const order=shuffle(q.options.map((_,i)=>i));return {...q,options:order.map(i=>q.options[i]),answer:order.indexOf(q.answer)};});
- return {...base,questions,explanation:base.summaryTest?`Apply ${base.level} grammar, vocabulary and expressions in new situations. Questions are mixed across every chapter. Score 85% to earn a completion recommendation.`:'Apply this chapter in new situations. Each attempt draws four questions and mixes the answer choices. Score 80% to master this checkpoint.',example:'Read the situation carefully and choose the response that fits its meaning. A new attempt may ask different questions.',transferTest:true};
+ return {...base,questions,explanation:base.summaryTest?`Apply ${base.level} grammar, vocabulary and expressions in new situations. Questions are mixed across every chapter. Score 85% to earn a completion recommendation.`:'Apply this chapter in new situations. Each attempt draws four questions and mixes the answer choices. Score 80% to master this checkpoint.',example:'Read the situation carefully and choose the response that fits its meaning. A new attempt may ask different questions.',exampleLang:'en-US',transferTest:true};
+}
+
+// Complete authored source for audio/integrity audits. Selection and grading in
+// getLessonVariant stay unchanged; this returns the union before random draws.
+export function authoredTransferQuestions(id){
+ const base=getLesson(id);if(!base||(!base.checkpoint&&!base.summaryTest))return [];
+ const archived=legacyInternationalLessons.includes(base);
+ const available=archived?legacyInternationalChapters:chapters;
+ const groups=base.summaryTest?available.filter(c=>c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest&&!c.specialist):available.filter(c=>c.id===base.chapter);
+ return groups.flatMap(c=>{const pool=archived?legacyInternationalTransfer[c.id]:transferBank[c.id]||internationalTransfer[c.id]||soundTransfer[c.id]||visualTransfer[c.id];return (pool||[]).map(q=>({...q,topic:c.title}));});
 }
 
 // A changed video question set cannot resume answers saved by index against the old set.

@@ -12,3 +12,11 @@ export function displayLanguageOptions(q,lesson={}){
  if(q.optionsLang?.startsWith('en')&&['detail','correction','action','sequence','inference','stance','condition','priority'].includes(q.viewpoint))return true;
  return /^What does this mean\?/.test(q.prompt||'');
 }
+
+// The practice question and its end-of-lesson review share this rule. English
+// explanations and transliteration annotations are text, not native utterances.
+export function canPlayAnswerAudio(q,lesson={}){
+ const language=lesson.language||lesson.locale?.split('-')[0]||'es';
+ const locale=q.answerLocale||q.optionsLang||lesson.locale;
+ return !displayLanguageOptions(q,lesson)&&(!locale||locale.split('-')[0]===language);
+}

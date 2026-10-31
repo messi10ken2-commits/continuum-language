@@ -1,0 +1,70 @@
+{
+  "ordinaryTargets": 15617,
+  "exclusiveTargets": 1634,
+  "missing": 0,
+  "byLocale": {
+    "es-ES": {
+      "ordinary": 1912,
+      "exclusive": 145,
+      "missing": 0
+    },
+    "en-US": {
+      "ordinary": 2014,
+      "exclusive": 387,
+      "missing": 0
+    },
+    "pt-BR": {
+      "ordinary": 1769,
+      "exclusive": 127,
+      "missing": 0
+    },
+    "ja-JP": {
+      "ordinary": 2329,
+      "exclusive": 121,
+      "missing": 0
+    },
+    "fr-FR": {
+      "ordinary": 1260,
+      "exclusive": 141,
+      "missing": 0
+    },
+    "de-DE": {
+      "ordinary": 1244,
+      "exclusive": 141,
+      "missing": 0
+    },
+    "it-IT": {
+      "ordinary": 1240,
+      "exclusive": 141,
+      "missing": 0
+    },
+    "zh-CN": {
+      "ordinary": 1248,
+      "exclusive": 141,
+      "missing": 0
+    },
+    "ko-KR": {
+      "ordinary": 1271,
+      "exclusive": 141,
+      "missing": 0
+    },
+    "ar-SA": {
+      "ordinary": 1330,
+      "exclusive": 141,
+      "missing": 0
+    },
+    "en-GB": {
+      "ordinary": 0,
+      "exclusive": 5,
+      "missing": 0
+    },
+    "en-AU": {
+      "ordinary": 0,
+      "exclusive": 3,
+      "missing": 0
+    }
+  },
+  "bundledFiles": 16919,
+  "humanFiles": 399,
+  "scope": "Authored current/resumable ordinary lessons and free workshops: galleries, full examples, tables, characters, sounds, all supported question pools and feedback; current and archived standard-language exclusive references, listening and Premium Practice Studio audio/models/instructions. Includes regional wording with clearly labelled standard voices and selected English studio accents. Dynamic AI conversation and reference-only unverified regional pronunciations are excluded."
+}

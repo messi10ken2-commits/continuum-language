@@ -1,3 +1,4 @@
+import {lessonList} from './course.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {PGlite} from '@electric-sql/pglite';
@@ -35,7 +36,7 @@ test('provider errors fall back to explicitly generated audio, never a device vo
 test('speech endpoint persists, reuses and shares in-flight clips; rejects unapproved text',async()=>{
  const db=new PGlite();const pool={query:async(sql,args)=>!args&&sql.includes('CREATE TABLE')?db.exec(sql):db.query(sql,args)};
  try{await migrateSpeech(pool);let generations=0;
- const call=async(text='こうこう')=>{let status,headers,body;await handleSpeech({route:'/api/speech',req:{method:'POST'},res:{writeHead:(s,h)=>{status=s;headers=h;},end:b=>body=b},pool,json:async()=>({text,locale:'ja-JP'}),limited(){},fail:(status,message)=>{throw Object.assign(Error(message),{status});},synthesize:async()=>{generations++;await new Promise(r=>setTimeout(r,10));return {audio:pcmWav(pcm),provider:'test',model:'test'};}});return {status,headers,body};};
+ const call=async(text=lessonList[0].explanation)=>{let status,headers,body;await handleSpeech({route:'/api/speech',req:{method:'POST'},res:{writeHead:(s,h)=>{status=s;headers=h;},end:b=>body=b},pool,json:async()=>({text,locale:'en-US'}),limited(){},fail:(status,message)=>{throw Object.assign(Error(message),{status});},synthesize:async()=>{generations++;await new Promise(r=>setTimeout(r,10));return {audio:pcmWav(pcm),provider:'test',model:'test'};}});return {status,headers,body};};
  const first=await Promise.all([call(),call()]);assert.equal(generations,1);assert.equal(first[0].status,200);const cached=await call();assert.equal(generations,1);assert.equal(cached.headers['X-Audio-Cache'],'hit');assert.deepEqual(cached.body,first[0].body);
  await assert.rejects(()=>call('not a public lesson text 999'),e=>e.status===400);
  }finally{await db.close();}

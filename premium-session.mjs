@@ -1,4 +1,4 @@
-import {regionalAudioPairs,regionalFrameVoice} from './regional-audio-pairs.mjs';
+import {regionalAudioPairs,regionalFrameVoice,regionalFrameWording} from './regional-audio-pairs.mjs';
 // Client-safe presentation only: never import the server's answer-key catalog.
 export function exclusiveSession(course,seed){
  let state=2166136261;for(const c of String(seed)+course.id){state^=c.charCodeAt(0);state=Math.imul(state,16777619)>>>0;}
@@ -16,7 +16,7 @@ export function exclusiveAnswer(question,answer){return question._optionOrder&&N
 export function exclusiveAnswers(session,answers){const original=Array(session.questions.length);session.questions.forEach((q,i)=>{original[q._sourceIndex]=exclusiveAnswer(q,answers[i])});return original;}
 export function premiumGalleryFrames(course){
  const frames=[],seen=new Set();
- const add=(text,meaning,label)=>{if(typeof text!=='string'||!text.trim()||seen.has(text))return;seen.add(text);frames.push({text,meaning:meaning||'',label,...(course.scene==='varieties'?{audioLocale:regionalFrameVoice(course,text)}:{})});};
+ const add=(text,meaning,label)=>{if(typeof text!=='string'||!text.trim()||seen.has(text))return;seen.add(text);frames.push({text,meaning:meaning||'',label,...(course.scene==='varieties'?{audioLocale:regionalFrameVoice(course,text),...(regionalFrameWording(course,text)?{audioKind:'regional-wording-standard-voice'}:{})}:{})});};
  if(course.scene==='varieties')for(const pair of regionalAudioPairs[course.language]||[])for(const v of pair.variants)add(v.text,pair.label,'Regional comparison');
  for(const text of course.examples||[])add(text,'','Example');
  for(const [text,meaning] of course.breakdown?.examples||[])add(text,meaning,'See the meaning in context');

@@ -1,3 +1,4 @@
+import {regionalPlaybackLocale,regionalWordingOnly} from './regional-audio-pairs.mjs';
 // Original examples. Regional preferences are contextual, not exclusive national rules.
 const choice=(prompt,context,options,answer,note,display=false)=>({type:display?'interpretation':'choice',prompt,context,options,answer,note});
 const reorder=(prompt,context,tokens,answer,note,separator=' ')=>({type:'reorder',prompt,context,tokens,answer,note,separator});
@@ -104,3 +105,12 @@ kansai.explanation='Explore Kansai expressions in context. For intonation, liste
 for(const i of [0,4]){const q=kansai.questions[i];q.context=q.audio;delete q.audio;delete q.audioLocale;delete q.audioKind;delete q.audioRegion;delete q.listeningTarget;q.type='interpretation';}
 kansai.questions[0].nativeReference=kansai.nativeReferences[0];
 kansai.questions[5].nativeReference=kansai.nativeReferences[1];
+
+// This is an English scenario cue, not a sample of Portuguese pronunciation.
+for(const course of varietyCourses)for(const question of course.questions)if(question.audio==='You are waiting for a friend.'){
+ question.audioLocale='en-US';question.audioKind='instruction-synthesis';delete question.audioRegion;
+}
+
+for(const course of varietyCourses)for(const question of course.questions)if(question.audio&&regionalWordingOnly(question.audioLocale)){
+ question.audioTargetLocale=question.audioLocale;question.audioLocale=regionalPlaybackLocale(question.audioLocale);question.audioKind='regional-wording-standard-voice';
+}
