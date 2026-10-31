@@ -1,3 +1,4 @@
+import {bundledRecording} from './bundled-audio.mjs';
 import {languageInfo} from './languages.mjs';
 import assert from 'node:assert/strict';
 import {premiumCourses,premiumCourseById} from './premium-courses.mjs';
@@ -17,7 +18,7 @@ try{
   if(!c.conversation){const frame=premiumGalleryFrames(c)[0],path='/billing/courses/'+c.id+'/audio?gallery=0';
    if(c.scene==='varieties'&&!frame.audioLocale){assert.equal((await api(path,'GET',null,paid.cookie)).status,404);continue;}
    const locale=frame.audioLocale||languageInfo(c.language).locale,bytes=pcmWav(Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(frame.text,locale),bytes,'synthetic','gallery-test']);
-   const audio=await api(path,'GET',null,paid.cookie);assert.equal(audio.status,200);assert.deepEqual(Buffer.from(audio.data),bytes);assert.equal(audio.r.headers.get('cache-control'),'private, no-store');
+   const audio=await api(path,'GET',null,paid.cookie);assert.equal(audio.status,200);assert.deepEqual(Buffer.from(audio.data),bundledRecording(frame.text,locale)?.audio||bytes);assert.equal(audio.r.headers.get('cache-control'),'private, no-store');
   }
  }
  for(const archivedId of ['ja-premium-video-v2','ja-premium-video-v3']){const old=premiumCourseById(archivedId),opened=await api('/billing/courses/'+archivedId,'GET',null,paid.cookie);assert.equal(opened.status,200);assert.ok(opened.data.course.questions.every(q=>!('answer' in q)));const answers=old.questions.map(q=>q.answer),result=await api('/billing/courses/'+archivedId+'/finish','POST',{answers,key:crypto.randomUUID()},paid.cookie);assert.equal(result.status,200);assert.equal(result.data.correct,old.questions.length);}

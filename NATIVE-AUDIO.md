@@ -54,3 +54,7 @@ Adds ten full, untrimmed human recordings: **avó, avô, lá, lã, mau, pau, pó
 - **mau / pôr / caro / bom dia**: Izaias Rodrigues / Association Shtooka, Belém, Brazil, CC BY 3.0 US, por-balm-izaias archive linked above.
 
 Full original speech is retained, with 180 ms leading and 320 ms trailing silence and conversion to 24 kHz mono MP3. No phoneme is trimmed, stretched or pitch-shifted. Per-file original names and both checksums are in native-word-map.mjs. The adapted files retain their source licenses. Source identity and audible signal are checked; this is not a claim of an independent phonetic expert review or coverage of all Portuguese words. The remaining lesson sentences still use labelled AI studio audio when available.
+
+## Bundled multilingual expansion
+
+An additional 318 licensed human recordings and 396 explicitly labelled, pre-rendered AI studio clips now bypass live generation. Complete per-recording credits and checksums are in bundled-audio-manifest.json; server-only audio packs use bundled-audio-data-*.json. See [bundled lesson audio](docs/bundled-lesson-audio.md) for coverage, sources, licences, generation provenance and limitations. Existing human word and kana recordings remain first in playback priority.
