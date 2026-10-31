@@ -32,7 +32,7 @@ for(const language of added){
    const seed=lesson.checkpoint||lesson.summaryTest?'v1-expansion-matrix-123456789':hasExpandedExercises(lesson.id)?'v8-expansion-matrix-123456789':undefined;
    const variant=getLessonVariant(lesson.id,seed);assert.equal(gradeLesson(lesson.id,variant.questions.map(q=>q.answer),seed).score,100);
    for(const q of variant.questions){if(q.type==='text'){assert.ok(q.answer.length<=150);assert.equal(equivalentAnswer(q,'nonsense-invalid-answer'),false);}else{assert.equal(new Set(q.options).size,q.options.length);assert.ok(q.answer>=0&&q.answer<q.options.length);}if(q.audio)assert.equal(q.audioLocale,lang.locale);}
-   if(lesson.skill==='Listening')assert.ok(variant.questions.every(q=>q.audio&&q.audioLocale===lang.locale));
+   if(lesson.skill==='Listening'&&!lesson.conversation)assert.ok(variant.questions.every(q=>q.audio&&q.audioLocale===lang.locale));
    if(!lesson.specialist&&['Speaking','Writing'].includes(lesson.skill)){const task=getSkillTask(lesson.productionTask);assert.equal(task.language,language);assert.equal(task.lessonId,lesson.id);assert.equal(task.skill,lesson.skill);}
   }
  });

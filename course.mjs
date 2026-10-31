@@ -1,3 +1,4 @@
+import {expandedVideoChapters,expandedVideoLessons} from './expanded-video-course.mjs';
 import {expandedVisualChapters,expandedVisualLessons,expandedVisualTransfer} from './expanded-visual-course.mjs';
 import {expandedChapters,expandedLessons,expandedTransfer} from './expanded-language-catalog.mjs';
 import {expandedScriptChapters,expandedScriptLessons} from './expanded-script-course.mjs';
@@ -159,8 +160,8 @@ chapters.push(...soundChapters);
 lessonList.push(...soundLessons);
 chapters.push(...visualChapters);
 lessonList.push(...visualLessons);
-chapters.push(...conversationChapters);
-lessonList.push(...conversationLessons);
+chapters.push(...conversationChapters,...expandedVideoChapters);
+lessonList.push(...conversationLessons,...expandedVideoLessons);
 chapters.push(...expandedChapters,...expandedSoundChapters,...expandedScriptChapters,...expandedVisualChapters);
 lessonList.push(...expandedLessons,...expandedSoundLessons,...expandedScriptLessons,...expandedVisualLessons);
 enrichEverydayLessons(lessonList);
