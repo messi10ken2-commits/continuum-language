@@ -1,3 +1,5 @@
+import {serveBundledRecording} from './bundled-audio.mjs';
+import {publicHumanRecordings} from './bundled-human-public.mjs';
 import {learningLanguageIds} from './languages.mjs';
 import {wavHasSpeechSignal} from './speech-audio-quality.mjs';
 import {appliedQuestionBank} from './applied-exercises.mjs';
@@ -23,7 +25,7 @@ function collect(value){
  }else if(Array.isArray(value))value.forEach(collect);else if(value&&typeof value==='object')Object.values(value).forEach(collect);
 }
 collect(appliedQuestionBank);collect(practicalFormQuestions);collect(lessonList);collect(skillTasks);collect(exerciseBank);collect(practicalBank);
-for(const recording of nativeWordRecordings)collect(recording.text);
+for(const recording of [...nativeWordRecordings,...publicHumanRecordings])collect(recording.text);
 for(const lang of learningLanguageIds)for(let form=0;form<assessmentFormCount;form++){
  for(const v of [1,2,3,4])try{collect(assessmentItems(form,lang+'-diagnostic-'+v));}catch{/* Unsupported historical form is not in the public catalog. */}
 }
@@ -42,9 +44,10 @@ export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limi
  const cacheControl=privateAudio?'private, no-store':null;
  if(typeof text!=='string'||!text.trim()||text.length>1800||!speechLocales.includes(locale))fail(400,'Invalid speech content');
  const word=voiceProfile==='default'?nativeWordEntry(text,locale):null;
- if(word){const bytes=Buffer.from(nativeWordAudio[word.key],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':cacheControl||'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Version':'native-words-v2'});res.end(bytes);return true;}
+ if(word){const bytes=Buffer.from(nativeWordAudio[word.key],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':cacheControl||'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Delivery':'bundled','X-Audio-Version':'native-words-v2'});res.end(bytes);return true;}
  const native=voiceProfile==='default'?nativeKanaKey(text,locale):null;
- if(native){const bytes=Buffer.from(nativeKanaAudio[native],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':cacheControl||'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Version':'native-kana-v1'});res.end(bytes);return true;}
+ if(native){const bytes=Buffer.from(nativeKanaAudio[native],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':cacheControl||'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Delivery':'bundled','X-Audio-Version':'native-kana-v1'});res.end(bytes);return true;}
+ if(voiceProfile==='default'&&serveBundledRecording({res,text,locale,privateAudio}))return true;
  const key=speechKey(text,locale,voiceProfile);const existing=await pool.query('SELECT audio,provider,model FROM speech_cache WHERE cache_key=$1',[key]);
  let result=existing.rows[0];if(result&&validateAudio&&!wavHasSpeechSignal(Buffer.from(result.audio)))result=null;const cached=!!result;
  if(!result){

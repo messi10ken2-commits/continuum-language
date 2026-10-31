@@ -1,3 +1,4 @@
+import {bundledRecording} from './bundled-audio.mjs';
 import {expandedRegionalCourses} from './expanded-regional-courses.mjs';
 import {regionalAudioPairs} from './regional-audio-pairs.mjs';
 import assert from 'node:assert/strict';
@@ -18,7 +19,7 @@ try{
    await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4)',[speechKey(q.audio,q.audioLocale),audio,'synthetic-test','locale-sentinel']);
    const endpoint=base+'/api/billing/courses/'+course.id+'/audio?question='+index+'&locale=en-US';
    assert.equal((await fetch(endpoint)).status,401);assert.equal((await fetch(endpoint,{headers:{cookie:free.cookie}})).status,403);
-   const r=await fetch(endpoint,{headers:{cookie:paid.cookie}});assert.equal(r.status,200);assert.equal(r.headers.get('x-audio-locale'),q.audioLocale);assert.equal(r.headers.get('x-audio-source'),'AI-generated studio voice');assert.equal(r.headers.get('cache-control'),'private, no-store');assert.deepEqual(Buffer.from(await r.arrayBuffer()),audio);
+   const r=await fetch(endpoint,{headers:{cookie:paid.cookie}});assert.equal(r.status,200);assert.equal(r.headers.get('x-audio-locale'),q.audioLocale);assert.equal(r.headers.get('x-audio-source'),'AI-generated studio voice');assert.equal(r.headers.get('cache-control'),'private, no-store');assert.deepEqual(Buffer.from(await r.arrayBuffer()),bundledRecording(q.audio,q.audioLocale)?.audio||audio);
   }
  }
  for(const course of [...varietyCourses,...expandedRegionalCourses])for(const [i,pair] of regionalAudioPairs[course.language].entries())for(const [j,v] of pair.variants.entries()){
