@@ -43,3 +43,14 @@ The complete per-recording attribution, source URL, license URL, original SHA-25
 Portuguese provenance: the por-balm-izaias package identifies Izaias Rodrigues’s language region as Belem and its license as CC BY 3.0 US; pão comes from `por-2950284e.flac` (o pão). The article ends before the 0.44 s excerpt boundary; the p release and entire vowel/tail remain. The por-wims-voc package identifies Myriam Dechamps’s language region as São Paulo, Brazil; mão is the complete standalone `por-23c64b38.flac`. Both packages explicitly license teaching reuse. No pitch or speaking-rate change is baked into the files.
 
 Coverage is selected words only: pão, mão, pero, perro, rojo, papa and papá. Other words and full sentences retain their existing labelled audio path. Speaker regions not established by source metadata are explicitly unspecified.
+
+
+## Portuguese pronunciation expansion (native-words-v2)
+
+Adds ten full, untrimmed human recordings: **avó, avô, lá, lã, mau, pau, pó, pôr, caro, bom dia**. The reported pairs have separate exact-text entries, distinct recording bytes and preserved accent marks. These recordings bypass the AI cache, generation budget and provider authentication/quota failures in question audio, option buttons, feedback and reference examples.
+
+- **avó / avô**: Pereru, Brazilian Portuguese (region unspecified), Wikimedia Commons, CC BY-SA 3.0. Source files: [Pt-br-avó.oga](https://commons.wikimedia.org/wiki/File:Pt-br-avó.oga) and [Pt-br-avô.ogg](https://commons.wikimedia.org/wiki/File:Pt-br-avô.ogg).
+- **lá / lã / pau / pó**: Myriam Dechamps / Bernadette Perrin-Riou / WimsEdu, São Paulo, Brazil, CC BY 3.0 US, por-wims-voc archive linked above.
+- **mau / pôr / caro / bom dia**: Izaias Rodrigues / Association Shtooka, Belém, Brazil, CC BY 3.0 US, por-balm-izaias archive linked above.
+
+Full original speech is retained, with 180 ms leading and 320 ms trailing silence and conversion to 24 kHz mono MP3. No phoneme is trimmed, stretched or pitch-shifted. Per-file original names and both checksums are in native-word-map.mjs. The adapted files retain their source licenses. Source identity and audible signal are checked; this is not a claim of an independent phonetic expert review or coverage of all Portuguese words. The remaining lesson sentences still use labelled AI studio audio when available.

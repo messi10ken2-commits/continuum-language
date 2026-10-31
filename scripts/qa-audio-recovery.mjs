@@ -1,0 +1,32 @@
+// Exercise the real React player in Chromium and WebKit without provider calls.
+import assert from 'node:assert/strict';import {createServer} from 'vite';
+import clips from '../native-words.json' with {type:'json'};
+const engines=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
+const vite=await createServer({server:{host:'127.0.0.1',port:0},appType:'custom'});
+vite.middlewares.use('/__audio-recovery',async(_req,res)=>{res.setHeader('Content-Type','text/html');res.end(await vite.transformIndexHtml('/__audio-recovery','<html><body><div id="root"></div><script type="module" src="/scripts/audio-recovery-fixture.jsx"></script></body></html>'));});
+await vite.listen();const base='http://127.0.0.1:'+vite.httpServer.address().port;
+try{for(const name of (process.env.QA_AUDIO_ENGINES||'chromium,webkit').split(',')){
+ const browser=await engines[name].launch({headless:true,...(name==='chromium'&&process.env.QA_BROWSER_EXECUTABLE?{executablePath:process.env.QA_BROWSER_EXECUTABLE}:{}),args:name==='chromium'?['--no-sandbox']:[]});
+ try{
+  const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[];page.on('pageerror',e=>errors.push(e.message));let requests=0,mode='failure';
+  await page.addInitScript(()=>{
+   window.__spoken=[];window.__deviceMode='normal';window.__audioMode='normal';window.__mediaPlays=0;
+   Object.defineProperty(window,'SpeechSynthesisUtterance',{configurable:true,value:class{constructor(text){this.text=text;}}});
+   Object.defineProperty(window,'speechSynthesis',{configurable:true,value:{getVoices:()=>[{lang:'pt-BR',name:'Português',localService:true}],cancel(){},resume(){},speak(u){if(window.__deviceMode==='throw')throw Error('Device failed');window.__spoken.push(u);if(window.__deviceMode==='stall')return;queueMicrotask(()=>u.onstart?.());},addEventListener(){},removeEventListener(){}}});
+   window.Audio=class{constructor(src){this.src=src;this.currentTime=0;}pause(){}load(){}removeAttribute(){}play(){window.__mediaPlays++;if(window.__audioMode==='blocked'){window.__audioMode='normal';return Promise.reject(new DOMException('Blocked','NotAllowedError'));}window.__lastMedia=this;return Promise.resolve();}};
+  });
+  await page.route('**/api/speech',route=>{requests++;return mode==='failure'?route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({error:'Studio voice is temporarily unavailable. Please retry, or explicitly choose your device voice.'})}):route.fulfill({status:200,headers:{'Content-Type':'audio/mpeg','X-Audio-Source':'Human recording'},body:mode==='empty'?Buffer.alloc(0):Buffer.from(clips['pt-BR:avô'],'base64')});});
+  await page.goto(base+'/__audio-recovery');const play=()=>page.locator('.sentence-play').click();const idle=()=>page.waitForFunction(()=>document.querySelector('.sentence-play')?.getAttribute('aria-pressed')==='false');
+  const reset=async(props={})=>{const version=await page.evaluate(props=>window.__audioRender(props),props);await page.waitForFunction(version=>Number(document.querySelector('[data-audio-version]')?.dataset.audioVersion)===version,version);await idle();};
+  await play();await page.getByRole('button',{name:'Use device voice instead',exact:true}).waitFor();assert.equal(await page.evaluate(()=>window.__spoken.length),0,'No automatic device downgrade after a failed fetch');await idle();
+  await page.evaluate(()=>window.__deviceMode='throw');await page.getByRole('button',{name:'Use device voice instead',exact:true}).click();await idle();assert.match(await page.locator('.sentence-audio-error').innerText(),/Device speech could not start/);
+  await page.evaluate(()=>window.__deviceMode='normal');await page.getByRole('button',{name:'Use device voice instead',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.sentence-play').getAttribute('aria-label')==='Stop audio');assert.equal(await page.evaluate(()=>window.__spoken.at(-1).text),'avô');await play();await idle();
+  await page.clock.install();await play();await page.getByRole('button',{name:'Use device voice instead',exact:true}).waitFor();await page.evaluate(()=>window.__deviceMode='stall');await page.getByRole('button',{name:'Use device voice instead',exact:true}).click();await page.clock.runFor(8500);await idle();assert.match(await page.locator('.sentence-audio-error').innerText(),/Device speech could not start/);
+  await reset({allowDeviceFallback:false});await play();await idle();assert.equal(await page.getByRole('button',{name:'Use device voice instead',exact:true}).count(),0,'Regional audio cannot substitute a device accent');
+  mode='success';await reset();await page.evaluate(()=>window.__audioMode='blocked');const before=requests;await play();await idle();assert.match(await page.locator('.sentence-audio-error').innerText(),/Tap Listen again/);await play();await page.waitForFunction(()=>document.querySelector('.sentence-play').getAttribute('aria-label')==='Stop audio');assert.equal(requests-before,1,'An iOS-style blocked play retains the prepared recording');assert.equal(await page.locator('.voice-source').first().innerText(),'Human recording');
+  await page.clock.runFor(16000);await idle();assert.match(await page.locator('.sentence-audio-error').innerText(),/Could not play the studio recording/);
+  mode='empty';await reset({text:'lã'});await play();await idle();assert.match(await page.locator('.sentence-audio-error').innerText(),/Studio audio is unavailable/);
+  mode='failure';await reset({text:'Olá. '.repeat(80)});await play();await idle();await page.evaluate(()=>window.__deviceMode='normal');await page.getByRole('button',{name:'Use device voice instead',exact:true}).click();await page.waitForFunction(()=>document.querySelector('.sentence-play').getAttribute('aria-label')==='Stop audio');await page.evaluate(()=>window.__lateEnd=window.__spoken.at(-1).onend);const count=await page.evaluate(()=>window.__spoken.length);await reset({text:'lá'});await page.evaluate(()=>window.__lateEnd());await page.clock.runFor(1000);assert.equal(await page.evaluate(()=>window.__spoken.length),count,'Leaving a question cancels its remaining chunks');
+  assert.deepEqual(errors,[]);console.log('PASS audio recovery:',name,'explicit device choice, thrown/stalled speech, protected regional audio, retained blocked clip, empty recording, media stall and stale-event cleanup');await page.close();
+ }finally{await browser.close();}
+}}finally{await vite.close();}

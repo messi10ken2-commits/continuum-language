@@ -38,11 +38,11 @@ export async function handleSpeech({route,req,res,pool,json,send,fail,limited,sy
  return serveStudioSpeech({req,res,pool,text,locale,send,fail,limited,synthesize});
 }
 // Call only after the caller has authorized the exact server-owned text.
-export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limited,synthesize=synthesizeSpeech,privateAudio=false,voiceProfile='default',validateAudio=false}){
+export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limited,synthesize=synthesizeSpeech,privateAudio=false,voiceProfile='default',validateAudio=true}){
  const cacheControl=privateAudio?'private, no-store':null;
  if(typeof text!=='string'||!text.trim()||text.length>1800||!speechLocales.includes(locale))fail(400,'Invalid speech content');
  const word=voiceProfile==='default'?nativeWordEntry(text,locale):null;
- if(word){const bytes=Buffer.from(nativeWordAudio[word.key],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':cacheControl||'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Version':'native-words-v1'});res.end(bytes);return true;}
+ if(word){const bytes=Buffer.from(nativeWordAudio[word.key],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':cacheControl||'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Version':'native-words-v2'});res.end(bytes);return true;}
  const native=voiceProfile==='default'?nativeKanaKey(text,locale):null;
  if(native){const bytes=Buffer.from(nativeKanaAudio[native],'base64');res.writeHead(200,{'Content-Type':'audio/mpeg','Content-Length':bytes.length,'Cache-Control':cacheControl||'public, max-age=86400','X-Audio-Source':'Human recording','X-Audio-Version':'native-kana-v1'});res.end(bytes);return true;}
  const key=speechKey(text,locale,voiceProfile);const existing=await pool.query('SELECT audio,provider,model FROM speech_cache WHERE cache_key=$1',[key]);

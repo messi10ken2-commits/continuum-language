@@ -64,7 +64,7 @@ test('all taught kana use bundled human recordings without database or provider 
 test('target pronunciation recordings bypass provider limits and preserve accent distinctions',async()=>{
  const {nativeWordEntry,nativeWordRecordings}=await import('./native-word-map.mjs');
  const {default:clips}=await import('./native-words.json',{with:{type:'json'}});
- for(const [text,locale] of [['pão','pt-BR'],['mão','pt-BR'],['pero','es-ES'],['perro','es-ES'],['rojo','es-ES'],['papa','es-ES'],['papá','es-ES']])assert.ok(nativeWordEntry(text,locale),text);
+ for(const [text,locale] of [['avó','pt-BR'],['avô','pt-BR'],['lá','pt-BR'],['lã','pt-BR'],['mau','pt-BR'],['pau','pt-BR'],['pó','pt-BR'],['pôr','pt-BR'],['caro','pt-BR'],['bom dia','pt-BR'],['pão','pt-BR'],['mão','pt-BR'],['pero','es-ES'],['perro','es-ES'],['rojo','es-ES'],['papa','es-ES'],['papá','es-ES']])assert.ok(nativeWordEntry(text,locale),text);
  assert.notEqual(nativeWordEntry('papa','es-ES').key,nativeWordEntry('papá','es-ES').key);
  assert.equal(nativeWordEntry('pao','pt-BR'),undefined);
  assert.equal(nativeWordEntry('pão','es-ES'),undefined);
@@ -101,4 +101,13 @@ test('regional synthesis requests explicit styles, keeps locales apart and rejec
   assert.notEqual(speechKey('Sample',locale),speechKey('Sample','en-US'));
  }
  assert.throws(()=>speechRecipe('Sample','unknown'),/Unsupported/);
+});
+
+
+test('provider backoff prevents repeated failed generation and a corrected key can recover immediately',async()=>{
+ const {SpeechProviderBackoff}=await import('./speech-provider-backoff.mjs');let calls=0;const backoff=new SpeechProviderBackoff(()=>0),env={OPENAI_API_KEY:'invalid',GEMINI_API_KEY:'limited'};
+ const fetchImpl=async url=>{calls++;return new Response('{}',{status:url.includes('openai')?401:429});};
+ await assert.rejects(synthesizeSpeech('avó','pt-BR',{env,fetchImpl,backoff}),e=>e.status===503);assert.equal(calls,2);
+ await assert.rejects(synthesizeSpeech('avó','pt-BR',{env,fetchImpl,backoff}),e=>e.status===503&&!!e.retryAfter);assert.equal(calls,2);
+ const result=await synthesizeSpeech('avó','pt-BR',{env:{...env,OPENAI_API_KEY:'corrected'},backoff,fetchImpl:async()=>{calls++;return new Response(pcm)}});assert.equal(result.provider,'openai');assert.equal(calls,3);
 });

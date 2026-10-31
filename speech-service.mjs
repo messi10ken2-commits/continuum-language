@@ -3,7 +3,8 @@ import {isolatedSpeechWord} from './sentence-audio.mjs';
 import {pcmHasSpeechSignal} from './speech-audio-quality.mjs';
 export const speechVersion='studio-voice-v1';
 export const speechLocales=['ja-JP','pt-BR','es-ES','en-US','en-GB','en-AU','es-AR','es-MX','pt-PT','ja-JP-kansai','zh-CN','ko-KR','fr-FR','de-DE','ar-SA','it-IT'];
-let openAICooldown=0;
+import {SpeechProviderBackoff} from './speech-provider-backoff.mjs';
+const productionBackoff=new SpeechProviderBackoff();
 const styles={
  'zh-CN':'请用自然、清晰的普通话朗读。准确保留声调、轻声和变调，不要把汉字拼读成字母，也不要加入拼音或翻译。',
  'ko-KR':'표준 한국어로 자연스럽고 또렷하게 읽으세요. 받침, 연음, 자음의 구별과 문장 억양을 지키고 영어나 로마자 발음을 섞지 마세요.',
@@ -51,26 +52,29 @@ export function pcmWav(pcm,sampleRate=24000){
 }
 const partnerVoices={mira:{openai:'marin',gemini:'Kore'},hana:{openai:'coral',gemini:'Aoede'},rafael:{openai:'cedar',gemini:'Puck'},lucia:{openai:'shimmer',gemini:'Leda'},theo:{openai:'onyx',gemini:'Charon'}};
 export function speechKey(text,locale,voiceProfile='default'){if(voiceProfile!=='default'){if(!partnerVoices[voiceProfile])throw Error('Unknown conversation voice');return crypto.createHash('sha256').update(JSON.stringify([speechVersion+'-partner-v2',locale,text.normalize('NFC').trim(),voiceProfile])).digest('hex');}return crypto.createHash('sha256').update(JSON.stringify([locale==='pt-BR'&&/\b(foi|fui)\b/i.test(text)?speechVersion+'-pt-contrast-v3':isIsolatedWord(text)?speechVersion+'-word-v2':speechVersion,locale,text.normalize('NFC').trim()])).digest('hex');}
-export async function synthesizeSpeech(text,locale,{fetchImpl=fetch,env=process.env,voiceProfile='default'}={}){
+export async function synthesizeSpeech(text,locale,{fetchImpl=fetch,env=process.env,voiceProfile='default',backoff=env===process.env?productionBackoff:null}={}){
  const voice=voiceProfile==='default'?{openai:'marin',gemini:'Kore'}:partnerVoices[voiceProfile];if(!voice)throw Error('Unknown conversation voice');
  const recipe=speechRecipe(text,locale,{repeatWord:voiceProfile==='default'});if(voiceProfile!=='default')recipe.instructions+=' Use a warm natural conversational delivery, as if speaking to one person across a table. Read every supplied sentence through its final word; never summarize or stop after the first sentence.';const failures=[];let rateLimited=false;let retryAfter=60;
- if(env.OPENAI_API_KEY&&(env!==process.env||Date.now()>openAICooldown))for(let attempt=0;attempt<2;attempt++){
+ const openKey=env.OPENAI_API_KEY?.trim(),geminiKey=env.GEMINI_API_KEY?.trim(),openModel=env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts',geminiModel=env.GEMINI_TTS_MODEL||'gemini-3.8-flash-tts';
+ const openWait=openKey?backoff?.remaining('openai',openKey,openModel)||0:0,geminiWait=geminiKey?backoff?.remaining('gemini',geminiKey,geminiModel)||0:0;
+ if(openWait||geminiWait)retryAfter=Math.min(...[openWait,geminiWait].filter(Boolean));
+ if(openKey&&!openWait)for(let attempt=0;attempt<2;attempt++){
   try{
-   const r=await fetchImpl('https://api.openai.com/v1/audio/speech',{method:'POST',headers:{Authorization:`Bearer ${env.OPENAI_API_KEY}`,'Content-Type':'application/json'},body:JSON.stringify({model:env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts',voice:voice.openai,input:recipe.input,instructions:recipe.instructions,response_format:'pcm',speed:1}),signal:AbortSignal.timeout(voiceProfile==='default'?35000:12000)});
-   if(!r.ok){if(r.status===429){rateLimited=true;if(env===process.env)openAICooldown=Date.now()+600000;}throw Error('HTTP '+r.status);}
+   const r=await fetchImpl('https://api.openai.com/v1/audio/speech',{method:'POST',headers:{Authorization:`Bearer ${openKey}`,'Content-Type':'application/json'},body:JSON.stringify({model:env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts',voice:voice.openai,input:recipe.input,instructions:recipe.instructions,response_format:'pcm',speed:1}),signal:AbortSignal.timeout(voiceProfile==='default'?35000:12000)});
+   if(!r.ok){const delay=Number(r.headers.get('retry-after'))||60;backoff?.fail('openai',openKey,openModel,r.status,delay);if(r.status===429){rateLimited=true;retryAfter=delay;}throw Error('HTTP '+r.status);}
    const pcm=Buffer.from(await r.arrayBuffer());if(!pcmHasSpeechSignal(pcm))throw Error('Silent speech audio');return {audio:pcmWav(pcm),provider:'openai',model:env.OPENAI_TTS_MODEL||'gpt-4o-mini-tts'};
   }catch(e){if(attempt===0&&['Silent speech audio','Invalid speech audio'].includes(e.message))continue;failures.push('OpenAI '+(e.message.match(/HTTP \d+/)?.[0]||'unavailable'));break;}
  }
- if(env.GEMINI_API_KEY)for(let attempt=0;attempt<2;attempt++){
+ if(geminiKey&&!geminiWait)for(let attempt=0;attempt<2;attempt++){
   try{
-   const model=env.GEMINI_TTS_MODEL||'gemini-3.8-flash-tts';
-   const r=await fetchImpl('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'x-goog-api-key':env.GEMINI_API_KEY,'Content-Type':'application/json'},body:JSON.stringify({model,input:[{type:'user_input',content:[{type:'text',text:recipe.input,annotations:[{type:'speech_metadata',style:recipe.instructions}]}]}],response_format:{type:'audio',mime_type:'audio/l16',sample_rate:24000},generation_config:{speech_config:[{voice:voice.gemini}]},store:false}),signal:AbortSignal.timeout(voiceProfile==='default'?50000:15000)});
-   if(!r.ok){if(r.status===429){rateLimited=true;const detail=await r.json().catch(()=>({}));const entries=detail.error?.details||[];const delay=entries.find(x=>x.retryDelay)?.retryDelay;retryAfter=Math.max(1,Math.ceil(parseFloat(delay)||60));console.warn('Studio speech provider limit',JSON.stringify({provider:'gemini',model,retryAfter,quotas:entries.flatMap(x=>x.violations||[]).map(x=>({id:x.quotaId,value:x.quotaValue}))}));}throw Error('HTTP '+r.status);}const p=await r.json();const parts=geminiAudioParts(p);
+   const model=geminiModel;
+   const r=await fetchImpl('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'x-goog-api-key':geminiKey,'Content-Type':'application/json'},body:JSON.stringify({model,input:[{type:'user_input',content:[{type:'text',text:recipe.input,annotations:[{type:'speech_metadata',style:recipe.instructions}]}]}],response_format:{type:'audio',mime_type:'audio/l16',sample_rate:24000},generation_config:{speech_config:[{voice:voice.gemini}]},store:false}),signal:AbortSignal.timeout(voiceProfile==='default'?50000:15000)});
+   if(!r.ok){if(r.status===429){rateLimited=true;const detail=await r.json().catch(()=>({}));const entries=detail.error?.details||[];const delay=entries.find(x=>x.retryDelay)?.retryDelay;retryAfter=Math.max(1,Math.ceil(parseFloat(delay)||60));console.warn('Studio speech provider limit',JSON.stringify({provider:'gemini',model,retryAfter,quotas:entries.flatMap(x=>x.violations||[]).map(x=>({id:x.quotaId,value:x.quotaValue}))}));}backoff?.fail('gemini',geminiKey,model,r.status,retryAfter);throw Error('HTTP '+r.status);}const p=await r.json();const parts=geminiAudioParts(p);
    if(!parts.length)throw Error('Missing audio');const pcm=Buffer.concat(parts.map(encoded=>Buffer.from(encoded,'base64')));if(!pcmHasSpeechSignal(pcm))throw Error('Silent speech audio');return {audio:pcmWav(pcm),provider:'gemini',model};
   }catch(e){if(attempt===0&&['Silent speech audio','Missing audio','Invalid speech audio'].includes(e.message))continue;failures.push('Gemini '+(e.message.match(/HTTP \d+/)?.[0]||(['Missing audio','Invalid speech audio'].includes(e.message)?e.message:e.name==='TimeoutError'?'timeout':'unavailable')));break;}
  }
  console.warn('Studio speech unavailable:',failures.join('; ')||'No provider configured');
- const e=Error(rateLimited?'New studio audio is temporarily limited by the voice provider. Saved recordings still play. Please retry later, or explicitly choose your device voice.':'Studio voice is temporarily unavailable. Please retry, or explicitly choose your device voice.');e.status=503;e.retryAfter=rateLimited?retryAfter:undefined;throw e;
+ const e=Error(rateLimited?'New studio audio is temporarily limited by the voice provider. Saved recordings still play. Please retry later, or explicitly choose your device voice.':'Studio voice is temporarily unavailable. Please retry, or explicitly choose your device voice.');e.status=503;e.retryAfter=rateLimited||openWait||geminiWait?retryAfter:undefined;throw e;
 }
 
 // Providers may return multiple PCM blocks. Selecting only the first silently
