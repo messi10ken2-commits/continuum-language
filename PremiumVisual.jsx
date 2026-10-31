@@ -1,3 +1,4 @@
+import {regionalWordingNote} from './regional-audio-pairs.mjs';
 import React,{useEffect,useRef,useState} from 'react';
 import {LessonImage} from './LessonMedia.jsx';
 import SentenceAudio from './SentenceAudio.jsx';
@@ -22,6 +23,7 @@ export function PremiumGallery({course}){
  <div className="visual-stage"><PremiumVisual course={course} index={index} context={frame.text}/><div className="visual-focus">
  <span className="visual-step-label">{index+1} / {frames.length} · {t(frame.label)}</span><p className="visual-target" lang={locale}>{frame.text}</p>
  {(course.scene!=='varieties'||frame.audioLocale)&&<SentenceAudio allowDeviceFallback={course.scene!=='varieties'} key={index} text={frame.text} lang={frame.audioLocale||locale} audioEndpoint={'/api/billing/courses/'+course.id+'/audio?gallery='+index}/>}
+ {frame.audioKind==='regional-wording-standard-voice'&&<p className="reference-hint">{t(regionalWordingNote)}</p>}
  {frame.meaning&&<><button className="visual-reveal" aria-expanded={revealed} onClick={()=>setRevealed(!revealed)}>{t(revealed?'Hide meaning':'Think first · reveal meaning')}</button>{revealed&&<p className="visual-meaning">{t(frame.meaning,course.language)}</p>}</>}
  </div></div><progress className="visual-example-progress" value={index+1} max={frames.length} aria-label={t('Explore lesson examples')}/>
  <div className="visual-steps" role="group" aria-label={t('Explore lesson examples')}>{frames.map((f,i)=><button type="button" key={i} aria-pressed={index===i} onClick={()=>{setIndex(i);setRevealed(false)}}>{i+1} · {t(f.label)}</button>)}</div>

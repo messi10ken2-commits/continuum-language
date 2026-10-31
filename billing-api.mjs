@@ -1,5 +1,5 @@
 import {languageInfo} from './languages.mjs';
-import {regionalAudioPairs} from './regional-audio-pairs.mjs';
+import {regionalAudioPairs,regionalPlaybackLocale} from './regional-audio-pairs.mjs';
 import {withVerifiedAnswers} from './verified-answers.mjs';
 import {migrateTrial,trialStatus,checkedTrialPrice,renewalTermsVersion} from './premium-trial.mjs';
 import {premiumGalleryFrames} from './premium-session.mjs';
@@ -131,7 +131,7 @@ async function handleBillingCore({route,req,res,pool,required,json,send,fail,lim
  }
  const course=route.match(/^\/api\/billing\/courses\/([a-z0-9-]+)(?:\/(answer|finish|audio))?$/);
  if(course){if(!(await membership(pool,user.id)).premium)fail(403,'Premium is required for this course.');let lesson=premiumCourseById(course[1]);if(!lesson)fail(404,'Course not found');if(req.method==='POST')lesson=await withVerifiedAnswers(pool,user.id,lesson);if(req.method==='GET'&&course[2]==='audio'){const params=new URL(req.url,'http://localhost').searchParams;
- if(params.has('comparison')){const index=params.get('comparison'),variant=params.get('variant');if(!/^\d+$/.test(index||'')||!['0','1'].includes(variant))fail(404,'Audio not found');const v=lesson.scene==='varieties'&&regionalAudioPairs[lesson.language]?.[Number(index)]?.variants[Number(variant)];if(!v?.locale)fail(404,'Use the native-speaker video for this regional pronunciation.');return serveStudioSpeech({req,res,pool,text:v.text,locale:v.locale,send,fail,limited,privateAudio:true,validateAudio:lesson.scene==='varieties'});}
+ if(params.has('comparison')){const index=params.get('comparison'),variant=params.get('variant');if(!/^\d+$/.test(index||'')||!['0','1'].includes(variant))fail(404,'Audio not found');const v=lesson.scene==='varieties'&&regionalAudioPairs[lesson.language]?.[Number(index)]?.variants[Number(variant)];if(!v?.locale)fail(404,'Use the native-speaker video for this regional pronunciation.');return serveStudioSpeech({req,res,pool,text:v.text,locale:regionalPlaybackLocale(v.locale),send,fail,limited,privateAudio:true,validateAudio:lesson.scene==='varieties'});}
  const gallery=params.has('gallery'),raw=params.get(gallery?'gallery':'question');
  if(raw===null||!/^\d+$/.test(raw))fail(404,'Audio not found');
  const index=Number(raw);if(!Number.isSafeInteger(index))fail(404,'Audio not found');

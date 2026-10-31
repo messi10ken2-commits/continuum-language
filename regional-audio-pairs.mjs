@@ -9,4 +9,12 @@ export const regionalAudioPairs={
 };
 Object.assign(regionalAudioPairs,expandedRegionalPairs);
 export const kansaiComparisonVideo={provider:'youtube',youtubeId:'tW1kj38VZ2c',source:'https://www.youtube.com/watch?v=tW1kj38VZ2c',credit:'Miku Real Japanese · Miku and Yuyu',sourceTitle:'Standard Japanese VS Kansai dialect (関西弁 VS 標準語)',hint:'Compare the speakers’ regional forms and intonation. Examples in the written table are separate teaching material; the video is not a recording of every table entry.'};
-export const regionalFrameVoice=(course,text)=>(regionalAudioPairs[course.language]||[]).flatMap(p=>p.variants).find(v=>v.text===text)?.locale||null;
+// These clips practise regional wording using a clearly labelled standard voice.
+// Authentic regional pronunciation stays with the native-speaker references.
+const wordingVoices={'es-AR':'es-ES','es-MX':'es-ES','pt-PT':'pt-BR'};
+export const regionalPlaybackLocale=locale=>wordingVoices[locale]||locale;
+export const regionalWordingOnly=locale=>Object.hasOwn(wordingVoices,locale||'');
+export const regionalWordingNote='Standard-language studio voice for this wording. Use the native-speaker references for the regional accent.';
+const frameVariant=(course,text)=>(regionalAudioPairs[course.language]||[]).flatMap(p=>p.variants).find(v=>v.text===text);
+export const regionalFrameVoice=(course,text)=>regionalPlaybackLocale(frameVariant(course,text)?.locale)||null;
+export const regionalFrameWording=(course,text)=>regionalWordingOnly(frameVariant(course,text)?.locale);

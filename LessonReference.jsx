@@ -3,6 +3,7 @@ import {SpokenText} from './SentenceAudio.jsx';
 import React from 'react';
 import './lesson-reference.css';
 import {expressionGuidance} from './curriculum-expressions.mjs';
+import {descriptionColumn,tableAnnotation} from './table-audio.mjs';
 
 // An exclusive reference must keep its exact server-owned course endpoint.
 // A missing mapping renders text only; private text never falls back to /api/speech.
@@ -11,8 +12,7 @@ function ReferenceSpeech({text,lang,audioEndpointForText}){
  return audioEndpointForText&&!endpoint?text:<SpokenText text={text} lang={lang} audioEndpoint={endpoint}/>;
 }
 
-const descriptionColumn=h=>/^(Type|Purpose|Function|Meaning|Focus|Interpretation|Time order|Reason|Difference|Time|Strength|Appropriate interpretation|Reference|Use|Usage|English|Translation|Ending sound)$/i.test(h);
-function TableCell({text,header,locale,audioEnabled=true,translated=false,audioEndpointForText}){return translated||descriptionColumn(header)?uiText(text,locale.slice(0,2)):!audioEnabled||text.includes('+')||text==='—'?text:<ReferenceSpeech text={text} lang={locale} audioEndpointForText={audioEndpointForText}/>;}
+function TableCell({text,header,locale,audioEnabled=true,translated=false,audioEndpointForText}){return translated||descriptionColumn(header)||tableAnnotation(text)?uiText(text,locale.slice(0,2)):!audioEnabled||text.includes('+')||text==='—'?text:<ReferenceSpeech text={text} lang={locale} audioEndpointForText={audioEndpointForText}/>;}
 
 export default function LessonReference({lesson,audioEnabled=true,audioEndpointForText}){
  const content=lesson.breakdown;

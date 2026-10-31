@@ -22,7 +22,7 @@ export const expressionChapters=[
 const phrase=(term,type,meaning,register,use,example,translation,pitfall,wrong)=>({term,type,meaning,register,use,example,translation,pitfall,wrong,region:'Broadly understood Spanish; local preferences may vary.'});
 const p=phrase;
 const lesson=(id,level,chapter,title,explanation,priority,phrases,recall,transfer)=>{
- const questions=phrases.map((x,i)=>{const answer=i%3,options=[...x.wrong];options.splice(answer,0,x.meaning);return {prompt:`In this context, what does “${x.term}” mean? ${x.example}`,options,answer,note:`${x.meaning}. ${x.use} ${x.pitfall}`}});
+ const questions=phrases.map((x,i)=>{const answer=i%3,options=[...x.wrong];options.splice(answer,0,x.meaning);return {prompt:`In this context, what does “${x.term}” mean? ${x.example}`,options,answer,optionsRole:'comprehension',optionsLang:'en-US',note:`${x.meaning}. ${x.use} ${x.pitfall}`}});
  questions.push({type:'text',prompt:recall[0],options:null,answer:recall[1],accepted:[recall[1]],note:recall[2]});
  questions.push({prompt:transfer[0],options:transfer[1],answer:transfer[2],note:transfer[3]});
  return {id,level,chapter,title,skill:'Expressions',minutes:10,explanation,example:phrases[0].example,expressions:phrases,priority,questions};

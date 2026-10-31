@@ -117,11 +117,13 @@ export const lessonList=[
  q('Complete: “Siempre que se ___ en cuenta las limitaciones.”',['tienen','tendrán','tengan'],2,'Siempre que meaning “provided that” takes the subjunctive.'),
  q('Which conclusion preserves a limitation?',['La medida parece útil, aunque faltan datos a largo plazo.','La medida resolverá absolutamente todo.','Los datos no importan.'],0,'The first conclusion supports the measure while acknowledging missing evidence.')])
 ];
+// Add presentation metadata without changing saved question order or answers.
+for(const [id,indices] of Object.entries({'balanced-argument':[0],'implied-meaning':[0,1,2],hedging:[2]}))for(const i of indices)Object.assign(lessonList.find(l=>l.id===id).questions[i],{optionsRole:'comprehension',optionsLang:'en-US'});
 chapters.push(...foundationChapters);
 lessonList.push(...foundationLessons);
 chapters.push(...expressionChapters);
 lessonList.push(...expressionLessons);
-for(const chapter of chapters){const children=lessonList.filter(l=>l.chapter===chapter.id);lessonList.push(entry(chapter.id+'-checkpoint',chapter.level,chapter.id,'Chapter checkpoint','Checkpoint','Review both lessons, then check what you can recall. A score of 80% marks this checkpoint as mastered. You can retry any time.','Take your time and use the explanations after each answer.',children.flatMap(l=>l.questions),{checkpoint:true,minutes:8}));}
+for(const chapter of chapters){const children=lessonList.filter(l=>l.chapter===chapter.id);lessonList.push(entry(chapter.id+'-checkpoint',chapter.level,chapter.id,'Chapter checkpoint','Checkpoint','Review both lessons, then check what you can recall. A score of 80% marks this checkpoint as mastered. You can retry any time.','Take your time and use the explanations after each answer.',children.flatMap(l=>l.questions),{checkpoint:true,minutes:8,exampleLang:'en-US'}));}
 // One cumulative review at the end of each level. It samples two questions
 // from every lesson in that level so the result reflects the whole roadmap.
 for(const level of levels){
@@ -130,7 +132,7 @@ for(const level of levels){
  chapters.push(chapter);
  const source=lessonList.filter(l=>l.level===level.id&&!l.checkpoint&&!l.summaryTest);
  const questions=source.flatMap(l=>l.questions.filter(q=>q.type!=='text').slice(0,2));
- lessonList.push(entry(id,level.id,id,`${level.id} level summary test`,'Level test',`A cumulative ${level.id} review across grammar, vocabulary, expressions and communication. Score 85% or higher to receive a completion recommendation for the next level.`,`Take the ${level.id} review when you are ready to check the whole level.`,questions,{summaryTest:true,passScore:85,minutes:15}));
+ lessonList.push(entry(id,level.id,id,`${level.id} level summary test`,'Level test',`A cumulative ${level.id} review across grammar, vocabulary, expressions and communication. Score 85% or higher to receive a completion recommendation for the next level.`,`Take the ${level.id} review when you are ready to check the whole level.`,questions,{summaryTest:true,passScore:85,minutes:15,exampleLang:'en-US'}));
 }
 const international=buildInternationalCourse(chapters,lessonList);
 const internationalTransfer={...international.transfer,...idiomTransfer,...expandedTransfer,...expandedSoundTransfer,...expandedVisualTransfer};
@@ -199,7 +201,17 @@ export function getLessonVariant(id,seed){
   }
   return selected.map(q=>({...q,topic:c.title}));});
  const questions=shuffle(chosen).map(q=>{const order=shuffle(q.options.map((_,i)=>i));return {...q,options:order.map(i=>q.options[i]),answer:order.indexOf(q.answer)};});
- return {...base,questions,explanation:base.summaryTest?`Apply ${base.level} grammar, vocabulary and expressions in new situations. Questions are mixed across every chapter. Score 85% to earn a completion recommendation.`:'Apply this chapter in new situations. Each attempt draws four questions and mixes the answer choices. Score 80% to master this checkpoint.',example:'Read the situation carefully and choose the response that fits its meaning. A new attempt may ask different questions.',transferTest:true};
+ return {...base,questions,explanation:base.summaryTest?`Apply ${base.level} grammar, vocabulary and expressions in new situations. Questions are mixed across every chapter. Score 85% to earn a completion recommendation.`:'Apply this chapter in new situations. Each attempt draws four questions and mixes the answer choices. Score 80% to master this checkpoint.',example:'Read the situation carefully and choose the response that fits its meaning. A new attempt may ask different questions.',exampleLang:'en-US',transferTest:true};
+}
+
+// Complete authored source for audio/integrity audits. Selection and grading in
+// getLessonVariant stay unchanged; this returns the union before random draws.
+export function authoredTransferQuestions(id){
+ const base=getLesson(id);if(!base||(!base.checkpoint&&!base.summaryTest))return [];
+ const archived=legacyInternationalLessons.includes(base);
+ const available=archived?legacyInternationalChapters:chapters;
+ const groups=base.summaryTest?available.filter(c=>c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest&&!c.specialist):available.filter(c=>c.id===base.chapter);
+ return groups.flatMap(c=>{const pool=archived?legacyInternationalTransfer[c.id]:transferBank[c.id]||internationalTransfer[c.id]||soundTransfer[c.id]||visualTransfer[c.id];return (pool||[]).map(q=>({...q,topic:c.title}));});
 }
 
 // A changed video question set cannot resume answers saved by index against the old set.

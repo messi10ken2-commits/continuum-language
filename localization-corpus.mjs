@@ -11,6 +11,7 @@ import assessmentDisplaySources from './assessment-display-sources.json' with {t
 import {speakingScenarios} from './speaking-content.mjs';
 import {qualityQuestionBank} from './question-quality.mjs';
 import {displayLanguageOptions} from './answer-language.mjs';
+import {descriptionColumn,tableAnnotation} from './table-audio.mjs';
 import {skillTasks} from './skills-content.mjs';
 import {visualFrames} from './lesson-media.mjs';
 import {appliedQuestionBank} from './applied-exercises.mjs';
@@ -39,11 +40,10 @@ for(const source of assessmentDisplaySources)add(source.text,source.language,sou
 for(const text of feedbackTemplates)add(text.trim());
 for(const level of levels){add(level.name);add(level.description);}
 for(const s of speakingScenarios){add(s.title);for(const goal of s.goals)add(goal);}
-const descriptionColumn=h=>/^(Type|Purpose|Function|Meaning|Focus|Interpretation|Time order|Reason|Difference|Time|Strength|Appropriate interpretation|Reference|Use|Usage|English|Translation|Ending sound)$/i.test(h);
 for(const l of lessonList){
  lessonContext=l.level+' '+l.language+' lesson: '+l.title;
  add(l.title);
- const language=l.language||languageOf(l.id),terms=[...(l.vocabulary||[]),...(l.expressions||[])].flatMap(w=>[w.term,w.phrase,w.example]),forms=(l.breakdown?.tables||[]).flatMap(t=>t.rows.flatMap(r=>r.filter((_,i)=>!descriptionColumn(t.headers[i]))));
+ const language=l.language||languageOf(l.id),terms=[...(l.vocabulary||[]),...(l.expressions||[])].flatMap(w=>[w.term,w.phrase,w.example]),forms=(l.breakdown?.tables||[]).flatMap(t=>t.rows.flatMap(r=>r.filter((s,i)=>!t.descriptionColumns?.includes(i)&&!descriptionColumn(t.headers[i])&&!tableAnnotation(s))));
  const targetHeader=h=>!/^(Subject|Viewpoint|Example|Meaning|Form|Statement|Negative|Question|Base|Type|Pattern|Positive|Past|Ending sound|Short answer|Purpose|Focus|Interpretation|Participle|Function|Time order|Reason|Condition|Result|Simple perfect|Continuous perfect|Difference|Time|Wording|Strength|Appropriate interpretation|Reference|Gerund|Construction|Verb|Auxiliary|Infinitive|Expression|Limit|Role|Particle \/ form|Group|Dictionary|Stem|Polite|Past negative|Nonpast|Ending|Change|Plain predicate|With possibility|Full form|Conversational form|Conditional|Passive|Causative|Status)$/i.test(h);
  const headers=(l.breakdown?.tables||[]).flatMap(t=>t.headers.filter(targetHeader));
  const preserve=[...headers,...terms,...forms,l.example,...(l.breakdown?.examples||[]).map(x=>x[0]),...(l.soundGuide?.pairs||[]).flatMap(([a,b])=>[a,...(/^[\p{L}\p{M}ー-]+$/u.test(b)?[b]:[])]),...(l.characters||[]).flatMap(x=>[x.glyph,x.reading])];
@@ -52,7 +52,7 @@ for(const l of lessonList){
  for(const w of [...(l.vocabulary||[]),...(l.expressions||[])])for(const k of ['meaning','translation','use','pitfall','type','register','region'])add(w[k],language,preserve);
  for(const s of l.breakdown?.steps||[])add(s,language,preserve);add(l.breakdown?.pitfall,language,preserve);
  for(const [,en] of l.breakdown?.examples||[])add(en,language,preserve);
- for(const table of l.breakdown?.tables||[]){add(table.caption,language,preserve);for(const h of table.headers)add(h,language,preserve);for(const row of table.rows)row.forEach((s,i)=>{if(descriptionColumn(table.headers[i]))add(s,language,preserve)})}
+ for(const table of l.breakdown?.tables||[]){add(table.caption,language,preserve);for(const h of table.headers)add(h,language,preserve);for(const row of table.rows)row.forEach((s,i)=>{if(table.descriptionColumns?.includes(i)||descriptionColumn(table.headers[i])||tableAnnotation(s))add(s,language,preserve)})}
  for(const [,hint] of l.soundGuide?.pairs||[])add(hint,language,preserve);
  for(const x of l.characters||[])add(x.meaning,language,preserve);
  for(const s of l.conversation?.watchTasks||[])add(s,language,preserve);
