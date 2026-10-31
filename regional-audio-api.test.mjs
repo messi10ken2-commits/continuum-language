@@ -1,3 +1,4 @@
+import {expandedRegionalCourses} from './expanded-regional-courses.mjs';
 import {regionalAudioPairs} from './regional-audio-pairs.mjs';
 import assert from 'node:assert/strict';
 import {varietyCourses} from './premium-varieties.mjs';
@@ -9,7 +10,7 @@ async function register(name){const r=await fetch(base+'/api/auth/register',{met
 try{
  const paid=await register('RegionalPaid'),free=await register('RegionalFree');
  await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[paid.id]);
- for(const course of varietyCourses){
+ for(const course of [...varietyCourses,...expandedRegionalCourses]){
   const response=await fetch(base+'/api/billing/courses/'+course.id,{headers:{cookie:paid.cookie}});assert.equal(response.status,200);const {course:visible}=await response.json();assert.ok(visible.breakdown.tables.length);assert.ok(visible.questions.every(q=>!('answer'in q)&&!('note'in q)));
   if(course.language==='ja'){for(const index of [0,4])assert.equal((await fetch(base+'/api/billing/courses/'+course.id+'/audio?question='+index,{headers:{cookie:paid.cookie}})).status,404);}
   for(const [index,q] of course.questions.entries())if(q.audio){
@@ -20,7 +21,7 @@ try{
    const r=await fetch(endpoint,{headers:{cookie:paid.cookie}});assert.equal(r.status,200);assert.equal(r.headers.get('x-audio-locale'),q.audioLocale);assert.equal(r.headers.get('x-audio-source'),'AI-generated studio voice');assert.equal(r.headers.get('cache-control'),'private, no-store');assert.deepEqual(Buffer.from(await r.arrayBuffer()),audio);
   }
  }
- for(const course of varietyCourses)for(const [i,pair] of regionalAudioPairs[course.language].entries())for(const [j,v] of pair.variants.entries()){
+ for(const course of [...varietyCourses,...expandedRegionalCourses])for(const [i,pair] of regionalAudioPairs[course.language].entries())for(const [j,v] of pair.variants.entries()){
  const endpoint=base+'/api/billing/courses/'+course.id+'/audio?comparison='+i+'&variant='+j;
  if(!v.locale){assert.equal((await fetch(endpoint,{headers:{cookie:paid.cookie}})).status,404);continue;}
  const bytes=pcmWav(Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])));await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(v.text,v.locale),bytes,'synthetic-test','pair-locale-sentinel']);

@@ -1,4 +1,4 @@
-import {expandedVideoChapters,expandedVideoLessons} from './expanded-video-course.mjs';
+import {expandedVideoChapters,expandedVideoLessons,archivedExpandedVideoLessons} from './expanded-video-course.mjs';
 import {expandedVisualChapters,expandedVisualLessons,expandedVisualTransfer} from './expanded-visual-course.mjs';
 import {expandedChapters,expandedLessons,expandedTransfer} from './expanded-language-catalog.mjs';
 import {expandedScriptChapters,expandedScriptLessons} from './expanded-script-course.mjs';
@@ -167,7 +167,7 @@ lessonList.push(...expandedLessons,...expandedSoundLessons,...expandedScriptLess
 chapters.push(...expandedVideoChapters);
 lessonList.push(...expandedVideoLessons);
 enrichEverydayLessons(lessonList);
-export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id);
+export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id)||archivedExpandedVideoLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
 export const forLesson=(attempts,id='subjunctive')=>attempts.filter(a=>(a.lesson||'subjunctive')===id);
 export function validAnswer(q,a){return q.type==='text'?typeof a==='string'&&a.length<=150:Number.isInteger(a)&&a>=0&&a<q.options.length;}

@@ -1,0 +1,3062 @@
+[
+  {
+    "youtubeId": "huwi-cjPPXU",
+    "analysisId": "854accd2-c0d3-4822-88e8-a92d8e301c87",
+    "questions": [
+      {
+        "prompt": "What information does the interviewer ask for?",
+        "options": [
+          "The person's name",
+          "The person's job",
+          "The person's age"
+        ],
+        "note": "The selected passage supports this answer: The person's name. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 7,
+          "end": 14,
+          "label": "What information does the interviewer ask for?",
+          "evidence": "Higgsfield scene analysis 854accd2-c0d3-4822-88e8-a92d8e301c87, scene 2, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which name does the speaker give?",
+        "options": [
+          "Soroush",
+          "Manuel",
+          "Pauline"
+        ],
+        "note": "The selected passage supports this answer: Soroush. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 10,
+          "end": 16,
+          "label": "Which name does the speaker give?",
+          "evidence": "Higgsfield scene analysis 854accd2-c0d3-4822-88e8-a92d8e301c87, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does this speaker introduce himself?",
+        "options": [
+          "As Manuel",
+          "As Erik",
+          "As Sami"
+        ],
+        "note": "The selected passage supports this answer: As Manuel. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 20,
+          "end": 27,
+          "label": "How does this speaker introduce himself?",
+          "evidence": "Higgsfield scene analysis 854accd2-c0d3-4822-88e8-a92d8e301c87, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Where does the speaker say he comes from?",
+        "options": [
+          "Tehran, in Iran",
+          "Berlin, in Germany",
+          "Paris, in France"
+        ],
+        "note": "The selected passage supports this answer: Tehran, in Iran. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 80,
+          "end": 88,
+          "label": "Where does the speaker say he comes from?",
+          "evidence": "Higgsfield scene analysis 854accd2-c0d3-4822-88e8-a92d8e301c87, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which place in the United States is mentioned?",
+        "options": [
+          "Texas",
+          "California",
+          "Florida"
+        ],
+        "note": "The selected passage supports this answer: Texas. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 87,
+          "end": 94,
+          "label": "Which place in the United States is mentioned?",
+          "evidence": "Higgsfield scene analysis 854accd2-c0d3-4822-88e8-a92d8e301c87, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which distinction does the speaker make?",
+        "options": [
+          "He comes from Poland and has German citizenship",
+          "He comes from Germany and has Polish citizenship",
+          "He comes from France and has Swiss citizenship"
+        ],
+        "note": "The selected passage supports this answer: He comes from Poland and has German citizenship. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 94,
+          "end": 105,
+          "label": "Which distinction does the speaker make?",
+          "evidence": "Higgsfield scene analysis 854accd2-c0d3-4822-88e8-a92d8e301c87, scene 17, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "Ke9aDDtbLQ0",
+    "analysisId": "c1132735-c746-4d26-a458-4d812a1e892f",
+    "questions": [
+      {
+        "prompt": "When does the lesson recommend saying bonjour?",
+        "options": [
+          "Before starting an exchange in a shop.",
+          "Only after paying for a purchase.",
+          "Only when you already know the shopkeeper."
+        ],
+        "note": "The selected passage supports this answer: Before starting an exchange in a shop.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 33,
+          "end": 55,
+          "label": "When does the lesson recommend saying bonjour?",
+          "evidence": "Higgsfield scene analysis c1132735-c746-4d26-a458-4d812a1e892f, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does the customer request?",
+        "options": [
+          "A coffee.",
+          "A loaf of bread.",
+          "A glass of water."
+        ],
+        "note": "The selected passage supports this answer: A coffee.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 118,
+          "end": 126,
+          "label": "What does the customer request?",
+          "evidence": "Higgsfield scene analysis c1132735-c746-4d26-a458-4d812a1e892f, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does bonne journée do in this section?",
+        "options": [
+          "It wishes someone a good day while leaving.",
+          "It asks someone to repeat a price.",
+          "It introduces the speaker’s name."
+        ],
+        "note": "The selected passage supports this answer: It wishes someone a good day while leaving.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 127,
+          "end": 147,
+          "label": "What does bonne journée do in this section?",
+          "evidence": "Higgsfield scene analysis c1132735-c746-4d26-a458-4d812a1e892f, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What price is stated?",
+        "options": [
+          "€2.20.",
+          "€1.20.",
+          "€3.20."
+        ],
+        "note": "The selected passage supports this answer: €2.20.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 171,
+          "end": 178,
+          "label": "What price is stated?",
+          "evidence": "Higgsfield scene analysis c1132735-c746-4d26-a458-4d812a1e892f, scene 17, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which distinction does the speaker explain?",
+        "options": [
+          "S’il vous plaît is contrasted with the familiar s’il te plaît.",
+          "Both expressions are used only in written notices.",
+          "S’il te plaît is reserved for strangers."
+        ],
+        "note": "The selected passage supports this answer: S’il vous plaît is contrasted with the familiar s’il te plaît.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 189,
+          "end": 213,
+          "label": "Which distinction does the speaker explain?",
+          "evidence": "Higgsfield scene analysis c1132735-c746-4d26-a458-4d812a1e892f, scene 21, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does the speaker say about using please with friends?",
+        "options": [
+          "It is still appropriate when making a simple request.",
+          "It should never be used between friends.",
+          "It replaces the need to say what you want."
+        ],
+        "note": "The selected passage supports this answer: It is still appropriate when making a simple request.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 209,
+          "end": 242,
+          "label": "What does the speaker say about using please with friends?",
+          "evidence": "Higgsfield scene analysis c1132735-c746-4d26-a458-4d812a1e892f, scene 22, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "tcF32PewZqY",
+    "analysisId": "2a4d2f61-5cd1-4728-9ce7-43a326638710",
+    "questions": [
+      {
+        "prompt": "How does the speaker avoid falling asleep again?",
+        "options": [
+          "By getting up immediately after waking.",
+          "By delaying the alarm until the last minute.",
+          "By checking the phone for an hour."
+        ],
+        "note": "The selected passage supports this answer: By getting up immediately after waking.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 19,
+          "end": 60,
+          "label": "How does the speaker avoid falling asleep again?",
+          "evidence": "Higgsfield scene analysis 2a4d2f61-5cd1-4728-9ce7-43a326638710, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does this speaker describe mornings?",
+        "options": [
+          "They are not a morning person and postpone getting up.",
+          "They always wake before the alarm.",
+          "They get up earlier on weekends than weekdays."
+        ],
+        "note": "The selected passage supports this answer: They are not a morning person and postpone getting up.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 60,
+          "end": 70,
+          "label": "How does this speaker describe mornings?",
+          "evidence": "Higgsfield scene analysis 2a4d2f61-5cd1-4728-9ce7-43a326638710, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How is the daily coffee prepared?",
+        "options": [
+          "In a French press.",
+          "In a capsule machine.",
+          "By buying it at a bakery."
+        ],
+        "note": "The selected passage supports this answer: In a French press.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 94,
+          "end": 108,
+          "label": "How is the daily coffee prepared?",
+          "evidence": "Higgsfield scene analysis 2a4d2f61-5cd1-4728-9ce7-43a326638710, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which coffee origin does the speaker prefer?",
+        "options": [
+          "Ethiopia.",
+          "Brazil.",
+          "Colombia."
+        ],
+        "note": "The selected passage supports this answer: Ethiopia.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 104,
+          "end": 114,
+          "label": "Which coffee origin does the speaker prefer?",
+          "evidence": "Higgsfield scene analysis 2a4d2f61-5cd1-4728-9ce7-43a326638710, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What changes at the weekend?",
+        "options": [
+          "The speaker often makes crêpes instead of the weekday oat breakfast.",
+          "The speaker stops drinking coffee altogether.",
+          "The speaker eats the same breakfast without exception."
+        ],
+        "note": "The selected passage supports this answer: The speaker often makes crêpes instead of the weekday oat breakfast.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 110,
+          "end": 135,
+          "label": "What changes at the weekend?",
+          "evidence": "Higgsfield scene analysis 2a4d2f61-5cd1-4728-9ce7-43a326638710, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What guides the speaker’s choice of morning clothes?",
+        "options": [
+          "Comfort while working at home, with glasses needed for work.",
+          "A formal office dress code every day.",
+          "Preparing to go swimming before work."
+        ],
+        "note": "The selected passage supports this answer: Comfort while working at home, with glasses needed for work.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 210,
+          "end": 243,
+          "label": "What guides the speaker’s choice of morning clothes?",
+          "evidence": "Higgsfield scene analysis 2a4d2f61-5cd1-4728-9ce7-43a326638710, scene 25, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "EAX8mc_ovDk",
+    "analysisId": "32e72c93-a627-455f-b524-0a934b216580",
+    "questions": [
+      {
+        "prompt": "What accompanies the first speaker’s pain au chocolat?",
+        "options": [
+          "Fresh orange juice.",
+          "A protein shake.",
+          "Hot chocolate."
+        ],
+        "note": "The selected passage supports this answer: Fresh orange juice.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 22,
+          "end": 37,
+          "label": "What accompanies the first speaker’s pain au chocolat?",
+          "evidence": "Higgsfield scene analysis 32e72c93-a627-455f-b524-0a934b216580, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why is this breakfast different from the speaker’s usual routine?",
+        "options": [
+          "They normally skip breakfast as part of intermittent fasting.",
+          "They normally eat two croissants every morning.",
+          "They have recently stopped drinking coffee."
+        ],
+        "note": "The selected passage supports this answer: They normally skip breakfast as part of intermittent fasting.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 66,
+          "end": 99,
+          "label": "Why is this breakfast different from the speaker’s usual routine?",
+          "evidence": "Higgsfield scene analysis 32e72c93-a627-455f-b524-0a934b216580, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which jam does the child identify as a favourite?",
+        "options": [
+          "Raspberry jam.",
+          "Apricot jam.",
+          "Blueberry jam."
+        ],
+        "note": "The selected passage supports this answer: Raspberry jam.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 95,
+          "end": 119,
+          "label": "Which jam does the child identify as a favourite?",
+          "evidence": "Higgsfield scene analysis 32e72c93-a627-455f-b524-0a934b216580, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is the sporty speaker’s typical pancake made with?",
+        "options": [
+          "Banana, eggs and blended oats.",
+          "Chocolate, cream and strawberries.",
+          "Bread, butter and raspberry jam."
+        ],
+        "note": "The selected passage supports this answer: Banana, eggs and blended oats.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 138,
+          "end": 166,
+          "label": "What is the sporty speaker’s typical pancake made with?",
+          "evidence": "Higgsfield scene analysis 32e72c93-a627-455f-b524-0a934b216580, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why has this speaker chosen pastries today?",
+        "options": [
+          "Being in Paris is an occasion to enjoy something different from the usual yogurt and muesli.",
+          "The speaker always eats lemon cake at home.",
+          "There are no other breakfasts available in Paris."
+        ],
+        "note": "The selected passage supports this answer: Being in Paris is an occasion to enjoy something different from the usual yogurt and muesli.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 193,
+          "end": 217,
+          "label": "Why has this speaker chosen pastries today?",
+          "evidence": "Higgsfield scene analysis 32e72c93-a627-455f-b524-0a934b216580, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why has this speaker eaten only a banana and coffee?",
+        "options": [
+          "They were running very late.",
+          "They always prefer a very small breakfast.",
+          "They were following the other speaker’s fasting routine."
+        ],
+        "note": "The selected passage supports this answer: They were running very late.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 236,
+          "end": 278,
+          "label": "Why has this speaker eaten only a banana and coffee?",
+          "evidence": "Higgsfield scene analysis 32e72c93-a627-455f-b524-0a934b216580, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "flS3MVNXWbw",
+    "analysisId": "5db4bae6-8489-4f12-b67f-41ebefef0580",
+    "questions": [
+      {
+        "prompt": "What change does the speaker associate with greater happiness?",
+        "options": [
+          "Leaving investment work to build a company in healthcare.",
+          "Moving from healthcare into investment banking.",
+          "Giving up work without making another plan."
+        ],
+        "note": "The selected passage supports this answer: Leaving investment work to build a company in healthcare.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 38,
+          "end": 72,
+          "label": "What change does the speaker associate with greater happiness?",
+          "evidence": "Higgsfield scene analysis 5db4bae6-8489-4f12-b67f-41ebefef0580, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does this speaker particularly value?",
+        "options": [
+          "Nature and a calm environment.",
+          "Constant noise and busy nightlife.",
+          "Avoiding time outdoors."
+        ],
+        "note": "The selected passage supports this answer: Nature and a calm environment.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 68,
+          "end": 96,
+          "label": "What does this speaker particularly value?",
+          "evidence": "Higgsfield scene analysis 5db4bae6-8489-4f12-b67f-41ebefef0580, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does the visitor view returning to Lebanon?",
+        "options": [
+          "They expect to be happy returning home to family too.",
+          "They say happiness is possible only in Paris.",
+          "They have decided never to return home."
+        ],
+        "note": "The selected passage supports this answer: They expect to be happy returning home to family too.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 160,
+          "end": 211,
+          "label": "How does the visitor view returning to Lebanon?",
+          "evidence": "Higgsfield scene analysis 5db4bae6-8489-4f12-b67f-41ebefef0580, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does the speaker qualify the idea of lasting happiness?",
+        "options": [
+          "People have ups and downs and need to discover what suits them.",
+          "Everyone should be happy continuously.",
+          "Moving to Paris removes all future difficulties."
+        ],
+        "note": "The selected passage supports this answer: People have ups and downs and need to discover what suits them.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 254,
+          "end": 278,
+          "label": "How does the speaker qualify the idea of lasting happiness?",
+          "evidence": "Higgsfield scene analysis 5db4bae6-8489-4f12-b67f-41ebefef0580, scene 17, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is presented as this speaker’s personal way of coping?",
+        "options": [
+          "Prayer, pleasant company or travel.",
+          "A method guaranteed to work for everyone.",
+          "Never acknowledging difficult experiences."
+        ],
+        "note": "The selected passage supports this answer: Prayer, pleasant company or travel.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 325,
+          "end": 370,
+          "label": "What is presented as this speaker’s personal way of coping?",
+          "evidence": "Higgsfield scene analysis 5db4bae6-8489-4f12-b67f-41ebefef0580, scene 20, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What attitude does the speaker take toward asking for help?",
+        "options": [
+          "It can be worthwhile and is not something to be ashamed of.",
+          "It should always be avoided.",
+          "It proves that a person cannot recover happiness."
+        ],
+        "note": "The selected passage supports this answer: It can be worthwhile and is not something to be ashamed of.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 442,
+          "end": 506,
+          "label": "What attitude does the speaker take toward asking for help?",
+          "evidence": "Higgsfield scene analysis 5db4bae6-8489-4f12-b67f-41ebefef0580, scene 23, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "-VWMMfdLw0U",
+    "analysisId": "61fbf468-6d6e-4b41-91a1-facf4f40e411",
+    "questions": [
+      {
+        "prompt": "What assumption does the speaker challenge?",
+        "options": [
+          "That men cannot also be very sensitive.",
+          "That every person enjoys going to the gym.",
+          "That all unpopular opinions concern food."
+        ],
+        "note": "The selected passage supports this answer: That men cannot also be very sensitive.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 36,
+          "end": 63,
+          "label": "What assumption does the speaker challenge?",
+          "evidence": "Higgsfield scene analysis 61fbf468-6d6e-4b41-91a1-facf4f40e411, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is the scope of the speaker’s dislike?",
+        "options": [
+          "Exercising in the gym setting.",
+          "Every possible form of physical activity.",
+          "Only watching sport on television."
+        ],
+        "note": "The selected passage supports this answer: Exercising in the gym setting.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 60,
+          "end": 75,
+          "label": "What is the scope of the speaker’s dislike?",
+          "evidence": "Higgsfield scene analysis 61fbf468-6d6e-4b41-91a1-facf4f40e411, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why does the speaker enjoy the metro?",
+        "options": [
+          "Being near other people offers a sense of closeness despite not talking.",
+          "It guarantees complete solitude away from everyone.",
+          "They believe all Parisians love it equally."
+        ],
+        "note": "The selected passage supports this answer: Being near other people offers a sense of closeness despite not talking.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 72,
+          "end": 134,
+          "label": "Why does the speaker enjoy the metro?",
+          "evidence": "Higgsfield scene analysis 61fbf468-6d6e-4b41-91a1-facf4f40e411, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How is the speaker’s view of rap qualified?",
+        "options": [
+          "They have listened to little of it and admit their opinion could change.",
+          "They have studied every style and rule out changing their view.",
+          "They claim that nobody can enjoy rap."
+        ],
+        "note": "The selected passage supports this answer: They have listened to little of it and admit their opinion could change.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 191,
+          "end": 226,
+          "label": "How is the speaker’s view of rap qualified?",
+          "evidence": "Higgsfield scene analysis 61fbf468-6d6e-4b41-91a1-facf4f40e411, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What distinction do the speakers make about strong emotions?",
+        "options": [
+          "They may enjoy strong feelings without enjoying fear from horror films.",
+          "They reject all emotionally intense experiences.",
+          "They consider horror the only way to feel strong emotion."
+        ],
+        "note": "The selected passage supports this answer: They may enjoy strong feelings without enjoying fear from horror films.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 570,
+          "end": 597,
+          "label": "What distinction do the speakers make about strong emotions?",
+          "evidence": "Higgsfield scene analysis 61fbf468-6d6e-4b41-91a1-facf4f40e411, scene 18, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which interpretation preserves the speaker’s reservations about literature?",
+        "options": [
+          "They value committed writing while allowing lighter reading and qualifying a limited judgment.",
+          "They say only political literature deserves to exist.",
+          "They claim to have read every book they criticise."
+        ],
+        "note": "The selected passage supports this answer: They value committed writing while allowing lighter reading and qualifying a limited judgment.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 647,
+          "end": 710,
+          "label": "Which interpretation preserves the speaker’s reservations about literature?",
+          "evidence": "Higgsfield scene analysis 61fbf468-6d6e-4b41-91a1-facf4f40e411, scene 21, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "F0CFFJLQUcM",
+    "analysisId": "eadc09af-7feb-49c2-a123-5844b17636c4",
+    "questions": [
+      {
+        "prompt": "What does the speaker fetch first in the morning?",
+        "options": [
+          "The daily newspaper",
+          "A train ticket",
+          "The shopping basket"
+        ],
+        "note": "The selected passage supports this answer: The daily newspaper. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 2,
+          "end": 9,
+          "label": "What does the speaker fetch first in the morning?",
+          "evidence": "Higgsfield scene analysis eadc09af-7feb-49c2-a123-5844b17636c4, scene 2, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does the speaker do after waking up?",
+        "options": [
+          "Stretches",
+          "Goes running",
+          "Writes an email"
+        ],
+        "note": "The selected passage supports this answer: Stretches. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 9,
+          "end": 14,
+          "label": "What does the speaker do after waking up?",
+          "evidence": "Higgsfield scene analysis eadc09af-7feb-49c2-a123-5844b17636c4, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does this speaker look at first?",
+        "options": [
+          "A mobile phone",
+          "The newspaper",
+          "A recipe"
+        ],
+        "note": "The selected passage supports this answer: A mobile phone. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 13,
+          "end": 19,
+          "label": "What does this speaker look at first?",
+          "evidence": "Higgsfield scene analysis eadc09af-7feb-49c2-a123-5844b17636c4, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does the speaker prepare?",
+        "options": [
+          "Freshly brewed coffee",
+          "A cup of tea",
+          "Orange juice"
+        ],
+        "note": "The selected passage supports this answer: Freshly brewed coffee. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 16,
+          "end": 22,
+          "label": "What does the speaker prepare?",
+          "evidence": "Higgsfield scene analysis eadc09af-7feb-49c2-a123-5844b17636c4, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which regular task does the speaker dislike?",
+        "options": [
+          "Cleaning the cat litter",
+          "Watering plants",
+          "Cooking dinner"
+        ],
+        "note": "The selected passage supports this answer: Cleaning the cat litter. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 34,
+          "end": 41,
+          "label": "Which regular task does the speaker dislike?",
+          "evidence": "Higgsfield scene analysis eadc09af-7feb-49c2-a123-5844b17636c4, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which household task is mentioned?",
+        "options": [
+          "Loading the dishwasher",
+          "Washing the windows",
+          "Taking out recycling"
+        ],
+        "note": "The selected passage supports this answer: Loading the dishwasher. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 49,
+          "end": 56,
+          "label": "Which household task is mentioned?",
+          "evidence": "Higgsfield scene analysis eadc09af-7feb-49c2-a123-5844b17636c4, scene 16, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "7zRAEn1qXJ4",
+    "analysisId": "0bd4c32c-37bd-43fc-9e0c-52e93a14af0b",
+    "questions": [
+      {
+        "prompt": "Who prepares this speaker's breakfast?",
+        "options": [
+          "Her boyfriend",
+          "Her neighbour",
+          "The interviewer"
+        ],
+        "note": "The selected passage supports this answer: Her boyfriend. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 35,
+          "end": 49,
+          "label": "Who prepares this speaker's breakfast?",
+          "evidence": "Higgsfield scene analysis 0bd4c32c-37bd-43fc-9e0c-52e93a14af0b, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What happens before the speaker goes to the bathroom?",
+        "options": [
+          "He opens the window for fresh air",
+          "He finishes a workout",
+          "He makes breakfast"
+        ],
+        "note": "The selected passage supports this answer: He opens the window for fresh air. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 51,
+          "end": 61,
+          "label": "What happens before the speaker goes to the bathroom?",
+          "evidence": "Higgsfield scene analysis 0bd4c32c-37bd-43fc-9e0c-52e93a14af0b, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What change does the speaker want to make?",
+        "options": [
+          "Check her phone less and start the day calmly",
+          "Wake up later and skip breakfast",
+          "Use her phone more before getting up"
+        ],
+        "note": "The selected passage supports this answer: Check her phone less and start the day calmly. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 57,
+          "end": 84,
+          "label": "What change does the speaker want to make?",
+          "evidence": "Higgsfield scene analysis 0bd4c32c-37bd-43fc-9e0c-52e93a14af0b, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why is the speaker working at home in this account?",
+        "options": [
+          "Because of the coronavirus situation at that time",
+          "Because his office has permanently closed",
+          "Because he is on holiday"
+        ],
+        "note": "The selected passage supports this answer: Because of the coronavirus situation at that time. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 80,
+          "end": 106,
+          "label": "Why is the speaker working at home in this account?",
+          "evidence": "Higgsfield scene analysis 0bd4c32c-37bd-43fc-9e0c-52e93a14af0b, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is unusual about this morning routine?",
+        "options": [
+          "The speaker showers and then gets back into bed",
+          "The speaker eats breakfast before waking up",
+          "The speaker goes to work before showering"
+        ],
+        "note": "The selected passage supports this answer: The speaker showers and then gets back into bed. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 102,
+          "end": 119,
+          "label": "What is unusual about this morning routine?",
+          "evidence": "Higgsfield scene analysis 0bd4c32c-37bd-43fc-9e0c-52e93a14af0b, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What kind of exercise does the speaker describe?",
+        "options": [
+          "A short bodyweight workout from YouTube",
+          "An hour on a treadmill",
+          "A long outdoor cycling trip"
+        ],
+        "note": "The selected passage supports this answer: A short bodyweight workout from YouTube. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 115,
+          "end": 148,
+          "label": "What kind of exercise does the speaker describe?",
+          "evidence": "Higgsfield scene analysis 0bd4c32c-37bd-43fc-9e0c-52e93a14af0b, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "2YrvT07tixI",
+    "analysisId": "761e41b4-7ee9-44e9-bfdc-124c195fd2c9",
+    "questions": [
+      {
+        "prompt": "How does Cari initially answer the question about being typically German?",
+        "options": [
+          "She says that nowadays she thinks she is",
+          "She says she has never considered it",
+          "She refuses to discuss the topic"
+        ],
+        "note": "The selected passage supports this answer: She says that nowadays she thinks she is. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 0,
+          "end": 10,
+          "label": "How does Cari initially answer the question about being typically German?",
+          "evidence": "Higgsfield scene analysis 761e41b4-7ee9-44e9-bfdc-124c195fd2c9, scene 1, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What helped Cari notice shared characteristics?",
+        "options": [
+          "Travelling to other countries",
+          "Taking a citizenship examination",
+          "Reading a recipe book"
+        ],
+        "note": "The selected passage supports this answer: Travelling to other countries. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 6,
+          "end": 38,
+          "label": "What helped Cari notice shared characteristics?",
+          "evidence": "Higgsfield scene analysis 761e41b4-7ee9-44e9-bfdc-124c195fd2c9, scene 2, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which habits does Cari attribute to herself?",
+        "options": [
+          "Wanting order and being direct",
+          "Always avoiding directness",
+          "Never caring about organisation"
+        ],
+        "note": "The selected passage supports this answer: Wanting order and being direct. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 34,
+          "end": 45,
+          "label": "Which habits does Cari attribute to herself?",
+          "evidence": "Higgsfield scene analysis 761e41b4-7ee9-44e9-bfdc-124c195fd2c9, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does this interviewee qualify his answer?",
+        "options": [
+          "He identifies with some traits but questions the idea of a typical German",
+          "He says every German is identical",
+          "He says national stereotypes are scientific laws"
+        ],
+        "note": "The selected passage supports this answer: He identifies with some traits but questions the idea of a typical German. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 46,
+          "end": 71,
+          "label": "How does this interviewee qualify his answer?",
+          "evidence": "Higgsfield scene analysis 761e41b4-7ee9-44e9-bfdc-124c195fd2c9, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which stance does the next speaker express?",
+        "options": [
+          "She doubts there is a typical German and tries to stand out",
+          "She wants everyone to behave alike",
+          "She says appearance proves nationality"
+        ],
+        "note": "The selected passage supports this answer: She doubts there is a typical German and tries to stand out. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 67,
+          "end": 86,
+          "label": "Which stance does the next speaker express?",
+          "evidence": "Higgsfield scene analysis 761e41b4-7ee9-44e9-bfdc-124c195fd2c9, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What reasons does the speaker give for not fitting the stereotype?",
+        "options": [
+          "She is not especially orderly or punctual",
+          "She has never travelled outside Germany",
+          "She speaks no German"
+        ],
+        "note": "The selected passage supports this answer: She is not especially orderly or punctual. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 82,
+          "end": 106,
+          "label": "What reasons does the speaker give for not fitting the stereotype?",
+          "evidence": "Higgsfield scene analysis 761e41b4-7ee9-44e9-bfdc-124c195fd2c9, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "tnagbAbsmSU",
+    "analysisId": "603fda4f-ea01-4d3c-86cd-60cff4cad9bc",
+    "questions": [
+      {
+        "prompt": "Why does the first teacher dismiss the possibility of replacement?",
+        "options": [
+          "He says a teacher cannot be replaced",
+          "He says robots have already replaced all teachers",
+          "He says teaching is entirely mechanical"
+        ],
+        "note": "The selected passage supports this answer: He says a teacher cannot be replaced. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 23,
+          "end": 35,
+          "label": "Why does the first teacher dismiss the possibility of replacement?",
+          "evidence": "Higgsfield scene analysis 603fda4f-ea01-4d3c-86cd-60cff4cad9bc, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does the next teacher qualify her answer?",
+        "options": [
+          "Tools already replace some tasks, but human involvement matters",
+          "She rejects every teaching aid",
+          "She thinks human involvement has already disappeared"
+        ],
+        "note": "The selected passage supports this answer: Tools already replace some tasks, but human involvement matters. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 31,
+          "end": 51,
+          "label": "How does the next teacher qualify her answer?",
+          "evidence": "Higgsfield scene analysis 603fda4f-ea01-4d3c-86cd-60cff4cad9bc, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does this speaker emphasise about her work?",
+        "options": [
+          "Relationships and support for families",
+          "Repairing industrial machinery",
+          "Testing delivery robots"
+        ],
+        "note": "The selected passage supports this answer: Relationships and support for families. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 47,
+          "end": 68,
+          "label": "What does this speaker emphasise about her work?",
+          "evidence": "Higgsfield scene analysis 603fda4f-ea01-4d3c-86cd-60cff4cad9bc, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What positive possibility does the student suggest?",
+        "options": [
+          "Automation may open other jobs and make work easier",
+          "Automation guarantees everyone the same job",
+          "Automation will end the need for study"
+        ],
+        "note": "The selected passage supports this answer: Automation may open other jobs and make work easier. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 130,
+          "end": 163,
+          "label": "What positive possibility does the student suggest?",
+          "evidence": "Higgsfield scene analysis 603fda4f-ea01-4d3c-86cd-60cff4cad9bc, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which position best preserves this speaker's qualification?",
+        "options": [
+          "Machines may take a larger share without replacing humans completely",
+          "Machines will never take over any task",
+          "Machines have already replaced all human interaction"
+        ],
+        "note": "The selected passage supports this answer: Machines may take a larger share without replacing humans completely. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 159,
+          "end": 184,
+          "label": "Which position best preserves this speaker's qualification?",
+          "evidence": "Higgsfield scene analysis 603fda4f-ea01-4d3c-86cd-60cff4cad9bc, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why does the teacher and student doubt robot teaching?",
+        "options": [
+          "Children have emotions that robots would not understand",
+          "Children never use technology",
+          "Schools have no repetitive tasks"
+        ],
+        "note": "The selected passage supports this answer: Children have emotions that robots would not understand. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 218,
+          "end": 248,
+          "label": "Why does the teacher and student doubt robot teaching?",
+          "evidence": "Higgsfield scene analysis 603fda4f-ea01-4d3c-86cd-60cff4cad9bc, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "ieyLUxtwch4",
+    "analysisId": "7792a645-b06c-4e82-97c5-93b690fd50f5",
+    "questions": [
+      {
+        "prompt": "What will this episode help you do?",
+        "options": [
+          "Introduce yourself in Italian",
+          "Make a restaurant reservation",
+          "Describe tomorrow's weather"
+        ],
+        "note": "The selected passage supports this answer: Introduce yourself in Italian. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 0,
+          "end": 17,
+          "label": "What will this episode help you do?",
+          "evidence": "Higgsfield scene analysis 7792a645-b06c-4e82-97c5-93b690fd50f5, scene 1, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which kind of exchange do you hear?",
+        "options": [
+          "Greetings",
+          "A price negotiation",
+          "Directions to a station"
+        ],
+        "note": "The selected passage supports this answer: Greetings. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 22,
+          "end": 38,
+          "label": "Which kind of exchange do you hear?",
+          "evidence": "Higgsfield scene analysis 7792a645-b06c-4e82-97c5-93b690fd50f5, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which two names are given?",
+        "options": [
+          "Salvatore and Alessandra",
+          "Marco and Pauline",
+          "Katie and Manuel"
+        ],
+        "note": "The selected passage supports this answer: Salvatore and Alessandra. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 52,
+          "end": 64,
+          "label": "Which two names are given?",
+          "evidence": "Higgsfield scene analysis 7792a645-b06c-4e82-97c5-93b690fd50f5, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which question are the speakers answering?",
+        "options": [
+          "Where they live",
+          "How old they are",
+          "What time they leave"
+        ],
+        "note": "The selected passage supports this answer: Where they live. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 60,
+          "end": 75,
+          "label": "Which question are the speakers answering?",
+          "evidence": "Higgsfield scene analysis 7792a645-b06c-4e82-97c5-93b690fd50f5, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What contrast does the speaker make?",
+        "options": [
+          "He was born in Trento but has lived in Milan for many years",
+          "He was born in Milan but has never lived there",
+          "He moved from Sicily to Rome yesterday"
+        ],
+        "note": "The selected passage supports this answer: He was born in Trento but has lived in Milan for many years. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 86,
+          "end": 107,
+          "label": "What contrast does the speaker make?",
+          "evidence": "Higgsfield scene analysis 7792a645-b06c-4e82-97c5-93b690fd50f5, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which city is repeatedly named as a place of residence?",
+        "options": [
+          "Milan",
+          "Naples",
+          "Florence"
+        ],
+        "note": "The selected passage supports this answer: Milan. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 103,
+          "end": 117,
+          "label": "Which city is repeatedly named as a place of residence?",
+          "evidence": "Higgsfield scene analysis 7792a645-b06c-4e82-97c5-93b690fd50f5, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "F4XWtchHCx8",
+    "analysisId": "ffa2217d-a080-43d4-b6c6-b07465414739",
+    "questions": [
+      {
+        "prompt": "What kind of school does the first speaker attend?",
+        "options": [
+          "A tailoring academy",
+          "A music conservatory",
+          "A medical school"
+        ],
+        "note": "The selected passage supports this answer: A tailoring academy. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 31,
+          "end": 65,
+          "label": "What kind of school does the first speaker attend?",
+          "evidence": "Higgsfield scene analysis ffa2217d-a080-43d4-b6c6-b07465414739, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What happens after the speaker wakes at five thirty?",
+        "options": [
+          "A visit to the gym",
+          "Dinner with friends",
+          "A late-night film"
+        ],
+        "note": "The selected passage supports this answer: A visit to the gym. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 61,
+          "end": 80,
+          "label": "What happens after the speaker wakes at five thirty?",
+          "evidence": "Higgsfield scene analysis ffa2217d-a080-43d4-b6c6-b07465414739, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "When does this speaker usually play video games?",
+        "options": [
+          "In the evening after dinner",
+          "Before breakfast",
+          "During the university course"
+        ],
+        "note": "The selected passage supports this answer: In the evening after dinner. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 76,
+          "end": 101,
+          "label": "When does this speaker usually play video games?",
+          "evidence": "Higgsfield scene analysis ffa2217d-a080-43d4-b6c6-b07465414739, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why does this speaker not need to wake extremely early for the office?",
+        "options": [
+          "The office is close to home",
+          "The office opens at midnight",
+          "A colleague always works in her place"
+        ],
+        "note": "The selected passage supports this answer: The office is close to home. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 97,
+          "end": 145,
+          "label": "Why does this speaker not need to wake extremely early for the office?",
+          "evidence": "Higgsfield scene analysis ffa2217d-a080-43d4-b6c6-b07465414739, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which family responsibility is mentioned?",
+        "options": [
+          "Taking her sister to school",
+          "Collecting her father from the airport",
+          "Teaching her brother to drive"
+        ],
+        "note": "The selected passage supports this answer: Taking her sister to school. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 141,
+          "end": 176,
+          "label": "Which family responsibility is mentioned?",
+          "evidence": "Higgsfield scene analysis ffa2217d-a080-43d4-b6c6-b07465414739, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does Mary do after lunch?",
+        "options": [
+          "Takes a nap of about half an hour",
+          "Starts a gym class",
+          "Goes out to buy breakfast"
+        ],
+        "note": "The selected passage supports this answer: Takes a nap of about half an hour. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 172,
+          "end": 241,
+          "label": "What does Mary do after lunch?",
+          "evidence": "Higgsfield scene analysis ffa2217d-a080-43d4-b6c6-b07465414739, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "_CFsYMzD5is",
+    "analysisId": "622487de-f003-442e-bb8d-3c7a84eea82f",
+    "questions": [
+      {
+        "prompt": "What does the speaker drink before coffee?",
+        "options": [
+          "A glass of hot water",
+          "A glass of milk",
+          "Orange juice"
+        ],
+        "note": "The selected passage supports this answer: A glass of hot water. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 20,
+          "end": 43,
+          "label": "What does the speaker drink before coffee?",
+          "evidence": "Higgsfield scene analysis 622487de-f003-442e-bb8d-3c7a84eea82f, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does this speaker describe breakfast?",
+        "options": [
+          "It varies with the morning",
+          "It is always exactly the same",
+          "It never includes any food"
+        ],
+        "note": "The selected passage supports this answer: It varies with the morning. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 66,
+          "end": 78,
+          "label": "How does this speaker describe breakfast?",
+          "evidence": "Higgsfield scene analysis 622487de-f003-442e-bb8d-3c7a84eea82f, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why did the speaker start sun salutations?",
+        "options": [
+          "To feel less stiff after waking",
+          "To prepare for a marathon",
+          "To avoid having breakfast"
+        ],
+        "note": "The selected passage supports this answer: To feel less stiff after waking. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 80,
+          "end": 104,
+          "label": "Why did the speaker start sun salutations?",
+          "evidence": "Higgsfield scene analysis 622487de-f003-442e-bb8d-3c7a84eea82f, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why does the speaker check family chats?",
+        "options": [
+          "For greetings and news",
+          "To receive work assignments",
+          "To order coffee"
+        ],
+        "note": "The selected passage supports this answer: For greetings and news. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 126,
+          "end": 147,
+          "label": "Why does the speaker check family chats?",
+          "evidence": "Higgsfield scene analysis 622487de-f003-442e-bb8d-3c7a84eea82f, scene 17, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why does this speaker have to hurry?",
+        "options": [
+          "Sleeping too long leaves little time before work",
+          "The gym closes at dawn",
+          "Breakfast takes three hours"
+        ],
+        "note": "The selected passage supports this answer: Sleeping too long leaves little time before work. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 158,
+          "end": 173,
+          "label": "Why does this speaker have to hurry?",
+          "evidence": "Higgsfield scene analysis 622487de-f003-442e-bb8d-3c7a84eea82f, scene 20, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What distinction does the speaker make about exercise?",
+        "options": [
+          "He intends to exercise but does not actually do it",
+          "He exercises every morning without exception",
+          "He has stopped drinking coffee to exercise"
+        ],
+        "note": "The selected passage supports this answer: He intends to exercise but does not actually do it. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 183,
+          "end": 206,
+          "label": "What distinction does the speaker make about exercise?",
+          "evidence": "Higgsfield scene analysis 622487de-f003-442e-bb8d-3c7a84eea82f, scene 23, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "1D1QvZYVIkU",
+    "analysisId": "ac43c4a9-4b29-4d1f-93a8-39acd2773fb9",
+    "questions": [
+      {
+        "prompt": "What makes Fotis happy in this account?",
+        "options": [
+          "Peace of mind and fewer morning pressures",
+          "A calendar full of calls",
+          "Always arriving early at an office"
+        ],
+        "note": "The selected passage supports this answer: Peace of mind and fewer morning pressures. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 23,
+          "end": 52,
+          "label": "What makes Fotis happy in this account?",
+          "evidence": "Higgsfield scene analysis ac43c4a9-4b29-4d1f-93a8-39acd2773fb9, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What combination does this speaker value?",
+        "options": [
+          "Friends and walks in nature",
+          "Shopping and long meetings",
+          "Winning arguments online"
+        ],
+        "note": "The selected passage supports this answer: Friends and walks in nature. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 48,
+          "end": 59,
+          "label": "What combination does this speaker value?",
+          "evidence": "Higgsfield scene analysis ac43c4a9-4b29-4d1f-93a8-39acd2773fb9, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which everyday example illustrates happiness through relationships?",
+        "options": [
+          "Sharing a meal with a friend",
+          "Eating alone to avoid people",
+          "Cancelling every social plan"
+        ],
+        "note": "The selected passage supports this answer: Sharing a meal with a friend. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 67,
+          "end": 90,
+          "label": "Which everyday example illustrates happiness through relationships?",
+          "evidence": "Higgsfield scene analysis ac43c4a9-4b29-4d1f-93a8-39acd2773fb9, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How do the friends manage language barriers?",
+        "options": [
+          "They combine English, Italian and some of their mother tongue",
+          "They refuse to speak until everyone is fluent",
+          "They use only one language that nobody knows"
+        ],
+        "note": "The selected passage supports this answer: They combine English, Italian and some of their mother tongue. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 90,
+          "end": 104,
+          "label": "How do the friends manage language barriers?",
+          "evidence": "Higgsfield scene analysis ac43c4a9-4b29-4d1f-93a8-39acd2773fb9, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does this speaker enjoy exploring when happy?",
+        "options": [
+          "New recipes and places",
+          "Only office paperwork",
+          "Other people's private messages"
+        ],
+        "note": "The selected passage supports this answer: New recipes and places. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 114,
+          "end": 140,
+          "label": "What does this speaker enjoy exploring when happy?",
+          "evidence": "Higgsfield scene analysis ac43c4a9-4b29-4d1f-93a8-39acd2773fb9, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What kind of musician is the speaker?",
+        "options": [
+          "A singer-songwriter, mainly in pop",
+          "An orchestral conductor",
+          "A drummer who plays only jazz"
+        ],
+        "note": "The selected passage supports this answer: A singer-songwriter, mainly in pop. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 136,
+          "end": 157,
+          "label": "What kind of musician is the speaker?",
+          "evidence": "Higgsfield scene analysis ac43c4a9-4b29-4d1f-93a8-39acd2773fb9, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "bKGm6hsYWuk",
+    "analysisId": "d82df1d2-f198-4886-858d-9939815fa315",
+    "questions": [
+      {
+        "prompt": "How is the episode framed?",
+        "options": [
+          "People share stereotypes, and Italians respond to them",
+          "A survey proves every Italian has the same personality",
+          "A history lesson establishes fixed national traits"
+        ],
+        "note": "The selected passage supports this answer: People share stereotypes, and Italians respond to them. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 12,
+          "end": 43,
+          "label": "How is the episode framed?",
+          "evidence": "Higgsfield scene analysis d82df1d2-f198-4886-858d-9939815fa315, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which boundary does the reaction draw?",
+        "options": [
+          "Food associations do not justify calling all Italians mafiosi",
+          "Every stereotype mentioned is equally true of everyone",
+          "National identity proves a person's criminal behaviour"
+        ],
+        "note": "The selected passage supports this answer: Food associations do not justify calling all Italians mafiosi. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 100,
+          "end": 128,
+          "label": "Which boundary does the reaction draw?",
+          "evidence": "Higgsfield scene analysis d82df1d2-f198-4886-858d-9939815fa315, scene 17, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What qualification follows the description of Italians as precise?",
+        "options": [
+          "Not all of them",
+          "Without any exception",
+          "Only when abroad"
+        ],
+        "note": "The selected passage supports this answer: Not all of them. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 124,
+          "end": 142,
+          "label": "What qualification follows the description of Italians as precise?",
+          "evidence": "Higgsfield scene analysis d82df1d2-f198-4886-858d-9939815fa315, scene 18, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does the explanation treat stereotypes?",
+        "options": [
+          "As sometimes exaggerated simplifications of a richer reality",
+          "As exact descriptions of every individual",
+          "As facts that need no context"
+        ],
+        "note": "The selected passage supports this answer: As sometimes exaggerated simplifications of a richer reality. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 138,
+          "end": 161,
+          "label": "How does the explanation treat stereotypes?",
+          "evidence": "Higgsfield scene analysis d82df1d2-f198-4886-858d-9939815fa315, scene 19, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What qualification is made about being noisy?",
+        "options": [
+          "The speakers discuss a tendency without saying everyone is noisy",
+          "The speakers establish a rule with no exceptions",
+          "The speakers prove only Italians can be noisy"
+        ],
+        "note": "The selected passage supports this answer: The speakers discuss a tendency without saying everyone is noisy. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 167,
+          "end": 219,
+          "label": "What qualification is made about being noisy?",
+          "evidence": "Higgsfield scene analysis d82df1d2-f198-4886-858d-9939815fa315, scene 22, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which assumption about cooking do the speakers reject?",
+        "options": [
+          "Being Italian automatically makes someone a good cook",
+          "Some Italians take food seriously",
+          "People can enjoy food without being expert cooks"
+        ],
+        "note": "The selected passage supports this answer: Being Italian automatically makes someone a good cook. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 255,
+          "end": 362,
+          "label": "Which assumption about cooking do the speakers reject?",
+          "evidence": "Higgsfield scene analysis d82df1d2-f198-4886-858d-9939815fa315, scene 27, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "T3UWrgSoIxQ",
+    "analysisId": "a2a06d25-e2e8-4bcc-b28d-ccf5cac59bc8",
+    "questions": [
+      {
+        "prompt": "Where are the interviewers today?",
+        "options": [
+          "At Taipei 101",
+          "At Beijing airport",
+          "At a village school"
+        ],
+        "note": "The selected passage supports this answer: At Taipei 101. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 0,
+          "end": 12,
+          "label": "Where are the interviewers today?",
+          "evidence": "Higgsfield scene analysis a2a06d25-e2e8-4bcc-b28d-ccf5cac59bc8, scene 1, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What has the interviewee come to buy?",
+        "options": [
+          "Books",
+          "Shoes",
+          "Train tickets"
+        ],
+        "note": "The selected passage supports this answer: Books. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 26,
+          "end": 42,
+          "label": "What has the interviewee come to buy?",
+          "evidence": "Higgsfield scene analysis a2a06d25-e2e8-4bcc-b28d-ccf5cac59bc8, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is the speaker doing alongside shopping?",
+        "options": [
+          "Meeting friends",
+          "Taking an exam",
+          "Looking for work"
+        ],
+        "note": "The selected passage supports this answer: Meeting friends. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 38,
+          "end": 48,
+          "label": "What is the speaker doing alongside shopping?",
+          "evidence": "Higgsfield scene analysis a2a06d25-e2e8-4bcc-b28d-ccf5cac59bc8, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which exhibition does the boy mention?",
+        "options": [
+          "A stationery exhibition",
+          "A car exhibition",
+          "A flower exhibition"
+        ],
+        "note": "The selected passage supports this answer: A stationery exhibition. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 44,
+          "end": 58,
+          "label": "Which exhibition does the boy mention?",
+          "evidence": "Higgsfield scene analysis a2a06d25-e2e8-4bcc-b28d-ccf5cac59bc8, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What kind of meal do the friends mention?",
+        "options": [
+          "Afternoon tea",
+          "A midnight snack",
+          "Breakfast"
+        ],
+        "note": "The selected passage supports this answer: Afternoon tea. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 82,
+          "end": 96,
+          "label": "What kind of meal do the friends mention?",
+          "evidence": "Higgsfield scene analysis a2a06d25-e2e8-4bcc-b28d-ccf5cac59bc8, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What clothing item is the speaker looking for?",
+        "options": [
+          "A dress",
+          "A winter coat",
+          "A pair of boots"
+        ],
+        "note": "The selected passage supports this answer: A dress. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 92,
+          "end": 106,
+          "label": "What clothing item is the speaker looking for?",
+          "evidence": "Higgsfield scene analysis a2a06d25-e2e8-4bcc-b28d-ccf5cac59bc8, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "i_Xw-kjNdU0",
+    "analysisId": "40abff87-cf28-4fb5-a4ef-86b30032bf4b",
+    "questions": [
+      {
+        "prompt": "What time is given in the model sentence?",
+        "options": [
+          "Eight thirty in the morning",
+          "Six thirty in the evening",
+          "Ten thirty at night"
+        ],
+        "note": "The selected passage supports this answer: Eight thirty in the morning. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 28,
+          "end": 35,
+          "label": "What time is given in the model sentence?",
+          "evidence": "Higgsfield scene analysis 40abff87-cf28-4fb5-a4ef-86b30032bf4b, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What time does this interviewee usually get up?",
+        "options": [
+          "Six thirty in the morning",
+          "Nine thirty in the morning",
+          "Half past midnight"
+        ],
+        "note": "The selected passage supports this answer: Six thirty in the morning. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 32,
+          "end": 42,
+          "label": "What time does this interviewee usually get up?",
+          "evidence": "Higgsfield scene analysis 40abff87-cf28-4fb5-a4ef-86b30032bf4b, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Where does the speaker usually eat breakfast?",
+        "options": [
+          "Out, rather than at home",
+          "Only in the office",
+          "On a long-distance train"
+        ],
+        "note": "The selected passage supports this answer: Out, rather than at home. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 76,
+          "end": 93,
+          "label": "Where does the speaker usually eat breakfast?",
+          "evidence": "Higgsfield scene analysis 40abff87-cf28-4fb5-a4ef-86b30032bf4b, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What breakfast combination is mentioned?",
+        "options": [
+          "Soy milk and fried dough sticks",
+          "Coffee and cheese",
+          "Rice and grilled fish"
+        ],
+        "note": "The selected passage supports this answer: Soy milk and fried dough sticks. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 121,
+          "end": 139,
+          "label": "What breakfast combination is mentioned?",
+          "evidence": "Higgsfield scene analysis 40abff87-cf28-4fb5-a4ef-86b30032bf4b, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does the speaker travel to work?",
+        "options": [
+          "By subway",
+          "By bicycle",
+          "On foot"
+        ],
+        "note": "The selected passage supports this answer: By subway. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 167,
+          "end": 175,
+          "label": "How does the speaker travel to work?",
+          "evidence": "Higgsfield scene analysis 40abff87-cf28-4fb5-a4ef-86b30032bf4b, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What may make the usual six o'clock finish later?",
+        "options": [
+          "Overtime",
+          "A cancelled breakfast",
+          "A morning class"
+        ],
+        "note": "The selected passage supports this answer: Overtime. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 311,
+          "end": 327,
+          "label": "What may make the usual six o'clock finish later?",
+          "evidence": "Higgsfield scene analysis 40abff87-cf28-4fb5-a4ef-86b30032bf4b, scene 17, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "W9WD8bkbRMM",
+    "analysisId": "40b2f052-f3ca-42a6-b250-a167ffa007d1",
+    "questions": [
+      {
+        "prompt": "What booking is confirmed at check-in?",
+        "options": [
+          "A double room for one night with breakfast",
+          "A single room for a week without breakfast",
+          "Two rooms for three nights"
+        ],
+        "note": "The selected passage supports this answer: A double room for one night with breakfast. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 13,
+          "end": 43,
+          "label": "What booking is confirmed at check-in?",
+          "evidence": "Higgsfield scene analysis 40b2f052-f3ca-42a6-b250-a167ffa007d1, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Where and when is breakfast served?",
+        "options": [
+          "In the first-floor restaurant from seven",
+          "In the room from noon",
+          "In the lobby only after ten"
+        ],
+        "note": "The selected passage supports this answer: In the first-floor restaurant from seven. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 13,
+          "end": 43,
+          "label": "Where and when is breakfast served?",
+          "evidence": "Higgsfield scene analysis 40b2f052-f3ca-42a6-b250-a167ffa007d1, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is the proposed cost of checking out at two rather than noon?",
+        "options": [
+          "300 NT dollars for the two-hour extension",
+          "No charge for any extension",
+          "300 NT dollars for each minute"
+        ],
+        "note": "The selected passage supports this answer: 300 NT dollars for the two-hour extension. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 43,
+          "end": 62,
+          "label": "What is the proposed cost of checking out at two rather than noon?",
+          "evidence": "Higgsfield scene analysis 40b2f052-f3ca-42a6-b250-a167ffa007d1, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How can the guest view the room-service menu?",
+        "options": [
+          "Scan a QR code or use the paper menu",
+          "Visit the restaurant in person only",
+          "Ask another guest for a password"
+        ],
+        "note": "The selected passage supports this answer: Scan a QR code or use the paper menu. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 62,
+          "end": 97,
+          "label": "How can the guest view the room-service menu?",
+          "evidence": "Higgsfield scene analysis 40b2f052-f3ca-42a6-b250-a167ffa007d1, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why is an immediate room change unavailable?",
+        "options": [
+          "The hotel is fully booked",
+          "The guest has lost her card",
+          "The hotel has no maintenance staff"
+        ],
+        "note": "The selected passage supports this answer: The hotel is fully booked. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 97,
+          "end": 143,
+          "label": "Why is an immediate room change unavailable?",
+          "evidence": "Higgsfield scene analysis 40b2f052-f3ca-42a6-b250-a167ffa007d1, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What must the guest keep for collecting stored luggage?",
+        "options": [
+          "The luggage claim slip",
+          "A restaurant menu",
+          "A taxi receipt"
+        ],
+        "note": "The selected passage supports this answer: The luggage claim slip. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 193,
+          "end": 251,
+          "label": "What must the guest keep for collecting stored luggage?",
+          "evidence": "Higgsfield scene analysis 40b2f052-f3ca-42a6-b250-a167ffa007d1, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "UDT4V80Xmhg",
+    "analysisId": "ba262f1e-635d-4906-b61a-4cdc7d898886",
+    "questions": [
+      {
+        "prompt": "How does the host plan to reach Yoyo's home?",
+        "options": [
+          "Drive for about twenty minutes",
+          "Take a two-hour train",
+          "Walk for three hours"
+        ],
+        "note": "The selected passage supports this answer: Drive for about twenty minutes. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 20,
+          "end": 53,
+          "label": "How does the host plan to reach Yoyo's home?",
+          "evidence": "Higgsfield scene analysis ba262f1e-635d-4906-b61a-4cdc7d898886, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How is Foshan's winter weather compared with many northern cities?",
+        "options": [
+          "Relatively warm",
+          "Always below freezing",
+          "Exactly the same everywhere"
+        ],
+        "note": "The selected passage supports this answer: Relatively warm. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 20,
+          "end": 53,
+          "label": "How is Foshan's winter weather compared with many northern cities?",
+          "evidence": "Higgsfield scene analysis ba262f1e-635d-4906-b61a-4cdc7d898886, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Who greets the host on arrival?",
+        "options": [
+          "Yoyo and her dog",
+          "A hotel receptionist",
+          "Yoyo's schoolteacher"
+        ],
+        "note": "The selected passage supports this answer: Yoyo and her dog. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 66,
+          "end": 78,
+          "label": "Who greets the host on arrival?",
+          "evidence": "Higgsfield scene analysis ba262f1e-635d-4906-b61a-4cdc7d898886, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is the phone stand used for?",
+        "options": [
+          "Filming videos at home and outside",
+          "Drying clothes",
+          "Feeding fish"
+        ],
+        "note": "The selected passage supports this answer: Filming videos at home and outside. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 130,
+          "end": 144,
+          "label": "What is the phone stand used for?",
+          "evidence": "Higgsfield scene analysis ba262f1e-635d-4906-b61a-4cdc7d898886, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why are some worn clothes hanging separately?",
+        "options": [
+          "They are not dirty enough to wash but should not mix with clean clothes",
+          "They are all brand-new purchases",
+          "They are being thrown away immediately"
+        ],
+        "note": "The selected passage supports this answer: They are not dirty enough to wash but should not mix with clean clothes. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 140,
+          "end": 181,
+          "label": "Why are some worn clothes hanging separately?",
+          "evidence": "Higgsfield scene analysis ba262f1e-635d-4906-b61a-4cdc7d898886, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What distinction does Yoyo make about shoes?",
+        "options": [
+          "Comfortable sneakers for daily life and occasional higher heels",
+          "Only formal heels for commuting",
+          "No shoes for social occasions"
+        ],
+        "note": "The selected passage supports this answer: Comfortable sneakers for daily life and occasional higher heels. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 177,
+          "end": 205,
+          "label": "What distinction does Yoyo make about shoes?",
+          "evidence": "Higgsfield scene analysis ba262f1e-635d-4906-b61a-4cdc7d898886, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "-9OuNeCadjc",
+    "analysisId": "32f1b853-f04e-47a3-b97f-4689f65d0625",
+    "questions": [
+      {
+        "prompt": "What difficulty with polite expressions is introduced?",
+        "options": [
+          "Surface courtesy can hide a different intended meaning",
+          "Every polite expression has only one literal meaning",
+          "Courtesy makes all context irrelevant"
+        ],
+        "note": "The selected passage supports this answer: Surface courtesy can hide a different intended meaning. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 12,
+          "end": 25,
+          "label": "What difficulty with polite expressions is introduced?",
+          "evidence": "Higgsfield scene analysis 32f1b853-f04e-47a3-b97f-4689f65d0625, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does the presenter qualify a response meaning 'no need'?",
+        "options": [
+          "It can sometimes be a polite gesture rather than a literal refusal",
+          "It always means enthusiastic acceptance",
+          "It can never be a real refusal"
+        ],
+        "note": "The selected passage supports this answer: It can sometimes be a polite gesture rather than a literal refusal. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 47,
+          "end": 62,
+          "label": "How does the presenter qualify a response meaning 'no need'?",
+          "evidence": "Higgsfield scene analysis 32f1b853-f04e-47a3-b97f-4689f65d0625, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does the presenter warn about 'let's plan next time'?",
+        "options": [
+          "It may function as a polite farewell rather than a firm plan",
+          "It guarantees a booked date",
+          "It always cancels an existing reservation"
+        ],
+        "note": "The selected passage supports this answer: It may function as a polite farewell rather than a firm plan. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 98,
+          "end": 112,
+          "label": "What does the presenter warn about 'let's plan next time'?",
+          "evidence": "Higgsfield scene analysis 32f1b853-f04e-47a3-b97f-4689f65d0625, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What would make an invitation more concrete in this explanation?",
+        "options": [
+          "A clear time and place",
+          "A vague reference to another day",
+          "Repeating a farewell without details"
+        ],
+        "note": "The selected passage supports this answer: A clear time and place. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 108,
+          "end": 124,
+          "label": "What would make an invitation more concrete in this explanation?",
+          "evidence": "Higgsfield scene analysis 32f1b853-f04e-47a3-b97f-4689f65d0625, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is the explained purpose of calling a gift a small thing?",
+        "options": [
+          "Modesty and reducing pressure on the recipient",
+          "Giving its exact market price",
+          "Demanding an immediate gift in return"
+        ],
+        "note": "The selected passage supports this answer: Modesty and reducing pressure on the recipient. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 139,
+          "end": 158,
+          "label": "What is the explained purpose of calling a gift a small thing?",
+          "evidence": "Higgsfield scene analysis 32f1b853-f04e-47a3-b97f-4689f65d0625, scene 17, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How is 'just looking' interpreted in the shop example?",
+        "options": [
+          "As a softened refusal",
+          "As a definite purchase order",
+          "As a request for a larger discount"
+        ],
+        "note": "The selected passage supports this answer: As a softened refusal. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 176,
+          "end": 197,
+          "label": "How is 'just looking' interpreted in the shop example?",
+          "evidence": "Higgsfield scene analysis 32f1b853-f04e-47a3-b97f-4689f65d0625, scene 20, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "zTldGa24mvk",
+    "analysisId": "0ddfbcb8-c657-41bf-a853-a3b7af111c5a",
+    "questions": [
+      {
+        "prompt": "What will the presenter introduce?",
+        "options": [
+          "Ten sentences for introducing yourself",
+          "Ten restaurant dishes",
+          "Ten train routes"
+        ],
+        "note": "The selected passage supports this answer: Ten sentences for introducing yourself. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 0,
+          "end": 19,
+          "label": "What will the presenter introduce?",
+          "evidence": "Higgsfield scene analysis 0ddfbcb8-c657-41bf-a853-a3b7af111c5a, scene 1, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What name does the presenter give?",
+        "options": [
+          "Jeongyeon Song",
+          "Ye-eun Choi",
+          "Yoyo Wang"
+        ],
+        "note": "The selected passage supports this answer: Jeongyeon Song. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 19,
+          "end": 26,
+          "label": "What name does the presenter give?",
+          "evidence": "Higgsfield scene analysis 0ddfbcb8-c657-41bf-a853-a3b7af111c5a, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What nationality does the presenter state?",
+        "options": [
+          "Korean",
+          "German",
+          "Canadian"
+        ],
+        "note": "The selected passage supports this answer: Korean. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 28,
+          "end": 34,
+          "label": "What nationality does the presenter state?",
+          "evidence": "Higgsfield scene analysis 0ddfbcb8-c657-41bf-a853-a3b7af111c5a, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Where does the presenter live?",
+        "options": [
+          "Seoul",
+          "Busan",
+          "Tokyo"
+        ],
+        "note": "The selected passage supports this answer: Seoul. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 30,
+          "end": 36,
+          "label": "Where does the presenter live?",
+          "evidence": "Higgsfield scene analysis 0ddfbcb8-c657-41bf-a853-a3b7af111c5a, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What subject does the presenter study?",
+        "options": [
+          "Business administration",
+          "Architecture",
+          "Medicine"
+        ],
+        "note": "The selected passage supports this answer: Business administration. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 36,
+          "end": 43,
+          "label": "What subject does the presenter study?",
+          "evidence": "Higgsfield scene analysis 0ddfbcb8-c657-41bf-a853-a3b7af111c5a, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What activity does the presenter like?",
+        "options": [
+          "Reading books",
+          "Playing basketball",
+          "Cooking"
+        ],
+        "note": "The selected passage supports this answer: Reading books. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 40,
+          "end": 46,
+          "label": "What activity does the presenter like?",
+          "evidence": "Higgsfield scene analysis 0ddfbcb8-c657-41bf-a853-a3b7af111c5a, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "6VTsafbqMGk",
+    "analysisId": "e610a443-7c02-4e86-af8a-ed8b2eea82a1",
+    "questions": [
+      {
+        "prompt": "Why does the first interviewee usually walk the dog on weekdays?",
+        "options": [
+          "There is not much time at weekends",
+          "Dogs are not allowed outside at weekends",
+          "The park closes every weekend"
+        ],
+        "note": "The selected passage supports this answer: There is not much time at weekends. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 20,
+          "end": 56,
+          "label": "Why does the first interviewee usually walk the dog on weekdays?",
+          "evidence": "Higgsfield scene analysis e610a443-7c02-4e86-af8a-ed8b2eea82a1, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Where does this speaker go with friends?",
+        "options": [
+          "An internet café or karaoke",
+          "A cooking school only",
+          "A mountain campsite"
+        ],
+        "note": "The selected passage supports this answer: An internet café or karaoke. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 52,
+          "end": 70,
+          "label": "Where does this speaker go with friends?",
+          "evidence": "Higgsfield scene analysis e610a443-7c02-4e86-af8a-ed8b2eea82a1, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What sport does the speaker play with a group?",
+        "options": [
+          "Basketball",
+          "Tennis",
+          "Swimming"
+        ],
+        "note": "The selected passage supports this answer: Basketball. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 66,
+          "end": 83,
+          "label": "What sport does the speaker play with a group?",
+          "evidence": "Higgsfield scene analysis e610a443-7c02-4e86-af8a-ed8b2eea82a1, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why is the interviewee at this event today?",
+        "options": [
+          "Friends are performing on stage",
+          "She is taking a driving test",
+          "She is applying for a job"
+        ],
+        "note": "The selected passage supports this answer: Friends are performing on stage. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 96,
+          "end": 114,
+          "label": "Why is the interviewee at this event today?",
+          "evidence": "Higgsfield scene analysis e610a443-7c02-4e86-af8a-ed8b2eea82a1, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Where does the football player say he plays?",
+        "options": [
+          "A futsal park in Seongnam",
+          "A professional stadium in Busan",
+          "A school in Tokyo"
+        ],
+        "note": "The selected passage supports this answer: A futsal park in Seongnam. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 110,
+          "end": 130,
+          "label": "Where does the football player say he plays?",
+          "evidence": "Higgsfield scene analysis e610a443-7c02-4e86-af8a-ed8b2eea82a1, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which preference does the senior student express?",
+        "options": [
+          "Resting at home rather than hanging out",
+          "Going out every night rather than resting",
+          "Never participating in school events"
+        ],
+        "note": "The selected passage supports this answer: Resting at home rather than hanging out. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 208,
+          "end": 235,
+          "label": "Which preference does the senior student express?",
+          "evidence": "Higgsfield scene analysis e610a443-7c02-4e86-af8a-ed8b2eea82a1, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "ZnEoJXGdLMM",
+    "analysisId": "5af1da10-8ced-4e8d-bd1f-dc36d60997a2",
+    "questions": [
+      {
+        "prompt": "When does the first interviewee usually come to Olympic Park?",
+        "options": [
+          "Regularly, except on rainy days",
+          "Only once every ten years",
+          "Only when the park is closed"
+        ],
+        "note": "The selected passage supports this answer: Regularly, except on rainy days. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 29,
+          "end": 63,
+          "label": "When does the first interviewee usually come to Olympic Park?",
+          "evidence": "Higgsfield scene analysis 5af1da10-8ced-4e8d-bd1f-dc36d60997a2, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Where does this interviewee say she is from?",
+        "options": [
+          "Yongin in Gyeonggi-do",
+          "Central Seoul",
+          "Jeju Island"
+        ],
+        "note": "The selected passage supports this answer: Yongin in Gyeonggi-do. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 60,
+          "end": 83,
+          "label": "Where does this interviewee say she is from?",
+          "evidence": "Higgsfield scene analysis 5af1da10-8ced-4e8d-bd1f-dc36d60997a2, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does the child most enjoy doing in the park?",
+        "options": [
+          "Riding a bicycle",
+          "Fishing",
+          "Watching films"
+        ],
+        "note": "The selected passage supports this answer: Riding a bicycle. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 80,
+          "end": 94,
+          "label": "What does the child most enjoy doing in the park?",
+          "evidence": "Higgsfield scene analysis 5af1da10-8ced-4e8d-bd1f-dc36d60997a2, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why does this speaker visit the park frequently?",
+        "options": [
+          "It is right near home",
+          "It is a workplace requirement",
+          "It is the only way to reach school"
+        ],
+        "note": "The selected passage supports this answer: It is right near home. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 98,
+          "end": 116,
+          "label": "Why does this speaker visit the park frequently?",
+          "evidence": "Higgsfield scene analysis 5af1da10-8ced-4e8d-bd1f-dc36d60997a2, scene 16, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What makes the park suitable for this speaker's boarding activity?",
+        "options": [
+          "It is wide and open",
+          "It has very narrow paths",
+          "It is entirely indoors"
+        ],
+        "note": "The selected passage supports this answer: It is wide and open. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 112,
+          "end": 128,
+          "label": "What makes the park suitable for this speaker's boarding activity?",
+          "evidence": "Higgsfield scene analysis 5af1da10-8ced-4e8d-bd1f-dc36d60997a2, scene 17, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which exhibition has the visitor come to see?",
+        "options": [
+          "Frida Kahlo",
+          "Claude Monet",
+          "Vincent van Gogh"
+        ],
+        "note": "The selected passage supports this answer: Frida Kahlo. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 124,
+          "end": 133,
+          "label": "Which exhibition has the visitor come to see?",
+          "evidence": "Higgsfield scene analysis 5af1da10-8ced-4e8d-bd1f-dc36d60997a2, scene 18, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "V-1V-HnvGEs",
+    "analysisId": "8ebeaacb-eab6-4b27-8c81-7eb9d83b0c6d",
+    "questions": [
+      {
+        "prompt": "Where are the speakers at the start of the exchange?",
+        "options": [
+          "The summit of Achasan",
+          "A railway platform",
+          "A beach campsite"
+        ],
+        "note": "The selected passage supports this answer: The summit of Achasan. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 1,
+          "end": 11,
+          "label": "Where are the speakers at the start of the exchange?",
+          "evidence": "Higgsfield scene analysis 8ebeaacb-eab6-4b27-8c81-7eb9d83b0c6d, scene 2, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why is the total elapsed time different from the walking time?",
+        "options": [
+          "They spent about forty minutes resting",
+          "They took a train halfway up",
+          "They began the hike the previous day"
+        ],
+        "note": "The selected passage supports this answer: They spent about forty minutes resting. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 21,
+          "end": 32,
+          "label": "Why is the total elapsed time different from the walking time?",
+          "evidence": "Higgsfield scene analysis 8ebeaacb-eab6-4b27-8c81-7eb9d83b0c6d, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What feature does the speaker recall finding frightening when younger?",
+        "options": [
+          "The steep rock face",
+          "The café near the station",
+          "The bridge across the river"
+        ],
+        "note": "The selected passage supports this answer: The steep rock face. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 38,
+          "end": 55,
+          "label": "What feature does the speaker recall finding frightening when younger?",
+          "evidence": "Higgsfield scene analysis 8ebeaacb-eab6-4b27-8c81-7eb9d83b0c6d, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How should the questions about a dictatorial leader be read here?",
+        "options": [
+          "As teasing within the group's playful interview",
+          "As a formal complaint to an official",
+          "As a published political accusation"
+        ],
+        "note": "The selected passage supports this answer: As teasing within the group's playful interview. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 61,
+          "end": 82,
+          "label": "How should the questions about a dictatorial leader be read here?",
+          "evidence": "Higgsfield scene analysis 8ebeaacb-eab6-4b27-8c81-7eb9d83b0c6d, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does one participant say about the current pace?",
+        "options": [
+          "It is very tiring and unsatisfactory",
+          "It is too slow to feel any effort",
+          "It is exactly what everyone requested"
+        ],
+        "note": "The selected passage supports this answer: It is very tiring and unsatisfactory. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 88,
+          "end": 102,
+          "label": "What does one participant say about the current pace?",
+          "evidence": "Higgsfield scene analysis 8ebeaacb-eab6-4b27-8c81-7eb9d83b0c6d, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Under what condition would the speaker come again?",
+        "options": [
+          "If friends came along",
+          "Only if the mountain were closed",
+          "Only after moving out of Seoul"
+        ],
+        "note": "The selected passage supports this answer: If friends came along. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 98,
+          "end": 119,
+          "label": "Under what condition would the speaker come again?",
+          "evidence": "Higgsfield scene analysis 8ebeaacb-eab6-4b27-8c81-7eb9d83b0c6d, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "zyFE5-7RQdw",
+    "analysisId": "9235e71d-8d18-467c-9085-82faf767d48a",
+    "questions": [
+      {
+        "prompt": "Which languages does the interviewee say they can speak?",
+        "options": [
+          "English and Chinese",
+          "French and Arabic",
+          "German and Italian"
+        ],
+        "note": "The selected passage supports this answer: English and Chinese. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 12,
+          "end": 22,
+          "label": "Which languages does the interviewee say they can speak?",
+          "evidence": "Higgsfield scene analysis 9235e71d-8d18-467c-9085-82faf767d48a, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which language is this speaker learning on Duolingo?",
+        "options": [
+          "Japanese",
+          "Portuguese",
+          "Russian"
+        ],
+        "note": "The selected passage supports this answer: Japanese. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 18,
+          "end": 28,
+          "label": "Which language is this speaker learning on Duolingo?",
+          "evidence": "Higgsfield scene analysis 9235e71d-8d18-467c-9085-82faf767d48a, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why does the speaker feel proud when foreigners learn Korean?",
+        "options": [
+          "It suggests an interest in Korea",
+          "It proves Korean is easy for everyone",
+          "It means English is no longer needed anywhere"
+        ],
+        "note": "The selected passage supports this answer: It suggests an interest in Korea. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 33,
+          "end": 48,
+          "label": "Why does the speaker feel proud when foreigners learn Korean?",
+          "evidence": "Higgsfield scene analysis 9235e71d-8d18-467c-9085-82faf767d48a, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does this interviewee infer from fluent Korean?",
+        "options": [
+          "The learner must have worked hard",
+          "The learner cannot speak any other language",
+          "The learner has never needed practice"
+        ],
+        "note": "The selected passage supports this answer: The learner must have worked hard. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 44,
+          "end": 57,
+          "label": "What does this interviewee infer from fluent Korean?",
+          "evidence": "Higgsfield scene analysis 9235e71d-8d18-467c-9085-82faf767d48a, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why is the speaker grateful when someone uses Korean?",
+        "options": [
+          "Speaking English makes the speaker nervous",
+          "The speaker dislikes all foreign languages",
+          "The speaker refuses to help visitors"
+        ],
+        "note": "The selected passage supports this answer: Speaking English makes the speaker nervous. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 53,
+          "end": 62,
+          "label": "Why is the speaker grateful when someone uses Korean?",
+          "evidence": "Higgsfield scene analysis 9235e71d-8d18-467c-9085-82faf767d48a, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does this speaker think they would respond to a visitor using Korean?",
+        "options": [
+          "Offer more help and information",
+          "End the conversation immediately",
+          "Insist on a written examination first"
+        ],
+        "note": "The selected passage supports this answer: Offer more help and information. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 66,
+          "end": 77,
+          "label": "How does this speaker think they would respond to a visitor using Korean?",
+          "evidence": "Higgsfield scene analysis 9235e71d-8d18-467c-9085-82faf767d48a, scene 16, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "0pb0F4HOCN8",
+    "analysisId": "d9dc9243-6e73-4bd0-b05b-ef9f0578eefa",
+    "questions": [
+      {
+        "prompt": "Which kinds of expressions open the recording?",
+        "options": [
+          "Greetings and asking how someone is",
+          "Instructions for repairing a car",
+          "A weather forecast"
+        ],
+        "note": "The selected passage supports this answer: Greetings and asking how someone is. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 0,
+          "end": 17,
+          "label": "Which kinds of expressions open the recording?",
+          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 1, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which personal information is asked about?",
+        "options": [
+          "Name, age and origin",
+          "Bank details and passwords",
+          "A train's departure platform"
+        ],
+        "note": "The selected passage supports this answer: Name, age and origin. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 13,
+          "end": 32,
+          "label": "Which personal information is asked about?",
+          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 2, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which topic is included among the questions?",
+        "options": [
+          "Where someone lives and works",
+          "How to replace a tyre",
+          "How to register a patent"
+        ],
+        "note": "The selected passage supports this answer: Where someone lives and works. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 28,
+          "end": 47,
+          "label": "Which topic is included among the questions?",
+          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which contrast appears in these phrases?",
+        "options": [
+          "Understanding someone and not understanding them",
+          "Arriving early and booking a room",
+          "Paying cash and paying by card"
+        ],
+        "note": "The selected passage supports this answer: Understanding someone and not understanding them. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 73,
+          "end": 92,
+          "label": "Which contrast appears in these phrases?",
+          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which request helps when speech is unclear?",
+        "options": [
+          "Asking someone to repeat",
+          "Asking for a dessert menu",
+          "Asking to close an account"
+        ],
+        "note": "The selected passage supports this answer: Asking someone to repeat. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 103,
+          "end": 122,
+          "label": "Which request helps when speech is unclear?",
+          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which request concerns speaking speed?",
+        "options": [
+          "Asking someone to speak slowly",
+          "Asking someone to leave earlier",
+          "Asking someone to sing louder"
+        ],
+        "note": "The selected passage supports this answer: Asking someone to speak slowly. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 118,
+          "end": 137,
+          "label": "Which request concerns speaking speed?",
+          "evidence": "Higgsfield scene analysis d9dc9243-6e73-4bd0-b05b-ef9f0578eefa, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "Tu5oU-ftipI",
+    "analysisId": "09a36b79-ab10-4037-bafc-45d064f9ffd8",
+    "questions": [
+      {
+        "prompt": "Which city is the tour introducing?",
+        "options": [
+          "Cairo",
+          "Beirut",
+          "Casablanca"
+        ],
+        "note": "The selected passage supports this answer: Cairo. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 0,
+          "end": 15,
+          "label": "Which city is the tour introducing?",
+          "evidence": "Higgsfield scene analysis 09a36b79-ab10-4037-bafc-45d064f9ffd8, scene 1, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which Cairo district contains Korba?",
+        "options": [
+          "Heliopolis",
+          "Zamalek",
+          "Maadi"
+        ],
+        "note": "The selected passage supports this answer: Heliopolis. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 36,
+          "end": 59,
+          "label": "Which Cairo district contains Korba?",
+          "evidence": "Higgsfield scene analysis 09a36b79-ab10-4037-bafc-45d064f9ffd8, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which palace is being introduced?",
+        "options": [
+          "Baron Empain Palace",
+          "Buckingham Palace",
+          "The Alhambra"
+        ],
+        "note": "The selected passage supports this answer: Baron Empain Palace. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 78,
+          "end": 113,
+          "label": "Which palace is being introduced?",
+          "evidence": "Higgsfield scene analysis 09a36b79-ab10-4037-bafc-45d064f9ffd8, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why could the presenters not film with sound at some downtown sights?",
+        "options": [
+          "Filming with sound was forbidden there",
+          "They had forgotten every camera",
+          "The sights were outside Cairo"
+        ],
+        "note": "The selected passage supports this answer: Filming with sound was forbidden there. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 159,
+          "end": 185,
+          "label": "Why could the presenters not film with sound at some downtown sights?",
+          "evidence": "Higgsfield scene analysis 09a36b79-ab10-4037-bafc-45d064f9ffd8, scene 18, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What made reaching Zamalek easier in the account?",
+        "options": [
+          "The opening of a new metro station",
+          "The closure of all roads",
+          "A new international airport"
+        ],
+        "note": "The selected passage supports this answer: The opening of a new metro station. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 208,
+          "end": 237,
+          "label": "What made reaching Zamalek easier in the account?",
+          "evidence": "Higgsfield scene analysis 09a36b79-ab10-4037-bafc-45d064f9ffd8, scene 24, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What inspired Cairo Tower's design?",
+        "options": [
+          "The lotus flower",
+          "A palm leaf",
+          "A sailing boat"
+        ],
+        "note": "The selected passage supports this answer: The lotus flower. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 256,
+          "end": 280,
+          "label": "What inspired Cairo Tower's design?",
+          "evidence": "Higgsfield scene analysis 09a36b79-ab10-4037-bafc-45d064f9ffd8, scene 28, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "HBgrEQpQ23c",
+    "analysisId": "306767e4-f156-4cd7-a090-482699b7dcb7",
+    "questions": [
+      {
+        "prompt": "What practical skill is introduced?",
+        "options": [
+          "Finding places to buy everyday necessities in Egypt",
+          "Making a hotel complaint",
+          "Applying for university"
+        ],
+        "note": "The selected passage supports this answer: Finding places to buy everyday necessities in Egypt. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 10,
+          "end": 43,
+          "label": "What practical skill is introduced?",
+          "evidence": "Higgsfield scene analysis 306767e4-f156-4cd7-a090-482699b7dcb7, scene 2, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Where does the presenter say to go for vegetables?",
+        "options": [
+          "The market",
+          "The cinema",
+          "The railway station"
+        ],
+        "note": "The selected passage supports this answer: The market. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 103,
+          "end": 118,
+          "label": "Where does the presenter say to go for vegetables?",
+          "evidence": "Higgsfield scene analysis 306767e4-f156-4cd7-a090-482699b7dcb7, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which item is named here?",
+        "options": [
+          "Lemon",
+          "Banana",
+          "Pomegranate"
+        ],
+        "note": "The selected passage supports this answer: Lemon. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 146,
+          "end": 156,
+          "label": "Which item is named here?",
+          "evidence": "Higgsfield scene analysis 306767e4-f156-4cd7-a090-482699b7dcb7, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which fruit is named here?",
+        "options": [
+          "Mango",
+          "Apple",
+          "Orange"
+        ],
+        "note": "The selected passage supports this answer: Mango. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 194,
+          "end": 204,
+          "label": "Which fruit is named here?",
+          "evidence": "Higgsfield scene analysis 306767e4-f156-4cd7-a090-482699b7dcb7, scene 19, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What quantity appears in the model tomato request?",
+        "options": [
+          "One kilogram",
+          "One litre",
+          "Ten boxes"
+        ],
+        "note": "The selected passage supports this answer: One kilogram. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 250,
+          "end": 272,
+          "label": "What quantity appears in the model tomato request?",
+          "evidence": "Higgsfield scene analysis 306767e4-f156-4cd7-a090-482699b7dcb7, scene 27, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does this useful shopping question ask?",
+        "options": [
+          "How much the item costs",
+          "Where the speaker was born",
+          "What time the film starts"
+        ],
+        "note": "The selected passage supports this answer: How much the item costs. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 268,
+          "end": 288,
+          "label": "What does this useful shopping question ask?",
+          "evidence": "Higgsfield scene analysis 306767e4-f156-4cd7-a090-482699b7dcb7, scene 28, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "_gX7hqsHBZc",
+    "analysisId": "3913e6b2-39e7-43f3-a8b3-7af9a5e5f3b0",
+    "questions": [
+      {
+        "prompt": "What does the first interviewee value in people?",
+        "options": [
+          "Kindness and respect",
+          "Always agreeing about everything",
+          "Having exactly the same job"
+        ],
+        "note": "The selected passage supports this answer: Kindness and respect. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 22,
+          "end": 43,
+          "label": "What does the first interviewee value in people?",
+          "evidence": "Higgsfield scene analysis 3913e6b2-39e7-43f3-a8b3-7af9a5e5f3b0, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does the speaker place first among sources of happiness?",
+        "options": [
+          "Fulfilling duties towards God",
+          "Buying new clothes",
+          "Winning a football match"
+        ],
+        "note": "The selected passage supports this answer: Fulfilling duties towards God. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 39,
+          "end": 57,
+          "label": "What does the speaker place first among sources of happiness?",
+          "evidence": "Higgsfield scene analysis 3913e6b2-39e7-43f3-a8b3-7af9a5e5f3b0, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which everyday pleasures are mentioned?",
+        "options": [
+          "A tasty meal and new clothes",
+          "A long traffic jam and paperwork",
+          "Missing a train and losing keys"
+        ],
+        "note": "The selected passage supports this answer: A tasty meal and new clothes. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 53,
+          "end": 65,
+          "label": "Which everyday pleasures are mentioned?",
+          "evidence": "Higgsfield scene analysis 3913e6b2-39e7-43f3-a8b3-7af9a5e5f3b0, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What makes Abdallah happy at school?",
+        "options": [
+          "Playing with friends during the break",
+          "Taking an extra examination",
+          "Avoiding every classmate"
+        ],
+        "note": "The selected passage supports this answer: Playing with friends during the break. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 61,
+          "end": 83,
+          "label": "What makes Abdallah happy at school?",
+          "evidence": "Higgsfield scene analysis 3913e6b2-39e7-43f3-a8b3-7af9a5e5f3b0, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What two sources of satisfaction are connected?",
+        "options": [
+          "Success at work and parents' approval",
+          "Travel abroad and buying a car",
+          "Football and learning to cook"
+        ],
+        "note": "The selected passage supports this answer: Success at work and parents' approval. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 79,
+          "end": 90,
+          "label": "What two sources of satisfaction are connected?",
+          "evidence": "Higgsfield scene analysis 3913e6b2-39e7-43f3-a8b3-7af9a5e5f3b0, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which people does the speaker include in his answer?",
+        "options": [
+          "His children, wife and family",
+          "Only professional athletes",
+          "Only people he has never met"
+        ],
+        "note": "The selected passage supports this answer: His children, wife and family. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 90,
+          "end": 97,
+          "label": "Which people does the speaker include in his answer?",
+          "evidence": "Higgsfield scene analysis 3913e6b2-39e7-43f3-a8b3-7af9a5e5f3b0, scene 15, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "dECCXUZOQFE",
+    "analysisId": "0c51278b-2ddc-403c-9148-ff9dfde7d4c5",
+    "questions": [
+      {
+        "prompt": "What sequence does the speaker give in Standard Arabic?",
+        "options": [
+          "Prayer followed by work",
+          "Work followed by a holiday",
+          "Breakfast followed by a flight"
+        ],
+        "note": "The selected passage supports this answer: Prayer followed by work. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 35,
+          "end": 43,
+          "label": "What sequence does the speaker give in Standard Arabic?",
+          "evidence": "Higgsfield scene analysis 0c51278b-2ddc-403c-9148-ff9dfde7d4c5, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which singer is mentioned in the morning routine?",
+        "options": [
+          "Fayrouz",
+          "Umm Kulthum",
+          "Asmahan"
+        ],
+        "note": "The selected passage supports this answer: Fayrouz. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 81,
+          "end": 94,
+          "label": "Which singer is mentioned in the morning routine?",
+          "evidence": "Higgsfield scene analysis 0c51278b-2ddc-403c-9148-ff9dfde7d4c5, scene 9, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does the speaker explain difficulty using Standard Arabic?",
+        "options": [
+          "Growing up speaking the colloquial dialect",
+          "Never having heard any Arabic",
+          "Being forbidden to study grammar"
+        ],
+        "note": "The selected passage supports this answer: Growing up speaking the colloquial dialect. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 90,
+          "end": 106,
+          "label": "How does the speaker explain difficulty using Standard Arabic?",
+          "evidence": "Higgsfield scene analysis 0c51278b-2ddc-403c-9148-ff9dfde7d4c5, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which contrast does the speaker draw?",
+        "options": [
+          "Standard Arabic in study versus colloquial speech in daily life",
+          "Two unrelated alphabets for the same street",
+          "Written Arabic versus an absence of spoken language"
+        ],
+        "note": "The selected passage supports this answer: Standard Arabic in study versus colloquial speech in daily life. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 102,
+          "end": 126,
+          "label": "Which contrast does the speaker draw?",
+          "evidence": "Higgsfield scene analysis 0c51278b-2ddc-403c-9148-ff9dfde7d4c5, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why does this woman find Standard Arabic easy?",
+        "options": [
+          "Her family supported learning it well in childhood",
+          "She never needed to practise it",
+          "Everyone finds it equally easy without study"
+        ],
+        "note": "The selected passage supports this answer: Her family supported learning it well in childhood. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 133,
+          "end": 152,
+          "label": "Why does this woman find Standard Arabic easy?",
+          "evidence": "Higgsfield scene analysis 0c51278b-2ddc-403c-9148-ff9dfde7d4c5, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What distinction does the interview clarify?",
+        "options": [
+          "Understanding and ability can coexist with lack of speaking habit",
+          "Understanding always guarantees effortless speaking",
+          "Difficulty speaking proves no comprehension"
+        ],
+        "note": "The selected passage supports this answer: Understanding and ability can coexist with lack of speaking habit. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 203,
+          "end": 215,
+          "label": "What distinction does the interview clarify?",
+          "evidence": "Higgsfield scene analysis 0c51278b-2ddc-403c-9148-ff9dfde7d4c5, scene 18, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  }
+]
