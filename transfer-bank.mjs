@@ -227,3 +227,6 @@ export const transferBank={
  Q("Describe early work that enables a future partnership.","El acuerdo sienta las bases de una colaboración duradera.","El acuerdo pasa por alto toda colaboración.","El acuerdo se va por las ramas de colaborar.","Sentar las bases de means lay the foundations for.")
 ]
 };
+// These are English interpretations, rather than Spanish model utterances.
+// Presentation metadata leaves every v1 option, answer and ordering intact.
+for(const [chapter,indices] of Object.entries({'c1-register':[1,3,5],'c1-precision':[4],'b1-expressions-idioms':[0,1,2,3,4,5],'b2-expressions-idioms':[0,1,2,3,4,5],'c1-expressions-nuance':[0,2]}))for(const i of indices)Object.assign(transferBank[chapter][i],{optionsRole:'comprehension',optionsLang:'en-US'});

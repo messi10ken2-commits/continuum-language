@@ -33,10 +33,10 @@ for(const [language,units] of Object.entries(data)){
  const chapter=`${language}-sound-v1-${group}`,level=group?'A2':'A1',meta={...(language==='es'?{}:{language}),locale:locale[language],specialist:true,curriculumVersion:2};
  soundChapters.push({id:chapter,level,title:group?'Pronunciation: rhythm & phrases':'Pronunciation: build clear sounds',goal:'Listen, shape the sound, practise in context and compare your recording.',kind:'Pronunciation',...meta});
  const lessons=units.slice(group*2,group*2+2).map(([title,guide,pairs,target,prompt,right,wrong],i)=>{
- const id=chapter+'-'+i;const questions=[mc(prompt,[right,wrong],0,guide)];
+ const id=chapter+'-'+i,nativeChoices=(language==='pt'&&group===0&&i===1)||(language==='en'&&group===1&&i===1);const questions=[mc(prompt,[right,wrong],0,guide,{optionsRole:nativeChoices?'utterance':'comprehension',optionsLang:nativeChoices?locale[language]:'en-US',optionsSource:'sound-description'})];
  for(const [a,b] of pairs){const contrast=!b.includes(' ')&&!b.includes('/')&&!b.includes('-')&&!b.includes(':');
  if(contrast){for(const word of [a,b])questions.push(mc('Listen. Which word do you hear?',[a,b],word===a?0:1,`Compare ${a} and ${b}. ${guide}`,{audio:word,audioLocale:locale[language],optionsLang:locale[language]}));}
- else questions.push(mc(`Which description matches “${a}”?`,[b,'Give every letter a separate, equally strong beat.'],0,guide));
+ else questions.push(mc(`Which description matches “${a}”?`,[b,'Give every letter a separate, equally strong beat.'],0,guide,{optionsRole:'comprehension',optionsLang:'en-US',optionsSource:'sound-description'}));
  questions.push({type:'text',prompt:`Listen and write the word you hear.`,audio:a,audioLocale:locale[language],answer:a,note:`${a}. ${guide}`});
  }
  questions.push(pronunciationApplication(language,group*2+i));
@@ -57,7 +57,7 @@ for(const [script,shift] of [['Hiragana',0],['Katakana',0x60]]){
  const glyphs=[...chars].map((c,i)=>({glyph:String.fromCodePoint(c.codePointAt(0)+shift),reading:readings.split(' ')[i]}));
  const id=chapter+'-'+part;const questions=glyphs.flatMap((x,i)=>{
  const candidates=[x,...glyphs.filter(y=>y.reading!==x.reading).slice(i%5,i%5+3)];const options=candidates.map(y=>y.glyph);const at=i%options.length;[options[0],options[at]]=[options[at],options[0]];
- return [mc(`Choose the ${script.toLowerCase()} character for “${x.reading}”.`,options,at,`${x.glyph} is read ${x.reading}.`,{sourceLesson:id}),{type:'text',prompt:`Write the romanized reading of ${x.glyph}.`,answer:x.reading,accepted:[x.reading,...(x.reading==='shi'?['si']:x.reading==='chi'?['ti']:x.reading==='tsu'?['tu']:x.reading==='fu'?['hu']:x.glyph==='を'||x.glyph==='ヲ'?['wo']:[])],note:`${x.glyph}: ${x.reading}.`,sourceLesson:id}];});
+ return [mc(`Choose the ${script.toLowerCase()} character for “${x.reading}”.`,options,at,`${x.glyph} is read ${x.reading}.`,{sourceLesson:id}),{type:'text',prompt:`Write the romanized reading of ${x.glyph}.`,answer:x.reading,answerLocale:'en-US',accepted:[x.reading,...(x.reading==='shi'?['si']:x.reading==='chi'?['ti']:x.reading==='tsu'?['tu']:x.reading==='fu'?['hu']:x.glyph==='を'||x.glyph==='ヲ'?['wo']:[])],note:`${x.glyph}: ${x.reading}.`,sourceLesson:id}];});
  soundLessons.push({id,chapter,language:'ja',locale:'ja-JP',specialist:true,curriculumVersion:2,level:'A1',title:`${script}: ${part===0?'first 25 characters':part===1?'remaining basic characters':'voicing marks'}`,skill:'Characters',minutes:18,explanation:part===2?'Two small marks add voicing; a small circle changes h-row sounds to p-row sounds. じ and ぢ, and ず and づ, share pronunciations in standard Japanese; spelling depends on the word.':'Learn the shape and sound together. Romanization is a reading aid, not English spelling. を is normally pronounced o as a particle. ん is a nasal mora, not n plus a vowel.',example:glyphs.slice(0,5).map(x=>x.glyph).join(' '),characters:glyphs,questions});
  });
 }
@@ -77,3 +77,6 @@ for(const lesson of soundLessons){
  // Distribute correct positions without changing the stable question sequence.
  lesson.questions=lesson.questions.map((q,i)=>{if(q.type==='text')return {...q,sourceLesson:q.sourceLesson||lesson.id};const shift=i%q.options.length;return {...q,sourceLesson:q.sourceLesson||lesson.id,options:[...q.options.slice(shift),...q.options.slice(0,shift)],answer:(q.answer-shift+q.options.length)%q.options.length};});
 }
+
+// Romanization is written support; the native character models remain audible.
+for(const lesson of soundLessons)for(const question of lesson.questions){if(question.type==="text"&&question.prompt.startsWith("Write the romanized reading of "))question.answerLocale="en-US";if(question.prompt==="How many morae are in ケーキ?")Object.assign(question,{optionsRole:"comprehension",optionsLang:"en-US"});}

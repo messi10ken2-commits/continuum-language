@@ -19,5 +19,5 @@ for(const language of Object.keys(locales))for(const scene of scenes){
  visualChapters.push({id:chapter,level:scene.level,title:scene.title,goal:scene.goal,kind:'Visual stories',...meta});
  const lesson={id,chapter,level:scene.level,title:scene.title,skill:'Listening',minutes:12,explanation:scene.goal,example:lines[0],visualStory,vocabulary:words.map(([term,meaning])=>({term,meaning,phrase:term,example:lines.find(x=>x.toLowerCase().includes(term.toLowerCase()))||term,translation:scene.meanings[lines.findIndex(x=>x.toLowerCase().includes(term.toLowerCase()))]||meaning})),questions:qs,...meta};
  visualLessons.push(lesson);visualTransfer[chapter]=qs.filter(q=>q.options);
- visualLessons.push({id:id+'-checkpoint',chapter,level:scene.level,title:'Scene checkpoint',skill:'Checkpoint',minutes:6,checkpoint:true,explanation:'Recall the details and expressions from the visual story.',example:scene.goal,questions:qs.filter(q=>q.options),...meta});
+ visualLessons.push({id:id+'-checkpoint',chapter,level:scene.level,title:'Scene checkpoint',skill:'Checkpoint',minutes:6,checkpoint:true,explanation:'Recall the details and expressions from the visual story.',example:scene.goal,exampleLang:'en-US',questions:qs.filter(q=>q.options),...meta});
 }

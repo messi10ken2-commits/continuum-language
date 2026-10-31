@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {displayLanguageOptions} from './answer-language.mjs';
+import {displayLanguageOptions,canPlayAnswerAudio} from './answer-language.mjs';
 import {lessonList,getLessonVariant,hasExpandedExercises} from './course.mjs';
 import {translationSource,protectSource} from './localization-corpus.mjs';
 import {optionText,setInterfaceLanguage} from './interface-runtime.mjs';
@@ -9,7 +9,7 @@ test('all comprehension choices have display-language translation sources, inclu
  let count=0,video=0,visual=0;const languages=new Set();
  for(const l of lessonList){const variants=[l,...(hasExpandedExercises(l.id)?[getLessonVariant(l.id,'v4-answer-scan-123456789'),getLessonVariant(l.id,'v5-answer-scan-123456789')]:[])];
  for(const v of variants)for(const q of v.questions){if(!displayLanguageOptions(q,l))continue;languages.add(l.language||'es');video+=!!q.video;visual+=!!l.visualStory;
- for(const o of q.options){if(!/[A-Za-z]/.test(o))continue;const source=translationSource(o);assert.ok(source,l.id+': '+o);const p=protectSource(source);assert.ok(!/^⟦KEEP_\d+⟧$/.test(p.text)||/^\/.*\/$/.test(o),o);count++;}
+ for(const o of q.options){if(!/[A-Za-z]/.test(o))continue;const source=translationSource(o);assert.ok(source,l.id+': '+o);const p=protectSource(source);assert.ok(!/^⟦KEEP_\d+⟧$/.test(p.text)||/^\/.*\/$/.test(o)||(q.optionsSource==='sound-description'&&['rr','nh','lh'].includes(o)),o);count++;}
  }}assert.ok(count>2000);assert.ok(video>100);assert.ok(visual>20);assert.equal(languages.size,10);
 });
 test('reviewed visual meanings translate in five locales while actual target utterances stay intact',()=>{
@@ -19,4 +19,20 @@ test('reviewed visual meanings translate in five locales while actual target utt
  assert.equal(displayLanguageOptions({...reply,viewpoint:'detail'},{language:'en'}),true);
  const cafe=lessonList.find(l=>l.id==='cafe');assert.equal(displayLanguageOptions(cafe.questions[0],cafe),true);assert.equal(displayLanguageOptions(cafe.questions[2],cafe),false);
  setInterfaceLanguage('en',{persist:false});
+});
+
+test('review speech keeps pronunciation annotations and translated meanings out of target-language playback',()=>{
+ assert.equal(canPlayAnswerAudio({type:'text',answer:'Confirmed',coverage:'table:0:0:2'},{language:'ja',locale:'ja-JP'}),false);
+ assert.equal(canPlayAnswerAudio({type:'text',answer:'確認された',coverage:'table:0:0:2'},{language:'ja',locale:'ja-JP'}),true);
+ const frozen={options:['The proposal needs no changes.','It has benefits but needs changes.','It has no benefits.'],optionsLang:'es-ES'};
+ assert.equal(displayLanguageOptions(frozen,{language:'es'}),true);
+ assert.equal(canPlayAnswerAudio(frozen,{language:'es'}),false);
+ assert.equal(displayLanguageOptions({...frozen,options:[...frozen.options].reverse()},{language:'es'}),true);
+ assert.equal(displayLanguageOptions({...frozen,optionsRole:'utterance'},{language:'en'}),false);
+ assert.equal(canPlayAnswerAudio({type:'text',answer:'bāʾ',answerLocale:'en-US'},{language:'ar',locale:'ar-SA'}),false);
+ assert.equal(canPlayAnswerAudio({type:'text',answer:'بَاء',answerLocale:'ar-SA'},{language:'ar',locale:'ar-SA'}),true);
+ assert.equal(canPlayAnswerAudio({options:['füllen /ʏ/'],answer:0,optionsLang:'en-US',optionsRole:'utterance'},{language:'de',locale:'de-DE'}),false);
+ assert.equal(canPlayAnswerAudio({options:['füllen'],answer:0,optionsLang:'de-DE',optionsRole:'utterance'},{language:'de',locale:'de-DE'}),true);
+ assert.equal(canPlayAnswerAudio({options:['A possible explanation.'],optionsRole:'comprehension',optionsLang:'en-US'},{language:'en',locale:'en-US'}),false);
+ assert.equal(canPlayAnswerAudio({type:'text',answer:'me viene bien'},{}),true);
 });

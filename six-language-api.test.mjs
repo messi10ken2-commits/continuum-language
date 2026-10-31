@@ -1,3 +1,4 @@
+import {bundledRecording} from './bundled-audio.mjs';
 // Actual HTTP routes and isolated PostgreSQL-compatible storage; no paid providers.
 import assert from 'node:assert/strict';
 import {testServer,db} from './test-server.mjs';
@@ -30,7 +31,7 @@ try{
   assert.equal((await call('/skills/tasks/focus-'+language+'-travel-listening-a1','GET',null,learner)).status,403);
   const text=lessonList.find(l=>l.language===language&&l.skill==='Listening').example,locale=languageInfo(language).locale,bytes=pcmWav(Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])));
   await db.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING',[speechKey(text,locale),bytes,'synthetic','expansion-test']);
-  const speech=await call('/speech','POST',{text,locale},learner);assert.equal(speech.status,200);assert.deepEqual(speech.data,bytes);
+  const speech=await call('/speech','POST',{text,locale},learner);assert.equal(speech.status,200);assert.deepEqual(speech.data,bundledRecording(text,locale)?.audio||bytes);
  }
  const code=await call('/share-code','POST',{language:'zh'},learner);assert.equal(code.status,201);assert.equal((await call('/teacher/connect','POST',{code:code.data.code},teacher)).status,200);
  const shared=await call('/teacher/learners/'+learner.id,'GET',null,teacher);assert.equal(shared.status,200);assert.ok(shared.data.attempts.every(a=>a.lesson.startsWith('zh-')));assert.equal(shared.data.attempts.length,1);

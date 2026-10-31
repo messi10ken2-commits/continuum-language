@@ -2,6 +2,7 @@
 .media-build/
 node_modules/
 dist/
+audio-rebuild/
 .env
 .env.*
 !.env.example
