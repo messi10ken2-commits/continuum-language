@@ -2,7 +2,7 @@ import RegionalComparisons from './RegionalComparisons.jsx';
 import {academicChartCopy} from './academic-chart-copy.mjs';
 import React,{useEffect,useState} from 'react';
 import PremiumVisual,{PremiumGallery} from './PremiumVisual.jsx';
-import {exclusiveSession,exclusiveAnswer,exclusiveAnswers} from './premium-session.mjs';
+import {exclusiveSession,exclusiveAnswer,exclusiveAnswers,premiumReferenceAudioEndpoint} from './premium-session.mjs';
 import ConversationVideo from './ConversationVideo.jsx';
 import {formatVideoTime} from './conversation-cues.mjs';
 import {languageInfo} from './languages.mjs';
@@ -21,7 +21,7 @@ export function premiumLesson(course){
 function NativeReferences({sources,language}){return sources?.length?<section className="rule-pitfall"><h3>{t('Listen to native speakers')}</h3><p>{t('Open the publisher’s original recording. These are pronunciation references, not recordings of the exercise sentences.')}</p>{sources.map(s=><p key={s.url}><a className="outline-button" href={s.url} target="_blank" rel="noopener noreferrer">{t(s.label,language)} ↗</a><small> · {s.credit}</small></p>)}</section>:null;}
 function CourseReference({course,lesson}){
  const chart=academicChartCopy[course.language]||academicChartCopy.en;
- return <><RegionalComparisons course={course}/><NativeReferences sources={course.nativeReferences} language={course.language}/><LessonReference lesson={{...lesson,vocabulary:undefined}} audioEnabled={course.scene!=='varieties'}/>
+ return <><RegionalComparisons course={course}/><NativeReferences sources={course.nativeReferences} language={course.language}/><LessonReference lesson={{...lesson,vocabulary:undefined}} audioEnabled={course.scene!=='varieties'} audioEndpointForText={text=>premiumReferenceAudioEndpoint(course,text)}/>
  {course.exampleNote&&<section className="rule-pitfall"><h3>{t('Usage note')}</h3><p>{t(course.exampleNote,course.language)}</p></section>}
  {course.reading&&<section><h3>{t('Read the scenario')}</h3><p lang={course.language}>{course.reading}</p></section>}
  {course.visualData&&<figure className="academic-chart" lang={course.language}><figcaption>{chart.title}</figcaption>{[[chart.daily,course.visualData.daily],[chart.weekly,course.visualData.weekly]].map(([label,value])=><div key={label}><span>{label}</span><div><i style={{width:value+'%'}}/></div><b>{value}/100</b></div>)}<small>{chart.note}</small></figure>}
