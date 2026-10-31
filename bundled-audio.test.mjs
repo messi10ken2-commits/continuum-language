@@ -5,7 +5,7 @@ import {publicHumanRecordings,publicHumanRecording} from './bundled-human-public
 import {premiumCourses} from './premium-courses.mjs';import {premiumGalleryFrames} from './premium-session.mjs';import {languageInfo} from './languages.mjs';
 import {serveStudioSpeech} from './speech-api.mjs';import {pcmHasSpeechSignal} from './speech-audio-quality.mjs';
 test('every bundled human/studio clip has intact bytes, audible decodable speech and truthful provenance',()=>{
- assert.ok(bundledRecordings.filter(r=>r.kind==='human').length>=300);assert.equal(bundledRecordings.filter(r=>r.kind==='studio').length,396);
+ assert.ok(bundledRecordings.filter(r=>r.kind==='human').length>=300);assert.equal(bundledRecordings.filter(r=>r.kind==='studio'&&r.collection!=='ordinary-lessons-v1').length,396);
  for(const r of bundledRecordings){const clip=bundledRecording(r.text,r.locale);assert.equal(createHash('sha256').update(clip.audio).digest('hex'),r.audioSha256,r.key);const pcm=execFileSync(ffmpeg,['-hide_banner','-loglevel','error','-i','pipe:0','-f','s16le','-ac','1','-ar','24000','pipe:1'],{input:clip.audio,timeout:10000,maxBuffer:4_000_000});assert.ok(pcmHasSpeechSignal(pcm),r.key);assert.ok(pcm.length/48000>.25&&pcm.length/48000<45,r.key);
   if(r.kind==='human'){assert.ok(r.author&&r.source&&r.originalSha256&&r.licenseUrl);assert.match(r.license,/^CC /);assert.ok(!/NC|ND/.test(r.license));}else{assert.equal(r.engine,'MiniMax Speech 02 HD via Artlist');assert.ok(r.generationId&&r.sourceEnd>r.sourceStart);}
  }

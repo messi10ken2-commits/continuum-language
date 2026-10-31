@@ -23,3 +23,11 @@ export function premiumGalleryFrames(course){
  for(const word of course.vocabulary||[])add(word.phrase||word.term,word.meaning,'Useful expressions for this situation');
  return frames;
 }
+
+// Use the same frame indices on the client and server. Never send private
+// transcript text through the public speech allowlist.
+export function premiumReferenceAudioEndpoint(course,text){
+ const frames=premiumGalleryFrames(course),index=frames.findIndex(f=>f.text===text);
+ if(index<0||(course.scene==='varieties'&&!frames[index].audioLocale))return null;
+ return '/api/billing/courses/'+course.id+'/audio?gallery='+index;
+}

@@ -9,8 +9,9 @@ import fr from './bundled-audio-data-fr.json' with {type:'json'};
 import de from './bundled-audio-data-de.json' with {type:'json'};
 import ar from './bundled-audio-data-ar.json' with {type:'json'};
 import it from './bundled-audio-data-it.json' with {type:'json'};
+import ja from './bundled-audio-data-ja.json' with {type:'json'};
 import {recordingIdentity} from './bundled-human-public.mjs';
-const bytes={en,es,pt,zh,ko,fr,de,ar,it};
+const bytes={en,es,pt,ja,zh,ko,fr,de,ar,it};
 const byText=new Map(manifest.map(r=>[recordingIdentity(r.text,r.locale),r]));
 export const bundledRecordings=manifest;
 export function bundledRecording(text,locale){
