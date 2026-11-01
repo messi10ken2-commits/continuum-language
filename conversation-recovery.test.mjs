@@ -39,3 +39,6 @@ test('missing communication ratings are repaired from verified words and include
  assert.equal(calls,2);assert.equal(r.communicationScore,75);assert.equal(r.score,75);assert.equal(r.pronunciation.assessable,true);
  const bad=await reviewSpeaking(session,{request:async()=>({value:++calls===3?base:{ratings:[4,4,4,4],scoreEvidence:['invented','invented','invented','invented']}})});assert.equal(bad.communicationScore,null);
 });
+test('review provider fallback shares one deadline instead of restarting a full timeout for every provider',async()=>{
+ let time=0,calls=0;await assert.rejects(requestConversation('Review deadline QA','Synthetic',{env:{OPENAI_API_KEY:'synthetic-review-deadline',GEMINI_API_KEY:'synthetic-review-deadline'},deadline:8000,now:()=>time,fetchImpl:async()=>{calls++;time=9000;return new Response('{}',{status:503});}}),e=>e.status===503);assert.equal(calls,1);
+});
