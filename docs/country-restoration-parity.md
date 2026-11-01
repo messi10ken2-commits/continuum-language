@@ -1,5 +1,7 @@
 # Additional-language restoration parity
 
+Updated scene-appropriate behaviour: the six additional landscapes have no railway, so trains and procedural rails are disabled there. The original four worlds retain their trains. The first added-world stage is neighbourhood restoration, not station restoration. Station/street, cafe and garden restoration clips are spatially disjoint (left 0–42%, middle 42–75%, right 75–100%) so the cafe stage cannot reveal the right-hand garden. The four-completed-chapter night threshold is unchanged. Browser tests compare rendered phase screenshots pixel by pixel, requiring the cafe to remain unchanged at stage 1 and the garden at stage 2. These rules supersede the earlier transport description below.
+
 All ten living maps use one phase/state/rendering path: 0 quiet, 1 restored station, 2 cafe opens, 3 garden restores, 4 evening with isolated moving objects. Additional-language headers are static. Country-only mini-trains, CSS walking figures and brightness-filter approximations have been removed.
 
 Twelve built-in image edits preserve the existing Chinese, Korean, French, German, Arabic and Italian landscape composition while providing closed/neglected quiet daytime and genuinely illuminated blue-hour evening states. Runtime assets are public/country-worlds/{zh,ko,fr,de,ar,it}/{quiet,evening}-v2.webp. The existing panorama.webp is the restored daytime plate. Exact edit prompts and region/state mapping are in country-restoration-prompts.json.
