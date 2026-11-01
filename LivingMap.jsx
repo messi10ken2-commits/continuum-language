@@ -1,3 +1,4 @@
+import {CountryPeople,CountryRails} from './CountryMotion.jsx';
 import CurveTrain from './CurveTrain.jsx';
 import RestaurantMotion from './RestaurantMotion.jsx';
 import React,{useEffect,useRef,useState} from 'react';
@@ -14,7 +15,7 @@ export default function LivingMap({chapters,width,height,identity='map',language
  const fx=art.effects,unlocked=phase>=art.motion.unlockPhase,mask=([x,y,rx,ry])=>({maskImage:`radial-gradient(ellipse ${rx}% ${ry}% at ${x}% ${y}%,#000 62%,transparent 100%)`});
  const bounds=([x,y,w,h])=>({left:x+'%',top:y+'%',width:w+'%',height:h+'%'});
  const paint=(name,extra={})=>({backgroundImage:`url(${art[name].src})`,...extra});
- return <div className={'living-map painted-world phase-'+phase+(paused?' motion-paused':'')+(changing?' world-changing':'')} data-phase={phase} data-language={language} data-panorama="continuous" data-motion-unlocked={unlocked}>
+ return <div className={'living-map painted-world phase-'+phase+(paused?' motion-paused':'')+(changing?' world-changing':'')} data-country-world={!!art.dedicatedCountry} data-phase={phase} data-language={language} data-panorama="continuous" data-motion-unlocked={unlocked}>
  <div className="painted-panorama" key={replay} style={{width,height}} aria-hidden="true">
  <div className="painted-layer painted-quiet" style={paint('quiet')}/>
  {!unlocked&&<>
@@ -26,9 +27,10 @@ export default function LivingMap({chapters,width,height,identity='map',language
  <div className="painted-layer painted-evening painted-still" data-stationary-scenery="true" style={{backgroundImage:`url(${art.motion.restaurantStill.src})`}}/>
  <div className="painted-object-stage" data-object-motion="unlocked">
  <div className="painted-cloud-band">{art.motion.clouds.map((cloud,i)=><span className="painted-cloud" data-moving-object="cloud" key={i} style={{...bounds(cloud),animationDelay:(-8-i*9)+'s',animationDuration:(36+i*4)+'s'}}><img src={art.motion.cloudSprite.src} alt="" draggable="false"/></span>)}</div>
+ {art.dedicatedCountry&&<CountryRails language={language}/>}
  <CurveTrain language={language} paused={paused}/>
- <RestaurantMotion motion={art.motion}/>
- <span className="painted-person-rig" data-moving-object="person" style={bounds(art.motion.person.bounds)}><img src={art.motion.person.src} alt="" draggable="false"/></span>
+ {!art.dedicatedCountry&&<RestaurantMotion motion={art.motion}/>}
+ {art.dedicatedCountry?<CountryPeople language={language}/>:<span className="painted-person-rig" data-moving-object="person" style={bounds(art.motion.person.bounds)}><img src={art.motion.person.src} alt="" draggable="false"/></span>}
  {fx.lamps.map(([x,y],j)=><i className="painted-lamp" data-moving-object="light" key={j} style={{left:x+'%',top:y+'%',animationDelay:j*.5+'s'}}/>)}
  </div>
  {art.motion.foreground.map((clipPath,i)=><div key={i} className="painted-layer painted-foreground" style={{backgroundImage:`url(${art.motion.restaurantStill.src})`,clipPath}}/>)}

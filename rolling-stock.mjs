@@ -1,4 +1,5 @@
-import {learningArtFamily} from './learning-art-families.mjs';
+import {countryWorlds} from './country-worlds.mjs';
+import {learningSceneryFamily as learningArtFamily} from './learning-art-families.mjs';
 // Detailed rolling stock in world coordinates, shaded through the map's fixed camera.
 // No photographs/cutout fragments are stretched onto a box.
 import {curvedTrainPose,projectRail,railPoint} from './train-curve.mjs';
@@ -10,6 +11,7 @@ const STOCK={
  ja:{paint:'#d5cbb6',upper:'#e6ddca',band:'#917087',roof:'#64616b',frame:'#7b7772',glass:'#2b3d45'},
  en:{paint:'#254a3c',upper:'#254a3c',band:'#254a3c',roof:'#2e3943',frame:'#bd9d54',glass:'#273e3e'}
 };
+for(const [language,c] of Object.entries(countryWorlds))STOCK[language]={paint:c.paint,upper:c.paint,band:c.band,roof:'#5e696c',frame:'#a7aaa1',glass:'#2c4653'};
 export function stockSpecification(language='en'){return STOCK[learningArtFamily(language)];}
 export function buildRollingStock(language='en',progress=0){
  language=learningArtFamily(language);

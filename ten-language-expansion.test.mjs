@@ -6,7 +6,7 @@ import {getSkillTask} from './skills-content.mjs';
 import {equivalentAnswer} from './answer-equivalence.mjs';
 import {scorePronunciation} from './pronunciation-score.mjs';
 import {speakingScenarios} from './speaking-content.mjs';
-import {learningArtFamily} from './learning-art-families.mjs';
+import {learningSceneryFamily as learningArtFamily} from './learning-art-families.mjs';
 import {livingMapTheme,livingMapGeometry} from './living-map-model.mjs';
 import {buildRollingStock} from './rolling-stock.mjs';
 import {illustratedLessonArt} from './illustrated-art.mjs';
