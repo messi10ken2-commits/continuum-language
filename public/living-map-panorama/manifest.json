@@ -858,10 +858,10 @@
     "locomotiveSteam": false,
     "effects": {
       "station": [
-        9,
-        59,
-        17,
-        25
+        16,
+        49,
+        23,
+        35
       ],
       "train": [
         25,
@@ -870,16 +870,16 @@
         12
       ],
       "cafe": [
-        64,
         63,
-        14,
+        61,
+        16,
         23
       ],
       "garden": [
-        87,
-        82,
-        17,
-        19
+        86,
+        58,
+        19,
+        32
       ],
       "steam": [
         27,
@@ -897,56 +897,48 @@
       ],
       "lamps": [
         [
-          11,
-          83
-        ],
-        [
-          31,
-          66
+          32,
+          57
         ],
         [
           60,
-          62
+          74
         ],
         [
-          74,
-          75
-        ],
-        [
-          89,
-          87
-        ],
-        [
-          88,
-          47
+          87,
+          85
         ]
       ]
     },
     "evening": {
-      "src": "/country-worlds/zh/panorama.webp?v=bfbdb6b5d1b0",
-      "sha256": "bfbdb6b5d1b0cd436eafddf41d4c6ac8a11f32a797d134937e7b0764033e131b",
+      "src": "/country-worlds/zh/evening-v2.webp?v=28b3d7741715",
+      "sha256": "28b3d77417156bb9c2371f24235b755ea65337bd849fcf3bd3c0e52a91a641de",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "day": {
       "src": "/country-worlds/zh/panorama.webp?v=bfbdb6b5d1b0",
       "sha256": "bfbdb6b5d1b0cd436eafddf41d4c6ac8a11f32a797d134937e7b0764033e131b",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "quiet": {
-      "src": "/country-worlds/zh/panorama.webp?v=bfbdb6b5d1b0",
-      "sha256": "bfbdb6b5d1b0cd436eafddf41d4c6ac8a11f32a797d134937e7b0764033e131b",
+      "src": "/country-worlds/zh/quiet-v2.webp?v=0471b5077922",
+      "sha256": "0471b5077922d16b0ea5ff17fcba7e766c1751d27b42dfd3ad29dff38128ec69",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "motion": {
       "unlockPhase": 4,
       "still": {
-        "src": "/country-worlds/zh/panorama.webp?v=bfbdb6b5d1b0",
-        "sha256": "bfbdb6b5d1b0cd436eafddf41d4c6ac8a11f32a797d134937e7b0764033e131b",
+        "src": "/country-worlds/zh/evening-v2.webp?v=28b3d7741715",
+        "sha256": "28b3d77417156bb9c2371f24235b755ea65337bd849fcf3bd3c0e52a91a641de",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "train": {
         "src": "/living-map-motion/en-train.webp?v=6334fc214393",
@@ -966,10 +958,10 @@
         "width": 180,
         "height": 165,
         "bounds": [
-          89,
-          72.8,
-          3.9,
-          11.6
+          86,
+          68,
+          3.2,
+          10
         ]
       },
       "clouds": [
@@ -1004,10 +996,11 @@
       ],
       "foreground": [],
       "restaurantStill": {
-        "src": "/country-worlds/zh/panorama.webp?v=bfbdb6b5d1b0",
-        "sha256": "bfbdb6b5d1b0cd436eafddf41d4c6ac8a11f32a797d134937e7b0764033e131b",
+        "src": "/country-worlds/zh/evening-v2.webp?v=28b3d7741715",
+        "sha256": "28b3d77417156bb9c2371f24235b755ea65337bd849fcf3bd3c0e52a91a641de",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "dinerSprites": {
         "front": {
@@ -1023,7 +1016,24 @@
           "height": 161
         }
       },
-      "tables": [],
+      "tables": [
+        [
+          1090,
+          555
+        ],
+        [
+          1170,
+          555
+        ],
+        [
+          1250,
+          555
+        ],
+        [
+          1330,
+          555
+        ]
+      ],
       "cloudSprite": {
         "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
         "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
@@ -1041,7 +1051,8 @@
       "src": "/country-worlds/zh/panorama.webp?v=bfbdb6b5d1b0",
       "sha256": "bfbdb6b5d1b0cd436eafddf41d4c6ac8a11f32a797d134937e7b0764033e131b",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "dedicatedCountry": true
   },
@@ -1051,10 +1062,10 @@
     "locomotiveSteam": false,
     "effects": {
       "station": [
-        9,
-        59,
-        17,
-        25
+        16,
+        49,
+        23,
+        35
       ],
       "train": [
         25,
@@ -1063,16 +1074,16 @@
         12
       ],
       "cafe": [
-        64,
         63,
-        14,
+        61,
+        16,
         23
       ],
       "garden": [
-        87,
-        82,
-        17,
-        19
+        86,
+        58,
+        19,
+        32
       ],
       "steam": [
         27,
@@ -1090,56 +1101,48 @@
       ],
       "lamps": [
         [
-          11,
-          83
+          22,
+          58
         ],
         [
-          31,
-          66
+          43,
+          67
         ],
         [
-          60,
-          62
-        ],
-        [
-          74,
-          75
-        ],
-        [
-          89,
-          87
-        ],
-        [
-          88,
-          47
+          76,
+          70
         ]
       ]
     },
     "evening": {
-      "src": "/country-worlds/ko/panorama.webp?v=7ad03501a03d",
-      "sha256": "7ad03501a03d6352fcfad622d7fed3c4cfaeb6f151955cd77897bcb54e35f2b9",
+      "src": "/country-worlds/ko/evening-v2.webp?v=2b1c5325cc5b",
+      "sha256": "2b1c5325cc5b3308506ee265c423dda3f1bea904c79f292631503f579d79c460",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "day": {
       "src": "/country-worlds/ko/panorama.webp?v=7ad03501a03d",
       "sha256": "7ad03501a03d6352fcfad622d7fed3c4cfaeb6f151955cd77897bcb54e35f2b9",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "quiet": {
-      "src": "/country-worlds/ko/panorama.webp?v=7ad03501a03d",
-      "sha256": "7ad03501a03d6352fcfad622d7fed3c4cfaeb6f151955cd77897bcb54e35f2b9",
+      "src": "/country-worlds/ko/quiet-v2.webp?v=392f1caffec3",
+      "sha256": "392f1caffec3e2cc06711a29df478aa7f44080024dedeffa934a16e7a36474c1",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "motion": {
       "unlockPhase": 4,
       "still": {
-        "src": "/country-worlds/ko/panorama.webp?v=7ad03501a03d",
-        "sha256": "7ad03501a03d6352fcfad622d7fed3c4cfaeb6f151955cd77897bcb54e35f2b9",
+        "src": "/country-worlds/ko/evening-v2.webp?v=2b1c5325cc5b",
+        "sha256": "2b1c5325cc5b3308506ee265c423dda3f1bea904c79f292631503f579d79c460",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "train": {
         "src": "/living-map-motion/en-train.webp?v=6334fc214393",
@@ -1159,10 +1162,10 @@
         "width": 180,
         "height": 165,
         "bounds": [
-          89,
-          72.8,
-          3.9,
-          11.6
+          86,
+          68,
+          3.2,
+          10
         ]
       },
       "clouds": [
@@ -1197,10 +1200,11 @@
       ],
       "foreground": [],
       "restaurantStill": {
-        "src": "/country-worlds/ko/panorama.webp?v=7ad03501a03d",
-        "sha256": "7ad03501a03d6352fcfad622d7fed3c4cfaeb6f151955cd77897bcb54e35f2b9",
+        "src": "/country-worlds/ko/evening-v2.webp?v=2b1c5325cc5b",
+        "sha256": "2b1c5325cc5b3308506ee265c423dda3f1bea904c79f292631503f579d79c460",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "dinerSprites": {
         "front": {
@@ -1216,7 +1220,24 @@
           "height": 161
         }
       },
-      "tables": [],
+      "tables": [
+        [
+          1140,
+          570
+        ],
+        [
+          1220,
+          570
+        ],
+        [
+          1300,
+          570
+        ],
+        [
+          1380,
+          570
+        ]
+      ],
       "cloudSprite": {
         "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
         "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
@@ -1234,7 +1255,8 @@
       "src": "/country-worlds/ko/panorama.webp?v=7ad03501a03d",
       "sha256": "7ad03501a03d6352fcfad622d7fed3c4cfaeb6f151955cd77897bcb54e35f2b9",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "dedicatedCountry": true
   },
@@ -1244,10 +1266,10 @@
     "locomotiveSteam": false,
     "effects": {
       "station": [
-        9,
-        59,
-        17,
-        25
+        16,
+        49,
+        23,
+        35
       ],
       "train": [
         25,
@@ -1256,16 +1278,16 @@
         12
       ],
       "cafe": [
-        64,
         63,
-        14,
+        61,
+        16,
         23
       ],
       "garden": [
-        87,
-        82,
-        17,
-        19
+        86,
+        58,
+        19,
+        32
       ],
       "steam": [
         27,
@@ -1283,56 +1305,48 @@
       ],
       "lamps": [
         [
-          11,
-          83
-        ],
-        [
-          31,
-          66
-        ],
-        [
-          60,
+          5,
           62
         ],
         [
+          46,
+          63
+        ],
+        [
           74,
-          75
-        ],
-        [
-          89,
-          87
-        ],
-        [
-          88,
-          47
+          72
         ]
       ]
     },
     "evening": {
-      "src": "/country-worlds/fr/panorama.webp?v=03cd076f8cbe",
-      "sha256": "03cd076f8cbe890e1830396f602a19d799d20e25014c12e42dc7b84d28151902",
+      "src": "/country-worlds/fr/evening-v2.webp?v=2cb2aa5ae709",
+      "sha256": "2cb2aa5ae7099c2e3c4f3c1e94c6c712a11b4d4f92f4269cbd6a148245e4d504",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "day": {
       "src": "/country-worlds/fr/panorama.webp?v=03cd076f8cbe",
       "sha256": "03cd076f8cbe890e1830396f602a19d799d20e25014c12e42dc7b84d28151902",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "quiet": {
-      "src": "/country-worlds/fr/panorama.webp?v=03cd076f8cbe",
-      "sha256": "03cd076f8cbe890e1830396f602a19d799d20e25014c12e42dc7b84d28151902",
+      "src": "/country-worlds/fr/quiet-v2.webp?v=266efc014bdc",
+      "sha256": "266efc014bdc32b281bad5eff35b6d404b667ec33ac526a445eb01cd8bdfab56",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "motion": {
       "unlockPhase": 4,
       "still": {
-        "src": "/country-worlds/fr/panorama.webp?v=03cd076f8cbe",
-        "sha256": "03cd076f8cbe890e1830396f602a19d799d20e25014c12e42dc7b84d28151902",
+        "src": "/country-worlds/fr/evening-v2.webp?v=2cb2aa5ae709",
+        "sha256": "2cb2aa5ae7099c2e3c4f3c1e94c6c712a11b4d4f92f4269cbd6a148245e4d504",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "train": {
         "src": "/living-map-motion/en-train.webp?v=6334fc214393",
@@ -1352,10 +1366,10 @@
         "width": 180,
         "height": 165,
         "bounds": [
-          89,
-          72.8,
-          3.9,
-          11.6
+          86,
+          68,
+          3.2,
+          10
         ]
       },
       "clouds": [
@@ -1390,10 +1404,11 @@
       ],
       "foreground": [],
       "restaurantStill": {
-        "src": "/country-worlds/fr/panorama.webp?v=03cd076f8cbe",
-        "sha256": "03cd076f8cbe890e1830396f602a19d799d20e25014c12e42dc7b84d28151902",
+        "src": "/country-worlds/fr/evening-v2.webp?v=2cb2aa5ae709",
+        "sha256": "2cb2aa5ae7099c2e3c4f3c1e94c6c712a11b4d4f92f4269cbd6a148245e4d504",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "dinerSprites": {
         "front": {
@@ -1409,7 +1424,24 @@
           "height": 161
         }
       },
-      "tables": [],
+      "tables": [
+        [
+          1060,
+          590
+        ],
+        [
+          1140,
+          590
+        ],
+        [
+          1220,
+          590
+        ],
+        [
+          1300,
+          590
+        ]
+      ],
       "cloudSprite": {
         "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
         "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
@@ -1427,7 +1459,8 @@
       "src": "/country-worlds/fr/panorama.webp?v=03cd076f8cbe",
       "sha256": "03cd076f8cbe890e1830396f602a19d799d20e25014c12e42dc7b84d28151902",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "dedicatedCountry": true
   },
@@ -1437,10 +1470,10 @@
     "locomotiveSteam": false,
     "effects": {
       "station": [
-        9,
-        59,
-        17,
-        25
+        16,
+        49,
+        23,
+        35
       ],
       "train": [
         25,
@@ -1449,16 +1482,16 @@
         12
       ],
       "cafe": [
-        64,
         63,
-        14,
+        61,
+        16,
         23
       ],
       "garden": [
-        87,
-        82,
-        17,
-        19
+        86,
+        58,
+        19,
+        32
       ],
       "steam": [
         27,
@@ -1476,56 +1509,52 @@
       ],
       "lamps": [
         [
-          11,
-          83
+          16,
+          70
         ],
         [
-          31,
-          66
-        ],
-        [
-          60,
-          62
-        ],
-        [
-          74,
+          46,
           75
         ],
         [
-          89,
-          87
+          66,
+          78
         ],
         [
-          88,
-          47
+          80,
+          80
         ]
       ]
     },
     "evening": {
-      "src": "/country-worlds/de/panorama.webp?v=78ef51297b13",
-      "sha256": "78ef51297b13ca9f7dd7c7837ebd1bc66bc27694596093761cdd3063c6b59a01",
+      "src": "/country-worlds/de/evening-v2.webp?v=58bac44ea18c",
+      "sha256": "58bac44ea18cbb15924562237a5999f5a1406928c13f4194d0ca55280444bdb8",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "day": {
       "src": "/country-worlds/de/panorama.webp?v=78ef51297b13",
       "sha256": "78ef51297b13ca9f7dd7c7837ebd1bc66bc27694596093761cdd3063c6b59a01",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "quiet": {
-      "src": "/country-worlds/de/panorama.webp?v=78ef51297b13",
-      "sha256": "78ef51297b13ca9f7dd7c7837ebd1bc66bc27694596093761cdd3063c6b59a01",
+      "src": "/country-worlds/de/quiet-v2.webp?v=147dc1ea73bb",
+      "sha256": "147dc1ea73bb4ed1aab42126d7451a8f558e33a6735a23c16671f7c88b84fdda",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "motion": {
       "unlockPhase": 4,
       "still": {
-        "src": "/country-worlds/de/panorama.webp?v=78ef51297b13",
-        "sha256": "78ef51297b13ca9f7dd7c7837ebd1bc66bc27694596093761cdd3063c6b59a01",
+        "src": "/country-worlds/de/evening-v2.webp?v=58bac44ea18c",
+        "sha256": "58bac44ea18cbb15924562237a5999f5a1406928c13f4194d0ca55280444bdb8",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "train": {
         "src": "/living-map-motion/en-train.webp?v=6334fc214393",
@@ -1545,10 +1574,10 @@
         "width": 180,
         "height": 165,
         "bounds": [
-          89,
-          72.8,
-          3.9,
-          11.6
+          86,
+          68,
+          3.2,
+          10
         ]
       },
       "clouds": [
@@ -1583,10 +1612,11 @@
       ],
       "foreground": [],
       "restaurantStill": {
-        "src": "/country-worlds/de/panorama.webp?v=78ef51297b13",
-        "sha256": "78ef51297b13ca9f7dd7c7837ebd1bc66bc27694596093761cdd3063c6b59a01",
+        "src": "/country-worlds/de/evening-v2.webp?v=58bac44ea18c",
+        "sha256": "58bac44ea18cbb15924562237a5999f5a1406928c13f4194d0ca55280444bdb8",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "dinerSprites": {
         "front": {
@@ -1602,7 +1632,24 @@
           "height": 161
         }
       },
-      "tables": [],
+      "tables": [
+        [
+          1080,
+          620
+        ],
+        [
+          1160,
+          620
+        ],
+        [
+          1240,
+          620
+        ],
+        [
+          1320,
+          620
+        ]
+      ],
       "cloudSprite": {
         "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
         "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
@@ -1620,7 +1667,8 @@
       "src": "/country-worlds/de/panorama.webp?v=78ef51297b13",
       "sha256": "78ef51297b13ca9f7dd7c7837ebd1bc66bc27694596093761cdd3063c6b59a01",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "dedicatedCountry": true
   },
@@ -1630,10 +1678,10 @@
     "locomotiveSteam": false,
     "effects": {
       "station": [
-        9,
-        59,
-        17,
-        25
+        16,
+        49,
+        23,
+        35
       ],
       "train": [
         25,
@@ -1642,16 +1690,16 @@
         12
       ],
       "cafe": [
-        64,
         63,
-        14,
+        61,
+        16,
         23
       ],
       "garden": [
-        87,
-        82,
-        17,
-        19
+        86,
+        58,
+        19,
+        32
       ],
       "steam": [
         27,
@@ -1669,56 +1717,48 @@
       ],
       "lamps": [
         [
-          11,
-          83
-        ],
-        [
-          31,
+          16,
           66
         ],
         [
-          60,
-          62
+          44,
+          69
         ],
         [
-          74,
-          75
-        ],
-        [
-          89,
-          87
-        ],
-        [
-          88,
-          47
+          70,
+          73
         ]
       ]
     },
     "evening": {
-      "src": "/country-worlds/ar/panorama.webp?v=c040f78984fa",
-      "sha256": "c040f78984fafa8638caa76cbdd9d722758fe0143e7decbaee59481e73ba0c93",
+      "src": "/country-worlds/ar/evening-v2.webp?v=d0fe719ac658",
+      "sha256": "d0fe719ac658a7a18742cf059b8764b1279de4ab8c640b3d335920524fb698ab",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "day": {
       "src": "/country-worlds/ar/panorama.webp?v=c040f78984fa",
       "sha256": "c040f78984fafa8638caa76cbdd9d722758fe0143e7decbaee59481e73ba0c93",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "quiet": {
-      "src": "/country-worlds/ar/panorama.webp?v=c040f78984fa",
-      "sha256": "c040f78984fafa8638caa76cbdd9d722758fe0143e7decbaee59481e73ba0c93",
+      "src": "/country-worlds/ar/quiet-v2.webp?v=9a2b6fe2f0ac",
+      "sha256": "9a2b6fe2f0ac9ee9c89000a8e456f4028ef2b4ba11bc6eb2f91ba6aaf0a838f1",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "motion": {
       "unlockPhase": 4,
       "still": {
-        "src": "/country-worlds/ar/panorama.webp?v=c040f78984fa",
-        "sha256": "c040f78984fafa8638caa76cbdd9d722758fe0143e7decbaee59481e73ba0c93",
+        "src": "/country-worlds/ar/evening-v2.webp?v=d0fe719ac658",
+        "sha256": "d0fe719ac658a7a18742cf059b8764b1279de4ab8c640b3d335920524fb698ab",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "train": {
         "src": "/living-map-motion/en-train.webp?v=6334fc214393",
@@ -1738,10 +1778,10 @@
         "width": 180,
         "height": 165,
         "bounds": [
-          89,
-          72.8,
-          3.9,
-          11.6
+          86,
+          68,
+          3.2,
+          10
         ]
       },
       "clouds": [
@@ -1776,10 +1816,11 @@
       ],
       "foreground": [],
       "restaurantStill": {
-        "src": "/country-worlds/ar/panorama.webp?v=c040f78984fa",
-        "sha256": "c040f78984fafa8638caa76cbdd9d722758fe0143e7decbaee59481e73ba0c93",
+        "src": "/country-worlds/ar/evening-v2.webp?v=d0fe719ac658",
+        "sha256": "d0fe719ac658a7a18742cf059b8764b1279de4ab8c640b3d335920524fb698ab",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "dinerSprites": {
         "front": {
@@ -1795,7 +1836,24 @@
           "height": 161
         }
       },
-      "tables": [],
+      "tables": [
+        [
+          1020,
+          640
+        ],
+        [
+          1100,
+          640
+        ],
+        [
+          1180,
+          640
+        ],
+        [
+          1260,
+          640
+        ]
+      ],
       "cloudSprite": {
         "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
         "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
@@ -1813,7 +1871,8 @@
       "src": "/country-worlds/ar/panorama.webp?v=c040f78984fa",
       "sha256": "c040f78984fafa8638caa76cbdd9d722758fe0143e7decbaee59481e73ba0c93",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "dedicatedCountry": true
   },
@@ -1823,10 +1882,10 @@
     "locomotiveSteam": false,
     "effects": {
       "station": [
-        9,
-        59,
-        17,
-        25
+        16,
+        49,
+        23,
+        35
       ],
       "train": [
         25,
@@ -1835,16 +1894,16 @@
         12
       ],
       "cafe": [
-        64,
         63,
-        14,
+        61,
+        16,
         23
       ],
       "garden": [
-        87,
-        82,
-        17,
-        19
+        86,
+        58,
+        19,
+        32
       ],
       "steam": [
         27,
@@ -1862,56 +1921,48 @@
       ],
       "lamps": [
         [
-          11,
-          83
+          30,
+          72
         ],
         [
-          31,
-          66
+          70,
+          80
         ],
         [
-          60,
-          62
-        ],
-        [
-          74,
-          75
-        ],
-        [
-          89,
-          87
-        ],
-        [
-          88,
-          47
+          87,
+          76
         ]
       ]
     },
     "evening": {
-      "src": "/country-worlds/it/panorama.webp?v=c42e6180848c",
-      "sha256": "c42e6180848c58f3d0c7fd87733774d1f109904c8872063559e5636752a7a0e9",
+      "src": "/country-worlds/it/evening-v2.webp?v=da9544533690",
+      "sha256": "da95445336901421deb5e916e8ad0d0e0fba39c2864ab0648fcb331c4b154b59",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "day": {
       "src": "/country-worlds/it/panorama.webp?v=c42e6180848c",
       "sha256": "c42e6180848c58f3d0c7fd87733774d1f109904c8872063559e5636752a7a0e9",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "quiet": {
-      "src": "/country-worlds/it/panorama.webp?v=c42e6180848c",
-      "sha256": "c42e6180848c58f3d0c7fd87733774d1f109904c8872063559e5636752a7a0e9",
+      "src": "/country-worlds/it/quiet-v2.webp?v=4e6e3c2ab48a",
+      "sha256": "4e6e3c2ab48abb17bf5df26e68f3c8c9409e05464afb8477ac772984ce246cca",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "motion": {
       "unlockPhase": 4,
       "still": {
-        "src": "/country-worlds/it/panorama.webp?v=c42e6180848c",
-        "sha256": "c42e6180848c58f3d0c7fd87733774d1f109904c8872063559e5636752a7a0e9",
+        "src": "/country-worlds/it/evening-v2.webp?v=da9544533690",
+        "sha256": "da95445336901421deb5e916e8ad0d0e0fba39c2864ab0648fcb331c4b154b59",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "train": {
         "src": "/living-map-motion/en-train.webp?v=6334fc214393",
@@ -1931,10 +1982,10 @@
         "width": 180,
         "height": 165,
         "bounds": [
-          89,
-          72.8,
-          3.9,
-          11.6
+          86,
+          68,
+          3.2,
+          10
         ]
       },
       "clouds": [
@@ -1969,10 +2020,11 @@
       ],
       "foreground": [],
       "restaurantStill": {
-        "src": "/country-worlds/it/panorama.webp?v=c42e6180848c",
-        "sha256": "c42e6180848c58f3d0c7fd87733774d1f109904c8872063559e5636752a7a0e9",
+        "src": "/country-worlds/it/evening-v2.webp?v=da9544533690",
+        "sha256": "da95445336901421deb5e916e8ad0d0e0fba39c2864ab0648fcb331c4b154b59",
         "width": 1920,
-        "height": 896
+        "height": 896,
+        "trainFree": true
       },
       "dinerSprites": {
         "front": {
@@ -1988,7 +2040,24 @@
           "height": 161
         }
       },
-      "tables": [],
+      "tables": [
+        [
+          1080,
+          660
+        ],
+        [
+          1160,
+          670
+        ],
+        [
+          1240,
+          680
+        ],
+        [
+          1320,
+          690
+        ]
+      ],
       "cloudSprite": {
         "src": "/living-map-motion/restaurant-cloud.webp?v=770383b5ca70",
         "sha256": "770383b5ca70a05b07c8b346f39cd1726bfca9b370a5c19c4e4d10adeb769bf5",
@@ -2006,7 +2075,8 @@
       "src": "/country-worlds/it/panorama.webp?v=c42e6180848c",
       "sha256": "c42e6180848c58f3d0c7fd87733774d1f109904c8872063559e5636752a7a0e9",
       "width": 1920,
-      "height": 896
+      "height": 896,
+      "trainFree": true
     },
     "dedicatedCountry": true
   }

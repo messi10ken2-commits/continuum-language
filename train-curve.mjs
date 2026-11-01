@@ -9,7 +9,7 @@ const routes={
  pt:[[100,590],[325,607],[466,629.4],[466,666],[466,702.6],[465,700.3],[250,739],[150,757],[-100,802],[-330,843.4]],
  ja:[[100,565],[350,580],[511,613.7],[511,631],[511,648.3],[510,661],[250,700],[150,715],[-100,752.5],[-330,787]]
 };
-for(const [language,{railY:y}] of Object.entries(countryWorlds))routes[language]=[[-330,y],[-80,y],[170,y],[420,y],[670,y],[920,y],[1170,y],[1420,y],[1670,y],[2160,y]];
+for(const [language,{railY:y}] of Object.entries(countryWorlds)){const start=y-100,end=Math.min(850,y+50);routes[language]=[[80,start],[270,start+5],[460,start+25],[460,start+45],[460,start+65],[420,end],[220,end],[120,end],[-100,end],[-330,end]];}
 const tables=new Map(),depth=.42,ground=560;
 function cubic(a,b,c,d,t){const u=1-t;return {x:u*u*u*a[0]+3*u*u*t*b[0]+3*u*t*t*c[0]+t*t*t*d[0],z:(u*u*u*a[1]+3*u*u*t*b[1]+3*u*t*t*c[1]+t*t*t*d[1]-ground)/depth};}
 export function trainTrack(language='en'){
