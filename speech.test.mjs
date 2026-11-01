@@ -112,3 +112,18 @@ test('provider backoff prevents repeated failed generation and a corrected key c
  await assert.rejects(synthesizeSpeech('avó','pt-BR',{env,fetchImpl,backoff}),e=>e.status===503&&!!e.retryAfter);assert.equal(calls,2);
  const result=await synthesizeSpeech('avó','pt-BR',{env:{...env,OPENAI_API_KEY:'corrected'},backoff,fetchImpl:async()=>{calls++;return new Response(pcm)}});assert.equal(result.provider,'openai');assert.equal(calls,3);
 });
+
+test('conversation uses the fast natural voice first and recovers through another studio model with the same persona',async()=>{
+ const {SpeechProviderBackoff}=await import('./speech-provider-backoff.mjs');
+ const gate=new SpeechProviderBackoff(()=>0),models=[],voices=[],env={GEMINI_API_KEY:'synthetic-fast-voice',OPENAI_API_KEY:'synthetic-rejected-backup'};
+ const fetchImpl=async(url,options)=>{assert.ok(url.includes('googleapis'));const body=JSON.parse(options.body);models.push(body.model);voices.push(body.generation_config.speech_config[0].voice);assert.ok(body.input[0].content[0].annotations[0].style.length<180);if(body.model.endsWith('lite-tts'))return new Response('{}',{status:429,headers:{'Retry-After':'60'}});return Response.json({output_audio:{data:pcm.toString('base64')}});};
+ const first=await synthesizeSpeech('Olá! Como foi o seu dia?','pt-BR',{env,voiceProfile:'rafael',backoff:gate,fetchImpl});
+ assert.equal(first.provider,'gemini');assert.deepEqual(models,['gemini-3.8-flash-lite-tts','gemini-3.8-flash-tts']);assert.deepEqual(voices,['Puck','Puck']);
+ await synthesizeSpeech('Foi um dia cheio. E o seu?','pt-BR',{env,voiceProfile:'rafael',backoff:gate,fetchImpl});
+ assert.deepEqual(models,['gemini-3.8-flash-lite-tts','gemini-3.8-flash-tts','gemini-3.8-flash-tts']);
+});
+test('a slow conversation provider cannot extend the full natural-voice request beyond its recovery budget',async()=>{
+ const originalNow=Date.now;let now=0,calls=0;Date.now=()=>now;
+ try{await assert.rejects(synthesizeSpeech('Hello there.','en-US',{voiceProfile:'mira',env:{GEMINI_API_KEY:'synthetic-deadline',OPENAI_API_KEY:'synthetic-backup'},fetchImpl:async()=>{calls++;now=27000;return new Response('{}',{status:503});}}),e=>e.status===503);assert.equal(calls,1,'Do not start more provider requests after the deadline');}
+ finally{Date.now=originalNow;}
+});

@@ -12,7 +12,7 @@ export function detectVoiceEnd(window,rms,now,{silenceMs=1500,maxMs=45000,idleMs
  return 'listen';
 }
 export class ConversationVoiceLoop{
- constructor({onState,onLevel,onTurn,onError,onVoiceFallback,locale='en-US',silenceMs=1500,deviceVoice=false,rate=1,fetchImpl=fetch,host=globalThis,canContinue}){Object.assign(this,{onState,onLevel,onTurn,onError,onVoiceFallback,locale,silenceMs,deviceVoice,rate,fetchImpl,host,canContinue});this.fetchImpl=fetchImpl.bind(host);this.epoch=0;this.active=false;this.retryClip=null;}
+ constructor({onState,onLevel,onTurn,onError,onVoiceNotice,locale='en-US',silenceMs=1500,deviceVoice=false,rate=1,fetchImpl=fetch,host=globalThis,canContinue}){Object.assign(this,{onState,onLevel,onTurn,onError,onVoiceNotice,locale,silenceMs,deviceVoice,rate,fetchImpl,host,canContinue});this.fetchImpl=fetchImpl.bind(host);this.epoch=0;this.active=false;this.retryClip=null;}
  state(value){this.onState?.(value);}
  async start(url,reply=null){
   if(this.active)return;
@@ -20,7 +20,7 @@ export class ConversationVoiceLoop{
   try{
    // Prime the browser's device speech engine inside the actual button gesture,
    // before permission dialogs or network awaits lose user activation.
-   if(this.host.speechSynthesis&&this.host.SpeechSynthesisUtterance){const synth=this.host.speechSynthesis;synth.cancel();synth.resume();const prime=new this.host.SpeechSynthesisUtterance('Ready');prime.volume=0;this.utterance=prime;synth.speak(prime);}
+   if(this.deviceVoice&&this.host.speechSynthesis&&this.host.SpeechSynthesisUtterance){const synth=this.host.speechSynthesis;synth.cancel();synth.resume();const prime=new this.host.SpeechSynthesisUtterance('Ready');prime.volume=0;this.utterance=prime;synth.speak(prime);}
    const AC=this.host.AudioContext||this.host.webkitAudioContext;
    if(!AC||!this.host.MediaRecorder||!this.host.navigator?.mediaDevices?.getUserMedia)throw Error('Voice conversation is unavailable in this browser. You can still type your replies.');
    // Keep an unlocked media element for output, separate from microphone Web Audio.
@@ -50,21 +50,46 @@ export class ConversationVoiceLoop{
   }}catch(e){if(e.status===422)this.retryClip=null;if(this.valid(epoch))this.fail(e);}
  }
  async speak(url,epoch){
-  if(this.deviceVoice)return this.speakDevice(epoch);
-  this.abort=new AbortController();
-  const timeout=setTimeout(()=>this.abort?.abort(),30000);let response,bytes;try{response=await this.fetchImpl(url,{credentials:'same-origin',signal:this.abort.signal});if(response.ok)bytes=await response.arrayBuffer();}catch(e){if(!this.valid(epoch))return;return this.fallbackVoice(epoch);}finally{clearTimeout(timeout);}
-  if(!response.ok){await response.arrayBuffer();if(!this.valid(epoch))return;if([429,503,504].includes(response.status))return this.fallbackVoice(epoch);throw Error('Natural voice is temporarily unavailable. Retry, or choose device voice.');}
-  if(!response.headers.get('content-type')?.startsWith('audio/'))throw Error('The voice response could not be played. Please retry.');
   if(!this.valid(epoch))return;
-  if(bytes.byteLength>8100000)throw Error('The voice response could not be played. Please retry.');
-  const buffer=await this.context.decodeAudioData(bytes.slice(0));if(!this.valid(epoch))return;
-  if(this.player)return this.playMedia(bytes,epoch,buffer.duration);
+  if(this.deviceVoice)return this.speakDevice(epoch);
+  let prepared=this.preparedClip?.url===url?this.preparedClip:null;
+  if(!prepared){
+   const started=Date.now();let response,bytes;
+   for(let attempt=0;attempt<2;attempt++){
+    if(!this.valid(epoch))return;
+    const controller=new AbortController();this.abort=controller;
+    const timeout=setTimeout(()=>controller.abort(),30000);let retry=false;
+    try{
+     response=await this.fetchImpl(url,{credentials:'same-origin',signal:controller.signal});
+     if(response.ok)bytes=await response.arrayBuffer();
+     else{
+      const retryAfter=Number(response.headers.get('retry-after'))||0;
+      await response.arrayBuffer();
+      retry=[429,503,504].includes(response.status)&&retryAfter<=1;
+     }
+    }catch(e){if(!this.valid(epoch))return;retry=true;}
+    finally{clearTimeout(timeout);}
+    if(!this.valid(epoch))return;
+    if(bytes)break;
+    // One short recovery attempt for transient failures, never another long wait
+    // after a provider timeout or a request to respect its quota cooldown.
+    if(attempt||!retry||Date.now()-started>=5000)throw Error('Natural voice is temporarily unavailable. Retry, or choose device voice.');
+    this.onVoiceNotice?.('Reconnecting natural voice…');
+    await new Promise(resolve=>{this.cancelRetry=resolve;this.retryTimer=setTimeout(resolve,350);});this.cancelRetry=null;
+   }
+   if(!response.headers.get('content-type')?.startsWith('audio/')||!bytes?.byteLength||bytes.byteLength>8100000)throw Error('The voice response could not be played. Please retry.');
+   const buffer=await this.context.decodeAudioData(bytes.slice(0));if(!this.valid(epoch))return;
+   prepared={url,bytes,buffer};this.preparedClip=prepared;
+  }
+  this.onVoiceNotice?.('');
+  const {bytes,buffer}=prepared;
+  if(this.player){await this.playMedia(bytes,epoch,buffer.duration);if(this.valid(epoch))this.preparedClip=null;return;}
   if(this.context.state==='suspended')await this.context.resume();
   if(this.context.state!=='running')throw Error('Tap Resume conversation to allow audio playback.');
   const source=this.context.createBufferSource(),meter=this.context.createAnalyser();source.buffer=buffer;meter.fftSize=512;source.connect(meter);meter.connect(this.context.destination);this.source=source;
   this.state('speaking');this.meter(meter,epoch);
   await new Promise((resolve,reject)=>{this.endPlayback=resolve;source.onended=resolve;try{source.start()}catch(e){reject(e)}});
-  this.stopMeter();source.disconnect();meter.disconnect();this.source=null;this.endPlayback=null;
+  this.stopMeter();source.disconnect();meter.disconnect();this.source=null;this.endPlayback=null;if(this.valid(epoch))this.preparedClip=null;
  }
  async playMedia(bytes,epoch,expectedDuration=0){
   const player=this.player,URL=this.host.URL||globalThis.URL;
@@ -77,9 +102,6 @@ export class ConversationVoiceLoop{
    this.playbackWatch=setInterval(()=>{if(!this.valid(epoch)){resolve();return;}if(player.currentTime>lastTime){lastTime=player.currentTime;lastProgress=Date.now();}if(Date.now()-lastProgress>15000)fail();},250);
    const playback=player.play();playback?.catch(fail);
   });}finally{clearInterval(this.playbackWatch);player.onended=null;player.onerror=null;player.onplaying=null;player.pause();player.removeAttribute('src');player.load();URL.revokeObjectURL(this.playbackURL);this.playbackURL=null;this.endPlayback=null;this.onLevel?.(0);}
- }
- async fallbackVoice(epoch){
-  if(!this.valid(epoch))return;this.deviceVoice=true;this.onVoiceFallback?.();return this.speakDevice(epoch);
  }
  async speakDevice(epoch){
   let text=this.currentText,locale=this.currentLocale||this.locale;
@@ -131,7 +153,7 @@ export class ConversationVoiceLoop{
  });}
  fail(error){this.stop();this.state('error');this.onError?.(error);}
  stop(){
-  this.active=false;this.epoch++;this.abort?.abort();this.cancelVoices?.();clearTimeout(this.deviceStartTimer);clearTimeout(this.deviceEndTimer);clearInterval(this.playbackWatch);if(this.player){this.player.pause();this.player.removeAttribute('src');this.player.load();}this.player=null;clearTimeout(this.delay);this.cancelDelay?.();this.cancelDelay=null;clearTimeout(this.boundary);clearInterval(this.listenTimer);this.cancelListen?.();this.cancelListen=null;
+  this.active=false;this.epoch++;this.abort?.abort();clearTimeout(this.retryTimer);this.cancelRetry?.();this.cancelRetry=null;this.cancelVoices?.();clearTimeout(this.deviceStartTimer);clearTimeout(this.deviceEndTimer);clearInterval(this.playbackWatch);if(this.player){this.player.pause();this.player.removeAttribute('src');this.player.load();}this.player=null;clearTimeout(this.delay);this.cancelDelay?.();this.cancelDelay=null;clearTimeout(this.boundary);clearInterval(this.listenTimer);this.cancelListen?.();this.cancelListen=null;
   if(this.recorder?.state==='recording')try{this.recorder.stop()}catch{}this.recorder=null;
   try{this.source?.stop()}catch{}this.endPlayback?.();this.endPlayback=null;if(this.utterance)this.host.speechSynthesis?.cancel();this.utterance=null;
   this.stream?.getTracks().forEach(t=>t.stop());this.stream=null;this.mic?.disconnect();this.stopMeter();this.context?.close().catch(()=>{});this.context=null;

@@ -48,3 +48,16 @@ test('review tolerates smart apostrophes and emoji before evidence but returns s
  const r=validateSpeakingReview({...review,corrections:[{original:'I’m from Japan.',improved:'I am from Japan.',explanation:'An alternative.'}],goals:[{achieved:true,evidence:'I’m from Japan.'},{achieved:false,evidence:''},{achieved:false,evidence:''}]},session);
  assert.equal(r.corrections[0].original,"I'm from Japan.");assert.equal(r.goals[0].evidence,"I'm from Japan.");assert.equal(r.partial,false);
 });
+
+test('voice turns prefer the responsive provider, disable extra thinking only on supported models and skip a failed backup on later rallies',async()=>{
+ const {SpeechProviderBackoff}=await import('./speech-provider-backoff.mjs');const backoff=new SpeechProviderBackoff(()=>0),calls=[];
+ const env={GEMINI_API_KEY:'synthetic-multirally',OPENAI_API_KEY:'rejected-multirally'};
+ const fetchImpl=async(url,options)=>{calls.push(url);if(url.includes('openai'))return new Response('{}',{status:401});const body=JSON.parse(options.body);assert.deepEqual(body.generationConfig.thinkingConfig,{thinkingBudget:0});if(calls.length===1)return new Response('{}',{status:503});return Response.json({candidates:[{content:{parts:[{text:JSON.stringify({audible:true,transcript:'Olá!',reply:'Como você está?'})}]}}]});};
+ await assert.rejects(voiceTurnSpeaking(s,{}, {env,backoff,convert:async()=>Buffer.alloc(44).toString('base64'),fetchImpl}));
+ assert.equal(calls.length,2);assert.ok(calls[0].includes('googleapis'));
+ // A fresh Gemini model is available while the rejected OpenAI credential is
+ // still cooling down. No extra failed credential call is paid per rally.
+ const recovered={...env,GEMINI_VOICE_CONVERSATION_MODEL:'gemini-2.5-flash-lite'};
+ for(let i=0;i<4;i++)assert.equal((await voiceTurnSpeaking(s,{}, {env:recovered,backoff,convert:async()=>Buffer.alloc(44).toString('base64'),fetchImpl})).reply,'Como você está?');
+ assert.equal(calls.filter(url=>url.includes('openai')).length,1);
+});
