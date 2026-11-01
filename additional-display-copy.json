@@ -28678,5 +28678,47 @@
     "id": "Penilaian komunikasi untuk sementara tidak tersedia. Percakapan Anda tersimpan.",
     "ru": "Оценка коммуникации временно недоступна. Ваш разговор сохранён.",
     "ar": "تقييم التواصل غير متاح مؤقتًا. تم حفظ محادثتك."
+  },
+  "Optional natural alternative": {
+    "ko": "선택 가능한 자연스러운 표현",
+    "id": "Alternatif ungkapan alami (opsional)",
+    "ru": "Другой естественный вариант (по желанию)",
+    "ar": "صياغة طبيعية بديلة (اختيارية)"
+  },
+  "Speaking feedback is not ready yet.": {
+    "ko": "말하기 피드백이 아직 준비되지 않았어요.",
+    "id": "Umpan balik berbicara belum siap.",
+    "ru": "Обратная связь по разговору пока не готова.",
+    "ar": "ملاحظات التحدث ليست جاهزة بعد."
+  },
+  "No useful wording changes were needed in this review.": {
+    "ko": "이번 복습에서는 표현을 바꿀 필요가 없었어요.",
+    "id": "Tidak diperlukan perubahan ungkapan dalam ulasan ini.",
+    "ru": "В этом разборе полезных изменений формулировок не потребовалось.",
+    "ar": "لم تكن هناك حاجة إلى تعديل الصياغة في هذه المراجعة."
+  },
+  "Updating speaking feedback…": {
+    "ko": "말하기 피드백 업데이트 중…",
+    "id": "Memperbarui umpan balik berbicara…",
+    "ru": "Обновление обратной связи по разговору…",
+    "ar": "جارٍ تحديث ملاحظات التحدث…"
+  },
+  "Update speaking feedback": {
+    "ko": "말하기 피드백 업데이트",
+    "id": "Perbarui umpan balik berbicara",
+    "ru": "Обновить обратную связь по разговору",
+    "ar": "تحديث ملاحظات التحدث"
+  },
+  "Try it with a different choice and add one extra detail.": {
+    "ko": "다른 것을 선택하고 세부 사항을 하나 더 덧붙여 보세요.",
+    "id": "Coba dengan pilihan berbeda dan tambahkan satu detail lagi.",
+    "ru": "Попробуйте другой вариант и добавьте ещё одну подробность.",
+    "ar": "جرّب خيارًا مختلفًا وأضف تفصيلًا آخر."
+  },
+  "Premium is required for detailed feedback.": {
+    "ko": "자세한 피드백을 받으려면 Premium이 필요해요.",
+    "id": "Premium diperlukan untuk umpan balik terperinci.",
+    "ru": "Для подробной обратной связи нужен Premium.",
+    "ar": "يلزم Premium للحصول على ملاحظات مفصلة."
   }
 }

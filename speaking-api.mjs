@@ -1,3 +1,4 @@
+import {refreshSpeakingFeedback,needsSpeakingFeedback} from './speaking-feedback.mjs';
 import {safeSavedCorrections} from './correction-integrity.mjs';
 import {membership,billingTransaction} from './billing-api.mjs';
 import {basicFeedback} from './premium-policy.mjs';
@@ -19,7 +20,7 @@ export async function migrateSpeaking(pool){await pool.query(`CREATE TABLE IF NO
 export const publicSpeaking=s=>({id:s.id,language:s.language,level:s.level,scenario:s.scenario,displayLanguage:s.display_language,messages:s.messages,review:s.review,status:s.status,revision:s.revision,at:s.updated_at});
 const audioValid=r=>r&&typeof r.audio==='string'&&r.audio.length<=1400000&&/^data:audio\/(webm|mp4|ogg|wav)(;codecs=(?:[a-zA-Z0-9.,-]+|"[a-zA-Z0-9., -]+"))?;base64,[A-Za-z0-9+/]+=*$/.test(r.audio)&&Number.isFinite(r.seconds)&&r.seconds>=1&&r.seconds<=90;
 const turnFingerprint=d=>crypto.createHash('sha256').update(JSON.stringify(d.audio?{audio:d.audio.audio,seconds:d.audio.seconds}:{text:typeof d.text==='string'?d.text.trim():null})).digest('hex');
-export async function handleSpeaking({route,req,res,pool,required,json,send,fail,limited,reply=replySpeaking,review=reviewSpeaking,reassessCommunication=reassessCommunicationSpeaking,voiceTurn=voiceTurnSpeaking,serveAudio=serveStudioSpeech}){
+export async function handleSpeaking({route,req,res,pool,required,json,send,fail,limited,reply=replySpeaking,review=reviewSpeaking,reassessCommunication=reassessCommunicationSpeaking,refreshFeedback=refreshSpeakingFeedback,voiceTurn=voiceTurnSpeaking,serveAudio=serveStudioSpeech}){
  if(!route.startsWith('/api/speaking'))return false;
  const user=await required(req,'learner');
  const premium=(await membership(pool,user.id)).premium;
@@ -50,13 +51,13 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   if(d.prefetchAudio===true)prefetch(row);
   send(res,201,{session:visible(row)});return true;
  }
- const audioRoute=route.match(/^\/api\/speaking\/([a-f0-9-]{36})\/audio\/(\d+|review\/\d+)$/);
+ const audioRoute=route.match(/^\/api\/speaking\/([a-f0-9-]{36})\/audio\/(\d+|review\/\d+|alternative\/\d+)$/);
  if(audioRoute){
   if(req.method!=='GET')fail(405,'Use GET for conversation audio');
   const record=await pool.query('SELECT * FROM speaking_sessions WHERE id=$1 AND user_id=$2',[audioRoute[1],user.id]),row=record.rows[0];
   if(!row)fail(404,'Conversation not found');
   const part=audioRoute[2],index=Number(part.split('/').at(-1));
-  const text=part.startsWith('review/')?(premium?safeSavedCorrections(row.review,row.language)?.corrections?.[index]?.improved:null):row.messages[index]?.role==='assistant'?row.messages[index].text:null;
+  const text=part.startsWith('alternative/')?(premium?safeSavedCorrections(row.review,row.language)?.naturalAlternatives?.[index]?.improved:null):part.startsWith('review/')?(premium?safeSavedCorrections(row.review,row.language)?.corrections?.[index]?.improved:null):row.messages[index]?.role==='assistant'?row.messages[index].text:null;
   if(!text)fail(404,'Conversation audio not found');
   if(url.searchParams.get('format')==='text'){send(res,200,{text,locale:languageInfo(row.language).locale});return true;}
   return serveAudio({req,res,pool,text,locale:languageInfo(row.language).locale,send,fail,limited,privateAudio:true,voiceProfile:conversationPartner(row.language,row.scenario).voice});
@@ -70,10 +71,12 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  if(match[2]==='activity'){if(typeof d.active!=='boolean')fail(400,'Choose an activity state');const row=await tickConversation(pool,user.id,s.id,premium,d.active);send(res,200,{budget:budgetPublic(row,premium)});return true;}
  if(d.aiConsent!==true)fail(400,'Confirm AI conversation processing before continuing');
  if(match[2]==='turn'&&typeof d.turnKey==='string'&&s.messages.some(m=>m.key===d.turnKey)){if(s.messages.find(m=>m.key===d.turnKey).inputHash!==turnFingerprint(d))fail(409,'This reply was already sent with different content. Reload the saved conversation.');send(res,200,{session:visible(s)});return true;}
+ if(d.refreshFeedback===true&&!premium)fail(403,'Premium is required for detailed feedback.');
+ const refreshCoaching=!!s.review&&match[2]==='review'&&d.refreshFeedback===true&&needsSpeakingFeedback(s.review);
  const refreshScores=!!s.review&&match[2]==='review'&&d.refreshScores===true&&safeSavedCorrections(s.review,s.language)?.communicationScore==null;
- if(match[2]==='review'&&s.review&&!refreshScores){send(res,200,{session:visible(s)});return true;}
- if(s.status==='completed'&&!refreshScores)fail(409,'This conversation has ended. Start a new conversation.');
- if(d.revision!==s.revision&&!(refreshScores&&s.status==='completed'))fail(409,'The conversation changed. Reload it before continuing.');
+ if(match[2]==='review'&&s.review&&!refreshScores&&!refreshCoaching){send(res,200,{session:visible(s)});return true;}
+ if(s.status==='completed'&&!refreshScores&&!refreshCoaching)fail(409,'This conversation has ended. Start a new conversation.');
+ if(d.revision!==s.revision&&!((refreshScores||refreshCoaching)&&s.status==='completed'))fail(409,'The conversation changed. Reload it before continuing.');
  const turns=s.messages.filter(m=>m.role==='user').length;
  if(match[2]==='turn'){
   if(turns>=conversationTurns(premium))fail(400,'This conversation is ready for review.');
@@ -95,7 +98,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
    const turn=d.audio?await voiceTurn(s,d.audio):{transcript:d.text.trim(),reply:await reply(s,d.text.trim())};
    const text=turn.transcript,response=turn.reply;
    messages=[...messages,{role:'user',text,mode:d.audio?'voice':'text',key:d.turnKey,inputHash:turnFingerprint(d),...(d.audio&&turn.speechEvidence?{speechEvidence:turn.speechEvidence}:{})},{role:'assistant',text:response,mode:'text'}];
-  }else result=refreshScores?await reassessCommunication(s):await review(s);
+  }else result=refreshCoaching?await refreshFeedback(s):refreshScores?await reassessCommunication(s):await review(s);
   const updated=await pool.query('UPDATE speaking_sessions SET messages=$3::jsonb,review=$4::jsonb,status=$5,revision=revision+1,lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$2 AND lease_token=$6 RETURNING *',[s.id,user.id,JSON.stringify(messages),JSON.stringify(result),result?'completed':'active',token]);
   if(!updated.rows.length)fail(409,'The conversation changed. Reload it before continuing.');
   if(d.audio&&d.prefetchAudio===true)prefetch(updated.rows[0]);

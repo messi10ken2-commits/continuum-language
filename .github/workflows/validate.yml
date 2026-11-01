@@ -28,7 +28,7 @@ jobs:
           npm install --no-save --package-lock=false playwright@1.62.1
           npx playwright install --with-deps chromium webkit
       - name: Verify audio recovery in Chromium and WebKit
-        run: node scripts/qa-audio-recovery.mjs && node scripts/qa-reference-audio.mjs && node scripts/qa-complete-lesson-audio.mjs && node scripts/qa-conversation-natural.mjs && node scripts/qa-communication-review.mjs
+        run: node scripts/qa-speaking-feedback.mjs && node scripts/qa-audio-recovery.mjs && node scripts/qa-reference-audio.mjs && node scripts/qa-complete-lesson-audio.mjs && node scripts/qa-conversation-natural.mjs && node scripts/qa-communication-review.mjs
       - name: Verify six languages in both layouts on phone and desktop
         run: node scripts/qa-six-languages.mjs && node scripts/qa-six-language-app.mjs && node scripts/qa-language-records.mjs
       - uses: actions/upload-artifact@v4
