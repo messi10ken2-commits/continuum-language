@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "provenance": "Original Continuum watercolor atlases generated for this release; scenic hero crops from user-approved Continuum concept references.",
+  "version": 2,
+  "provenance": "Original Continuum watercolor illustrations. New regional contextual assets and additional study scenes generated individually using the existing Japanese cafe illustration as a style reference; originals retained.",
   "assets": [
     {
       "file": "ja-station.webp",
@@ -628,6 +628,1434 @@
       "sha256": "4eb0476fbfedfaa730635bcbf21496a07730e43ef33370f90190ea189e735657",
       "source": "exec-5ca57efa-a02f-4650-8ea3-372684483e4b.png",
       "sourceSha256": "a2012a2aa946e6e73e175ea918cba3b8be761478185cb2a555de3a13ec84fc96"
+    },
+    {
+      "file": "zh-station.webp",
+      "language": "zh",
+      "context": "station",
+      "width": 960,
+      "height": 540,
+      "bytes": 119994,
+      "sha256": "0600470b5c2bf2b152c1375a41c20230535ab9c33b0faf27add273fdd9f20806",
+      "source": "exec-d6fa992d-f351-490b-b275-42f9c6f9e58b.png",
+      "sourceSha256": "b165979ffb09668056410c0cb5a051532f679a3b17e5877ce057905d855cb75e",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "two adult travellers at a local railway platform asking a friendly station attendant for directions, a stationary commuter train and a platform bench",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-cafe.webp",
+      "language": "zh",
+      "context": "cafe",
+      "width": 960,
+      "height": 540,
+      "bytes": 113936,
+      "sha256": "84a0c9ef93d51d2a6a740ec04b8b5e22cf8b97025b9c1a7e1f9acf02c5625fc0",
+      "source": "exec-b4675d45-01d4-4526-a36c-9e29dafcd56e.png",
+      "sourceSha256": "41f0ecc21023044a4e27affc10bf41b2a87d34802d51925694b77e73209e52e7",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "two adult friends chatting naturally over drinks at a local cafe terrace, a clear medium view of the people and table",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-market.webp",
+      "language": "zh",
+      "context": "market",
+      "width": 960,
+      "height": 540,
+      "bytes": 143720,
+      "sha256": "ec1b355fa0a77bdf6fa2d3f83d620c123f8241ad73ea7c71b06e2317fa56428e",
+      "source": "exec-0e295365-8c17-4a43-aae9-456e9cabc82d.png",
+      "sourceSha256": "34ffcd7e7b16ba9aaede0df75addf431c09563a1cc17939c9fb91775eaa18477",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "an adult customer chatting with a stallholder at a colourful neighbourhood produce market, baskets and seasonal fruit",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-home.webp",
+      "language": "zh",
+      "context": "home",
+      "width": 960,
+      "height": 540,
+      "bytes": 129290,
+      "sha256": "a2f45168520b4df9cd0319b8f729071331a8ef7730e140fffe2c78d6da9bb438",
+      "source": "exec-8a4bfaab-a05c-4bf1-ae19-8744a1126e7c.png",
+      "sourceSha256": "12d05c59d72df08d4f210154fd569de1a2235a786b7e8e2fb792ac789c52ca3f",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "a relaxed adult family sharing their morning routine in a cozy kitchen and dining room, plants and a bright window",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-work.webp",
+      "language": "zh",
+      "context": "work",
+      "width": 960,
+      "height": 540,
+      "bytes": 120950,
+      "sha256": "9fc170158f6d443ad8012379586a02c4c0b89ab3d12b9ee5f6b5a3be8212dfb0",
+      "source": "exec-58c04165-7910-4e7f-8143-13e801e61c17.png",
+      "sourceSha256": "d04dca12d59752a8f373d244f4e2108ae27de8593f9beede94166a4e6785f914",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "three adult colleagues discussing a project around a table in a welcoming modern neighbourhood office, notebooks and a laptop",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-study.webp",
+      "language": "zh",
+      "context": "study",
+      "width": 960,
+      "height": 540,
+      "bytes": 106732,
+      "sha256": "c7d3f7c80825f0f67ce38175f7131bbbb4e5916f074d845568ee1b24ce15e008",
+      "source": "exec-5a60ff16-b77d-4967-ac38-a3b8710cdd6f.png",
+      "sourceSha256": "a9ec68a21951f51add1cff393e17cda61acc8f40a5659637e5bff5c763a1c41e",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "an adult learner writing in a notebook in a sunlit local library, bookshelves and a characteristic neighbourhood view outside",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-nature.webp",
+      "language": "zh",
+      "context": "nature",
+      "width": 960,
+      "height": 540,
+      "bytes": 138242,
+      "sha256": "a8dbb07cb8c73e114cd88a71852614d7ae8109071ccc0a4748b9f1e3c334c166",
+      "source": "exec-d3c313f8-1247-40da-80cc-633b1eda9247.png",
+      "sourceSha256": "14e657a8c81d25d92972fc6f670a9252d8a535800356928423ac20079e24fa2c",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "two adult friends walking and chatting in a leafy local garden, a footbridge and flowers, a tranquil natural setting",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-city.webp",
+      "language": "zh",
+      "context": "city",
+      "width": 960,
+      "height": 540,
+      "bytes": 114552,
+      "sha256": "5dc2eda3d1dd6564ab5cd421e8a811e71378a5a7a693ecbc35af1965b7380b33",
+      "source": "exec-c63debc8-404f-457a-a237-f27e5b7f80eb.png",
+      "sourceSha256": "4684cb2b9cbbd4063adbf0ce510a44f73a61ac5db913123f6842f84b6c267ed7",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "two adult visitors with a folded map talking to a local resident on a recognisable neighbourhood street, friendly everyday wayfinding",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-health.webp",
+      "language": "zh",
+      "context": "health",
+      "width": 960,
+      "height": 540,
+      "bytes": 93354,
+      "sha256": "df5b9df2c0448576c757e1e202c9fa929108ead5ebb5d6e0651bb9938c79b3c8",
+      "source": "exec-5cc6d421-fe56-410e-8110-ec7b84edd949.png",
+      "sourceSha256": "347d542dc065b5f8875f1d73cd15eb03517194b06094a963a57a3abc558f8c12",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "an adult patient speaking calmly with an adult clinician in a welcoming modern local clinic, ordinary consultation, no procedures",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-travel.webp",
+      "language": "zh",
+      "context": "travel",
+      "width": 960,
+      "height": 540,
+      "bytes": 121684,
+      "sha256": "e0ab87a6c72c9cb94d1d556a978738219d5736cc24676d8607865d82105505ac",
+      "source": "exec-d8a9f45c-3933-4d67-8e78-2dd902a195cb.png",
+      "sourceSha256": "349170d584505f5438cad71db0fc879302c6e8cb5bfaf0b24384ff73e67c30f5",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "an adult traveller checking into a small local hotel with a friendly receptionist, luggage and a welcoming lobby",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-food.webp",
+      "language": "zh",
+      "context": "food",
+      "width": 960,
+      "height": 540,
+      "bytes": 126484,
+      "sha256": "f87221079c3a876988ba9f9312c11052a29a4164e09e37b703f5fae839b94e0c",
+      "source": "exec-ae18bcfa-f199-423c-ae04-23a6cdac90a1.png",
+      "sourceSha256": "ab722fb2f8ee4f07c34f916cd39b6ed19f21e5d09f9a1975291ac14a429f96e3",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "two adult friends preparing a local everyday meal together in a cozy kitchen, ingredients and cookware, natural cooperation",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "zh-culture.webp",
+      "language": "zh",
+      "context": "culture",
+      "width": 960,
+      "height": 540,
+      "bytes": 115238,
+      "sha256": "eeb02d06cd7a9b215e6f07bff8578242f10137b29c786d5b79fc75fe185c9f38",
+      "source": "exec-2262f7a4-a652-4bc4-84fd-f7d9291d35cb.png",
+      "sourceSha256": "f1529a6fe8824d8a2c11df991aef98dce114264a1b5a3337e86408ff905ab754",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "China, a Jiangnan Chinese canal neighbourhood with Chinese tiled roofs and contemporary Chinese residents",
+        "scene": "a small group of adults exploring a local museum or craft gallery with a friendly guide, artworks and local architectural details",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-station.webp",
+      "language": "ko",
+      "context": "station",
+      "width": 960,
+      "height": 540,
+      "bytes": 110580,
+      "sha256": "f57a2a85f1df82e712a3613884f85a15febb8ecbef935cbbfc427663e413863e",
+      "source": "exec-99a91a5b-dad7-4819-80fd-90278bf62540.png",
+      "sourceSha256": "79388f8a8ed192e721492f3cd3b95ed472740358c14bcc666347c8a660a7ffbb",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "two adult travellers at a local railway platform asking a friendly station attendant for directions, a stationary commuter train and a platform bench",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-cafe.webp",
+      "language": "ko",
+      "context": "cafe",
+      "width": 960,
+      "height": 540,
+      "bytes": 115714,
+      "sha256": "e068c689e28ccd1f528f522e3f45028b2e87ef5e784af1b1893b719c717dbc43",
+      "source": "exec-4872ab6c-954a-43e6-9bdf-c80d4da9a20e.png",
+      "sourceSha256": "b130e41a31711b7cff465f58e88169bbc301fb7189d4b3f1dee62091ecb14eda",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "two adult friends chatting naturally over drinks at a local cafe terrace, a clear medium view of the people and table",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-market.webp",
+      "language": "ko",
+      "context": "market",
+      "width": 960,
+      "height": 540,
+      "bytes": 136796,
+      "sha256": "cabea85579ff7de9db27c448aa2cdae4f3091b5bfaaba517e472d96214320ccb",
+      "source": "exec-985fbdfb-fa39-4a3e-8c33-82f47b6d3949.png",
+      "sourceSha256": "b08e63d02e471ec8575cf0b0f523cb1dfdc1624738ce999585eaa90474603851",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "an adult customer chatting with a stallholder at a colourful neighbourhood produce market, baskets and seasonal fruit",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-home.webp",
+      "language": "ko",
+      "context": "home",
+      "width": 960,
+      "height": 540,
+      "bytes": 122154,
+      "sha256": "723d5e5fee7d230dd98b33e1d386f93f55ffbf0986466927f0b233bd0fea753c",
+      "source": "exec-3e7ecb03-b330-4a36-bbb7-39bf7f63f820.png",
+      "sourceSha256": "5203c3f7424f923b2e3f3efaab39ae5ade7d472f1d98078623902c01e6779417",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "a relaxed adult family sharing their morning routine in a cozy kitchen and dining room, plants and a bright window",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-work.webp",
+      "language": "ko",
+      "context": "work",
+      "width": 960,
+      "height": 540,
+      "bytes": 101896,
+      "sha256": "7d5488da3eb45396f5f53459269779b9473108617753b3de3807c66489388b46",
+      "source": "exec-e31309bd-0b56-4d9c-9e61-4a3a93e8eebc.png",
+      "sourceSha256": "b27a575fe5e5b6ee7d01e45fd4bd5f1a8e800fe9b5e0f2fd90cd8e1107ba9740",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "three adult colleagues discussing a project around a table in a welcoming modern neighbourhood office, notebooks and a laptop",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-study.webp",
+      "language": "ko",
+      "context": "study",
+      "width": 960,
+      "height": 540,
+      "bytes": 113110,
+      "sha256": "d619785c5c41c295f3e8b6b852ab3682385427ee7023d9cba370d0e26065ee7d",
+      "source": "exec-ce54a599-88c7-4381-96bc-35e6fe43352b.png",
+      "sourceSha256": "4ebcd9d7aaac7615613e2db5c0c75f9d4711b70edec5438708fdc1a75683c46d",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "an adult learner writing in a notebook in a sunlit local library, bookshelves and a characteristic neighbourhood view outside",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-nature.webp",
+      "language": "ko",
+      "context": "nature",
+      "width": 960,
+      "height": 540,
+      "bytes": 156628,
+      "sha256": "c84b90ccfe15a5f6a734785779e7ca6f77f57fa5266a9cf0acca8c4e7de07536",
+      "source": "exec-e31e6df4-6571-4ae0-a5e1-ab53589a9b6d.png",
+      "sourceSha256": "406c33fd3cac6c29f89c5e420cf98171e7ba6965eb9bf4e941386390b848a7f5",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "two adult friends walking and chatting in a leafy local garden, a footbridge and flowers, a tranquil natural setting",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-city.webp",
+      "language": "ko",
+      "context": "city",
+      "width": 960,
+      "height": 540,
+      "bytes": 135792,
+      "sha256": "dedd0304ed1cf57fd146d966bb664ea4c36d51192b94d22ec492c06dcd6414eb",
+      "source": "exec-e3340d48-7cd9-454e-81e3-cbbfff8ab955.png",
+      "sourceSha256": "d2771e792dde92a5dfffd04829040a20101ecd23233a0f54b9b43d1bf0a641b4",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "two adult visitors with a folded map talking to a local resident on a recognisable neighbourhood street, friendly everyday wayfinding",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-health.webp",
+      "language": "ko",
+      "context": "health",
+      "width": 960,
+      "height": 540,
+      "bytes": 82710,
+      "sha256": "7a8e18f4d43518b98bbe2c995ab2bc2495574811f8771e57400fbac653e6bafe",
+      "source": "exec-c1a02d60-bf77-4a1d-8031-583f02c88929.png",
+      "sourceSha256": "7c0553c3357fb698698e7b43a6774d32fe9695a28c3e90aef11de88b4904f163",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "an adult patient speaking calmly with an adult clinician in a welcoming modern local clinic, ordinary consultation, no procedures",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-travel.webp",
+      "language": "ko",
+      "context": "travel",
+      "width": 960,
+      "height": 540,
+      "bytes": 112426,
+      "sha256": "47a7179a1792c69409c42be10e019583b563464aa339a4205c376ac3c52cb3c4",
+      "source": "exec-b636b0eb-24a6-4530-a7df-b647773691ba.png",
+      "sourceSha256": "e8d8f6e3566fd2afedf6bb6a91b6671ee08ff1365b1a64b47f9a3dab3a7992af",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "an adult traveller checking into a small local hotel with a friendly receptionist, luggage and a welcoming lobby",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-food.webp",
+      "language": "ko",
+      "context": "food",
+      "width": 960,
+      "height": 540,
+      "bytes": 127702,
+      "sha256": "059240c54e05fd3227525c5ade31b0d8bbc54a05c7670ac0d418d98415eb5f2e",
+      "source": "exec-cbc3d275-8fa9-40ef-9cf8-dcac61e29102.png",
+      "sourceSha256": "54be8234595c0b1241466eaf3ff57fab3682c9160a39035473c88053f19b1479",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "two adult friends preparing a local everyday meal together in a cozy kitchen, ingredients and cookware, natural cooperation",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ko-culture.webp",
+      "language": "ko",
+      "context": "culture",
+      "width": 960,
+      "height": 540,
+      "bytes": 110638,
+      "sha256": "614b0e5f7238aefb7b8ecaa961d7f1acc25a49c3903e0117a57c987e1a5b4437",
+      "source": "exec-b48af661-2d30-46f4-872d-a9dd967eb1aa.png",
+      "sourceSha256": "c9248fafbf92af8eda20219a63c00b3875b0bd7e4470e8bb0fe046e961eb697c",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "South Korea, a Seoul neighbourhood with contemporary Korean residents, hanok details alongside modern Korean shops",
+        "scene": "a small group of adults exploring a local museum or craft gallery with a friendly guide, artworks and local architectural details",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-station.webp",
+      "language": "fr",
+      "context": "station",
+      "width": 960,
+      "height": 540,
+      "bytes": 122018,
+      "sha256": "4bfb18481317d6236872d8cc846ee72ad601c6319c0ea96706228a4464cf7858",
+      "source": "exec-b682674b-ace5-4cb8-9b3c-6ffb94f2f348.png",
+      "sourceSha256": "fbf8a285587d93f21d2acc56ef10727af90293fdf9b8ea921e321fba07e74b91",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "two adult travellers at a local railway platform asking a friendly station attendant for directions, a stationary commuter train and a platform bench",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-cafe.webp",
+      "language": "fr",
+      "context": "cafe",
+      "width": 960,
+      "height": 540,
+      "bytes": 124786,
+      "sha256": "7b96f191cb050f09df76c9b5b583e01f2386989264bb070cdc58ed6ac5b44b89",
+      "source": "exec-7cdca548-d5a5-4edb-b5de-f42b6899078f.png",
+      "sourceSha256": "160b939dd9856e2d9d719e4162cc4c3d5d8a4d2a7c0c837128f85da0d7d0d5bb",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "two adult friends chatting naturally over drinks at a local cafe terrace, a clear medium view of the people and table",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-market.webp",
+      "language": "fr",
+      "context": "market",
+      "width": 960,
+      "height": 540,
+      "bytes": 137002,
+      "sha256": "97133ed814562f5b5c78e0e656ab92883787d86c9a1e63ad1f0f05e75d0bc2a1",
+      "source": "exec-fc3acb14-c9e5-41fc-aee4-96500efd8a25.png",
+      "sourceSha256": "c670328db4542223870c3536ca0d5911119c19013c4431ea9d25fd09ce8569e0",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "an adult customer chatting with a stallholder at a colourful neighbourhood produce market, baskets and seasonal fruit",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-home.webp",
+      "language": "fr",
+      "context": "home",
+      "width": 960,
+      "height": 540,
+      "bytes": 120036,
+      "sha256": "df1a348ddbf006c9cbffe0b35311cebb90424fcb10f1762e42a300918cd46ee8",
+      "source": "exec-febcade9-7901-4328-a997-59878f227f01.png",
+      "sourceSha256": "d824b4a51bec1ac762bcfc24de81255a92f2c04ae69d9e9dc5277b1c22869d26",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "a relaxed adult family sharing their morning routine in a cozy kitchen and dining room, plants and a bright window",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-work.webp",
+      "language": "fr",
+      "context": "work",
+      "width": 960,
+      "height": 540,
+      "bytes": 110830,
+      "sha256": "71c4570f1af6a674676fbfcb21c510f0c829e9b8944becea7ceee4f5935174a7",
+      "source": "exec-2dc7835d-23a4-42d9-9a86-a6e0d6dc7c7e.png",
+      "sourceSha256": "c197ebae67f1f5c34d393f7a347a9aacc45df2e8fef337bc021f7be052e222d3",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "three adult colleagues discussing a project around a table in a welcoming modern neighbourhood office, notebooks and a laptop",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-study.webp",
+      "language": "fr",
+      "context": "study",
+      "width": 960,
+      "height": 540,
+      "bytes": 103114,
+      "sha256": "1b460af2e9857102f2d03759dc0007d710d0be3aba04e67dd5536d8c507b7f96",
+      "source": "exec-9ac9ecbf-b1de-400e-ad9e-890f04886c2b.png",
+      "sourceSha256": "83b1de82137d769f5f14aadfc4b01dbfe780d2955e505dd4ab9eced904111bd8",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "an adult learner writing in a notebook in a sunlit local library, bookshelves and a characteristic neighbourhood view outside",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-nature.webp",
+      "language": "fr",
+      "context": "nature",
+      "width": 960,
+      "height": 540,
+      "bytes": 154074,
+      "sha256": "c659f873a78e9bff5dd0bd7f5e7b4b770d7c4c628f2ab2b7fdae0dc47c80da6e",
+      "source": "exec-9bf484ab-087e-47e3-a8b8-3b4fdbdaa8dc.png",
+      "sourceSha256": "f6a88c06b86c5eb66e80a2db08916f74113f504e4b017c4436311dfdd30f9180",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "two adult friends walking and chatting in a leafy local garden, a footbridge and flowers, a tranquil natural setting",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-city.webp",
+      "language": "fr",
+      "context": "city",
+      "width": 960,
+      "height": 540,
+      "bytes": 129812,
+      "sha256": "abbf042c43e9e54c19a3a4f31ebb26ff7a4f30200e03400a5d8b4aa8921965a8",
+      "source": "exec-75be6fe6-95d8-4dc2-bc0e-85017a169a2f.png",
+      "sourceSha256": "026f9b8561e20fedc6d9220b2a606b0d052cccbc586b8097f149bff107b7fea8",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "two adult visitors with a folded map talking to a local resident on a recognisable neighbourhood street, friendly everyday wayfinding",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-health.webp",
+      "language": "fr",
+      "context": "health",
+      "width": 960,
+      "height": 540,
+      "bytes": 90844,
+      "sha256": "ae57ee5f9a6b46e5db006aa1d12d3a71002a71bc511b8000eab7ddd4adf3dec4",
+      "source": "exec-0fd28aab-6485-4fc3-b3e9-c380976abf6e.png",
+      "sourceSha256": "5be8f2bc83bd23ed7854a301a812460095f6b6225ff33d9305858717a8a66813",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "an adult patient speaking calmly with an adult clinician in a welcoming modern local clinic, ordinary consultation, no procedures",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-travel.webp",
+      "language": "fr",
+      "context": "travel",
+      "width": 960,
+      "height": 540,
+      "bytes": 120086,
+      "sha256": "f08ab3b0fce4656a71d4427a933ae2abb581c12048e41090bb413f0656e2cf7e",
+      "source": "exec-5e4f4a91-9af6-4fd4-b10b-a6bc1d6cb7be.png",
+      "sourceSha256": "07108c517afecb6f29b7200fec44b24c0543b5ca051ca22aa6fdec57eb70034d",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "an adult traveller checking into a small local hotel with a friendly receptionist, luggage and a welcoming lobby",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-food.webp",
+      "language": "fr",
+      "context": "food",
+      "width": 960,
+      "height": 540,
+      "bytes": 123990,
+      "sha256": "c9ec4f41cf2265ed2e327bc144ee5f175f29276eceac5e40f3b18720dee5452b",
+      "source": "exec-d90cd1ac-895c-45e4-97e7-f1e287af9c89.png",
+      "sourceSha256": "6753fdc34bb8a8b193c8e1232176ee7f6d1abcc3af9fdf4a43c647ff46e68aba",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "two adult friends preparing a local everyday meal together in a cozy kitchen, ingredients and cookware, natural cooperation",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "fr-culture.webp",
+      "language": "fr",
+      "context": "culture",
+      "width": 960,
+      "height": 540,
+      "bytes": 96570,
+      "sha256": "85fc4dac1e82ec3c162dae7d0915b60e5976c2b79a310d0b4c2d6e69380df024",
+      "source": "exec-36367760-bd46-4249-a26f-1063e2ba451d.png",
+      "sourceSha256": "de836a0419501661313018806a04db88477147208b3df9944669977388d34aaf",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "France, a French riverside town with stone facades, French cafes and contemporary local residents",
+        "scene": "a small group of adults exploring a local museum or craft gallery with a friendly guide, artworks and local architectural details",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-station.webp",
+      "language": "de",
+      "context": "station",
+      "width": 960,
+      "height": 540,
+      "bytes": 112118,
+      "sha256": "cac028d23c674467f694ae1d6b58bf93f3178a65027a187366f32511e07a573b",
+      "source": "exec-c393f63c-4556-4cdc-bfae-0d6186dd6f40.png",
+      "sourceSha256": "053d9ad0ab6912cd8231fd825dad341304840c1f6a4df9dcf20178f1c3297740",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "two adult travellers at a local railway platform asking a friendly station attendant for directions, a stationary commuter train and a platform bench",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-cafe.webp",
+      "language": "de",
+      "context": "cafe",
+      "width": 960,
+      "height": 540,
+      "bytes": 126980,
+      "sha256": "8f83160e7b34bb921c9b49dc9973da251fa15a79fad172f8258fe0fe3aedfec6",
+      "source": "exec-f8d36e3c-46d6-488d-ab06-767dcb776028.png",
+      "sourceSha256": "bcf258dad12726606c1f15f57c9b3f5196bcc3d6aa043ac032a5f17c10f04e8f",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "two adult friends chatting naturally over drinks at a local cafe terrace, a clear medium view of the people and table",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-market.webp",
+      "language": "de",
+      "context": "market",
+      "width": 960,
+      "height": 540,
+      "bytes": 151398,
+      "sha256": "375b63ece48380051cde4c85ec57f5569ab32fee2412da99aae98bec43ec0262",
+      "source": "exec-d02442c1-e418-468e-8203-3fb5c8af1d30.png",
+      "sourceSha256": "896a16a2ada1b00f743d1574532ea3f3648d03d20f8331c5d785fadbfbbc5dce",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "an adult customer chatting with a stallholder at a colourful neighbourhood produce market, baskets and seasonal fruit",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-home.webp",
+      "language": "de",
+      "context": "home",
+      "width": 960,
+      "height": 540,
+      "bytes": 134894,
+      "sha256": "47ec161a8c97d04335ee02081bd7b432419b1b595acbbad575d0c9778136fbac",
+      "source": "exec-ee91ec1e-59cc-4981-824b-434fe6f286a3.png",
+      "sourceSha256": "c1b59023a15def9300832eb6118755eac5bdc18ec6342c53eb57582eefba2274",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "a relaxed adult family sharing their morning routine in a cozy kitchen and dining room, plants and a bright window",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-work.webp",
+      "language": "de",
+      "context": "work",
+      "width": 960,
+      "height": 540,
+      "bytes": 111304,
+      "sha256": "038f0cd878b1833a1a95e6d1c9de0f1b9a4db4a6b3c01e324f2b0d5becfc650e",
+      "source": "exec-a9301348-0eeb-4e0d-a6df-66886c2430f7.png",
+      "sourceSha256": "213a017351b5f1ca2e58eb1a3175ee8b5f177a9e877f9f6261ff323e33da9937",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "three adult colleagues discussing a project around a table in a welcoming modern neighbourhood office, notebooks and a laptop",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-study.webp",
+      "language": "de",
+      "context": "study",
+      "width": 960,
+      "height": 540,
+      "bytes": 111616,
+      "sha256": "b90deca5c704318c8472d14c696689b6bbd62a81e97e6f7d7747fecf251efc51",
+      "source": "exec-2666afae-954e-4650-b86d-48700424838f.png",
+      "sourceSha256": "b54a42a2e25ecde02fda059f693261fcaa24c546b3a4cbcc3f55be02865bbc68",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "an adult learner writing in a notebook in a sunlit local library, bookshelves and a characteristic neighbourhood view outside",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-nature.webp",
+      "language": "de",
+      "context": "nature",
+      "width": 960,
+      "height": 540,
+      "bytes": 157436,
+      "sha256": "1069cd67935c4e0b793949d1a6caefba95ed7d465a9e68054cdb6e8c29c5072f",
+      "source": "exec-f1321049-88f1-4d64-8e84-d15c8cca1c85.png",
+      "sourceSha256": "2fbd40b58c898b4d0d1ddc466e72e37d4f32a758d0953c07545ad80d497a6d52",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "two adult friends walking and chatting in a leafy local garden, a footbridge and flowers, a tranquil natural setting",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-city.webp",
+      "language": "de",
+      "context": "city",
+      "width": 960,
+      "height": 540,
+      "bytes": 125666,
+      "sha256": "3798803456a3435a283294e05efc6a9c5f84af23f656725f58bf0369f0514bcb",
+      "source": "exec-50c232a3-f3ad-447e-92bc-36f559888cad.png",
+      "sourceSha256": "8e47e7176cf877144bf5620ae90cc489d69c2c67fd9e545c41e73b1f48acfddb",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "two adult visitors with a folded map talking to a local resident on a recognisable neighbourhood street, friendly everyday wayfinding",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-health.webp",
+      "language": "de",
+      "context": "health",
+      "width": 960,
+      "height": 540,
+      "bytes": 94368,
+      "sha256": "926873f4f50e5ad92ad9533fbeef64190e47a4b4324aed17199379f0ff64b167",
+      "source": "exec-e302ea16-739a-4cac-9047-54805492b2b5.png",
+      "sourceSha256": "fb39b78722a692a38d21a68fcc9cb379d6bf532861453916b3f6512f5f83f3d5",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "an adult patient speaking calmly with an adult clinician in a welcoming modern local clinic, ordinary consultation, no procedures",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-travel.webp",
+      "language": "de",
+      "context": "travel",
+      "width": 960,
+      "height": 540,
+      "bytes": 111304,
+      "sha256": "8ed0b70f8ccda841b71cca7fbe5cac7e839c1fe271ad8b08314d2e2862ebfcdd",
+      "source": "exec-1c350fe2-811f-41cd-9c72-b8768f1add5d.png",
+      "sourceSha256": "e6338bf9cdee179850836fcd70fb1872755923dd18a60e4420f3b2eacc5467ae",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "an adult traveller checking into a small local hotel with a friendly receptionist, luggage and a welcoming lobby",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-food.webp",
+      "language": "de",
+      "context": "food",
+      "width": 960,
+      "height": 540,
+      "bytes": 118296,
+      "sha256": "c8f87ac1ab9115a63d95b21153175d5a3a8d4bd832f13229d24056c205807bfc",
+      "source": "exec-a9ff2154-fe33-4073-8222-b339c9a29b2b.png",
+      "sourceSha256": "45aca04c6ec5ea8e2df95c675d5bfbdf9d14b53db85b57c976c9cd44708ea59e",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "two adult friends preparing a local everyday meal together in a cozy kitchen, ingredients and cookware, natural cooperation",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "de-culture.webp",
+      "language": "de",
+      "context": "culture",
+      "width": 960,
+      "height": 540,
+      "bytes": 119266,
+      "sha256": "5fde0627bcf08f7f7ef1e060ddece57d5504b46b46a42bc3a75bc5c393e01900",
+      "source": "exec-4ad409b7-40fd-4b03-a0a2-c64de1b0c169.png",
+      "sourceSha256": "60247c9993322ff624d948c4b59225e963e35bea378142c283011739fdaab320",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Germany, a German riverside town with half-timbered buildings and contemporary local residents",
+        "scene": "a small group of adults exploring a local museum or craft gallery with a friendly guide, artworks and local architectural details",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-station.webp",
+      "language": "ar",
+      "context": "station",
+      "width": 960,
+      "height": 540,
+      "bytes": 114254,
+      "sha256": "22fcabb9842f93e6f47c304026c84bbbe6a99397b17fc36e1ebae5eef705c537",
+      "source": "exec-81099acf-fce6-4ffb-a72f-8b815ab895f0.png",
+      "sourceSha256": "925a6085a003ea482fabaf6ba2a513e822c79fa9202c894dbdaa43ee147f73ec",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "two adult travellers at a local railway platform asking a friendly station attendant for directions, a stationary commuter train and a platform bench",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-cafe.webp",
+      "language": "ar",
+      "context": "cafe",
+      "width": 960,
+      "height": 540,
+      "bytes": 127650,
+      "sha256": "3a89ccd64c43aea53aee9e37087b3d064699ae2387d92b78ae17e035c47ba907",
+      "source": "exec-38a058f1-07c2-4ae7-a343-facb30cd3076.png",
+      "sourceSha256": "adb4630093b8df72d205aa71f95f170aabbc985c697b61533d9f5596c68370ef",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "two adult friends chatting naturally over drinks at a local cafe terrace, a clear medium view of the people and table",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-market.webp",
+      "language": "ar",
+      "context": "market",
+      "width": 960,
+      "height": 540,
+      "bytes": 127232,
+      "sha256": "1236397d5abed0123d04ff5668f74be6cbdbdd7a778b39f2d8d967c6b5156580",
+      "source": "exec-4f372325-5225-4f07-9377-d7b3dd39cbc0.png",
+      "sourceSha256": "d659ff5db2cb096a989ba825a621365f82d13c32accdd40c9390168ff8e60e2f",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "an adult customer chatting with a stallholder at a colourful neighbourhood produce market, baskets and seasonal fruit",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-home.webp",
+      "language": "ar",
+      "context": "home",
+      "width": 960,
+      "height": 540,
+      "bytes": 129288,
+      "sha256": "e298823a65faa5cae0525e1006ae02fcb03a4979985db7327008d28ff9d8dafe",
+      "source": "exec-3625b8c2-4cc7-4dc2-bf3d-c75eecdc1c69.png",
+      "sourceSha256": "fb6501b5f8fe4be07bceec8ca157bcd92a3ed7633c5b0d035aa2b86300769fc0",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "a relaxed adult family sharing their morning routine in a cozy kitchen and dining room, plants and a bright window",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-work.webp",
+      "language": "ar",
+      "context": "work",
+      "width": 960,
+      "height": 540,
+      "bytes": 108068,
+      "sha256": "cfc30164b1a3fcee90381cf8cb1f3a91c3d483773b99295f812474c0fe569601",
+      "source": "exec-1243db61-cdeb-45c6-a96a-0eeb73db218b.png",
+      "sourceSha256": "80f6960ca31113d860fdab008b914c020ac1543741f11e9c8c8ae2c225d1f951",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "three adult colleagues discussing a project around a table in a welcoming modern neighbourhood office, notebooks and a laptop",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-study.webp",
+      "language": "ar",
+      "context": "study",
+      "width": 960,
+      "height": 540,
+      "bytes": 111406,
+      "sha256": "3958bb982fc365d9ead35263c088eecc44e1def43323c4011124f41f4afc9512",
+      "source": "exec-476e5caa-8e51-4be9-abe8-dc7953d50880.png",
+      "sourceSha256": "cd6d5dbdf3ef3306f684bba75a15b8aa6ef4752f1f1d473a65b974b954b9bc48",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "an adult learner writing in a notebook in a sunlit local library, bookshelves and a characteristic neighbourhood view outside",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-nature.webp",
+      "language": "ar",
+      "context": "nature",
+      "width": 960,
+      "height": 540,
+      "bytes": 132584,
+      "sha256": "9ce83309d279136fba7e3021ef68c533c4e8587e40ebcf9e9ed3007712f0c525",
+      "source": "exec-9acbe61a-da86-423f-a8a9-44d22462d7c9.png",
+      "sourceSha256": "296d88f07b1b60e5dabc850be4d43e6f622fb2f80d868ad6f0d108b7f45103f8",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "two adult friends walking and chatting in a leafy local garden, a footbridge and flowers, a tranquil natural setting",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-city.webp",
+      "language": "ar",
+      "context": "city",
+      "width": 960,
+      "height": 540,
+      "bytes": 135100,
+      "sha256": "edbb7d1b91d5820ea94f621e0c5b343b79b7e7239c1e45e9b8b356e72c899bd5",
+      "source": "exec-9325ee6f-3d44-4fa0-bf3a-284241a6bc9b.png",
+      "sourceSha256": "95e2dce33c02f7304f6c71ea4e354a5d0685ec2f937d4f36f95825663d3800ba",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "two adult visitors with a folded map talking to a local resident on a recognisable neighbourhood street, friendly everyday wayfinding",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-health.webp",
+      "language": "ar",
+      "context": "health",
+      "width": 960,
+      "height": 540,
+      "bytes": 100194,
+      "sha256": "121590d2ca2b6db8f94d4343298856621154fdc1a07e31ab442a8b0cfd952c3e",
+      "source": "exec-0dc1b4db-54b5-40f7-9f74-3bbad04b9bba.png",
+      "sourceSha256": "e68fa43d87dfa9a4ffffcfb4e58edd9d738fbb8b1d43b353fc66febfa12d8af4",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "an adult patient speaking calmly with an adult clinician in a welcoming modern local clinic, ordinary consultation, no procedures",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-travel.webp",
+      "language": "ar",
+      "context": "travel",
+      "width": 960,
+      "height": 540,
+      "bytes": 123674,
+      "sha256": "f740d5694058a2be9aa5bf6fed8b9065165e80e715a7645c543a47e704d0ce5b",
+      "source": "exec-a063dda7-3dbb-4a0b-9aec-b14c8717fcdd.png",
+      "sourceSha256": "566c8318553f4b984600b907c610ab68413c39031cf4eaa2ff91562dc400b4cb",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "an adult traveller checking into a small local hotel with a friendly receptionist, luggage and a welcoming lobby",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-station.webp",
+      "language": "it",
+      "context": "station",
+      "width": 960,
+      "height": 540,
+      "bytes": 113804,
+      "sha256": "5522e83ea9d0fa9d01c3d785f7e0a4e4848e8e72d5749cc362cce83852ce137d",
+      "source": "exec-48e7ed6d-e4a6-470b-b82f-f60661485e2e.png",
+      "sourceSha256": "7d0500c5e0d59566f858644ec6a530213ed819b76bbfc24e4a2b92bfb75a70f9",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "two adult travellers at a local railway platform asking a friendly station attendant for directions, a stationary commuter train and a platform bench",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-food.webp",
+      "language": "ar",
+      "context": "food",
+      "width": 960,
+      "height": 540,
+      "bytes": 135780,
+      "sha256": "84160879dee0a53a71a03f911e2215244dbe061cffcf820b414d6a080ee1e6f1",
+      "source": "exec-80f6df81-4d17-4a8e-97c2-4643d10fa93e.png",
+      "sourceSha256": "aa3ce60c88d4f2d868f70b427615359253fbdc03dd66e8f98ff1714ca277601c",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "two adult friends preparing a local everyday meal together in a cozy kitchen, ingredients and cookware, natural cooperation",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ar-culture.webp",
+      "language": "ar",
+      "context": "culture",
+      "width": 960,
+      "height": 540,
+      "bytes": 126514,
+      "sha256": "eb1ad446ebfd549e1e199cf0f5e0adfb15df1a29f6bc1a9530117567c95350b2",
+      "source": "exec-fcc0feca-8c11-49a2-9156-e4d92accb6e2.png",
+      "sourceSha256": "be8350d799da6df21f7d72579feaa36784b52dd2245b29ed9c09d7a25f6409dd",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "an Arabic-speaking North African Mediterranean neighbourhood, warm courtyards, carved arches, tiled fountains, contemporary local residents, culturally natural everyday clothes",
+        "scene": "a small group of adults exploring a local museum or craft gallery with a friendly guide, artworks and local architectural details",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-cafe.webp",
+      "language": "it",
+      "context": "cafe",
+      "width": 960,
+      "height": 540,
+      "bytes": 116588,
+      "sha256": "d915f250cb318264ea30c6e7d58197bb35ab48e31a6d1ea68eebce6ae99da301",
+      "source": "exec-f8a125a3-40be-47b9-a919-73bb28c6651b.png",
+      "sourceSha256": "b121ee05f2e98be2224e5028277b75d0648d095c1aa6c446d724c6fa6d8354a0",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "two adult friends chatting naturally over drinks at a local cafe terrace, a clear medium view of the people and table",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-market.webp",
+      "language": "it",
+      "context": "market",
+      "width": 960,
+      "height": 540,
+      "bytes": 149556,
+      "sha256": "6aed4c7b530f5c47394906f8b9639b8f16bb8442de8610edaf651fe918a60eaa",
+      "source": "exec-4d2e0a74-42af-4117-9d3a-e1a95fb68354.png",
+      "sourceSha256": "571f86a85843f562ecdfcabe61fb27331b7f5e7fe91b3907d8cd8bfd0e7070cb",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "an adult customer chatting with a stallholder at a colourful neighbourhood produce market, baskets and seasonal fruit",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-home.webp",
+      "language": "it",
+      "context": "home",
+      "width": 960,
+      "height": 540,
+      "bytes": 133310,
+      "sha256": "5820296f30733d548e3cab1e1ba4c0537f7d34af89e8c080368f0acac0375edc",
+      "source": "exec-2ae95e45-d103-422a-826f-43542a5aba30.png",
+      "sourceSha256": "cb770b4c1f14aaa16b07f0b61e453951c2588be947504cee4a7ce06ea68066eb",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "a relaxed adult family sharing their morning routine in a cozy kitchen and dining room, plants and a bright window",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-work.webp",
+      "language": "it",
+      "context": "work",
+      "width": 960,
+      "height": 540,
+      "bytes": 101608,
+      "sha256": "b108bb040e9d08ecb3e07418adc2b1fbf4b11c5b8c4503f2a65063f9c5542a46",
+      "source": "exec-d2c43a62-40fc-4987-be04-de38ff239893.png",
+      "sourceSha256": "acaa46e8be66d53b469b6dc7135c7509b269b0975cd9c1c6cecb26d90a77d0f7",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "three adult colleagues discussing a project around a table in a welcoming modern neighbourhood office, notebooks and a laptop",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-study.webp",
+      "language": "it",
+      "context": "study",
+      "width": 960,
+      "height": 540,
+      "bytes": 124142,
+      "sha256": "1ebe215d2185d55762aa81cea56be01e9365a2cc246751baf05bb9b028b217c1",
+      "source": "exec-61218891-b8ae-45a2-a252-d0c183675256.png",
+      "sourceSha256": "14edffbf5279483eef55cb3e52de4f376866506bdee1a3ae3413c1149713d20b",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "an adult learner writing in a notebook in a sunlit local library, bookshelves and a characteristic neighbourhood view outside",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-nature.webp",
+      "language": "it",
+      "context": "nature",
+      "width": 960,
+      "height": 540,
+      "bytes": 125250,
+      "sha256": "f95f74314c566ae12ddef445ece2e851c02dac383a7379136d5d32fb59f00fc8",
+      "source": "exec-44d38e66-8ff1-4fca-b5e8-5bad2aaffbfa.png",
+      "sourceSha256": "fda0345ad6ff77d999fa866efc185dbe6e820fb044b12e171fb55862d8e2b05e",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "two adult friends walking and chatting in a leafy local garden, a footbridge and flowers, a tranquil natural setting",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-city.webp",
+      "language": "it",
+      "context": "city",
+      "width": 960,
+      "height": 540,
+      "bytes": 119312,
+      "sha256": "dcef8880eb02023d48afcdc23ff7486d789c59db43ccf71ed2d064f979a232be",
+      "source": "exec-bb104ebf-9a9d-4885-8036-35e9fae50f08.png",
+      "sourceSha256": "54c650317bb559c3163c115373e339b06aa7775e4f6a60786a7cc41a1b92dfb9",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "two adult visitors with a folded map talking to a local resident on a recognisable neighbourhood street, friendly everyday wayfinding",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-health.webp",
+      "language": "it",
+      "context": "health",
+      "width": 960,
+      "height": 540,
+      "bytes": 83312,
+      "sha256": "c1b1118e6a011239a448efc0d55b039ef2aa45ab3998d80410869b88d8507ed9",
+      "source": "exec-aae5a52b-e022-4e3b-8528-f1295a227d31.png",
+      "sourceSha256": "9bae08e1544d772bc4bd438448584fbabadab82f27605bf4eb4da89cb5607ac2",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "an adult patient speaking calmly with an adult clinician in a welcoming modern local clinic, ordinary consultation, no procedures",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-travel.webp",
+      "language": "it",
+      "context": "travel",
+      "width": 960,
+      "height": 540,
+      "bytes": 115020,
+      "sha256": "b554682578696c2c362979f3e84ceea2e78dd72d744900f069c4147f9e8a42be",
+      "source": "exec-3d921f7b-bcb7-42f5-be41-b07c0bb3d70d.png",
+      "sourceSha256": "08cd92f5041a96cddf4ae9b65852df0e92cd8b718badfc199a84f00d722367a0",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "an adult traveller checking into a small local hotel with a friendly receptionist, luggage and a welcoming lobby",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-food.webp",
+      "language": "it",
+      "context": "food",
+      "width": 960,
+      "height": 540,
+      "bytes": 121406,
+      "sha256": "be4e941bfe3a73054aa35c23ff3f750e65631d1c4c5e33bbb3f52f00b2c88173",
+      "source": "exec-a4efd92e-4556-4dd6-8d05-2107ae546697.png",
+      "sourceSha256": "90c88d76d2207e9d09f474bb46dc46db36cfcc47db102fc30f6bec651c0a8ee4",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "two adult friends preparing a local everyday meal together in a cozy kitchen, ingredients and cookware, natural cooperation",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "it-culture.webp",
+      "language": "it",
+      "context": "culture",
+      "width": 960,
+      "height": 540,
+      "bytes": 100564,
+      "sha256": "b99a949cfdbcddeac91c2eb5ade02b87b1ed2cff2fc0a5286aa9f5077b96cbbc",
+      "source": "exec-0912b341-8b64-4890-a598-636c9f4f4c51.png",
+      "sourceSha256": "2c79b2d4b28d49201f57e6e2dd9c134153bc8f3ae39d3b15b3155f61059b95d9",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Italy, an Italian lakeside town with terracotta roofs, a piazza and contemporary Italian residents",
+        "scene": "a small group of adults exploring a local museum or craft gallery with a friendly guide, artworks and local architectural details",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "en-library.webp",
+      "language": "en",
+      "context": "library",
+      "width": 960,
+      "height": 540,
+      "bytes": 120716,
+      "sha256": "541d88706676cf5dc552b13bf69f33f857142b2677f51e2b34b85c2c5970ff6b",
+      "source": "exec-60363827-b430-48b7-9bbc-55446d070011.png",
+      "sourceSha256": "f2dd6770a995f850060667db82d3030d89a8000b172e23788f1d5aaec4d94502",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "a British English-speaking riverside town with brick cottages and contemporary local residents",
+        "scene": "a pair of adult language learners studying together at a quiet library window table, open books and notes, different composition from a solo studying scene",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "en-classroom.webp",
+      "language": "en",
+      "context": "classroom",
+      "width": 960,
+      "height": 540,
+      "bytes": 110532,
+      "sha256": "8a5d87a05695901916c0e8f2e9d0f887b3c6f5de241cb99467018fe89a6ac975",
+      "source": "exec-3a16a644-e02b-46f8-9ba4-f4f782ca929f.png",
+      "sourceSha256": "d8891e226c363ddba492db77911c9b7419e4e5f0a5668f2560d6bc1606fcb487",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "a British English-speaking riverside town with brick cottages and contemporary local residents",
+        "scene": "an adult language teacher and two adult learners having a lively small-group lesson in a cozy local learning studio, table and notebooks",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "en-listening.webp",
+      "language": "en",
+      "context": "listening",
+      "width": 960,
+      "height": 540,
+      "bytes": 104412,
+      "sha256": "b398f2a8735ac826f33a0a7385492fe7fee1a6c3f7eddb3997af239f30b6e286",
+      "source": "exec-0b5b3e55-8a29-4e09-a090-cf5b24ac030e.png",
+      "sourceSha256": "67cd5a706e87d0cb451ce6703b16ec407c9e37ff4ceb387b923375cc83608dc8",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "a British English-speaking riverside town with brick cottages and contemporary local residents",
+        "scene": "an adult learner wearing headphones at a bright home desk by a window, listening attentively and taking notes, small plants",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "es-library.webp",
+      "language": "es",
+      "context": "library",
+      "width": 960,
+      "height": 540,
+      "bytes": 102048,
+      "sha256": "6bc4a6123f03626feae0176fa4c02f4ed3a5a1eb33b32e69bd6a51907bd1273b",
+      "source": "exec-0fff92af-4adc-466f-8eb2-027be5124ed8.png",
+      "sourceSha256": "90ff5056c58531191a89fc6446a2085460c7b86b3f845c3b81b28dfcd76e2780",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Spain, a Spanish Mediterranean neighbourhood with warm stucco buildings and contemporary local residents",
+        "scene": "a pair of adult language learners studying together at a quiet library window table, open books and notes, different composition from a solo studying scene",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "es-classroom.webp",
+      "language": "es",
+      "context": "classroom",
+      "width": 960,
+      "height": 540,
+      "bytes": 112506,
+      "sha256": "1aec2642dad30041307b1291b1f279ec91858ca03b3d5626932a12106d2d31cd",
+      "source": "exec-d5d9d232-b968-4688-a970-f51f0cdfe081.png",
+      "sourceSha256": "6ef7a612142f7175024e6cdfdceefc8370ca9041e3bc65bce23b3df78f90c3e0",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Spain, a Spanish Mediterranean neighbourhood with warm stucco buildings and contemporary local residents",
+        "scene": "an adult language teacher and two adult learners having a lively small-group lesson in a cozy local learning studio, table and notebooks",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "es-listening.webp",
+      "language": "es",
+      "context": "listening",
+      "width": 960,
+      "height": 540,
+      "bytes": 89494,
+      "sha256": "5411c67e95e829773fbfa56411cf2516fea4a1e9af89fd4371e053f37deb1699",
+      "source": "exec-85a76c51-ce5a-4f31-8eb6-9f6d4c88e4e4.png",
+      "sourceSha256": "02d2cfd74698d0ec1b3aaae5d8ebfe63c690355008c86f7370de67aca65a6363",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Spain, a Spanish Mediterranean neighbourhood with warm stucco buildings and contemporary local residents",
+        "scene": "an adult learner wearing headphones at a bright home desk by a window, listening attentively and taking notes, small plants",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "pt-library.webp",
+      "language": "pt",
+      "context": "library",
+      "width": 960,
+      "height": 540,
+      "bytes": 113306,
+      "sha256": "25ac998206565f382a6ddbcdc3ada0f2e0298fc97ea279e8ba7eaa7182781567",
+      "source": "exec-a287b5b0-97bd-42a2-848e-b4dd6c2e634a.png",
+      "sourceSha256": "bb9c5c4593b5e73d195ea8dda482055801439ba1fc89266ea7ce2981b7d37439",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Brazil, a Brazilian coastal neighbourhood with lush tropical plants and contemporary Brazilian residents",
+        "scene": "a pair of adult language learners studying together at a quiet library window table, open books and notes, different composition from a solo studying scene",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "pt-classroom.webp",
+      "language": "pt",
+      "context": "classroom",
+      "width": 960,
+      "height": 540,
+      "bytes": 114690,
+      "sha256": "3909ffe938be0e0daae5999fc67ffe6057d97d9ab99a6e7cc2c0404dae5eefc8",
+      "source": "exec-ef8e4176-d0ec-4629-84e7-5fb52910cbc7.png",
+      "sourceSha256": "d303b3112a410765a730ff11b6625b85a7b1c87242de6fbb990fd70473357733",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Brazil, a Brazilian coastal neighbourhood with lush tropical plants and contemporary Brazilian residents",
+        "scene": "an adult language teacher and two adult learners having a lively small-group lesson in a cozy local learning studio, table and notebooks",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "pt-listening.webp",
+      "language": "pt",
+      "context": "listening",
+      "width": 960,
+      "height": 540,
+      "bytes": 85094,
+      "sha256": "50509308eb8a067497d35212122ef6a805e6a6f0fb5f00c71e0a2ed26b9dc09e",
+      "source": "exec-56dc17e4-a797-4a72-a484-fb32bc8dce57.png",
+      "sourceSha256": "ca961ed2bfaed5f19437f3984cd4cb89f805b712eca7fd7ed2d075fe8f1884f2",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Brazil, a Brazilian coastal neighbourhood with lush tropical plants and contemporary Brazilian residents",
+        "scene": "an adult learner wearing headphones at a bright home desk by a window, listening attentively and taking notes, small plants",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ja-library.webp",
+      "language": "ja",
+      "context": "library",
+      "width": 960,
+      "height": 540,
+      "bytes": 103310,
+      "sha256": "657e7592dc76a3fc99d6f88c9a307d7492b9259c46eb67b4de9236c9e411ef57",
+      "source": "exec-d90cd383-79f8-4c12-929b-8e10bc2cfbe1.png",
+      "sourceSha256": "82a9dff9acb713f3d6835fc76da62aad9fa682a3d9f83037dbe458cfff47ee90",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Japan, a Japanese neighbourhood with tiled roofs, warm wooden interiors and contemporary Japanese residents",
+        "scene": "a pair of adult language learners studying together at a quiet library window table, open books and notes, different composition from a solo studying scene",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ja-classroom.webp",
+      "language": "ja",
+      "context": "classroom",
+      "width": 960,
+      "height": 540,
+      "bytes": 103468,
+      "sha256": "de8845d41452b4e3e70ca98b6c894fc5cd82e300b0eed05d52058a90281ae1a3",
+      "source": "exec-85d04919-f61b-4065-9325-86af42a20329.png",
+      "sourceSha256": "2512d0ef89016297a95c69647c9fac589bcb7019ed7810d95f735824f032cedd",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Japan, a Japanese neighbourhood with tiled roofs, warm wooden interiors and contemporary Japanese residents",
+        "scene": "an adult language teacher and two adult learners having a lively small-group lesson in a cozy local learning studio, table and notebooks",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
+    },
+    {
+      "file": "ja-listening.webp",
+      "language": "ja",
+      "context": "listening",
+      "width": 960,
+      "height": 540,
+      "bytes": 108278,
+      "sha256": "e80ed8342b84bfcf13bdfca5de343729e26233002fea3439d11a6bbc7e404751",
+      "source": "exec-9175911c-217c-41bd-83a9-615714f3de74.png",
+      "sourceSha256": "dea5b967ed6af0ab6d2e0d2ed6c5469116d019517dbd4f0644e7b634cc1827f2",
+      "generation": "built-in image_gen",
+      "prompt": {
+        "setting": "Japan, a Japanese neighbourhood with tiled roofs, warm wooden interiors and contemporary Japanese residents",
+        "scene": "an adult learner wearing headphones at a bright home desk by a window, listening attentively and taking notes, small plants",
+        "style": "Soft hand-drawn watercolor and gouache, delicate ink lines, warm daylight, adult everyday life; no UI or lettering."
+      }
     }
   ]
 }

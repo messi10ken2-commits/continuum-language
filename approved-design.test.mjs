@@ -3,15 +3,15 @@ import {illustratedContexts,illustratedLanguages,illustratedLessonArt,illustrate
 import {approvedDesignCopy} from './approved-design-copy.mjs';
 import {translationSource} from './localization-corpus.mjs';
 import {lessonList} from './course.mjs';
-test('all 48 contextual illustrations are local verified assets, with source provenance and bounded download size',async()=>{
+test('all contextual illustrations are local verified assets, with source provenance and bounded download size',async()=>{
  const manifest=JSON.parse(await readFile(new URL('./public/illustrated-lessons/manifest.json',import.meta.url)));let bytes=0;
  for(const entry of manifest.assets){const b=await readFile(new URL('./public/illustrated-lessons/'+entry.file,import.meta.url));assert.equal(createHash('sha256').update(b).digest('hex'),entry.sha256);assert.equal(b.length,entry.bytes);assert.equal(b.toString('ascii',8,12),'WEBP');assert.ok(entry.sourceSha256);bytes+=b.length;}
  for(const lang of illustratedLanguages)for(const context of illustratedContexts)assert.ok(manifest.assets.some(a=>a.file===lang+'-'+context+'.webp'));
- assert.ok(bytes<4000000,'lazy images remain under 4MB total');
+ assert.ok(bytes<18000000,'expanded lazy-loaded image catalogue remains under 18MB total');
  for(const section of ['Learning memory','Practice Studio','My classes','Level test','Skill report'])assert.ok(manifest.assets.some(a=>illustratedHero('ja',section).endsWith('/'+a.file)));
 });
 test('lesson artwork never reads answers, options, scores or learner text; all lesson mappings resolve',()=>{
- for(const lesson of lessonList){const a=illustratedLessonArt(lesson),b=illustratedLessonArt({...lesson,questions:[{answer:'airport',options:['hospital']}],score:0,response:'cafe'});assert.deepEqual(a,b);assert.match(a.src,/^(?:\/illustrated-lessons\/(en|es|pt|ja)-(station|cafe|market|home|work|study|nature|city|health|travel|food|culture)\.webp|\/country-worlds\/(zh|ko|fr|de|ar|it)\/panorama\.webp)$/);}
+ for(const lesson of lessonList){const a=illustratedLessonArt(lesson),b=illustratedLessonArt({...lesson,questions:[{answer:'airport',options:['hospital']}],score:0,response:'cafe'});assert.deepEqual(a,b);assert.ok(/^\/(?:illustrated-lessons|journey-illustrated)\/[a-z0-9-]+\.webp$/.test(a.src));}
  assert.equal(illustratedLessonArt({language:'en',title:'Workplace training'}).context,'work');assert.equal(illustratedLessonArt({language:'ja',title:'Finding your train platform'}).context,'station');assert.equal(illustratedLessonArt({language:'../../bad'}).language,'es');
 });
 test('new approved UI copy is registered and translated offline in all five non-English display languages',()=>{

@@ -1,0 +1,5812 @@
+{
+ "en-a1-v2-lesson-1": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-a1-v2-lesson-2": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-a1-v2-chapter-1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-a1-v2-lesson-3": {
+  "language": "en",
+  "context": "home",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-a1-v2-lesson-4": {
+  "language": "en",
+  "context": "cafe",
+  "src": "/illustrated-lessons/en-cafe.webp"
+ },
+ "en-a1-v2-chapter-2-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-a1-v2-lesson-5": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-a1-v2-lesson-6": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-a1-v2-chapter-3-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-a1-v2-lesson-7": {
+  "language": "en",
+  "context": "food",
+  "src": "/illustrated-lessons/en-food.webp"
+ },
+ "en-a1-v2-lesson-8": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-a1-v2-chapter-4-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-a1-v2-lesson-9": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-a1-v2-lesson-10": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-a1-v2-chapter-5-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-a1-v2-lesson-11": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-a1-v2-lesson-12": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-a1-v2-chapter-6-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-sound-v1-0-0": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-sound-v1-0-1": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-sound-v1-0-check": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-visual-v1-cafe": {
+  "language": "en",
+  "context": "cafe",
+  "src": "/illustrated-lessons/en-cafe.webp"
+ },
+ "en-visual-v1-cafe-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-conversation-v1-welcome": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-conversation-v1-neighbours": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-a1-v2-summary-test": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-a2-v2-lesson-1": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-a2-v2-lesson-2": {
+  "language": "en",
+  "context": "work",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-a2-v2-chapter-1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-a2-v2-lesson-3": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-a2-v2-lesson-4": {
+  "language": "en",
+  "context": "city",
+  "src": "/illustrated-lessons/en-city.webp"
+ },
+ "en-a2-v2-chapter-2-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-a2-v2-lesson-5": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-a2-v2-lesson-6": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-a2-v2-chapter-3-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-a2-v2-lesson-7": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-a2-v2-lesson-8": {
+  "language": "en",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-a2-v2-chapter-4-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-a2-v2-lesson-9": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-a2-v2-lesson-10": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-a2-v2-chapter-5-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-a2-v2-lesson-11": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-a2-v2-lesson-12": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-a2-v2-chapter-6-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-sound-v1-1-0": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-sound-v1-1-1": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-sound-v1-1-check": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-visual-v1-station": {
+  "language": "en",
+  "context": "station",
+  "src": "/illustrated-lessons/en-station.webp"
+ },
+ "en-visual-v1-station-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-conversation-v2-a2-daily-routine": {
+  "language": "en",
+  "context": "home",
+  "src": "/illustrated-lessons/en-food.webp"
+ },
+ "en-a2-v2-summary-test": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-b1-v2-lesson-1": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-b1-v2-lesson-2": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-b1-v2-chapter-1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-b1-v2-lesson-3": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-b1-v2-lesson-4": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-b1-v2-chapter-2-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-b1-v2-lesson-5": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-b1-v2-lesson-6": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-b1-v2-chapter-3-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-b1-v2-lesson-7": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-b1-v2-lesson-8": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-b1-v2-chapter-4-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-b1-v2-lesson-9": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-b1-v2-lesson-10": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-b1-v2-chapter-5-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-b1-v2-lesson-11": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-b1-v2-lesson-12": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-b1-v2-chapter-6-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-visual-v1-meeting": {
+  "language": "en",
+  "context": "work",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-visual-v1-meeting-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-conversation-v2-b1-complaints": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-b1-v2-summary-test": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-b2-v2-lesson-1": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-b2-v2-lesson-2": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-b2-v2-chapter-1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-b2-v2-lesson-3": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-b2-v2-lesson-4": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-b2-v2-chapter-2-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-b2-v2-lesson-5": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-b2-v2-lesson-6": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-b2-v2-chapter-3-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-b2-v2-lesson-7": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-b2-v2-lesson-8": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-b2-v2-chapter-4-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-b2-v2-lesson-9": {
+  "language": "en",
+  "context": "work",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-b2-v2-lesson-10": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-b2-v2-chapter-5-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-visual-v1-city": {
+  "language": "en",
+  "context": "city",
+  "src": "/illustrated-lessons/en-city.webp"
+ },
+ "en-visual-v1-city-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-conversation-v2-b2-conversation-skills": {
+  "language": "en",
+  "context": "culture",
+  "src": "/illustrated-lessons/en-nature.webp"
+ },
+ "en-b2-v2-summary-test": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-c1-v2-lesson-1": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-c1-v2-lesson-2": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-c1-v2-chapter-1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-c1-v2-lesson-3": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-c1-v2-lesson-4": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-c1-v2-chapter-2-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-c1-v2-lesson-5": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-c1-v2-lesson-6": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-c1-v2-chapter-3-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-c1-v2-lesson-7": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-c1-v2-lesson-8": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-c1-v2-chapter-4-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-c1-v2-lesson-9": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-c1-v2-lesson-10": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-c1-v2-chapter-5-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "en-c1-everyday-idioms-1": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-home.webp"
+ },
+ "en-c1-everyday-idioms-2": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-culture.webp"
+ },
+ "en-c1-everyday-idioms-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-visual-v1-evidence": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-visual-v1-evidence-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-conversation-v2-c1-rhetoric": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-study.webp"
+ },
+ "en-c1-v2-summary-test": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "introductions": {
+  "language": "es",
+  "context": "work",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "ser-estar": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "a1-hello-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "daily-routine": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "cafe": {
+  "language": "es",
+  "context": "cafe",
+  "src": "/illustrated-lessons/es-cafe.webp"
+ },
+ "a1-day-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "present-regular-lab": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "present-irregular-lab": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "a1-verb-lab-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "food-vocabulary": {
+  "language": "es",
+  "context": "food",
+  "src": "/illustrated-lessons/es-food.webp"
+ },
+ "city-vocabulary": {
+  "language": "es",
+  "context": "city",
+  "src": "/illustrated-lessons/es-city.webp"
+ },
+ "a1-word-lab-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "a1-polite-contact": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "a1-ask-again": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "a1-expressions-social-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "a1-tener-chunks": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "a1-routine-chunks": {
+  "language": "es",
+  "context": "home",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "a1-expressions-daily-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "es-sound-v1-0-0": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "es-sound-v1-0-1": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "es-sound-v1-0-check": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "es-visual-v1-cafe": {
+  "language": "es",
+  "context": "cafe",
+  "src": "/illustrated-lessons/es-cafe.webp"
+ },
+ "es-visual-v1-cafe-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "es-conversation-v1-introductions": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "a1-summary-test": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "past-events": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "future-plans": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "a2-stories-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "pronunciation": {
+  "language": "es",
+  "context": "work",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "directions": {
+  "language": "es",
+  "context": "city",
+  "src": "/illustrated-lessons/es-city.webp"
+ },
+ "a2-sound-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "preterite-lab": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "imperfect-lab": {
+  "language": "es",
+  "context": "home",
+  "src": "/illustrated-lessons/es-food.webp"
+ },
+ "es-a2-past-aspect-v1": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "a2-past-lab-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "travel-vocabulary": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "work-vocabulary": {
+  "language": "es",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "a2-word-lab-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "a2-meet-and-plan": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "a2-practical-help": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "a2-expressions-plans-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "a2-time-patterns": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "a2-experience-chunks": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "a2-expressions-stories-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "es-sound-v1-1-0": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "es-sound-v1-1-1": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "es-sound-v1-1-check": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "es-visual-v1-station": {
+  "language": "es",
+  "context": "station",
+  "src": "/illustrated-lessons/es-station.webp"
+ },
+ "es-visual-v1-station-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "es-conversation-v2-a2-morning": {
+  "language": "es",
+  "context": "home",
+  "src": "/illustrated-lessons/es-cafe.webp"
+ },
+ "a2-summary-test": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "porpara": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "subjunctive": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "b1-choice-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "connectors": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "travel-message": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "b1-express-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "present-perfect-lab": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "pluperfect-lab": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "b1-perfect-lab-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "future-simple-lab": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "conditional-lab": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "b1-future-lab-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "b1-clarify-and-add": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "b1-opinion-partners": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "b1-expressions-conversation-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "b1-help-idioms": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "b1-reaction-patterns": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "b1-expressions-idioms-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "es-visual-v1-meeting": {
+  "language": "es",
+  "context": "work",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "es-visual-v1-meeting-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "es-conversation-v2-b1-compliments": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "b1-summary-test": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "airport": {
+  "language": "es",
+  "context": "travel",
+  "src": "/illustrated-lessons/es-travel.webp"
+ },
+ "speaker-stance": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "b2-travel-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "hypotheticals": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "balanced-argument": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "b2-ideas-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "present-subjunctive-lab": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "imperfect-subjunctive-lab": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "b2-mood-lab-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "b2-decide-and-weigh": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "b2-collaborate": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "b2-expressions-decisions-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "b2-idioms-pressure": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "b2-idioms-effort": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "b2-expressions-idioms-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "es-visual-v1-city": {
+  "language": "es",
+  "context": "city",
+  "src": "/illustrated-lessons/es-city.webp"
+ },
+ "es-visual-v1-city-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "es-conversation-v2-b2-technology": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "b2-summary-test": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "formal-register": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "implied-meaning": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "c1-register-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "hedging": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "synthesis": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "c1-precision-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "perfect-subjunctive-lab": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "past-perfect-subjunctive-lab": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "c1-perfect-mood-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "c1-evidence-collocations": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "c1-qualify-arguments": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "c1-expressions-argument-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "c1-read-subtext": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-classroom.webp"
+ },
+ "c1-register-shift": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-listening.webp"
+ },
+ "c1-expressions-nuance-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-work.webp"
+ },
+ "c1-everyday-idioms-1": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-home.webp"
+ },
+ "c1-everyday-idioms-2": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "c1-everyday-idioms-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "es-visual-v1-evidence": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "es-visual-v1-evidence-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "es-conversation-v2-c1-travel-motives": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-study.webp"
+ },
+ "c1-summary-test": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-library.webp"
+ },
+ "pt-a1-v2-lesson-1": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-a1-v2-lesson-2": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-a1-v2-chapter-1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-a1-v2-lesson-3": {
+  "language": "pt",
+  "context": "home",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-a1-v2-lesson-4": {
+  "language": "pt",
+  "context": "cafe",
+  "src": "/illustrated-lessons/pt-cafe.webp"
+ },
+ "pt-a1-v2-chapter-2-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-a1-v2-lesson-5": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-a1-v2-lesson-6": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-a1-v2-chapter-3-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-a1-v2-lesson-7": {
+  "language": "pt",
+  "context": "food",
+  "src": "/illustrated-lessons/pt-food.webp"
+ },
+ "pt-a1-v2-lesson-8": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-a1-v2-chapter-4-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "pt-a1-v2-lesson-9": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-a1-v2-lesson-10": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-a1-v2-chapter-5-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-a1-v2-lesson-11": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-a1-v2-lesson-12": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-a1-v2-chapter-6-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-sound-v1-0-0": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-sound-v1-0-1": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-sound-v1-0-check": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-visual-v1-cafe": {
+  "language": "pt",
+  "context": "cafe",
+  "src": "/illustrated-lessons/pt-cafe.webp"
+ },
+ "pt-visual-v1-cafe-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "pt-conversation-v1-introductions": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-a1-v2-summary-test": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-a2-v2-lesson-1": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-a2-v2-lesson-2": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-a2-v2-chapter-1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-a2-v2-lesson-3": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-a2-v2-lesson-4": {
+  "language": "pt",
+  "context": "city",
+  "src": "/illustrated-lessons/pt-city.webp"
+ },
+ "pt-a2-v2-chapter-2-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-a2-v2-lesson-5": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-a2-v2-lesson-6": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-a2-past-aspect-v1": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-a2-v2-chapter-3-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-a2-v2-lesson-7": {
+  "language": "pt",
+  "context": "travel",
+  "src": "/illustrated-lessons/pt-travel.webp"
+ },
+ "pt-a2-v2-lesson-8": {
+  "language": "pt",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "pt-a2-v2-chapter-4-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-a2-v2-lesson-9": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-a2-v2-lesson-10": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-a2-v2-chapter-5-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-a2-v2-lesson-11": {
+  "language": "pt",
+  "context": "home",
+  "src": "/illustrated-lessons/pt-food.webp"
+ },
+ "pt-a2-v2-lesson-12": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-a2-v2-chapter-6-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-sound-v1-1-0": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-sound-v1-1-1": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-sound-v1-1-check": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-visual-v1-station": {
+  "language": "pt",
+  "context": "station",
+  "src": "/illustrated-lessons/pt-station.webp"
+ },
+ "pt-visual-v1-station-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "pt-conversation-v2-a2-morning": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-a2-v2-summary-test": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-b1-v2-lesson-1": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-b1-v2-lesson-2": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-b1-v2-chapter-1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-b1-v2-lesson-3": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-b1-v2-lesson-4": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-b1-v2-chapter-2-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-b1-v2-lesson-5": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-b1-v2-lesson-6": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-b1-v2-chapter-3-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-b1-v2-lesson-7": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "pt-b1-v2-lesson-8": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-b1-v2-chapter-4-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-b1-v2-lesson-9": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-b1-v2-lesson-10": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-b1-v2-chapter-5-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-b1-v2-lesson-11": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-b1-v2-lesson-12": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-b1-v2-chapter-6-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-visual-v1-meeting": {
+  "language": "pt",
+  "context": "work",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-visual-v1-meeting-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "pt-conversation-v2-b1-future": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-b1-v2-summary-test": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-b2-v2-lesson-1": {
+  "language": "pt",
+  "context": "culture",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-b2-v2-lesson-2": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-b2-v2-chapter-1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-b2-v2-lesson-3": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-b2-v2-lesson-4": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-b2-v2-chapter-2-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-b2-v2-lesson-5": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-b2-v2-lesson-6": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-b2-v2-chapter-3-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-b2-v2-lesson-7": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "pt-b2-v2-lesson-8": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-b2-v2-chapter-4-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-b2-v2-lesson-9": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-b2-v2-lesson-10": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-b2-v2-chapter-5-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-visual-v1-city": {
+  "language": "pt",
+  "context": "city",
+  "src": "/illustrated-lessons/pt-city.webp"
+ },
+ "pt-visual-v1-city-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-conversation-v2-b2-reflections": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-b2-v2-summary-test": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-c1-v2-lesson-1": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-c1-v2-lesson-2": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-c1-v2-chapter-1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-c1-v2-lesson-3": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-c1-v2-lesson-4": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-c1-v2-chapter-2-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-c1-v2-lesson-5": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-c1-v2-lesson-6": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-c1-v2-chapter-3-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-c1-v2-lesson-7": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "pt-c1-v2-lesson-8": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-c1-v2-chapter-4-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-c1-v2-lesson-9": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-c1-v2-lesson-10": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "pt-c1-v2-chapter-5-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-work.webp"
+ },
+ "pt-c1-everyday-idioms-1": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-home.webp"
+ },
+ "pt-c1-everyday-idioms-2": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-culture.webp"
+ },
+ "pt-c1-everyday-idioms-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-visual-v1-evidence": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-visual-v1-evidence-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "pt-conversation-v2-c1-goals-values": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-study.webp"
+ },
+ "pt-c1-v2-summary-test": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "ja-a1-v2-lesson-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-a1-v2-lesson-2": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-a1-v2-chapter-1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-a1-v2-lesson-3": {
+  "language": "ja",
+  "context": "home",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-a1-v2-lesson-4": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-a1-v2-chapter-2-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-a1-v2-lesson-5": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-a1-v2-lesson-6": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-a1-v2-chapter-3-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-a1-v2-lesson-7": {
+  "language": "ja",
+  "context": "food",
+  "src": "/illustrated-lessons/ja-food.webp"
+ },
+ "ja-a1-v2-lesson-8": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-a1-v2-chapter-4-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-a1-v2-lesson-9": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-a1-v2-lesson-10": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-a1-v2-chapter-5-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-a1-v2-lesson-11": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-a1-v2-lesson-12": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-a1-v2-chapter-6-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-sound-v1-0-0": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-sound-v1-0-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-sound-v1-0-check": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-script-v1-hiragana-0": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-script-v1-hiragana-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-script-v1-hiragana-2": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-script-v1-katakana-0": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-script-v1-katakana-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-script-v1-katakana-2": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-script-v1-combinations": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-script-v1-combinations-katakana": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-visual-v1-cafe": {
+  "language": "ja",
+  "context": "cafe",
+  "src": "/illustrated-lessons/ja-cafe.webp"
+ },
+ "ja-visual-v1-cafe-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-conversation-v1-slow-conversation": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-a1-v2-summary-test": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-a2-v2-lesson-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-a2-v2-lesson-2": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-a2-v2-chapter-1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-a2-v2-lesson-3": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-a2-v2-lesson-4": {
+  "language": "ja",
+  "context": "city",
+  "src": "/illustrated-lessons/ja-city.webp"
+ },
+ "ja-a2-v2-chapter-2-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-a2-v2-lesson-5": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-a2-v2-lesson-6": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-a2-v2-chapter-3-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-a2-v2-lesson-7": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-a2-v2-lesson-8": {
+  "language": "ja",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-a2-v2-chapter-4-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-a2-v2-lesson-9": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-a2-v2-lesson-10": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-a2-v2-chapter-5-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-a2-v2-lesson-11": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-a2-v2-lesson-12": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-a2-v2-chapter-6-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-sound-v1-1-0": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-sound-v1-1-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-sound-v1-1-check": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-script-v1-kanji": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-visual-v1-station": {
+  "language": "ja",
+  "context": "station",
+  "src": "/illustrated-lessons/ja-station.webp"
+ },
+ "ja-visual-v1-station-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-conversation-v2-a2-everyday-talk": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-a2-v2-summary-test": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-b1-v2-lesson-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-b1-v2-lesson-2": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-b1-v2-chapter-1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-b1-v2-lesson-3": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-b1-v2-lesson-4": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-b1-v2-chapter-2-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-b1-v2-lesson-5": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-b1-v2-lesson-6": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-b1-v2-chapter-3-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-b1-v2-lesson-7": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-b1-v2-lesson-8": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-b1-v2-chapter-4-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-b1-v2-lesson-9": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-b1-v2-lesson-10": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-b1-v2-chapter-5-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-b1-v2-lesson-11": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-b1-v2-lesson-12": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-b1-v2-chapter-6-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-visual-v1-meeting": {
+  "language": "ja",
+  "context": "work",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-visual-v1-meeting-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-conversation-v2-b1-travel": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-b1-v2-summary-test": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-b2-v2-lesson-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-b2-v2-lesson-2": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-b2-v2-chapter-1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-b2-v2-lesson-3": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-b2-v2-lesson-4": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-b2-v2-chapter-2-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-b2-v2-lesson-5": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-b2-v2-lesson-6": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-b2-v2-chapter-3-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-b2-v2-lesson-7": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-b2-v2-lesson-8": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-b2-v2-chapter-4-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-b2-v2-lesson-9": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-b2-v2-lesson-10": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-b2-v2-chapter-5-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-visual-v1-city": {
+  "language": "ja",
+  "context": "city",
+  "src": "/illustrated-lessons/ja-city.webp"
+ },
+ "ja-visual-v1-city-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-conversation-v2-b2-moving": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-b2-v2-summary-test": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-c1-v2-lesson-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-c1-v2-lesson-2": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-c1-v2-chapter-1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-c1-v2-lesson-3": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-c1-v2-lesson-4": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-c1-v2-chapter-2-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-c1-v2-lesson-5": {
+  "language": "ja",
+  "context": "work",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-c1-v2-lesson-6": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-c1-v2-chapter-3-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-c1-v2-lesson-7": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-c1-v2-lesson-8": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-c1-v2-chapter-4-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "ja-c1-v2-lesson-9": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-classroom.webp"
+ },
+ "ja-c1-v2-lesson-10": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-listening.webp"
+ },
+ "ja-c1-v2-chapter-5-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "ja-c1-everyday-idioms-1": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-home.webp"
+ },
+ "ja-c1-everyday-idioms-2": {
+  "language": "ja",
+  "context": "work",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-c1-everyday-idioms-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-visual-v1-evidence": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-visual-v1-evidence-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-conversation-v2-c1-implicit-meaning": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-study.webp"
+ },
+ "ja-c1-v2-summary-test": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-library.webp"
+ },
+ "zh-a1-core-v3-lesson-1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-a1-core-v3-lesson-2": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-a1-core-v3-chapter-1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-a1-core-v3-lesson-3": {
+  "language": "zh",
+  "context": "home",
+  "src": "/illustrated-lessons/zh-food.webp"
+ },
+ "zh-a1-core-v3-lesson-4": {
+  "language": "zh",
+  "context": "cafe",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-a1-core-v3-chapter-2-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-a1-core-v3-lesson-5": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-a1-core-v3-lesson-6": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-a1-core-v3-chapter-3-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-a1-core-v3-lesson-7": {
+  "language": "zh",
+  "context": "food",
+  "src": "/illustrated-lessons/zh-market.webp"
+ },
+ "zh-a1-core-v3-lesson-8": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-a1-core-v3-chapter-4-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-a1-core-v3-lesson-9": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-a1-core-v3-lesson-10": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-a1-core-v3-chapter-5-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-a1-core-v3-lesson-11": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-a1-core-v3-lesson-12": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-a1-core-v3-chapter-6-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-sound-v1-0-0": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-sound-v1-0-1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-sound-v1-0-check": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-script-v1-pinyin-0": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-script-v1-pinyin-1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-script-v1-pinyin-2": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-script-v1-pinyin-3": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-script-v1-hanzi-0": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-script-v1-hanzi-1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-visual-v1-a1": {
+  "language": "zh",
+  "context": "cafe",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-visual-v1-a1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-conversation-v2-a1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-a1-core-v3-summary-test": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-a2-core-v3-lesson-1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-a2-core-v3-lesson-2": {
+  "language": "zh",
+  "context": "work",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-a2-core-v3-chapter-1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-a2-core-v3-lesson-3": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-a2-core-v3-lesson-4": {
+  "language": "zh",
+  "context": "city",
+  "src": "/illustrated-lessons/zh-city.webp"
+ },
+ "zh-a2-core-v3-chapter-2-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-a2-core-v3-lesson-5": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-a2-core-v3-lesson-6": {
+  "language": "zh",
+  "context": "home",
+  "src": "/illustrated-lessons/zh-food.webp"
+ },
+ "zh-a2-core-v3-chapter-3-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-a2-core-v3-lesson-7": {
+  "language": "zh",
+  "context": "travel",
+  "src": "/illustrated-lessons/zh-travel.webp"
+ },
+ "zh-a2-core-v3-lesson-8": {
+  "language": "zh",
+  "context": "work",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-a2-core-v3-chapter-4-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-a2-core-v3-lesson-9": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-a2-core-v3-lesson-10": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-a2-core-v3-chapter-5-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-a2-core-v3-lesson-11": {
+  "language": "zh",
+  "context": "home",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-a2-core-v3-lesson-12": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-a2-core-v3-chapter-6-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-sound-v1-1-0": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-sound-v1-1-1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-sound-v1-1-check": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-visual-v1-a2": {
+  "language": "zh",
+  "context": "city",
+  "src": "/illustrated-lessons/zh-station.webp"
+ },
+ "zh-visual-v1-a2-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-conversation-v2-a2": {
+  "language": "zh",
+  "context": "home",
+  "src": "/illustrated-lessons/zh-food.webp"
+ },
+ "zh-a2-core-v3-summary-test": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-b1-core-v3-lesson-1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-b1-core-v3-lesson-2": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-b1-core-v3-chapter-1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-b1-core-v3-lesson-3": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-b1-core-v3-lesson-4": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-b1-core-v3-chapter-2-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-b1-core-v3-lesson-5": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-b1-core-v3-lesson-6": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-b1-core-v3-chapter-3-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-b1-core-v3-lesson-7": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-b1-core-v3-lesson-8": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-b1-core-v3-chapter-4-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-b1-core-v3-lesson-9": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-b1-core-v3-lesson-10": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-b1-core-v3-chapter-5-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-b1-core-v3-lesson-11": {
+  "language": "zh",
+  "context": "culture",
+  "src": "/illustrated-lessons/zh-city.webp"
+ },
+ "zh-b1-core-v3-lesson-12": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-b1-core-v3-chapter-6-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-visual-v1-b1": {
+  "language": "zh",
+  "context": "home",
+  "src": "/illustrated-lessons/zh-food.webp"
+ },
+ "zh-visual-v1-b1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-conversation-v2-b1": {
+  "language": "zh",
+  "context": "travel",
+  "src": "/illustrated-lessons/zh-travel.webp"
+ },
+ "zh-b1-core-v3-summary-test": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-b2-core-v3-lesson-1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-b2-core-v3-lesson-2": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-b2-core-v3-chapter-1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-b2-core-v3-lesson-3": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-b2-core-v3-lesson-4": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-b2-core-v3-chapter-2-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-b2-core-v3-lesson-5": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-b2-core-v3-lesson-6": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-b2-core-v3-chapter-3-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-b2-core-v3-lesson-7": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-b2-core-v3-lesson-8": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-b2-core-v3-chapter-4-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-b2-core-v3-lesson-9": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-b2-core-v3-lesson-10": {
+  "language": "zh",
+  "context": "city",
+  "src": "/illustrated-lessons/zh-city.webp"
+ },
+ "zh-b2-core-v3-chapter-5-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-visual-v1-b2": {
+  "language": "zh",
+  "context": "work",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-visual-v1-b2-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-conversation-v2-b2": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-b2-core-v3-summary-test": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-c1-core-v3-lesson-1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-c1-core-v3-lesson-2": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-c1-core-v3-chapter-1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-c1-core-v3-lesson-3": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-c1-core-v3-lesson-4": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-c1-core-v3-chapter-2-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-c1-core-v3-lesson-5": {
+  "language": "zh",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-c1-core-v3-lesson-6": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-c1-core-v3-chapter-3-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-c1-core-v3-lesson-7": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-c1-core-v3-lesson-8": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-c1-core-v3-chapter-4-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-c1-core-v3-lesson-9": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-c1-core-v3-lesson-10": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-c1-core-v3-chapter-5-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "zh-c1-core-v3-lesson-11": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-work.webp"
+ },
+ "zh-c1-core-v3-lesson-12": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-home.webp"
+ },
+ "zh-c1-core-v3-chapter-6-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-culture.webp"
+ },
+ "zh-visual-v1-c1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-visual-v1-c1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "zh-conversation-v2-c1": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "zh-c1-core-v3-summary-test": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-study.webp"
+ },
+ "ko-a1-core-v3-lesson-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-a1-core-v3-lesson-2": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-a1-core-v3-chapter-1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-a1-core-v3-lesson-3": {
+  "language": "ko",
+  "context": "home",
+  "src": "/illustrated-lessons/ko-food.webp"
+ },
+ "ko-a1-core-v3-lesson-4": {
+  "language": "ko",
+  "context": "cafe",
+  "src": "/illustrated-lessons/ko-cafe.webp"
+ },
+ "ko-a1-core-v3-chapter-2-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-a1-core-v3-lesson-5": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-a1-core-v3-lesson-6": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-a1-core-v3-chapter-3-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-a1-core-v3-lesson-7": {
+  "language": "ko",
+  "context": "food",
+  "src": "/illustrated-lessons/ko-market.webp"
+ },
+ "ko-a1-core-v3-lesson-8": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-a1-core-v3-chapter-4-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-a1-core-v3-lesson-9": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-a1-core-v3-lesson-10": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-a1-core-v3-chapter-5-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-a1-core-v3-lesson-11": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-a1-core-v3-lesson-12": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-a1-core-v3-chapter-6-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-sound-v1-0-0": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-sound-v1-0-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-sound-v1-0-check": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-script-v1-letters-0": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-script-v1-letters-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-script-v1-blocks-0": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-script-v1-blocks-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-script-v1-reading-0": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-script-v1-reading-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-visual-v1-a1": {
+  "language": "ko",
+  "context": "cafe",
+  "src": "/illustrated-lessons/ko-cafe.webp"
+ },
+ "ko-visual-v1-a1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-conversation-v2-a1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-a1-core-v3-summary-test": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-a2-core-v3-lesson-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-a2-core-v3-lesson-2": {
+  "language": "ko",
+  "context": "work",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-a2-core-v3-chapter-1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-a2-core-v3-lesson-3": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-a2-core-v3-lesson-4": {
+  "language": "ko",
+  "context": "city",
+  "src": "/illustrated-lessons/ko-city.webp"
+ },
+ "ko-a2-core-v3-chapter-2-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-a2-core-v3-lesson-5": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-a2-core-v3-lesson-6": {
+  "language": "ko",
+  "context": "home",
+  "src": "/illustrated-lessons/ko-food.webp"
+ },
+ "ko-a2-core-v3-chapter-3-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-a2-core-v3-lesson-7": {
+  "language": "ko",
+  "context": "travel",
+  "src": "/illustrated-lessons/ko-travel.webp"
+ },
+ "ko-a2-core-v3-lesson-8": {
+  "language": "ko",
+  "context": "work",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-a2-core-v3-chapter-4-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-a2-core-v3-lesson-9": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-a2-core-v3-lesson-10": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-a2-core-v3-chapter-5-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-a2-core-v3-lesson-11": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-a2-core-v3-lesson-12": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-a2-core-v3-chapter-6-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-sound-v1-1-0": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-sound-v1-1-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-sound-v1-1-check": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-visual-v1-a2": {
+  "language": "ko",
+  "context": "city",
+  "src": "/illustrated-lessons/ko-station.webp"
+ },
+ "ko-visual-v1-a2-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-conversation-v2-a2": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-a2-core-v3-summary-test": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-b1-core-v3-lesson-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-b1-core-v3-lesson-2": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-b1-core-v3-chapter-1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-b1-core-v3-lesson-3": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-b1-core-v3-lesson-4": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-b1-core-v3-chapter-2-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-b1-core-v3-lesson-5": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-b1-core-v3-lesson-6": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-b1-core-v3-chapter-3-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-b1-core-v3-lesson-7": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-b1-core-v3-lesson-8": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-b1-core-v3-chapter-4-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-b1-core-v3-lesson-9": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-b1-core-v3-lesson-10": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-b1-core-v3-chapter-5-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-b1-core-v3-lesson-11": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-b1-core-v3-lesson-12": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-b1-core-v3-chapter-6-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-visual-v1-b1": {
+  "language": "ko",
+  "context": "home",
+  "src": "/illustrated-lessons/ko-food.webp"
+ },
+ "ko-visual-v1-b1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-conversation-v2-b1": {
+  "language": "ko",
+  "context": "nature",
+  "src": "/illustrated-lessons/ko-nature.webp"
+ },
+ "ko-b1-core-v3-summary-test": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-b2-core-v3-lesson-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-b2-core-v3-lesson-2": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-b2-core-v3-chapter-1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-b2-core-v3-lesson-3": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-b2-core-v3-lesson-4": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-b2-core-v3-chapter-2-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-b2-core-v3-lesson-5": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-b2-core-v3-lesson-6": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-b2-core-v3-chapter-3-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-b2-core-v3-lesson-7": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-b2-core-v3-lesson-8": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-b2-core-v3-chapter-4-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-b2-core-v3-lesson-9": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-b2-core-v3-lesson-10": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-b2-core-v3-chapter-5-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-visual-v1-b2": {
+  "language": "ko",
+  "context": "work",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-visual-v1-b2-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-conversation-v2-b2": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-b2-core-v3-summary-test": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-c1-core-v3-lesson-1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-c1-core-v3-lesson-2": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-c1-core-v3-chapter-1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-c1-core-v3-lesson-3": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-c1-core-v3-lesson-4": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-c1-core-v3-chapter-2-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-c1-core-v3-lesson-5": {
+  "language": "ko",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-c1-core-v3-lesson-6": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-c1-core-v3-chapter-3-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-c1-core-v3-lesson-7": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-c1-core-v3-lesson-8": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-c1-core-v3-chapter-4-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-c1-core-v3-lesson-9": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-c1-core-v3-lesson-10": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-c1-core-v3-chapter-5-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "ko-c1-core-v3-lesson-11": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-work.webp"
+ },
+ "ko-c1-core-v3-lesson-12": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-home.webp"
+ },
+ "ko-c1-core-v3-chapter-6-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-culture.webp"
+ },
+ "ko-visual-v1-c1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ko-visual-v1-c1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ko-conversation-v2-c1": {
+  "language": "ko",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ko-c1-core-v3-summary-test": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-study.webp"
+ },
+ "fr-a1-core-v3-lesson-1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-a1-core-v3-lesson-2": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-a1-core-v3-chapter-1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-a1-core-v3-lesson-3": {
+  "language": "fr",
+  "context": "home",
+  "src": "/illustrated-lessons/fr-food.webp"
+ },
+ "fr-a1-core-v3-lesson-4": {
+  "language": "fr",
+  "context": "cafe",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-a1-core-v3-chapter-2-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-a1-core-v3-lesson-5": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-a1-core-v3-lesson-6": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-a1-core-v3-chapter-3-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-a1-core-v3-lesson-7": {
+  "language": "fr",
+  "context": "food",
+  "src": "/illustrated-lessons/fr-market.webp"
+ },
+ "fr-a1-core-v3-lesson-8": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-a1-core-v3-chapter-4-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-a1-core-v3-lesson-9": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-a1-core-v3-lesson-10": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-a1-core-v3-chapter-5-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-a1-core-v3-lesson-11": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-a1-core-v3-lesson-12": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-a1-core-v3-chapter-6-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-sound-v1-0-0": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-sound-v1-0-1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-sound-v1-0-check": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-visual-v1-a1": {
+  "language": "fr",
+  "context": "cafe",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-visual-v1-a1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-conversation-v2-a1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-a1-core-v3-summary-test": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-a2-core-v3-lesson-1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-a2-core-v3-lesson-2": {
+  "language": "fr",
+  "context": "work",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-a2-core-v3-chapter-1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-a2-core-v3-lesson-3": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-a2-core-v3-lesson-4": {
+  "language": "fr",
+  "context": "city",
+  "src": "/illustrated-lessons/fr-city.webp"
+ },
+ "fr-a2-core-v3-chapter-2-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-a2-core-v3-lesson-5": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-a2-core-v3-lesson-6": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-a2-core-v3-chapter-3-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-a2-core-v3-lesson-7": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-a2-core-v3-lesson-8": {
+  "language": "fr",
+  "context": "work",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-a2-core-v3-chapter-4-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-a2-core-v3-lesson-9": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-a2-core-v3-lesson-10": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-a2-core-v3-chapter-5-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-a2-core-v3-lesson-11": {
+  "language": "fr",
+  "context": "home",
+  "src": "/illustrated-lessons/fr-food.webp"
+ },
+ "fr-a2-core-v3-lesson-12": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-a2-core-v3-chapter-6-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-sound-v1-1-0": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-sound-v1-1-1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-sound-v1-1-check": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-visual-v1-a2": {
+  "language": "fr",
+  "context": "city",
+  "src": "/illustrated-lessons/fr-travel.webp"
+ },
+ "fr-visual-v1-a2-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-conversation-v2-a2": {
+  "language": "fr",
+  "context": "home",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-a2-core-v3-summary-test": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-b1-core-v3-lesson-1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-b1-core-v3-lesson-2": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-b1-core-v3-chapter-1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-b1-core-v3-lesson-3": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-b1-core-v3-lesson-4": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-b1-core-v3-chapter-2-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-b1-core-v3-lesson-5": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-b1-core-v3-lesson-6": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-b1-core-v3-chapter-3-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-b1-core-v3-lesson-7": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-b1-core-v3-lesson-8": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-b1-core-v3-chapter-4-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-b1-core-v3-lesson-9": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-b1-core-v3-lesson-10": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-b1-core-v3-chapter-5-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-b1-core-v3-lesson-11": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-b1-core-v3-lesson-12": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-b1-core-v3-chapter-6-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-visual-v1-b1": {
+  "language": "fr",
+  "context": "home",
+  "src": "/illustrated-lessons/fr-food.webp"
+ },
+ "fr-visual-v1-b1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-conversation-v2-b1": {
+  "language": "fr",
+  "context": "food",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-b1-core-v3-summary-test": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-b2-core-v3-lesson-1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-b2-core-v3-lesson-2": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-b2-core-v3-chapter-1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-b2-core-v3-lesson-3": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-b2-core-v3-lesson-4": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-b2-core-v3-chapter-2-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-b2-core-v3-lesson-5": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-b2-core-v3-lesson-6": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-b2-core-v3-chapter-3-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-b2-core-v3-lesson-7": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-b2-core-v3-lesson-8": {
+  "language": "fr",
+  "context": "city",
+  "src": "/illustrated-lessons/fr-city.webp"
+ },
+ "fr-b2-core-v3-chapter-4-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-b2-core-v3-lesson-9": {
+  "language": "fr",
+  "context": "work",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-b2-core-v3-lesson-10": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-b2-core-v3-chapter-5-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-visual-v1-b2": {
+  "language": "fr",
+  "context": "work",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-visual-v1-b2-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-conversation-v2-b2": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-b2-core-v3-summary-test": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-c1-core-v3-lesson-1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-c1-core-v3-lesson-2": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-c1-core-v3-chapter-1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-c1-core-v3-lesson-3": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-c1-core-v3-lesson-4": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-c1-core-v3-chapter-2-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-c1-core-v3-lesson-5": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-c1-core-v3-lesson-6": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-c1-core-v3-chapter-3-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-c1-core-v3-lesson-7": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-c1-core-v3-lesson-8": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-c1-core-v3-chapter-4-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-c1-core-v3-lesson-9": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-c1-core-v3-lesson-10": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-c1-core-v3-chapter-5-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "fr-c1-core-v3-lesson-11": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-work.webp"
+ },
+ "fr-c1-core-v3-lesson-12": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-home.webp"
+ },
+ "fr-c1-core-v3-chapter-6-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-culture.webp"
+ },
+ "fr-visual-v1-c1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "fr-visual-v1-c1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "fr-conversation-v2-c1": {
+  "language": "fr",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "fr-c1-core-v3-summary-test": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-study.webp"
+ },
+ "de-a1-core-v3-lesson-1": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-a1-core-v3-lesson-2": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-a1-core-v3-chapter-1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-a1-core-v3-lesson-3": {
+  "language": "de",
+  "context": "home",
+  "src": "/illustrated-lessons/de-food.webp"
+ },
+ "de-a1-core-v3-lesson-4": {
+  "language": "de",
+  "context": "cafe",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-a1-core-v3-chapter-2-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-a1-core-v3-lesson-5": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-a1-core-v3-lesson-6": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-a1-core-v3-chapter-3-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-a1-core-v3-lesson-7": {
+  "language": "de",
+  "context": "food",
+  "src": "/illustrated-lessons/de-market.webp"
+ },
+ "de-a1-core-v3-lesson-8": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-a1-core-v3-chapter-4-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-a1-core-v3-lesson-9": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-a1-core-v3-lesson-10": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-a1-core-v3-chapter-5-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-a1-core-v3-lesson-11": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-a1-core-v3-lesson-12": {
+  "language": "de",
+  "context": "culture",
+  "src": "/illustrated-lessons/de-city.webp"
+ },
+ "de-a1-core-v3-chapter-6-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-sound-v1-0-0": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-sound-v1-0-1": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-sound-v1-0-check": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-script-v1-special-letters-0": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-script-v1-special-letters-1": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-visual-v1-a1": {
+  "language": "de",
+  "context": "cafe",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-visual-v1-a1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-conversation-v2-a1": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-a1-core-v3-summary-test": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-a2-core-v3-lesson-1": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-a2-core-v3-lesson-2": {
+  "language": "de",
+  "context": "work",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-a2-core-v3-chapter-1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-a2-core-v3-lesson-3": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-a2-core-v3-lesson-4": {
+  "language": "de",
+  "context": "city",
+  "src": "/illustrated-lessons/de-city.webp"
+ },
+ "de-a2-core-v3-chapter-2-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-a2-core-v3-lesson-5": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-a2-core-v3-lesson-6": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-a2-core-v3-chapter-3-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-a2-core-v3-lesson-7": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-a2-core-v3-lesson-8": {
+  "language": "de",
+  "context": "work",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-a2-core-v3-chapter-4-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-a2-core-v3-lesson-9": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-a2-core-v3-lesson-10": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-a2-core-v3-chapter-5-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-a2-core-v3-lesson-11": {
+  "language": "de",
+  "context": "home",
+  "src": "/illustrated-lessons/de-food.webp"
+ },
+ "de-a2-core-v3-lesson-12": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-a2-core-v3-chapter-6-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-sound-v1-1-0": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-sound-v1-1-1": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-sound-v1-1-check": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-visual-v1-a2": {
+  "language": "de",
+  "context": "city",
+  "src": "/illustrated-lessons/de-travel.webp"
+ },
+ "de-visual-v1-a2-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-conversation-v2-a2": {
+  "language": "de",
+  "context": "home",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-a2-core-v3-summary-test": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-b1-core-v3-lesson-1": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-b1-core-v3-lesson-2": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-b1-core-v3-chapter-1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-b1-core-v3-lesson-3": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-b1-core-v3-lesson-4": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-b1-core-v3-chapter-2-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-b1-core-v3-lesson-5": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-b1-core-v3-lesson-6": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-b1-core-v3-chapter-3-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-b1-core-v3-lesson-7": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-b1-core-v3-lesson-8": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-b1-core-v3-chapter-4-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-b1-core-v3-lesson-9": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-b1-core-v3-lesson-10": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-b1-core-v3-chapter-5-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-b1-core-v3-lesson-11": {
+  "language": "de",
+  "context": "culture",
+  "src": "/illustrated-lessons/de-city.webp"
+ },
+ "de-b1-core-v3-lesson-12": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-b1-core-v3-chapter-6-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-visual-v1-b1": {
+  "language": "de",
+  "context": "home",
+  "src": "/illustrated-lessons/de-food.webp"
+ },
+ "de-visual-v1-b1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-conversation-v2-b1": {
+  "language": "de",
+  "context": "home",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-b1-core-v3-summary-test": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-b2-core-v3-lesson-1": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-b2-core-v3-lesson-2": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-b2-core-v3-chapter-1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-b2-core-v3-lesson-3": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-b2-core-v3-lesson-4": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-b2-core-v3-chapter-2-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-b2-core-v3-lesson-5": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-b2-core-v3-lesson-6": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-b2-core-v3-chapter-3-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-b2-core-v3-lesson-7": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-b2-core-v3-lesson-8": {
+  "language": "de",
+  "context": "city",
+  "src": "/illustrated-lessons/de-city.webp"
+ },
+ "de-b2-core-v3-chapter-4-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-b2-core-v3-lesson-9": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-b2-core-v3-lesson-10": {
+  "language": "de",
+  "context": "city",
+  "src": "/illustrated-lessons/de-travel.webp"
+ },
+ "de-b2-core-v3-chapter-5-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-visual-v1-b2": {
+  "language": "de",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-visual-v1-b2-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-conversation-v2-b2": {
+  "language": "de",
+  "context": "culture",
+  "src": "/illustrated-lessons/de-nature.webp"
+ },
+ "de-b2-core-v3-summary-test": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-c1-core-v3-lesson-1": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-c1-core-v3-lesson-2": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-c1-core-v3-chapter-1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-c1-core-v3-lesson-3": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-c1-core-v3-lesson-4": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-c1-core-v3-chapter-2-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-c1-core-v3-lesson-5": {
+  "language": "de",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-c1-core-v3-lesson-6": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-c1-core-v3-chapter-3-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-c1-core-v3-lesson-7": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-c1-core-v3-lesson-8": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-c1-core-v3-chapter-4-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-c1-core-v3-lesson-9": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-c1-core-v3-lesson-10": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-c1-core-v3-chapter-5-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "de-c1-core-v3-lesson-11": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-c1-core-v3-lesson-12": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-c1-core-v3-chapter-6-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-visual-v1-c1": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "de-visual-v1-c1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "de-conversation-v2-c1": {
+  "language": "de",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "de-c1-core-v3-summary-test": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-study.webp"
+ },
+ "ar-a1-core-v3-lesson-1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-a1-core-v3-lesson-2": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-a1-core-v3-chapter-1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-a1-core-v3-lesson-3": {
+  "language": "ar",
+  "context": "home",
+  "src": "/illustrated-lessons/ar-food.webp"
+ },
+ "ar-a1-core-v3-lesson-4": {
+  "language": "ar",
+  "context": "cafe",
+  "src": "/illustrated-lessons/ar-cafe.webp"
+ },
+ "ar-a1-core-v3-chapter-2-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-a1-core-v3-lesson-5": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-a1-core-v3-lesson-6": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-a1-core-v3-chapter-3-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-a1-core-v3-lesson-7": {
+  "language": "ar",
+  "context": "food",
+  "src": "/illustrated-lessons/ar-market.webp"
+ },
+ "ar-a1-core-v3-lesson-8": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-a1-core-v3-chapter-4-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-a1-core-v3-lesson-9": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-a1-core-v3-lesson-10": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-a1-core-v3-chapter-5-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-a1-core-v3-lesson-11": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-a1-core-v3-lesson-12": {
+  "language": "ar",
+  "context": "home",
+  "src": "/illustrated-lessons/ar-food.webp"
+ },
+ "ar-a1-core-v3-chapter-6-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-sound-v1-0-0": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-sound-v1-0-1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-sound-v1-0-check": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-script-v1-alphabet-0": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-script-v1-alphabet-1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-script-v1-joining-0": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-script-v1-joining-1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-script-v1-vowels-0": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-script-v1-vowels-1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-visual-v1-a1": {
+  "language": "ar",
+  "context": "cafe",
+  "src": "/illustrated-lessons/ar-cafe.webp"
+ },
+ "ar-visual-v1-a1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-conversation-v2-a1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-a1-core-v3-summary-test": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-a2-core-v3-lesson-1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-a2-core-v3-lesson-2": {
+  "language": "ar",
+  "context": "work",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-a2-core-v3-chapter-1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-a2-core-v3-lesson-3": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-a2-core-v3-lesson-4": {
+  "language": "ar",
+  "context": "city",
+  "src": "/illustrated-lessons/ar-city.webp"
+ },
+ "ar-a2-core-v3-chapter-2-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-a2-core-v3-lesson-5": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-a2-core-v3-lesson-6": {
+  "language": "ar",
+  "context": "home",
+  "src": "/illustrated-lessons/ar-food.webp"
+ },
+ "ar-a2-core-v3-chapter-3-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-a2-core-v3-lesson-7": {
+  "language": "ar",
+  "context": "travel",
+  "src": "/illustrated-lessons/ar-travel.webp"
+ },
+ "ar-a2-core-v3-lesson-8": {
+  "language": "ar",
+  "context": "work",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-a2-core-v3-chapter-4-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-a2-core-v3-lesson-9": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-a2-core-v3-lesson-10": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-a2-core-v3-chapter-5-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-a2-core-v3-lesson-11": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-a2-core-v3-lesson-12": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-a2-core-v3-chapter-6-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-sound-v1-1-0": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-sound-v1-1-1": {
+  "language": "ar",
+  "context": "culture",
+  "src": "/illustrated-lessons/ar-nature.webp"
+ },
+ "ar-sound-v1-1-check": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-visual-v1-a2": {
+  "language": "ar",
+  "context": "city",
+  "src": "/illustrated-lessons/ar-station.webp"
+ },
+ "ar-visual-v1-a2-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-conversation-v2-a2": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-a2-core-v3-summary-test": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-b1-core-v3-lesson-1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-b1-core-v3-lesson-2": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-b1-core-v3-chapter-1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-b1-core-v3-lesson-3": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-b1-core-v3-lesson-4": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-b1-core-v3-chapter-2-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-b1-core-v3-lesson-5": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-b1-core-v3-lesson-6": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-b1-core-v3-chapter-3-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-b1-core-v3-lesson-7": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-b1-core-v3-lesson-8": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-b1-core-v3-chapter-4-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-b1-core-v3-lesson-9": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-b1-core-v3-lesson-10": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-b1-core-v3-chapter-5-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-b1-core-v3-lesson-11": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-b1-core-v3-lesson-12": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-b1-core-v3-chapter-6-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-visual-v1-b1": {
+  "language": "ar",
+  "context": "home",
+  "src": "/illustrated-lessons/ar-food.webp"
+ },
+ "ar-visual-v1-b1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-conversation-v2-b1": {
+  "language": "ar",
+  "context": "market",
+  "src": "/illustrated-lessons/ar-market.webp"
+ },
+ "ar-b1-core-v3-summary-test": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-b2-core-v3-lesson-1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-b2-core-v3-lesson-2": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-b2-core-v3-chapter-1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-b2-core-v3-lesson-3": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-b2-core-v3-lesson-4": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-b2-core-v3-chapter-2-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-b2-core-v3-lesson-5": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-b2-core-v3-lesson-6": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-b2-core-v3-chapter-3-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-b2-core-v3-lesson-7": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-b2-core-v3-lesson-8": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-b2-core-v3-chapter-4-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-b2-core-v3-lesson-9": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-b2-core-v3-lesson-10": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-b2-core-v3-chapter-5-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-visual-v1-b2": {
+  "language": "ar",
+  "context": "work",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-visual-v1-b2-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-conversation-v2-b2": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-b2-core-v3-summary-test": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-c1-core-v3-lesson-1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-c1-core-v3-lesson-2": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-c1-core-v3-chapter-1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-c1-core-v3-lesson-3": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-c1-core-v3-lesson-4": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-c1-core-v3-chapter-2-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-c1-core-v3-lesson-5": {
+  "language": "ar",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-c1-core-v3-lesson-6": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-c1-core-v3-chapter-3-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-c1-core-v3-lesson-7": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-c1-core-v3-lesson-8": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-c1-core-v3-chapter-4-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-c1-core-v3-lesson-9": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-c1-core-v3-lesson-10": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-c1-core-v3-chapter-5-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "ar-c1-core-v3-lesson-11": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-work.webp"
+ },
+ "ar-c1-core-v3-lesson-12": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-home.webp"
+ },
+ "ar-c1-core-v3-chapter-6-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-culture.webp"
+ },
+ "ar-visual-v1-c1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ar-visual-v1-c1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ar-conversation-v2-c1": {
+  "language": "ar",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ar-c1-core-v3-summary-test": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-study.webp"
+ },
+ "it-a1-core-v3-lesson-1": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-a1-core-v3-lesson-2": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-a1-core-v3-chapter-1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-a1-core-v3-lesson-3": {
+  "language": "it",
+  "context": "home",
+  "src": "/illustrated-lessons/it-food.webp"
+ },
+ "it-a1-core-v3-lesson-4": {
+  "language": "it",
+  "context": "cafe",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-a1-core-v3-chapter-2-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-a1-core-v3-lesson-5": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-a1-core-v3-lesson-6": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-a1-core-v3-chapter-3-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-a1-core-v3-lesson-7": {
+  "language": "it",
+  "context": "food",
+  "src": "/illustrated-lessons/it-market.webp"
+ },
+ "it-a1-core-v3-lesson-8": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-a1-core-v3-chapter-4-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-a1-core-v3-lesson-9": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-a1-core-v3-lesson-10": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-a1-core-v3-chapter-5-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-a1-core-v3-lesson-11": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-a1-core-v3-lesson-12": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-a1-core-v3-chapter-6-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-sound-v1-0-0": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-sound-v1-0-1": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-sound-v1-0-check": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-visual-v1-a1": {
+  "language": "it",
+  "context": "cafe",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-visual-v1-a1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-conversation-v2-a1": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-a1-core-v3-summary-test": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-a2-core-v3-lesson-1": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-a2-core-v3-lesson-2": {
+  "language": "it",
+  "context": "work",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-a2-core-v3-chapter-1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-a2-core-v3-lesson-3": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-a2-core-v3-lesson-4": {
+  "language": "it",
+  "context": "city",
+  "src": "/illustrated-lessons/it-city.webp"
+ },
+ "it-a2-core-v3-chapter-2-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-a2-core-v3-lesson-5": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-a2-core-v3-lesson-6": {
+  "language": "it",
+  "context": "home",
+  "src": "/illustrated-lessons/it-food.webp"
+ },
+ "it-a2-core-v3-chapter-3-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-a2-core-v3-lesson-7": {
+  "language": "it",
+  "context": "travel",
+  "src": "/illustrated-lessons/it-travel.webp"
+ },
+ "it-a2-core-v3-lesson-8": {
+  "language": "it",
+  "context": "work",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-a2-core-v3-chapter-4-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-a2-core-v3-lesson-9": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-a2-core-v3-lesson-10": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-a2-core-v3-chapter-5-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-a2-core-v3-lesson-11": {
+  "language": "it",
+  "context": "home",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-a2-core-v3-lesson-12": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-a2-core-v3-chapter-6-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-sound-v1-1-0": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-sound-v1-1-1": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-sound-v1-1-check": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-visual-v1-a2": {
+  "language": "it",
+  "context": "city",
+  "src": "/illustrated-lessons/it-station.webp"
+ },
+ "it-visual-v1-a2-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-conversation-v2-a2": {
+  "language": "it",
+  "context": "home",
+  "src": "/illustrated-lessons/it-food.webp"
+ },
+ "it-a2-core-v3-summary-test": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-b1-core-v3-lesson-1": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-b1-core-v3-lesson-2": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-b1-core-v3-chapter-1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-b1-core-v3-lesson-3": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-b1-core-v3-lesson-4": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-b1-core-v3-chapter-2-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-b1-core-v3-lesson-5": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-b1-core-v3-lesson-6": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-b1-core-v3-chapter-3-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-b1-core-v3-lesson-7": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-b1-core-v3-lesson-8": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-b1-core-v3-chapter-4-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-b1-core-v3-lesson-9": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-b1-core-v3-lesson-10": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-b1-core-v3-chapter-5-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-b1-core-v3-lesson-11": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-b1-core-v3-lesson-12": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-b1-core-v3-chapter-6-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-visual-v1-b1": {
+  "language": "it",
+  "context": "home",
+  "src": "/illustrated-lessons/it-food.webp"
+ },
+ "it-visual-v1-b1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-conversation-v2-b1": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-b1-core-v3-summary-test": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-b2-core-v3-lesson-1": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-b2-core-v3-lesson-2": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-b2-core-v3-chapter-1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-b2-core-v3-lesson-3": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-b2-core-v3-lesson-4": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-b2-core-v3-chapter-2-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-b2-core-v3-lesson-5": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-b2-core-v3-lesson-6": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-b2-core-v3-chapter-3-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-b2-core-v3-lesson-7": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-b2-core-v3-lesson-8": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-b2-core-v3-chapter-4-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-b2-core-v3-lesson-9": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-b2-core-v3-lesson-10": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-b2-core-v3-chapter-5-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-visual-v1-b2": {
+  "language": "it",
+  "context": "work",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-visual-v1-b2-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-conversation-v2-b2": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-b2-core-v3-summary-test": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-c1-core-v3-lesson-1": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-c1-core-v3-lesson-2": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-c1-core-v3-chapter-1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-c1-core-v3-lesson-3": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-c1-core-v3-lesson-4": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-c1-core-v3-chapter-2-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-c1-core-v3-lesson-5": {
+  "language": "it",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-c1-core-v3-lesson-6": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-c1-core-v3-chapter-3-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-c1-core-v3-lesson-7": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-c1-core-v3-lesson-8": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-c1-core-v3-chapter-4-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-c1-core-v3-lesson-9": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-c1-core-v3-lesson-10": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-c1-core-v3-chapter-5-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ },
+ "it-c1-core-v3-lesson-11": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-work.webp"
+ },
+ "it-c1-core-v3-lesson-12": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-home.webp"
+ },
+ "it-c1-core-v3-chapter-6-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-culture.webp"
+ },
+ "it-visual-v1-c1": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "it-visual-v1-c1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "it-conversation-v2-c1": {
+  "language": "it",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "it-c1-core-v3-summary-test": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-study.webp"
+ }
+}
