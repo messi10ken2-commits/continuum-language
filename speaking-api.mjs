@@ -9,7 +9,7 @@ import crypto from 'node:crypto';
 import {aiConfigured} from './ai-assessment.mjs';
 import {validInterfaceLanguage} from './interface-languages.mjs';
 import {speakingScenarios,scenarioById,validSpeakingLanguage,validSpeakingLevel,maxSpeakingTurns} from './speaking-content.mjs';
-import {replySpeaking,reviewSpeaking,voiceTurnSpeaking} from './speaking-ai.mjs';
+import {replySpeaking,reviewSpeaking,reassessCommunicationSpeaking,voiceTurnSpeaking} from './speaking-ai.mjs';
 export async function migrateSpeaking(pool){await pool.query(`CREATE TABLE IF NOT EXISTS speaking_sessions (
  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
  language text NOT NULL,level text NOT NULL,scenario text NOT NULL,display_language text NOT NULL DEFAULT 'en',
@@ -19,7 +19,7 @@ export async function migrateSpeaking(pool){await pool.query(`CREATE TABLE IF NO
 export const publicSpeaking=s=>({id:s.id,language:s.language,level:s.level,scenario:s.scenario,displayLanguage:s.display_language,messages:s.messages,review:s.review,status:s.status,revision:s.revision,at:s.updated_at});
 const audioValid=r=>r&&typeof r.audio==='string'&&r.audio.length<=1400000&&/^data:audio\/(webm|mp4|ogg|wav)(;codecs=(?:[a-zA-Z0-9.,-]+|"[a-zA-Z0-9., -]+"))?;base64,[A-Za-z0-9+/]+=*$/.test(r.audio)&&Number.isFinite(r.seconds)&&r.seconds>=1&&r.seconds<=90;
 const turnFingerprint=d=>crypto.createHash('sha256').update(JSON.stringify(d.audio?{audio:d.audio.audio,seconds:d.audio.seconds}:{text:typeof d.text==='string'?d.text.trim():null})).digest('hex');
-export async function handleSpeaking({route,req,res,pool,required,json,send,fail,limited,reply=replySpeaking,review=reviewSpeaking,voiceTurn=voiceTurnSpeaking,serveAudio=serveStudioSpeech}){
+export async function handleSpeaking({route,req,res,pool,required,json,send,fail,limited,reply=replySpeaking,review=reviewSpeaking,reassessCommunication=reassessCommunicationSpeaking,voiceTurn=voiceTurnSpeaking,serveAudio=serveStudioSpeech}){
  if(!route.startsWith('/api/speaking'))return false;
  const user=await required(req,'learner');
  const premium=(await membership(pool,user.id)).premium;
@@ -73,7 +73,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  const refreshScores=match[2]==='review'&&d.refreshScores===true&&safeSavedCorrections(s.review,s.language)?.communicationScore==null;
  if(match[2]==='review'&&s.review&&!refreshScores){send(res,200,{session:visible(s)});return true;}
  if(s.status==='completed'&&!refreshScores)fail(409,'This conversation has ended. Start a new conversation.');
- if(d.revision!==s.revision)fail(409,'The conversation changed. Reload it before continuing.');
+ if(d.revision!==s.revision&&!(refreshScores&&s.status==='completed'))fail(409,'The conversation changed. Reload it before continuing.');
  const turns=s.messages.filter(m=>m.role==='user').length;
  if(match[2]==='turn'){
   if(turns>=conversationTurns(premium))fail(400,'This conversation is ready for review.');
@@ -95,7 +95,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
    const turn=d.audio?await voiceTurn(s,d.audio):{transcript:d.text.trim(),reply:await reply(s,d.text.trim())};
    const text=turn.transcript,response=turn.reply;
    messages=[...messages,{role:'user',text,mode:d.audio?'voice':'text',key:d.turnKey,inputHash:turnFingerprint(d),...(d.audio&&turn.speechEvidence?{speechEvidence:turn.speechEvidence}:{})},{role:'assistant',text:response,mode:'text'}];
-  }else result=await review(s);
+  }else result=refreshScores?await reassessCommunication(s):await review(s);
   const updated=await pool.query('UPDATE speaking_sessions SET messages=$3::jsonb,review=$4::jsonb,status=$5,revision=revision+1,lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$2 AND lease_token=$6 RETURNING *',[s.id,user.id,JSON.stringify(messages),JSON.stringify(result),result?'completed':'active',token]);
   if(!updated.rows.length)fail(409,'The conversation changed. Reload it before continuing.');
   if(d.audio&&d.prefetchAudio===true)prefetch(updated.rows[0]);

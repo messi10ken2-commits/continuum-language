@@ -28660,5 +28660,23 @@
     "id": "Menghubungkan kembali suara alami…",
     "ru": "Повторное подключение естественного голоса…",
     "ar": "جارٍ إعادة الاتصال بالصوت الطبيعي…"
+  },
+  "Calculating communication score…": {
+    "ko": "의사소통 점수를 계산하는 중…",
+    "id": "Menghitung skor komunikasi…",
+    "ru": "Вычисляем оценку коммуникации…",
+    "ar": "جارٍ حساب درجة التواصل…"
+  },
+  "Communication score is not ready yet.": {
+    "ko": "의사소통 점수가 아직 준비되지 않았습니다.",
+    "id": "Skor komunikasi belum tersedia.",
+    "ru": "Оценка коммуникации ещё не готова.",
+    "ar": "درجة التواصل ليست جاهزة بعد."
+  },
+  "Communication scoring is temporarily unavailable. Your conversation is saved.": {
+    "ko": "의사소통 평가를 일시적으로 이용할 수 없습니다. 대화는 저장되었습니다.",
+    "id": "Penilaian komunikasi untuk sementara tidak tersedia. Percakapan Anda tersimpan.",
+    "ru": "Оценка коммуникации временно недоступна. Ваш разговор сохранён.",
+    "ar": "تقييم التواصل غير متاح مؤقتًا. تم حفظ محادثتك."
   }
 }

@@ -115,5 +115,8 @@ Communication score needs more verified evidence.|コミュニケーション点
 Reassess communication|コミュニケーションを再評価|Reevaluar la comunicación|Reavaliar a comunicação|重新评估沟通|Réévaluer la communication
 No verified corrections are available in this review.|この振り返りでは、発言と照合できた修正例はありません。|Este repaso no contiene correcciones verificadas.|Esta revisão não contém correções verificadas.|本次回顾暂无经过核实的修改建议。|Ce bilan ne contient aucune correction vérifiée.
 Reconnecting natural voice…|自然音声に再接続しています…|Reconectando la voz natural…|Reconectando a voz natural…|正在重新连接自然语音…|Reconnexion de la voix naturelle…
+Calculating communication score…|コミュニケーションスコアを計算しています…|Calculando la puntuación de comunicación…|Calculando a pontuação de comunicação…|正在计算沟通评分…|Calcul du score de communication…
+Communication score is not ready yet.|コミュニケーションスコアはまだ算出されていません。|La puntuación de comunicación aún no está lista.|A pontuação de comunicação ainda não está pronta.|沟通评分尚未准备好。|Le score de communication n’est pas encore prêt.
+Communication scoring is temporarily unavailable. Your conversation is saved.|コミュニケーション評価を一時的に利用できません。会話は保存されています。|La evaluación de comunicación no está disponible temporalmente. Tu conversación está guardada.|A avaliação de comunicação está temporariamente indisponível. Sua conversa está salva.|沟通评分暂时不可用。对话已保存。|L’évaluation de la communication est temporairement indisponible. Votre conversation est enregistrée.
 `;
 export const speakingCopy=Object.fromEntries(rows.trim().split('\n').map(row=>{const [en,...values]=row.split('|');if(values.length!==5)throw Error('Invalid speaking copy');return [en,Object.fromEntries(['ja','es','pt','zh','fr'].map((l,i)=>[l,values[i]]))]}));
