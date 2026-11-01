@@ -11,7 +11,7 @@ test('all 48 contextual illustrations are local verified assets, with source pro
  for(const section of ['Learning memory','Practice Studio','My classes','Level test','Skill report'])assert.ok(manifest.assets.some(a=>illustratedHero('ja',section).endsWith('/'+a.file)));
 });
 test('lesson artwork never reads answers, options, scores or learner text; all lesson mappings resolve',()=>{
- for(const lesson of lessonList){const a=illustratedLessonArt(lesson),b=illustratedLessonArt({...lesson,questions:[{answer:'airport',options:['hospital']}],score:0,response:'cafe'});assert.deepEqual(a,b);assert.match(a.src,/^\/illustrated-lessons\/(en|es|pt|ja)-(station|cafe|market|home|work|study|nature|city|health|travel|food|culture)\.webp$/);}
+ for(const lesson of lessonList){const a=illustratedLessonArt(lesson),b=illustratedLessonArt({...lesson,questions:[{answer:'airport',options:['hospital']}],score:0,response:'cafe'});assert.deepEqual(a,b);assert.match(a.src,/^(?:\/illustrated-lessons\/(en|es|pt|ja)-(station|cafe|market|home|work|study|nature|city|health|travel|food|culture)\.webp|\/country-worlds\/(zh|ko|fr|de|ar|it)\/panorama\.webp)$/);}
  assert.equal(illustratedLessonArt({language:'en',title:'Workplace training'}).context,'work');assert.equal(illustratedLessonArt({language:'ja',title:'Finding your train platform'}).context,'station');assert.equal(illustratedLessonArt({language:'../../bad'}).language,'es');
 });
 test('new approved UI copy is registered and translated offline in all five non-English display languages',()=>{

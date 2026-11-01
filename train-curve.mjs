@@ -1,4 +1,5 @@
-import {learningArtFamily} from './learning-art-families.mjs';
+import {countryWorlds} from './country-worlds.mjs';
+import {learningSceneryFamily as learningArtFamily} from './learning-art-families.mjs';
 // Fixed orthographic camera. Rails are authored in panorama pixels, then lifted onto a 3D ground plane.
 // The bend ends at the rail apex. A separate exit curve meets a truly straight
 // foreground run tangentially; extending one broad bend used to cut inside it.
@@ -8,6 +9,7 @@ const routes={
  pt:[[100,590],[325,607],[466,629.4],[466,666],[466,702.6],[465,700.3],[250,739],[150,757],[-100,802],[-330,843.4]],
  ja:[[100,565],[350,580],[511,613.7],[511,631],[511,648.3],[510,661],[250,700],[150,715],[-100,752.5],[-330,787]]
 };
+for(const [language,{railY:y}] of Object.entries(countryWorlds))routes[language]=[[-330,y],[-80,y],[170,y],[420,y],[670,y],[920,y],[1170,y],[1420,y],[1670,y],[2160,y]];
 const tables=new Map(),depth=.42,ground=560;
 function cubic(a,b,c,d,t){const u=1-t;return {x:u*u*u*a[0]+3*u*u*t*b[0]+3*u*t*t*c[0]+t*t*t*d[0],z:(u*u*u*a[1]+3*u*u*t*b[1]+3*u*t*t*c[1]+t*t*t*d[1]-ground)/depth};}
 export function trainTrack(language='en'){
@@ -20,7 +22,7 @@ export const projectRail=(p,h=0)=>[p.x,ground+depth*p.z-h*(.95+Math.max(0,p.z)*.
 export function curvedTrainPose(language='en',progress=0){
  language=learningArtFamily(language);
  const track=trainTrack(language),distance=((progress+.34)%1+1)%1*track.length,cars=[];
- const dimensions=language==='pt'?[[115,36,54]]:language==='en'?[[88,31,51],[104,30,47],[104,30,47]]:[[132,29,47],[132,29,47]];
+ const dimensions=countryWorlds[language]?Array.from({length:countryWorlds[language].cars},()=>[countryWorlds[language].carLength,29,47]):language==='pt'?[[115,36,54]]:language==='en'?[[88,31,51],[104,30,47],[104,30,47]]:[[132,29,47],[132,29,47]];
  let d=distance;
  for(let i=0;i<dimensions.length;i++){const [length,width,height]=dimensions[i];if(i)d-=(dimensions[i-1][0]+length)/2+7;const rear=railPoint(language,d-length*.32),front=railPoint(language,d+length*.32),norm=Math.hypot(front.x-rear.x,front.z-rear.z)||1,t={x:(front.x-rear.x)/norm,z:(front.z-rear.z)/norm};cars.push({index:i,distance:d,length,width,height,center:{x:(front.x+rear.x)/2,z:(front.z+rear.z)/2},t,n:{x:-t.z,z:t.x},bogies:[rear,front],heading:Math.atan2(t.z,t.x),wheelAngle:d/6});}
 

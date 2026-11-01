@@ -1,4 +1,4 @@
-import {learningArtFamily} from './learning-art-families.mjs';
+import {learningSceneryFamily as learningArtFamily} from './learning-art-families.mjs';
 import themes from './public/living-map-panorama/manifest.json' with {type:'json'};
 export function livingMapState(chapters=[]){
  const completed=chapters.filter(c=>Array.isArray(c.lessons)&&c.lessons.length>0&&c.completed===c.lessons.length).length;
