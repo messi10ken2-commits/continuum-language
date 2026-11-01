@@ -28720,5 +28720,11 @@
     "id": "Premium diperlukan untuk umpan balik terperinci.",
     "ru": "Для подробной обратной связи нужен Premium.",
     "ar": "يلزم Premium للحصول على ملاحظات مفصلة."
+  },
+  "The neighbourhood is restored": {
+    "ko": "동네가 복원되었어요",
+    "id": "Lingkungan telah dipulihkan",
+    "ru": "Квартал восстановлен",
+    "ar": "تم ترميم الحي"
   }
 }

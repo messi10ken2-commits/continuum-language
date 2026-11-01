@@ -1,5 +1,6 @@
 // Reviewed UI copy: target-language examples and private records are never translated here.
 const rows=[
+["The neighbourhood is restored","街並みが整いました","El barrio vuelve a la vida","O bairro voltou à vida","街区恢复了生机","Le quartier reprend vie"],
 ["The station is restored","駅がよみがえりました","La estación vuelve a la vida","A estação voltou à vida","车站恢复了生机","La gare reprend vie"],
 ["The café is open","カフェがオープンしました","La cafetería está abierta","O café está aberto","咖啡馆开门了","Le café est ouvert"],
 ["The neighbourhood is blooming","街に花が咲いています","El barrio está floreciendo","O bairro está florescendo","街区繁花盛开","Le quartier fleurit"],
