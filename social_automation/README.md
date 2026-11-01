@@ -76,3 +76,16 @@ Developer references:
 - https://developers.buffer.com/examples/get-scheduled-posts.html
 - https://developers.buffer.com/examples/get-channels.html
 - https://developers.openai.com/api/docs/guides/structured-outputs
+
+## Organic improvement and shared Instagram vlogs (from November 2026)
+
+- New X/Threads posts use a **best-effort, no-paid-trend-service** snapshot of Google's *Trending Now* RSS exports for the US, UK and Malaysia. Only explicitly language-related trending search terms enter the editor brief; if none match or a feed is unavailable, the evergreen editorial plan continues unchanged. Search interest is **not** presented as X/Threads popularity.
+- The same generation also attempts a read-only query for **sent post metrics** from Buffer over an earlier 14-day window. It ranks content only with reported engagement rates or reported interactions divided by views/impressions. Missing metrics are not treated as zeros. Buffer describes post metrics as experimental and access requires a personal API key with `insightsRead`; if unavailable, the regular posts continue with no invented performance conclusions.
+- On **Tuesday at 15:00 MYT**, starting **2026-11-10**, if the previous Monday's four-photo Instagram vlog carousel is publicly hosted, X and Threads each receive **the exact same four JPEGs** on their existing afternoon slot. Captions are adapted to platform limits and label the fictional vignette illustrative. The Instagram original remains scheduled for **Monday 19:00 MYT**. No extra images are generated and no additional post slot is added.
+- Instagram media is read from `instagram-media/assets/instagram/YYYY-MM-DD-vlog-[1-4].jpg`; URLs are checked before Buffer scheduling. If any photo is missing, the original afternoon learning post is scheduled instead. Existing Buffer posts remain untouched and are never duplicated.
+- The existing 09:00 Japanese travel tips, 21:00 pre-launch development updates, and five-language rotation are preserved. Only the Tuesday afternoon topic is swapped when photos exist.
+- No additional OpenAI completion/image calls are used for trend/metrics analysis or reposting. The **existing** automatic AI post generation and Instagram image generation are still billable API activity; this is not a guarantee of zero operating cost.
+- Trial campaign end is unchanged: **2026-11-16**. To keep this running beyond that date, update the campaign end deliberately after evaluating the pilot.
+
+Sources: https://support.google.com/trends/answer/3076011?hl=en and https://developers.buffer.com/guides/post-metrics
+

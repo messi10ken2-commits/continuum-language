@@ -188,7 +188,7 @@ def extract_response_text(result):
         raise RuntimeError("AI returned no text")
     return "".join(parts)
 
-def generate(day):
+def generate(day, editorial_brief=""):
     key = os.environ["OPENAI_API_KEY"]
     launch = first_day(day)
     keys = FIRST_DAY_TIP_KEYS if launch else KEYS
@@ -231,6 +231,12 @@ Do NOT repeat the same generic pitch daily. No empty hype like "big news soon".
 Keep the usual Japanese travel tips in the morning and the conversational
 learning post in the afternoon UNCHANGED in editorial purpose and cadence.
 """
+    if editorial_brief and not launch:
+        guidance += ("\nEDITORIAL SIGNALS FOR THIS GENERATION (may be incomplete):\n"
+                     + editorial_brief[:1800]
+                     + "\nUse them only to refine hooks, relevance or helpfulness. "
+                       "Never claim that a social topic is trending without a source. "
+                       "Do not copy past posts or infer product usage from reactions.\n")
     guidance += "Output ONLY a JSON object with these keys: " + ", ".join(keys)
     payload = {
         "model": (os.getenv("OPENAI_MODEL") or "gpt-4.1-mini"),
@@ -348,17 +354,25 @@ def with_link(text, platform, slot, day):
         return text
     return new_text
 
-def schedule(buffer_key, channel_id, text, when):
+def schedule(buffer_key, channel_id, text, when, image_urls=None):
+    """Schedule text or an existing four-image Instagram vlog on X/Threads."""
+    if image_urls and len(image_urls) != 4:
+        raise ValueError("Shared vlog must contain exactly four images")
+    assets = (", assets: [" + ", ".join("{image: {url: " + q(url) + "}}"
+                                      for url in image_urls) + "]") if image_urls else ""
     query = f'''mutation {{ createPost(input: {{text: {q(text)}, channelId: {q(channel_id)},
         schedulingType: automatic, mode: customScheduled, dueAt: {q(iso(when))},
-        aiAssisted: true}}) {{
-          ... on PostActionSuccess {{ post {{ id dueAt }} }}
+        aiAssisted: true{assets}}}) {{
+          ... on PostActionSuccess {{ post {{ id dueAt assets {{ id mimeType }} }} }}
           ... on MutationError {{ message }}
         }} }}'''
     result = buffer_query(query, buffer_key)["createPost"]
-    if not result.get("post"):
+    post = result.get("post")
+    if not post:
         raise RuntimeError(f"Buffer refused scheduled post: {result.get('message', 'unknown error')}")
-    return result["post"]["id"]
+    if image_urls and len(post.get("assets") or []) != 4:
+        raise RuntimeError("Buffer did not confirm all four reused vlog images")
+    return post["id"]
 
 def demo_posts():
     return {
@@ -421,7 +435,10 @@ def main():
     buffer_key = os.environ["BUFFER_API_KEY"]
     print("Step 1/3: Discovering connected Buffer channels...", flush=True)
     channels = discover_channels(buffer_key)
+    from social_automation.strategy import (google_trend_brief, performance_brief,
+                                            vlog_assets_for, vlog_caption_for)
     print("Step 2/3: Checking Buffer for missing future slots...", flush=True)
+    trend_signal = None
     created = 0
     for target in targets:
         print(f"Checking {target} (Malaysia date)...", flush=True)
@@ -431,13 +448,25 @@ def main():
             print(f"{target}: all future slots covered (or already passed); nothing to do.", flush=True)
             continue
         print(f"Step 3/3: Generating {target} content for {len(needed)} missing slots...", flush=True)
-        posts = generate(target)
+        if trend_signal is None:
+            trend_signal = google_trend_brief() or ""
+            print("Relevant public trend signal: " + ("available" if trend_signal else "none; using evergreen topics"), flush=True)
+        feedback = performance_brief(buffer_key, channels, target)
+        print("Post performance signal: " + ("available" if feedback else "unavailable; no fabricated metrics"), flush=True)
+        editorial_brief = "\n".join(x for x in (trend_signal, feedback) if x)
+        posts = generate(target, editorial_brief=editorial_brief)
         times = target_datetimes(target)
+        vlog_urls = (vlog_assets_for(target)
+                     if any(slot == "afternoon" for _, slot in needed) else None)
+        if vlog_urls:
+            print(f"{target}: reusing 4 Instagram vlog photos in X/Threads afternoon slots", flush=True)
         for platform, slot in sorted(needed):
-            body = with_link(posts[f"{platform}_{slot}"], platform, slot, target)
+            shared_images = vlog_urls if slot == "afternoon" else None
+            body = (vlog_caption_for(platform) if shared_images else
+                    with_link(posts[f"{platform}_{slot}"], platform, slot, target))
             print(f"{target} {platform} {slot}: {body}", flush=True)
             if not args.dry_run:
-                post_id = schedule(buffer_key, channels[platform]["id"], body, times[slot])
+                post_id = schedule(buffer_key, channels[platform]["id"], body, times[slot], shared_images)
                 print(f"Scheduled: {platform} {slot}, Buffer post {post_id}", flush=True)
                 created += 1
     if args.dry_run:
