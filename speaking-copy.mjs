@@ -117,3 +117,9 @@ No verified corrections are available in this review.|この振り返りでは�
 Reconnecting natural voice…|自然音声に再接続しています…|Reconectando la voz natural…|Reconectando a voz natural…|正在重新连接自然语音…|Reconnexion de la voix naturelle…
 `;
 export const speakingCopy=Object.fromEntries(rows.trim().split('\n').map(row=>{const [en,...values]=row.split('|');if(values.length!==5)throw Error('Invalid speaking copy');return [en,Object.fromEntries(['ja','es','pt','zh','fr'].map((l,i)=>[l,values[i]]))]}));
+Object.assign(speakingCopy['Reconnecting natural voice…'],{
+ ko:'자연스러운 음성을 다시 연결하는 중…',
+ id:'Menghubungkan kembali suara alami…',
+ ru:'Повторное подключение естественного голоса…',
+ ar:'جارٍ إعادة الاتصال بالصوت الطبيعي…'
+});
