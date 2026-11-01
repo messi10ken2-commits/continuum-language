@@ -70,7 +70,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  if(match[2]==='activity'){if(typeof d.active!=='boolean')fail(400,'Choose an activity state');const row=await tickConversation(pool,user.id,s.id,premium,d.active);send(res,200,{budget:budgetPublic(row,premium)});return true;}
  if(d.aiConsent!==true)fail(400,'Confirm AI conversation processing before continuing');
  if(match[2]==='turn'&&typeof d.turnKey==='string'&&s.messages.some(m=>m.key===d.turnKey)){if(s.messages.find(m=>m.key===d.turnKey).inputHash!==turnFingerprint(d))fail(409,'This reply was already sent with different content. Reload the saved conversation.');send(res,200,{session:visible(s)});return true;}
- const refreshScores=match[2]==='review'&&d.refreshScores===true&&safeSavedCorrections(s.review,s.language)?.communicationScore==null;
+ const refreshScores=!!s.review&&match[2]==='review'&&d.refreshScores===true&&safeSavedCorrections(s.review,s.language)?.communicationScore==null;
  if(match[2]==='review'&&s.review&&!refreshScores){send(res,200,{session:visible(s)});return true;}
  if(s.status==='completed'&&!refreshScores)fail(409,'This conversation has ended. Start a new conversation.');
  if(d.revision!==s.revision&&!(refreshScores&&s.status==='completed'))fail(409,'The conversation changed. Reload it before continuing.');
