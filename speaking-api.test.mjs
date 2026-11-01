@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 const originalFetch=globalThis.fetch;
 const old={gemini:process.env.GEMINI_API_KEY,openai:process.env.OPENAI_API_KEY};
 process.env.GEMINI_API_KEY='synthetic-test-key';delete process.env.OPENAI_API_KEY;
-let calls=0,failProvider=false,blockReply=null,scoreEnabled=false;
+let calls=0,failProvider=false,blockReply=null,scoreEnabled=false,feedbackEnabled=false;
 globalThis.fetch=async(input,options)=>{
  if(String(input).startsWith('https://generativelanguage.googleapis.com/')){
   calls++;if(failProvider)return new Response(JSON.stringify({error:{status:'RESOURCE_EXHAUSTED'}}),{status:429});
@@ -12,6 +12,8 @@ globalThis.fetch=async(input,options)=>{
   if(system.includes('startup availability'))value={items:[]};
   else if(system.startsWith('Review this')){const c=JSON.parse(context),quotes=c.messages.filter(m=>m.role==='user').map(m=>m.text);value={summary:'A useful conversation.',strengths:['You made a clear request.'],corrections:[{original:quotes[0],improved:'Could I have a coffee, please?',explanation:'A polite request.'}],goals:c.goals.map((g,i)=>({achieved:i===0,evidence:i===0?quotes[0]:''})),nextStep:'Practise asking about an alternative.'};}
   else if(system.startsWith('Assess practical communication')&&scoreEnabled){const c=JSON.parse(context);value={ratings:[3,3,3,3],scoreTurnIds:[c.learnerTurns[0].id,c.learnerTurns[1].id,c.learnerTurns[0].id,c.learnerTurns[1].id]};}
+  else if(system.startsWith('Create focused speaking coaching')&&feedbackEnabled)value={suggestions:[{turnId:'L1',improved:'Could I have a coffee, please?',explanation:'An optional polite alternative.'}]};
+  else if(system.startsWith('Independently audit')&&feedbackEnabled)value={checks:[{index:0,originalAcceptable:true,replacementCorrect:true,meaningPreserved:true,confidence:'high',kind:'style',replacementNatural:true}]};
   else if(system.startsWith('You are a friendly adult'))value={audible:true,transcript:'A coffee, please.',reply:'Of course. Anything else?'};
   else if(!system){value={assessable:true,ratings:[3,3,3,3],evidence:['clear','clear','clear','clear'],feedback:'Clear.',nextStep:'Continue.',strengths:['Polite.'],corrections:[],transcript:'A coffee, please.'};}
   else {if(blockReply)await blockReply;value={reply:'Certainly. Would you like anything else?'};}
@@ -67,6 +69,12 @@ try{
  // Missing scores can be explicitly refreshed without reopening completed turns.
  scoreEnabled=true;const beforeScoreCalls=calls;
  const refresh=await call('/speaking/'+s.id+'/review','POST',{revision:4,aiConsent:true,refreshScores:true},a.cookie);assert.equal(refresh.status,200);assert.equal(refresh.data.session.status,'completed');assert.equal(refresh.data.session.messages.length,7);assert.equal(refresh.data.session.revision,5);assert.equal(refresh.data.session.review.communicationScore,75);assert.equal(calls,beforeScoreCalls+1,'Score-only refresh must not regenerate feedback or audit corrections');assert.equal(refresh.data.session.review.summary,review.data.session.review.summary);assert.deepEqual(refresh.data.session.review.goals,review.data.session.review.goals);const once=calls;const repeated=await call('/speaking/'+s.id+'/review','POST',{revision:4,aiConsent:true,refreshScores:true},a.cookie);assert.equal(repeated.data.session.review.communicationScore,75);assert.equal(calls,once,'A network retry must reuse the completed score');
+ feedbackEnabled=true;const beforeFeedback=calls;
+ const coached=await call('/speaking/'+s.id+'/review','POST',{revision:4,aiConsent:true,refreshFeedback:true},a.cookie);assert.equal(coached.status,200);assert.equal(coached.data.session.review.communicationScore,75);assert.equal(coached.data.session.review.naturalAlternatives.length,1);assert.ok(coached.data.session.review.nextSpeakingGoal.goal);assert.equal(calls,beforeFeedback+2);
+ const cachedCoaching=await call('/speaking/'+s.id+'/review','POST',{revision:4,aiConsent:true,refreshFeedback:true},a.cookie);assert.equal(cachedCoaching.status,200);assert.equal(calls,beforeFeedback+2);
+ const alternativeURL=base+'/api/speaking/'+s.id+'/audio/alternative/0?format=text';const alternative=await originalFetch(alternativeURL,{headers:{cookie:a.cookie}});assert.equal(alternative.status,200);assert.equal((await alternative.json()).text,'Could I have a coffee, please?');assert.equal((await originalFetch(alternativeURL,{headers:{cookie:b.cookie}})).status,404);
+ assert.equal((await call('/speaking/'+s.id+'/review','POST',{revision:4,aiConsent:false,refreshFeedback:true},a.cookie)).status,400);
+ assert.equal((await call('/speaking/'+s.id+'/review','POST',{revision:4,aiConsent:true,refreshFeedback:true},b.cookie)).status,404);
  assert.equal((await call('/speaking/'+s.id+'/review','POST',{revision:5,aiConsent:false,refreshScores:true},a.cookie)).status,400);
  assert.equal((await call('/speaking/'+s.id+'/review','POST',{revision:5,aiConsent:true,refreshScores:true},b.cookie)).status,404);
  // A real encoded PCM input exercises upload limit, decoding and persisted transcript without retaining audio.
