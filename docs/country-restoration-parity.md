@@ -6,6 +6,8 @@ Twelve built-in image edits preserve the existing Chinese, Korean, French, Germa
 
 The same shared station/cafe/garden masks, phase-4 unlock, painted person sprite, eight diners at four fixed tables, isolated clouds, lamp glows, replay/pause and reduced-motion rules apply to all ten languages. The evening edits leave cafe terraces clear so seated people and furniture are not duplicated in the base image. Regional placements are authored in the same manifest format as the original four worlds.
 
-All worlds use the same daylight-to-evening crossfade when a completion advances the restoration. Scenery remains stationary. Reduced motion shows the completed evening plate immediately. Region-specific rails now follow bends into the foreground and use the same ground-space centre line and gauge as the shared rolling-stock renderer. WebGL fallback draws that mesh rather than the removed miniature header-train design.
+All worlds use the same daylight-to-evening crossfade when a completion advances the restoration. Scenery remains stationary. Reduced motion shows the completed evening plate immediately. Train and rail overlays are no longer rendered in the living maps.
 
 Coverage expands original map-motion regression cases to all ten languages and CEFR paths. Dedicated header tests cover all sections; Chromium/WebKit checks advance each additional world through phases 0–4, verify static headers, distinct quiet/day/evening plates, shared final-stage figures/diners/tables, the night crossfade, and reduced motion.
+
+Restoration correction: early station and cafe reveals are clipped to separate landmark regions, so cafe opening cannot reveal the adjacent garden. Chapter three reveals the complete restored daytime plate, including flowers throughout the neighbourhood. Chapter four remains evening. Runtime train and rail overlays have been removed from all ten living maps.
