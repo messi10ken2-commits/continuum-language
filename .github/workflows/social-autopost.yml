@@ -46,7 +46,7 @@ jobs:
           CAMPAIGN_END: '2026-11-16'
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
-            python social_automation/poster.py --dry-run
+            python -m social_automation.poster --dry-run
           else
-            python social_automation/poster.py
+            python -m social_automation.poster
           fi
