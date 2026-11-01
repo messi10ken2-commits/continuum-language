@@ -114,5 +114,6 @@ Some feedback could not be verified against your words and was left out. Your sa
 Communication score needs more verified evidence.|コミュニケーション点の確定には、追加の評価が必要です。|La puntuación de comunicación necesita más pruebas verificadas.|A pontuação de comunicação precisa de mais evidências verificadas.|沟通评分需要更多经过核实的依据。|Le score de communication nécessite davantage d’éléments vérifiés.
 Reassess communication|コミュニケーションを再評価|Reevaluar la comunicación|Reavaliar a comunicação|重新评估沟通|Réévaluer la communication
 No verified corrections are available in this review.|この振り返りでは、発言と照合できた修正例はありません。|Este repaso no contiene correcciones verificadas.|Esta revisão não contém correções verificadas.|本次回顾暂无经过核实的修改建议。|Ce bilan ne contient aucune correction vérifiée.
+Reconnecting natural voice…|自然音声に再接続しています…|Reconectando la voz natural…|Reconectando a voz natural…|正在重新连接自然语音…|Reconnexion de la voix naturelle…
 `;
 export const speakingCopy=Object.fromEntries(rows.trim().split('\n').map(row=>{const [en,...values]=row.split('|');if(values.length!==5)throw Error('Invalid speaking copy');return [en,Object.fromEntries(['ja','es','pt','zh','fr'].map((l,i)=>[l,values[i]]))]}));

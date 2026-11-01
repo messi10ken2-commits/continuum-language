@@ -38,14 +38,14 @@ export default function AISpeaking({language,user,onBack}){
  const resetVoice=()=>{voice.current?.stop();voice.current=null;setVoiceState('idle');setVoiceLevel(0);setReviewFailed(false)};
  useEffect(()=>{const pause=()=>{if(voice.current?.active){voice.current.stop();setVoiceState('paused');setVoiceLevel(0)}};const visibility=()=>{if(document.hidden)pause()};document.addEventListener('visibilitychange',visibility);window.addEventListener('pagehide',pause);return()=>{document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',pause)}},[]);
 
- const start=()=>run(async()=>{resetVoice();const d=await request('',{language,level,scenario,displayLanguage:interfaceLanguage(),aiConsent:consent},controller.current.signal);accept(d.session);setText('');key.current=crypto.randomUUID();});
+ const start=()=>run(async()=>{resetVoice();const d=await request('',{language,level,scenario,displayLanguage:interfaceLanguage(),aiConsent:consent,prefetchAudio:mode==='voice'&&!deviceVoice},controller.current.signal);accept(d.session);setText('');key.current=crypto.randomUUID();});
  const open=s=>run(async()=>{resetVoice();const d=await request('/'+s.id,undefined,controller.current.signal);accept(d.session);setText('');key.current=crypto.randomUUID();});
  const audioURL=(s,i=s.messages.length-1)=>'/api/speaking/'+s.id+'/audio/'+i;
  const startVoice=()=>{
   if(!consent||busy||voiceActive)return;
   setReviewFailed(false);setError('');setVoiceNotice('');
   if(!voice.current)voice.current=new ConversationVoiceLoop({locale,
-   onVoiceFallback:()=>{if(mounted.current){setDeviceVoice(true);setVoiceNotice('Natural voice is busy. Continuing with device voice; you can switch back.')}},
+   onVoiceNotice:notice=>{if(mounted.current)setVoiceNotice(notice)},
    onState:value=>{if(mounted.current)setVoiceState(value)},onLevel:value=>{if(mounted.current)setVoiceLevel(value)},onError:e=>{if(mounted.current)setError(e.message)},
    canContinue:()=>!sessionRef.current?.review&&sessionRef.current.messages.filter(m=>m.role==='user').length<(sessionRef.current?.budget?.maxTurns||maxSpeakingTurns)&&!(sessionRef.current?.budget&&sessionRef.current.budget.usedSeconds>=sessionRef.current.budget.limitSeconds),
    onTurn:async audio=>{

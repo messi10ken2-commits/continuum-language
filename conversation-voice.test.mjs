@@ -27,10 +27,24 @@ test('cancelled microphone permission request releases late tracks and never rec
  let permit,stopped=0;const host={AudioContext:class{resume(){return Promise.resolve()}close(){return Promise.resolve()}},MediaRecorder:class{},navigator:{mediaDevices:{getUserMedia:()=>new Promise(r=>permit=r)}}};
  const loop=new ConversationVoiceLoop({host});const start=loop.start('/audio');await new Promise(r=>setTimeout(r,0));loop.stop();permit({getTracks:()=>[{stop(){stopped++}}]});await start;assert.equal(stopped,1);assert.equal(loop.active,false);
 });
-test('provider quota failure switches visibly to device playback without losing a conversation turn',async()=>{
- let notices=0,device=0;const loop=new ConversationVoiceLoop({onVoiceFallback:()=>notices++,fetchImpl:async()=>new Response('{}',{status:503})});loop.active=true;loop.epoch=1;loop.speakDevice=async epoch=>{assert.equal(epoch,1);device++};
- await loop.speak('/saved-conversation/audio/2',1);assert.equal(notices,1);assert.equal(device,1);assert.equal(loop.deviceVoice,true);
- loop.active=false;await loop.speak('/saved-conversation/audio/2',1);assert.equal(notices,1);
+test('quota cooldown pauses natural playback without permanently downgrading or reading device speech',async()=>{
+ let device=0,calls=0;const loop=new ConversationVoiceLoop({fetchImpl:async()=>{calls++;return new Response('{}',{status:503,headers:{'Retry-After':'60'}})}});loop.active=true;loop.epoch=1;loop.speakDevice=async()=>device++;
+ await assert.rejects(loop.speak('/saved-conversation/audio/2',1),/Natural voice/);assert.equal(device,0);assert.equal(calls,1);assert.equal(loop.deviceVoice,false);
+});
+test('a transient voice failure recovers naturally and later rallies keep the selected voice',async()=>{
+ let requests=0,played=0,device=0;const notices=[];
+ const loop=new ConversationVoiceLoop({onVoiceNotice:n=>notices.push(n),fetchImpl:async()=>++requests===2?new Response('{}',{status:503}):new Response(new Uint8Array(120),{headers:{'Content-Type':'audio/wav'}})});loop.active=true;loop.epoch=1;loop.player={};loop.context={decodeAudioData:async()=>({duration:1})};loop.playMedia=async()=>played++;loop.speakDevice=async()=>device++;
+ for(let turn=0;turn<5;turn++)await loop.speak('/audio/'+turn,1);
+ assert.equal(played,5);assert.equal(requests,6);assert.equal(device,0);assert.equal(loop.deviceVoice,false);assert.ok(notices.includes('Reconnecting natural voice…'));assert.equal(notices.at(-1),'');
+});
+test('Resume reuses prepared natural audio after autoplay rejection instead of generating it again',async()=>{
+ let fetched=0,decoded=0,played=0;
+ const loop=new ConversationVoiceLoop({fetchImpl:async()=>{fetched++;return new Response(new Uint8Array(120),{headers:{'Content-Type':'audio/wav'}})}});loop.active=true;loop.epoch=1;loop.player={};loop.context={decodeAudioData:async()=>{decoded++;return {duration:1}}};loop.playMedia=async()=>{if(++played===1)throw Error('Tap Resume conversation to allow audio playback.')};
+ await assert.rejects(loop.speak('/audio/2',1),/Resume/);assert.ok(loop.preparedClip);await loop.speak('/audio/2',1);assert.equal(fetched,1);assert.equal(decoded,1);assert.equal(played,2);assert.equal(loop.preparedClip,null);
+});
+test('pausing during natural voice reconnection cancels the retry and never starts device speech',async()=>{
+ let fetched=0;const loop=new ConversationVoiceLoop({fetchImpl:async()=>{fetched++;return new Response('{}',{status:503})},onVoiceNotice:()=>queueMicrotask(()=>loop.stop())});loop.active=true;loop.epoch=1;
+ await loop.speak('/audio',1);assert.equal(fetched,1);assert.equal(loop.deviceVoice,false);
 });
 test('natural output uses its own media element and marks speaking only after playing',async()=>{
  const states=[],released=[];let player;
@@ -78,4 +92,7 @@ test('premature media ending is an explicit retry error, never a completed turn'
  const loop=new ConversationVoiceLoop({host:{URL:{createObjectURL:()=> 'blob:test',revokeObjectURL(){}}}});loop.active=true;loop.epoch=1;
  loop.player={currentTime:1,play(){queueMicrotask(()=>this.onended());return Promise.resolve()},pause(){},removeAttribute(){},load(){}};
  await assert.rejects(loop.playMedia(new Uint8Array([1]),1,20),/before the response finished/);
+});
+test('a cancelled natural playback cannot reuse its saved bytes through a stale epoch',async()=>{
+ const loop=new ConversationVoiceLoop({});loop.preparedClip={url:'/cached',bytes:new ArrayBuffer(10),buffer:{duration:1}};loop.player={};loop.playMedia=()=>assert.fail('No playback after cancellation');await loop.speak('/cached',1);
 });

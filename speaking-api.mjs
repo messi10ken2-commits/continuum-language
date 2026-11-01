@@ -25,6 +25,11 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  const premium=(await membership(pool,user.id)).premium;
  const visible=s=>({...publicSpeaking(s),messages:premium?s.messages:s.messages.map(({speechEvidence,...m})=>m),review:premium?safeSavedCorrections(s.review,s.language):basicFeedback(s.review),budget:budgetPublic(s,premium)});
  const url=new URL(req.url,'http://localhost');
+ const prefetch=row=>{
+  // Start before returning the saved session. Playback joins the same cache key
+  // and in-flight task; this never creates a second provider generation.
+  void Promise.resolve().then(()=>serveAudio({req,res:{writeHead(){},end(){}},pool,text:row.messages.at(-1).text,locale:languageInfo(row.language).locale,voiceProfile:conversationPartner(row.language,row.scenario).voice,privateAudio:true,send(){},fail:(status,message)=>{throw Object.assign(Error(message),{status})},limited})).catch(()=>{});
+ };
  if(route==='/api/speaking'&&req.method==='GET'){
   const language=url.searchParams.get('language');if(!validSpeakingLanguage(language))fail(400,'Choose a learning language');
   const r=await pool.query('SELECT * FROM speaking_sessions WHERE user_id=$1 AND language=$2 ORDER BY updated_at DESC LIMIT 30',[user.id,language]);
@@ -42,6 +47,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
    if(!premium){const old=(await c.query('SELECT s.* FROM speaking_daily_allowance a JOIN speaking_sessions s ON s.id=a.session_id WHERE a.user_id=$1 AND a.day=$2',[user.id,conversationDay()])).rows[0];if(old){if(old.status==='completed')fail(429,'Your daily conversation is complete. Return tomorrow or view Premium.');if(old.messages.some(m=>m.role==='user'))return old;await c.query('DELETE FROM speaking_daily_allowance WHERE user_id=$1 AND day=$2',[user.id,conversationDay()]);}}
    const r=(await c.query('INSERT INTO speaking_sessions(user_id,language,level,scenario,display_language,messages) VALUES($1,$2,$3,$4,$5,$6::jsonb) RETURNING *',[user.id,d.language,d.level,s.id,d.displayLanguage,JSON.stringify([{role:'assistant',text:s.opening[d.language],mode:'text'}])])).rows[0];
    if(!premium)await c.query('INSERT INTO speaking_daily_allowance(user_id,day,session_id) VALUES($1,$2,$3)',[user.id,conversationDay(),r.id]);return r;});
+  if(d.prefetchAudio===true)prefetch(row);
   send(res,201,{session:visible(row)});return true;
  }
  const audioRoute=route.match(/^\/api\/speaking\/([a-f0-9-]{36})\/audio\/(\d+|review\/\d+)$/);
@@ -92,11 +98,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   }else result=await review(s);
   const updated=await pool.query('UPDATE speaking_sessions SET messages=$3::jsonb,review=$4::jsonb,status=$5,revision=revision+1,lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$2 AND lease_token=$6 RETURNING *',[s.id,user.id,JSON.stringify(messages),JSON.stringify(result),result?'completed':'active',token]);
   if(!updated.rows.length)fail(409,'The conversation changed. Reload it before continuing.');
-  if(d.audio&&d.prefetchAudio===true){
-   // Exact server-owned assistant text, same private cache and generation budget
-   // as playback; the client's audio GET joins this in-flight generation.
-   void Promise.resolve().then(()=>serveAudio({req,res:{writeHead(){},end(){}},pool,text:messages.at(-1).text,locale:languageInfo(s.language).locale,voiceProfile:conversationPartner(s.language,s.scenario).voice,privateAudio:true,send(){},fail:(status,message)=>{throw Object.assign(Error(message),{status})},limited})).catch(()=>{});
-  }
+  if(d.audio&&d.prefetchAudio===true)prefetch(updated.rows[0]);
   send(res,200,{session:visible(updated.rows[0])});return true;
  }catch(e){if(e.status&&e.status<500)throw e;console.warn('Speaking provider unavailable',JSON.stringify({operation:match[2],kind:e.name||'Error',code:/^[A-Z_]{1,50}$/.test(e.code||'')?e.code:undefined,providerStatus:e.providerStatus}));fail(503,match[2]==='review'?'Your conversation is saved, but the review could not be created. Please try creating the review again.':'AI conversation could not finish. Your saved conversation is unchanged; your unsent reply remains on this page. Please try again.');}
  finally{await pool.query('UPDATE speaking_sessions SET lease_token=NULL,lease_until=NULL WHERE id=$1 AND user_id=$2 AND lease_token=$3',[s.id,user.id,token]);}

@@ -26,7 +26,7 @@ try{
  const a=await register('speaking-owner'),b=await register('speaking-other'),teacher=await register('speaking-teacher','teacher');
  await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[a.data.user.id]);
  assert.equal(a.status,200);assert.equal((await call('/speaking?language=en')).status,401);assert.equal((await call('/speaking?language=en','GET',null,teacher.cookie)).status,403);
- const create=language=>call('/speaking','POST',{language,scenario:'cafe',level:'B1',displayLanguage:'ja',aiConsent:true},a.cookie);
+ const create=(language,extra={})=>call('/speaking','POST',{language,scenario:'cafe',level:'B1',displayLanguage:'ja',aiConsent:true,...extra},a.cookie);
  assert.equal((await call('/speaking','POST',{language:'en',scenario:'cafe',level:'B1',displayLanguage:'ja'},a.cookie)).status,400);
  assert.equal((await create('xx')).status,400);
  for(const language of ['en','pt','es','ja']){const r=await create(language);assert.equal(r.status,201,JSON.stringify(r.data));assert.equal(r.data.session.language,language);assert.ok(r.data.session.messages[0].text);}
@@ -74,5 +74,10 @@ try{
  assert.equal(voiceResult.status,200,JSON.stringify(voiceResult.data));assert.equal(voiceResult.data.session.messages[1].mode,'voice');
  const {speechKey}=await import('./speech-service.mjs');const {conversationPartner}=await import('./conversation-partners.mjs');const audioKey=speechKey(voiceResult.data.session.messages.at(-1).text,'en-US',conversationPartner('en',voice.scenario).voice);let warmed=false;for(let i=0;i<100;i++){const cache=await db.query('SELECT cache_key FROM speech_cache WHERE cache_key=$1',[audioKey]);if(cache.rows.length){warmed=true;break}await new Promise(r=>setTimeout(r,10))}assert.ok(warmed,'voice reply prefetch uses the private playback cache');const providerCalls=calls;const prefetched=await originalFetch(base+'/api/speaking/'+voice.id+'/audio/2',{headers:{cookie:a.cookie}});assert.equal(prefetched.status,200);await prefetched.arrayBuffer();assert.equal(calls,providerCalls,'cached playback must not generate a second clip');
  const stored=await db.query('SELECT * FROM speaking_sessions WHERE id=$1',[voice.id]);assert.ok(!JSON.stringify(stored.rows[0]).includes('base64'));assert.ok(!JSON.stringify(stored.rows[0]).includes('synthetic-test-key'));
+ const opening=(await create('fr',{prefetchAudio:true})).data.session;
+ const openingKey=speechKey(opening.messages[0].text,'fr-FR',conversationPartner('fr',opening.scenario).voice);
+ let openingWarmed=false;for(let i=0;i<100;i++){if((await db.query('SELECT cache_key FROM speech_cache WHERE cache_key=$1',[openingKey])).rows.length){openingWarmed=true;break}await new Promise(r=>setTimeout(r,10));}
+ assert.ok(openingWarmed,'natural opening is prepared while the learner starts voice mode');
+ const beforeOpening=calls,openingAudio=await originalFetch(base+'/api/speaking/'+opening.id+'/audio/0',{headers:{cookie:a.cookie}});assert.equal(openingAudio.status,200);await openingAudio.arrayBuffer();assert.equal(calls,beforeOpening,'prepared opening is reused');assert.equal(openingAudio.headers.get('Cache-Control'),'private, no-store');
  console.log('PASS: AI conversation HTTP auth, four languages, consent, owner isolation, idempotent replies/reviews, provider recovery, concurrent lock, completion rules, actual audio decoding and transcript-only storage.');
 }finally{globalThis.fetch=originalFetch;await new Promise(r=>testServer.close(r));await db.close();if(old.gemini)process.env.GEMINI_API_KEY=old.gemini;else delete process.env.GEMINI_API_KEY;if(old.openai)process.env.OPENAI_API_KEY=old.openai;else delete process.env.OPENAI_API_KEY;}

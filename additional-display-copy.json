@@ -28654,5 +28654,11 @@
     "id": "手が回らない merujuk pada tidak memiliki cukup waktu atau kapasitas untuk menangani sesuatu.",
     "ru": "手が回らない относится к недостатку времени или возможностей для решения чего-либо.",
     "ar": "手が回らない تشير إلى عدم وجود وقت أو قدرة كافية للتعامل مع شيء ما."
+  },
+  "Reconnecting natural voice…": {
+    "ko": "자연스러운 음성을 다시 연결하는 중…",
+    "id": "Menghubungkan kembali suara alami…",
+    "ru": "Повторное подключение естественного голоса…",
+    "ar": "جارٍ إعادة الاتصال بالصوت الطبيعي…"
   }
 }
