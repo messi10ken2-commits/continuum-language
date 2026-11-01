@@ -1,4 +1,4 @@
-import {CountryPeople,CountryRails} from './CountryMotion.jsx';
+import MapRails from './MapRails.jsx';
 import CurveTrain from './CurveTrain.jsx';
 import RestaurantMotion from './RestaurantMotion.jsx';
 import React,{useEffect,useRef,useState} from 'react';
@@ -24,13 +24,14 @@ export default function LivingMap({chapters,width,height,identity='map',language
  {phase>=3&&<div className="painted-layer painted-garden" style={paint('restorationDay',mask(fx.garden))}/>}
  </>}
  {unlocked&&<>
+ <div className="painted-layer painted-restored-day" style={paint('restorationDay')}/>
  <div className="painted-layer painted-evening painted-still" data-stationary-scenery="true" style={{backgroundImage:`url(${art.motion.restaurantStill.src})`}}/>
  <div className="painted-object-stage" data-object-motion="unlocked">
  <div className="painted-cloud-band">{art.motion.clouds.map((cloud,i)=><span className="painted-cloud" data-moving-object="cloud" key={i} style={{...bounds(cloud),animationDelay:(-8-i*9)+'s',animationDuration:(36+i*4)+'s'}}><img src={art.motion.cloudSprite.src} alt="" draggable="false"/></span>)}</div>
- {art.dedicatedCountry&&<CountryRails language={language}/>}
+ {art.dedicatedCountry&&<MapRails language={language}/>}
  <CurveTrain language={language} paused={paused}/>
- {!art.dedicatedCountry&&<RestaurantMotion motion={art.motion}/>}
- {art.dedicatedCountry?<CountryPeople language={language}/>:<span className="painted-person-rig" data-moving-object="person" style={bounds(art.motion.person.bounds)}><img src={art.motion.person.src} alt="" draggable="false"/></span>}
+ <RestaurantMotion motion={art.motion}/>
+ <span className="painted-person-rig" data-moving-object="person" style={bounds(art.motion.person.bounds)}><img src={art.motion.person.src} alt="" draggable="false"/></span>
  {fx.lamps.map(([x,y],j)=><i className="painted-lamp" data-moving-object="light" key={j} style={{left:x+'%',top:y+'%',animationDelay:j*.5+'s'}}/>)}
  </div>
  {art.motion.foreground.map((clipPath,i)=><div key={i} className="painted-layer painted-foreground" style={{backgroundImage:`url(${art.motion.restaurantStill.src})`,clipPath}}/>)}

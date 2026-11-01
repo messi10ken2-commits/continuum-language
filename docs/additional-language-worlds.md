@@ -1,5 +1,7 @@
 # Dedicated additional-language worlds
 
+Current restoration and motion behaviour is specified in [country-restoration-parity.md](country-restoration-parity.md). The initial country-only header and walking-figure motion described below has been withdrawn: headers are static, and all ten living maps now share the original restoration/painted-object implementation with dedicated quiet and evening plates.
+
 Chinese, Korean, French, German, Arabic and Italian use six independently generated panoramic illustrations, rather than a renamed original-language scene. The scenes draw on Jiangnan canal architecture, a Korean station/hanok district, French limestone riverside buildings, a German half-timbered railway town, a North African Arabic-speaking courtyard district, and an Italian piazza. These are illustrative neighbourhoods, not claims to represent every country or dialect.
 
 Built-in image generation produced the six scene assets in public/country-worlds/{zh,ko,fr,de,ar,it}/panorama.webp. Prompts specified a continuous wide elevated miniature neighbourhood, station at left, cafe in centre-right, garden at right, pedestrian foreground, no baked people/trains, no text or UI. Generated originals remain in the generation workspace; the repository contains optimized WebP runtime assets.
