@@ -328,7 +328,7 @@ function App(){
  const nav=user?.role==='teacher'?['Overview','Learning memory','Class notes','My classes','Account']:teacher?['Overview','Learning memory','Class notes','My classes','Account']:[...learnerNavigation];
  if(profileRecord?.reviewer)nav.push(profileRecord.owner?'Admin':'Review teachers');
 
- const mobileNav=teacher?nav:profileRecord?.owner&&tab==='Admin'?[...learnerNavigation,'Admin']:learnerNavigation;
+ const mobileNav=teacher?nav:profileRecord?.owner?[...learnerNavigation,'Admin']:learnerNavigation;
  const activePrimary=tab==='Admin'&&profileRecord?.owner?'Admin':tab==='Support'?'Account':teacher?tab:learnerPrimaryTab(tab);
  const icons={'Support':MessageCircle,'Admin':CheckCircle2,'Review teachers':CheckCircle2,'Overview':LayoutDashboard,'Learn':BookOpen,'Practice Studio':Sparkles,'Level test':Award,'My classes':CalendarDays,'Learning memory':NotebookPen,'Class notes':NotebookPen,'Assignments':Target,'Account':Users};
  const navigate=n=>{setTab(n);setActiveLesson(null);window.scrollTo({top:0,behavior:'smooth'})};

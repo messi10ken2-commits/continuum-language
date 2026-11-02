@@ -668,3 +668,78 @@
  .app.continuum-ui .premium-guide-hero h2{font-size:27px}
  .app.continuum-ui .premium-guide-benefits{grid-template-columns:1fr 1fr;gap:18px 14px}
 }
+/* November QA corrections: opt-in scope keeps Admin's own presentation intact. */
+.app.continuum-ui .continuum-wordmark>span{display:grid;place-items:center;width:32px;height:32px;padding:0;border-radius:10px;background:linear-gradient(145deg,#9362e9,#653ec8);color:#fff;font:800 25px/1 'DM Sans',sans-serif;letter-spacing:-1px}
+.app.continuum-ui :is(.teacher-alert,.ai-note-card) :is(h1,h2,h3,h4,p,small,li,b){color:#fff}
+.app.continuum-ui :is(.teacher-alert,.ai-note-card) .eyebrow{color:#e2ddff}
+.app.continuum-ui .teacher-alert>button{background:#8667e6;color:#fff;min-height:44px}
+.app.continuum-ui .ai-note-card .outline-button{background:#f4edff;color:#4f2a87;border-color:#d6c8f0}
+.app.continuum-ui .owner-membership-preview .membership-actions .outline-button[aria-pressed=true]{background:#6237c3!important;color:#fff!important;border-color:#6237c3!important;box-shadow:0 0 0 2px #cbb4f2;font-weight:750}
+.app.continuum-ui .owner-membership-preview .membership-actions .outline-button[aria-pressed=true]::before{content:'✓';margin-inline-end:6px}
+.app.continuum-ui .owner-membership-preview .membership-actions .outline-button[aria-pressed=false]{background:#fff;color:#654690;border-color:#d9cbe8}
+/* Audio icons keep their transport state and accessible name without wrapping text. */
+.app.continuum-ui .sentence-audio{padding:8px;gap:8px;margin:8px 0;max-width:100%;box-sizing:border-box;line-height:1.3;vertical-align:middle}
+.app.continuum-ui .sentence-audio .sentence-play{display:inline-flex;flex:0 0 36px;width:36px;min-width:36px;max-width:36px;height:36px;min-height:36px;padding:0!important;align-items:center;justify-content:center;border-radius:50%;overflow:hidden}
+.app.continuum-ui .sentence-audio .sentence-play>svg{flex:0 0 auto;display:block;width:16px;height:16px}
+.app.continuum-ui .sentence-audio .sentence-speed{min-height:30px;height:30px;min-width:30px;padding:4px 6px;font-size:11px;border-radius:50%}
+.app.continuum-ui .sentence-audio .voice-source{font-size:10px;line-height:1.45;overflow-wrap:anywhere}
+.app.continuum-ui .sentence-audio.compact{display:inline-flex;align-items:center;vertical-align:middle;padding:0!important;margin:0 3px!important;border:0!important;border-radius:0;background:none!important;box-shadow:none!important;max-width:none;gap:4px}
+.app.continuum-ui .sentence-audio.compact .sentence-play{flex:0 0 28px;min-width:28px;max-width:28px;width:28px;height:28px;min-height:28px;padding:0!important;background:#f0e9fc;color:#7149c0;box-shadow:none}
+.app.continuum-ui .sentence-audio.compact .sentence-play[aria-pressed=true]{background:#7345d4;color:#fff}
+.app.continuum-ui .sentence-audio.compact .sentence-speed{min-height:26px;height:26px;min-width:26px;padding:3px;font-size:10px}
+.app.continuum-ui .spoken-sentence{display:inline;line-height:inherit}
+/* Keep the lesson toolbar at the viewport's top, with an opaque backing. */
+.app.continuum-ui .study-lesson .practice-top{position:sticky!important;top:0!important;z-index:50;background:var(--ui-paper)!important;border:0;border-bottom:1px solid var(--ui-border);border-radius:0;padding:10px 12px;min-height:54px;box-shadow:0 3px 10px #34204808}
+.app.continuum-ui .study-lesson .practice-top .back{white-space:nowrap;margin:0;min-height:34px;padding:0}
+.app.continuum-ui .study-lesson .practice-top .practice-progress{min-width:30px;flex:1}
+.app.continuum-ui .study-lesson .practice-top>span{white-space:nowrap;color:#756783}
+/* Compact slide content and horizontally browsable examples. */
+.app.continuum-ui .visual-target-row{display:flex;align-items:baseline;gap:5px;flex-wrap:wrap;margin:8px 0}
+.app.continuum-ui .visual-target-row .visual-target{display:inline;margin:0;font-size:23px!important;line-height:1.4}
+.app.continuum-ui .visual-target-row .sentence-audio{align-self:center}
+.app.continuum-ui .visual-focus{padding:16px}
+.app.continuum-ui .visual-steps{display:flex;flex-direction:row;flex-wrap:nowrap!important;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;gap:7px;padding:10px;max-width:100%;scrollbar-width:thin}
+.app.continuum-ui .visual-steps>button{flex:0 0 auto;max-width:200px;min-height:36px;font-size:11px;scroll-snap-align:start;white-space:nowrap;padding:8px 10px}
+.app.continuum-ui .lesson-reference{padding:14px;margin:16px 0;text-align:start}
+.app.continuum-ui .lesson-reference section{margin:16px 0}
+.app.continuum-ui .lesson-reference :is(.expression-grid,.vocabulary-grid){gap:12px}
+.app.continuum-ui .lesson-reference :is(.expression-grid,.vocabulary-grid)>article{padding:14px;border-radius:13px}
+.app.continuum-ui .lesson-reference h2{font-size:21px;margin:8px 0 12px}
+.app.continuum-ui .lesson-reference h3{font-family:'DM Sans',sans-serif;font-size:18px;line-height:1.45;margin:7px 0}
+.app.continuum-ui .lesson-reference :is(p,li,small){font-size:13px;line-height:1.55}
+.app.continuum-ui .lesson-reference p{margin:8px 0}
+.app.continuum-ui .lesson-reference .translated-example{padding:10px 12px;margin:10px 0}
+.app.continuum-ui .lesson-reference .translated-example b{font-size:15px;line-height:1.55}
+.app.continuum-ui .lesson-reference .rule-pitfall{padding:12px;border-radius:10px;margin:10px 0}
+.app.continuum-ui .lesson-reference .expression-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.app.continuum-ui .lesson-reference .expression-tags>span{font-size:10px;padding:4px 7px;border-radius:7px}
+/* Reference Photo account: identity, flag, level steps, real activity and languages. */
+.app.continuum-ui .photo-learner-account>.settings-heading{display:none}
+.app.continuum-ui .photo-learner-account .settings-identity{margin:12px 0 24px}
+.app.continuum-ui .photo-learner-account .settings-identity p{font-size:12px;overflow-wrap:anywhere}
+.app.continuum-ui .account-profile-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px}
+.app.continuum-ui .account-profile-heading h3{font:700 23px/1.2 Georgia,serif;margin:0}
+.app.continuum-ui .account-profile-heading .text-button{min-height:34px;margin:0;padding:6px 14px;border-radius:12px;background:#efe7fa;font-size:12px}
+.app.continuum-ui .photo-learner-account .account-learning-profile{border:0;background:#f0edf8;padding:16px;gap:14px;border-radius:16px}
+.app.continuum-ui .account-language-flag{width:48px;min-width:48px;height:48px;border-radius:50%;display:grid;place-items:center;overflow:hidden;font-size:39px;background:#fff}
+.app.continuum-ui .account-level-steps{display:flex;gap:3px;align-items:flex-end;height:21px;margin-top:7px}
+.app.continuum-ui .account-level-steps>i{display:block;width:7px;border-radius:2px;background:#dcdbe5}
+.app.continuum-ui .account-level-steps>i.filled{background:linear-gradient(#57b5df,#3584bf)}
+.app.continuum-ui .account-languages{margin:22px 0;padding:0 8px 12px;border-bottom:1px solid var(--ui-border)}
+.app.continuum-ui .account-languages>h3{display:flex;align-items:center;gap:10px;font:700 20px Georgia,serif;margin:0 0 10px}
+.app.continuum-ui .account-language-row{display:flex;width:100%;align-items:center;gap:10px;min-height:48px;background:none;border:0;padding:10px 0;color:var(--ui-ink);text-align:start;font-size:13px}
+.app.continuum-ui .account-language-row>span:first-child{font-size:23px;min-width:28px}
+.app.continuum-ui .account-language-row>span:nth-child(2){flex:1;min-width:0}
+.app.continuum-ui .account-language-row small{font-size:10px;background:#eee6fb;color:#6b43a7;padding:5px 8px;border-radius:10px}
+.app.continuum-ui .account-languages>.text-button{margin:3px 0 0;padding:4px 0;min-height:38px;font-size:12px}
+.app.continuum-ui .photo-learner-account .settings-premium{margin:18px 0}
+@media(max-width:600px){
+ .app.continuum-ui .lesson-reference :is(.expression-grid,.vocabulary-grid){grid-template-columns:1fr}
+ .app.continuum-ui .lesson-reference :is(.expression-grid,.vocabulary-grid)>article{padding:13px}
+ .app.continuum-ui .visual-photo-button{height:170px}
+ .app.continuum-ui .visual-target-row .visual-target{font-size:21px!important}
+ .app.continuum-ui .photo-learner-account .account-learning-profile{padding:14px}
+ .app.continuum-ui .account-profile-heading h3{font-size:21px}
+}
+.app.continuum-ui .sentence-audio .sentence-play{width:36px!important;min-width:36px!important;max-width:36px!important;height:36px!important;min-height:36px!important}
+.app.continuum-ui .sentence-audio.compact .sentence-play{width:28px!important;min-width:28px!important;max-width:28px!important;height:28px!important;min-height:28px!important}
