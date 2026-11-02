@@ -1,3 +1,4 @@
+import {isInstructionContext,exerciseContextCopy} from './exercise-context.mjs';
 import {displayLanguageOptions} from './answer-language.mjs';
 import {keepsLocalizedInstructions} from './learning-text-protection.mjs';
 import {reviewedTranslation,translationRevision} from './reviewed-interface-copy.mjs';
@@ -62,3 +63,6 @@ export function localizedFeedback(q,answer,language){const {source,values,note,o
 export function optionText(q,value,lesson){return displayLanguageOptions(q,lesson)?t(value):value;}
 
 export function questionText(q,language){return q.promptTranslations?.[locale]||t(q.prompt,language);}
+
+// Only authored directions translate; quotations and answer-bearing models stay verbatim.
+export function questionContext(q){return isInstructionContext(q.context)?exerciseContextCopy[q.context]?.[locale]||t(q.context):q.context;}

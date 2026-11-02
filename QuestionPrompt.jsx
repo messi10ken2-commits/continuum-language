@@ -1,10 +1,11 @@
+import {isInstructionContext} from './exercise-context.mjs';
 import React from 'react';
-import {questionText,t,interfaceLanguage} from './interface-runtime.mjs';
+import {questionText,questionContext,t,interfaceLanguage} from './interface-runtime.mjs';
 import {questionPromptSource} from './question-presentation.mjs';
 import './question-prompt.css';
 export default function QuestionPrompt({question,lesson={},children}){
  const language=lesson.language||lesson.locale?.slice(0,2)||'es',parts=questionPromptSource(question);
- const context=question.displayContext&&question.context&&!question.prompt.includes(question.context)?<blockquote lang={lesson.locale} dir="auto">{question.context}</blockquote>:null;
+ const context=question.displayContext&&question.context&&!question.prompt.includes(question.context)?<blockquote lang={isInstructionContext(question.context)?undefined:lesson.locale} dir="auto">{questionContext(question)}</blockquote>:null;
  if(!parts)return <div className="question-prompt"><h1>{questionText(question,language)}</h1>{children}{context}</div>;
  const authored=question.promptTranslations?.[interfaceLanguage()];
  let body=parts.learningText?parts.body:authored&&parts.translatedLines?authored.split('\n').slice(1).join('\n'):t(parts.body,language);

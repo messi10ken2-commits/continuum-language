@@ -1,0 +1,46 @@
+// Authored scenario directions, distinct from target-language quotations and cloze models.
+// Explicit entries avoid guessing a sentence's language at runtime.
+export const exerciseContextCopy={
+ 'A colleague proposes launching tomorrow, but testing is unfinished.':{pt:'Um colega propõe lançar amanhã, mas os testes ainda não foram concluídos.'},
+ 'A colleague says they are spread too thin.':{pt:'Um colega diz que está sobrecarregado com tarefas demais.'},
+ 'You want to go to the fourth floor.':{pt:'Você quer ir ao quarto andar.'},
+ 'You need to understand an unfamiliar local word.':{pt:'Você precisa entender uma palavra local desconhecida.'},
+ 'You have not heard a local expression before.':{pt:'Você nunca ouviu essa expressão local antes.'},
+ 'You ask a group whether they want a drink.':{pt:'Você pergunta a um grupo se quer tomar alguma coisa.'},
+ 'Ask one friend to come tomorrow and speak to Ana.':{pt:'Peça a um amigo que venha amanhã e fale com Ana.'},
+ 'You are comparing forms of address.':{pt:'Você está comparando formas de tratamento.'},
+ 'You do not recognise a local word.':{pt:'Você não reconhece uma palavra local.'},
+ 'You compare estou a fazer and estou fazendo.':{pt:'Você compara estou a fazer e estou fazendo.'},
+ 'You hear an unfamiliar regional expression.':{pt:'Você ouve uma expressão regional desconhecida.'},
+ 'You report a useful result in writing.':{pt:'Você relata por escrito um resultado útil.'},
+ 'You are choosing a course for a family that speaks Hakka.':{pt:'Você está escolhendo um curso para uma família que fala hakka.'},
+ 'Ask what the word means in this location.':{pt:'Pergunte o que a palavra significa nesse lugar.'},
+ 'A market label says 土豆, but you do not know the region.':{pt:'Uma etiqueta no mercado diz 土豆, mas você não sabe de que região ela é.'},
+ 'A speaker uses Hokkien at home and Mandarin at work.':{pt:'Uma pessoa usa hokkien em casa e mandarim no trabalho.'},
+ 'You want a polite explanation.':{pt:'Você quer uma explicação educada.'},
+ 'Ask politely what the expression means.':{pt:'Pergunte educadamente o que a expressão significa.'},
+ 'You are learning Gyeongsang question forms.':{pt:'Você está aprendendo formas interrogativas de Gyeongsang.'},
+ 'Two people from Busan use different amounts of regional speech.':{pt:'Duas pessoas de Busan usam a fala regional em graus diferentes.'},
+ 'You hear “On déjeune ensemble ?” without a time.':{pt:'Você ouve “On déjeune ensemble ?” sem indicação de horário.'},
+ 'Ask what time the person wants to have the meal.':{pt:'Pergunte a que horas a pessoa quer fazer a refeição.'},
+ 'The time is explicit.':{pt:'O horário está explícito.'},
+ 'A French speaker uses courriel while another says e-mail.':{pt:'Uma pessoa que fala francês usa courriel, enquanto outra diz e-mail.'},
+ 'You hear an unfamiliar Austrian word.':{pt:'Você ouve uma palavra austríaca desconhecida.'},
+ 'Ask what the unfamiliar word means here.':{pt:'Pergunte o que a palavra desconhecida significa aqui.'},
+ 'A Swiss colleague writes standard German and speaks a local dialect at home.':{pt:'Um colega suíço escreve em alemão padrão e fala um dialeto local em casa.'},
+ 'Use the Austrian model for January: Der Kurs beginnt im ____.':{pt:'Use a forma austríaca para janeiro: Der Kurs beginnt im ____.'},
+ 'You notice ss where Germany commonly uses ß.':{pt:'Você nota ss onde na Alemanha se costuma usar ß.'},
+ 'You recognise words from several Arabic varieties.':{pt:'Você reconhece palavras de várias variedades do árabe.'},
+ 'Ask in MSA what the word means here.':{pt:'Pergunte em árabe padrão moderno o que a palavra significa aqui.'},
+ 'A woman wants to use the common Egyptian expression for “I want”.':{pt:'Uma mulher quer usar a expressão egípcia comum para “eu quero”.'},
+ 'A common Levantine model for “I want”: ____':{pt:'Uma forma levantina comum para “eu quero”: ____'},
+ 'You learn the example شنو تبي؟.':{pt:'Você aprende o exemplo شنو تبي؟.'},
+ 'You hear an unfamiliar local expression.':{pt:'Você ouve uma expressão local desconhecida.'},
+ 'Ask what the word means here.':{pt:'Pergunte o que a palavra significa aqui.'},
+ 'You compare regional Italian with Neapolitan and Sicilian.':{pt:'Você compara o italiano regional com o napolitano e o siciliano.'},
+ 'Use first-person singular passato remoto of andare: Ieri ____ al mercato.':{pt:'Use a primeira pessoa do singular do passato remoto de andare: Ieri ____ al mercato.'},
+ 'A speaker from Naples says “Sono andato”.':{pt:'Uma pessoa de Nápoles diz “Sono andato”.'}
+};
+export const isInstructionContext=value=>Object.hasOwn(exerciseContextCopy,value||'');
+export const exerciseContextSources=Object.keys(exerciseContextCopy);
+export const contextProtectedValues=text=>['Ana','estou a fazer','estou fazendo','土豆','On déjeune ensemble ?','courriel','e-mail','Der Kurs beginnt im ____','ss','ß','شنو تبي؟','passato remoto','andare','Ieri ____ al mercato','Sono andato'].filter(value=>text.includes(value));

@@ -1,3 +1,4 @@
+import {exerciseContextSources,contextProtectedValues} from './exercise-context.mjs';
 import expandedExclusiveSources from './expanded-exclusive-display-sources.json' with {type:'json'};
 import expandedAssessmentSources from './expanded-assessment-display-sources.json' with {type:'json'};
 import expandedFocusedSources from './expanded-focused-display-sources.json' with {type:'json'};
@@ -31,6 +32,7 @@ let lessonContext='';
 function add(text,language='',protectedValues=[]){if(typeof text!=='string'||!/[A-Za-z]/.test(text)||!text.trim())return;const key=translationKey(text,language),old=corpus.get(key);corpus.set(key,{text,language,context:language?(lessonContext||'Language lesson: explanations, instructions and feedback'):(interfaceContexts[text]||['General interface']).join(', '),protectedValues:[...new Set([...(old?.protectedValues||[]),...protectedValues.filter(v=>typeof v==='string'&&(v.length>1||/^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]$/u.test(v)))])]});}
 for(const text of [...uiSources,...Object.keys(interfaceCopy),...Object.values(reviewedInterfaceCopy).flatMap(Object.keys)])add(text);
 for(const text of premiumDisplaySources)add(text);
+for(const text of exerciseContextSources)add(text,'',contextProtectedValues(text));
 for(const text of ownerInterfaceSources)add(text);
 for(const text of privacyInterfaceSources)add(text);
 for(const text of growthInterfaceSources)add(text);

@@ -1,3 +1,4 @@
+import CountryFlag from './CountryFlag.jsx';
 import {CompanionAvatar,CompanionAvatarSettings} from './CompanionAvatar.jsx';
 import React,{useEffect,useRef,useState,useContext} from 'react';
 import {ChevronRight,BookOpen,Globe,Target,Palette,Crown,Shield,HelpCircle} from 'lucide-react';
@@ -16,7 +17,6 @@ export default function AccountSettings({user,language,layoutPicker,goal,awards,
  const photo=layout==='photo'&&user.role==='learner';
  const level=assessment?.result?.courseLevel||(learnerProfile?.primaryLanguage===language?learnerProfile.level:null)||'—';
  const rank=['A1','A2','B1','B2','C1'].indexOf(level);
- const flags={en:'🇬🇧',es:'🇪🇸',pt:'🇧🇷',ja:'🇯🇵',zh:'🇨🇳',ko:'🇰🇷',fr:'🇫🇷',de:'🇩🇪',ar:'🇸🇦',it:'🇮🇹'};
  const selectedLanguages=[...new Set(learnerProfile?.languages?.length?learnerProfile.languages:[language])];
  const showPlan=()=>{if(plan.current){plan.current.open=true;plan.current.scrollIntoView({block:'start',behavior:'smooth'});}};
  return <section className={'account-settings'+(photo?' photo-learner-account':'')}><header className="settings-heading"><h1>{t('Your account')}</h1><p>{t('Your learning preferences, membership and privacy, in one place.')}</p></header>
@@ -25,11 +25,11 @@ export default function AccountSettings({user,language,layoutPicker,goal,awards,
  {user.role==='learner'&&<>
  {photo&&<div className="account-profile-heading"><h3>{t('Your learning profile')}</h3><button className="text-button" onClick={onProfile}>{t('Edit')}</button></div>}
  <button className="account-learning-profile" onClick={onProfile}>
- {photo?<span className="account-language-flag" aria-hidden="true">{flags[language]}</span>:<span className="account-level-badge">{level}</span>}
+ {photo?<CountryFlag language={language}/>:<span className="account-level-badge">{level}</span>}
  <span><b>{t(languageInfo(language).name)}</b><small>{photo?level+' · ':''}{t(assessment?.result?'course placement':'Your learning profile')}</small>{photo&&<span className="account-level-steps" aria-hidden="true">{['A1','A2','B1','B2','C1'].map((band,i)=><i key={band} className={i<=rank?'filled':''} style={{height:8+i*3}}/>)}</span>}</span><ChevronRight size={19}/>
  </button>
  <div className="account-activity-pair"><div><Flame/><span><b>{activity?.studyDays??'—'}</b><small>{t('active days')}</small></span></div><div><Clock3/><span><b>{activity?photo?(Number(activity.studyMs||0)/3600000).toLocaleString(undefined,{maximumFractionDigits:1}):Math.floor(Number(activity.studyMs||0)/60000):'—'}{!photo&&' '+t('min')}</b><small>{t(photo?'hours studied':'Total tracked study time')}</small></span></div></div>
- {photo&&<section className="account-languages"><h3><Globe size={19}/>{t('Languages')}</h3>{selectedLanguages.map(id=><button key={id} className="account-language-row" onClick={onProfile}><span aria-hidden="true">{flags[id]}</span><span>{t(languageInfo(id).name)}</span>{id===learnerProfile?.primaryLanguage&&<small>{t('Primary')}</small>}<ChevronRight size={17}/></button>)}<button className="text-button" onClick={onProfile}><span aria-hidden="true">＋</span>{t('Add another language')}</button></section>}
+ {photo&&<section className="account-languages"><h3><Globe size={19}/>{t('Languages')}</h3>{selectedLanguages.map(id=><button key={id} className="account-language-row" onClick={onProfile}><CountryFlag language={id}/><span>{t(languageInfo(id).name)}</span>{id===learnerProfile?.primaryLanguage&&<small>{t('Primary')}</small>}<ChevronRight size={17}/></button>)}<button className="text-button" onClick={onProfile}><span aria-hidden="true">＋</span>{t('Add another language')}</button></section>}
  {layout==='illustrated'&&<div className="account-journey-collection">{awards}</div>}
  </>}
  {billing&&!billing.membership.premium&&<aside className="settings-premium"><Crown/><div><strong>{t('Premium')}</strong><p>{t('View subscription options')}</p></div><button className="primary" onClick={showPlan}>{t('View membership')} <ChevronRight size={18}/></button></aside>}
