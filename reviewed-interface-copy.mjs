@@ -1,3 +1,4 @@
+import {redesignCopy} from './redesign-copy.mjs';
 import {catalogInterfaceCopy} from './catalog-interface-copy.mjs';
 import {expansionDisplayCopy} from './expansion-display-copy.mjs';
 import idiomAdditionalCopy from './idiom-additional-copy.json' with {type:'json'};
@@ -263,3 +264,5 @@ for(const [source,values] of Object.entries(expansionDisplayCopy))for(const [loc
 for(const source of Object.keys(expansionDisplayCopy))for(const locale of Object.keys(expansionDisplayCopy[source]))reviewedCourseTitles[locale][source]=reviewedInterfaceCopy[locale][source];
 
 for(const [source,values] of Object.entries(catalogInterfaceCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
+
+for(const [source,values] of Object.entries(redesignCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;

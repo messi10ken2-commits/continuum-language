@@ -12,7 +12,7 @@ export function livingMapGeometry(chapters=[],viewportWidth=360){
  const w=Math.max(240,Number(viewportWidth)||360),height=Math.max(360,Math.round(w*1.4));
  // Spread every panel over its usable height, including the denser A1/A2
  // pathways. Narrow screens get another panel rather than overlapping nodes.
- const top=72,bottom=164,minRowStep=60;
+ const top=72,bottom=164,minRowStep=120;
  const capacity=Math.min(5,Math.max(3,Math.floor((height-top-bottom)/minRowStep)+1));
  const columns=Math.max(3,Math.ceil(chapters.length/capacity)),perColumn=Math.max(1,Math.ceil(chapters.length/columns));
  return {width:columns*w,height,columns,points:chapters.map((_,i)=>{

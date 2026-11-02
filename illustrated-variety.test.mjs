@@ -15,13 +15,13 @@ test('every visible course list avoids repeated neighbouring illustrations in al
   assert.ok(sources.size>=6,language+' '+level+' needs varied scenes');
  }
 });
-test('Practice Studio uses the same six distinct card-image slots for every learning language',async()=>{
+test('Practice Studio uses six distinct culturally specific scenes for every learning language',async()=>{
  const React=await import('react'),{renderToStaticMarkup}=await import('react-dom/server'),{createServer}=await import('vite');
  const vite=await createServer({server:{middlewareMode:true,hmr:false},appType:'custom'});
  try{const {illustratedScene}=await vite.ssrLoadModule('/JourneyLayout.jsx');
  const slots=['conversation','pronunciation','review','focus','classes','courses'];
  const expected=slots.map(slot=>illustratedScene('en',slot));
  assert.equal(new Set(expected).size,6);
- for(const language of illustratedLanguages){const images=slots.map(slot=>illustratedScene(language,slot));assert.equal(new Set(images).size,6);for(const src of images){assert.ok(existsSync('public'+src));assert.ok(!src.includes('country-worlds'));}if(language!=='ja')assert.deepEqual(images,expected);}
+ for(const language of illustratedLanguages){const images=slots.map(slot=>illustratedScene(language,slot));assert.equal(new Set(images).size,6);for(const src of images){assert.ok(existsSync('public'+src));assert.ok(!src.includes('country-worlds'));}for(const src of images)assert.ok(src.startsWith('/illustrated-lessons/'+language+'-'));if(language!=='en')assert.notDeepEqual(images,expected);}
  }finally{await vite.close();}
 });
