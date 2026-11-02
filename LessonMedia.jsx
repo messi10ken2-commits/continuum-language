@@ -11,7 +11,7 @@ import './lesson-media.css';
 export function LessonImage({lesson,className='',eager=false}){
  const [failed,setFailed]=useState(false);const theme=themeFor(lesson);const {layout}=useJourneyLayout();const illustrated=layout==='illustrated';const source=illustrated?illustratedLessonArt(lesson).src:photoFor(lesson);
  useEffect(()=>setFailed(false),[source]);
- return failed?<div className={`media-image-fallback ${className}`} role="img" aria-label={mediaThemes[theme].name}><span>{mediaThemes[theme].name}</span></div>:<img className={className} src={source} alt={illustrated?uiText('Illustrated practice scene'):photoInfo(lesson).alt} width={640} height={360} loading={eager?'eager':'lazy'} decoding="async" onError={()=>setFailed(true)}/>;
+ return failed?<div className={`media-image-fallback ${className}`} role="img" aria-label={uiText(mediaThemes[theme].name)}><span>{uiText(mediaThemes[theme].name)}</span></div>:<img className={className} src={source} alt={illustrated?uiText('Illustrated practice scene'):photoInfo(lesson).alt} width={640} height={360} loading={eager?'eager':'lazy'} decoding="async" onError={()=>setFailed(true)}/>;
 }
 export function VisualDiscovery({language='es',level,onStart}){
  const stories=lessonList.filter(l=>(l.language||'es')===language&&(l.visualStory||l.conversation)&&(!level||l.level===level));

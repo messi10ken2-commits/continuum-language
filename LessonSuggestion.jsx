@@ -4,7 +4,7 @@ import {Sparkles,ChevronRight,NotebookPen} from 'lucide-react';
 import {buildLessonSuggestion,suggestionDraft} from './lesson-suggestions.mjs';
 
 export default function LessonSuggestion({record,notes,onNavigate,onUseDraft,hasDraft}){
- const plan=buildLessonSuggestion({notes,attempts:record.attempts,sharing:record.sharing,language:record.language});
+ const plan=buildLessonSuggestion({notes,attempts:record.attempts,sharing:record.sharing,language:record.language,text:uiText,format:uiTemplate});
  return <section className="ai-note-card lesson-suggestion" aria-label={uiText("Suggested next lesson")}>
   <Sparkles size={22}/><span className="eyebrow">{uiText("NEXT LESSON · EVIDENCE-BASED PLAN")}</span>
   <h3>{plan.title}</h3><p>{plan.reason}</p>
@@ -13,7 +13,7 @@ export default function LessonSuggestion({record,notes,onNavigate,onUseDraft,has
   <ol>{plan.steps.map(s=><li key={s.title}><b>{s.title}</b><p>{s.text}</p></li>)}</ol>
   <div><b>{uiText("Check at the end")}</b><p>{plan.check}</p></div>
   <p>{plan.homework}</p>
-  <button type="button" className="outline-button" disabled={hasDraft} onClick={()=>onUseDraft(plan.focus,suggestionDraft(plan))}><NotebookPen size={16}/>{uiText("Use as class-plan draft")}</button>
+  <button type="button" className="outline-button" disabled={hasDraft} onClick={()=>onUseDraft(plan.focus,suggestionDraft(plan,{text:uiText,format:uiTemplate}))}><NotebookPen size={16}/>{uiText("Use as class-plan draft")}</button>
   <small>{uiText(hasDraft?'Save or clear your current observation before inserting a plan.':'Inserts an editable draft above. Nothing is saved or assigned until you choose to save.')}</small>
   <button type="button" className="outline-button" onClick={()=>onNavigate('Learning memory')}>{uiText("Review learning memory ")}<ChevronRight size={16}/></button>
   <small>{uiText("Built from course activities and planning rules—not an AI assessment. Unsaved typing does not change this plan.")}</small>

@@ -754,3 +754,23 @@
 .app.continuum-ui .passport-stamps{max-height:none;overflow:visible}
 
 .app.continuum-ui>main>header.continuum-header{height:auto!important}
+
+/* Keep script shaping and natural word spacing; only Latin display headings use tight tracking. */
+.continuum-ui :is(h1,h2,h3,h4,.eyebrow,.level-profile-ring strong):is(:lang(ja),:lang(zh),:lang(ko),:lang(ar)){letter-spacing:normal;line-height:1.4}
+.continuum-ui :is(h1,h2,h3,h4):lang(ja){font-family:'Hiragino Sans','Yu Gothic',system-ui,sans-serif}
+.continuum-ui :is(h1,h2,h3,h4):lang(zh){font-family:'PingFang SC','Microsoft YaHei',system-ui,sans-serif}
+.continuum-ui :is(h1,h2,h3,h4):lang(ko){font-family:'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+.continuum-ui :is(h1,h2,h3,h4,button,label,summary,.eyebrow):lang(ar){font-family:Tahoma,'Geeza Pro',system-ui,sans-serif;letter-spacing:normal;line-height:1.6}
+.app.continuum-ui :is(.level-profile-skills button,.level-profile-detail-title>div,.settings-identity>div,.teacher-alert>div:nth-child(2)){min-width:0}
+.app.continuum-ui :is(.settings-identity h2,.level-profile-detail h3,.teacher-alert h2){overflow-wrap:anywhere}
+.app.continuum-ui .level-profile-skills button>b{line-height:1.4;overflow-wrap:break-word}
+.app.continuum-ui .account-language-row{gap:10px}
+.app.continuum-ui .premium-guide{container-type:inline-size}
+.app.continuum-ui .premium-guide-hero :is(h2,p){overflow-wrap:break-word}
+@container (max-width:420px){
+ .app.continuum-ui .premium-guide-hero{min-height:420px;align-items:flex-start}
+ .app.continuum-ui .premium-guide-hero>div{width:100%;padding:18px;background:linear-gradient(var(--ui-paper) 85%,transparent)}
+ .app.continuum-ui .premium-guide-hero>img{height:48%;top:52%;object-position:center bottom}
+ .app.continuum-ui .premium-guide-benefits{grid-template-columns:minmax(0,1fr);gap:20px;padding:20px 0}
+ .app.continuum-ui .premium-guide-benefits h3{margin:8px 0;line-height:1.4}
+}

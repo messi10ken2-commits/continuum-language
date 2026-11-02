@@ -3,7 +3,7 @@ import fs from 'node:fs';import path from 'node:path';import {pathToFileURL} fro
 import {interfaceCopy} from '../interface-copy.mjs';import {reviewedTranslation} from '../reviewed-interface-copy.mjs';
 export const displayLocales=['ja','es','pt','zh','fr','ko','id','ru','ar'];
 const translationFunctions=new Set(['t','tf','uiText','uiTemplate','baseText']),visibleProps=new Set(['title','text','description','eyebrow','label','placeholder','aria-label','alt','detail','subtitle']);
-const branded=/^(?:C|m|CONT-…|CONTINUUM ·|CONTINUUM PREMIUM|Learn with Flow|Continuum|CONTINUUM|Premium|PREMIUM|AI|CEFR|A[12]|B[12]|C[12]|YouTube|Google Meet|Zoom|Stripe|Jitsi|API|MP3|PDF|UTC|[A-Z]{2,3})$/;
+const branded=/^(?:C|m|CONT-…|CONTINUUM ·|CONTINUUM PREMIUM|Learn with Flow|Continuum|CONTINUUM|Premium|PREMIUM|AI|CEFR|A[12]|B[12]|C[12]|[ABC][12][–-][ABC][12]|YouTube|Google Meet|Zoom|Stripe|Jitsi|API|MP3|PDF|UTC|[A-Z]{2,3})$/;
 export function auditDisplayCoverage(root=process.cwd()){
  const sources=new Map(),raw=[],dynamic=[];
  const add=(text,file,line,kind)=>{text=text?.trim();if(!text||!/[A-Za-z]/.test(text)||branded.test(text)||/^https?:\/\//.test(text))return;const entry=sources.get(text)||{source:text,locations:[]};entry.locations.push({file,line,kind});sources.set(text,entry);};
@@ -12,6 +12,13 @@ export function auditDisplayCoverage(root=process.cwd()){
  function first(n){if(!n||typeof n!=='object')return;if(n.type==='VariableDeclarator'&&n.id.type==='Identifier'&&n.init?.type==='ArrayExpression')arrays.set(n.id.name,n.init);for(const [k,v] of Object.entries(n))if(!['loc','start','end'].includes(k)){if(Array.isArray(v))v.forEach(first);else if(v&&typeof v==='object')first(v);}}first(ast);
  function visit(n,parents=[]){if(!n||typeof n!=='object')return;
   if(n.type==='CallExpression'&&translationFunctions.has(n.callee?.name))literals(n.arguments[0],file,'translation-call');
+  // Conditional/optional status copy also needs translation. Do not inspect
+  // conditions, target-language examples, user data or excluded Admin functions.
+  if(n.type==='JSXExpressionContainer'&&!parents.some(p=>p.type==='JSXAttribute'||p.type==='JSXElement'&&p.openingElement.attributes.some(a=>a.name?.name==='lang'))&&!parents.some(p=>p.type==='FunctionDeclaration'&&['ReviewDashboard','ReviewItem'].includes(p.id?.name))){
+   function visibleLeaves(x){if(!x)return;if(x.type==='StringLiteral'){const source=x.value.trim();if(/[A-Za-z]/.test(source)&&!branded.test(source.replace(/^·\s*/,''))){add(source,file,x.loc.start.line,'raw-conditional-label');raw.push({file,line:x.loc.start.line,source});}}else if(x.type==='ConditionalExpression'){visibleLeaves(x.consequent);visibleLeaves(x.alternate);}else if(x.type==='LogicalExpression')visibleLeaves(x.right);}
+   visibleLeaves(n.expression);
+  }
+
   if(n.type==='JSXAttribute'&&visibleProps.has(n.name?.name))literals(n.value?.type==='JSXExpressionContainer'?n.value.expression:n.value,file,'visible-prop');
   if(n.type==='JSXText'&&/[A-Za-z]/.test(n.value)&&!parents.some(p=>p.type==='JSXElement'&&p.openingElement.attributes.some(a=>a.type==='JSXAttribute'&&a.name?.name==='lang'))){const text=n.value.replace(/\s+/g,' ').trim();if(text&&!branded.test(text)){add(text,file,n.loc.start.line,'raw-jsx');raw.push({file,line:n.loc.start.line,source:text});}}
   if(n.type==='CallExpression'&&n.callee?.type==='MemberExpression'&&n.callee.property?.name==='map'){

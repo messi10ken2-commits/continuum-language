@@ -1,3 +1,5 @@
+import {planningCopy} from './planning-copy.mjs';
+import {polishCopy} from './polish-copy.mjs';
 import {redesignCopy} from './redesign-copy.mjs';
 import {catalogInterfaceCopy} from './catalog-interface-copy.mjs';
 import {expansionDisplayCopy} from './expansion-display-copy.mjs';
@@ -266,3 +268,7 @@ for(const source of Object.keys(expansionDisplayCopy))for(const locale of Object
 for(const [source,values] of Object.entries(catalogInterfaceCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
 
 for(const [source,values] of Object.entries(redesignCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
+
+for(const [source,values] of Object.entries(polishCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
+
+for(const [source,values] of Object.entries(planningCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
