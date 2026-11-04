@@ -774,3 +774,7 @@
  .app.continuum-ui .premium-guide-benefits{grid-template-columns:minmax(0,1fr);gap:20px;padding:20px 0}
  .app.continuum-ui .premium-guide-benefits h3{margin:8px 0;line-height:1.4}
 }
+.app.continuum-ui .lesson-translation{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px;font-family:system-ui,sans-serif;font-size:13px;line-height:1.55;font-weight:400;letter-spacing:normal;color:var(--ui-muted)}
+.app.continuum-ui .lesson-translation .text-button{font-size:12px;min-height:32px;padding:4px 6px}
+.app.continuum-ui .lesson-translation .lesson-original{flex-basis:100%;white-space:pre-wrap}
+.app.continuum-ui .lesson-translation-notice{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:10px 12px;border-radius:12px;background:var(--ui-lavender);color:var(--ui-primary-deep);font-size:12px;line-height:1.5;margin:10px 0}

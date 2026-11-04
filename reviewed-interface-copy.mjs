@@ -1,3 +1,4 @@
+import {lessonCopy} from './lesson-copy.mjs';
 import {planningCopy} from './planning-copy.mjs';
 import {polishCopy} from './polish-copy.mjs';
 import {redesignCopy} from './redesign-copy.mjs';
@@ -272,3 +273,5 @@ for(const [source,values] of Object.entries(redesignCopy))for(const [locale,valu
 for(const [source,values] of Object.entries(polishCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
 
 for(const [source,values] of Object.entries(planningCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
+
+for(const [source,values] of Object.entries(lessonCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;

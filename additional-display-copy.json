@@ -14605,19 +14605,19 @@
   },
   "Present perfect continuous": {
     "ko": "현재 완료 진행형",
-    "id": "Present perfect continuous",
+    "id": "Perfek progresif",
     "ru": "Настоящее совершенное продолженное время",
     "ar": "الماضي التام المستمر"
   },
   "Present perfect subjunctive: haya + participle": {
     "ko": "현재 완료 가정법: haya + 분사",
-    "id": "Present perfect subjunctive: haya + participle",
+    "id": "Subjungtif lampau: haya + partisip",
     "ru": "Настоящее совершенное сослагательное наклонение: haya + причастие",
     "ar": "الماضي التام الشرطي: haya + الفعل الماضي"
   },
   "Present perfect: haber + participle": {
     "ko": "현재 완료: haber + 분사",
-    "id": "Present perfect: haber + participle",
+    "id": "Perfek: haber + partisip",
     "ru": "Настоящее совершенное время: haber + причастие",
     "ar": "الماضي التام: haber + الفعل الماضي"
   },

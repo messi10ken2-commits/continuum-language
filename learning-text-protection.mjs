@@ -47,6 +47,7 @@ export function keepsProtectedText(protection,translated){
 export function keepsLocalizedInstructions(source,translated){
  if(!keepsProtectedText(source.protection,translated))return false;
  if(!source.protection||/^⟦KEEP_\d+⟧$/.test(source.protection.text))return true;
+ if(translated.trim()===source.text.trim()&&!/^https?:\/\//.test(source.text)&&!/^(?:INSERT|SELECT|UPDATE|DELETE|CREATE|ALTER)\b/.test(source.text)&&/\b(?:the|your|you|is|are|means|use|uses|using|used|expresses|shows|requests|suits|asks|they|does|not|with|from|than|then|should|would|must)\b/i.test(source.protection.text))return false;
  const prefix=/^(?:Complete (?:the|with|only)|Choose (?:the|a)|Correct (?:the|only)|Write (?:the|a|only)|What does this mean|Ask (?:about|for|a)|Listen (?:and|to)|Read (?:the|and))\b/;
  return !(prefix.test(source.text)&&prefix.test(translated.trim()));
 }

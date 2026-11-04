@@ -45,14 +45,27 @@ export function t(value,learningLanguage=''){
  if(account&&translationSource(text,learningLanguage)&&!failed.has(key)&&!inFlight.has(key)){queue.set(key,{locale,id,text,language:learningLanguage});schedule();}
  return value;
 }
+// Report delivery separately from source text so lessons never mistake an English
+// fallback for a completed translation. Only published strings can enter the queue.
+export function lessonTranslationState(value,learningLanguage=''){
+ const rendered=t(value,learningLanguage);
+ if(typeof value!=='string'||!value.trim()||locale==='en')return {status:'ready',text:rendered};
+ const source=translationSource(value.trim(),learningLanguage),protection=protectionFor(source);
+ if(rendered!==value||protection&&/^⟦KEEP_\d+⟧$/.test(protection.text))return {status:'ready',text:rendered};
+ if(reviewedTranslation(value.trim(),locale)||interfaceCopy[value.trim()]?.[locale])return {status:'ready',text:rendered};
+ const key=locale+':'+translationKey(value.trim(),learningLanguage);
+ if(cache.has(key)&&(!protection||keepsLocalizedInstructions({text:value.trim(),protection},cache.get(key))))return {status:'ready',text:rendered};
+ return {status:!source||failed.has(key)||!account?'unavailable':'pending',text:rendered};
+}
+export function primeLessonQuestion(question,language){if(!question)return;for(const field of ['prompt','note'])t(question[field],language);if(displayLanguageOptions(question,{language}))for(const value of question.options||[])t(value);}
 function schedule(){if(scheduled||running||!account||!queue.size)return;scheduled=true;queueMicrotask(()=>{scheduled=false;void flush()});}
 async function flush(){if(running||!account||!queue.size)return;running=true;emit();
  const requestLocale=locale,requestBinding=binding,items=[];let length=0,responseStatus=0;const batchLimit=queue.values().next().value?.smallBatch?4:16;
- for(const [key,item] of queue){if(item.locale!==requestLocale){queue.delete(key);continue;}if(items.length>=batchLimit||length+item.text.length>14000)break;items.push({...item,key});inFlight.add(key);queue.delete(key);length+=item.text.length;}
+ for(const [key,item] of queue){if(item.locale!==requestLocale){queue.delete(key);continue;}if(items.length>=(items.some(i=>i.singleBatch)||item.singleBatch?1:batchLimit)||length+item.text.length>14000)break;items.push({...item,key});inFlight.add(key);queue.delete(key);length+=item.text.length;}
  try{if(!items.length)return;const r=await fetch('/api/localization',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({locale:requestLocale,items:items.map(({text,language})=>({text,language}))})});responseStatus=r.status;if(!r.ok)throw Error();const d=await r.json();const returned=new Map((d.translations||[]).map(x=>[x.id,x.text]));for(const item of items){const text=returned.get(item.id);if(typeof text!=='string'||!keepsLocalizedInstructions({text:item.text,protection:protectionFor(translationSource(item.text,item.language))},text)){failed.set(item.key,item);continue;}failed.delete(item.key);cache.set(item.key,text);}
   while(cache.size>3500)cache.delete(cache.keys().next().value);
   try{localStorage.setItem('continuumInterfaceTranslations:'+translationRevision,JSON.stringify([...cache]))}catch{}
- }catch{if(requestBinding===binding&&requestLocale===locale){for(const item of items){if(responseStatus===503&&items.length>4&&!item.smallBatch)queue.set(item.key,{...item,smallBatch:true});else failed.set(item.key,item);}}}
+ }catch{if(requestBinding===binding&&requestLocale===locale){for(const item of items){if(responseStatus===503&&items.length>4&&!item.smallBatch)queue.set(item.key,{...item,smallBatch:true});else if(responseStatus===503&&items.length>1&&!item.singleBatch)queue.set(item.key,{...item,singleBatch:true});else failed.set(item.key,item);}}}
  finally{for(const item of items)inFlight.delete(item.key);running=false;emit();schedule();}
 }
 export function retryInterfaceTranslations(){for(const [key,item] of failed)queue.set(key,item);failed.clear();emit();schedule();}
