@@ -1,3 +1,4 @@
+import {lightLearningCopy} from './light-learning-copy.mjs';
 import {lessonCopy} from './lesson-copy.mjs';
 import {planningCopy} from './planning-copy.mjs';
 import {polishCopy} from './polish-copy.mjs';
@@ -275,3 +276,5 @@ for(const [source,values] of Object.entries(polishCopy))for(const [locale,value]
 for(const [source,values] of Object.entries(planningCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
 
 for(const [source,values] of Object.entries(lessonCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
+
+for(const [source,values] of Object.entries(lightLearningCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;

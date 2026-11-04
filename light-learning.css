@@ -1,0 +1,53 @@
+.app.continuum-ui .lesson-mode-host [hidden]{display:none!important}
+.app.continuum-ui .lesson-mode-control{border:0;padding:0;margin:16px 0;min-width:0}
+.app.continuum-ui .lesson-mode-control legend{font-size:13px;font-weight:700;padding:0;margin-bottom:8px}
+.app.continuum-ui .lesson-mode-control>div{display:grid;grid-template-columns:1fr 1fr;border:1px solid #d9cce8;border-radius:999px;padding:3px;background:#fcf8ff}
+.app.continuum-ui .lesson-mode-control button{border:0;border-radius:999px;min-height:40px;background:transparent;color:#554069;font-weight:600;padding:8px 14px;cursor:pointer}
+.app.continuum-ui .lesson-mode-control button[aria-pressed=true]{background:linear-gradient(120deg,#9658eb,#6531cf);color:#fff;box-shadow:0 3px 9px #7544e826}
+.app.continuum-ui .lesson-mode-control small{display:block;text-align:center;font-size:11px;color:#756a84;margin-top:7px}
+.app.continuum-ui .lesson-mode-compact{flex:0 0 auto;min-width:0}
+.app.continuum-ui .lesson-mode-compact select{background:#f4edff;border:1px solid #d9c9ef;border-radius:999px;color:#553483;min-height:36px;max-width:110px;padding:6px 20px 6px 9px;font-size:12px;font-weight:600}
+.app.continuum-ui .light-lesson{max-width:620px;margin-inline:auto}
+.app.continuum-ui .light-intro h2{font-size:20px;margin:16px 0 12px}
+.app.continuum-ui .light-benefits{display:flex;flex-wrap:wrap;gap:10px;padding:10px 0;font-size:13px;color:#60506e}
+.app.continuum-ui .light-benefits span{display:flex;align-items:center;gap:6px;background:#f3eafd;border-radius:12px;padding:10px}
+.app.continuum-ui .light-record-note{font-size:12px;line-height:1.5;color:#756b80;margin:14px 0}
+.app.continuum-ui .light-activity{position:relative;padding:20px}
+.app.continuum-ui .light-activity h1{font-size:clamp(23px,5.5vw,30px);line-height:1.2;margin:14px 0}
+.app.continuum-ui .light-activity .page-scene{margin:12px 0;max-height:230px}
+.app.continuum-ui .light-model{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;margin:12px 0;background:#f6f0ff;border:1px solid #e3d6f2;border-radius:16px;flex-wrap:wrap}
+.app.continuum-ui .light-model>b{font-size:22px;line-height:1.4;overflow-wrap:anywhere;flex:1;min-width:100px}
+.app.continuum-ui .light-model .sentence-audio{flex:0 1 auto}
+.app.continuum-ui .light-meaning{font-size:17px;color:#655671}
+.app.continuum-ui .light-hint-button{display:flex;align-items:center;gap:6px;margin:16px auto;border:1px solid #ded2ed;background:#fffcf6;border-radius:999px;min-height:40px;padding:8px 15px;color:#62427e;cursor:pointer}
+.app.continuum-ui .light-hint{display:flex;flex-direction:column;gap:7px;background:#fff5dd;border-radius:14px;padding:14px;font-size:14px;margin:10px 0}
+.app.continuum-ui .light-hint>b{font-size:18px}
+.app.continuum-ui .light-activity .feedback{position:relative;min-height:80px;padding:16px;padding-inline-end:90px;background:#e7f7ee;border-radius:16px}
+.app.continuum-ui .light-activity .feedback.retry{background:#fff3de}
+.app.continuum-ui .light-feedback-companion{position:absolute;inset-inline-end:10px;bottom:8px;width:68px;height:68px;pointer-events:none}
+.app.continuum-ui .light-next{margin-top:18px;min-height:46px}
+.app.continuum-ui .light-count{text-align:center;font-size:12px;color:#786985;margin:10px}
+.app.continuum-ui .light-top progress{flex:1;min-width:20px;height:9px;accent-color:#8050e4}
+.app.continuum-ui .light-top>span{font-size:12px}
+.app.continuum-ui.ui-illustrated .light-activity{background:linear-gradient(160deg,#fffdf8,#fff6e7);border-color:#ead9be}
+.app.continuum-ui.ui-illustrated .light-model{background:#fffaf0;border-color:#e5d6bc}
+.app.continuum-ui.ui-illustrated .light-activity .page-scene{border-radius:18px 18px 30px 8px}
+.app.continuum-ui .light-result>svg{color:#289775}
+.app.continuum-ui .light-result h1{font-size:28px}
+.app.continuum-ui .light-history li{display:flex;flex-direction:column;gap:6px;margin-block:12px}
+.app.continuum-ui .light-history li>button{text-align:start;border:0;background:transparent;color:#673f9a;padding:8px 0;font-weight:600;cursor:pointer}
+.app.continuum-ui .light-history li>span{font-size:12px;color:#74657d}
+@media(max-width:400px){.app.continuum-ui .practice-top{gap:6px}.app.continuum-ui .lesson-mode-compact select{max-width:92px;font-size:11px}.app.continuum-ui .light-activity{padding:14px}.app.continuum-ui .light-activity .feedback{padding-inline-end:75px}}
+
+.app.continuum-ui .light-lesson .page-scene figcaption:empty{display:none}
+.app.continuum-ui .light-next{position:sticky;bottom:calc(10px + env(safe-area-inset-bottom));z-index:5;box-shadow:0 5px 20px #8050e42b}
+.app.continuum-ui.ui-illustrated .light-activity{display:flex;flex-direction:column}
+.app.continuum-ui.ui-illustrated .light-activity>.page-scene{order:-2;margin:0 0 12px}
+.app.continuum-ui.ui-illustrated .light-activity>h1{order:-1;position:relative;align-self:flex-start;max-width:95%;margin:-32px 8px 12px;padding:9px 12px;border-radius:13px;background:#fffaf2;box-shadow:0 3px 10px #65442812;z-index:1}
+.app.continuum-ui.ui-illustrated .light-activity>.eyebrow{order:-3}
+
+.app.continuum-ui .practice-top .lesson-mode-compact{display:inline-flex;max-width:105px;flex:0 0 auto}
+.app.continuum-ui .practice-top .lesson-mode-compact select{min-height:36px;width:100%;max-width:105px;font-size:12px}
+.app.continuum-ui .practice-top .back{min-width:0;flex-shrink:1}
+.app.continuum-ui.ui-illustrated .light-lesson .page-scene-button>span{bottom:auto;top:10px;right:10px}
+@media(max-width:400px){.app.continuum-ui .practice-top .lesson-mode-compact{max-width:82px}.app.continuum-ui .practice-top .lesson-mode-compact select{max-width:82px;font-size:11px}.app.continuum-ui .light-activity .page-scene{max-height:180px}.app.continuum-ui .light-activity .page-scene img{max-height:180px;object-fit:cover}}

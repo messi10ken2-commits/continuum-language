@@ -1,3 +1,4 @@
+import {migrateLightLearning,handleLightLearning} from './light-learning-api.mjs';
 import {migrateAdventure,handleAdventure} from './adventure-api.mjs';
 import {migrateTeacherRanking} from './teacher-ranking.mjs';
 import {migrateAnswerReviews,withVerifiedAnswers} from './verified-answers.mjs';
@@ -71,7 +72,7 @@ async function migrate(){
  await pool.query(`ALTER TABLE share_codes ADD COLUMN IF NOT EXISTS language text;`);
  await pool.query(`ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS evidence jsonb;`);
  await pool.query(`ALTER TABLE class_notes ADD COLUMN IF NOT EXISTS language text NOT NULL DEFAULT 'es';`);
- await migrateProfiles(pool);
+ await migrateProfiles(pool);await migrateLightLearning(pool);
  await migratePatterns(pool);
  await migrateAssessments(pool);
  await migrateSkills(pool);
@@ -108,6 +109,7 @@ async function handle(req,res){
  if(await handleOwner({route,req,res,pool,required,currentUser,json,send,fail,limited}))return;
  if(await handleSupport({route,req,res,pool,required,json,send,fail,limited}))return;
  await enforcePlatformControls({route,req,pool,currentUser,json,fail});
+ if(await handleLightLearning({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleBilling({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleLocalization({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleClassroom({route,req,res,pool,required,json,send,fail,limited}))return;

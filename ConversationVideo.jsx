@@ -1,3 +1,4 @@
+import {useLessonVisible} from './LessonVisibility.jsx';
 import LessonText from './LessonText.jsx';
 import TimedYouTube from './TimedYouTube.jsx';
 import {useExternalMedia,allowExternalMedia} from './MediaPrivacy.jsx';
@@ -5,9 +6,10 @@ import {t as uiText,tf as uiTemplate} from './interface-runtime.mjs';
 import {formatVideoTime,reviewedVideoCue} from './conversation-cues.mjs';
 import React,{useEffect,useRef,useState} from 'react';
 export default function ConversationVideo({lesson,practice=false,cue=null,autoPlay=false}){
+ const visible=useLessonVisible();
  const video=useRef(null),[failed,setFailed]=useState(false),[speed,setSpeed]=useState('1'),[replay,setReplay]=useState(0),[whole,setWhole]=useState(false);
  const mediaAllowed=useExternalMedia();const clip=whole?null:cue;
- const c=lesson.conversation;useEffect(()=>{setWhole(false);setReplay(0);setFailed(false)},[c?.youtubeId,cue?.start,cue?.end]);if(!c)return null;
+ const c=lesson.conversation;useEffect(()=>{setWhole(false);setReplay(0);setFailed(false)},[c?.youtubeId,cue?.start,cue?.end]);if(!c||!visible)return null;
  const embedded=c.provider==='youtube'&&/^[A-Za-z0-9_-]{11}$/.test(c.youtubeId||'');
  if(c.provider==='publisher')return <section className="conversation-video"><span className="eyebrow">{uiText('REAL PEOPLE · ORIGINAL SPOKEN AUDIO')}</span><h2>{uiText(c.sourceTitle||lesson.title)}</h2><p>{uiText('Watch this video on the publisher’s site, then return here to answer.')}</p><a className="outline-button" href={c.source} target="_blank" rel="noopener noreferrer">{uiText('Open original video')} ↗</a><p>{c.credit}</p></section>;
  return <section className="conversation-video" aria-label={uiText("Conversation with human voices")}>
