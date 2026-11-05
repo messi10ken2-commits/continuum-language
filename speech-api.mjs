@@ -1,3 +1,4 @@
+import {lightAudioTargets} from './light-learning-model.mjs';
 import {ordinaryLessonAudioTargets} from './lesson-audio-targets.mjs';
 import {expandedExerciseBank} from './expanded-language-catalog.mjs';
 import {idiomExercises} from './c1-idioms.mjs';
@@ -29,6 +30,7 @@ function collect(value){
   for(const locale of speechLocales)for(const part of speechParts(value,'auto',locale)){const s=part.text.normalize('NFC').trim();if(s&&s.length<=1800)catalog.add(s);}
  }else if(Array.isArray(value))value.forEach(collect);else if(value&&typeof value==='object')Object.values(value).forEach(collect);
 }
+for(const row of lightAudioTargets(lessonList))if(row.text.length<=1800)catalog.add(row.text);
 collect(appliedQuestionBank);collect(practicalFormQuestions);collect(lessonList);collect(skillTasks);collect(exerciseBank);collect(practicalBank);
 // The player exposes the complete versioned pools, not just each base lesson's
 // initial questions. Include derived feedback forms as well as authored examples.

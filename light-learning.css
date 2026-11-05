@@ -51,3 +51,93 @@
 .app.continuum-ui .practice-top .back{min-width:0;flex-shrink:1}
 .app.continuum-ui.ui-illustrated .light-lesson .page-scene-button>span{bottom:auto;top:10px;right:10px}
 @media(max-width:400px){.app.continuum-ui .practice-top .lesson-mode-compact{max-width:82px}.app.continuum-ui .practice-top .lesson-mode-compact select{max-width:82px;font-size:11px}.app.continuum-ui .light-activity .page-scene{max-height:180px}.app.continuum-ui .light-activity .page-scene img{max-height:180px;object-fit:cover}}
+/* Light owns a compact game surface, independent of Standard's reference layout. */
+.app.continuum-ui .light-game{--light-accent:#7650df;--light-edge:#5130a7;max-width:640px;padding:0 12px 24px;min-height:72dvh;display:flex;flex-direction:column;color:#252044}
+.app.continuum-ui .light-game-top{position:sticky;top:0;z-index:12;display:flex;align-items:center;gap:14px;padding:14px 0;background:#fffdfbf5;backdrop-filter:blur(12px)}
+.app.continuum-ui .light-game-top progress{flex:1;min-width:20px;height:13px;accent-color:var(--light-accent);border:0;border-radius:99px;overflow:hidden}
+.app.continuum-ui .light-game-top progress::-webkit-progress-bar{background:#ede8f4;border-radius:99px}
+.app.continuum-ui .light-game-top progress::-webkit-progress-value{background:linear-gradient(90deg,#ad7bf3,#7450dd);border-radius:99px;transition:width .25s}
+.app.continuum-ui .light-close,.app.continuum-ui .light-tip{display:grid;place-items:center;border:0;border-radius:14px;width:44px;height:44px;flex-shrink:0;background:#f1edf8;color:#72658c;cursor:pointer}
+.app.continuum-ui .light-combo{display:flex;align-items:center;gap:3px;color:#c97524;font-weight:800;font-size:15px}
+.app.continuum-ui .light-game h1{font-family:inherit;font-weight:800;font-size:clamp(24px,4vw,31px);line-height:1.28;letter-spacing:-.025em;margin:14px 0 24px}
+.app.continuum-ui .light-game-board{flex:1;display:flex;flex-direction:column;min-height:65dvh;padding:16px 0 0;gap:10px;border:0;background:transparent;box-shadow:none}
+.app.continuum-ui .light-task-heading{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.app.continuum-ui .light-task-heading .eyebrow{font-size:11px}
+.app.continuum-ui .light-game-board h1{margin:0 0 10px}
+.app.continuum-ui .light-speech-bubble{position:relative;display:flex;align-items:center;gap:16px;padding:20px;border:2px solid #e4dcf0;border-bottom:4px solid #e4dcf0;border-radius:22px;background:#fff;margin-block:8px 18px;min-height:100px}
+.app.continuum-ui .light-speech-bubble>b{font-size:clamp(20px,4vw,26px);line-height:1.45;overflow-wrap:anywhere}
+.app.continuum-ui .light-game .sentence-audio{padding:0;border:0;background:transparent;box-shadow:none;display:inline-flex;gap:5px;flex:0 0 auto;max-width:100%;flex-wrap:wrap}
+.app.continuum-ui .light-game .sentence-play{width:44px;height:44px;min-width:44px;min-height:44px;background:#eee7fc;color:#7141d0;box-shadow:0 3px 0 #dacbf4}
+.app.continuum-ui .light-game .sentence-audio-error{font-size:12px;max-width:240px;white-space:normal}
+.app.continuum-ui .light-observe-meaning{text-align:center;font-size:20px;line-height:1.55;padding:14px;color:#5d5270}
+.app.continuum-ui .light-game-button{min-height:52px;display:flex;align-items:center;justify-content:center;gap:10px;border:0;border-bottom:5px solid var(--light-edge);border-radius:17px;background:var(--light-accent);box-shadow:none;color:white;font-weight:800;font-size:16px;letter-spacing:.015em;cursor:pointer;transform:translateY(0)}
+.app.continuum-ui .light-game-button:active:not(:disabled){transform:translateY(3px);border-bottom-width:2px}
+.app.continuum-ui .light-game-button:disabled{background:#e5e0ec;border-color:#d1cbd9;color:#8f879e;opacity:1;cursor:default}
+.app.continuum-ui .light-game-footer{position:sticky;bottom:env(safe-area-inset-bottom);margin-top:auto;z-index:6;background:#fffdfbf5;padding:16px 0 12px;border-top:1px solid #e9e3ef;backdrop-filter:blur(10px)}
+.app.continuum-ui .light-game-footer.is-correct{background:#e6f7ee;padding:16px;border-color:#c9e8d6;border-radius:20px 20px 0 0;color:#23835d}
+.app.continuum-ui .light-game-footer.is-retry{background:#fff4dc;padding:16px;border-color:#f1dfb4;border-radius:20px 20px 0 0;color:#92661a}
+.app.continuum-ui .light-game-feedback{position:relative;display:flex;gap:10px;align-items:center;min-height:58px;padding-bottom:12px;padding-inline-end:55px}
+.app.continuum-ui .light-game-feedback p{font-size:13px;margin:5px 0;line-height:1.45}
+.app.continuum-ui .light-game .light-feedback-companion{position:static;display:block;width:78px;height:78px;margin:auto}
+.app.continuum-ui .light-game-feedback .light-feedback-companion{position:absolute;inset-inline-end:0;bottom:4px;width:58px;height:58px}
+.app.continuum-ui .light-game-choices{display:grid;gap:13px;margin:10px 0 20px}
+.app.continuum-ui .light-game-choices>button{display:flex;align-items:center;gap:14px;text-align:start;padding:16px;border:2px solid #e5dfeb;border-bottom:4px solid #e5dfeb;background:#fff;border-radius:18px;min-height:76px;font-size:17px;line-height:1.45;color:#302744;cursor:pointer}
+.app.continuum-ui .light-game-choices>button.selected{background:#f1e9ff;border-color:#a27ae7;color:#5c32aa}
+.app.continuum-ui .light-choice-letter{display:grid;place-items:center;flex:0 0 30px;height:30px;border:2px solid currentColor;opacity:.6;font-size:12px;border-radius:9px;font-weight:700}
+.app.continuum-ui .light-answer-slots{display:flex;flex-wrap:wrap;gap:7px;min-height:94px;border-top:2px dashed #dcd5e7;border-bottom:2px dashed #dcd5e7;padding:14px 0;margin:8px 0 22px;align-items:center}
+.app.continuum-ui .light-answer-slots>span{color:#8d829b;font-size:14px}
+.app.continuum-ui .light-answer-slots>button,.app.continuum-ui .light-game .word-builder-tiles>button{border:2px solid #dfd6eb;border-bottom:4px solid #dfd6eb;background:#fff;border-radius:12px;padding:11px 13px;min-height:46px;font-size:17px;line-height:1.2;color:#302744;cursor:pointer}
+.app.continuum-ui .light-game .word-builder-tiles{justify-content:center;gap:9px;margin-bottom:14px}
+.app.continuum-ui .light-game .word-builder-tiles>button:disabled{background:#eeeaf3;color:transparent;border-color:#eeeaf3;cursor:default}
+.app.continuum-ui .light-build-meaning{font-size:18px;line-height:1.5;color:#645773}
+.app.continuum-ui .light-game-hint{display:flex;align-items:center;flex-wrap:wrap;gap:10px;padding:14px;background:#fff5d9;border-radius:14px;font-size:14px;line-height:1.5;margin-bottom:14px}
+.app.continuum-ui .light-launch,.app.continuum-ui .light-celebration{text-align:center;padding:22px 0;max-width:480px;width:100%;margin:auto}
+.app.continuum-ui .light-launch-art{position:relative;margin:0 auto 24px;width:100%;max-width:330px}
+.app.continuum-ui .light-launch-art .page-scene{height:160px;border-radius:25px;overflow:hidden;margin:0}
+.app.continuum-ui .light-launch-art .page-scene img{height:160px;object-fit:cover}
+.app.continuum-ui .light-launch-art>span{position:absolute;inset-inline-start:-10px;bottom:-12px;width:62px;height:62px;display:grid;place-items:center;border:6px solid #fffdfb;border-radius:22px;background:#b297ed;color:#fff;transform:rotate(-10deg)}
+.app.continuum-ui .light-round-facts{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin:24px 0}
+.app.continuum-ui .light-round-facts>span{display:flex;align-items:center;gap:7px;background:#f2eafa;border-radius:13px;padding:12px;font-size:13px}
+.app.continuum-ui .light-round-facts svg{width:18px;height:18px;color:#9270ce}
+.app.continuum-ui .light-trophy{position:relative;color:#d8a135;width:150px;height:150px;display:grid;place-items:center;background:#fff3c8;border-radius:50%;margin:10px auto 28px;animation:light-pop .4s ease-out}
+.app.continuum-ui .light-trophy i{position:absolute;font-style:normal;font-size:28px;color:#a080dc;top:5px;left:0}
+.app.continuum-ui .light-trophy i+i{top:auto;bottom:0;left:auto;right:0}
+.app.continuum-ui .light-reward{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px;padding:20px;background:#f1e8ff;border:2px solid #d4bfef;border-radius:20px;color:#7650bb;margin:24px 0}
+.app.continuum-ui .light-reward>b{font-size:25px}.app.continuum-ui .light-reward>span{flex-basis:100%;font-size:13px}
+.app.continuum-ui .light-celebration .text-button{margin:12px}
+.app.continuum-ui.ui-illustrated .light-game{--light-accent:#8153c9;--light-edge:#57348d;background:radial-gradient(ellipse at top,#fff5dd,transparent 65%)}
+.app.continuum-ui.ui-illustrated .light-speech-bubble{background:#fffaf0;border-color:#e8d5b6;border-radius:25px 25px 25px 5px}
+.app.continuum-ui .light-path{max-width:680px;margin:auto;padding:4px 12px 40px}
+.app.continuum-ui .light-path-heading h1{font-size:30px;line-height:1.2;margin:10px 0;font-weight:800;font-family:inherit}
+.app.continuum-ui .light-path-heading p{color:#7b6f88;font-size:15px;margin:10px 0}
+.app.continuum-ui .light-path-score{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;border:2px solid #ebe0f5;border-radius:18px;padding:16px;background:#fcf8ff}
+.app.continuum-ui .light-path-score>span{display:flex;gap:8px;align-items:center;font-size:13px;color:#79618f}.app.continuum-ui .light-path-score svg{color:#c58d32}
+.app.continuum-ui .light-levels{display:flex;gap:8px;margin:20px 0}
+.app.continuum-ui .light-levels button{flex:1;border:2px solid #e5ddee;border-bottom-width:4px;background:#fff;border-radius:13px;color:#82718d;min-height:44px;cursor:pointer;font-weight:800}
+.app.continuum-ui .light-levels button[aria-pressed=true]{background:#f0e5ff;color:#7046b0;border-color:#ad88dd}
+.app.continuum-ui .light-path-summary{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin:20px 0;font-size:14px}.app.continuum-ui .light-path-summary progress{flex-basis:100%;height:11px;accent-color:#9661dd;width:100%}
+.app.continuum-ui .light-path-continue{position:sticky;top:8px;z-index:7;box-shadow:0 5px 15px #694b9a25;margin-bottom:22px}
+.app.continuum-ui .light-unit{margin-block:18px 28px;scroll-margin-top:80px}
+.app.continuum-ui .light-unit>header{background:linear-gradient(115deg,#8560c9,#6a42ad);padding:20px;border-radius:18px;color:#fff;display:flex;align-items:center;gap:14px}
+.app.continuum-ui .light-unit>header h2{font-family:inherit;font-size:19px;color:inherit;margin:0 0 7px;line-height:1.4}.app.continuum-ui .light-unit>header p{color:#eee4ff;font-size:13px;margin:0;line-height:1.5}
+.app.continuum-ui .light-node-list{position:relative;display:flex;flex-direction:column;align-items:center;gap:26px;padding:26px 0}
+.app.continuum-ui .light-node-list:before{content:'';position:absolute;top:20px;bottom:50px;left:calc(50% - 2px);width:4px;background:repeating-linear-gradient(to bottom,#e6dcf3 0 9px,transparent 9px 18px)}
+.app.continuum-ui .light-path-node{position:relative;display:flex;align-items:center;flex-direction:column;gap:9px;max-width:240px;text-align:center;transform:translateX(var(--node-offset))}
+.app.continuum-ui .light-path-node>button{width:76px;height:76px;border-radius:50%;border:0;border-bottom:7px solid #b7afc1;background:#ddd6e7;color:#aaa0b9;display:grid;place-items:center;cursor:pointer;box-shadow:0 0 0 7px #fffdfb}
+.app.continuum-ui .light-path-node.current>button{background:#9860e5;border-color:#683ca6;color:#fff}.app.continuum-ui .light-path-node.done>button{background:#e7b449;border-color:#b18a32;color:#fff}
+.app.continuum-ui .light-path-node>button:disabled{cursor:default}.app.continuum-ui .light-path-node>b{font-size:14px;line-height:1.5;background:#fffdfb;padding:2px 6px}.app.continuum-ui .light-path-node>span{font-size:12px;color:#80738e;background:#fffdfb}.app.continuum-ui .light-path-node>small{color:#ac862f;font-weight:700}
+.app.continuum-ui .light-path-footnote{font-size:12px;line-height:1.6;color:#8a7b97;text-align:center}
+.app.continuum-ui .light-level-complete{text-align:center;padding:24px;color:#9e7b28;background:#fff7d9;border-radius:20px;margin:20px 0}
+.app.continuum-ui.ui-illustrated .light-unit>header{background:linear-gradient(115deg,#8b65b5,#735294)}
+@keyframes light-pop{from{transform:scale(.8) rotate(-8deg);opacity:.3}to{transform:scale(1) rotate(0);opacity:1}}
+@media(prefers-reduced-motion:reduce){.app.continuum-ui .light-trophy{animation:none}.app.continuum-ui .light-game progress::-webkit-progress-value{transition:none}}
+@media(max-width:400px){.app.continuum-ui .light-game{padding-inline:6px}.app.continuum-ui .light-game-top{gap:8px}.app.continuum-ui .light-game-top .lesson-mode-compact select{max-width:80px;font-size:11px}.app.continuum-ui .light-game-top .light-close{width:36px}.app.continuum-ui .light-game-choices>button{padding:13px;font-size:16px}.app.continuum-ui .light-path-node{max-width:200px}.app.continuum-ui .light-speech-bubble{padding:15px;gap:12px}}
+.app.continuum-ui .light-game .sentence-audio .sentence-play{flex:0 0 44px;width:44px!important;min-width:44px!important;max-width:44px!important;height:44px!important;min-height:44px!important;background:#eee7fc;color:#7141d0;box-shadow:0 3px 0 #dacbf4}
+.app.continuum-ui .light-game .sentence-audio .sentence-play[aria-pressed=true]{background:#7650df;color:#fff}
+.app.continuum-ui .light-game .primary.light-game-button{min-height:52px;border:0;border-bottom:5px solid var(--light-edge);border-radius:17px;background:var(--light-accent);font-size:16px;font-weight:800;box-shadow:none}
+.app.continuum-ui .light-game .primary.light-game-button:disabled{background:#e5e0ec;border-color:#d1cbd9;color:#8f879e;opacity:1}
+.app.continuum-ui .light-game .primary.light-game-button:active:not(:disabled){transform:translateY(3px);border-bottom-width:2px}
+.app.continuum-ui .light-game .light-game-hint{position:static;display:flex;width:auto;height:auto;min-height:0;max-width:100%;box-shadow:none;z-index:auto}
+.app.continuum-ui .light-lesson.light-game .sentence-audio .sentence-play{flex:0 0 44px;width:44px!important;min-width:44px!important;max-width:44px!important;height:44px!important;min-height:44px!important}
+.app.continuum-ui .light-game .light-game-choices>button:disabled{opacity:1}
+.app.continuum-ui .light-game .light-game-choices>button.selected:disabled{color:#573491;background:#efe5ff;border-color:#a27ae7}

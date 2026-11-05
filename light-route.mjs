@@ -1,0 +1,6 @@
+import {chapters,lessonList,levels} from './course.mjs';
+import {lightActivities,lightRoundCount} from './light-learning-model.mjs';
+export function lightRoute(language,level){return chapters.filter(c=>(c.language||'es')===language&&!c.legacy&&(!level||c.level===level)).flatMap(c=>lessonList.filter(l=>l.chapter===c.id&&(l.language||'es')===language&&!l.checkpoint&&!l.summaryTest&&lightRoundCount(l)).map(lesson=>({lesson,chapter:c,rounds:lightRoundCount(lesson)}))).sort((a,b)=>levels.findIndex(l=>l.id===a.lesson.level)-levels.findIndex(l=>l.id===b.lesson.level));}
+export const lightRoundKey=(lesson,round)=>lesson+':'+round;
+export function lightRouteStats(route,completed){const keys=new Set(completed.map(r=>lightRoundKey(r.lesson,r.round)));let total=0,done=0,xp=0;for(const row of route)for(let round=0;round<row.rounds;round++){total++;if(keys.has(lightRoundKey(row.lesson.id,round))){done++;xp+=lightActivities(row.lesson,round).length*10;}}return {total,done,xp,keys};}
+export function nextLightRound(lesson,round){if(round+1<lightRoundCount(lesson))return {lesson:lesson.id,round:round+1};const route=lightRoute(lesson.language||'es'),i=route.findIndex(r=>r.lesson.id===lesson.id);return route[i+1]?{lesson:route[i+1].lesson.id,round:0}:null;}

@@ -35,4 +35,37 @@ Use the model to help you.|お手本を参考にしましょう。|Usa el modelo
 Checkpoints and assessments use Standard mode.|確認テストとレベル診断はスタンダードモードです。|Los controles y las evaluaciones usan el modo Estándar.|Os testes de capítulo e as avaliações usam o modo Padrão.|关卡测试和水平评估使用标准模式。|Les bilans et évaluations utilisent le mode Standard.|체크포인트와 평가는 표준 모드를 사용합니다.|Tes bab dan penilaian menggunakan mode Standar.|Контрольные и оценочные тесты проходят в стандартном режиме.|تستخدم اختبارات المراحل والتقييمات الوضع العادي.
 {0} of {1} activities|{1}つ中{0}つの練習|{0} de {1} actividades|{0} de {1} atividades|{0}/{1} 个活动|{0} activités sur {1}|활동 {1}개 중 {0}개|{0} dari {1} aktivitas|{0} из {1} заданий|{0} من {1} أنشطة
 `.trim().split('\n').map(r=>r.split('|'));
+rows.push(...`
+Two ways to learn. Choose your own pace.|2つの学び方。自分のペースで。|Dos formas de aprender. A tu ritmo.|Duas formas de aprender. No seu ritmo.|两种学习方式，按自己的节奏来。|Deux façons d’apprendre, à votre rythme.|두 가지 학습 방식, 나만의 속도로.|Dua cara belajar. Sesuai ritme Anda.|Два способа учиться. В своём темпе.|طريقتان للتعلم، حسب وتيرتك.
+Back to Light path|ライトのルートへ戻る|Volver a la ruta Ligera|Voltar à trilha Leve|返回轻松路线|Retour au parcours Léger|라이트 경로로 돌아가기|Kembali ke jalur Ringan|К лёгкому маршруту|العودة إلى المسار الخفيف
+Round {0} of {1}|ラウンド {0}/{1}|Ronda {0} de {1}|Rodada {0} de {1}|第 {0}/{1} 轮|Manche {0} sur {1}|라운드 {0}/{1}|Putaran {0} dari {1}|Раунд {0} из {1}|الجولة {0} من {1}
+Finish rounds, earn XP and complete your Light path.|ラウンドをクリアしてXPを獲得し、ライトのルートを進めましょう。|Completa rondas, gana XP y termina tu ruta Ligera.|Conclua rodadas, ganhe XP e complete sua trilha Leve.|完成轮次，赚取经验，走完轻松路线。|Terminez des manches, gagnez des XP et achevez votre parcours Léger.|라운드를 완료하고 XP를 모아 라이트 경로를 완주하세요.|Selesaikan putaran, raih XP, dan tuntaskan jalur Ringan.|Завершайте раунды, получайте XP и пройдите лёгкий маршрут.|أكمل الجولات واكسب XP وأنهِ مسارك الخفيف.
+Let’s go|さあ、始めよう|Vamos|Vamos lá|开始吧|C’est parti|시작해요|Ayo mulai|Начнём|لنبدأ
+Round complete!|ラウンドクリア！|¡Ronda completada!|Rodada concluída!|本轮完成！|Manche terminée !|라운드 완료!|Putaran selesai!|Раунд завершён!|اكتملت الجولة!
+Light progress saved|ライトの進み具合を保存しました|Progreso Ligero guardado|Progresso Leve salvo|轻松进度已保存|Progression Légère enregistrée|라이트 진행 상황 저장됨|Progres Ringan tersimpan|Лёгкий прогресс сохранён|تم حفظ التقدم الخفيف
+Every round counts on your Light path.|1ラウンドずつ、ライトのルートを進めます。|Cada ronda cuenta en tu ruta Ligera.|Cada rodada conta na sua trilha Leve.|每一轮都推进你的轻松路线。|Chaque manche fait avancer votre parcours Léger.|매 라운드가 라이트 경로의 한 걸음이에요.|Setiap putaran memajukan jalur Ringan Anda.|Каждый раунд продвигает вас по лёгкому маршруту.|كل جولة تُقدّمك في المسار الخفيف.
+Next Light round|次のライトラウンドへ|Siguiente ronda Ligera|Próxima rodada Leve|下一轮轻松练习|Manche Légère suivante|다음 라이트 라운드|Putaran Ringan berikutnya|Следующий лёгкий раунд|الجولة الخفيفة التالية
+Watch, then choose|見て、選んでみよう|Mira y elige|Assista e escolha|观看后选择|Regardez, puis choisissez|보고 골라 보세요|Tonton, lalu pilih|Посмотрите и выберите|شاهد، ثم اختر
+Meet this phrase|このフレーズに出会おう|Conoce esta frase|Conheça esta frase|认识这个短语|Découvrez cette phrase|이 표현을 만나 보세요|Kenali frasa ini|Познакомьтесь с фразой|تعرّف على هذه العبارة
+Find the model|お手本を見つけよう|Encuentra el modelo|Encontre o modelo|找出范例|Retrouvez le modèle|예문을 찾아보세요|Temukan contohnya|Найдите образец|ابحث عن المثال
+Listen, then say it your way.|聞いて、自分でも言ってみよう。|Escucha y dilo a tu manera.|Ouça e fale do seu jeito.|听一听，再自己说一遍。|Écoutez, puis dites-le à votre façon.|듣고 직접 말해 보세요.|Dengarkan, lalu ucapkan sendiri.|Послушайте и произнесите сами.|استمع، ثم قلها بنفسك.
+Got it. Let’s play!|わかった！やってみよう|¡Entendido! ¡A jugar!|Entendi. Vamos jogar!|明白了，开始挑战！|Compris. À vous de jouer !|알겠어요. 해볼까요!|Paham. Ayo bermain!|Понятно. Поиграем!|فهمت. لنلعب!
+Tap the word tiles|単語タイルをタップしよう|Toca las fichas|Toque nas palavras|点击词语方块|Touchez les mots|단어 타일을 눌러 보세요|Ketuk ubin kata|Нажимайте на слова|اضغط على مربعات الكلمات
+Nice work!|いいね！|¡Muy bien!|Muito bem!|做得好！|Bien joué !|잘했어요!|Bagus sekali!|Отлично!|أحسنت!
+No rush. Try once more.|大丈夫。もう一度やってみよう|Sin prisa. Inténtalo otra vez.|Sem pressa. Tente outra vez.|别急，再试一次。|Prenez votre temps. Réessayez.|괜찮아요. 다시 해봐요.|Santai saja. Coba lagi.|Не спешите. Попробуйте ещё раз.|لا تتعجل. حاول مرة أخرى.
+{0} in a row!|{0}問連続正解！|¡{0} seguidas!|{0} seguidas!|连续答对 {0} 题！|{0} bonnes réponses de suite !|{0}개 연속 정답!|{0} berturut-turut!|{0} подряд!|{0} إجابات متتالية!
+You’ve got this!|その調子！|¡Tú puedes!|Você consegue!|继续加油！|Vous y arrivez !|할 수 있어요!|Anda pasti bisa!|У вас получится!|أنت قادر على ذلك!
+Use a hint and give it another go.|ヒントを見て、もう一度やってみよう。|Usa una pista e inténtalo otra vez.|Use uma dica e tente novamente.|看看提示，再试一次。|Aidez-vous d’un indice et réessayez.|힌트를 보고 다시 해봐요.|Gunakan petunjuk dan coba lagi.|Воспользуйтесь подсказкой и попробуйте снова.|استعن بتلميح وحاول مجددًا.
+Keep going|次へ進もう|Sigue así|Continue assim|继续前进|Continuez|계속해요|Lanjutkan|Продолжайте|تابع التقدم
+Your Light adventure|ライトの冒険|Tu aventura Ligera|Sua aventura Leve|你的轻松冒险|Votre aventure Légère|나의 라이트 모험|Petualangan Ringan Anda|Ваше лёгкое приключение|مغامرتك الخفيفة
+A little play. Real progress.|遊ぶように、少しずつ前へ。|Un poco de juego. Progreso real.|Um pouco de jogo. Progresso real.|轻松玩，真进步。|Un peu de jeu. De vrais progrès.|가볍게 즐기며, 꾸준히 성장해요.|Sedikit bermain. Kemajuan nyata.|Немного игры. Настоящий прогресс.|قليل من اللعب، تقدّم حقيقي.
+{0} rounds complete|{0}ラウンドクリア|{0} rondas completadas|{0} rodadas concluídas|已完成 {0} 轮|{0} manches terminées|{0}개 라운드 완료|{0} putaran selesai|Завершено раундов: {0}|اكتملت {0} جولات
+Light progress|ライトの進み具合|Progreso Ligero|Progresso Leve|轻松进度|Progression Légère|라이트 진행 상황|Progres Ringan|Лёгкий прогресс|التقدم الخفيف
+Light level complete!|ライトのレベルクリア！|¡Nivel Ligero completado!|Nível Leve concluído!|轻松等级完成！|Niveau Léger terminé !|라이트 레벨 완료!|Level Ringan selesai!|Лёгкий уровень пройден!|اكتمل المستوى الخفيف!
+Keep exploring or replay a favourite round.|次の冒険へ進むか、好きなラウンドをもう一度。|Sigue explorando o repite tu ronda favorita.|Continue explorando ou repita uma rodada favorita.|继续探索，或重玩喜欢的一轮。|Continuez à explorer ou rejouez une manche préférée.|계속 탐험하거나 좋아하는 라운드를 다시 해보세요.|Lanjutkan menjelajah atau ulangi putaran favorit.|Продолжайте исследовать или повторите любимый раунд.|واصل الاستكشاف أو أعد جولتك المفضلة.
+Continue Light|ライトを続ける|Continuar Ligero|Continuar Leve|继续轻松学习|Continuer en Léger|라이트 계속하기|Lanjutkan Ringan|Продолжить лёгкий режим|تابع الوضع الخفيف
+Light chapter complete|ライトのチャプタークリア|Capítulo Ligero completado|Capítulo Leve concluído|轻松章节完成|Chapitre Léger terminé|라이트 챕터 완료|Bab Ringan selesai|Лёгкая глава завершена|اكتمل الفصل الخفيف
+Open Light: {0}|ライトを開く：{0}|Abrir Ligero: {0}|Abrir Leve: {0}|打开轻松学习：{0}|Ouvrir Léger : {0}|라이트 열기: {0}|Buka Ringan: {0}|Открыть лёгкий: {0}|افتح الخفيف: {0}
+Light has its own progress. Standard stays available whenever you choose.|ライトは独自の進み具合を記録します。スタンダードにもいつでも切り替えられます。|Ligero tiene su propio progreso. Estándar está disponible cuando quieras.|Leve tem progresso próprio. Padrão continua disponível quando você quiser.|轻松模式有独立进度，随时可选标准模式。|Léger a sa propre progression. Standard reste disponible à tout moment.|라이트는 독립적으로 진행돼요. 표준 모드도 언제든 선택할 수 있어요.|Ringan punya progres sendiri. Standar tetap tersedia kapan saja.|У лёгкого режима свой прогресс. Стандартный доступен в любой момент.|للخفيف تقدّمه الخاص. الوضع العادي متاح متى شئت.
+`.trim().split('\n').map(r=>r.split('|')));
 export const lightLearningCopy=Object.fromEntries(rows.map(([source,...values])=>[source,Object.fromEntries(['ja','es','pt','zh','fr','ko','id','ru','ar'].map((l,i)=>[l,values[i]]))]));
