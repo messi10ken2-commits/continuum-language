@@ -82,4 +82,17 @@ Does not fit the recording|録音の内容に合っていない|No coincide con 
 Fits the situation|場面に合っている|Encaja con la situación|Combina com a situação|符合情境|Convient à la situation|상황에 맞아요|Sesuai dengan situasi|Подходит к ситуации|تناسب الموقف
 Does not fit the situation|場面に合っていない|No encaja con la situación|Não combina com a situação|不符合情境|Ne convient pas à la situation|상황에 맞지 않아요|Tidak sesuai dengan situasi|Не подходит к ситуации|لا تناسب الموقف
 `.trim().split('\n').map(r=>r.split('|')));
+rows.push(...`
+Word Town|ことばの街|La ciudad de las palabras|Cidade das palavras|语言小镇|La ville des mots|말의 마을|Kota Kata|Город слов|مدينة الكلمات
+Materials|素材|Materiales|Materiais|材料|Matériaux|재료|Bahan|Материалы|مواد
+Next decoration|次の装飾|Próximo adorno|Próxima decoração|下一件装饰|Prochaine décoration|다음 장식|Dekorasi berikutnya|Следующее украшение|الزينة التالية
+Terrace|テラス席|Terraza|Esplanada|露台|La terrasse|테라스|Teras|Терраса|شرفة
+Flower bed|花壇|Parterre|Canteiro de flores|花坛|Parterre de fleurs|화단|Petak bunga|Клумба|حوض زهور
+Street lamp|街灯|Farola|Poste de luz|街灯|Réverbère|가로등|Lampu jalan|Фонарь|مصباح شارع
+{0} questions · about 2 min|{0}問・約2分|{0} preguntas · unos 2 min|{0} perguntas · cerca de 2 min|{0} 题 · 约 2 分钟|{0} questions · env. 2 min|{0}문제 · 약 2분|{0} soal · sekitar 2 menit|{0} заданий · около 2 мин|{0} أسئلة · نحو دقيقتين
+Best combo ×{0}|最大コンボ ×{0}|Mejor racha ×{0}|Melhor sequência ×{0}|最高连击 ×{0}|Meilleur combo ×{0}|최고 콤보 ×{0}|Kombo terbaik ×{0}|Лучшая серия ×{0}|أفضل سلسلة ×{0}
+Perfect clear!|パーフェクトクリア！|¡Todo correcto!|Acertou todas!|完美通关！|Sans faute !|완벽 클리어!|Sempurna!|Без ошибок!|إتقان تام!
+Review missed questions|間違えた問題を復習|Repasar los errores|Revisar as questões erradas|复习错题|Revoir les erreurs|틀린 문제 복습|Tinjau soal yang salah|Разобрать ошибки|راجع الأسئلة التي أخطأت فيها
+First try: {0}/{1} · Hints: {2}|初回正解 {0}/{1}・ヒント {2}|Primer intento: {0}/{1} · Pistas: {2}|Primeira tentativa: {0}/{1} · Dicas: {2}|首次答对 {0}/{1} · 提示 {2}|Premier essai : {0}/{1} · Indices : {2}|첫 시도 정답 {0}/{1} · 힌트 {2}|Percobaan pertama: {0}/{1} · Petunjuk: {2}|С первой попытки: {0}/{1} · Подсказки: {2}|المحاولة الأولى: {0}/{1} · التلميحات: {2}
+`.trim().split('\n').map(row=>row.split('|')));
 export const lightLearningCopy=Object.fromEntries(rows.map(([source,...values])=>[source,Object.fromEntries(['ja','es','pt','zh','fr','ko','id','ru','ar'].map((l,i)=>[l,values[i]]))]));

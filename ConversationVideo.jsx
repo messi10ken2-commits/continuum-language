@@ -5,7 +5,7 @@ import {useExternalMedia,allowExternalMedia} from './MediaPrivacy.jsx';
 import {t as uiText,tf as uiTemplate} from './interface-runtime.mjs';
 import {formatVideoTime,reviewedVideoCue} from './conversation-cues.mjs';
 import React,{useEffect,useRef,useState} from 'react';
-export default function ConversationVideo({lesson,practice=false,cue=null,autoPlay=false}){
+export default function ConversationVideo({lesson,practice=false,cue=null,autoPlay=false,showTranscript=true}){
  const visible=useLessonVisible();
  const video=useRef(null),[failed,setFailed]=useState(false),[speed,setSpeed]=useState('1'),[replay,setReplay]=useState(0),[whole,setWhole]=useState(false);
  const mediaAllowed=useExternalMedia();const clip=whole?null:cue;
@@ -22,7 +22,7 @@ export default function ConversationVideo({lesson,practice=false,cue=null,autoPl
   {!practice&&c.levelNote&&<p className="conversation-hint">{React.createElement(LessonText,{text:c.levelNote,language:lesson.language||lesson.locale?.slice(0,2)||'es'})}</p>}
   {!practice&&<p className="conversation-hint">{React.createElement(LessonText,{text:c.hint||'Listen for the situation first, then replay for details. This five-minute teaching video includes repetition and on-screen captions.',language:lesson.language||lesson.locale?.slice(0,2)||'es'})}</p>}
   {failed&&<p role="status">{uiText("The video could not load here. Open the original lesson below to watch, or use the dialogue transcript.")}</p>}
-  {c.transcript&&<details><summary>{uiText("Read the dialogue transcript")}</summary><p>{uiText("The main conversation; teaching repetitions are omitted.")}</p>{c.transcript.map(([speaker,line],i)=><p key={i} lang={lesson.locale}><b>{speaker}: </b>{line}</p>)}</details>}
+  {showTranscript&&c.transcript&&<details><summary>{uiText("Read the dialogue transcript")}</summary><p>{uiText("The main conversation; teaching repetitions are omitted.")}</p>{c.transcript.map(([speaker,line],i)=><p key={i} lang={lesson.locale}><b>{speaker}: </b>{line}</p>)}</details>}
   {embedded&&<p className="conversation-hint">{uiText("If playback is unavailable here, use “Open original video” below. YouTube may show ads or restrict playback in some regions.")}</p>}
   <p className="conversation-credit">{uiText("Video: ")}<a href={clip&&embedded?`${c.source}&t=${clip.start}s`:c.source} target="_blank" rel="noreferrer">{c.credit}{uiText(" · Open original video")}</a>{uiText(". Questions by Continuum.")}</p>
  </section>;

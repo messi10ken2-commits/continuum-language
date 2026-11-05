@@ -30,17 +30,19 @@ async function studioClip(part,signal,endpoint=null){
  let attribution=null;try{const raw=r.headers.get('X-Audio-Attribution');if(raw)attribution=JSON.parse(decodeURIComponent(raw));}catch{/* Source metadata must not prevent playback. */}
  const clip={blob,attribution,bundled:r.headers.get('X-Audio-Delivery')==='bundled',source:r.headers.get('X-Audio-Source')==='Human recording'?'Human recording':'AI studio voice'};if(!endpoint){clips.set(key,clip);cacheBytes+=blob.size;}return clip;
 }
-export default function SentenceAudio({text,lang='auto',compact=false,onPlayed,audioEndpoint=null,allowDeviceFallback=true}){
+export default function SentenceAudio({text,lang='auto',compact=false,onPlayed,onPlaybackChange,audioEndpoint=null,allowDeviceFallback=true}){
  const language=useContext(LanguageContext),locale=languageInfo(language).locale;
  const humanWord=nativeWordEntry(text,lang==='auto'?locale:lang)||publicHumanRecording(text,lang==='auto'?locale:lang);
  const defaultSource=humanWord||nativeKanaKey(text,lang==='auto'?locale:lang)?'Human recording':'AI studio voice';
  const [playing,setPlaying]=useState(false),[loading,setLoading]=useState(false),[slow,setSlow]=useState(false),[error,setError]=useState(''),[source,setSource]=useState('');
+ const [audible,setAudible]=useState(false);
+ useEffect(()=>{onPlaybackChange?.(audible);return()=>onPlaybackChange?.(false)},[audible,onPlaybackChange]);
  const [attribution,setAttribution]=useState(null),[bundled,setBundled]=useState(false);
  const humanCredit=attribution||humanWord;
  const device=useRef(null),readyClip=useRef(null);
  const owner=useRef({}),mounted=useRef(true),audio=useRef(null),request=useRef(null),objectURL=useRef(''),playbackWatch=useRef(null),generation=useRef(0),speed=useRef(1);
- const release=()=>{clearInterval(playbackWatch.current);playbackWatch.current=null;if(audio.current){audio.current.onended=null;audio.current.onerror=null;audio.current.pause();audio.current.removeAttribute('src');audio.current.load();audio.current=null;}if(objectURL.current){URL.revokeObjectURL(objectURL.current);objectURL.current='';}};
- const stop=()=>{generation.current++;device.current?.stop();device.current=null;request.current?.abort();request.current=null;release();if(active?.owner===owner.current){active=null;}if(mounted.current){setPlaying(false);setLoading(false);}};
+ const release=()=>{clearInterval(playbackWatch.current);playbackWatch.current=null;if(audio.current){audio.current.onended=null;audio.current.onerror=null;audio.current.onplaying=null;audio.current.onwaiting=null;audio.current.onpause=null;audio.current.pause();audio.current.removeAttribute('src');audio.current.load();audio.current=null;}if(objectURL.current){URL.revokeObjectURL(objectURL.current);objectURL.current='';}};
+ const stop=()=>{generation.current++;device.current?.stop();device.current=null;request.current?.abort();request.current=null;release();if(active?.owner===owner.current){active=null;}if(mounted.current){setAudible(false);setPlaying(false);setLoading(false);}};
  useEffect(()=>{readyClip.current=null;mounted.current=true;setPlaying(false);setLoading(false);setError('');setSource('');setAttribution(null);setBundled(false);return()=>{mounted.current=false;stop();}},[text,lang,locale,audioEndpoint]);
  const play=async()=>{
   if(playing||loading){stop();return;}
@@ -49,12 +51,16 @@ export default function SentenceAudio({text,lang='auto',compact=false,onPlayed,a
   const parts=speechParts(text,lang,locale).filter(p=>p.text.trim());let queued=readyClip.current;readyClip.current=null;let index=queued?.index||0,started=queued?.started||false;
   const preparedClip=audioLookahead(parts,(part,signal)=>studioClip(part,signal,audioEndpoint),signal);
   const next=async()=>{if(!mounted.current||token!==generation.current)return;
-   release();if(index>=parts.length){setPlaying(false);setLoading(false);if(active?.owner===owner.current)active=null;return;}
+   setAudible(false);release();if(index>=parts.length){setPlaying(false);setLoading(false);if(active?.owner===owner.current)active=null;return;}
    setLoading(true);let lastClip;
    try{
     let clip;if(queued){clip=queued.clip;queued=null;index++;}else clip=await preparedClip(index++);lastClip=clip;if(!mounted.current||token!==generation.current)return;
     setSource(clip.source);setAttribution(clip.attribution);setBundled(clip.bundled);objectURL.current=URL.createObjectURL(clip.blob);const player=new Audio(objectURL.current);audio.current=player;player.playbackRate=speed.current;player.preservesPitch=true;
     let lastTime=0,lastProgress=Date.now();playbackWatch.current=setInterval(()=>{if(token!==generation.current)return;if(player.currentTime>lastTime){lastTime=player.currentTime;lastProgress=Date.now();}if(Date.now()-lastProgress>15000){stop();setError('Could not play the studio recording. Tap Listen to retry.');}},500);
+    if(onPlaybackChange){
+     player.onplaying=()=>{if(token===generation.current)setAudible(true)};
+     player.onwaiting=player.onpause=()=>{if(token===generation.current)setAudible(false)};
+    }
     player.onended=next;player.onerror=()=>{if(token===generation.current){stop();setError('Could not play the studio recording. Tap Listen to retry.');}};
     await player.play();if(!mounted.current||token!==generation.current)return;
     setLoading(false);setPlaying(true);if(!started){started=true;onPlayed?.();}
@@ -69,7 +75,7 @@ export default function SentenceAudio({text,lang='auto',compact=false,onPlayed,a
   const controller=createDevicePlayback(speechParts(text,lang,locale),{
    synth:window.speechSynthesis,Utterance:window.SpeechSynthesisUtterance,rate:()=>speed.current,
    isCurrent:()=>mounted.current&&token===generation.current,
-   onStart:()=>{setLoading(false);setPlaying(true);onPlayed?.();},onComplete:stop,
+   onStart:()=>{if(onPlaybackChange)setAudible(true);setLoading(false);setPlaying(true);onPlayed?.();},onComplete:stop,
    onError:({code,locale:voiceLocale})=>{stop();setError(code==='unsupported'?'This device has no speech playback.':code==='voice-unavailable'?uiTemplate('Install a {0} voice on this device, or retry the studio voice.',[voiceLocale]):'Device speech could not start. Tap Listen again, or check that this language voice is installed on your device.');}
   });device.current=controller;controller.start();
  };

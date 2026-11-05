@@ -14,6 +14,20 @@ test('guided records resume, isolate accounts, survive new sessions and never gr
   const bad={...state,steps:[{answer:'unrelated answer',hint:false}]};assert.equal((await req(learner,path,'PUT',{id:crypto.randomUUID(),revision:0,state:bad})).status,400);
  }
  const history=await req(learner,'/api/learning/light');assert.equal(history.data.records.length,20);assert.equal(history.data.records.filter(r=>r.completedAt).length,10);
+ const lesson=lessonList.find(l=>(l.language||'es')==='es'&&!l.checkpoint&&!l.summaryTest);
+ const townPath='/api/learning/light/'+lesson.id,round=1,id=crypto.randomUUID();
+ const state={version:lightVersion,round,steps:[],choice:null,hint:false,checked:false};
+ const answers=lightActivities(lesson,round).map(a=>({answer:a.type==='observe'?true:a.type==='build'?a.model:a.meaning,hint:false,missed:false}));
+ const townCookie=await account('town-replay');
+ assert.equal((await req(townCookie,townPath,'PUT',{id,revision:0,state:{...state,missed:true}})).status,200);
+ assert.equal((await req(townCookie,townPath,'PUT',{id,revision:1,state:{...state,steps:answers}})).status,409);
+ const recorded=answers.map((step,i)=>i===2||i===0?{...step,missed:true}:step);
+ assert.equal((await req(townCookie,townPath,'PUT',{id,revision:1,state:{...state,steps:recorded}})).status,200);
+ assert.equal((await req(townCookie,townPath,'PUT',{id:crypto.randomUUID(),revision:0,state:{...state,steps:answers}})).status,200);
+ const awards=(await req(townCookie,'/api/learning/light/progress')).data.completed;
+ assert.equal(awards.length,1);
+ assert.equal(awards[0].id,id);
+ assert.equal(awards[0].materials,recorded.length===6?28:20);
  const route=await req(learner,'/api/learning/light/progress');assert.equal(route.status,200);assert.equal(route.data.completed.length,10);assert.equal((await req(other,'/api/learning/light/progress')).data.completed.length,0);
  const replayLesson=lessonList.find(l=>l.id==='introductions'),oldState={version:legacyLightVersion,steps:legacyLightActivities(replayLesson).map(a=>({answer:a.type==='observe'?true:['meaning','video'].includes(a.type)?a.meaning:a.model,hint:false})),choice:null,hint:false,checked:false};assert.equal((await req(learner,'/api/learning/light/introductions','PUT',{id:crypto.randomUUID(),revision:0,state:oldState})).status,200);assert.equal((await req(learner,'/api/learning/light/progress')).data.completed.length,10,'old records preserved without misrepresenting new route completion');
  const filtered=await req(learner,'/api/learning/light/introductions?round=0&version='+lightVersion);assert.equal(filtered.data.record.state.version,lightVersion);
