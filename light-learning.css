@@ -160,52 +160,141 @@
 .app.continuum-ui .light-path .light-levels{flex-direction:row;align-items:stretch}
 .app.continuum-ui .light-path .light-levels>button{justify-content:center;min-width:0;padding-inline:6px;text-align:center}
 
-/* Light Town is scoped to the Light route and lesson. */
-.light-town {--town-ink:#451b40;--town-paper:#fff6e9;--town-line:#e2c4b8}
-.light-town .town-paper {background:linear-gradient(145deg,#fff8ed,#f4ded1);color:var(--town-ink);padding:clamp(12px,3vw,24px);border:1px solid var(--town-line);border-radius:22px;margin-block:12px}
-.town-chapter {display:grid;gap:5px;font-weight:700}
-.town-chapter select {box-sizing:border-box;width:100%;min-width:0;min-height:44px;background:var(--town-paper);color:var(--town-ink);border:1px solid var(--town-line);border-radius:10px;padding:6px 10px;font:inherit}
-.town-metrics {display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;margin-block:10px}
-.town-scene,.town-listen-stage {position:relative;isolation:isolate;overflow:hidden;border-radius:18px;background:#eac5af;width:100%;box-sizing:border-box}
-.town-scene {aspect-ratio:1.42;margin-block:10px}
-.town-scenery,.town-listen-stage>img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1}
-.town-scenery {opacity:.48;filter:blur(3px)}
-.town-terrain {position:absolute;inset:5% 0 0;width:100%;height:95%;pointer-events:none}
-.town-building {position:absolute;display:grid;justify-items:center;width:29%;min-height:44px;padding:0;border:0;background:none;color:#451b40;z-index:1}
-.town-building[data-position="0"] {inset-inline-start:7%;top:24%}
-.town-building[data-position="1"] {inset-inline-start:34%;top:7%}
-.town-building[data-position="2"] {inset-inline-start:64%;top:24%}
-.town-building[data-position="3"] {inset-inline-start:63%;top:53%}
-.town-building>svg {width:100%;overflow:visible}
-.town-building[data-status="current"]>svg {filter:drop-shadow(0 0 5px #ffea81)}
-.town-building[data-status="locked"]>svg {filter:saturate(.55)}
-.town-building:disabled {opacity:1}
-.town-building-label {background:#fff7eb;max-width:100%;padding:2px 5px;border-radius:6px;line-height:1.15;overflow-wrap:anywhere;font-size:clamp(.62rem,2.1vw,.8rem)}
-.town-pin {position:absolute;top:0;inset-inline-end:4%;background:#793674;color:white;border:2px solid #fff3dd;border-radius:50%;padding:4px;display:grid;place-items:center}
-.town-pin svg {width:13px;height:13px}
-.town-decoration {position:absolute;inset-inline-start:38%;bottom:6%;width:29%;height:auto;pointer-events:none}
-.town-companion {position:relative;display:grid;place-items:center;width:clamp(59px,21vw,115px);aspect-ratio:1;z-index:2;pointer-events:none}
+/* The town, exercise and result share the reference's plum and parchment palette. */
+.app.continuum-ui .light-town {
+ --town-ink:#491840;--town-plum:#803573;--town-gold:#d29a42;--town-line:#dfc1ac;
+ color:var(--town-ink);min-width:0;max-width:720px;margin-inline:auto;
+ background:radial-gradient(ellipse at 50% 0,#fffaf3 8%,#f8e6d8 75%,#f4decf);
+ border-radius:22px;
+}
+.app.continuum-ui .light-path.light-town {padding:8px 0 24px}
+.light-town .town-path-head {display:flex;align-items:center;justify-content:space-between;gap:8px;padding-inline:14px;font-size:13px;font-weight:700}
+.app.continuum-ui .light-town .lesson-mode-compact select {background:#fff5ed;color:var(--town-ink);border:1px solid #ba8b9e;border-radius:999px;padding:5px 9px;min-height:36px;font-weight:750;max-width:115px}
+.app.continuum-ui .light-town .town-title {
+ color:var(--town-ink);font-size:clamp(32px,7.8vw,55px);font-weight:900;line-height:1.09;letter-spacing:.015em;
+ margin:8px 0 10px;text-align:center;overflow-wrap:anywhere;
+}
+.town-title::before,.town-title::after {content:'❧';color:var(--town-gold);display:inline-block;font-size:.72em;margin-inline:.22em;vertical-align:.08em}
+.town-title::after {transform:scaleX(-1)}
+.town-ribbon {
+ position:relative;width:fit-content;max-width:calc(100% - 32px);box-sizing:border-box;margin:0 auto 8px;padding:5px 13px;
+ color:var(--town-ink);background:linear-gradient(#fff2dc,#f1d2a6);border:1px solid #e7c6a0;border-radius:5px;box-shadow:0 3px 4px #572e352d;font-size:clamp(13px,3.7vw,18px);text-align:center
+}
+.town-ribbon::before,.town-ribbon::after {content:'';position:absolute;bottom:-4px;z-index:0;width:10px;height:80%;background:#eac396;pointer-events:none}
+.town-ribbon::before {left:-8px;clip-path:polygon(0 0,100% 0,100% 100%,0 100%,36% 50%)}
+.town-ribbon::after {right:-8px;clip-path:polygon(0 0,100% 0,64% 50%,100% 100%,0 100%)}
+.app.continuum-ui .light-town .town-chapter-select {position:relative;z-index:1;width:100%;min-width:0;min-height:36px;font:inherit;font-weight:800;color:inherit;background:transparent;border:0;box-shadow:none;padding:2px 4px}
+.town-metrics {
+ position:relative;z-index:1;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 9px;
+ width:fit-content;max-width:calc(100% - 20px);box-sizing:border-box;margin:0 auto -4px;padding:7px 12px;
+ border:1px solid #d5acaa;border-radius:999px;background:#fff4eced;font-size:clamp(11px,3vw,15px);box-shadow:0 2px 7px #57321e1a
+}
+.town-metrics>span:last-child {display:flex;align-items:center;gap:4px}
+.town-gem {width:20px;height:20px;color:#993cbe;fill:#dd91f6;filter:drop-shadow(0 2px 2px #5b27673c);flex:none}
+.town-segments {display:flex;align-items:center;gap:3px;flex:1;min-width:0}
+.town-segments i {height:10px;flex:1;border-radius:99px;background:#e1d5cf}
+.town-segments i[data-filled="true"] {background:linear-gradient(#a95093,#662455)}
+.town-segments.is-round {flex:none}
+.town-segments.is-round i {display:grid;place-items:center;width:13px;height:13px;border:1px solid #cba6a5;background:transparent;color:white}
+.town-segments.is-round i[data-filled="true"] {background:var(--town-plum);border-color:var(--town-plum)}
+.town-track {width:48px;height:8px;accent-color:var(--town-plum)}
+.town-scene,.town-listen-stage {position:relative;isolation:isolate;width:100%;min-width:0;box-sizing:border-box}
+.town-scene {aspect-ratio:1.5}
+.town-scenery,.town-listen-stage>img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.town-scenery {mask-image:linear-gradient(transparent,#000 7%,#000 94%,transparent)}
+.town-building {position:absolute;z-index:3;display:grid;place-items:center;min-width:44px;min-height:44px;background:transparent;border:0;padding:0;transform:translate(-50%,-50%);color:white}
+.town-building[data-position="0"] {left:19%;top:27%}
+.town-building[data-position="1"] {left:46%;top:13%}
+.town-building[data-position="2"] {left:79%;top:18%}
+.town-building[data-position="3"] {left:87%;top:46%}
+.town-pin {display:grid;place-items:center;width:30px;height:30px;border:2px solid #fff5e7;border-radius:50%;background:linear-gradient(#aa5696,#713366);box-shadow:0 2px 6px #3a241b80}
+.town-pin svg {width:16px;height:16px}
+.town-building[data-status="locked"] .town-pin {background:#70616a}
+.town-building[data-status="current"] .town-pin {box-shadow:0 0 8px 3px #ffdf82}
+.town-marker-callout {position:absolute;bottom:100%;max-width:120px;width:max-content;padding:4px 8px;border:1.5px solid #ffdc83;border-radius:99px;background:#843b74;color:white;font-size:11px;font-weight:800;line-height:1.25;box-shadow:0 0 8px #ffc35d}
+.town-decoration {position:absolute;left:43%;bottom:18%;width:23%;height:auto;pointer-events:none;filter:drop-shadow(0 3px 4px #35291f55)}
+.town-flower,.town-lantern {position:absolute;left:66%;bottom:16%;font-size:clamp(12px,4vw,25px)}
+.town-lantern {left:58%;bottom:23%}
+.town-companion {position:relative;display:grid;place-items:center;width:clamp(90px,29vw,172px);aspect-ratio:1;z-index:2;pointer-events:none;filter:drop-shadow(0 4px 4px #4c301b45)}
 .town-companion .journey-companion {position:relative;inset:auto;width:100%;height:100%;margin:0}
-.town-scene>.town-companion {position:absolute;inset-inline-start:7%;bottom:3%}
-.town-listen-stage {display:grid;align-items:end;justify-items:center;min-height:205px}
-.town-listen-stage>.town-companion {position:absolute;inset-inline-start:12%;top:10%}
-.town-listen-control {position:relative;z-index:3;max-width:calc(100% - 16px);padding:6px;margin:8px;background:var(--town-paper);color:var(--town-ink);border-radius:13px;overflow-wrap:anywhere}
-.town-sidekick {display:flex;justify-content:flex-end;height:59px}
-.town-sidekick .town-companion {width:59px}
-.town-waves {position:absolute;display:flex;gap:3px;align-items:center;inset-inline-start:81%;top:25%;height:24px}
-.town-waves i {width:3px;height:18px;background:#fff2b0;border-radius:4px;box-shadow:0 0 4px #5f3b56;animation:town-wave .48s ease-in-out infinite alternate}
+.town-scene>.town-companion {position:absolute;left:2%;bottom:-1%}
+.town-scene-celebrate .town-decoration {filter:drop-shadow(0 0 8px #ffcd55) drop-shadow(0 0 3px #fff4bd)}
+.town-waves {position:absolute;display:flex;gap:4px;align-items:center;inset-inline-start:77%;top:24%;height:30px}
+.town-waves i {width:4px;height:20px;background:#fff6cc;border-radius:4px;box-shadow:0 0 7px #da8218;animation:town-wave .48s ease-in-out infinite alternate}
 .town-waves i:nth-child(2) {animation-delay:.14s}
 .town-waves i:nth-child(3) {animation-delay:.26s}
 .town-companion[data-speaking="true"] .head {animation:town-speak .4s ease-in-out infinite alternate}
 @keyframes town-wave {from {transform:scaleY(.35)} to {transform:scaleY(1)}}
 @keyframes town-speak {from {translate:0 0} to {translate:0 3%}}
-.app.continuum-ui .light-town .town-cta {background:linear-gradient(125deg,#944581,#66285e);color:white;border-radius:999px;white-space:normal;min-height:46px}
+.app.continuum-ui .light-town .town-paper {
+ position:relative;z-index:2;min-width:0;margin:-4px 9px 10px;padding:clamp(12px,3.5vw,22px);border-radius:23px;border:1px solid #e5c6b0;
+ background:radial-gradient(ellipse at 24% 0,#fffaf1,#fff1e0);color:var(--town-ink);
+ box-shadow:inset 0 0 0 4px #fffaf1,inset 0 0 0 5px #f0dbc5,0 5px 12px #6b3c2b28;
+}
+.app.continuum-ui .light-town .town-paper h2 {color:var(--town-ink);margin:2px 0 6px;line-height:1.23;font-size:clamp(20px,5vw,30px);font-weight:850;overflow-wrap:anywhere}
+.town-mission h2 {display:flex;align-items:center;gap:8px}
+.town-mission h2 svg {color:#8e4d84;flex:none}
+.town-mission-meta,.town-next-reward span {display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800}
+.town-mission p,.town-result-card p {font-size:14px;line-height:1.55;margin:8px 0 12px;color:#644d58}
+.app.continuum-ui .light-town .primary.town-cta {
+ display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:49px;padding:9px 14px;
+ border:1px solid #aa62a1;border-radius:999px;background:linear-gradient(#a14f94,#67245f);color:#fff5ff;font-weight:850;white-space:normal;
+ box-shadow:inset 0 1px #edb5e3,inset 0 -2px #50194b,0 4px 8px #67245f42;
+}
+.app.continuum-ui .light-town .primary.town-cta:disabled {background:#e8d8db;color:#694d62;border-color:#cfb7c3;box-shadow:none;opacity:1}
+.town-next-reward {display:grid;grid-template-columns:42% 1fr;align-items:center;gap:8px;margin-top:12px;border-radius:15px;background:linear-gradient(125deg,#f8e6ed,#eed6ea);overflow:hidden}
+.town-next-reward img {display:block;width:100%;max-height:98px;object-fit:contain}
+.town-next-reward strong {display:block;margin-top:3px;font-size:clamp(17px,4vw,25px)}
+.app.continuum-ui .light-town.light-game>.light-game-top {min-height:48px;margin:0;padding:5px 8px;gap:6px;background:#fff3e9f5;border:0;color:var(--town-ink);border-radius:18px 18px 0 0}
+.app.continuum-ui .light-town .light-close,.app.continuum-ui .light-town .light-tip {background:#fff2e9;color:#71415e;border:1px solid #e2c4bd;border-radius:50%;width:40px;height:40px;min-height:40px;padding:0}
+.town-round-progress {display:flex;align-items:center;gap:5px;flex:1;min-width:0;padding:7px;border:1px solid #e6cec4;border-radius:999px;background:#fff8f1;font-size:12px}
+.app.continuum-ui .light-town .light-game-board {gap:5px;min-height:0;padding:5px 0 12px}
+.app.continuum-ui .light-town .light-task-heading {margin:0;padding:0 9px;min-height:40px}
+.town-combo-chip {display:inline-flex;gap:5px;align-items:center;padding:5px 10px;border:1px solid #d4adad;border-radius:999px;background:#f7e0eb;font-size:13px;font-weight:800}
+.town-combo-chip[data-active="true"] {color:#fff8e4;background:#935130;border-color:#f9cb71;box-shadow:0 0 7px #e3a83e}
+.app.continuum-ui .light-town .town-lesson-heading {display:flex;justify-content:center;align-items:center;gap:7px;text-align:center;margin:0 9px 3px;color:var(--town-ink);font-size:clamp(20px,5vw,32px);font-weight:900;line-height:1.16;overflow-wrap:anywhere}
+.town-lesson-heading svg {color:#98548d;flex:none}
+.town-listen-stage {aspect-ratio:1.8;min-height:145px;margin-bottom:4px}
+.town-listen-stage>img {mask-image:linear-gradient(transparent,#000 9%,#000 86%,transparent)}
+.town-listen-stage>.town-companion {position:absolute;left:25%;bottom:12%;width:clamp(92px,31vw,173px)}
+.town-listen-control {position:absolute;z-index:4;bottom:-8px;left:50%;transform:translateX(-50%);width:min(87%,430px);color:var(--town-ink)}
+.app.continuum-ui .light-town .town-listen-control .sentence-audio {display:flex;align-items:center;justify-content:center;gap:3px 6px}
+.app.continuum-ui .light-town .town-listen-control .sentence-play {
+ display:flex;justify-content:center;align-items:center;gap:9px;flex:1 1 70%;min-width:0;height:43px;padding:0 9px;
+ border:1px solid #d081bb;border-radius:999px;background:linear-gradient(#a25895,#6b2c66);color:white;box-shadow:inset 0 1px #efb7dd,0 3px 7px #42203458;font-size:12px;font-weight:800;
+}
+.town-waveform {display:flex;align-items:center;gap:2px;direction:ltr}
+.town-waveform i {width:2px;background:#fae2f5;border-radius:4px}
+.town-listen-stage[data-speaking="true"] .town-waveform i {animation:town-wave .4s alternate infinite}
+.town-listen-control .voice-source {font-size:10px;background:#fff4e9e8;padding:1px 4px;border-radius:5px}
+.app.continuum-ui .light-town .town-question-card {margin-top:4px}
+.app.continuum-ui .light-town .town-prompt {display:block;position:static;order:0;color:var(--town-ink);margin:0 0 10px}
+.app.continuum-ui .light-town .town-prompt .question-prompt {position:static;order:0;margin:0}
+.app.continuum-ui .light-town .town-prompt h1 {color:var(--town-ink);font-size:clamp(19px,4.8vw,27px);font-weight:850;line-height:1.3;margin:0 0 7px}
+.app.continuum-ui .light-town .town-prompt .question-prompt-context {background:#fff8ed;border-color:#ecd5bf;margin:7px 0;padding:8px 10px;text-align:start}
+.app.continuum-ui .light-town .light-game-choices {gap:7px}
+.app.continuum-ui .light-town .light-game-choices>button {min-height:49px;padding:8px 10px;gap:9px;color:var(--town-ink);background:linear-gradient(#fffaf4,#fff0e2);border:1px solid #dfc1b1;border-radius:13px;box-shadow:inset 0 1px white,0 2px 0 #dfc3b6;font-size:clamp(14px,3.7vw,18px);font-weight:700;overflow-wrap:anywhere}
+.app.continuum-ui .light-town .light-game-choices>button.selected {background:#f3deed;color:#501a46;border:2px solid #a25d91}
+.app.continuum-ui .light-town .light-choice-letter {min-width:28px;height:28px;color:#7f3972;background:#f2dceb;border:1px solid #dfb8d1}
+.app.continuum-ui .light-town .light-game-footer {position:static;margin:9px 0 0;padding:0;border:0;background:transparent;backdrop-filter:none}
 .town-answer-detail,.town-review {text-align:start;overflow-wrap:anywhere;background:#f6e7ef;color:#451b40;border-radius:10px;padding:8px 12px;margin-block:8px}
 .town-answer-detail p {margin:4px 0}
-.app.continuum-ui .light-town .light-game-footer {position:static}
+.app.continuum-ui .light-town .town-result {background:radial-gradient(ellipse at 50% 9%,#954c83,#5d2857 47%,#d8aa8d 78%);padding:12px 0;border-radius:18px;width:100%;max-width:none}
+.app.continuum-ui .light-town .town-result .town-title {color:#fff2d8;text-shadow:0 3px 4px #391034;font-family:Georgia,serif}
+.town-result .town-scenery {mask-image:linear-gradient(transparent,#000 12%,#000 95%,transparent)}
+.town-result .town-result-loot {display:flex;justify-content:center;gap:7px}
+.town-result-loot>div {display:grid;justify-items:center;align-content:center;width:48%;min-height:70px;border:1px solid #e8cfb7;border-radius:13px;background:#fff5e8;padding:7px}
+.town-result-loot img {width:min(100%,120px);height:auto}
+.town-result-loot .town-gem {width:43px;height:43px;margin:6px 0}
+.town-save-stamp {display:flex;align-items:center;justify-content:center;gap:7px;margin:12px 0 6px;padding:7px;color:#754267;border:2px dashed #c78dac;border-radius:14px;font-weight:850}
+.town-result-links {display:flex;justify-content:center;flex-wrap:wrap}
 @media(prefers-reduced-motion:reduce) {
- .light-town .town-companion * {animation:none!important;transition:none!important}
+ .light-town .town-companion *, .light-town .town-waveform i {animation:none!important;transition:none!important}
 }
-.town-scene:dir(rtl) .town-terrain {transform:scaleX(-1)}
-.town-building-label {max-height:3.45em;overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3}
-.town-listen-control .light-speech-bubble {padding:3px 7px;margin:0;background:transparent;border:0;box-shadow:none}
+.town-companion-sprite {display:block;width:100%;height:100%;object-fit:contain;transform-origin:50% 90%}
+.town-companion[data-speaking="true"] .town-companion-sprite {animation:town-sprite-talk .42s ease-in-out infinite alternate}
+.town-companion-sprite[data-celebrate="true"] {animation:town-sprite-celebrate .58s ease-in-out 2}
+@keyframes town-sprite-talk {to {transform:rotate(-3deg) translateY(-2px)}}
+@keyframes town-sprite-celebrate {50% {transform:translateY(-12%) rotate(-5deg)}}
+.town-next-reward .town-reward-icon {width:38px;height:38px;margin:11px auto;color:#924c83}
+.app.continuum-ui .light-town .town-building:disabled {opacity:1}

@@ -95,4 +95,9 @@ Perfect clear!|パーフェクトクリア！|¡Todo correcto!|Acertou todas!|�
 Review missed questions|間違えた問題を復習|Repasar los errores|Revisar as questões erradas|复习错题|Revoir les erreurs|틀린 문제 복습|Tinjau soal yang salah|Разобрать ошибки|راجع الأسئلة التي أخطأت فيها
 First try: {0}/{1} · Hints: {2}|初回正解 {0}/{1}・ヒント {2}|Primer intento: {0}/{1} · Pistas: {2}|Primeira tentativa: {0}/{1} · Dicas: {2}|首次答对 {0}/{1} · 提示 {2}|Premier essai : {0}/{1} · Indices : {2}|첫 시도 정답 {0}/{1} · 힌트 {2}|Percobaan pertama: {0}/{1} · Petunjuk: {2}|С первой попытки: {0}/{1} · Подсказки: {2}|المحاولة الأولى: {0}/{1} · التلميحات: {2}
 `.trim().split('\n').map(row=>row.split('|')));
+rows.push(
+ ['Up next','次はここだよ！','¡Sigue aquí!','É por aqui!','下一站','Par ici !','다음은 여기!','Selanjutnya','Далее сюда!','المحطة التالية'],
+ ['Back to town','街に戻る','Volver a la ciudad','Voltar à cidade','返回小镇','Retour en ville','마을로 돌아가기','Kembali ke kota','Вернуться в город','العودة إلى المدينة'],
+ ['Combo ×{0}','コンボ ×{0}','Racha ×{0}','Sequência ×{0}','连击 ×{0}','Série ×{0}','콤보 ×{0}','Kombo ×{0}','Серия ×{0}','سلسلة ×{0}']
+);
 export const lightLearningCopy=Object.fromEntries(rows.map(([source,...values])=>[source,Object.fromEntries(['ja','es','pt','zh','fr','ko','id','ru','ar'].map((l,i)=>[l,values[i]]))]));
