@@ -2,7 +2,9 @@ import {languageInfo} from './languages.mjs';
 import {speechParts} from './sentence-audio.mjs';
 import {isInstructionalExample} from './lesson-copy-roles.mjs';
 import {displayLanguageOptions} from './answer-language.mjs';
-export const lightVersion='light-v2';
+export const lightVersion='light-v3';
+export const priorLightVersion='light-v2';
+export const lightVersions=[lightVersion,priorLightVersion,'light-v1'];
 export const legacyLightVersion='light-v1';
 // Practice only authored models/meanings. These activities never replace a test.
 export function legacyLightActivities(lesson){
@@ -18,11 +20,11 @@ export function legacyLightActivities(lesson){
  for(const q of lesson.questions||[])if(!displayLanguageOptions(q,lesson)&&(!q.optionsLang||q.optionsLang.split('-')[0]===(lesson.language||'es')))add(q.audioSpeech||q.audio||(q.type==='text'?q.answer:q.options?.[q.answer]));
  const selected=pairs.slice(0,2);return selected.flatMap((p,i)=>[{...p,id:`${i}-observe`,type:'observe'}, {...p,id:`${i}-practice`,type:p.meaning&&pairs.some(v=>v.meaning&&v.meaning!==p.meaning)?'meaning':'build',options:p.meaning?[p.meaning,pairs.find(v=>v.meaning&&v.meaning!==p.meaning)?.meaning].filter(Boolean).sort((a,b)=>a.localeCompare(b)):[],joiner:/\s/.test(p.model)?' ':'',tokens:(/\s/.test(p.model)?p.model.split(/\s+/):Array.from(new Intl.Segmenter(lesson.locale||'en',{granularity:'grapheme'}).segment(p.model),v=>v.segment)).reverse()}]);
 }
-export function lightCorrect(activity,answer){return activity.type==='observe'?answer===true:['meaning','video','recall'].includes(activity.type)?answer===activity.meaning:typeof answer==='string'&&answer.replace(/\s+/g,' ').trim()===activity.model.replace(/\s+/g,' ').trim();}
+export function lightCorrect(activity,answer){return activity.type==='observe'?answer===true:['meaning','video','recall','translate','listen','context','video-confirm','confirm'].includes(activity.type)?answer===activity.meaning:typeof answer==='string'&&answer.replace(/\s+/g,' ').trim()===activity.model.replace(/\s+/g,' ').trim();}
 
-export function lightChoiceValid(activity,value){return value===null||activity.type==='observe'&&value===true||['meaning','video','recall'].includes(activity.type)&&activity.options.includes(value)||activity.type==='build'&&Array.isArray(value)&&value.length<=activity.tokens.length&&value.every((n,i)=>Number.isInteger(n)&&n>=0&&n<activity.tokens.length&&value.indexOf(n)===i);}
+export function lightChoiceValid(activity,value){return value===null||activity.type==='observe'&&value===true||['meaning','video','recall','translate','listen','context','video-confirm','confirm'].includes(activity.type)&&activity.options.includes(value)||activity.type==='build'&&Array.isArray(value)&&value.length<=activity.tokens.length&&value.every((n,i)=>Number.isInteger(n)&&n>=0&&n<activity.tokens.length&&value.indexOf(n)===i);}
 export function lightAnswer(activity,value){return activity.type==='build'?value?.map(i=>activity.tokens[i]).join(activity.joiner):value;}
-export function validLightState(activities,state){return !!state&&[lightVersion,legacyLightVersion].includes(state.version)&&Array.isArray(state.steps)&&state.steps.length<=activities.length&&state.steps.every((s,i)=>s&&typeof s.hint==='boolean'&&lightCorrect(activities[i],s.answer))&&typeof state.hint==='boolean'&&typeof state.checked==='boolean'&&(state.steps.length===activities.length?state.choice===null:lightChoiceValid(activities[state.steps.length],state.choice));}
+export function validLightState(activities,state){return !!state&&lightVersions.includes(state.version)&&Array.isArray(state.steps)&&state.steps.length<=activities.length&&state.steps.every((s,i)=>s&&typeof s.hint==='boolean'&&lightCorrect(activities[i],s.answer))&&typeof state.hint==='boolean'&&typeof state.checked==='boolean'&&(state.steps.length===activities.length?state.choice===null:lightChoiceValid(activities[state.steps.length],state.choice));}
 
 // Light is its own complete route. Every authored model is covered over short rounds.
 export function lightModels(lesson){
@@ -38,8 +40,7 @@ export function lightModels(lesson){
  return pairs;
 }
 export function lightRoundCount(lesson){if(lesson?.conversation)return Math.max(1,Math.ceil((lesson.questions||[]).filter(q=>q.options?.length>1&&Number.isInteger(q.answer)).length/3));return Math.ceil(lightModels(lesson).length/2)}
-export function lightActivities(lesson,round=0,version=lightVersion){
- if(version===legacyLightVersion)return legacyLightActivities(lesson);
+export function v2LightActivities(lesson,round=0){
  if(!Number.isInteger(round)||round<0||round>=lightRoundCount(lesson))return [];
  if(lesson.conversation)return lesson.questions.filter(q=>q.options?.length>1&&Number.isInteger(q.answer)).slice(round*3,round*3+3).map((q,i)=>({id:`video-${round}-${i}`,type:'video',question:q,meaning:q.options[q.answer],options:rotate([q.options[q.answer],q.options.find(v=>v!==q.options[q.answer])],round+i),locale:languageInfo(lesson.language||'es').locale}));
  const pairs=lightModels(lesson),selected=pairs.slice(round*2,round*2+2),result=[];
@@ -53,4 +54,37 @@ export function lightActivities(lesson,round=0,version=lightVersion){
 }
 function rotate(values,n){return n%2?values:values.toReversed()}
 export function lightAudioTargets(lessons){const found=new Map();const add=(text,locale,lesson)=>{if(!text)return;for(const part of speechParts(text,locale,locale)){const key=JSON.stringify([part.lang,part.text.normalize('NFC').trim()]);if(!found.has(key))found.set(key,{text:part.text.normalize('NFC').trim(),locale:part.lang,lesson})}};
- for(const lesson of lessons){for(const p of lightModels(lesson))add(p.audio||p.model,p.locale,lesson.id)}return [...found.values()];}
+ for(const lesson of lessons){if(lesson.checkpoint||lesson.summaryTest)continue;for(const p of lightModels(lesson))add(p.audio||p.model,p.locale,lesson.id);for(const q of lesson.questions||[])if(q.audio)add(q.audioSpeech||q.audio,q.audioLocale||languageInfo(lesson.language||'es').locale,lesson.id)}return [...found.values()];}
+
+// Six retrieval questions, without counting previews as answers. Keep old versions immutable.
+export function lightActivities(lesson,round=0,version=lightVersion){
+ if(version===legacyLightVersion)return legacyLightActivities(lesson);
+ if(version===priorLightVersion)return v2LightActivities(lesson,round);
+ if(version!==lightVersion||!Number.isInteger(round)||round<0||round>=lightRoundCount(lesson))return [];
+ const locale=languageInfo(lesson.language||'es').locale;
+ const questions=(lesson.questions||[]).filter(q=>q.options?.length>1&&Number.isInteger(q.answer)&&typeof q.options[q.answer]==='string');
+ const context=(q,index,type='context')=>({id:`q-${index}`,type,question:q,model:q.options[q.answer],meaning:q.options[q.answer],options:rotate([...new Set(q.options)],round+index),optionsNative:!displayLanguageOptions(q,lesson),locale:q.optionsLang||locale,audio:q.audioSpeech||q.audio,audioLocale:q.audioLocale||locale,source:'question'});
+ if(lesson.conversation){const ordered=questions.map((_,i)=>context(questions[(round*3+i)%questions.length],(round*3+i)%questions.length,'video')).slice(0,6);
+  if(ordered.length<5){const q=questions[round%questions.length],fits=round%2===0;ordered.push({...context(q,round,'video-confirm'),id:'video-confirm-'+round,statement:fits?q.options[q.answer]:q.options.find(o=>o!==q.options[q.answer]),statementNative:!displayLanguageOptions(q,lesson),options:['Fits the recording','Does not fit the recording'],optionsNative:false,meaning:fits?'Fits the recording':'Does not fit the recording'});}return ordered;
+ }
+ const pairs=lightModels(lesson),selected=pairs.slice(round*2,round*2+2);if(selected.length===1&&pairs.length>1)selected.push(pairs[(round*2+1)%pairs.length]);
+ const out=[],seen=new Set();
+ const push=a=>{if(!a||out.length===6)return;const key=[a.type,a.question?.prompt||a.model,a.promptMeaning||''].join('::');if(!seen.has(key)){seen.add(key);out.push({...a,id:`r${round}-q${out.length}`})}};
+ const linked=p=>questions.find(q=>(q.audioSpeech||q.audio||q.options[q.answer])===p.model);
+ const tasks=p=>{
+  const others=pairs.filter(v=>v.model!==p.model),meaningOthers=others.filter(v=>v.meaning&&v.meaning!==p.meaning&&!!v.meaningNative===!!p.meaningNative);
+  const nativeOptions=rotate([p.model,...others.slice(0,2).map(v=>v.model)],round+pairs.indexOf(p));
+  const meanings=rotate([...new Set([p.meaning,...meaningOthers.map(v=>v.meaning)])].slice(0,3),round+pairs.indexOf(p));
+  const base={...p,source:'model'};
+  const tokens=/\s/.test(p.model)?p.model.split(/\s+/):/^[\p{Script=Latin}\p{M}\p{P}]+$/u.test(p.model)?[p.model]:Array.from(new Intl.Segmenter(p.locale,{granularity:'grapheme'}).segment(p.model),v=>v.segment);
+  const build=tokens.length>1&&tokens.length<=10&&new Set(tokens).size>1&&!p.meaningNative?{...base,type:'build',promptMeaning:p.meaning,joiner:/\s/.test(p.model)?' ':'',tokens:shuffle(tokens,round+pairs.indexOf(p))}:null;
+  return {meaning:p.meaning&&meaningOthers.length?{...base,type:'meaning',options:meanings}:null,translate:p.meaning&&nativeOptions.length>1?{...base,type:'translate',promptMeaning:p.meaning,options:nativeOptions,meaning:p.model,optionsNative:true}:null,listen:(p.meaning&&meaningOthers.length)?{...base,type:'listen',options:meanings,optionsNative:p.meaningNative}:nativeOptions.length>1?{...base,type:'listen',options:nativeOptions,meaning:p.model,optionsNative:true}:null,build,linked:linked(p)?context(linked(p),questions.indexOf(linked(p))):null};
+ };
+ if(questions.length)push(context(questions[(round*2)%questions.length],(round*2)%questions.length));
+ for(let i=0;i<selected.length;i++){const choices=tasks(selected[i]);push(i%2?choices.translate||choices.listen:choices.meaning||choices.listen);push(choices.build||choices.linked||choices.listen);}
+ for(let i=0;i<questions.length;i++)push(context(questions[(round*2+1+i)%questions.length],(round*2+1+i)%questions.length));
+ for(const p of [...selected,...pairs])for(const a of Object.values(tasks(p)))push(a);
+ for(let i=0;i<questions.length&&out.length<5;i++){const q=questions[(round+i)%questions.length],fits=(round+i)%2===0;push({...context(q,i,'confirm'),statement:fits?q.options[q.answer]:q.options.find(o=>o!==q.options[q.answer]),statementNative:!displayLanguageOptions(q,lesson),optionsNative:false,options:['Fits the situation','Does not fit the situation'],meaning:fits?'Fits the situation':'Does not fit the situation'});}
+ return out;
+}
+function shuffle(tokens,seed){const values=tokens.map((v,i)=>({v,key:((i+1)*1103515245+(seed+3)*12345)>>>0})).sort((a,b)=>a.key-b.key).map(r=>r.v);if(values.join('')===tokens.join(''))values.push(values.shift());return values;}

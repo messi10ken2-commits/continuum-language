@@ -118,8 +118,8 @@
 .app.continuum-ui .light-path-summary{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin:20px 0;font-size:14px}.app.continuum-ui .light-path-summary progress{flex-basis:100%;height:11px;accent-color:#9661dd;width:100%}
 .app.continuum-ui .light-path-continue{position:sticky;top:8px;z-index:7;box-shadow:0 5px 15px #694b9a25;margin-bottom:22px}
 .app.continuum-ui .light-unit{margin-block:18px 28px;scroll-margin-top:80px}
-.app.continuum-ui .light-unit>header{background:linear-gradient(115deg,#8560c9,#6a42ad);padding:20px;border-radius:18px;color:#fff;display:flex;align-items:center;gap:14px}
-.app.continuum-ui .light-unit>header h2{font-family:inherit;font-size:19px;color:inherit;margin:0 0 7px;line-height:1.4}.app.continuum-ui .light-unit>header p{color:#eee4ff;font-size:13px;margin:0;line-height:1.5}
+.app.continuum-ui .light-unit>.light-unit-heading{background:linear-gradient(115deg,#8560c9,#6a42ad);padding:20px;border-radius:18px;color:#fff;display:flex;align-items:center;gap:14px}
+.app.continuum-ui .light-unit>.light-unit-heading h2{font-family:inherit;font-size:19px;color:inherit;margin:0 0 7px;line-height:1.4}.app.continuum-ui .light-unit>.light-unit-heading p{color:#eee4ff;font-size:13px;margin:0;line-height:1.5}
 .app.continuum-ui .light-node-list{position:relative;display:flex;flex-direction:column;align-items:center;gap:26px;padding:26px 0}
 .app.continuum-ui .light-node-list:before{content:'';position:absolute;top:20px;bottom:50px;left:calc(50% - 2px);width:4px;background:repeating-linear-gradient(to bottom,#e6dcf3 0 9px,transparent 9px 18px)}
 .app.continuum-ui .light-path-node{position:relative;display:flex;align-items:center;flex-direction:column;gap:9px;max-width:240px;text-align:center;transform:translateX(var(--node-offset))}
@@ -128,7 +128,7 @@
 .app.continuum-ui .light-path-node>button:disabled{cursor:default}.app.continuum-ui .light-path-node>b{font-size:14px;line-height:1.5;background:#fffdfb;padding:2px 6px}.app.continuum-ui .light-path-node>span{font-size:12px;color:#80738e;background:#fffdfb}.app.continuum-ui .light-path-node>small{color:#ac862f;font-weight:700}
 .app.continuum-ui .light-path-footnote{font-size:12px;line-height:1.6;color:#8a7b97;text-align:center}
 .app.continuum-ui .light-level-complete{text-align:center;padding:24px;color:#9e7b28;background:#fff7d9;border-radius:20px;margin:20px 0}
-.app.continuum-ui.ui-illustrated .light-unit>header{background:linear-gradient(115deg,#8b65b5,#735294)}
+.app.continuum-ui.ui-illustrated .light-unit>.light-unit-heading{background:linear-gradient(115deg,#8b65b5,#735294)}
 @keyframes light-pop{from{transform:scale(.8) rotate(-8deg);opacity:.3}to{transform:scale(1) rotate(0);opacity:1}}
 @media(prefers-reduced-motion:reduce){.app.continuum-ui .light-trophy{animation:none}.app.continuum-ui .light-game progress::-webkit-progress-value{transition:none}}
 @media(max-width:400px){.app.continuum-ui .light-game{padding-inline:6px}.app.continuum-ui .light-game-top{gap:8px}.app.continuum-ui .light-game-top .lesson-mode-compact select{max-width:80px;font-size:11px}.app.continuum-ui .light-game-top .light-close{width:36px}.app.continuum-ui .light-game-choices>button{padding:13px;font-size:16px}.app.continuum-ui .light-path-node{max-width:200px}.app.continuum-ui .light-speech-bubble{padding:15px;gap:12px}}
@@ -141,3 +141,21 @@
 .app.continuum-ui .light-lesson.light-game .sentence-audio .sentence-play{flex:0 0 44px;width:44px!important;min-width:44px!important;max-width:44px!important;height:44px!important;min-height:44px!important}
 .app.continuum-ui .light-game .light-game-choices>button:disabled{opacity:1}
 .app.continuum-ui .light-game .light-game-choices>button.selected:disabled{color:#573491;background:#efe5ff;border-color:#a27ae7}
+
+/* Scoped blocks avoid the legacy global sticky header and fixed header height. */
+.app.continuum-ui .light-unit>.light-unit-heading{position:static;height:auto;min-height:100px;max-height:none;overflow:visible;align-items:flex-start;justify-content:flex-start;flex-wrap:nowrap;box-sizing:border-box}
+.app.continuum-ui .light-unit-heading>span{flex:0 0 28px;margin-top:3px}
+.app.continuum-ui .light-unit-heading>div{flex:1;min-width:0}
+.app.continuum-ui .light-unit>.light-unit-heading h2,.app.continuum-ui .light-unit>.light-unit-heading p{height:auto;max-height:none;overflow:visible;white-space:normal;overflow-wrap:anywhere;word-break:normal;display:block;-webkit-line-clamp:unset}
+.app.continuum-ui .light-path .light-path-continue{position:static}
+.app.continuum-ui .light-game>.light-game-top{height:auto;min-height:72px;flex:0 0 auto;margin-bottom:16px;border-bottom:1px solid #ece6f2;box-sizing:border-box}
+.app.continuum-ui .light-game-board{outline:none;scroll-margin-top:100px}
+.app.continuum-ui .light-game-board>.question-prompt{margin:0 0 14px}
+.app.continuum-ui .light-game-board .question-prompt h1{font-size:clamp(22px,5vw,29px);line-height:1.4;white-space:normal;overflow-wrap:anywhere;margin:8px 0 18px}
+.app.continuum-ui .light-game-board .question-prompt-context{padding:18px;border:2px solid #e8e0f2;border-radius:18px;background:#fff}
+.app.continuum-ui .light-game-board .question-cloze{font-size:23px;line-height:1.6;overflow-wrap:anywhere}
+.app.continuum-ui .light-confirm-statement{background:#f5effe;border:2px solid #e5d8f5;border-radius:18px;padding:16px;font-size:18px;line-height:1.5}
+.app.continuum-ui .light-confirm-statement>p{font-size:14px;color:#786888}
+.app.continuum-ui .light-game-feedback>div{min-width:0;font-size:14px;line-height:1.55;overflow-wrap:anywhere}
+.app.continuum-ui .light-path .light-levels{flex-direction:row;align-items:stretch}
+.app.continuum-ui .light-path .light-levels>button{justify-content:center;min-width:0;padding-inline:6px;text-align:center}
