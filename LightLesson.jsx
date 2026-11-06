@@ -17,7 +17,27 @@ import QuestionPrompt from './QuestionPrompt.jsx';
 import {resetLessonViewport} from './lesson-scroll.mjs';
 export const lightStorageKey=(user,lesson,round=0)=>'continuumLightV3:'+(user?.id||'guest')+':'+lesson.id+':'+round;
 export async function lightApi(path,options){const r=await fetch('/api/learning/light'+path,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...options}),d=await r.json();if(!r.ok)throw Error();return d;}
-export async function lightProgress(user){if(user)return (await lightApi('/progress')).completed;try{return JSON.parse(localStorage.getItem('continuumLightProgress:guest')||'[]')}catch{return []}}
+const guestPlacementsKey='continuumLightTownPlacements:guest';
+export async function lightTownProgress(user){
+ if(user)return lightApi('/progress');
+ const read=key=>{
+  try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []}
+ };
+ return {completed:read('continuumLightProgress:guest'),placements:read(guestPlacementsKey)};
+}
+export async function lightProgress(user){
+ return (await lightTownProgress(user)).completed;
+}
+export function setTownPlacement(placements,placement){
+ return [...placements.filter(p=>p.chapter!==placement.chapter||p.slot!==placement.slot),placement];
+}
+export async function saveTownPlacement(user,chapter,item){
+ if(user)return (await lightApi('/town-placement',{method:'PUT',body:JSON.stringify({chapter,rewardIndex:item.index})})).placement;
+ const {placements}=await lightTownProgress(null);
+ const placement={chapter,slot:item.slot,rewardIndex:item.index};
+ localStorage.setItem(guestPlacementsKey,JSON.stringify(setTownPlacement(placements,placement)));
+ return placement;
+}
 export function LessonModeControl({mode,onChange,compact=false,busy=false}){return compact?<label className="lesson-mode-compact"><select aria-label={t('Learning mode')} disabled={busy} value={mode} onChange={e=>onChange(e.target.value)}><option value="light">{t('Light')}</option><option value="standard">{t('Standard')}</option></select></label>:<fieldset className="lesson-mode-control" disabled={busy}><legend>{t('Learning mode')}</legend><div>{['light','standard'].map(value=><button type="button" key={value} aria-pressed={mode===value} onClick={()=>onChange(value)}>{t(value==='light'?'Light':'Standard')}</button>)}</div><small>{t('Two ways to learn. Choose your own pace.')}</small></fieldset>}
 export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onStandard,modeControl,round=0,onNext,autoStart=false},ref){
  const activities=lightActivities(lesson,round),language=lesson.language||'es',locale=languageInfo(language).locale;
@@ -32,12 +52,12 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   setReward(null);
   if(phase!=='result'||!record?.completedAt)return;
   let live=true;
-  lightProgress(user).then(rows=>{
+  lightTownProgress(user).then(({completed:rows,placements})=>{
    if(!live)return;
    const chapterRows=lightRoute(language,lesson.level).filter(row=>row.chapter.id===lesson.chapter);
    const collection=townCollection(chapterRows,rows);
    const award=collection.find(item=>item.clearId===record.id);
-   setReward({collection,award,materials:rows.find(r=>r.id===record.id)?.materials??0});
+   setReward({collection,placements:placements.filter(p=>p.chapter===lesson.chapter),award,materials:rows.find(r=>r.id===record.id)?.materials??0});
   }).catch(()=>{if(live)setReward({failed:true})});
   return()=>{live=false};
  },[user?.id,lesson.id,language,record?.id,record?.completedAt,phase,rewardRetry]);
@@ -79,7 +99,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   phase==='result'?<section className="light-celebration town-result">
    <h1 className="town-title">{t(evidence.firstCorrect===activities.length?'Perfect clear!':'Round complete!')}</h1>
    <TownRibbon><b>{activities.length}/{activities.length} · {tf('Best combo ×{0}',[evidence.best])}</b></TownRibbon>
-   <TownScene kind={kind} collection={reward?.collection} highlight={reward?.award?.index} celebrate={!!reward?.materials}/>
+   <TownScene kind={kind} collection={reward?.collection} placements={reward?.placements} highlight={reward?.award?.index} celebrate={!!reward?.materials}/>
    <div className="town-paper town-result-card">
     <h2>{title}</h2>
     {reward?.failed?<div role="status"><p>{t('Could not load light practice. Try again.')}</p><button className="text-button" onClick={()=>setRewardRetry(n=>n+1)}>{t('Try again')}</button></div>:

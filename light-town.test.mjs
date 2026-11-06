@@ -33,3 +33,11 @@ test('all selectable companions and the first reward set have production art',as
  const rewards=Array.from({length:9},(_,index)=>townRewardAt(index).art);
  await Promise.all([...companions,...rewards].map(name=>access(new URL('public/light-town/'+name+'.webp',import.meta.url))));
 });
+
+test('an earned color selection takes precedence over future unlocks in its slot',()=>{
+ const collection=Array.from({length:20},(_,index)=>townRewardAt(index));
+ const placed=townPlacedRewards(collection,[{slot:0,rewardIndex:0},{slot:1,rewardIndex:10},{slot:2,rewardIndex:98}]);
+ assert.equal(placed.find(item=>item.slot===0).index,0);
+ assert.equal(placed.find(item=>item.slot===1).index,10);
+ assert.equal(placed.find(item=>item.slot===2).index,11);
+});

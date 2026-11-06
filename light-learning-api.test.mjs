@@ -1,7 +1,8 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {testServer,db} from './test-server.mjs';import {lessonList} from './course.mjs';import {lightActivities,lightVersion,priorLightVersion,legacyLightVersion,legacyLightActivities,v2LightActivities} from './light-learning-model.mjs';
+import test from 'node:test';import assert from 'node:assert/strict';import {testServer,db} from './test-server.mjs';import {lightRoute} from './light-route.mjs';
+import {lessonList} from './course.mjs';import {lightActivities,lightVersion,priorLightVersion,legacyLightVersion,legacyLightActivities,v2LightActivities} from './light-learning-model.mjs';
 const base='http://127.0.0.1:'+testServer.address().port;
 async function account(name,role='learner'){const r=await fetch(base+'/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email:name+'@light.test',password:'SyntheticLightQA2026!',role,adult:true})});assert.ok(r.ok);return r.headers.get('set-cookie').split(';')[0]}
-async function req(cookie,path,method='GET',body){const r=await fetch(base+path,{method,headers:{cookie,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,data:await r.json()}}
+async function req(cookie,path,method='GET',body,address){const r=await fetch(base+path,{method,headers:{cookie,'Content-Type':'application/json',...(address?{'X-Forwarded-For':address}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,data:await r.json()}}
 test('guided records resume, isolate accounts, survive new sessions and never grant Standard progress or overwrite Standard drafts',async()=>{try{
  const learner=await account('light-learner'),other=await account('light-other'),teacher=await account('light-teacher','teacher');
  for(const language of ['en','es','pt','ja','zh','ko','fr','de','ar','it']){const lesson=lessonList.find(l=>(l.language||'es')===language&&!l.checkpoint&&!l.summaryTest),path='/api/learning/light/'+lesson.id,activities=lightActivities(lesson),id=crypto.randomUUID(),state={version:lightVersion,round:0,steps:[],choice:null,hint:false,checked:false};
@@ -38,5 +39,22 @@ test('guided records resume, isolate accounts, survive new sessions and never gr
  const second={version:lightVersion,round:1,steps:lightActivities(replayLesson,1).map(a=>({answer:a.type==='observe'?true:['meaning','video','recall','translate','listen','context','confirm','video-confirm'].includes(a.type)?a.meaning:a.model,hint:false})),choice:null,hint:false,checked:false};
  for(let i=0;i<51;i++)assert.equal((await req(learner,'/api/learning/light/introductions','PUT',{id:crypto.randomUUID(),revision:0,state:second})).status,200);
  assert.equal((await req(learner,'/api/learning/light')).data.records.length,50);const afterReplay=(await req(learner,'/api/learning/light/progress')).data.completed;assert.equal(afterReplay.length,11,'route progress survives 50-row history and replays do not multiply XP');assert.ok(afterReplay.some(r=>r.lesson==='introductions'&&r.round===0));assert.equal((await req(learner,'/api/learning/light/introductions?round=1&version='+lightVersion)).data.record.state.round,1);
+ const longRow=lightRoute('ja').find(row=>row.rounds>=10);
+ assert.ok(longRow);
+ const chapter=longRow.chapter.id,placementPath='/api/learning/light/town-placement';
+ const place=rewardIndex=>req(townCookie,placementPath,'PUT',{chapter,rewardIndex});
+ assert.equal((await place(9)).status,403);
+ for(let round=0;round<10;round++){
+  const steps=lightActivities(longRow.lesson,round).map(a=>({answer:a.type==='build'?a.model:a.meaning,hint:false,missed:false}));
+  const state={version:lightVersion,round,steps,choice:null,hint:false,checked:false};
+  assert.equal((await req(townCookie,'/api/learning/light/'+longRow.lesson.id,'PUT',{id:crypto.randomUUID(),revision:0,state},'192.0.2.20')).status,200);
+ }
+ assert.equal((await place(9)).status,200);
+ assert.equal((await place(0)).status,200);
+ assert.equal((await place(10)).status,403);
+ const placed=await req(townCookie,'/api/learning/light/progress');
+ assert.deepEqual(placed.data.placements,[{chapter,slot:0,rewardIndex:0}]);
+ assert.deepEqual((await req(other,'/api/learning/light/progress')).data.placements,[]);
+ assert.equal((await req(other,placementPath,'PUT',{chapter,rewardIndex:0})).status,403);
  const checkpoint=lessonList.find(l=>l.checkpoint);assert.equal((await req(learner,'/api/learning/light/'+checkpoint.id,'PUT',{id:crypto.randomUUID(),revision:0,state:{version:lightVersion,round:0,steps:[],choice:null,hint:false,checked:false}})).status,400);
  }finally{await new Promise(r=>testServer.close(r));await db.close()}});

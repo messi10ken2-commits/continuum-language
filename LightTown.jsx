@@ -34,11 +34,19 @@ export function TownRewardArt({item,className}){
  return <img className={className} src={'/light-town/'+item.art+'.webp'} alt="" data-slot={item.slot} style={{'--town-reward-hue':((item.edition-1)*27)%360+'deg'}}/>;
 }
 
-export function TownCollection({items}){
+export function TownCollection({items,placements,onPlace,busy,failed}){
  if(!items.length)return null;
+ const placed=new Set(townPlacedRewards(items,placements).map(item=>item.index));
+ const saved=new Set(placements.map(placement=>placement.rewardIndex));
  return <details className="town-collection">
   <summary>{t('Town collection')} · {items.length}</summary>
-  <ul>{items.map(item=><li key={item.index}><TownRewardArt item={item}/><span>{townRewardLabel(item)}</span></li>)}</ul>
+  {failed&&<p role="alert">{t('Could not save town decoration.')}</p>}
+  <ul>{items.map(item=><li key={item.index}>
+   <button type="button" aria-pressed={placed.has(item.index)} disabled={busy||saved.has(item.index)} onClick={()=>onPlace(item)}>
+    <TownRewardArt item={item}/><span>{townRewardLabel(item)}</span>
+    <small>{t(saved.has(item.index)?'Placed in town':placed.has(item.index)?'Keep this color':'Place in town')}</small>
+   </button>
+  </li>)}</ul>
  </details>;
 }
 
@@ -57,14 +65,14 @@ export function TownSegments({value,total,round=false,label}){
  </span>;
 }
 
-export function TownScene({kind,places=[],collection=[],highlight,celebrate=false}){
+export function TownScene({kind,places=[],collection=[],placements=[],highlight,celebrate=false}){
  return <div className={'town-scene'+(celebrate?' town-scene-celebrate':'')}>
   <img className="town-scenery" src="/light-town/diorama.webp" alt="" width="1050" height="700"/>
   {places.map((place,i)=><button key={place.id} className="town-building" data-position={i} data-status={place.status} aria-current={place.status==='current'?'step':undefined} aria-label={place.label} onClick={place.onOpen} disabled={!place.onOpen}>
    {place.status==='current'&&<span className="town-marker-callout" aria-hidden="true">{t('Up next')}</span>}
    <span className="town-pin">{place.status==='done'?<Check/>:place.status==='current'?<Star/>:<LockKeyhole/>}</span>
   </button>)}
-  {townPlacedRewards(collection).map(item=><span className="town-decoration" data-slot={item.slot} data-new={highlight===item.index} key={item.slot}>
+  {townPlacedRewards(collection,placements).map(item=><span className="town-decoration" data-slot={item.slot} data-new={highlight===item.index} key={item.slot}>
    <TownRewardArt item={item}/><span className="sr-only">{townRewardLabel(item)}</span>
   </span>)}
   <TownCompanion kind={kind} celebrate={celebrate}/>

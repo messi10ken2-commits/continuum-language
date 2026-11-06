@@ -42,6 +42,11 @@ export function townCollection(chapterRows,completed){
  }).map((row,index)=>({...townRewardAt(index),clearId:row.id}));
 }
 
-export function townPlacedRewards(collection){
- return [...new Map(collection.map(item=>[item.slot,item])).values()];
+export function townPlacedRewards(collection,placements=[]){
+ const placed=new Map(collection.map(item=>[item.slot,item]));
+ for(const {slot,rewardIndex} of placements){
+  const item=collection[rewardIndex];
+  if(item?.slot===slot)placed.set(slot,item);
+ }
+ return [...placed.values()];
 }

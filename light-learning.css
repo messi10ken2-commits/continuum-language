@@ -121,7 +121,6 @@
 .app.continuum-ui .light-unit>.light-unit-heading{background:linear-gradient(115deg,#8560c9,#6a42ad);padding:20px;border-radius:18px;color:#fff;display:flex;align-items:center;gap:14px}
 .app.continuum-ui .light-unit>.light-unit-heading h2{font-family:inherit;font-size:19px;color:inherit;margin:0 0 7px;line-height:1.4}.app.continuum-ui .light-unit>.light-unit-heading p{color:#eee4ff;font-size:13px;margin:0;line-height:1.5}
 .app.continuum-ui .light-node-list{position:relative;display:flex;flex-direction:column;align-items:center;gap:26px;padding:26px 0}
-.app.continuum-ui .light-node-list:before{content:'';position:absolute;top:20px;bottom:50px;left:calc(50% - 2px);width:4px;background:repeating-linear-gradient(to bottom,#e6dcf3 0 9px,transparent 9px 18px)}
 .app.continuum-ui .light-path-node{position:relative;display:flex;align-items:center;flex-direction:column;gap:9px;max-width:240px;text-align:center;transform:translateX(var(--node-offset))}
 .app.continuum-ui .light-path-node>button{width:76px;height:76px;border-radius:50%;border:0;border-bottom:7px solid #b7afc1;background:#ddd6e7;color:#aaa0b9;display:grid;place-items:center;cursor:pointer;box-shadow:0 0 0 7px #fffdfb}
 .app.continuum-ui .light-path-node.current>button{background:#9860e5;border-color:#683ca6;color:#fff}.app.continuum-ui .light-path-node.done>button{background:#e7b449;border-color:#b18a32;color:#fff}
@@ -316,3 +315,8 @@
 .town-collection img {width:100%;height:53px;object-fit:contain}
 .town-companion::before {content:'';position:absolute;z-index:-1;inset:auto 12% 4%;height:12%;border-radius:50%;background:#47261558;filter:blur(4px)}
 .adventure-journal .adventure-companion-choice {display:block;width:100%;height:clamp(45px,12vw,75px);object-fit:contain}
+
+.town-collection li {display:block;padding:0}
+.town-collection li>button {display:grid;justify-items:center;align-content:start;gap:4px;width:100%;height:100%;min-height:44px;padding:7px;border:0;border-radius:9px;background:none;color:inherit;font:inherit}
+.town-collection li>button[aria-pressed="true"] {background:#efdbed;color:#50204f;box-shadow:inset 0 0 0 2px #9b6697;opacity:1}
+.town-collection li>button small {font-weight:750}

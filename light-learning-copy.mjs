@@ -110,4 +110,10 @@ Maple tree|カエデの木|Arce|Bordo|枫树|Érable|단풍나무|Pohon maple|К
 Town collection|街のコレクション|Colección de la ciudad|Coleção da cidade|小镇收藏|Collection de la ville|마을 컬렉션|Koleksi kota|Коллекция города|مجموعة البلدة
 {0} · Edition {1}|{0}・第{1}版|{0} · Edición {1}|{0} · Edição {1}|{0} · 第{1}版|{0} · Édition {1}|{0} · 에디션 {1}|{0} · Edisi {1}|{0} · Выпуск {1}|{0} · الإصدار {1}
 `.trim().split('\n').map(row=>row.split('|')));
+rows.push(
+ ['Place in town','街に飾る','Colocar en la ciudad','Colocar na cidade','摆放到小镇','Placer en ville','마을에 배치','Tempatkan di kota','Разместить в городе','ضعها في البلدة'],
+ ['Keep this color','この色を固定','Mantener este color','Manter esta cor','保留此颜色','Garder cette couleur','이 색상 유지','Pertahankan warna ini','Сохранить этот цвет','ثبّت هذا اللون'],
+ ['Placed in town','配置中','Colocado en la ciudad','Colocado na cidade','已摆放','Placé en ville','배치됨','Ditempatkan di kota','Размещено в городе','موضوعة في البلدة'],
+ ['Could not save town decoration.','装飾の配置を保存できませんでした。','No se pudo guardar la decoración.','Não foi possível salvar a decoração.','无法保存小镇装饰。','Impossible d’enregistrer la décoration.','장식 배치를 저장하지 못했습니다.','Dekorasi tidak dapat disimpan.','Не удалось сохранить украшение.','تعذر حفظ زينة البلدة.']
+);
 export const lightLearningCopy=Object.fromEntries(rows.map(([source,...values])=>[source,Object.fromEntries(['ja','es','pt','zh','fr','ko','id','ru','ar'].map((l,i)=>[l,values[i]]))]));
