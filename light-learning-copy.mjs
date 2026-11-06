@@ -1,5 +1,6 @@
 // Source | Japanese | Spanish | Portuguese | Chinese | French | Korean | Indonesian | Russian | Arabic
 const rows=`
+Complete|完了|Completado|Concluído|已完成|Terminé|완료|Selesai|Завершено|مكتمل
 bread|パン|pan|pão|面包|pain|빵|roti|хлеб|خبز
 milk|牛乳|leche|leite|牛奶|lait|우유|susu|молоко|حليب
 Build the phrase|フレーズを組み立てる|Forma la frase|Monte a frase|组成短语|Construisez la phrase|문구 만들기|Susun frasa|Составьте фразу|كوّن العبارة

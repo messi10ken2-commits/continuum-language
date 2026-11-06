@@ -788,3 +788,36 @@
 .app.continuum-ui .studio-companion-touch:focus-visible{outline:3px solid #8350d5;outline-offset:2px}
 .app.continuum-ui .studio-companion-error{position:absolute;inset-inline-end:0;bottom:100%;width:180px;padding:8px;border-radius:10px;background:#fffaf4;color:#673e78;font-size:11px;line-height:1.4}
 .app.continuum-ui .map-companion{z-index:5;width:42px;height:48px}
+
+/* Use the Light town's raised controls across both presentation themes. */
+.continuum-ui {
+ --ui-raised-edge:#4d299e;
+ --ui-raised-shadow:#3c206533;
+ --ui-surface-edge:#e0d6ec;
+ --ui-surface-shadow:#4b346219;
+}
+.continuum-ui.ui-illustrated {
+ --ui-raised-edge:#452363;
+ --ui-raised-shadow:#4d29553d;
+ --ui-surface-edge:#e5d6c9;
+ --ui-surface-shadow:#68432820;
+}
+:is(.app,.entry-shell).continuum-ui .primary:not(:disabled):not([aria-disabled="true"]):not(.town-cta) {
+ border-radius:18px;
+ box-shadow:inset 0 1px 0 #ffffff50,0 4px 0 var(--ui-raised-edge),0 8px 14px var(--ui-raised-shadow);
+}
+.app.continuum-ui :is(.outline-button,.illustrated-card-action):not(:disabled),
+.app.continuum-ui .answers>div>button:not(:disabled):not(.selected,.correct,.wrong) {
+ box-shadow:inset 0 1px 0 #ffffff90,0 2px 0 var(--ui-surface-edge);
+}
+.app.continuum-ui :is(.panel,.question-card,.lesson-intro-card,.assessment-question,.review-question,.settings-group,.teacher-card,.class-card,.assignment-card,.photo-overview-summary,.illustrated-metrics>div,.studio-menu>.studio-choice) {
+ box-shadow:inset 0 1px 0 #ffffffbb,0 3px 0 var(--ui-surface-edge),0 8px 20px var(--ui-surface-shadow);
+}
+.app.continuum-ui :is(.mobile-nav,aside nav)>button.active {
+ box-shadow:inset 0 1px 0 #ffffffb0,0 2px 0 var(--ui-surface-edge);
+}
+:is(.app,.entry-shell).continuum-ui .primary:not(:disabled):not([aria-disabled="true"]):not(.town-cta):active,
+.app.continuum-ui .outline-button:not(:disabled):active {
+ transform:translateY(2px);
+ box-shadow:inset 0 1px 0 #ffffff50,0 1px 0 var(--ui-raised-edge);
+}

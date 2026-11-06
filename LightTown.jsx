@@ -65,6 +65,8 @@ export function TownSegments({value,total,round=false,label}){
  </span>;
 }
 
+const townPaintOrder=[4,8,5,2,6,1,3,7,0];
+
 export function TownScene({kind,places=[],collection=[],placements=[],highlight,celebrate=false}){
  return <div className={'town-scene'+(celebrate?' town-scene-celebrate':'')}>
   <img className="town-scenery" src="/light-town/diorama.webp" alt="" width="1050" height="700"/>
@@ -72,7 +74,7 @@ export function TownScene({kind,places=[],collection=[],placements=[],highlight,
    {place.status==='current'&&<span className="town-marker-callout" aria-hidden="true">{t('Up next')}</span>}
    <span className="town-pin">{place.status==='done'?<Check/>:place.status==='current'?<Star/>:<LockKeyhole/>}</span>
   </button>)}
-  {townPlacedRewards(collection,placements).map(item=><span className="town-decoration" data-slot={item.slot} data-new={highlight===item.index} key={item.slot}>
+  {townPlacedRewards(collection,placements).sort((a,b)=>townPaintOrder.indexOf(a.slot)-townPaintOrder.indexOf(b.slot)).map(item=><span className="town-decoration" data-slot={item.slot} data-new={highlight===item.index} key={item.slot}>
    <TownRewardArt item={item}/><span className="sr-only">{townRewardLabel(item)}</span>
   </span>)}
   <TownCompanion kind={kind} celebrate={celebrate}/>
