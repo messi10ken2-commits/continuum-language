@@ -2,7 +2,10 @@ import {languageInfo} from './languages.mjs';
 import {expandedRegionalPairs} from './expanded-regional-pairs.mjs';
 // SERVER ONLY: original exercises. References support the teaching distinctions;
 // standard model audio is never represented as an authentic regional recording.
-const q=(prompt,context,options,answer,note,type='interpretation')=>({type,prompt,context,options,answer,note,optionsRole:type==='interpretation'?'meaning':'utterance',optionsLang:type==='interpretation'?'en-US':undefined});
+const q=(prompt,context,options,answer,note,type='interpretation')=>{
+ const meanings=type==='interpretation'||type==='listening';
+ return {type,prompt,context,options,answer,note,optionsRole:meanings?'meaning':'utterance',optionsLang:meanings?'en-US':undefined};
+};
 const listen=(language,index,prompt,options,note)=>{const v=expandedRegionalPairs[language][index].variants[0];return {...q(prompt,'',options,0,note,'listening'),audio:v.text,audioLocale:v.locale,audioRegion:'Standard model reading; regional pronunciation is not assessed',audioKind:'standard-reference',listeningTarget:'meaning'};};
 const fill=(context,answer,note)=>({type:'cloze',prompt:'Complete the regional expression using the comparison table.',context,answer,note});
 const order=(language,text,meaning)=>({type:'reorder',prompt:'Build a respectful clarification request.',context:meaning,tokens:(['zh','ja'].includes(language)?[...new Intl.Segmenter(language,{granularity:'word'}).segment(text)].map(x=>x.segment).filter(x=>x.trim()):text.split(/\s+/)).reverse(),separator:language==='zh'?'':' ',answer:text,note:'Ask for the meaning in this setting without judging the speaker’s variety.'});

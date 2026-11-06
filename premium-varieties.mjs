@@ -58,7 +58,7 @@ for(const course of varietyCourses)course.references=references[course.language]
 const regionalListening={
  en:{0:['en-AU','Australia'],4:['en-GB','Britain']},
  es:{0:['es-AR','Río de la Plata (Argentina)'],4:['es-MX','Mexico']},
- pt:{0:['pt-PT','Portugal'],4:['pt-PT','Portugal']},
+ pt:{4:['pt-PT','Portugal']},
  ja:{0:['ja-JP-kansai','Kansai'],4:['ja-JP-kansai','Kansai']}
 };
 for(const course of varietyCourses){
@@ -105,11 +105,6 @@ kansai.explanation='Explore Kansai expressions in context. For intonation, liste
 for(const i of [0,4]){const q=kansai.questions[i];q.context=q.audio;delete q.audio;delete q.audioLocale;delete q.audioKind;delete q.audioRegion;delete q.listeningTarget;q.type='interpretation';}
 kansai.questions[0].nativeReference=kansai.nativeReferences[0];
 kansai.questions[5].nativeReference=kansai.nativeReferences[1];
-
-// This is an English scenario cue, not a sample of Portuguese pronunciation.
-for(const course of varietyCourses)for(const question of course.questions)if(question.audio==='You are waiting for a friend.'){
- question.audioLocale='en-US';question.audioKind='instruction-synthesis';delete question.audioRegion;
-}
 
 for(const course of varietyCourses)for(const question of course.questions)if(question.audio&&regionalWordingOnly(question.audioLocale)){
  question.audioTargetLocale=question.audioLocale;question.audioLocale=regionalPlaybackLocale(question.audioLocale);question.audioKind='regional-wording-standard-voice';

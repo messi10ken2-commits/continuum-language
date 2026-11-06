@@ -1,10 +1,19 @@
 import meaningOptions from './answer-meaning-options.json' with {type:'json'};
 import {tableAnnotation} from './table-audio.mjs';
 const meaningGroups=new Set(meaningOptions.map(options=>JSON.stringify([...options].sort())));
+// These older Spanish questions omitted the role, including saved shuffled runs.
+const unmarkedMeanings=new Set([
+ ['Cause.','Contrast.','Sequence.'],
+ ['Visiting the museum.','Eating.','Both at the same time.'],
+ ['I was (identity).','I went.','I will go.'],
+ ['Only a past event.','An imperative.','A guess about the current time.']
+].map(options=>JSON.stringify([...options].sort())));
+export const unmarkedMeaningOptions=(q,lesson)=>(lesson.language||'es')==='es'&&q.options?.length===3&&unmarkedMeanings.has(JSON.stringify([...q.options].sort()));
 // Classify answer purpose independently of the course language. Comprehension
 // paraphrases belong to the display language; actual utterances/forms do not.
 export function displayLanguageOptions(q,lesson={}){
  if(!q.options)return false;
+ if(unmarkedMeaningOptions(q,lesson))return true;
  if(q.optionsRole)return ['comprehension','meaning'].includes(q.optionsRole);
  const language=lesson.language||lesson.locale?.split('-')[0]||'es';
  // Earlier saved banks incorrectly stamped these authored English meanings

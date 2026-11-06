@@ -3,7 +3,7 @@ import React,{forwardRef,useEffect,useImperativeHandle,useLayoutEffect,useRef,us
 import {ArrowRight,CheckCircle2,Lightbulb,Flame,Star,BookOpenCheck,Headphones,X} from 'lucide-react';
 import {t,tf,interfaceLanguage} from './interface-runtime.mjs';
 import LessonText from './LessonText.jsx';
-import {lightActivities,lightAnswer,lightCorrect,lightVersion,validLightState,lightRoundCount} from './light-learning-model.mjs';
+import {lightActivities,lightAnswer,lightCorrect,lightVersionFor,validLightState,lightRoundCount} from './light-learning-model.mjs';
 import {nextLightRound,lightRoute} from './light-route.mjs';
 import {getLesson} from './course.mjs';
 import {languageInfo} from './languages.mjs';
@@ -15,7 +15,7 @@ import {lightMaterials,lightRoundEvidence,townCollection} from './light-town.mjs
 import ConversationVideo from './ConversationVideo.jsx';
 import QuestionPrompt from './QuestionPrompt.jsx';
 import {resetLessonViewport} from './lesson-scroll.mjs';
-export const lightStorageKey=(user,lesson,round=0)=>'continuumLightV3:'+(user?.id||'guest')+':'+lesson.id+':'+round;
+export const lightStorageKey=(user,lesson,round=0)=>'continuumLight'+lightVersionFor(lesson).replace('light-v','V')+':'+(user?.id||'guest')+':'+lesson.id+':'+round;
 export async function lightApi(path,options){const r=await fetch('/api/learning/light'+path,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...options}),d=await r.json();if(!r.ok)throw Error();return d;}
 const guestPlacementsKey='continuumLightTownPlacements:guest';
 export async function lightTownProgress(user){
@@ -41,6 +41,7 @@ export async function saveTownPlacement(user,chapter,item){
 export function LessonModeControl({mode,onChange,compact=false,busy=false}){return compact?<label className="lesson-mode-compact"><select aria-label={t('Learning mode')} disabled={busy} value={mode} onChange={e=>onChange(e.target.value)}><option value="light">{t('Light')}</option><option value="standard">{t('Standard')}</option></select></label>:<fieldset className="lesson-mode-control" disabled={busy}><legend>{t('Learning mode')}</legend><div>{['light','standard'].map(value=><button type="button" key={value} aria-pressed={mode===value} onClick={()=>onChange(value)}>{t(value==='light'?'Light':'Standard')}</button>)}</div><small>{t('Two ways to learn. Choose your own pace.')}</small></fieldset>}
 export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onStandard,modeControl,round=0,onNext,autoStart=false},ref){
  const activities=lightActivities(lesson,round),language=lesson.language||'es',locale=languageInfo(language).locale;
+ const lightVersion=lightVersionFor(lesson);
  const blank=()=>({version:lightVersion,round,steps:[],choice:null,hint:false,checked:false});
  const [record,setRecord]=useState(null),[state,setState]=useState(blank),[ready,setReady]=useState(false),[phase,setPhase]=useState('intro'),[busy,setBusy]=useState(false),[error,setError]=useState(''),[retry,setRetry]=useState(0);
  const kind=useLightCompanion(user,language);

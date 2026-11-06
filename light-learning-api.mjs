@@ -1,7 +1,7 @@
 import {lightMaterials,townCollection} from './light-town.mjs';
 import {lightRoute} from './light-route.mjs';
 import {chapters,getLesson} from './course.mjs';
-import {lightActivities,validLightState,lightVersion,legacyLightVersion,priorLightVersion,lightVersions,lightRoundCount} from './light-learning-model.mjs';
+import {lightActivities,validLightState,lightVersionFor,legacyLightVersion,lightVersions,lightRoundCount} from './light-learning-model.mjs';
 export async function migrateLightLearning(pool){await pool.query(`CREATE TABLE IF NOT EXISTS light_learning_sessions(user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,id uuid NOT NULL,lesson_id text NOT NULL,state jsonb NOT NULL,revision integer NOT NULL DEFAULT 1,completed_at timestamptz,updated_at timestamptz NOT NULL DEFAULT now(),PRIMARY KEY(user_id,id));CREATE INDEX IF NOT EXISTS light_learning_history ON light_learning_sessions(user_id,updated_at DESC);
  CREATE TABLE IF NOT EXISTS light_town_placements(
   user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -16,7 +16,7 @@ async function firstClears(pool,userId){
    FROM light_learning_sessions
    WHERE user_id=$1 AND completed_at IS NOT NULL AND state->>'version'=ANY($2::text[])
    ORDER BY lesson_id,state->>'round',completed_at,id
-  `,[userId,[priorLightVersion,lightVersion]])).rows;
+  `,[userId,lightVersions.filter(version=>version!==legacyLightVersion)])).rows;
  return rows;
 }
 
@@ -55,7 +55,7 @@ export async function handleLightLearning({route,req,res,pool,required,json,send
   const url=new URL(req.url,'http://localhost'),round=url.searchParams.get('round'),version=url.searchParams.get('version');
   if(round!==null&&(!/^\d+$/.test(round)||Number(round)>10000))fail(400,'Invalid light round');
   const filter=lesson&&round!==null;
-  const rows=(await pool.query('SELECT id,lesson_id AS lesson,state,revision,completed_at AS "completedAt",updated_at AS at FROM light_learning_sessions WHERE user_id=$1'+(lesson?' AND lesson_id=$2':'')+(filter?" AND state->>'version'=$3 AND COALESCE((state->>'round')::int,0)=$4":'')+' ORDER BY updated_at DESC LIMIT '+(lesson?'1':'50'),filter?[user.id,lesson.id,version||lightVersion,Number(round)]:lesson?[user.id,lesson.id]:[user.id])).rows;
+  const rows=(await pool.query('SELECT id,lesson_id AS lesson,state,revision,completed_at AS "completedAt",updated_at AS at FROM light_learning_sessions WHERE user_id=$1'+(lesson?' AND lesson_id=$2':'')+(filter?" AND state->>'version'=$3 AND COALESCE((state->>'round')::int,0)=$4":'')+' ORDER BY updated_at DESC LIMIT '+(lesson?'1':'50'),filter?[user.id,lesson.id,version||lightVersionFor(lesson),Number(round)]:lesson?[user.id,lesson.id]:[user.id])).rows;
   send(res,200,lesson?{record:lightVersions.includes(rows[0]?.state?.version)?rows[0]:null}:{records:rows.filter(r=>lightVersions.includes(r.state.version))});return true;
  }
  if(req.method!=='PUT'||!lesson)fail(405,'Method not allowed');limited(req,'light-learning',120);

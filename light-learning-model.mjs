@@ -1,10 +1,14 @@
 import {languageInfo} from './languages.mjs';
 import {speechParts} from './sentence-audio.mjs';
 import {isInstructionalExample} from './lesson-copy-roles.mjs';
-import {displayLanguageOptions} from './answer-language.mjs';
+import {displayLanguageOptions,unmarkedMeaningOptions} from './answer-language.mjs';
 export const lightVersion='light-v3';
 export const priorLightVersion='light-v2';
-export const lightVersions=[lightVersion,priorLightVersion,'light-v1'];
+// The corrected lessons get their own draft version; older attempts still grade with their original activities.
+const correctedLightVersion='light-v4';
+export const lightVersions=[correctedLightVersion,lightVersion,priorLightVersion,'light-v1'];
+export const lightVersionFor=lesson=>lesson?.questions?.some(q=>unmarkedMeaningOptions(q,lesson))?correctedLightVersion:lightVersion;
+const historicalDisplayOptions=(q,lesson)=>!unmarkedMeaningOptions(q,lesson)&&displayLanguageOptions(q,lesson);
 export const legacyLightVersion='light-v1';
 // Practice only authored models/meanings. These activities never replace a test.
 export function legacyLightActivities(lesson){
@@ -17,7 +21,7 @@ export function legacyLightActivities(lesson){
  for(const c of lesson.characters||[])add(c.glyph,c.meaning,lesson.language==='ko'&&/^[\u3130-\u318f\u1100-\u11ff\s+]+$/u.test(c.meaning||''));
  if(!isInstructionalExample(lesson))add(lesson.example);
  for(const [a,b] of lesson.soundGuide?.pairs||[]){add(a);add(b)}
- for(const q of lesson.questions||[])if(!displayLanguageOptions(q,lesson)&&(!q.optionsLang||q.optionsLang.split('-')[0]===(lesson.language||'es')))add(q.audioSpeech||q.audio||(q.type==='text'?q.answer:q.options?.[q.answer]));
+ for(const q of lesson.questions||[])if(!historicalDisplayOptions(q,lesson)&&(!q.optionsLang||q.optionsLang.split('-')[0]===(lesson.language||'es')))add(q.audioSpeech||q.audio||(q.type==='text'?q.answer:q.options?.[q.answer]));
  const selected=pairs.slice(0,2);return selected.flatMap((p,i)=>[{...p,id:`${i}-observe`,type:'observe'}, {...p,id:`${i}-practice`,type:p.meaning&&pairs.some(v=>v.meaning&&v.meaning!==p.meaning)?'meaning':'build',options:p.meaning?[p.meaning,pairs.find(v=>v.meaning&&v.meaning!==p.meaning)?.meaning].filter(Boolean).sort((a,b)=>a.localeCompare(b)):[],joiner:/\s/.test(p.model)?' ':'',tokens:(/\s/.test(p.model)?p.model.split(/\s+/):Array.from(new Intl.Segmenter(lesson.locale||'en',{granularity:'grapheme'}).segment(p.model),v=>v.segment)).reverse()}]);
 }
 export function lightCorrect(activity,answer){return activity.type==='observe'?answer===true:['meaning','video','recall','translate','listen','context','video-confirm','confirm'].includes(activity.type)?answer===activity.meaning:typeof answer==='string'&&answer.replace(/\s+/g,' ').trim()===activity.model.replace(/\s+/g,' ').trim();}
@@ -27,7 +31,8 @@ export function lightAnswer(activity,value){return activity.type==='build'?value
 export function validLightState(activities,state){return !!state&&lightVersions.includes(state.version)&&Array.isArray(state.steps)&&state.steps.length<=activities.length&&state.steps.every((s,i)=>s&&typeof s.hint==='boolean'&&lightCorrect(activities[i],s.answer))&&typeof state.hint==='boolean'&&typeof state.checked==='boolean'&&(state.steps.length===activities.length?state.choice===null:lightChoiceValid(activities[state.steps.length],state.choice));}
 
 // Light is its own complete route. Every authored model is covered over short rounds.
-export function lightModels(lesson){
+export function lightModels(lesson,{historical=false}={}){
+ const displayOptions=historical?historicalDisplayOptions:displayLanguageOptions;
  if(!lesson||lesson.checkpoint||lesson.summaryTest)return [];
  const language=lesson.language||'es',locale=languageInfo(language).locale,pairs=[],seen=new Set();
  const add=(model,meaning,extra={})=>{if(typeof model!=='string'||lesson.characters?.length&&language==='ja'&&/^[a-z]+$/i.test(model)||!model.trim()||model.length>400||/_{2,}|https?:/.test(model)||seen.has(model.trim()))return;seen.add(model.trim());pairs.push({model:model.trim(),meaning:typeof meaning==='string'&&meaning.trim()!==model.trim()?meaning.trim():'',locale,...extra})};
@@ -36,14 +41,15 @@ export function lightModels(lesson){
  for(const c of lesson.characters||[])add(c.glyph,c.meaning||c.reading,{audio:c.audio||(language==='ja'?c.glyph:c.meaning?c.reading:c.glyph)||c.glyph,meaningNative:!c.meaning||language==='ko'&&/^[\u3130-\u318f\u1100-\u11ff\s+]+$/u.test(c.meaning||'')});
  if(!isInstructionalExample(lesson))add(lesson.example);
  for(const [a,b] of lesson.soundGuide?.pairs||[]){add(a);if(!/[A-Z /:]/.test(b))add(b)}
- for(const q of lesson.questions||[])if(!displayLanguageOptions(q,lesson)&&(!q.optionsLang||q.optionsLang.split('-')[0]===language))add(q.audioSpeech||q.audio||(q.type==='text'?q.answer:q.options?.[q.answer]),'',{locale:q.audioLocale||q.optionsLang||locale,guidance:q.note});
+ for(const q of lesson.questions||[])if(!displayOptions(q,lesson)&&(!q.optionsLang||q.optionsLang.split('-')[0]===language))add(q.audioSpeech||q.audio||(q.type==='text'?q.answer:q.options?.[q.answer]),'',{locale:q.audioLocale||q.optionsLang||locale,guidance:q.note});
  return pairs;
 }
-export function lightRoundCount(lesson){if(lesson?.conversation)return Math.max(1,Math.ceil((lesson.questions||[]).filter(q=>q.options?.length>1&&Number.isInteger(q.answer)).length/3));return Math.ceil(lightModels(lesson).length/2)}
+// Keep round numbers stable so existing completions and rewards still count.
+export function lightRoundCount(lesson){if(lesson?.conversation)return Math.max(1,Math.ceil((lesson.questions||[]).filter(q=>q.options?.length>1&&Number.isInteger(q.answer)).length/3));return Math.ceil(lightModels(lesson,{historical:true}).length/2)}
 export function v2LightActivities(lesson,round=0){
  if(!Number.isInteger(round)||round<0||round>=lightRoundCount(lesson))return [];
  if(lesson.conversation)return lesson.questions.filter(q=>q.options?.length>1&&Number.isInteger(q.answer)).slice(round*3,round*3+3).map((q,i)=>({id:`video-${round}-${i}`,type:'video',question:q,meaning:q.options[q.answer],options:rotate([q.options[q.answer],q.options.find(v=>v!==q.options[q.answer])],round+i),locale:languageInfo(lesson.language||'es').locale}));
- const pairs=lightModels(lesson),selected=pairs.slice(round*2,round*2+2),result=[];
+ const pairs=lightModels(lesson,{historical:true}),selected=pairs.slice(round*2,round*2+2),result=[];
  selected.forEach((p,i)=>{
   const prefix=`${round}-${i}`,tokens=/\s/.test(p.model)?p.model.split(/\s+/):Array.from(new Intl.Segmenter(p.locale,{granularity:'grapheme'}).segment(p.model),v=>v.segment),distractor=pairs.find(v=>v.model!==p.model&&v.meaning&&v.meaning!==p.meaning);
   result.push({...p,id:prefix+'-observe',type:'observe'});
@@ -57,17 +63,19 @@ export function lightAudioTargets(lessons){const found=new Map();const add=(text
  for(const lesson of lessons){if(lesson.checkpoint||lesson.summaryTest)continue;for(const p of lightModels(lesson))add(p.audio||p.model,p.locale,lesson.id);for(const q of lesson.questions||[])if(q.audio)add(q.audioSpeech||q.audio,q.audioLocale||languageInfo(lesson.language||'es').locale,lesson.id)}return [...found.values()];}
 
 // Six retrieval questions, without counting previews as answers. Keep old versions immutable.
-export function lightActivities(lesson,round=0,version=lightVersion){
+export function lightActivities(lesson,round=0,version=lightVersionFor(lesson)){
  if(version===legacyLightVersion)return legacyLightActivities(lesson);
  if(version===priorLightVersion)return v2LightActivities(lesson,round);
- if(version!==lightVersion||!Number.isInteger(round)||round<0||round>=lightRoundCount(lesson))return [];
+ if((version!==lightVersion&&version!==lightVersionFor(lesson))||!Number.isInteger(round)||round<0||round>=lightRoundCount(lesson))return [];
  const locale=languageInfo(lesson.language||'es').locale;
  const questions=(lesson.questions||[]).filter(q=>q.options?.length>1&&Number.isInteger(q.answer)&&typeof q.options[q.answer]==='string');
- const context=(q,index,type='context')=>({id:`q-${index}`,type,question:q,model:q.options[q.answer],meaning:q.options[q.answer],options:rotate([...new Set(q.options)],round+index),optionsNative:!displayLanguageOptions(q,lesson),locale:q.optionsLang||locale,audio:q.audioSpeech||q.audio,audioLocale:q.audioLocale||locale,source:'question'});
+ const historical=version===lightVersion;
+ const displayOptions=historical?historicalDisplayOptions:displayLanguageOptions;
+ const context=(q,index,type='context')=>({id:`q-${index}`,type,question:q,model:q.options[q.answer],meaning:q.options[q.answer],options:rotate([...new Set(q.options)],round+index),optionsNative:!displayOptions(q,lesson),locale:q.optionsLang||locale,audio:q.audioSpeech||q.audio,audioLocale:q.audioLocale||locale,source:'question'});
  if(lesson.conversation){const ordered=questions.map((_,i)=>context(questions[(round*3+i)%questions.length],(round*3+i)%questions.length,'video')).slice(0,6);
-  if(ordered.length<5){const q=questions[round%questions.length],fits=round%2===0;ordered.push({...context(q,round,'video-confirm'),id:'video-confirm-'+round,statement:fits?q.options[q.answer]:q.options.find(o=>o!==q.options[q.answer]),statementNative:!displayLanguageOptions(q,lesson),options:['Fits the recording','Does not fit the recording'],optionsNative:false,meaning:fits?'Fits the recording':'Does not fit the recording'});}return ordered;
+  if(ordered.length<5){const q=questions[round%questions.length],fits=round%2===0;ordered.push({...context(q,round,'video-confirm'),id:'video-confirm-'+round,statement:fits?q.options[q.answer]:q.options.find(o=>o!==q.options[q.answer]),statementNative:!displayOptions(q,lesson),options:['Fits the recording','Does not fit the recording'],optionsNative:false,meaning:fits?'Fits the recording':'Does not fit the recording'});}return ordered;
  }
- const pairs=lightModels(lesson),selected=pairs.slice(round*2,round*2+2);if(selected.length===1&&pairs.length>1)selected.push(pairs[(round*2+1)%pairs.length]);
+ const pairs=lightModels(lesson,{historical}),selected=pairs.slice(round*2,round*2+2);if(!selected.length)selected.push(...pairs.slice(0,2));if(selected.length===1&&pairs.length>1)selected.push(pairs[(round*2+1)%pairs.length]);
  const out=[],seen=new Set();
  const push=a=>{if(!a||out.length===6)return;const key=[a.type,a.question?.prompt||a.model,a.promptMeaning||''].join('::');if(!seen.has(key)){seen.add(key);out.push({...a,id:`r${round}-q${out.length}`})}};
  const linked=p=>questions.find(q=>(q.audioSpeech||q.audio||q.options[q.answer])===p.model);
@@ -84,7 +92,7 @@ export function lightActivities(lesson,round=0,version=lightVersion){
  for(let i=0;i<selected.length;i++){const choices=tasks(selected[i]);push(i%2?choices.translate||choices.listen:choices.meaning||choices.listen);push(choices.build||choices.linked||choices.listen);}
  for(let i=0;i<questions.length;i++)push(context(questions[(round*2+1+i)%questions.length],(round*2+1+i)%questions.length));
  for(const p of [...selected,...pairs])for(const a of Object.values(tasks(p)))push(a);
- for(let i=0;i<questions.length&&out.length<5;i++){const q=questions[(round+i)%questions.length],fits=(round+i)%2===0;push({...context(q,i,'confirm'),statement:fits?q.options[q.answer]:q.options.find(o=>o!==q.options[q.answer]),statementNative:!displayLanguageOptions(q,lesson),optionsNative:false,options:['Fits the situation','Does not fit the situation'],meaning:fits?'Fits the situation':'Does not fit the situation'});}
+ for(let i=0;i<questions.length&&out.length<5;i++){const q=questions[(round+i)%questions.length],fits=(round+i)%2===0;push({...context(q,i,'confirm'),statement:fits?q.options[q.answer]:q.options.find(o=>o!==q.options[q.answer]),statementNative:!displayOptions(q,lesson),optionsNative:false,options:['Fits the situation','Does not fit the situation'],meaning:fits?'Fits the situation':'Does not fit the situation'});}
  return out;
 }
 function shuffle(tokens,seed){const values=tokens.map((v,i)=>({v,key:((i+1)*1103515245+(seed+3)*12345)>>>0})).sort((a,b)=>a.key-b.key).map(r=>r.v);if(values.join('')===tokens.join(''))values.push(values.shift());return values;}
