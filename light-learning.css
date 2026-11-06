@@ -213,12 +213,9 @@
 .town-building[data-status="current"] .town-pin {box-shadow:0 0 8px 3px #ffdf82}
 .town-marker-callout {position:absolute;bottom:100%;max-width:120px;width:max-content;padding:4px 8px;border:1.5px solid #ffdc83;border-radius:99px;background:#843b74;color:white;font-size:11px;font-weight:800;line-height:1.25;box-shadow:0 0 8px #ffc35d}
 .town-decoration {position:absolute;left:43%;bottom:18%;width:23%;height:auto;pointer-events:none;filter:drop-shadow(0 3px 4px #35291f55)}
-.town-flower,.town-lantern {position:absolute;left:66%;bottom:16%;font-size:clamp(12px,4vw,25px)}
-.town-lantern {left:58%;bottom:23%}
 .town-companion {position:relative;display:grid;place-items:center;width:clamp(90px,29vw,172px);aspect-ratio:1;z-index:2;pointer-events:none;filter:drop-shadow(0 4px 4px #4c301b45)}
 .town-companion .journey-companion {position:relative;inset:auto;width:100%;height:100%;margin:0}
 .town-scene>.town-companion {position:absolute;left:2%;bottom:-1%}
-.town-scene-celebrate .town-decoration {filter:drop-shadow(0 0 8px #ffcd55) drop-shadow(0 0 3px #fff4bd)}
 .town-waves {position:absolute;display:flex;gap:4px;align-items:center;inset-inline-start:77%;top:24%;height:30px}
 .town-waves i {width:4px;height:20px;background:#fff6cc;border-radius:4px;box-shadow:0 0 7px #da8218;animation:town-wave .48s ease-in-out infinite alternate}
 .town-waves i:nth-child(2) {animation-delay:.14s}
@@ -296,5 +293,26 @@
 .town-companion-sprite[data-celebrate="true"] {animation:town-sprite-celebrate .58s ease-in-out 2}
 @keyframes town-sprite-talk {to {transform:rotate(-3deg) translateY(-2px)}}
 @keyframes town-sprite-celebrate {50% {transform:translateY(-12%) rotate(-5deg)}}
-.town-next-reward .town-reward-icon {width:38px;height:38px;margin:11px auto;color:#924c83}
 .app.continuum-ui .light-town .town-building:disabled {opacity:1}
+
+/* Town props sit on the diorama's walkways and retain their catalogue slot. */
+.town-decoration {left:var(--prop-x);bottom:var(--prop-y);width:var(--prop-width,12%);transform:translateX(-50%);z-index:1}
+.town-decoration[data-slot="0"] {--prop-x:55%;--prop-y:20%;--prop-width:20%}
+.town-decoration[data-slot="1"] {--prop-x:19%;--prop-y:39%;--prop-width:13%}
+.town-decoration[data-slot="2"] {--prop-x:45%;--prop-y:31%;--prop-width:5.5%}
+.town-decoration[data-slot="3"] {--prop-x:74%;--prop-y:31%}
+.town-decoration[data-slot="4"] {--prop-x:76%;--prop-y:58%;--prop-width:11%}
+.town-decoration[data-slot="5"] {--prop-x:32%;--prop-y:44%;--prop-width:11%}
+.town-decoration[data-slot="6"] {--prop-x:84%;--prop-y:39%;--prop-width:12%}
+.town-decoration[data-slot="7"] {--prop-x:42%;--prop-y:16%;--prop-width:12%}
+.town-decoration[data-slot="8"] {--prop-x:91%;--prop-y:57%;--prop-width:12%}
+.town-decoration img {display:block;width:100%;height:auto}
+.town-decoration[data-new="true"] {z-index:2;filter:drop-shadow(0 0 5px #fff1b2) drop-shadow(0 0 9px #ffbf49)}
+.light-town img[data-slot] {filter:hue-rotate(var(--town-reward-hue,0deg))}
+.town-collection {margin-top:12px;color:var(--town-ink)}
+.town-collection summary {min-height:36px;cursor:pointer;font-weight:800}
+.town-collection ul {list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(85px,1fr));gap:6px}
+.town-collection li {display:grid;align-content:start;justify-items:center;gap:4px;padding:7px;text-align:center;font-size:12px;background:#fff9f0;border:1px solid #e7cbb8;border-radius:10px;overflow-wrap:anywhere}
+.town-collection img {width:100%;height:53px;object-fit:contain}
+.town-companion::before {content:'';position:absolute;z-index:-1;inset:auto 12% 4%;height:12%;border-radius:50%;background:#47261558;filter:blur(4px)}
+.adventure-journal .adventure-companion-choice {display:block;width:100%;height:clamp(45px,12vw,75px);object-fit:contain}

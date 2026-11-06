@@ -10,7 +10,7 @@ export async function handleLightLearning({route,req,res,pool,required,json,send
   if(req.method!=='GET')fail(405,'Method not allowed');
   const rows=(await pool.query(`
    SELECT DISTINCT ON (lesson_id,state->>'round') id,lesson_id AS lesson,
-    (state->>'round')::int AS round,state->'steps' AS steps,
+    (state->>'round')::int AS round,state->'steps' AS steps,completed_at AS "completedAt",
     MAX(jsonb_array_length(state->'steps')*10) OVER(PARTITION BY lesson_id,state->>'round')::int AS xp
    FROM light_learning_sessions
    WHERE user_id=$1 AND completed_at IS NOT NULL AND state->>'version'=ANY($2::text[])

@@ -1,8 +1,8 @@
 import React,{useEffect,useState} from 'react';
-import {Check,LockKeyhole,Star,Gem,Flower2,Lamp} from 'lucide-react';
-import CompanionArt from './CompanionArt.jsx';
+import {Check,LockKeyhole,Star,Gem} from 'lucide-react';
 import {companions} from './adventure-model.mjs';
-import {t} from './interface-runtime.mjs';
+import {t,tf} from './interface-runtime.mjs';
+import {townPlacedRewards} from './light-town.mjs';
 
 export function useLightCompanion(user,language){
  const [selection,setSelection]=useState(null);
@@ -21,17 +21,25 @@ export function useLightCompanion(user,language){
 
 export function TownCompanion({kind,speaking=false,celebrate=false}){
  return kind?<span className="town-companion" data-companion={kind} data-speaking={speaking} aria-hidden="true">
-  {kind==='capybara'?<img className="town-companion-sprite" src="/light-town/capybara.webp" alt="" data-celebrate={celebrate}/>:<CompanionArt kind={kind} mood={celebrate?'delight':'idle'} celebrate={celebrate}/>}
+  <img className="town-companion-sprite" src={'/light-town/'+kind+'.webp'} alt="" data-celebrate={celebrate}/>
   {speaking&&<span className="town-waves"><i/><i/><i/></span>}
  </span>:null;
 }
 
-export const townRewards=['Terrace','Flower bed','Street lamp'];
+export function townRewardLabel(item){
+ return item.edition>1?tf('{0} · Edition {1}',[t(item.name),item.edition]):t(item.name);
+}
 
-export function TownRewardArt({index=0}){
- if(index===0)return <img src="/light-town/terrace.webp" alt=""/>;
- const Icon=index===1?Flower2:Lamp;
- return <Icon className="town-reward-icon" aria-hidden="true"/>;
+export function TownRewardArt({item,className}){
+ return <img className={className} src={'/light-town/'+item.art+'.webp'} alt="" data-slot={item.slot} style={{'--town-reward-hue':((item.edition-1)*27)%360+'deg'}}/>;
+}
+
+export function TownCollection({items}){
+ if(!items.length)return null;
+ return <details className="town-collection">
+  <summary>{t('Town collection')} · {items.length}</summary>
+  <ul>{items.map(item=><li key={item.index}><TownRewardArt item={item}/><span>{townRewardLabel(item)}</span></li>)}</ul>
+ </details>;
 }
 
 export function TownGem(){
@@ -49,16 +57,16 @@ export function TownSegments({value,total,round=false,label}){
  </span>;
 }
 
-export function TownScene({kind,places=[],decoration=0,celebrate=false}){
+export function TownScene({kind,places=[],collection=[],highlight,celebrate=false}){
  return <div className={'town-scene'+(celebrate?' town-scene-celebrate':'')}>
   <img className="town-scenery" src="/light-town/diorama.webp" alt="" width="1050" height="700"/>
   {places.map((place,i)=><button key={place.id} className="town-building" data-position={i} data-status={place.status} aria-current={place.status==='current'?'step':undefined} aria-label={place.label} onClick={place.onOpen} disabled={!place.onOpen}>
    {place.status==='current'&&<span className="town-marker-callout" aria-hidden="true">{t('Up next')}</span>}
    <span className="town-pin">{place.status==='done'?<Check/>:place.status==='current'?<Star/>:<LockKeyhole/>}</span>
   </button>)}
-  {decoration>0&&<img className="town-decoration" src="/light-town/terrace.webp" alt=""/>}
-  {decoration>1&&<span className="town-flower" aria-hidden="true">🌸</span>}
-  {decoration>2&&<span className="town-lantern" aria-hidden="true">🏮</span>}
+  {townPlacedRewards(collection).map(item=><span className="town-decoration" data-slot={item.slot} data-new={highlight===item.index} key={item.slot}>
+   <TownRewardArt item={item}/><span className="sr-only">{townRewardLabel(item)}</span>
+  </span>)}
   <TownCompanion kind={kind} celebrate={celebrate}/>
  </div>;
 }

@@ -27,6 +27,7 @@ test('guided records resume, isolate accounts, survive new sessions and never gr
  const awards=(await req(townCookie,'/api/learning/light/progress')).data.completed;
  assert.equal(awards.length,1);
  assert.equal(awards[0].id,id);
+ assert.ok(Number.isFinite(Date.parse(awards[0].completedAt)));
  assert.equal(awards[0].materials,recorded.length===6?28:20);
  const route=await req(learner,'/api/learning/light/progress');assert.equal(route.status,200);assert.equal(route.data.completed.length,10);assert.equal((await req(other,'/api/learning/light/progress')).data.completed.length,0);
  const replayLesson=lessonList.find(l=>l.id==='introductions'),oldState={version:legacyLightVersion,steps:legacyLightActivities(replayLesson).map(a=>({answer:a.type==='observe'?true:['meaning','video'].includes(a.type)?a.meaning:a.model,hint:false})),choice:null,hint:false,checked:false};assert.equal((await req(learner,'/api/learning/light/introductions','PUT',{id:crypto.randomUUID(),revision:0,state:oldState})).status,200);assert.equal((await req(learner,'/api/learning/light/progress')).data.completed.length,10,'old records preserved without misrepresenting new route completion');

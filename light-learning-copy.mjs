@@ -100,4 +100,14 @@ rows.push(
  ['Back to town','街に戻る','Volver a la ciudad','Voltar à cidade','返回小镇','Retour en ville','마을로 돌아가기','Kembali ke kota','Вернуться в город','العودة إلى المدينة'],
  ['Combo ×{0}','コンボ ×{0}','Racha ×{0}','Sequência ×{0}','连击 ×{0}','Série ×{0}','콤보 ×{0}','Kombo ×{0}','Серия ×{0}','سلسلة ×{0}']
 );
+rows.push(...`
+Park bench|公園のベンチ|Banco de parque|Banco de jardim|公园长椅|Banc de parc|공원 벤치|Bangku taman|Парковая скамейка|مقعد الحديقة
+Stone fountain|石造りの噴水|Fuente de piedra|Fonte de pedra|石雕喷泉|Fontaine en pierre|돌 분수|Air mancur batu|Каменный фонтан|نافورة حجرية
+Book kiosk|小さな本屋|Quiosco de libros|Quiosque de livros|书亭|Kiosque à livres|작은 책방|Kios buku|Книжный киоск|كشك كتب
+Rose arch|バラのアーチ|Arco de rosas|Arco de rosas|玫瑰拱门|Arche de roses|장미 아치|Lengkung mawar|Арка из роз|قوس الورود
+Market stall|市場の屋台|Puesto del mercado|Banca do mercado|市场摊位|Étal du marché|시장 가판대|Lapak pasar|Рыночный прилавок|بسطة السوق
+Maple tree|カエデの木|Arce|Bordo|枫树|Érable|단풍나무|Pohon maple|Клён|شجرة القيقب
+Town collection|街のコレクション|Colección de la ciudad|Coleção da cidade|小镇收藏|Collection de la ville|마을 컬렉션|Koleksi kota|Коллекция города|مجموعة البلدة
+{0} · Edition {1}|{0}・第{1}版|{0} · Edición {1}|{0} · Edição {1}|{0} · 第{1}版|{0} · Édition {1}|{0} · 에디션 {1}|{0} · Edisi {1}|{0} · Выпуск {1}|{0} · الإصدار {1}
+`.trim().split('\n').map(row=>row.split('|')));
 export const lightLearningCopy=Object.fromEntries(rows.map(([source,...values])=>[source,Object.fromEntries(['ja','es','pt','zh','fr','ko','id','ru','ar'].map((l,i)=>[l,values[i]]))]));

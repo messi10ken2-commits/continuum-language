@@ -4,14 +4,14 @@ import {ArrowRight,CheckCircle2,Lightbulb,Flame,Star,BookOpenCheck,Headphones,X}
 import {t,tf,interfaceLanguage} from './interface-runtime.mjs';
 import LessonText from './LessonText.jsx';
 import {lightActivities,lightAnswer,lightCorrect,lightVersion,validLightState,lightRoundCount} from './light-learning-model.mjs';
-import {nextLightRound} from './light-route.mjs';
+import {nextLightRound,lightRoute} from './light-route.mjs';
 import {getLesson} from './course.mjs';
 import {languageInfo} from './languages.mjs';
 import {useStudyActivity} from './LearningActivity.jsx';
 import {PageScene} from './LessonMedia.jsx';
 import SentenceAudio,{stopSentenceAudio} from './SentenceAudio.jsx';
-import {TownCompanion,TownScene,TownGem,TownRibbon,TownSegments,useLightCompanion} from './LightTown.jsx';
-import {lightMaterials,lightRoundEvidence} from './light-town.mjs';
+import {TownCompanion,TownScene,TownGem,TownRibbon,TownSegments,TownRewardArt,townRewardLabel,useLightCompanion} from './LightTown.jsx';
+import {lightMaterials,lightRoundEvidence,townCollection} from './light-town.mjs';
 import ConversationVideo from './ConversationVideo.jsx';
 import QuestionPrompt from './QuestionPrompt.jsx';
 import {resetLessonViewport} from './lesson-scroll.mjs';
@@ -25,6 +25,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  const [record,setRecord]=useState(null),[state,setState]=useState(blank),[ready,setReady]=useState(false),[phase,setPhase]=useState('intro'),[busy,setBusy]=useState(false),[error,setError]=useState(''),[retry,setRetry]=useState(0);
  const kind=useLightCompanion(user,language);
  const [speaking,setSpeaking]=useState(false),[reward,setReward]=useState(null);
+ const [rewardRetry,setRewardRetry]=useState(0);
  const evidence=lightRoundEvidence(state.steps);
  useEffect(()=>{if(suspended)stopSentenceAudio()},[suspended]);
  useEffect(()=>{
@@ -32,11 +33,14 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   if(phase!=='result'||!record?.completedAt)return;
   let live=true;
   lightProgress(user).then(rows=>{
-   if(live)setReward({materials:rows.find(r=>r.id===record.id)?.materials??0,
-    decoration:rows.filter(r=>getLesson(r.lesson)?.chapter===lesson.chapter).length});
-  }).catch(()=>{});
+   if(!live)return;
+   const chapterRows=lightRoute(language,lesson.level).filter(row=>row.chapter.id===lesson.chapter);
+   const collection=townCollection(chapterRows,rows);
+   const award=collection.find(item=>item.clearId===record.id);
+   setReward({collection,award,materials:rows.find(r=>r.id===record.id)?.materials??0});
+  }).catch(()=>{if(live)setReward({failed:true})});
   return()=>{live=false};
- },[user?.id,lesson.id,record?.id,record?.completedAt,phase]);
+ },[user?.id,lesson.id,language,record?.id,record?.completedAt,phase,rewardRetry]);
  const root=useRef(null),owner=user?.id||'guest',lock=useRef(false),[refreshing,setRefreshing]=useState(false);
  const endpoint='/'+lesson.id+'?round='+round+'&version='+lightVersion;
  useEffect(()=>{let live=true;setReady(false);setError('');const load=async()=>{try{let saved;if(user)saved=(await lightApi(endpoint)).record;else try{saved=JSON.parse(localStorage.getItem(lightStorageKey(user,lesson,round))||'null')}catch{}
@@ -48,7 +52,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   root.current.querySelector('.light-game-board')?.focus({preventScroll:true});
   resetLessonViewport(root.current);
  },[suspended,phase,ready,state.steps.length]);
- const persist=async(value=state)=>{if(!ready)return !error;if(lock.current)return false;if(record?.completedAt)return true;lock.current=true;setBusy(true);setError('');try{let saved;if(user){try{saved=(await lightApi('/'+lesson.id,{method:'PUT',body:JSON.stringify({id:record.id,revision:record.revision,state:value})})).record}catch{const recovered=(await lightApi(endpoint)).record;if(recovered?.id!==record.id||!sameLightDraft(recovered.state,value))throw Error();saved=recovered}}else{saved={...record,state:value,lesson:lesson.id,at:new Date().toISOString(),revision:record.revision+1,completedAt:value.steps.length===activities.length?new Date().toISOString():null};localStorage.setItem(lightStorageKey(user,lesson,round),JSON.stringify(saved));if(saved.completedAt){const rows=await lightProgress(null);localStorage.setItem('continuumLightProgress:guest',JSON.stringify([...rows.filter(r=>r.lesson!==lesson.id||r.round!==round),{...(rows.find(r=>r.lesson===lesson.id&&r.round===round)||{id:saved.id,materials:lightMaterials(value.steps)}),lesson:lesson.id,round,xp:activities.length*10}]))}}setRecord(saved);setState(saved.state);return true}catch{setError('Could not save light practice. Try again.');return false}finally{lock.current=false;setBusy(false)}};
+ const persist=async(value=state)=>{if(!ready)return !error;if(lock.current)return false;if(record?.completedAt)return true;lock.current=true;setBusy(true);setError('');try{let saved;if(user){try{saved=(await lightApi('/'+lesson.id,{method:'PUT',body:JSON.stringify({id:record.id,revision:record.revision,state:value})})).record}catch{const recovered=(await lightApi(endpoint)).record;if(recovered?.id!==record.id||!sameLightDraft(recovered.state,value))throw Error();saved=recovered}}else{saved={...record,state:value,lesson:lesson.id,at:new Date().toISOString(),revision:record.revision+1,completedAt:value.steps.length===activities.length?new Date().toISOString():null};localStorage.setItem(lightStorageKey(user,lesson,round),JSON.stringify(saved));if(saved.completedAt){const rows=await lightProgress(null);localStorage.setItem('continuumLightProgress:guest',JSON.stringify([...rows.filter(r=>r.lesson!==lesson.id||r.round!==round),{...(rows.find(r=>r.lesson===lesson.id&&r.round===round)||{id:saved.id,completedAt:saved.completedAt,materials:lightMaterials(value.steps)}),lesson:lesson.id,round,xp:activities.length*10}]))}}setRecord(saved);setState(saved.state);return true}catch{setError('Could not save light practice. Try again.');return false}finally{lock.current=false;setBusy(false)}};
  useImperativeHandle(ref,()=>({save:()=>persist(),busy}),[record,state,ready,busy,error]);
  const exit=async()=>{if(await persist()){stopSentenceAudio();onExit()}};
  const next=async()=>{const a=activities[state.steps.length],answer=a.type==='observe'?true:lightAnswer(a,state.choice);if(!lightCorrect(a,answer))return;const value={...blank(),steps:[...state.steps,{answer,hint:state.hint,missed:!!state.missed}]};if(await persist(value)){stopSentenceAudio();if(value.steps.length===activities.length)setPhase('result')}};
@@ -75,11 +79,13 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   phase==='result'?<section className="light-celebration town-result">
    <h1 className="town-title">{t(evidence.firstCorrect===activities.length?'Perfect clear!':'Round complete!')}</h1>
    <TownRibbon><b>{activities.length}/{activities.length} · {tf('Best combo ×{0}',[evidence.best])}</b></TownRibbon>
-   <TownScene kind={kind} decoration={reward?.decoration} celebrate={!!reward?.materials}/>
+   <TownScene kind={kind} collection={reward?.collection} highlight={reward?.award?.index} celebrate={!!reward?.materials}/>
    <div className="town-paper town-result-card">
     <h2>{title}</h2>
+    {reward?.failed?<div role="status"><p>{t('Could not load light practice. Try again.')}</p><button className="text-button" onClick={()=>setRewardRetry(n=>n+1)}>{t('Try again')}</button></div>:
+     !reward&&<p role="status">{t('Loading your light practice…')}</p>}
     <div className="town-result-loot">
-     {reward?.decoration>0&&<div><img src="/light-town/terrace.webp" alt=""/><strong>{t('Terrace')}</strong></div>}
+     {reward?.award&&<div><TownRewardArt item={reward.award}/><strong>{townRewardLabel(reward.award)}</strong></div>}
      {!!reward?.materials&&<div><TownGem/><strong>{t('Materials')} +{reward.materials}</strong></div>}
     </div>
     <div className="town-save-stamp"><BookOpenCheck size={24}/>{t('Light progress saved')} · {activities.length*10} XP</div>
