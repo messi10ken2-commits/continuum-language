@@ -24,3 +24,5 @@
 /* A selected Studio destination is a page, including when its record is empty. */
 .practice-studio[data-view]:not([data-view="home"]){min-height:calc(100dvh - 160px);outline:none}
 .app.rpg-mode .practice-studio[data-view]:not([data-view="home"]){min-height:calc(100dvh - 240px)}
+
+.premium-guide-ticket-note{display:block;margin-top:.45rem}
