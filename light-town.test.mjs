@@ -1,8 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {access} from 'node:fs/promises';
+import {lightRoute,lightRouteStats} from './light-route.mjs';
 import {companions} from './adventure-model.mjs';
-import {lightMaterials,lightRoundEvidence,townCollection,townPlacedRewards,townRewardAt} from './light-town.mjs';
+import {lightMaterials,lightRoundEvidence,townCollection,townCourseKey,townCoursePlacements,townPlacedRewards,townRewardAt} from './light-town.mjs';
 
 test('Light counts first attempts, resets streak on a miss and keeps legacy rewards',()=>{
  const clean={missed:false,hint:false},missed={missed:true,hint:true};
@@ -40,4 +41,32 @@ test('an earned color selection takes precedence over future unlocks in its slot
  assert.equal(placed.find(item=>item.slot===0).index,0);
  assert.equal(placed.find(item=>item.slot===1).index,10);
  assert.equal(placed.find(item=>item.slot===2).index,11);
+});
+
+test('Spanish B1 keeps earned town decorations when the next chapter has zero clears',()=>{
+ const spanish=lightRoute('es');
+ const previous=spanish.filter(row=>row.chapter.level==='B1').slice(0,6);
+ const future=spanish.filter(row=>row.chapter.id==='b1-future-lab');
+ const clears=previous.flatMap(row=>Array.from({length:row.rounds},(_,round)=>({lesson:row.lesson.id,round})));
+ const [english]=lightRoute('en');
+ const saved=[...clears,{lesson:english.lesson.id,round:0}].map((row,index)=>({
+  ...row,id:'clear-'+index,completedAt:new Date(1000*(index+1)).toISOString()
+ }));
+ assert.equal(lightRouteStats(future,saved).done,0);
+ assert.equal(lightRouteStats(future,saved).total,6);
+ const collection=townCollection(spanish,saved);
+ assert.equal(collection.length,15);
+ assert.equal(townPlacedRewards(collection).length,9);
+ assert.equal(collection[0].art,'terrace');
+ assert.equal(townRewardAt(collection.length).art,'rose-arch');
+ assert.equal(townRewardAt(collection.length).edition,2);
+ assert.equal(townCollection(lightRoute('en'),saved).length,1);
+ const legacy={chapter:previous[0].chapter.id,slot:0,rewardIndex:0};
+ const later={chapter:previous.at(-1).chapter.id,slot:0,rewardIndex:0};
+ const current={chapter:townCourseKey('es'),slot:0,rewardIndex:9};
+ const other={chapter:townCourseKey('en'),slot:0,rewardIndex:0};
+ assert.deepEqual(townCoursePlacements('es',spanish,[later,legacy,other]),[later]);
+ const selected=townCoursePlacements('es',spanish,[later,current,legacy,other]);
+ assert.deepEqual(selected,[current]);
+ assert.equal(townPlacedRewards(collection,selected).find(item=>item.slot===0).edition,2);
 });

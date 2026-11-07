@@ -1,4 +1,4 @@
-import {lightMaterials,townCollection} from './light-town.mjs';
+import {lightMaterials,townCollection,townCourseKey} from './light-town.mjs';
 import {lightRoute} from './light-route.mjs';
 import {chapters,getLesson} from './course.mjs';
 import {lightActivities,validLightState,lightVersionFor,legacyLightVersion,lightVersions,lightRoundCount} from './light-learning-model.mjs';
@@ -31,14 +31,16 @@ export async function handleLightLearning({route,req,res,pool,required,json,send
   const d=await json(req);
   const chapter=chapters.find(c=>c.id===d?.chapter&&!c.legacy);
   if(!chapter||!Number.isInteger(d.rewardIndex)||d.rewardIndex<0)fail(400,'Invalid town decoration');
-  const routeRows=lightRoute(chapter.language||'es',chapter.level).filter(row=>row.chapter.id===chapter.id);
+  const language=chapter.language||'es',routeRows=lightRoute(language);
+  if(!routeRows.some(row=>row.chapter.id===chapter.id))fail(400,'Invalid town decoration');
+  const courseKey=townCourseKey(language);
   const item=townCollection(routeRows,await firstClears(pool,user.id))[d.rewardIndex];
   if(!item)fail(403,'Town decoration has not been earned');
   await pool.query(`
    INSERT INTO light_town_placements(user_id,chapter_id,slot,reward_index) VALUES($1,$2,$3,$4)
    ON CONFLICT(user_id,chapter_id,slot) DO UPDATE SET reward_index=EXCLUDED.reward_index
-  `,[user.id,chapter.id,item.slot,item.index]);
-  send(res,200,{placement:{chapter:chapter.id,slot:item.slot,rewardIndex:item.index}});
+  `,[user.id,courseKey,item.slot,item.index]);
+  send(res,200,{placement:{chapter:courseKey,slot:item.slot,rewardIndex:item.index}});
   return true;
  }
  if(progressRoute){

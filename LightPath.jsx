@@ -6,7 +6,7 @@ import {levels} from './course.mjs';
 import {lightRoute,lightRouteStats,lightRoundKey} from './light-route.mjs';
 import {lightTownProgress,saveTownPlacement,setTownPlacement,LessonModeControl} from './LightLesson.jsx';
 import {TownScene,TownRewardArt,TownGem,TownRibbon,TownSegments,TownCollection,townRewardLabel,useLightCompanion} from './LightTown.jsx';
-import {materialsPerRound,townCollection,townRewardAt} from './light-town.mjs';
+import {materialsPerRound,townCollection,townCoursePlacements,townRewardAt} from './light-town.mjs';
 import {lightActivities} from './light-learning-model.mjs';
 import {languageInfo} from './languages.mjs';
 export default function LightPath({language,user,onStart,onMode,level,setLevel}){
@@ -20,8 +20,8 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
  const chapter=chapters.find(c=>c.id===selected)||route.find(r=>r.lesson.id===pending?.lesson)?.chapter||chapters[0];
  const chapterRows=route.filter(r=>r.chapter.id===chapter?.id);
  const chapterStats=lightRouteStats(chapterRows,completed);
- const collection=townCollection(chapterRows,completed);
- const chapterPlacements=placements.filter(p=>p.chapter===chapter?.id);
+ const collection=townCollection(languageRoute,completed);
+ const coursePlacements=townCoursePlacements(language,languageRoute,placements);
  const placementLock=useRef(false);
  const [placing,setPlacing]=useState(false),[placementError,setPlacementError]=useState(null);
  const placeReward=async item=>{
@@ -30,7 +30,7 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
   setPlacing(true);
   setPlacementError(null);
   try{
-   const placement=await saveTownPlacement(user,chapter.id,item);
+   const placement=await saveTownPlacement(user,chapter.id,language,item);
    setProgress(progress=>({...progress,placements:setTownPlacement(progress.placements,placement)}));
   }catch{
    setPlacementError(chapter.id);
@@ -39,7 +39,7 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
    setPlacing(false);
   }
  };
- const nextReward=collection.length<chapterStats.total?townRewardAt(collection.length):null;
+ const nextReward=collection.length<allStats.total?townRewardAt(collection.length):null;
  const mission=chapterRows.find(r=>r.lesson.id===pending?.lesson);
  const languageLessons=new Set(languageRoute.map(r=>r.lesson.id));
  const materials=completed.reduce((n,r)=>n+(languageLessons.has(r.lesson)?r.materials??materialsPerRound:0),0);
@@ -56,15 +56,15 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
  {!ready?<section className="panel"><p role="status">{t(failed?'Could not load light practice. Try again.':'Loading your light practice…')}</p>{failed&&<button className="outline-button" onClick={()=>setReload(n=>n+1)}>{t('Try again')}</button>}</section>:<>
  {chapter&&<section className="town-hub">
   <TownRibbon><select className="town-chapter-select" aria-label={t('Chapter')} value={chapter.id} onChange={e=>setSelected(e.target.value)}>{chapters.map(c=><option key={c.id} value={c.id}>{t(c.title)}</option>)}</select></TownRibbon>
-  <div className="town-metrics"><b>{t('Light progress')} {chapterStats.done}/{chapterStats.total}</b><TownSegments value={chapterStats.done} total={chapterStats.total} label={t('Light progress')} round/><span><TownGem/> {t('Materials')} <b>{materials}</b></span></div>
-  <TownScene kind={kind} places={places} collection={collection} placements={chapterPlacements}/>
+  <div className="town-metrics"><b>{t('Chapter progress')} {chapterStats.done}/{chapterStats.total}</b><TownSegments value={chapterStats.done} total={chapterStats.total} label={t('Chapter progress')} round/><span><TownGem/> {t('Materials')} <b>{materials}</b></span></div>
+  <TownScene kind={kind} places={places} collection={collection} placements={coursePlacements}/>
   <div className="town-paper town-mission">
    {mission?<><h2><Feather aria-hidden="true"/><LessonText text={mission.lesson.title} language={language}/></h2>
    <div className="town-mission-meta"><Clock size={16}/>{tf('{0} questions · about 2 min',[lightActivities(mission.lesson,pending.round).length])}</div>
    <p><LessonText text={chapter.goal} language={language}/></p>
    <button className="primary wide town-cta" onClick={()=>onStart(pending.lesson,pending.round)}><Play size={20} fill="currentColor"/>{t('Continue Light')}<ArrowRight size={19}/></button></>:<h2><LessonText text={chapter.title} language={language}/></h2>}
    {nextReward&&<div className="town-next-reward"><TownRewardArt item={nextReward}/><div><span><Gift size={16}/>{t('Next decoration')}</span><strong>{townRewardLabel(nextReward)}</strong></div></div>}
-   <TownCollection items={collection} placements={chapterPlacements} onPlace={placeReward} busy={placing} failed={placementError===chapter.id}/>
+   <TownCollection items={collection} placements={coursePlacements} onPlace={placeReward} busy={placing} failed={placementError===chapter.id}/>
   </div>
  </section>}
  {levelsControl}

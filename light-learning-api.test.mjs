@@ -52,8 +52,10 @@ test('guided records resume, isolate accounts, survive new sessions and never gr
  assert.equal((await place(9)).status,200);
  assert.equal((await place(0)).status,200);
  assert.equal((await place(10)).status,403);
+ const nextChapter=lightRoute('ja').find(row=>row.chapter.id!==chapter).chapter.id;
+ assert.equal((await req(townCookie,placementPath,'PUT',{chapter:nextChapter,rewardIndex:0})).status,200,'earned decorations can be placed from the next chapter');
  const placed=await req(townCookie,'/api/learning/light/progress');
- assert.deepEqual(placed.data.placements,[{chapter,slot:0,rewardIndex:0}]);
+ assert.deepEqual(placed.data.placements,[{chapter:'language:ja',slot:0,rewardIndex:0}]);
  assert.deepEqual((await req(other,'/api/learning/light/progress')).data.placements,[]);
  assert.equal((await req(other,placementPath,'PUT',{chapter,rewardIndex:0})).status,403);
  const checkpoint=lessonList.find(l=>l.checkpoint);assert.equal((await req(learner,'/api/learning/light/'+checkpoint.id,'PUT',{id:crypto.randomUUID(),revision:0,state:{version:lightVersion,round:0,steps:[],choice:null,hint:false,checked:false}})).status,400);

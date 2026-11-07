@@ -28,8 +28,8 @@ export function townRewardAt(index){
 
 // The progress endpoint supplies only the first clear for each round. Older
 // guest records without a timestamp retain their position in the saved list.
-export function townCollection(chapterRows,completed){
- const limits=new Map(chapterRows.map(row=>[row.lesson.id,row.rounds]));
+export function townCollection(routeRows,completed){
+ const limits=new Map(routeRows.map(row=>[row.lesson.id,row.rounds]));
  const unique=new Map();
  for(const row of completed){
   if(!Number.isInteger(row.round)||row.round<0||row.round>=limits.get(row.lesson)||!limits.has(row.lesson))continue;
@@ -40,6 +40,23 @@ export function townCollection(chapterRows,completed){
   const first=Date.parse(a.completedAt)||0,second=Date.parse(b.completedAt)||0;
   return first-second||(first?String(a.id).localeCompare(String(b.id)):0);
  }).map((row,index)=>({...townRewardAt(index),clearId:row.id}));
+}
+
+export const townCourseKey=language=>'language:'+language;
+
+export function townCoursePlacements(language,route,placements){
+ const chapters=[...new Set(route.map(row=>row.chapter.id)),townCourseKey(language)];
+ const byChapter=new Map();
+ for(const placement of placements){
+  const rows=byChapter.get(placement.chapter)||[];
+  rows.push(placement);
+  byChapter.set(placement.chapter,rows);
+ }
+ // For old chapter-specific choices, use the furthest chapter per slot.
+ // An explicit course-wide choice always takes precedence.
+ const placed=new Map();
+ for(const chapter of chapters)for(const placement of byChapter.get(chapter)||[])placed.set(placement.slot,placement);
+ return [...placed.values()];
 }
 
 export function townPlacedRewards(collection,placements=[]){

@@ -11,7 +11,7 @@ import {useStudyActivity} from './LearningActivity.jsx';
 import {PageScene} from './LessonMedia.jsx';
 import SentenceAudio,{stopSentenceAudio} from './SentenceAudio.jsx';
 import {TownCompanion,TownScene,TownGem,TownRibbon,TownSegments,TownRewardArt,townRewardLabel,useLightCompanion} from './LightTown.jsx';
-import {lightMaterials,lightRoundEvidence,townCollection} from './light-town.mjs';
+import {lightMaterials,lightRoundEvidence,townCollection,townCourseKey,townCoursePlacements} from './light-town.mjs';
 import ConversationVideo from './ConversationVideo.jsx';
 import QuestionPrompt from './QuestionPrompt.jsx';
 import {resetLessonViewport} from './lesson-scroll.mjs';
@@ -31,10 +31,10 @@ export async function lightProgress(user){
 export function setTownPlacement(placements,placement){
  return [...placements.filter(p=>p.chapter!==placement.chapter||p.slot!==placement.slot),placement];
 }
-export async function saveTownPlacement(user,chapter,item){
+export async function saveTownPlacement(user,chapter,language,item){
  if(user)return (await lightApi('/town-placement',{method:'PUT',body:JSON.stringify({chapter,rewardIndex:item.index})})).placement;
  const {placements}=await lightTownProgress(null);
- const placement={chapter,slot:item.slot,rewardIndex:item.index};
+ const placement={chapter:townCourseKey(language),slot:item.slot,rewardIndex:item.index};
  localStorage.setItem(guestPlacementsKey,JSON.stringify(setTownPlacement(placements,placement)));
  return placement;
 }
@@ -55,10 +55,10 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   let live=true;
   lightTownProgress(user).then(({completed:rows,placements})=>{
    if(!live)return;
-   const chapterRows=lightRoute(language,lesson.level).filter(row=>row.chapter.id===lesson.chapter);
-   const collection=townCollection(chapterRows,rows);
+   const route=lightRoute(language);
+   const collection=townCollection(route,rows);
    const award=collection.find(item=>item.clearId===record.id);
-   setReward({collection,placements:placements.filter(p=>p.chapter===lesson.chapter),award,materials:rows.find(r=>r.id===record.id)?.materials??0});
+   setReward({collection,placements:townCoursePlacements(language,route,placements),award,materials:rows.find(r=>r.id===record.id)?.materials??0});
   }).catch(()=>{if(live)setReward({failed:true})});
   return()=>{live=false};
  },[user?.id,lesson.id,language,record?.id,record?.completedAt,phase,rewardRetry]);

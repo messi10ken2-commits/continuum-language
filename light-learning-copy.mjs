@@ -1,5 +1,6 @@
 // Source | Japanese | Spanish | Portuguese | Chinese | French | Korean | Indonesian | Russian | Arabic
 const rows=`
+Chapter progress|チャプターの進み具合|Progreso del capítulo|Progresso do capítulo|章节进度|Progression du chapitre|챕터 진행 상황|Kemajuan bab|Прогресс главы|تقدّم الفصل
 Complete|完了|Completado|Concluído|已完成|Terminé|완료|Selesai|Завершено|مكتمل
 bread|パン|pan|pão|面包|pain|빵|roti|хлеб|خبز
 milk|牛乳|leche|leite|牛奶|lait|우유|susu|молоко|حليب
