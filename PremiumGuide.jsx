@@ -18,7 +18,8 @@ export default function PremiumGuide({user,onAccount,compact=false,premium:initi
   [ClipboardCheck,'Understand your next step','Get detailed skill feedback, corrections and personalised practice suggestions.'],
   [Video,'Exclusive courses','Explore regional varieties, idioms and academic language.'],
   [PawPrint,'More companions','Choose a capybara, guinea pig, quokka or panda as your learning companion.'],
-  [Ticket,'Meet a teacher','One introductory class ticket after your first successful paid subscription.']
+  [Ticket,'Meet a teacher','One introductory class ticket after your first successful paid subscription.'],
+  [ShieldCheck,'Learn without interruptions','No Continuum ads. YouTube may still show its own ads.']
  ];
  return <section className={'premium-guide panel '+(compact?'compact':'')}>
   <div className="premium-guide-hero">
@@ -32,13 +33,6 @@ export default function PremiumGuide({user,onAccount,compact=false,premium:initi
   </div>
   <div className="premium-guide-benefits">
    {benefits.map(([Icon,title,copy])=><article key={title}><Icon size={23} aria-hidden="true"/><h3>{t(title)}</h3><p>{Icon===Video&&courseCount>0&&<>{tf('{0} lessons in your learning language.',[courseCount])} </>}{t(copy)}</p></article>)}
-   <article className="premium-guide-ad-free">
-    <ShieldCheck size={23} aria-hidden="true"/>
-    <div>
-     <h3>{t('Learn without interruptions')}</h3>
-     <p>{t('No Continuum ads. YouTube may still show its own ads.')}</p>
-    </div>
-   </article>
   </div>
   <p className="premium-guide-note"><strong>{t('Free')}</strong> · {t('Standard and Light lessons, Word Town, vocabulary review and one AI conversation a day for up to seven minutes.')}</p>
   <small className="premium-guide-ticket-note">{t('The introductory ticket is granted once, not on renewal. Participating teachers and duration limits apply. Tester invitations include a ticket only when specified.')}</small>
