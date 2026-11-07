@@ -1,9 +1,17 @@
 // Source | Japanese | Spanish | Portuguese | Chinese | French | Korean | Indonesian | Russian | Arabic
 const rows=`
+Pass a lesson to build a new place.|レッスンに合格すると、街に建物が一軒増えます。|Aprueba una lección para construir un nuevo lugar.|Passe na lição para construir um novo local.|通过一课，即可建造一栋新建筑。|Réussissez une leçon pour construire un nouveau bâtiment.|레슨을 통과하면 건물이 하나 생겨요.|Lulus satu pelajaran untuk membangun tempat baru.|Пройдите урок, чтобы построить новое здание.|اجتز درسًا لبناء مكان جديد.
+{0} lessons complete|{0}レッスン完了|{0} lecciones completadas|{0} lições concluídas|已完成 {0} 课|{0} leçons terminées|레슨 {0}개 완료|{0} pelajaran selesai|Завершено уроков: {0}|اكتمل {0} من الدروس
+Keep exploring or replay a favourite lesson.|次へ進むか、好きなレッスンをもう一度。|Sigue explorando o repite tu lección favorita.|Continue explorando ou refaça sua lição favorita.|继续探索，或重练喜欢的一课。|Continuez à explorer ou refaites votre leçon préférée.|계속 탐험하거나 좋아하는 레슨을 다시 해 보세요.|Lanjutkan menjelajah atau ulangi pelajaran favorit.|Продолжайте изучение или повторите любимый урок.|واصل الاستكشاف أو أعد درسك المفضل.
+{0} questions|全{0}問|{0} preguntas|{0} perguntas|共 {0} 题|{0} questions au total|문제 {0}개|{0} soal|Вопросов: {0}|{0} أسئلة
+Get at least 80% right on the first try to pass.|初回の回答で80%以上正解すると合格です。|Acierta al menos el 80 % en el primer intento para aprobar.|Acerte pelo menos 80% na primeira tentativa para passar.|首次作答至少答对 80% 即可通过。|Répondez correctement à au moins 80 % des questions du premier coup pour réussir.|첫 답변에서 80% 이상 맞히면 통과해요.|Jawab minimal 80% dengan benar pada percobaan pertama untuk lulus.|Ответьте правильно с первой попытки как минимум на 80 % вопросов.|أجب عن 80٪ على الأقل من الأسئلة بشكل صحيح من المحاولة الأولى للنجاح.
+First try: {0}/{1}|初回正解 {0}/{1}|Aciertos al primer intento: {0}/{1}|Acertos de primeira: {0}/{1}|首次答对 {0}/{1}|Réussites du premier coup : {0}/{1}|첫 시도 정답 {0}/{1}|Benar pada percobaan pertama: {0}/{1}|С первой попытки: {0}/{1}|الإجابات الصحيحة من أول محاولة: {0}/{1}
+Keep practising|もう一度チャレンジ|Sigue practicando|Continue praticando|继续练习|Continuez à vous entraîner|계속 연습해 보세요|Terus berlatih|Продолжайте практиковаться|واصل التدرّب
+Lesson passed!|レッスン合格！|¡Lección aprobada!|Você passou na lição!|本课通过！|Leçon réussie !|레슨 통과!|Pelajaran lulus!|Урок пройден!|لقد اجتزت الدرس!
+Next Light lesson|次のライトレッスンへ|Siguiente lección ligera|Próxima lição leve|下一节轻松课程|Leçon légère suivante|다음 라이트 레슨|Pelajaran ringan berikutnya|Следующий лёгкий урок|الدرس الخفيف التالي
 Buildings {0}/{1}|建物 {0}/{1}|Edificios {0}/{1}|Edifícios {0}/{1}|建筑 {0}/{1}|Bâtiments {0}/{1}|건물 {0}/{1}|Bangunan {0}/{1}|Здания {0}/{1}|المباني {0}/{1}
 Town district|街の地区|Barrio de la ciudad|Bairro da cidade|小镇街区|Quartier de la ville|마을 구역|Kawasan kota|Район города|حي البلدة
 District {0}|第{0}地区|Barrio {0}|Bairro {0}|第 {0} 街区|Quartier {0}|{0}구역|Kawasan {0}|Район {0}|الحي {0}
-Finish all rounds in a lesson to build a new place.|レッスンの全ラウンドをクリアすると、街に建物が一軒増えます。|Completa todas las rondas de una lección para construir un nuevo lugar.|Conclua todas as rodadas de uma lição para construir um novo local.|完成一课的所有轮次，即可建造一栋新建筑。|Terminez toutes les manches d’une leçon pour construire un nouveau bâtiment.|레슨의 모든 라운드를 완료하면 건물이 하나 생겨요.|Selesaikan semua ronde dalam satu pelajaran untuk membangun tempat baru.|Завершите все раунды урока, чтобы построить новое здание.|أكمل جميع جولات الدرس لبناء مكان جديد.
 A new building opened in your town!|街に新しい建物ができました！|¡Se ha inaugurado un nuevo edificio en tu ciudad!|Um novo edifício foi inaugurado na sua cidade!|小镇有了一栋新建筑！|Un nouveau bâtiment a ouvert dans votre ville !|마을에 새 건물이 생겼어요!|Bangunan baru telah dibuka di kotamu!|В вашем городе открылось новое здание!|افتُتح مبنى جديد في بلدتك!
 Rose planter|バラの鉢植え|Macetero de rosas|Vaso de rosas|玫瑰花盆|Jardinière de roses|장미 화분|Pot bunga mawar|Кашпо с розами|حوض ورود
 Ornamental tree|庭木|Árbol ornamental|Árvore ornamental|观赏树|Arbre ornemental|관상수|Pohon hias|Декоративное дерево|شجرة زينة
@@ -47,13 +55,8 @@ Checkpoints and assessments use Standard mode.|確認テストとレベル診断
 rows.push(...`
 Two ways to learn. Choose your own pace.|2つの学び方。自分のペースで。|Dos formas de aprender. A tu ritmo.|Duas formas de aprender. No seu ritmo.|两种学习方式，按自己的节奏来。|Deux façons d’apprendre, à votre rythme.|두 가지 학습 방식, 나만의 속도로.|Dua cara belajar. Sesuai ritme Anda.|Два способа учиться. В своём темпе.|طريقتان للتعلم، حسب وتيرتك.
 Back to Light path|ライトのルートへ戻る|Volver a la ruta Ligera|Voltar à trilha Leve|返回轻松路线|Retour au parcours Léger|라이트 경로로 돌아가기|Kembali ke jalur Ringan|К лёгкому маршруту|العودة إلى المسار الخفيف
-Round {0} of {1}|ラウンド {0}/{1}|Ronda {0} de {1}|Rodada {0} de {1}|第 {0}/{1} 轮|Manche {0} sur {1}|라운드 {0}/{1}|Putaran {0} dari {1}|Раунд {0} из {1}|الجولة {0} من {1}
-Finish rounds, earn XP and complete your Light path.|ラウンドをクリアしてXPを獲得し、ライトのルートを進めましょう。|Completa rondas, gana XP y termina tu ruta Ligera.|Conclua rodadas, ganhe XP e complete sua trilha Leve.|完成轮次，赚取经验，走完轻松路线。|Terminez des manches, gagnez des XP et achevez votre parcours Léger.|라운드를 완료하고 XP를 모아 라이트 경로를 완주하세요.|Selesaikan putaran, raih XP, dan tuntaskan jalur Ringan.|Завершайте раунды, получайте XP и пройдите лёгкий маршрут.|أكمل الجولات واكسب XP وأنهِ مسارك الخفيف.
 Let’s go|さあ、始めよう|Vamos|Vamos lá|开始吧|C’est parti|시작해요|Ayo mulai|Начнём|لنبدأ
-Round complete!|ラウンドクリア！|¡Ronda completada!|Rodada concluída!|本轮完成！|Manche terminée !|라운드 완료!|Putaran selesai!|Раунд завершён!|اكتملت الجولة!
 Light progress saved|ライトの進み具合を保存しました|Progreso Ligero guardado|Progresso Leve salvo|轻松进度已保存|Progression Légère enregistrée|라이트 진행 상황 저장됨|Progres Ringan tersimpan|Лёгкий прогресс сохранён|تم حفظ التقدم الخفيف
-Every round counts on your Light path.|1ラウンドずつ、ライトのルートを進めます。|Cada ronda cuenta en tu ruta Ligera.|Cada rodada conta na sua trilha Leve.|每一轮都推进你的轻松路线。|Chaque manche fait avancer votre parcours Léger.|매 라운드가 라이트 경로의 한 걸음이에요.|Setiap putaran memajukan jalur Ringan Anda.|Каждый раунд продвигает вас по лёгкому маршруту.|كل جولة تُقدّمك في المسار الخفيف.
-Next Light round|次のライトラウンドへ|Siguiente ronda Ligera|Próxima rodada Leve|下一轮轻松练习|Manche Légère suivante|다음 라이트 라운드|Putaran Ringan berikutnya|Следующий лёгкий раунд|الجولة الخفيفة التالية
 Watch, then choose|見て、選んでみよう|Mira y elige|Assista e escolha|观看后选择|Regardez, puis choisissez|보고 골라 보세요|Tonton, lalu pilih|Посмотрите и выберите|شاهد، ثم اختر
 Meet this phrase|このフレーズに出会おう|Conoce esta frase|Conheça esta frase|认识这个短语|Découvrez cette phrase|이 표현을 만나 보세요|Kenali frasa ini|Познакомьтесь с фразой|تعرّف على هذه العبارة
 Find the model|お手本を見つけよう|Encuentra el modelo|Encontre o modelo|找出范例|Retrouvez le modèle|예문을 찾아보세요|Temukan contohnya|Найдите образец|ابحث عن المثال
@@ -68,10 +71,8 @@ Use a hint and give it another go.|ヒントを見て、もう一度やってみ
 Keep going|次へ進もう|Sigue así|Continue assim|继续前进|Continuez|계속해요|Lanjutkan|Продолжайте|تابع التقدم
 Your Light adventure|ライトの冒険|Tu aventura Ligera|Sua aventura Leve|你的轻松冒险|Votre aventure Légère|나의 라이트 모험|Petualangan Ringan Anda|Ваше лёгкое приключение|مغامرتك الخفيفة
 A little play. Real progress.|遊ぶように、少しずつ前へ。|Un poco de juego. Progreso real.|Um pouco de jogo. Progresso real.|轻松玩，真进步。|Un peu de jeu. De vrais progrès.|가볍게 즐기며, 꾸준히 성장해요.|Sedikit bermain. Kemajuan nyata.|Немного игры. Настоящий прогресс.|قليل من اللعب، تقدّم حقيقي.
-{0} rounds complete|{0}ラウンドクリア|{0} rondas completadas|{0} rodadas concluídas|已完成 {0} 轮|{0} manches terminées|{0}개 라운드 완료|{0} putaran selesai|Завершено раундов: {0}|اكتملت {0} جولات
 Light progress|ライトの進み具合|Progreso Ligero|Progresso Leve|轻松进度|Progression Légère|라이트 진행 상황|Progres Ringan|Лёгкий прогресс|التقدم الخفيف
 Light level complete!|ライトのレベルクリア！|¡Nivel Ligero completado!|Nível Leve concluído!|轻松等级完成！|Niveau Léger terminé !|라이트 레벨 완료!|Level Ringan selesai!|Лёгкий уровень пройден!|اكتمل المستوى الخفيف!
-Keep exploring or replay a favourite round.|次の冒険へ進むか、好きなラウンドをもう一度。|Sigue explorando o repite tu ronda favorita.|Continue explorando ou repita uma rodada favorita.|继续探索，或重玩喜欢的一轮。|Continuez à explorer ou rejouez une manche préférée.|계속 탐험하거나 좋아하는 라운드를 다시 해보세요.|Lanjutkan menjelajah atau ulangi putaran favorit.|Продолжайте исследовать или повторите любимый раунд.|واصل الاستكشاف أو أعد جولتك المفضلة.
 Continue Light|ライトを続ける|Continuar Ligero|Continuar Leve|继续轻松学习|Continuer en Léger|라이트 계속하기|Lanjutkan Ringan|Продолжить лёгкий режим|تابع الوضع الخفيف
 Light chapter complete|ライトのチャプタークリア|Capítulo Ligero completado|Capítulo Leve concluído|轻松章节完成|Chapitre Léger terminé|라이트 챕터 완료|Bab Ringan selesai|Лёгкая глава завершена|اكتمل الفصل الخفيف
 Open Light: {0}|ライトを開く：{0}|Abrir Ligero: {0}|Abrir Leve: {0}|打开轻松学习：{0}|Ouvrir Léger : {0}|라이트 열기: {0}|Buka Ringan: {0}|Открыть лёгкий: {0}|افتح الخفيف: {0}

@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {lessonList} from './course.mjs';import {legacyLightActivities,v2LightActivities,priorLightVersion,lightActivities,lightModels,lightRoundCount,lightAnswer,lightCorrect,validLightState,lightVersion,lightVersionFor} from './light-learning-model.mjs';import {lightLearningCopy} from './light-learning-copy.mjs';import {translationSource} from './localization-corpus.mjs';
+import {lessonList} from './course.mjs';import {legacyLightActivities,v2LightActivities,priorLightVersion,lightActivities,lightModels,lightRoundCount,lightAnswer,lightCorrect,validLightState,lightVersion,lightVersionFor,lightLessonPassed,lightLessonVersion} from './light-learning-model.mjs';import {lightLearningCopy} from './light-learning-copy.mjs';import {translationSource} from './localization-corpus.mjs';
 test('every regular lesson across ten languages has a bounded, answerable authored guided session; tests remain Standard',()=>{
  const languages=new Set();for(const lesson of lessonList){const before=JSON.stringify(lesson),items=legacyLightActivities(lesson);if(lesson.checkpoint||lesson.summaryTest){assert.equal(items.length,0);continue}languages.add(lesson.language||'es');assert.ok(items.length>=2&&items.length<=4,lesson.id);const state={version:lightVersion,steps:[],choice:null,hint:false,checked:false};
   for(const a of items){const answer=a.type==='observe'?true:['meaning','video'].includes(a.type)?a.meaning:a.model;assert.ok(lightCorrect(a,answer),lesson.id);if(a.type==='build'){const indexes=a.tokens.map((_,i)=>i).reverse();assert.ok(lightCorrect(a,lightAnswer(a,indexes)),lesson.id)}if(a.meaning&&!a.meaningNative)assert.ok(translationSource(a.meaning,lesson.language||'es'),lesson.id+' must translate its meanings');state.steps.push({answer,hint:true});}assert.ok(validLightState(items,state),lesson.id);assert.equal(JSON.stringify(lesson),before,'must never modify the Standard lesson');}
@@ -9,11 +9,11 @@ test('Light UI copy has all nine non-English display translations and preserves 
 
 test('Light phrase reconstruction uses one intact authored sentence rather than a multi-sentence paragraph',()=>{const lesson=lessonList.find(l=>l.example==='Hola, me llamo Ana. Soy de México y vivo en Madrid.');assert.ok(lesson);const a=legacyLightActivities(lesson).find(a=>a.type==='build');assert.equal(a.model,'Hola, me llamo Ana.');assert.equal(a.tokens.length,4);assert.equal(lesson.example,'Hola, me llamo Ana. Soy de México y vivo en Madrid.');});
 
-import {lightRoute,lightRouteStats,nextLightRound} from './light-route.mjs';
+import {lightRoute,lightRouteStats,nextLightLesson} from './light-route.mjs';
 import {learningLanguageIds} from './languages.mjs';
 test('standalone Light covers every regular lesson and model in short complete rounds with independent XP',()=>{
- let count=0;for(const lesson of lessonList){if(!lightRoundCount(lesson))continue;const models=new Set(),rounds=lightRoundCount(lesson);for(let round=0;round<rounds;round++){const items=lightActivities(lesson,round);assert.ok(items.length>=5&&items.length<=6,lesson.id);const state={version:lightVersionFor(lesson),round,steps:[],choice:null,hint:false,checked:false};for(const a of items){assert.notEqual(a.type,'observe','model previews are not questions');if(a.source==='model')models.add(a.model);if(a.type==='build')assert.ok(a.tokens.length<=10);else {assert.ok(a.options.length>=2);assert.equal(new Set(a.options).size,a.options.length,lesson.id+' duplicate choices');}const answer=a.type==='observe'?true:['meaning','video','recall','translate','listen','context','confirm','video-confirm'].includes(a.type)?a.meaning:a.model;assert.ok(lightCorrect(a,answer));state.steps.push({answer,hint:false});}assert.ok(validLightState(items,state));const next=nextLightRound(lesson,round);assert.ok(!next||lightActivities(lessonList.find(l=>l.id===next.lesson),next.round).length);count++;}}
- for(const language of learningLanguageIds){const route=lightRoute(language);assert.equal(route.length,lessonList.filter(l=>(l.language||'es')===language&&lightRoundCount(l)).length);const completed=route.flatMap(row=>Array.from({length:row.rounds},(_,round)=>({lesson:row.lesson.id,round})));const stats=lightRouteStats(route,[...completed,...completed]);assert.equal(stats.done,stats.total);assert.ok(stats.xp>0);assert.equal(stats.xp,lightRouteStats(route,completed).xp,'replaying cannot farm XP');}assert.ok(count>2000);
+ let count=0;for(const lesson of lessonList){if(!lightRoundCount(lesson))continue;const models=new Set(),rounds=lightRoundCount(lesson);for(let round=0;round<rounds;round++){const items=lightActivities(lesson,round);assert.ok(items.length>=5&&items.length<=6,lesson.id);const state={version:lightVersionFor(lesson),round,steps:[],choice:null,hint:false,checked:false};for(const a of items){assert.notEqual(a.type,'observe','model previews are not questions');if(a.source==='model')models.add(a.model);if(a.type==='build')assert.ok(a.tokens.length<=10);else {assert.ok(a.options.length>=2);assert.equal(new Set(a.options).size,a.options.length,lesson.id+' duplicate choices');}const answer=a.type==='observe'?true:['meaning','video','recall','translate','listen','context','confirm','video-confirm'].includes(a.type)?a.meaning:a.model;assert.ok(lightCorrect(a,answer));state.steps.push({answer,hint:false});}assert.ok(validLightState(items,state));count++;}}
+ for(const language of learningLanguageIds){const route=lightRoute(language);assert.equal(route.length,lessonList.filter(l=>(l.language||'es')===language&&lightRoundCount(l)).length);const completed=route.flatMap(row=>Array.from({length:row.legacyRounds},(_,round)=>({lesson:row.lesson.id,round})));const stats=lightRouteStats(route,[...completed,...completed]);assert.equal(stats.done,stats.total);assert.ok(stats.xp>0);assert.equal(stats.xp,lightRouteStats(route,completed).xp,'replaying cannot farm XP');}assert.ok(count>2000);
 });
 
 test('Light pairs full authored phrases with their sentence meanings rather than a cloze fragment',()=>{for(const language of ['zh','ko','fr','de','ar','it']){const lesson=lessonList.find(l=>l.language===language&&l.vocabulary?.[0]?.phrase);const a=lightActivities(lesson).find(a=>a.source==='model'&&a.meaning===lesson.vocabulary[0].meaning);assert.equal(a.model,lesson.vocabulary[0].phrase);assert.equal(a.meaning,lesson.vocabulary[0].meaning);}});
@@ -43,5 +43,25 @@ test('Spanish comprehension labels stay in written questions and out of Light au
    if(activity.source==='model')assert.notEqual(activity.model,label,id);
   }
   assert.ok(foundWritten,id);
+ }
+});
+
+test('one Light lesson preserves the opening question set and needs 80% first-try accuracy',()=>{
+ for(const language of learningLanguageIds){
+  const route=lightRoute(language);
+  for(const [i,{lesson}] of route.entries()){
+   const items=lightActivities(lesson,0,lightLessonVersion);
+   assert.deepEqual(items,lightActivities(lesson));
+   assert.ok(items.length===5||items.length===6);
+   assert.deepEqual(lightActivities(lesson,1,lightLessonVersion),[]);
+   assert.equal(nextLightLesson(lesson),route[i+1]?.lesson.id);
+  }
+ }
+ for(const total of [5,6]){
+  const steps=Array.from({length:total},(_,index)=>({missed:index===0}));
+  assert.equal(lightLessonPassed(steps,total),true);
+  assert.equal(lightLessonPassed(steps.slice(1),total),false);
+  steps[1]={missed:true};
+  assert.equal(lightLessonPassed(steps,total),false);
  }
 });

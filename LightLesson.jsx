@@ -3,8 +3,8 @@ import React,{forwardRef,useEffect,useImperativeHandle,useLayoutEffect,useRef,us
 import {ArrowRight,CheckCircle2,Lightbulb,Flame,Star,BookOpenCheck,Headphones,X} from 'lucide-react';
 import {t,tf,interfaceLanguage} from './interface-runtime.mjs';
 import LessonText from './LessonText.jsx';
-import {lightActivities,lightAnswer,lightCorrect,lightVersionFor,validLightState,lightRoundCount} from './light-learning-model.mjs';
-import {nextLightRound,lightRoute} from './light-route.mjs';
+import {lightActivities,lightAnswer,lightCorrect,lightLessonVersion,lightLessonPassed,validLightState} from './light-learning-model.mjs';
+import {nextLightLesson,lightRoute} from './light-route.mjs';
 import {getLesson} from './course.mjs';
 import {languageInfo} from './languages.mjs';
 import {useStudyActivity} from './LearningActivity.jsx';
@@ -16,7 +16,7 @@ import {townArt} from './light-town-art.mjs';
 import ConversationVideo from './ConversationVideo.jsx';
 import QuestionPrompt from './QuestionPrompt.jsx';
 import {resetLessonViewport} from './lesson-scroll.mjs';
-export const lightStorageKey=(user,lesson,round=0)=>'continuumLight'+lightVersionFor(lesson).replace('light-v','V')+':'+(user?.id||'guest')+':'+lesson.id+':'+round;
+const lightStorageKey=(user,lesson)=>'continuumLightV5:'+(user?.id||'guest')+':'+lesson.id;
 export async function lightApi(path,options){const r=await fetch('/api/learning/light'+path,{credentials:'same-origin',headers:{'Content-Type':'application/json'},...options}),d=await r.json();if(!r.ok)throw Error();return d;}
 const guestPlacementsKey='continuumLightTownPlacements:guest';
 export async function lightTownProgress(user){
@@ -40,20 +40,20 @@ export async function saveTownPlacement(user,chapter,language,item){
  return placement;
 }
 export function LessonModeControl({mode,onChange,compact=false,busy=false}){return compact?<label className="lesson-mode-compact"><select aria-label={t('Learning mode')} disabled={busy} value={mode} onChange={e=>onChange(e.target.value)}><option value="light">{t('Light')}</option><option value="standard">{t('Standard')}</option></select></label>:<fieldset className="lesson-mode-control" disabled={busy}><legend>{t('Learning mode')}</legend><div>{['light','standard'].map(value=><button type="button" key={value} aria-pressed={mode===value} onClick={()=>onChange(value)}>{t(value==='light'?'Light':'Standard')}</button>)}</div><small>{t('Two ways to learn. Choose your own pace.')}</small></fieldset>}
-export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onStandard,modeControl,round=0,onNext,autoStart=false},ref){
- const activities=lightActivities(lesson,round),language=lesson.language||'es',locale=languageInfo(language).locale;
- const lightVersion=lightVersionFor(lesson);
- const blank=()=>({version:lightVersion,round,steps:[],choice:null,hint:false,checked:false});
+export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onStandard,modeControl,onNext,autoStart=false},ref){
+ const activities=lightActivities(lesson),language=lesson.language||'es',locale=languageInfo(language).locale;
+ const blank=()=>({version:lightLessonVersion,round:0,steps:[],choice:null,hint:false,checked:false});
  const [record,setRecord]=useState(null),[state,setState]=useState(blank),[ready,setReady]=useState(false),[phase,setPhase]=useState('intro'),[busy,setBusy]=useState(false),[error,setError]=useState(''),[retry,setRetry]=useState(0);
  const kind=useLightCompanion(user,language);
  const [speaking,setSpeaking]=useState(false),[reward,setReward]=useState(null);
  const [rewardRetry,setRewardRetry]=useState(0);
  const [finishedHere,setFinishedHere]=useState(false);
  const evidence=lightRoundEvidence(state.steps);
+ const passed=lightLessonPassed(state.steps,activities.length);
  useEffect(()=>{if(suspended)stopSentenceAudio()},[suspended]);
  useEffect(()=>{
   setReward(null);
-  if(phase!=='result'||!record?.completedAt)return;
+  if(phase!=='result'||!record?.completedAt||!passed)return;
   let live=true;
   lightTownProgress(user).then(({completed:rows,placements})=>{
    if(!live)return;
@@ -70,24 +70,65 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
     materials:rows.find(r=>r.id===record.id)?.materials??0});
   }).catch(()=>{if(live)setReward({failed:true})});
   return()=>{live=false};
- },[user?.id,lesson.id,language,record?.id,record?.completedAt,phase,rewardRetry,finishedHere]);
+ },[user?.id,lesson.id,language,record?.id,record?.completedAt,phase,passed,rewardRetry,finishedHere]);
  const root=useRef(null),owner=user?.id||'guest',lock=useRef(false),[refreshing,setRefreshing]=useState(false);
- const endpoint='/'+lesson.id+'?round='+round+'&version='+lightVersion;
- useEffect(()=>{let live=true;setReady(false);setError('');const load=async()=>{try{let saved;if(user)saved=(await lightApi(endpoint)).record;else try{saved=JSON.parse(localStorage.getItem(lightStorageKey(user,lesson,round))||'null')}catch{}
-  if(!live)return;if(saved&&validLightState(activities,saved.state)&&saved.state.round===round){setRecord(saved);setState(saved.state);setPhase(saved.completedAt?'result':saved.state.steps.length||saved.state.choice!==null||autoStart?'exercise':'intro')}else{setRecord({id:crypto.randomUUID(),revision:0});setState(blank());setPhase(autoStart?'exercise':'intro')}setReady(true);
- }catch{if(live)setError('Could not load light practice. Try again.')}};load();return()=>{live=false;stopSentenceAudio()}},[lesson.id,owner,round,retry]);
+ const endpoint='/'+lesson.id+'?round=0&version='+lightLessonVersion;
+ useEffect(()=>{let live=true;setReady(false);setError('');const load=async()=>{try{let saved;if(user)saved=(await lightApi(endpoint)).record;else try{saved=JSON.parse(localStorage.getItem(lightStorageKey(user,lesson))||'null')}catch{}
+  if(!live)return;if(saved&&validLightState(activities,saved.state)&&saved.state.round===0){setRecord(saved);setState(saved.state);setPhase(saved.completedAt?'result':saved.state.steps.length||saved.state.choice!==null||autoStart?'exercise':'intro')}else{setRecord({id:crypto.randomUUID(),revision:0});setState(blank());setPhase(autoStart?'exercise':'intro')}setReady(true);
+ }catch{if(live)setError('Could not load light practice. Try again.')}};load();return()=>{live=false;stopSentenceAudio()}},[lesson.id,owner,retry]);
  useStudyActivity(!suspended&&ready&&phase==='exercise'&&user?.role==='learner'&&!busy);
  useLayoutEffect(()=>{
   if(suspended||!root.current)return;
   root.current.querySelector('.light-game-board')?.focus({preventScroll:true});
   resetLessonViewport(root.current);
  },[suspended,phase,ready,state.steps.length]);
- const persist=async(value=state)=>{if(!ready)return !error;if(lock.current)return false;if(record?.completedAt)return true;lock.current=true;setBusy(true);setError('');try{let saved;if(user){try{saved=(await lightApi('/'+lesson.id,{method:'PUT',body:JSON.stringify({id:record.id,revision:record.revision,state:value})})).record}catch{const recovered=(await lightApi(endpoint)).record;if(recovered?.id!==record.id||!sameLightDraft(recovered.state,value))throw Error();saved=recovered}}else{saved={...record,state:value,lesson:lesson.id,at:new Date().toISOString(),revision:record.revision+1,completedAt:value.steps.length===activities.length?new Date().toISOString():null};localStorage.setItem(lightStorageKey(user,lesson,round),JSON.stringify(saved));if(saved.completedAt){const rows=await lightProgress(null);localStorage.setItem('continuumLightProgress:guest',JSON.stringify([...rows.filter(r=>r.lesson!==lesson.id||r.round!==round),{...(rows.find(r=>r.lesson===lesson.id&&r.round===round)||{id:saved.id,completedAt:saved.completedAt,materials:lightMaterials(value.steps)}),lesson:lesson.id,round,xp:activities.length*10}]))}}setRecord(saved);setState(saved.state);return true}catch{setError('Could not save light practice. Try again.');return false}finally{lock.current=false;setBusy(false)}};
+ const persist=async(value=state)=>{
+  if(!ready)return !error;
+  if(lock.current)return false;
+  if(record?.completedAt)return true;
+  lock.current=true;
+  setBusy(true);
+  setError('');
+  try{
+   let saved;
+   if(user){
+    try{
+     saved=(await lightApi('/'+lesson.id,{method:'PUT',body:JSON.stringify({id:record.id,revision:record.revision,state:value})})).record;
+    }catch{
+     const recovered=(await lightApi(endpoint)).record;
+     if(recovered?.id!==record.id||!sameLightDraft(recovered.state,value))throw Error();
+     saved=recovered;
+    }
+   }else{
+    const at=new Date().toISOString();
+    saved={...record,state:value,lesson:lesson.id,at,revision:record.revision+1,completedAt:value.steps.length===activities.length?at:null};
+    if(lightLessonPassed(value.steps,activities.length)){
+     const rows=await lightProgress(null);
+     if(!rows.some(row=>row.lesson===lesson.id&&row.lessonPass)){
+      localStorage.setItem('continuumLightProgress:guest',JSON.stringify([...rows,{
+       id:saved.id,lesson:lesson.id,round:0,lessonPass:true,completedAt:at,
+       materials:lightMaterials(value.steps),xp:activities.length*10
+      }]));
+     }
+    }
+    localStorage.setItem(lightStorageKey(user,lesson),JSON.stringify(saved));
+   }
+   setRecord(saved);
+   setState(saved.state);
+   return true;
+  }catch{
+   setError('Could not save light practice. Try again.');
+   return false;
+  }finally{
+   lock.current=false;
+   setBusy(false);
+  }
+ };
  useImperativeHandle(ref,()=>({save:()=>persist(),busy}),[record,state,ready,busy,error]);
  const exit=async()=>{if(await persist()){stopSentenceAudio();onExit()}};
  const next=async()=>{const a=activities[state.steps.length],answer=a.type==='observe'?true:lightAnswer(a,state.choice);if(!lightCorrect(a,answer))return;const value={...blank(),steps:[...state.steps,{answer,hint:state.hint,missed:!!state.missed}]};if(await persist(value)){stopSentenceAudio();if(value.steps.length===activities.length){setFinishedHere(true);setPhase('result')}}};
  const restart=()=>{setRecord({id:crypto.randomUUID(),revision:0});setState(blank());setFinishedHere(false);setPhase('intro');setError('')};
- const a=activities[state.steps.length],good=a&&lightCorrect(a,lightAnswer(a,state.choice)),nextRound=nextLightRound(lesson,round);
+ const a=activities[state.steps.length],good=a&&lightCorrect(a,lightAnswer(a,state.choice)),nextLesson=passed?nextLightLesson(lesson):null;
  const choose=value=>{if(state.checked&&!good)setState(s=>({...s,choice:value,checked:false}));else setState(s=>({...s,choice:value}))};
  const combo=state.missed?0:evidence.combo+(state.checked&&good?1:0);
  const check=()=>{
@@ -105,25 +146,25 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
    <div className="town-round-progress"><TownSegments value={state.steps.length} total={activities.length} label={t('Learning progress')}/><b>{Math.min(state.steps.length+1,activities.length)}/{activities.length}</b></div>
    <LessonModeControl compact mode="light" onChange={onStandard} busy={busy}/>
   </div>
-  {phase==='intro'?<section className="light-launch"><div className="light-launch-art"><PageScene lesson={lesson} caption=""/><span><Star size={30} fill="currentColor"/></span></div><span className="eyebrow">{lesson.level} · {tf('Round {0} of {1}',[round+1,lightRoundCount(lesson)])}</span><h1>{title}</h1><p>{t('Small steps. Clear guidance.')}</p><div className="light-round-facts"><span><Flame/>{activities.length*10} XP</span><span><Lightbulb/>{t('Hints when you need them')}</span></div><p className="light-record-note">{t('Finish rounds, earn XP and complete your Light path.')}</p><button className="primary wide light-game-button" disabled={busy} onClick={()=>setPhase('exercise')}>{t('Let’s go')}<ArrowRight size={19}/></button>{modeControl}</section>:
+  {phase==='intro'?<section className="light-launch"><div className="light-launch-art"><PageScene lesson={lesson} caption=""/><span><Star size={30} fill="currentColor"/></span></div><span className="eyebrow">{lesson.level} · {tf('{0} questions',[activities.length])}</span><h1>{title}</h1><p>{t('Small steps. Clear guidance.')}</p><div className="light-round-facts"><span><Flame/>{activities.length*10} XP</span><span><Lightbulb/>{t('Hints when you need them')}</span></div><p className="light-record-note">{t('Get at least 80% right on the first try to pass.')}</p><button className="primary wide light-game-button" disabled={busy} onClick={()=>setPhase('exercise')}>{t('Let’s go')}<ArrowRight size={19}/></button>{modeControl}</section>:
   phase==='result'?<section className="light-celebration town-result">
-   <h1 className="town-title">{t(evidence.firstCorrect===activities.length?'Perfect clear!':'Round complete!')}</h1>
-   <TownRibbon><b>{activities.length}/{activities.length} · {tf('Best combo ×{0}',[evidence.best])}</b></TownRibbon>
+   <h1 className="town-title">{t(!passed?'Keep practising':evidence.firstCorrect===activities.length?'Perfect clear!':'Lesson passed!')}</h1>
+   <TownRibbon><b>{tf('First try: {0}/{1}',[evidence.firstCorrect,activities.length])} · {tf('Best combo ×{0}',[evidence.best])}</b></TownRibbon>
    {reward&&!reward.failed&&<TownScene language={language} kind={kind} collection={reward.collection} placements={reward.placements} built={reward.built} newPlot={reward.newPlot} highlight={finishedHere?reward.award?.index:undefined} celebrate={finishedHere&&!!reward.materials}/>}
    <div className="town-paper town-result-card">
     <h2>{title}</h2>
     {reward?.newPlot!==undefined&&<p className="town-building-note" role="status">{t('A new building opened in your town!')}</p>}
     {reward?.failed?<div role="status"><p>{t('Could not load light practice. Try again.')}</p><button className="text-button" onClick={()=>setRewardRetry(n=>n+1)}>{t('Try again')}</button></div>:
-     !reward&&<p role="status">{t('Loading your light practice…')}</p>}
+     passed&&!reward&&<p role="status">{t('Loading your light practice…')}</p>}
     <div className="town-result-loot">
      {reward?.award&&<div><TownRewardArt item={reward.award} language={language}/><strong>{townRewardLabel(reward.award,language)}</strong></div>}
      {!!reward?.materials&&<div><TownGem/><strong>{t('Materials')} +{reward.materials}</strong></div>}
     </div>
-    <div className="town-save-stamp"><BookOpenCheck size={24}/>{t('Light progress saved')} · {activities.length*10} XP</div>
-    <p>{t(user?'Your guided practice was saved.':'Saved on this device.')}</p>
+    <div className="town-save-stamp"><BookOpenCheck size={24}/>{t('Light progress saved')}{reward?.award&&' · '+activities.length*10+' XP'}</div>
+    <p>{t(passed?(user?'Your guided practice was saved.':'Saved on this device.'):'Get at least 80% right on the first try to pass.')}</p>
     {state.steps.some(step=>step.missed)&&<details className="town-review"><summary>{t('Review missed questions')}</summary>{activities.map((item,i)=>state.steps[i]?.missed&&<div key={item.id}><LightAnswerDetails activity={item} language={language}/>{spokenText(item)&&<SentenceAudio text={spokenText(item)} lang={item.audioLocale||item.locale||locale}/>}</div>)}</details>}
-    <button className="primary wide town-cta" onClick={onExit}>{t('Back to town')}<ArrowRight size={19}/></button>
-    <div className="town-result-links">{nextRound&&onNext&&<button className="text-button" onClick={()=>onNext(nextRound)}>{t('Next Light round')}</button>}<button className="text-button" onClick={restart}>{t('Practise again')}</button></div>
+    <button className="primary wide town-cta" onClick={!passed?restart:nextLesson&&onNext?()=>onNext(nextLesson):onExit}>{t(!passed?'Try again':nextLesson&&onNext?'Next Light lesson':'Back to town')}<ArrowRight size={19}/></button>
+    <div className="town-result-links">{(!passed||nextLesson&&onNext)&&<button className="text-button" onClick={onExit}>{t('Back to town')}</button>}{passed&&<button className="text-button" onClick={restart}>{t('Practise again')}</button>}</div>
    </div>
   </section>:
   <section className="light-game-board" tabIndex={-1} aria-label={t('Practice question')}>

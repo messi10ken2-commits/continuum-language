@@ -6,7 +6,8 @@ export const lightVersion='light-v3';
 export const priorLightVersion='light-v2';
 // The corrected lessons get their own draft version; older attempts still grade with their original activities.
 const correctedLightVersion='light-v4';
-export const lightVersions=[correctedLightVersion,lightVersion,priorLightVersion,'light-v1'];
+export const lightLessonVersion='light-v5';
+export const lightVersions=[lightLessonVersion,correctedLightVersion,lightVersion,priorLightVersion,'light-v1'];
 export const lightVersionFor=lesson=>lesson?.questions?.some(q=>unmarkedMeaningOptions(q,lesson))?correctedLightVersion:lightVersion;
 const historicalDisplayOptions=(q,lesson)=>!unmarkedMeaningOptions(q,lesson)&&displayLanguageOptions(q,lesson);
 export const legacyLightVersion='light-v1';
@@ -28,7 +29,7 @@ export function lightCorrect(activity,answer){return activity.type==='observe'?a
 
 export function lightChoiceValid(activity,value){return value===null||activity.type==='observe'&&value===true||['meaning','video','recall','translate','listen','context','video-confirm','confirm'].includes(activity.type)&&activity.options.includes(value)||activity.type==='build'&&Array.isArray(value)&&value.length<=activity.tokens.length&&value.every((n,i)=>Number.isInteger(n)&&n>=0&&n<activity.tokens.length&&value.indexOf(n)===i);}
 export function lightAnswer(activity,value){return activity.type==='build'?value?.map(i=>activity.tokens[i]).join(activity.joiner):value;}
-export function validLightState(activities,state){return !!state&&lightVersions.includes(state.version)&&Array.isArray(state.steps)&&state.steps.length<=activities.length&&state.steps.every((s,i)=>s&&typeof s.hint==='boolean'&&lightCorrect(activities[i],s.answer))&&typeof state.hint==='boolean'&&typeof state.checked==='boolean'&&(state.steps.length===activities.length?state.choice===null:lightChoiceValid(activities[state.steps.length],state.choice));}
+export function validLightState(activities,state){return !!state&&lightVersions.includes(state.version)&&Array.isArray(state.steps)&&state.steps.length<=activities.length&&state.steps.every((s,i)=>s&&typeof s.hint==='boolean'&&(state.version!==lightLessonVersion||typeof s.missed==='boolean')&&lightCorrect(activities[i],s.answer))&&typeof state.hint==='boolean'&&typeof state.checked==='boolean'&&(state.steps.length===activities.length?state.choice===null:lightChoiceValid(activities[state.steps.length],state.choice));}
 
 // Light is its own complete route. Every authored model is covered over short rounds.
 export function lightModels(lesson,{historical=false}={}){
@@ -63,7 +64,12 @@ export function lightAudioTargets(lessons){const found=new Map();const add=(text
  for(const lesson of lessons){if(lesson.checkpoint||lesson.summaryTest)continue;for(const p of lightModels(lesson))add(p.audio||p.model,p.locale,lesson.id);for(const q of lesson.questions||[])if(q.audio)add(q.audioSpeech||q.audio,q.audioLocale||languageInfo(lesson.language||'es').locale,lesson.id)}return [...found.values()];}
 
 // Six retrieval questions, without counting previews as answers. Keep old versions immutable.
+export function lightLessonPassed(steps,total){
+ return total>0&&steps.length===total&&steps.filter(step=>step.missed===false).length*5>=total*4;
+}
+
 export function lightActivities(lesson,round=0,version=lightVersionFor(lesson)){
+ if(version===lightLessonVersion)return round===0?lightActivities(lesson):[];
  if(version===legacyLightVersion)return legacyLightActivities(lesson);
  if(version===priorLightVersion)return v2LightActivities(lesson,round);
  if((version!==lightVersion&&version!==lightVersionFor(lesson))||!Number.isInteger(round)||round<0||round>=lightRoundCount(lesson))return [];

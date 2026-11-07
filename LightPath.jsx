@@ -3,7 +3,7 @@ import {Star,LockKeyhole,Check,ArrowRight,Flame,Trophy,Clock,Feather,Gift,Play} 
 import {t,tf} from './interface-runtime.mjs';
 import LessonText from './LessonText.jsx';
 import {levels} from './course.mjs';
-import {lightRoute,lightRouteStats,lightRoundKey} from './light-route.mjs';
+import {lightRoute,lightRouteStats} from './light-route.mjs';
 import {lightTownProgress,saveTownPlacement,setTownPlacement,LessonModeControl} from './LightLesson.jsx';
 import {TownScene,TownRewardArt,TownGem,TownRibbon,TownSegments,TownCollection,townRewardLabel,useLightCompanion} from './LightTown.jsx';
 import {materialsPerRound,townCollection,townConstruction,townCoursePlacements,townRewardAt} from './light-town.mjs';
@@ -17,9 +17,9 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
  const [districtSelection,setDistrictSelection]=useState(null);
  const languageRoute=useMemo(()=>lightRoute(language),[language]);
  const route=languageRoute.filter(row=>row.chapter.level===level),stats=lightRouteStats(route,completed),allStats=lightRouteStats(languageRoute,completed);
- const pending=route.flatMap(row=>Array.from({length:row.rounds},(_,round)=>({lesson:row.lesson.id,round}))).find(r=>!stats.keys.has(lightRoundKey(r.lesson,r.round)));
+ const pending=route.find(row=>!stats.keys.has(row.lesson.id));
  const chapters=[...new Set(route.map(r=>r.chapter))];let previous=true;
- const chapter=chapters.find(c=>c.id===selected)||route.find(r=>r.lesson.id===pending?.lesson)?.chapter||chapters[0];
+ const chapter=chapters.find(c=>c.id===selected)||pending?.chapter||chapters[0];
  const chapterRows=route.filter(r=>r.chapter.id===chapter?.id);
  const chapterStats=lightRouteStats(chapterRows,completed);
  const collection=townCollection(languageRoute,completed);
@@ -41,8 +41,8 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
    setPlacing(false);
   }
  };
- const nextReward=collection.length<allStats.total?townRewardAt(collection.length):null;
- const mission=chapterRows.find(r=>r.lesson.id===pending?.lesson);
+ const nextReward=allStats.done<allStats.total?townRewardAt(collection.length):null;
+ const mission=chapterRows.find(r=>r.lesson.id===pending?.lesson.id);
  const languageLessons=new Set(languageRoute.map(r=>r.lesson.id));
  const materials=completed.reduce((n,r)=>n+(languageLessons.has(r.lesson)?r.materials??materialsPerRound:0),0);
  const lots=townArt(language).stages.length-1;
@@ -51,10 +51,10 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
  const districtBuildings=construction.buildings.slice(district*lots,(district+1)*lots);
  const places=districtBuildings.map(({lesson})=>{
   const row=languageRoute.find(r=>r.lesson.id===lesson);
-  return {id:lesson,label:t(row.lesson.title),status:'done',onOpen:()=>onStart(lesson,0)};
+  return {id:lesson,label:t(row.lesson.title),status:'done',onOpen:()=>onStart(lesson)};
  });
  if(mission&&district===construction.lastDistrict&&places.length<lots)places.push({
-  id:mission.lesson.id,label:t(mission.lesson.title),status:'current',onOpen:()=>onStart(mission.lesson.id,pending.round)
+  id:mission.lesson.id,label:t(mission.lesson.title),status:'current',onOpen:()=>onStart(mission.lesson.id)
  });
  const levelsControl=<nav className="light-levels" aria-label={t('Level')}>{levels.map(l=><button key={l.id} aria-pressed={level===l.id} onClick={()=>setLevel(l.id)}>{l.id}</button>)}</nav>;
  return <div className="light-path light-town">
@@ -73,17 +73,17 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
   <TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements} built={districtBuildings.length}/>
   <div className="town-paper town-mission">
    {mission?<><h2><Feather aria-hidden="true"/><LessonText text={mission.lesson.title} language={language}/></h2>
-   <div className="town-mission-meta"><Clock size={16}/>{tf('{0} questions · about 2 min',[lightActivities(mission.lesson,pending.round).length])}</div>
+   <div className="town-mission-meta"><Clock size={16}/>{tf('{0} questions · about 2 min',[lightActivities(mission.lesson).length])}</div>
    <p><LessonText text={chapter.goal} language={language}/></p>
-   <p className="town-building-note">{t('Finish all rounds in a lesson to build a new place.')}</p>
-   <button className="primary wide town-cta" onClick={()=>onStart(pending.lesson,pending.round)}><Play size={20} fill="currentColor"/>{t('Continue Light')}<ArrowRight size={19}/></button></>:<h2><LessonText text={chapter.title} language={language}/></h2>}
+   <p className="town-building-note">{t('Pass a lesson to build a new place.')}</p>
+   <button className="primary wide town-cta" onClick={()=>onStart(pending.lesson.id)}><Play size={20} fill="currentColor"/>{t('Continue Light')}<ArrowRight size={19}/></button></>:<h2><LessonText text={chapter.title} language={language}/></h2>}
    {nextReward&&<div className="town-next-reward"><TownRewardArt item={nextReward} language={language}/><div><span><Gift size={16}/>{t('Next decoration')}</span><strong>{townRewardLabel(nextReward,language)}</strong></div></div>}
    <TownCollection language={language} items={collection} placements={coursePlacements} onPlace={placeReward} busy={placing} failed={placementError===chapter.id}/>
   </div>
  </section>}
  {levelsControl}
- <div className="light-path-score"><span><Flame size={21}/><b>{allStats.xp} XP</b></span><span><Star size={20}/>{tf('{0} rounds complete',[allStats.done])}</span></div>
- {stats.done===stats.total&&stats.total>0&&<div className="light-level-complete"><Trophy/><h2>{t('Light level complete!')}</h2><p>{t('Keep exploring or replay a favourite round.')}</p></div>}
- {chapters.map(chapter=>{const rows=route.filter(r=>r.chapter.id===chapter.id),chapterDone=rows.every(row=>Array.from({length:row.rounds},(_,i)=>stats.keys.has(lightRoundKey(row.lesson.id,i))).every(Boolean));return <section className="light-unit" key={chapter.id}><div className="light-unit-heading"><span>{chapterDone?<Trophy size={22}/>:<Star size={22}/>}</span><div><h2><LessonText text={chapter.title} language={language}/></h2><p>{chapterDone?t('Light chapter complete'):<LessonText text={chapter.goal} language={language}/>}</p></div></div><div className="light-node-list">{rows.map((row,index)=>{const count=Array.from({length:row.rounds},(_,i)=>stats.keys.has(lightRoundKey(row.lesson.id,i))).filter(Boolean).length,done=count===row.rounds,available=previous||done,round=Array.from({length:row.rounds},(_,i)=>i).find(i=>!stats.keys.has(lightRoundKey(row.lesson.id,i)))??0;previous=done;return <div key={row.lesson.id} className={'light-path-node '+(done?'done ':available?'current ':'locked ')} style={{'--node-offset':`${[0,36,0,-36][index%4]}px`}} data-lesson-id={row.lesson.id}><button disabled={!available} aria-label={tf('Open Light: {0}',[t(row.lesson.title)])} onClick={()=>onStart(row.lesson.id,round)}>{done?<Check size={30}/>:available?<Star size={29} fill="currentColor"/>:<LockKeyhole size={24}/>}</button><b><LessonText text={row.lesson.title} language={language}/></b><span>{tf('Round {0} of {1}',[Math.min(count+1,row.rounds),row.rounds])}</span>{done&&<small>{t('Complete')}</small>}</div>})}</div></section>})}<p className="light-path-footnote">{t('Light has its own progress. Standard stays available whenever you choose.')}</p></>}
+ <div className="light-path-score"><span><Flame size={21}/><b>{allStats.xp} XP</b></span><span><Star size={20}/>{tf('{0} lessons complete',[allStats.done])}</span></div>
+ {stats.done===stats.total&&stats.total>0&&<div className="light-level-complete"><Trophy/><h2>{t('Light level complete!')}</h2><p>{t('Keep exploring or replay a favourite lesson.')}</p></div>}
+ {chapters.map(chapter=>{const rows=route.filter(r=>r.chapter.id===chapter.id),chapterDone=rows.every(row=>stats.keys.has(row.lesson.id));return <section className="light-unit" key={chapter.id}><div className="light-unit-heading"><span>{chapterDone?<Trophy size={22}/>:<Star size={22}/>}</span><div><h2><LessonText text={chapter.title} language={language}/></h2><p>{chapterDone?t('Light chapter complete'):<LessonText text={chapter.goal} language={language}/>}</p></div></div><div className="light-node-list">{rows.map((row,index)=>{const done=stats.keys.has(row.lesson.id),available=previous||done;previous=done;return <div key={row.lesson.id} className={'light-path-node '+(done?'done ':available?'current ':'locked ')} style={{'--node-offset':`${[0,36,0,-36][index%4]}px`}} data-lesson-id={row.lesson.id}><button disabled={!available} aria-label={tf('Open Light: {0}',[t(row.lesson.title)])} onClick={()=>onStart(row.lesson.id)}>{done?<Check size={30}/>:available?<Star size={29} fill="currentColor"/>:<LockKeyhole size={24}/>}</button><b><LessonText text={row.lesson.title} language={language}/></b><span>{tf('{0} questions',[lightActivities(row.lesson).length])}</span>{done&&<small>{t('Complete')}</small>}</div>})}</div></section>})}<p className="light-path-footnote">{t('Light has its own progress. Standard stays available whenever you choose.')}</p></>}
  </div>;
 }

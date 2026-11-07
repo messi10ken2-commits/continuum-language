@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {testServer,db} from './test-server.mjs';import {lightRoute} from './light-route.mjs';
-import {lessonList} from './course.mjs';import {lightActivities,lightVersion,priorLightVersion,legacyLightVersion,legacyLightActivities,v2LightActivities} from './light-learning-model.mjs';
+import {lessonList} from './course.mjs';import {lightActivities,lightLessonVersion,lightVersion,priorLightVersion,legacyLightVersion,legacyLightActivities,v2LightActivities} from './light-learning-model.mjs';
 const base='http://127.0.0.1:'+testServer.address().port;
 async function account(name,role='learner'){const r=await fetch(base+'/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email:name+'@light.test',password:'SyntheticLightQA2026!',role,adult:true})});assert.ok(r.ok);return r.headers.get('set-cookie').split(';')[0]}
 async function req(cookie,path,method='GET',body,address){const r=await fetch(base+path,{method,headers:{cookie,'Content-Type':'application/json',...(address?{'X-Forwarded-For':address}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,data:await r.json()}}
@@ -39,7 +39,7 @@ test('guided records resume, isolate accounts, survive new sessions and never gr
  const second={version:lightVersion,round:1,steps:lightActivities(replayLesson,1).map(a=>({answer:a.type==='observe'?true:['meaning','video','recall','translate','listen','context','confirm','video-confirm'].includes(a.type)?a.meaning:a.model,hint:false})),choice:null,hint:false,checked:false};
  for(let i=0;i<51;i++)assert.equal((await req(learner,'/api/learning/light/introductions','PUT',{id:crypto.randomUUID(),revision:0,state:second})).status,200);
  assert.equal((await req(learner,'/api/learning/light')).data.records.length,50);const afterReplay=(await req(learner,'/api/learning/light/progress')).data.completed;assert.equal(afterReplay.length,11,'route progress survives 50-row history and replays do not multiply XP');assert.ok(afterReplay.some(r=>r.lesson==='introductions'&&r.round===0));assert.equal((await req(learner,'/api/learning/light/introductions?round=1&version='+lightVersion)).data.record.state.round,1);
- const longRow=lightRoute('ja').find(row=>row.rounds>=10);
+ const longRow=lightRoute('ja').find(row=>row.legacyRounds>=10);
  assert.ok(longRow);
  const chapter=longRow.chapter.id,placementPath='/api/learning/light/town-placement';
  const place=rewardIndex=>req(townCookie,placementPath,'PUT',{chapter,rewardIndex});
@@ -58,5 +58,26 @@ test('guided records resume, isolate accounts, survive new sessions and never gr
  assert.deepEqual(placed.data.placements,[{chapter:'language:ja',slot:0,rewardIndex:0}]);
  assert.deepEqual((await req(other,'/api/learning/light/progress')).data.placements,[]);
  assert.equal((await req(other,placementPath,'PUT',{chapter,rewardIndex:0})).status,403);
+ const passCookie=await account('single-lesson');
+ const passLesson=lightRoute('es')[0].lesson,passPath='/api/learning/light/'+passLesson.id;
+ const single={version:lightLessonVersion,round:0,choice:null,hint:false,checked:false};
+ const steps=lightActivities(passLesson).map(a=>({answer:a.type==='build'?a.model:a.meaning,hint:false,missed:false}));
+ const submit=(steps,overrides={})=>req(passCookie,passPath,'PUT',{id:crypto.randomUUID(),revision:0,state:{...single,steps,...overrides}},'192.0.2.21');
+ assert.equal((await submit(steps,{round:1})).status,400);
+ assert.equal((await submit(steps.map(({answer,hint})=>({answer,hint})))).status,400);
+ const corrected=steps.map((step,i)=>({...step,missed:i<2}));
+ const failed=await submit(corrected,{passed:true});
+ assert.equal(failed.status,200);
+ assert.equal(failed.data.record.state.passed,false);
+ assert.deepEqual((await req(passCookie,'/api/learning/light/progress')).data.completed,[]);
+ const passing=steps.map((step,i)=>({...step,missed:i===0}));
+ const passed=await submit(passing);
+ assert.equal(passed.status,200);
+ assert.equal(passed.data.record.state.passed,true);
+ await submit(steps);
+ const earned=(await req(passCookie,'/api/learning/light/progress')).data.completed;
+ assert.equal(earned.length,1);
+ assert.equal(earned[0].lessonPass,true);
+ assert.equal(earned[0].id,passed.data.record.id);
  const checkpoint=lessonList.find(l=>l.checkpoint);assert.equal((await req(learner,'/api/learning/light/'+checkpoint.id,'PUT',{id:crypto.randomUUID(),revision:0,state:{version:lightVersion,round:0,steps:[],choice:null,hint:false,checked:false}})).status,400);
  }finally{await new Promise(r=>testServer.close(r));await db.close()}});

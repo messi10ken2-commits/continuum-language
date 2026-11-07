@@ -15,7 +15,7 @@ test('Light counts first attempts, resets streak on a miss and keeps legacy rewa
 });
 
 test('every first clear earns the next prop, including after the catalogue cycles',()=>{
- const chapter=[{lesson:{id:'lesson'},rounds:37}];
+ const chapter=[{lesson:{id:'lesson'},legacyRounds:37}];
  const completed=Array.from({length:12},(_,round)=>({
   lesson:'lesson',round,id:'clear-'+round,completedAt:new Date(1000*(round+1)).toISOString()
  }));
@@ -45,7 +45,7 @@ test('an earned color selection takes precedence over future unlocks in its slot
 
 test('one building per fully cleared lesson, with completed districts available and an empty next district',()=>{
  const route=[
-  {lesson:{id:'one'},rounds:2},{lesson:{id:'two'},rounds:1},{lesson:{id:'three'},rounds:1}
+  {lesson:{id:'one'},legacyRounds:2},{lesson:{id:'two'},legacyRounds:1},{lesson:{id:'three'},legacyRounds:1}
  ];
  const rows=[
   {lesson:'one',round:0,id:'a'},
@@ -68,13 +68,13 @@ test('Spanish B1 keeps earned town decorations when the next chapter has zero cl
  const spanish=lightRoute('es');
  const previous=spanish.filter(row=>row.chapter.level==='B1').slice(0,6);
  const future=spanish.filter(row=>row.chapter.id==='b1-future-lab');
- const clears=previous.flatMap(row=>Array.from({length:row.rounds},(_,round)=>({lesson:row.lesson.id,round})));
+ const clears=previous.flatMap(row=>Array.from({length:row.legacyRounds},(_,round)=>({lesson:row.lesson.id,round})));
  const [english]=lightRoute('en');
  const saved=[...clears,{lesson:english.lesson.id,round:0}].map((row,index)=>({
   ...row,id:'clear-'+index,completedAt:new Date(1000*(index+1)).toISOString()
  }));
  assert.equal(lightRouteStats(future,saved).done,0);
- assert.equal(lightRouteStats(future,saved).total,6);
+ assert.equal(lightRouteStats(future,saved).total,future.length);
  const collection=townCollection(spanish,saved);
  assert.equal(collection.length,15);
  assert.equal(townPlacedRewards(collection).length,9);
@@ -90,4 +90,20 @@ test('Spanish B1 keeps earned town decorations when the next chapter has zero cl
  const selected=townCoursePlacements('es',spanish,[later,current,legacy,other]);
  assert.deepEqual(selected,[current]);
  assert.equal(townPlacedRewards(collection,selected).find(item=>item.slot===0).edition,2);
+});
+
+test('a single new pass builds once and legacy decorations keep their positions',()=>{
+ const route=[{lesson:{id:'first'},legacyRounds:2},{lesson:{id:'second'},legacyRounds:3}];
+ const completed=[
+  {lesson:'first',round:0,id:'a',xp:60},
+  {lesson:'first',round:1,id:'b',xp:60},
+  {lesson:'second',round:0,id:'c',xp:60},
+  {lesson:'first',round:0,id:'repeat',lessonPass:true,xp:60},
+  {lesson:'second',round:0,id:'pass',lessonPass:true,xp:60},
+  {lesson:'second',round:0,id:'duplicate',lessonPass:true,xp:60}
+ ];
+ assert.equal(lightRouteStats(route,completed).done,2);
+ assert.equal(lightRouteStats(route,completed).xp,240);
+ assert.deepEqual(townCollection(route,completed).map(item=>item.clearId),['a','b','c','pass']);
+ assert.deepEqual(townConstruction(route,completed,3).buildings.map(item=>item.clearId),['b','pass']);
 });
