@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {access} from 'node:fs/promises';
 import {lightRoute,lightRouteStats} from './light-route.mjs';
 import {companions} from './adventure-model.mjs';
-import {lightMaterials,lightRoundEvidence,townCollection,townCourseKey,townCoursePlacements,townPlacedRewards,townRewardAt} from './light-town.mjs';
+import {lightMaterials,lightRoundEvidence,townCollection,townConstruction,townCourseKey,townCoursePlacements,townPlacedRewards,townRewardAt} from './light-town.mjs';
 
 test('Light counts first attempts, resets streak on a miss and keeps legacy rewards',()=>{
  const clean={missed:false,hint:false},missed={missed:true,hint:true};
@@ -43,6 +43,27 @@ test('an earned color selection takes precedence over future unlocks in its slot
  assert.equal(placed.find(item=>item.slot===2).index,11);
 });
 
+test('one building per fully cleared lesson, with completed districts available and an empty next district',()=>{
+ const route=[
+  {lesson:{id:'one'},rounds:2},{lesson:{id:'two'},rounds:1},{lesson:{id:'three'},rounds:1}
+ ];
+ const rows=[
+  {lesson:'one',round:0,id:'a'},
+  {lesson:'one',round:0,id:'replay'},
+  {lesson:'one',round:2,id:'invalid'},
+  {lesson:'other-course',round:0,id:'foreign'}
+ ];
+ assert.deepEqual(townConstruction(route,rows,2),{built:0,total:3,district:0,lastDistrict:0,buildings:[]});
+ rows.push({lesson:'two',round:0,id:'b'},{lesson:'one',round:1,id:'c'});
+ assert.deepEqual(townConstruction(route,rows,2),{
+  built:2,total:3,district:0,lastDistrict:1,buildings:[{lesson:'two',clearId:'b'},{lesson:'one',clearId:'c'}]
+ });
+ rows.push({lesson:'three',round:0,id:'d'});
+ assert.deepEqual(townConstruction(route,rows,2),{
+  built:3,total:3,district:1,lastDistrict:1,buildings:[{lesson:'two',clearId:'b'},{lesson:'one',clearId:'c'},{lesson:'three',clearId:'d'}]
+ });
+});
+
 test('Spanish B1 keeps earned town decorations when the next chapter has zero clears',()=>{
  const spanish=lightRoute('es');
  const previous=spanish.filter(row=>row.chapter.level==='B1').slice(0,6);
@@ -58,7 +79,7 @@ test('Spanish B1 keeps earned town decorations when the next chapter has zero cl
  assert.equal(collection.length,15);
  assert.equal(townPlacedRewards(collection).length,9);
  assert.equal(collection[0].art,'terrace');
- assert.equal(townRewardAt(collection.length).art,'rose-arch');
+ assert.equal(townRewardAt(collection.length).art,'rose-planter');
  assert.equal(townRewardAt(collection.length).edition,2);
  assert.equal(townCollection(lightRoute('en'),saved).length,1);
  const legacy={chapter:previous[0].chapter.id,slot:0,rewardIndex:0};

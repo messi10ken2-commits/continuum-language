@@ -11,7 +11,8 @@ import {useStudyActivity} from './LearningActivity.jsx';
 import {PageScene} from './LessonMedia.jsx';
 import SentenceAudio,{stopSentenceAudio} from './SentenceAudio.jsx';
 import {TownCompanion,TownScene,TownGem,TownRibbon,TownSegments,TownRewardArt,townRewardLabel,useLightCompanion} from './LightTown.jsx';
-import {lightMaterials,lightRoundEvidence,townCollection,townCourseKey,townCoursePlacements} from './light-town.mjs';
+import {lightMaterials,lightRoundEvidence,townCollection,townConstruction,townCourseKey,townCoursePlacements} from './light-town.mjs';
+import {townArt} from './light-town-art.mjs';
 import ConversationVideo from './ConversationVideo.jsx';
 import QuestionPrompt from './QuestionPrompt.jsx';
 import {resetLessonViewport} from './lesson-scroll.mjs';
@@ -47,6 +48,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  const kind=useLightCompanion(user,language);
  const [speaking,setSpeaking]=useState(false),[reward,setReward]=useState(null);
  const [rewardRetry,setRewardRetry]=useState(0);
+ const [finishedHere,setFinishedHere]=useState(false);
  const evidence=lightRoundEvidence(state.steps);
  useEffect(()=>{if(suspended)stopSentenceAudio()},[suspended]);
  useEffect(()=>{
@@ -58,10 +60,17 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
    const route=lightRoute(language);
    const collection=townCollection(route,rows);
    const award=collection.find(item=>item.clearId===record.id);
-   setReward({collection,placements:townCoursePlacements(language,route,placements),award,materials:rows.find(r=>r.id===record.id)?.materials??0});
+   const lots=townArt(language).stages.length-1;
+   const construction=townConstruction(route,rows,lots);
+   const building=construction.buildings.findIndex(entry=>entry.clearId===record.id);
+   const district=building>=0?Math.floor(building/lots):construction.district;
+   setReward({collection,placements:townCoursePlacements(language,route,placements),award,
+    built:Math.min(lots,construction.built-district*lots),
+    newPlot:finishedHere&&building>=0?building%lots:undefined,
+    materials:rows.find(r=>r.id===record.id)?.materials??0});
   }).catch(()=>{if(live)setReward({failed:true})});
   return()=>{live=false};
- },[user?.id,lesson.id,language,record?.id,record?.completedAt,phase,rewardRetry]);
+ },[user?.id,lesson.id,language,record?.id,record?.completedAt,phase,rewardRetry,finishedHere]);
  const root=useRef(null),owner=user?.id||'guest',lock=useRef(false),[refreshing,setRefreshing]=useState(false);
  const endpoint='/'+lesson.id+'?round='+round+'&version='+lightVersion;
  useEffect(()=>{let live=true;setReady(false);setError('');const load=async()=>{try{let saved;if(user)saved=(await lightApi(endpoint)).record;else try{saved=JSON.parse(localStorage.getItem(lightStorageKey(user,lesson,round))||'null')}catch{}
@@ -76,8 +85,8 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  const persist=async(value=state)=>{if(!ready)return !error;if(lock.current)return false;if(record?.completedAt)return true;lock.current=true;setBusy(true);setError('');try{let saved;if(user){try{saved=(await lightApi('/'+lesson.id,{method:'PUT',body:JSON.stringify({id:record.id,revision:record.revision,state:value})})).record}catch{const recovered=(await lightApi(endpoint)).record;if(recovered?.id!==record.id||!sameLightDraft(recovered.state,value))throw Error();saved=recovered}}else{saved={...record,state:value,lesson:lesson.id,at:new Date().toISOString(),revision:record.revision+1,completedAt:value.steps.length===activities.length?new Date().toISOString():null};localStorage.setItem(lightStorageKey(user,lesson,round),JSON.stringify(saved));if(saved.completedAt){const rows=await lightProgress(null);localStorage.setItem('continuumLightProgress:guest',JSON.stringify([...rows.filter(r=>r.lesson!==lesson.id||r.round!==round),{...(rows.find(r=>r.lesson===lesson.id&&r.round===round)||{id:saved.id,completedAt:saved.completedAt,materials:lightMaterials(value.steps)}),lesson:lesson.id,round,xp:activities.length*10}]))}}setRecord(saved);setState(saved.state);return true}catch{setError('Could not save light practice. Try again.');return false}finally{lock.current=false;setBusy(false)}};
  useImperativeHandle(ref,()=>({save:()=>persist(),busy}),[record,state,ready,busy,error]);
  const exit=async()=>{if(await persist()){stopSentenceAudio();onExit()}};
- const next=async()=>{const a=activities[state.steps.length],answer=a.type==='observe'?true:lightAnswer(a,state.choice);if(!lightCorrect(a,answer))return;const value={...blank(),steps:[...state.steps,{answer,hint:state.hint,missed:!!state.missed}]};if(await persist(value)){stopSentenceAudio();if(value.steps.length===activities.length)setPhase('result')}};
- const restart=()=>{setRecord({id:crypto.randomUUID(),revision:0});setState(blank());setPhase('intro');setError('')};
+ const next=async()=>{const a=activities[state.steps.length],answer=a.type==='observe'?true:lightAnswer(a,state.choice);if(!lightCorrect(a,answer))return;const value={...blank(),steps:[...state.steps,{answer,hint:state.hint,missed:!!state.missed}]};if(await persist(value)){stopSentenceAudio();if(value.steps.length===activities.length){setFinishedHere(true);setPhase('result')}}};
+ const restart=()=>{setRecord({id:crypto.randomUUID(),revision:0});setState(blank());setFinishedHere(false);setPhase('intro');setError('')};
  const a=activities[state.steps.length],good=a&&lightCorrect(a,lightAnswer(a,state.choice)),nextRound=nextLightRound(lesson,round);
  const choose=value=>{if(state.checked&&!good)setState(s=>({...s,choice:value,checked:false}));else setState(s=>({...s,choice:value}))};
  const combo=state.missed?0:evidence.combo+(state.checked&&good?1:0);
@@ -100,9 +109,10 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   phase==='result'?<section className="light-celebration town-result">
    <h1 className="town-title">{t(evidence.firstCorrect===activities.length?'Perfect clear!':'Round complete!')}</h1>
    <TownRibbon><b>{activities.length}/{activities.length} · {tf('Best combo ×{0}',[evidence.best])}</b></TownRibbon>
-   <TownScene language={language} kind={kind} collection={reward?.collection} placements={reward?.placements} highlight={reward?.award?.index} celebrate={!!reward?.materials}/>
+   {reward&&!reward.failed&&<TownScene language={language} kind={kind} collection={reward.collection} placements={reward.placements} built={reward.built} newPlot={reward.newPlot} highlight={finishedHere?reward.award?.index:undefined} celebrate={finishedHere&&!!reward.materials}/>}
    <div className="town-paper town-result-card">
     <h2>{title}</h2>
+    {reward?.newPlot!==undefined&&<p className="town-building-note" role="status">{t('A new building opened in your town!')}</p>}
     {reward?.failed?<div role="status"><p>{t('Could not load light practice. Try again.')}</p><button className="text-button" onClick={()=>setRewardRetry(n=>n+1)}>{t('Try again')}</button></div>:
      !reward&&<p role="status">{t('Loading your light practice…')}</p>}
     <div className="town-result-loot">

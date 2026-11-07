@@ -4,24 +4,36 @@ test('retrieval prompts keep the solution off the page; Latin grammar is context
 test('each language renders its own town, reward art, and the selected companion',async()=>{
  const {learningLanguageIds}=await import('./languages.mjs');
  const {townRewardAt}=await import('./light-town.mjs');
- const {townArt}=await import('./light-town-art.mjs');
+ const {townArt,townRewardImage}=await import('./light-town-art.mjs');
  const {access}=await import('node:fs/promises');
  const vite=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
  try{
-  const {TownScene}=await vite.ssrLoadModule('/LightTown.jsx');
+  const {TownScene,TownRewardArt}=await vite.ssrLoadModule('/LightTown.jsx');
   const scenes=new Set();
   for(const language of learningLanguageIds){
    const art=townArt(language);
-   scenes.add(art.scenery);
-   for(const url of [art.scenery,art.atlas].filter(Boolean))await access(new URL('public'+url,import.meta.url));
-   if(language!=='es')assert.equal(art.sprites.length,9,language);
+   scenes.add(art.stages.at(-1));
+   assert.equal(art.stages.length,language==='es'?5:3);
    const collection=Array.from({length:10},(_,index)=>townRewardAt(index));
    const html=renderToStaticMarkup(React.createElement(TownScene,{language,kind:'capybara',collection,highlight:9}));
-   assert.ok(html.includes(art.scenery),language);
-   assert.ok(html.includes(art.atlas||'/light-town/rose-arch.webp'),language);
+   assert.ok(html.includes(art.stages.at(-1)),language);
+   assert.ok(html.includes('/light-town/rose-planter.webp'),language);
    assert.ok(html.includes('/light-town/capybara.webp'),language);
    assert.equal((html.match(/class="town-decoration"/g)||[]).length,9,language);
    assert.match(html,/--town-reward-hue:27deg/);
+   for(const [built,asset] of art.stages.entries()){
+    await access(new URL('public'+asset,import.meta.url));
+    const phase=renderToStaticMarkup(React.createElement(TownScene,{language,built}));
+    assert.deepEqual(art.stages.filter(url=>phase.includes(url)),[asset],language);
+   }
+   for(const item of collection.slice(0,9)){
+    const asset=townRewardImage(language,item);
+    await access(new URL('public'+asset,import.meta.url));
+    const reward=renderToStaticMarkup(React.createElement(TownRewardArt,{language,item}));
+    assert.ok(reward.includes(asset),language);
+    assert.equal((reward.match(/<img /g)||[]).length,1);
+    assert.doesNotMatch(reward,/<svg|props\.webp/);
+   }
   }
   assert.equal(scenes.size,learningLanguageIds.length);
  }finally{await vite.close()}

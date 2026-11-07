@@ -1,6 +1,11 @@
 // Source | Japanese | Spanish | Portuguese | Chinese | French | Korean | Indonesian | Russian | Arabic
 const rows=`
-Flower arch|花のアーチ|Arco de flores|Arco de flores|花拱门|Arche fleurie|꽃 아치|Lengkungan bunga|Цветочная арка|قوس الزهور
+Buildings {0}/{1}|建物 {0}/{1}|Edificios {0}/{1}|Edifícios {0}/{1}|建筑 {0}/{1}|Bâtiments {0}/{1}|건물 {0}/{1}|Bangunan {0}/{1}|Здания {0}/{1}|المباني {0}/{1}
+Town district|街の地区|Barrio de la ciudad|Bairro da cidade|小镇街区|Quartier de la ville|마을 구역|Kawasan kota|Район города|حي البلدة
+District {0}|第{0}地区|Barrio {0}|Bairro {0}|第 {0} 街区|Quartier {0}|{0}구역|Kawasan {0}|Район {0}|الحي {0}
+Finish all rounds in a lesson to build a new place.|レッスンの全ラウンドをクリアすると、街に建物が一軒増えます。|Completa todas las rondas de una lección para construir un nuevo lugar.|Conclua todas as rodadas de uma lição para construir um novo local.|完成一课的所有轮次，即可建造一栋新建筑。|Terminez toutes les manches d’une leçon pour construire un nouveau bâtiment.|레슨의 모든 라운드를 완료하면 건물이 하나 생겨요.|Selesaikan semua ronde dalam satu pelajaran untuk membangun tempat baru.|Завершите все раунды урока, чтобы построить новое здание.|أكمل جميع جولات الدرس لبناء مكان جديد.
+A new building opened in your town!|街に新しい建物ができました！|¡Se ha inaugurado un nuevo edificio en tu ciudad!|Um novo edifício foi inaugurado na sua cidade!|小镇有了一栋新建筑！|Un nouveau bâtiment a ouvert dans votre ville !|마을에 새 건물이 생겼어요!|Bangunan baru telah dibuka di kotamu!|В вашем городе открылось новое здание!|افتُتح مبنى جديد في بلدتك!
+Rose planter|バラの鉢植え|Macetero de rosas|Vaso de rosas|玫瑰花盆|Jardinière de roses|장미 화분|Pot bunga mawar|Кашпо с розами|حوض ورود
 Ornamental tree|庭木|Árbol ornamental|Árvore ornamental|观赏树|Arbre ornemental|관상수|Pohon hias|Декоративное дерево|شجرة زينة
 Chapter progress|チャプターの進み具合|Progreso del capítulo|Progresso do capítulo|章节进度|Progression du chapitre|챕터 진행 상황|Kemajuan bab|Прогресс главы|تقدّم الفصل
 Complete|完了|Completado|Concluído|已完成|Terminé|완료|Selesai|Завершено|مكتمل
@@ -108,7 +113,6 @@ rows.push(...`
 Park bench|公園のベンチ|Banco de parque|Banco de jardim|公园长椅|Banc de parc|공원 벤치|Bangku taman|Парковая скамейка|مقعد الحديقة
 Stone fountain|石造りの噴水|Fuente de piedra|Fonte de pedra|石雕喷泉|Fontaine en pierre|돌 분수|Air mancur batu|Каменный фонтан|نافورة حجرية
 Book kiosk|小さな本屋|Quiosco de libros|Quiosque de livros|书亭|Kiosque à livres|작은 책방|Kios buku|Книжный киоск|كشك كتب
-Rose arch|バラのアーチ|Arco de rosas|Arco de rosas|玫瑰拱门|Arche de roses|장미 아치|Lengkung mawar|Арка из роз|قوس الورود
 Market stall|市場の屋台|Puesto del mercado|Banca do mercado|市场摊位|Étal du marché|시장 가판대|Lapak pasar|Рыночный прилавок|بسطة السوق
 Maple tree|カエデの木|Arce|Bordo|枫树|Érable|단풍나무|Pohon maple|Клён|شجرة القيقب
 Town collection|街のコレクション|Colección de la ciudad|Coleção da cidade|小镇收藏|Collection de la ville|마을 컬렉션|Koleksi kota|Коллекция города|مجموعة البلدة

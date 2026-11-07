@@ -6,13 +6,15 @@ import {levels} from './course.mjs';
 import {lightRoute,lightRouteStats,lightRoundKey} from './light-route.mjs';
 import {lightTownProgress,saveTownPlacement,setTownPlacement,LessonModeControl} from './LightLesson.jsx';
 import {TownScene,TownRewardArt,TownGem,TownRibbon,TownSegments,TownCollection,townRewardLabel,useLightCompanion} from './LightTown.jsx';
-import {materialsPerRound,townCollection,townCoursePlacements,townRewardAt} from './light-town.mjs';
+import {materialsPerRound,townCollection,townConstruction,townCoursePlacements,townRewardAt} from './light-town.mjs';
+import {townArt} from './light-town-art.mjs';
 import {lightActivities} from './light-learning-model.mjs';
 import {languageInfo} from './languages.mjs';
 export default function LightPath({language,user,onStart,onMode,level,setLevel}){
  const [{completed,placements},setProgress]=useState({completed:[],placements:[]}),[ready,setReady]=useState(false),[failed,setFailed]=useState(false),[reload,setReload]=useState(0);
  useEffect(()=>{let live=true;setReady(false);setFailed(false);lightTownProgress(user).then(progress=>{if(live){setProgress(progress);setReady(true)}}).catch(()=>{if(live)setFailed(true)});return()=>{live=false}},[user?.id,language,reload]);
  const kind=useLightCompanion(user,language),[selected,setSelected]=useState(null);
+ const [districtSelection,setDistrictSelection]=useState(null);
  const languageRoute=useMemo(()=>lightRoute(language),[language]);
  const route=languageRoute.filter(row=>row.chapter.level===level),stats=lightRouteStats(route,completed),allStats=lightRouteStats(languageRoute,completed);
  const pending=route.flatMap(row=>Array.from({length:row.rounds},(_,round)=>({lesson:row.lesson.id,round}))).find(r=>!stats.keys.has(lightRoundKey(r.lesson,r.round)));
@@ -43,11 +45,16 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
  const mission=chapterRows.find(r=>r.lesson.id===pending?.lesson);
  const languageLessons=new Set(languageRoute.map(r=>r.lesson.id));
  const materials=completed.reduce((n,r)=>n+(languageLessons.has(r.lesson)?r.materials??materialsPerRound:0),0);
- const places=chapterRows.slice(Math.max(0,chapterRows.indexOf(mission)-1),Math.max(0,chapterRows.indexOf(mission)-1)+4).map(r=>{
-  const round=Array.from({length:r.rounds},(_,i)=>i).find(i=>!stats.keys.has(lightRoundKey(r.lesson.id,i)));
-  const status=round===undefined?'done':r===mission?'current':'locked';
-  return {id:r.lesson.id,label:t(r.lesson.title),status,
-   onOpen:status==='locked'?undefined:()=>onStart(r.lesson.id,round??0)};
+ const lots=townArt(language).stages.length-1;
+ const construction=townConstruction(languageRoute,completed,lots);
+ const district=districtSelection?.language===language?Math.min(districtSelection.index,construction.lastDistrict):construction.district;
+ const districtBuildings=construction.buildings.slice(district*lots,(district+1)*lots);
+ const places=districtBuildings.map(({lesson})=>{
+  const row=languageRoute.find(r=>r.lesson.id===lesson);
+  return {id:lesson,label:t(row.lesson.title),status:'done',onOpen:()=>onStart(lesson,0)};
+ });
+ if(mission&&district===construction.lastDistrict&&places.length<lots)places.push({
+  id:mission.lesson.id,label:t(mission.lesson.title),status:'current',onOpen:()=>onStart(mission.lesson.id,pending.round)
  });
  const levelsControl=<nav className="light-levels" aria-label={t('Level')}>{levels.map(l=><button key={l.id} aria-pressed={level===l.id} onClick={()=>setLevel(l.id)}>{l.id}</button>)}</nav>;
  return <div className="light-path light-town">
@@ -57,11 +64,18 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
  {chapter&&<section className="town-hub">
   <TownRibbon><select className="town-chapter-select" aria-label={t('Chapter')} value={chapter.id} onChange={e=>setSelected(e.target.value)}>{chapters.map(c=><option key={c.id} value={c.id}>{t(c.title)}</option>)}</select></TownRibbon>
   <div className="town-metrics"><b>{t('Chapter progress')} {chapterStats.done}/{chapterStats.total}</b><TownSegments value={chapterStats.done} total={chapterStats.total} label={t('Chapter progress')} round/><span><TownGem/> {t('Materials')} <b>{materials}</b></span></div>
-  <TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements}/>
+  <div className="town-construction-status">
+   <b>{tf('Buildings {0}/{1}',[construction.built,construction.total])}</b>
+   {construction.lastDistrict>0&&<select className="town-district-select" aria-label={t('Town district')} value={district} onChange={e=>setDistrictSelection({language,index:Number(e.target.value)})}>
+    {Array.from({length:construction.lastDistrict+1},(_,index)=><option key={index} value={index}>{tf('District {0}',[index+1])}</option>)}
+   </select>}
+  </div>
+  <TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements} built={districtBuildings.length}/>
   <div className="town-paper town-mission">
    {mission?<><h2><Feather aria-hidden="true"/><LessonText text={mission.lesson.title} language={language}/></h2>
    <div className="town-mission-meta"><Clock size={16}/>{tf('{0} questions · about 2 min',[lightActivities(mission.lesson,pending.round).length])}</div>
    <p><LessonText text={chapter.goal} language={language}/></p>
+   <p className="town-building-note">{t('Finish all rounds in a lesson to build a new place.')}</p>
    <button className="primary wide town-cta" onClick={()=>onStart(pending.lesson,pending.round)}><Play size={20} fill="currentColor"/>{t('Continue Light')}<ArrowRight size={19}/></button></>:<h2><LessonText text={chapter.title} language={language}/></h2>}
    {nextReward&&<div className="town-next-reward"><TownRewardArt item={nextReward} language={language}/><div><span><Gift size={16}/>{t('Next decoration')}</span><strong>{townRewardLabel(nextReward,language)}</strong></div></div>}
    <TownCollection language={language} items={collection} placements={coursePlacements} onPlace={placeReward} busy={placing} failed={placementError===chapter.id}/>

@@ -3,7 +3,7 @@ import {Check,LockKeyhole,Star,Gem} from 'lucide-react';
 import {companions} from './adventure-model.mjs';
 import {t,tf} from './interface-runtime.mjs';
 import {townPlacedRewards} from './light-town.mjs';
-import {townArt} from './light-town-art.mjs';
+import {townArt,townRewardImage} from './light-town-art.mjs';
 
 export function useLightCompanion(user,language){
  const [selection,setSelection]=useState(null);
@@ -28,18 +28,13 @@ export function TownCompanion({kind,speaking=false,celebrate=false}){
 }
 
 export function townRewardLabel(item,language='es'){
- const regional=townArt(language).atlas;
- const name=regional&&item.art==='rose-arch'?t('Flower arch'):regional&&language!=='ja'&&item.art==='maple'?t('Ornamental tree'):t(item.name);
+ const name=!['es','ja'].includes(language)&&item.art==='maple'?t('Ornamental tree'):t(item.name);
  return item.edition>1?tf('{0} · Edition {1}',[name,item.edition]):name;
 }
 
 export function TownRewardArt({item,language='es'}){
- const art=townArt(language),style={'--town-reward-hue':((item.edition-1)*27)%360+'deg'};
- const sprite=art.sprites?.[item.slot];
- if(sprite)return <svg className="town-reward-art" aria-hidden="true" viewBox={sprite.join(' ')} width={sprite[2]} height={sprite[3]} style={style}>
-  <image href={art.atlas} width="672" height="672"/>
- </svg>;
- return <img className="town-reward-art" src={'/light-town/'+item.art+'.webp'} alt="" style={style}/>;
+ const style={'--town-reward-hue':((item.edition-1)*27)%360+'deg'};
+ return <img className="town-reward-art" src={townRewardImage(language,item)} alt="" style={style}/>;
 }
 
 export function TownCollection({language,items,placements,onPlace,busy,failed}){
@@ -73,11 +68,13 @@ export function TownSegments({value,total,round=false,label}){
  </span>;
 }
 
-export function TownScene({language,kind,places=[],collection=[],placements=[],highlight,celebrate=false}){
+export function TownScene({language,kind,places=[],collection=[],placements=[],highlight,built,newPlot,celebrate=false}){
  const art=townArt(language);
- return <div className={'town-scene'+(celebrate?' town-scene-celebrate':'')} data-regional={!!art.atlas}>
-  <img className="town-scenery" src={art.scenery} alt="" width="1050" height="700"/>
-  {places.map((place,i)=><button key={place.id} className="town-building" style={{left:art.pins[i][0]+'%',top:art.pins[i][1]+'%'}} data-status={place.status} aria-current={place.status==='current'?'step':undefined} aria-label={place.label} onClick={place.onOpen} disabled={!place.onOpen}>
+ const builtLots=built??art.stages.length-1;
+ const [companionX,companionY,companionWidth]=art.companion;
+ return <div className={'town-scene'+(celebrate?' town-scene-celebrate':'')} style={{'--companion-x':companionX+'%','--companion-y':companionY+'%','--companion-width':companionWidth+'%'}}>
+  <img key={art.stages[builtLots]} className={'town-scenery'+(newPlot===undefined?'':' town-stage-new')} src={art.stages[builtLots]} alt="" width="1050" height="700"/>
+  {places.map((place,i)=><button key={place.id} className="town-building" style={{left:art.pins[i][0]+'%',top:(place.status==='current'&&builtLots===i?art.pins[i][1]+23:art.pins[i][1])+'%'}} data-status={place.status} aria-current={place.status==='current'?'step':undefined} aria-label={place.label} onClick={place.onOpen} disabled={!place.onOpen}>
    {place.status==='current'&&<span className="town-marker-callout" aria-hidden="true">{t('Up next')}</span>}
    <span className="town-pin">{place.status==='done'?<Check/>:place.status==='current'?<Star/>:<LockKeyhole/>}</span>
   </button>)}

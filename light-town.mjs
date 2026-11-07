@@ -17,7 +17,7 @@ export function lightMaterials(steps){
 const decorations=[
  ['terrace','Terrace'],['flower-bed','Flower bed'],['street-lamp','Street lamp'],
  ['bench','Park bench'],['fountain','Stone fountain'],['book-kiosk','Book kiosk'],
- ['rose-arch','Rose arch'],['market-stall','Market stall'],['maple','Maple tree']
+ ['rose-planter','Rose planter'],['market-stall','Market stall'],['maple','Maple tree']
 ];
 
 export function townRewardAt(index){
@@ -28,7 +28,7 @@ export function townRewardAt(index){
 
 // The progress endpoint supplies only the first clear for each round. Older
 // guest records without a timestamp retain their position in the saved list.
-export function townCollection(routeRows,completed){
+function townFirstClears(routeRows,completed){
  const limits=new Map(routeRows.map(row=>[row.lesson.id,row.rounds]));
  const unique=new Map();
  for(const row of completed){
@@ -39,7 +39,11 @@ export function townCollection(routeRows,completed){
  return [...unique.values()].sort((a,b)=>{
   const first=Date.parse(a.completedAt)||0,second=Date.parse(b.completedAt)||0;
   return first-second||(first?String(a.id).localeCompare(String(b.id)):0);
- }).map((row,index)=>({...townRewardAt(index),clearId:row.id}));
+ });
+}
+
+export function townCollection(routeRows,completed){
+ return townFirstClears(routeRows,completed).map((row,index)=>({...townRewardAt(index),clearId:row.id}));
 }
 
 export const townCourseKey=language=>'language:'+language;
@@ -66,4 +70,20 @@ export function townPlacedRewards(collection,placements=[]){
   if(item?.slot===slot)placed.set(slot,item);
  }
  return [...placed.values()];
+}
+
+export function townConstruction(route,completed,lotsPerDistrict){
+ const limits=new Map(route.map(({lesson,rounds})=>[lesson.id,rounds]));
+ const clearedByLesson=new Map();
+ const buildings=[];
+ for(const {lesson,id} of townFirstClears(route,completed)){
+  const cleared=(clearedByLesson.get(lesson)||0)+1;
+  clearedByLesson.set(lesson,cleared);
+  if(cleared===limits.get(lesson))buildings.push({lesson,clearId:id});
+ }
+ const built=buildings.length;
+ const total=route.length;
+ const district=Math.max(0,Math.ceil(built/lotsPerDistrict)-1);
+ const lastDistrict=Math.max(0,Math.ceil(Math.min(total,built+1)/lotsPerDistrict)-1);
+ return {built,total,district,lastDistrict,buildings};
 }
