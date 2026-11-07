@@ -100,13 +100,13 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   phase==='result'?<section className="light-celebration town-result">
    <h1 className="town-title">{t(evidence.firstCorrect===activities.length?'Perfect clear!':'Round complete!')}</h1>
    <TownRibbon><b>{activities.length}/{activities.length} · {tf('Best combo ×{0}',[evidence.best])}</b></TownRibbon>
-   <TownScene kind={kind} collection={reward?.collection} placements={reward?.placements} highlight={reward?.award?.index} celebrate={!!reward?.materials}/>
+   <TownScene language={language} kind={kind} collection={reward?.collection} placements={reward?.placements} highlight={reward?.award?.index} celebrate={!!reward?.materials}/>
    <div className="town-paper town-result-card">
     <h2>{title}</h2>
     {reward?.failed?<div role="status"><p>{t('Could not load light practice. Try again.')}</p><button className="text-button" onClick={()=>setRewardRetry(n=>n+1)}>{t('Try again')}</button></div>:
      !reward&&<p role="status">{t('Loading your light practice…')}</p>}
     <div className="town-result-loot">
-     {reward?.award&&<div><TownRewardArt item={reward.award}/><strong>{townRewardLabel(reward.award)}</strong></div>}
+     {reward?.award&&<div><TownRewardArt item={reward.award} language={language}/><strong>{townRewardLabel(reward.award,language)}</strong></div>}
      {!!reward?.materials&&<div><TownGem/><strong>{t('Materials')} +{reward.materials}</strong></div>}
     </div>
     <div className="town-save-stamp"><BookOpenCheck size={24}/>{t('Light progress saved')} · {activities.length*10} XP</div>

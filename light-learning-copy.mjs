@@ -1,5 +1,7 @@
 // Source | Japanese | Spanish | Portuguese | Chinese | French | Korean | Indonesian | Russian | Arabic
 const rows=`
+Flower arch|花のアーチ|Arco de flores|Arco de flores|花拱门|Arche fleurie|꽃 아치|Lengkungan bunga|Цветочная арка|قوس الزهور
+Ornamental tree|庭木|Árbol ornamental|Árvore ornamental|观赏树|Arbre ornemental|관상수|Pohon hias|Декоративное дерево|شجرة زينة
 Chapter progress|チャプターの進み具合|Progreso del capítulo|Progresso do capítulo|章节进度|Progression du chapitre|챕터 진행 상황|Kemajuan bab|Прогресс главы|تقدّم الفصل
 Complete|完了|Completado|Concluído|已完成|Terminé|완료|Selesai|Завершено|مكتمل
 bread|パン|pan|pão|面包|pain|빵|roti|хлеб|خبز

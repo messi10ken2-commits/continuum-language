@@ -3,6 +3,7 @@ import {Check,LockKeyhole,Star,Gem} from 'lucide-react';
 import {companions} from './adventure-model.mjs';
 import {t,tf} from './interface-runtime.mjs';
 import {townPlacedRewards} from './light-town.mjs';
+import {townArt} from './light-town-art.mjs';
 
 export function useLightCompanion(user,language){
  const [selection,setSelection]=useState(null);
@@ -26,15 +27,22 @@ export function TownCompanion({kind,speaking=false,celebrate=false}){
  </span>:null;
 }
 
-export function townRewardLabel(item){
- return item.edition>1?tf('{0} · Edition {1}',[t(item.name),item.edition]):t(item.name);
+export function townRewardLabel(item,language='es'){
+ const regional=townArt(language).atlas;
+ const name=regional&&item.art==='rose-arch'?t('Flower arch'):regional&&language!=='ja'&&item.art==='maple'?t('Ornamental tree'):t(item.name);
+ return item.edition>1?tf('{0} · Edition {1}',[name,item.edition]):name;
 }
 
-export function TownRewardArt({item,className}){
- return <img className={className} src={'/light-town/'+item.art+'.webp'} alt="" data-slot={item.slot} style={{'--town-reward-hue':((item.edition-1)*27)%360+'deg'}}/>;
+export function TownRewardArt({item,language='es'}){
+ const art=townArt(language),style={'--town-reward-hue':((item.edition-1)*27)%360+'deg'};
+ const sprite=art.sprites?.[item.slot];
+ if(sprite)return <svg className="town-reward-art" aria-hidden="true" viewBox={sprite.join(' ')} width={sprite[2]} height={sprite[3]} style={style}>
+  <image href={art.atlas} width="672" height="672"/>
+ </svg>;
+ return <img className="town-reward-art" src={'/light-town/'+item.art+'.webp'} alt="" style={style}/>;
 }
 
-export function TownCollection({items,placements,onPlace,busy,failed}){
+export function TownCollection({language,items,placements,onPlace,busy,failed}){
  if(!items.length)return null;
  const placed=new Set(townPlacedRewards(items,placements).map(item=>item.index));
  const saved=new Set(placements.map(placement=>placement.rewardIndex));
@@ -43,7 +51,7 @@ export function TownCollection({items,placements,onPlace,busy,failed}){
   {failed&&<p role="alert">{t('Could not save town decoration.')}</p>}
   <ul>{items.map(item=><li key={item.index}>
    <button type="button" aria-pressed={placed.has(item.index)} disabled={busy||saved.has(item.index)} onClick={()=>onPlace(item)}>
-    <TownRewardArt item={item}/><span>{townRewardLabel(item)}</span>
+    <TownRewardArt item={item} language={language}/><span>{townRewardLabel(item,language)}</span>
     <small>{t(saved.has(item.index)?'Placed in town':placed.has(item.index)?'Keep this color':'Place in town')}</small>
    </button>
   </li>)}</ul>
@@ -65,18 +73,20 @@ export function TownSegments({value,total,round=false,label}){
  </span>;
 }
 
-const townPaintOrder=[4,8,5,2,6,1,3,7,0];
-
-export function TownScene({kind,places=[],collection=[],placements=[],highlight,celebrate=false}){
- return <div className={'town-scene'+(celebrate?' town-scene-celebrate':'')}>
-  <img className="town-scenery" src="/light-town/diorama.webp" alt="" width="1050" height="700"/>
-  {places.map((place,i)=><button key={place.id} className="town-building" data-position={i} data-status={place.status} aria-current={place.status==='current'?'step':undefined} aria-label={place.label} onClick={place.onOpen} disabled={!place.onOpen}>
+export function TownScene({language,kind,places=[],collection=[],placements=[],highlight,celebrate=false}){
+ const art=townArt(language);
+ return <div className={'town-scene'+(celebrate?' town-scene-celebrate':'')} data-regional={!!art.atlas}>
+  <img className="town-scenery" src={art.scenery} alt="" width="1050" height="700"/>
+  {places.map((place,i)=><button key={place.id} className="town-building" style={{left:art.pins[i][0]+'%',top:art.pins[i][1]+'%'}} data-status={place.status} aria-current={place.status==='current'?'step':undefined} aria-label={place.label} onClick={place.onOpen} disabled={!place.onOpen}>
    {place.status==='current'&&<span className="town-marker-callout" aria-hidden="true">{t('Up next')}</span>}
    <span className="town-pin">{place.status==='done'?<Check/>:place.status==='current'?<Star/>:<LockKeyhole/>}</span>
   </button>)}
-  {townPlacedRewards(collection,placements).sort((a,b)=>townPaintOrder.indexOf(a.slot)-townPaintOrder.indexOf(b.slot)).map(item=><span className="town-decoration" data-slot={item.slot} data-new={highlight===item.index} key={item.slot}>
-   <TownRewardArt item={item}/><span className="sr-only">{townRewardLabel(item)}</span>
-  </span>)}
+  {townPlacedRewards(collection,placements).sort((a,b)=>art.anchors[a.slot][1]-art.anchors[b.slot][1]).map(item=>{
+   const [x,y,width]=art.anchors[item.slot];
+   return <span className="town-decoration" style={{left:x+'%',top:y+'%',width:width+'%'}} data-slot={item.slot} data-new={highlight===item.index} key={item.slot}>
+    <TownRewardArt item={item} language={language}/><span className="sr-only">{townRewardLabel(item,language)}</span>
+   </span>;
+  })}
   <TownCompanion kind={kind} celebrate={celebrate}/>
  </div>;
 }

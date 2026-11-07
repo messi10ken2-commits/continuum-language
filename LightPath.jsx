@@ -57,14 +57,14 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
  {chapter&&<section className="town-hub">
   <TownRibbon><select className="town-chapter-select" aria-label={t('Chapter')} value={chapter.id} onChange={e=>setSelected(e.target.value)}>{chapters.map(c=><option key={c.id} value={c.id}>{t(c.title)}</option>)}</select></TownRibbon>
   <div className="town-metrics"><b>{t('Chapter progress')} {chapterStats.done}/{chapterStats.total}</b><TownSegments value={chapterStats.done} total={chapterStats.total} label={t('Chapter progress')} round/><span><TownGem/> {t('Materials')} <b>{materials}</b></span></div>
-  <TownScene kind={kind} places={places} collection={collection} placements={coursePlacements}/>
+  <TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements}/>
   <div className="town-paper town-mission">
    {mission?<><h2><Feather aria-hidden="true"/><LessonText text={mission.lesson.title} language={language}/></h2>
    <div className="town-mission-meta"><Clock size={16}/>{tf('{0} questions · about 2 min',[lightActivities(mission.lesson,pending.round).length])}</div>
    <p><LessonText text={chapter.goal} language={language}/></p>
    <button className="primary wide town-cta" onClick={()=>onStart(pending.lesson,pending.round)}><Play size={20} fill="currentColor"/>{t('Continue Light')}<ArrowRight size={19}/></button></>:<h2><LessonText text={chapter.title} language={language}/></h2>}
-   {nextReward&&<div className="town-next-reward"><TownRewardArt item={nextReward}/><div><span><Gift size={16}/>{t('Next decoration')}</span><strong>{townRewardLabel(nextReward)}</strong></div></div>}
-   <TownCollection items={collection} placements={coursePlacements} onPlace={placeReward} busy={placing} failed={placementError===chapter.id}/>
+   {nextReward&&<div className="town-next-reward"><TownRewardArt item={nextReward} language={language}/><div><span><Gift size={16}/>{t('Next decoration')}</span><strong>{townRewardLabel(nextReward,language)}</strong></div></div>}
+   <TownCollection language={language} items={collection} placements={coursePlacements} onPlace={placeReward} busy={placing} failed={placementError===chapter.id}/>
   </div>
  </section>}
  {levelsControl}

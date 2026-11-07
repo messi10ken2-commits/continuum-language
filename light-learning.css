@@ -202,10 +202,6 @@
 .town-scenery,.town-listen-stage>img {position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .town-scenery {mask-image:linear-gradient(transparent,#000 7%,#000 94%,transparent)}
 .town-building {position:absolute;z-index:3;display:grid;place-items:center;min-width:44px;min-height:44px;background:transparent;border:0;padding:0;transform:translate(-50%,-50%);color:white}
-.town-building[data-position="0"] {left:19%;top:27%}
-.town-building[data-position="1"] {left:46%;top:21%}
-.town-building[data-position="2"] {left:79%;top:22%}
-.town-building[data-position="3"] {left:87%;top:46%}
 .town-pin {display:grid;place-items:center;width:30px;height:30px;border:2px solid #fff5e7;border-radius:50%;background:linear-gradient(#aa5696,#713366);box-shadow:0 2px 6px #3a241b80}
 .town-pin svg {width:16px;height:16px}
 .town-building[data-status="locked"] .town-pin {background:#70616a}
@@ -214,6 +210,7 @@
 .town-companion {position:relative;display:grid;place-items:center;width:clamp(90px,29vw,172px);aspect-ratio:1;z-index:2;pointer-events:none;filter:drop-shadow(0 4px 4px #4c301b45)}
 .town-companion .journey-companion {position:relative;inset:auto;width:100%;height:100%;margin:0}
 .town-scene>.town-companion {position:absolute;left:1%;bottom:-1%;width:min(25%,172px)}
+.town-scene[data-regional="true"]>.town-companion {width:min(20%,172px)}
 .town-waves {position:absolute;display:flex;gap:4px;align-items:center;inset-inline-start:77%;top:24%;height:30px}
 .town-waves i {width:4px;height:20px;background:#fff6cc;border-radius:4px;box-shadow:0 0 7px #da8218;animation:town-wave .48s ease-in-out infinite alternate}
 .town-waves i:nth-child(2) {animation-delay:.14s}
@@ -238,7 +235,7 @@
 }
 .app.continuum-ui .light-town .primary.town-cta:disabled {background:#e8d8db;color:#694d62;border-color:#cfb7c3;box-shadow:none;opacity:1}
 .town-next-reward {display:grid;grid-template-columns:42% 1fr;align-items:center;gap:8px;margin-top:12px;border-radius:15px;background:linear-gradient(125deg,#f8e6ed,#eed6ea);overflow:hidden}
-.town-next-reward img {display:block;width:100%;max-height:98px;object-fit:contain}
+.town-next-reward .town-reward-art {display:block;width:100%;max-height:98px;object-fit:contain}
 .town-next-reward strong {display:block;margin-top:3px;font-size:clamp(17px,4vw,25px)}
 .app.continuum-ui .light-town.light-game>.light-game-top {min-height:48px;margin:0;padding:5px 8px;gap:6px;background:#fff3e9f5;border:0;color:var(--town-ink);border-radius:18px 18px 0 0}
 .app.continuum-ui .light-town .light-close,.app.continuum-ui .light-town .light-tip {background:#fff2e9;color:#71415e;border:1px solid #e2c4bd;border-radius:50%;width:40px;height:40px;min-height:40px;padding:0}
@@ -279,7 +276,7 @@
 .town-result .town-scenery {mask-image:linear-gradient(transparent,#000 12%,#000 95%,transparent)}
 .town-result .town-result-loot {display:flex;justify-content:center;gap:7px}
 .town-result-loot>div {display:grid;justify-items:center;align-content:center;width:48%;min-height:70px;border:1px solid #e8cfb7;border-radius:13px;background:#fff5e8;padding:7px}
-.town-result-loot img {width:min(100%,120px);height:auto}
+.town-result-loot .town-reward-art {width:min(100%,120px);height:auto}
 .town-result-loot .town-gem {width:43px;height:43px;margin:6px 0}
 .town-save-stamp {display:flex;align-items:center;justify-content:center;gap:7px;margin:12px 0 6px;padding:7px;color:#754267;border:2px dashed #c78dac;border-radius:14px;font-weight:850}
 .town-result-links {display:flex;justify-content:center;flex-wrap:wrap}
@@ -295,25 +292,16 @@
 
 /* Anchor each prop by its feet on the 1050 × 700 diorama. Paint the
    foreground last, regardless of the order decorations were collected. */
-.town-decoration {position:absolute;left:var(--prop-x);top:var(--prop-y);width:var(--prop-width);transform:translate(-50%,-100%);pointer-events:none;z-index:1}
-.town-decoration[data-slot="8"] {--prop-x:96%;--prop-y:35%;--prop-width:8%} /* Maple · far edge of plaza */
-.town-decoration[data-slot="4"] {--prop-x:78%;--prop-y:33%;--prop-width:8%} /* Fountain · plaza paving */
-.town-decoration[data-slot="5"] {--prop-x:53%;--prop-y:53%;--prop-width:8%} /* Kiosk · café courtyard */
-.town-decoration[data-slot="2"] {--prop-x:39%;--prop-y:57%;--prop-width:3.5%} /* Lamp · beside the courtyard path */
-.town-decoration[data-slot="6"] {--prop-x:77%;--prop-y:58%;--prop-width:8%} /* Arch · path to the bridge */
-.town-decoration[data-slot="1"] {--prop-x:32%;--prop-y:60%;--prop-width:9%} /* Flowers · library frontage */
-.town-decoration[data-slot="3"] {--prop-x:31%;--prop-y:68%;--prop-width:10%} /* Bench · library-side paving */
-.town-decoration[data-slot="7"] {--prop-x:39%;--prop-y:71%;--prop-width:8%} /* Market · courtyard edge */
-.town-decoration[data-slot="0"] {--prop-x:54%;--prop-y:81%;--prop-width:15%} /* Terrace · storefront patio */
+.town-decoration {position:absolute;transform:translate(-50%,-100%);pointer-events:none;z-index:1}
 .town-decoration::before {content:"";position:absolute;inset:auto 9% 0;height:10%;border-radius:50%;background:#3f241a66;filter:blur(2px)}
-.town-decoration img {position:relative;display:block;width:100%;height:auto}
+.town-decoration .town-reward-art {position:relative;display:block;width:100%;height:auto}
 .town-decoration[data-new="true"] {filter:drop-shadow(0 0 5px #fff1b2) drop-shadow(0 0 9px #ffbf49)}
-.light-town img[data-slot] {filter:hue-rotate(var(--town-reward-hue,0deg))}
+.light-town .town-reward-art {overflow:hidden;filter:hue-rotate(var(--town-reward-hue,0deg))}
 .town-collection {margin-top:12px;color:var(--town-ink)}
 .town-collection summary {min-height:36px;cursor:pointer;font-weight:800}
 .town-collection ul {list-style:none;margin:6px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(85px,1fr));gap:6px}
 .town-collection li {display:grid;align-content:start;justify-items:center;gap:4px;padding:7px;text-align:center;font-size:12px;background:#fff9f0;border:1px solid #e7cbb8;border-radius:10px;overflow-wrap:anywhere}
-.town-collection img {width:100%;height:53px;object-fit:contain}
+.town-collection .town-reward-art {width:100%;height:53px;object-fit:contain}
 .town-companion::before {content:'';position:absolute;z-index:-1;inset:auto 12% 4%;height:12%;border-radius:50%;background:#47261558;filter:blur(4px)}
 .adventure-journal .adventure-companion-choice {display:block;width:100%;height:clamp(45px,12vw,75px);object-fit:contain}
 
