@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import {MessageCircle,Target,ClipboardCheck,Ticket,Video,PawPrint} from 'lucide-react';
+import {MessageCircle,Target,ClipboardCheck,Ticket,Video,PawPrint,ShieldCheck} from 'lucide-react';
 import {t,tf} from './interface-runtime.mjs';
 export default function PremiumGuide({user,onAccount,compact=false,premium:initialPremium,courses,language='en'}){
  const [billing,setBilling]=useState(null);
@@ -32,9 +32,15 @@ export default function PremiumGuide({user,onAccount,compact=false,premium:initi
   </div>
   <div className="premium-guide-benefits">
    {benefits.map(([Icon,title,copy])=><article key={title}><Icon size={23} aria-hidden="true"/><h3>{t(title)}</h3><p>{Icon===Video&&courseCount>0&&<>{tf('{0} lessons in your learning language.',[courseCount])} </>}{t(copy)}</p></article>)}
+   <article className="premium-guide-ad-free">
+    <ShieldCheck size={23} aria-hidden="true"/>
+    <div>
+     <h3>{t('Learn without interruptions')}</h3>
+     <p>{t('No Continuum ads. YouTube may still show its own ads.')}</p>
+    </div>
+   </article>
   </div>
   <p className="premium-guide-note"><strong>{t('Free')}</strong> · {t('Standard and Light lessons, Word Town, vocabulary review and one AI conversation a day for up to seven minutes.')}</p>
-  <small><strong>{t('Premium')}</strong> · {t('No Continuum ads. YouTube may still show its own ads.')}</small>
   <small className="premium-guide-ticket-note">{t('The introductory ticket is granted once, not on renewal. Participating teachers and duration limits apply. Tester invitations include a ticket only when specified.')}</small>
  </section>;
 }
