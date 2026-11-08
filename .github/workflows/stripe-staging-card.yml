@@ -1,9 +1,7 @@
 name: Stripe Staging Test Card and Webhook QA
+# Hosted Checkout UI varies across accounts; run this only when deliberately
+# testing the test-card form (do not create unattended test subscriptions).
 on:
-  pull_request:
-    paths:
-      - 'scripts/qa-stripe-staging-card.mjs'
-      - '.github/workflows/stripe-staging-card.yml'
   workflow_dispatch:
 permissions:
   contents: read
