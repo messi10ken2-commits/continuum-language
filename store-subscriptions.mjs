@@ -6,7 +6,7 @@ const googleOrigin = 'https://androidpublisher.googleapis.com';
 const googleTokenUrl = 'https://oauth2.googleapis.com/token';
 const googleAccessStates = new Set(['SUBSCRIPTION_STATE_ACTIVE', 'SUBSCRIPTION_STATE_IN_GRACE_PERIOD', 'SUBSCRIPTION_STATE_CANCELED']);
 
-function sandboxEnabled(env = process.env) {
+export function storeSandboxEnabled(env = process.env) {
   const railwayEnvironment = env.RAILWAY_ENVIRONMENT_NAME?.toLowerCase();
   return env.STORE_BILLING_SANDBOX === 'true' && (railwayEnvironment
     ? ['staging', 'billing-staging'].includes(railwayEnvironment)
@@ -29,12 +29,28 @@ export async function migrateStoreSubscriptions(pool) {
 }
 
 export async function storeSandboxAccess(db, userId) {
-  if (!sandboxEnabled()) return null;
+  if (!storeSandboxEnabled()) return null;
   return (await db.query(`
     SELECT provider, access_until FROM store_sandbox_subscriptions
     WHERE user_id=$1 AND access_until>now()
     ORDER BY access_until DESC, provider LIMIT 1
   `, [userId])).rows[0] ?? null;
+}
+
+export async function storeBillingOverview(db, env = process.env) {
+  const enabled = storeSandboxEnabled(env);
+  const counts = enabled ? (await db.query(`
+    SELECT provider, count(DISTINCT user_id) FILTER (WHERE access_until>now())::int AS active,
+      max(verified_at) AS "lastVerified"
+    FROM store_sandbox_subscriptions GROUP BY provider
+  `)).rows : [];
+  return [
+    {provider: 'apple', configured: !!(env.APPLE_STORE_BUNDLE_ID && env.APPLE_STORE_ISSUER_ID &&
+      env.APPLE_STORE_KEY_ID && env.APPLE_STORE_PRIVATE_KEY && env.APPLE_STORE_PRODUCT_IDS)},
+    {provider: 'google', configured: !!(env.GOOGLE_PLAY_PACKAGE_ID && env.GOOGLE_PLAY_SERVICE_ACCOUNT_EMAIL &&
+      env.GOOGLE_PLAY_SERVICE_ACCOUNT_KEY && env.GOOGLE_PLAY_PRODUCT_IDS)},
+  ].map(store => ({...store, sandboxReady: enabled && store.configured, active: 0, lastVerified: null,
+    ...counts.find(row => row.provider === store.provider)}));
 }
 
 function encode(value) {
@@ -138,7 +154,7 @@ async function verifyGoogle(purchaseToken, userId, fail) {
 
 export async function handleStoreSubscriptions({route, req, res, pool, required, json, send, fail, limited}) {
   if (route !== '/api/billing/store-sandbox') return false;
-  if (!sandboxEnabled()) fail(404, 'Store Sandbox is disabled.');
+  if (!storeSandboxEnabled()) fail(404, 'Store Sandbox is disabled.');
   const user = await required(req, 'learner');
   if (req.method === 'GET') {
     send(res, 200, {appleAccountToken: user.id, googleObfuscatedAccountId: googleAccountId(user.id)});

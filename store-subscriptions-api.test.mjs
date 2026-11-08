@@ -38,6 +38,10 @@ test('verified store test purchases affect only their owner and are isolated fro
     const [a, b] = [await register('AppleQA'), await register('GoogleQA')];
     assert.equal(a.status, 200);
     assert.equal(b.status, 200);
+    process.env.CONTINUUM_OWNER_USER_ID = a.data.user.id;
+    process.env.STRIPE_SECRET_KEY = 'sk_test_stale_config';
+    assert.equal((await api('/api/billing/checkout', 'POST', b.cookie, {})).status, 410);
+    assert.equal((await api('/api/billing/webhook', 'POST', undefined, {})).status, 410);
     const apple = (await api(path, 'GET', a.cookie)).data;
     const google = (await api(path, 'GET', b.cookie)).data;
     const expires = Date.now() + 86_400_000;
@@ -84,13 +88,24 @@ test('verified store test purchases affect only their owner and are isolated fro
     assert.equal((await submit(b, 'google', 'test-purchase-token')).data.active, true);
     assert.equal(acknowledgements, 1);
     assert.equal((await membership(b)).source, 'google_sandbox');
+    const admin = await api('/api/billing/admin', 'GET', a.cookie);
+    assert.equal(admin.status, 200);
+    assert.equal(admin.data.stores.find(store => store.provider === 'google').active, 1);
+    assert.equal(admin.data.settings, undefined);
+    const directory = await api('/api/owner/users?plan=premium', 'GET', a.cookie);
+    assert.equal(directory.data.users.find(user => user.id === b.data.user.id)?.source, 'google_sandbox');
+    const pause = await api('/api/owner/settings', 'PUT', a.cookie, {key: 'checkout', enabled: false, revision: 0, reason: 'Test store purchase pause'});
+    assert.equal(pause.status, 200);
+    assert.equal((await api(path, 'GET', a.cookie)).status, 503);
+    assert.equal((await api(path, 'GET', b.cookie)).status, 503);
+    assert.equal((await submit(b, 'google', 'test-purchase-token')).status, 200);
     googleState = 'SUBSCRIPTION_STATE_ON_HOLD';
     assert.equal((await submit(b, 'google', 'test-purchase-token')).data.active, false);
     googleState = 'SUBSCRIPTION_STATE_ACTIVE';
     assert.equal((await submit(b, 'google', 'test-purchase-token')).data.active, true);
     process.env.NODE_ENV = 'production';
     process.env.RAILWAY_ENVIRONMENT_NAME = 'production';
-    assert.equal((await api(path, 'GET', b.cookie)).status, 404);
+    assert.equal((await submit(b, 'google', 'test-purchase-token')).status, 404);
     assert.equal((await membership(b)).premium, false);
   } finally {
     globalThis.fetch = nativeFetch;
