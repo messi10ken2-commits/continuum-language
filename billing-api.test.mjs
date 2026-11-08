@@ -15,6 +15,8 @@ const liveConfig={...testConfig,STRIPE_SECRET_KEY:'sk_live_synthetic',BILLING_ST
 assert.equal(billingReady(liveConfig),false);
 assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true'}),false);
 assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true',BILLING_TAX_MODE:'off'}),true);
+assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true',BILLING_TAX_MODE:'managed'}),true);
+assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'false',BILLING_TAX_MODE:'managed'}),false);
 const customers=new Map(),subscriptions=new Map(),sessions=new Map(),idem=new Map(),invoices=new Map(),charges=new Map(),disputes=new Map();let calls=0,createCalls=0,failCheckout=false,wrongPrice=false;
 globalThis.fetch=async(input,options)=>{
  const u=new URL(String(input));if(u.hostname!=='api.stripe.com')return originalFetch(input,options);calls++;
@@ -26,10 +28,15 @@ globalThis.fetch=async(input,options)=>{
  }
  if(path==='/v1/subscriptions')return Response.json({object:'list',data:subscriptions.get(u.searchParams.get('customer'))||[],has_more:false});
  if(path==='/v1/checkout/sessions'&&options.method==='POST'){
-  // New Stripe accounts may default to Managed Payments: explicit opt-out is required
-  // because Continuum uses custom membership entitlements and disables adaptive pricing.
-  assert.equal(form.get('managed_payments[enabled]'),'false');
-  assert.equal(form.get('adaptive_pricing[enabled]'),'false');
+  const managed=process.env.BILLING_TAX_MODE==='managed';
+  assert.equal(form.get('managed_payments[enabled]'),String(managed));
+  assert.equal(form.get('adaptive_pricing[enabled]'),managed?null:'false');
+  if(managed){
+   assert.equal(form.get('automatic_tax[enabled]'),null);
+   assert.equal(form.get('customer_update[address]'),null);
+   assert.equal(form.get('custom_text[submit][message]'),null);
+   assert.equal(form.get('subscription_data[trial_period_days]'),'3');
+  }
   if(failCheckout){failCheckout=false;return Response.json({error:{type:'invalid_request_error',message:'synthetic outage'}},{status:400});}
   if(!idem.has(key)){const id='cs_test_'+sessions.size;const session={id,object:'checkout.session',status:'open',customer:form.get('customer'),url:'https://checkout.stripe.com/c/pay/'+id};sessions.set(id,session);idem.set(key,session);createCalls++;}return Response.json(idem.get(key));
  }
@@ -160,5 +167,12 @@ try{
  assert.equal((await webhook('charge.dispute.closed',dispute)).status,200);
  assert.equal((await webhook('charge.dispute.created',{...dispute,status:'needs_response'})).status,200);
  assert.equal((await api('/billing','GET',null,b.cookie)).data.membership.premium,true);
+ const managedLearner=await register('BillingManaged');
+ process.env.BILLING_TAX_MODE='managed';
+ const managedOffer=await api('/billing/trial-offer?interval=year','GET',null,managedLearner.cookie);
+ assert.equal(managedOffer.status,200);
+ const managedCheckout=await api('/billing/checkout','POST',{key:crypto.randomUUID(),interval:'year',trial:true,consent:true,offer:managedOffer.data.offer},managedLearner.cookie);
+ assert.equal(managedCheckout.status,200);
+ assert.equal((await api('/billing','GET',null,managedLearner.cookie)).data.membership.premium,false);
  console.log('PASS: signed raw webhooks, duplicate/out-of-order events, durable Checkout, server entitlements, course gates, first-payment tickets, real slot redemption/cancellation, ads, refund and dispute handling, owner isolation and portal cancellation while sales are disabled. No real Stripe requests or charges.');
 }finally{globalThis.fetch=originalFetch;await new Promise(r=>testServer.close(r));await db.close()}

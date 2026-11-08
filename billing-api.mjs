@@ -26,7 +26,11 @@ export function billingReady(env=process.env){
  return !!(s.enabled&&mode&&mode===env.BILLING_STRIPE_MODE&&env.STRIPE_WEBHOOK_SECRET?.startsWith('whsec_')
   &&/^price_/.test(month||'')&&/^price_/.test(year||'')&&month!==year
   &&plans.month.amount&&plans.year.amount&&/^https:\/\/[^/?#@]+\/?$/.test(s.base)
-  &&(mode==='live'?env.BILLING_LIVE_APPROVED==='true'&&['automatic','off'].includes(env.BILLING_TAX_MODE):allowTestBilling(env)));
+  &&(mode==='live'?env.BILLING_LIVE_APPROVED==='true'&&['automatic','managed','off'].includes(env.BILLING_TAX_MODE):allowTestBilling(env)));
+}
+function checkoutTaxSettings(mode){
+ if(mode==='managed')return {managed_payments:{enabled:true}};
+ return {managed_payments:{enabled:false},adaptive_pricing:{enabled:false},...(mode==='automatic'?{automatic_tax:{enabled:true},customer_update:{address:'auto'}}:{})};
 }
 function configuredPrice(price,interval,expectedId){
  const offer=checkedTrialPrice(price,interval),plan=configuredPremiumPlans(process.env)[interval];
@@ -238,7 +242,7 @@ async function handleBillingCore({route,req,res,pool,required,json,send,fail,lim
    if(d.trial){const offer=currentOffer;if(['priceId','amount','currency','interval','termsVersion'].some(k=>offer[k]!==d.offer?.[k]||offer[k]!==request.offer?.[k]))fail(409,'The price or terms changed. Refresh the offer and agree again.');}
    return {request,customer:m.customer_id};
   });
-  let session=pending.session;if(!session){const r=pending.request;session=await stripe.checkout.sessions.create({mode:'subscription',managed_payments:{enabled:false},adaptive_pricing:{enabled:false},...(process.env.BILLING_TAX_MODE==='automatic'?{automatic_tax:{enabled:true},customer_update:{address:'auto'}}:{}),customer:pending.customer,client_reference_id:user.id,line_items:[{price:r.price_id,quantity:1}],payment_method_collection:'always',...(r.trial?{custom_text:{submit:{message:'3 days free, then automatic recurring charges at the price and frequency shown. Cancel before the trial ends in Continuum Account to avoid a charge.'}}}:{}),subscription_data:{metadata:{continuum_user:user.id,product:'continuum-premium',...(r.trial?{continuum_trial:renewalTermsVersion,checkout_request:r.id}:{})},...(r.trial?{trial_period_days:premiumTrialDays,trial_settings:{end_behavior:{missing_payment_method:'cancel'}}}:{})},success_url:base+'/?billing=success',cancel_url:base+'/?billing=cancelled'},{idempotencyKey:'continuum-checkout-'+r.id});await pool.query('UPDATE billing_checkout_requests SET session_id=$2 WHERE id=$1',[r.id,session.id]);}
+  let session=pending.session;if(!session){const r=pending.request;session=await stripe.checkout.sessions.create({mode:'subscription',...checkoutTaxSettings(process.env.BILLING_TAX_MODE),customer:pending.customer,client_reference_id:user.id,line_items:[{price:r.price_id,quantity:1}],payment_method_collection:'always',...(r.trial&&process.env.BILLING_TAX_MODE!=='managed'?{custom_text:{submit:{message:'3 days free, then automatic recurring charges at the price and frequency shown. Cancel before the trial ends in Continuum Account to avoid a charge.'}}}:{}),subscription_data:{metadata:{continuum_user:user.id,product:'continuum-premium',...(r.trial?{continuum_trial:renewalTermsVersion,checkout_request:r.id}:{})},...(r.trial?{trial_period_days:premiumTrialDays,trial_settings:{end_behavior:{missing_payment_method:'cancel'}}}:{})},success_url:base+'/?billing=success',cancel_url:base+'/?billing=cancelled'},{idempotencyKey:'continuum-checkout-'+r.id});await pool.query('UPDATE billing_checkout_requests SET session_id=$2 WHERE id=$1',[r.id,session.id]);}
   send(res,200,{url:stripePaymentUrl(session.url,'checkout.stripe.com')});return true;
  }
  if(route==='/api/billing/sync'){await billingTransaction(pool,async c=>{const m=(await c.query('SELECT customer_id FROM billing_memberships WHERE user_id=$1',[user.id])).rows[0];if(m?.customer_id){if(!stripe||!billingSettings().prices.length)fail(503,'Subscription management is temporarily unavailable.');await reconcileCustomer(c,m.customer_id,stripe)}});send(res,200,await status(pool,user));return true;}
