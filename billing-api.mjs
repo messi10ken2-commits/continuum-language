@@ -1,4 +1,5 @@
 import {billingReport} from './billing-report.mjs';
+import {customerInvoiceHistory} from './billing-invoices.mjs';
 import {configuredPremiumPlans,isPremiumInterval,premiumPriceId,premiumTrialDays,stripeMode} from './premium-pricing.mjs';
 import {languageInfo} from './languages.mjs';
 import {regionalAudioPairs,regionalPlaybackLocale} from './regional-audio-pairs.mjs';
@@ -17,7 +18,7 @@ const uuid=/^[a-f0-9-]{36}$/;
 const err=(status,message)=>{throw Object.assign(Error(message),{status})};
 export const billingSettings=(env=process.env)=>({prices:[env.STRIPE_PREMIUM_MONTHLY_PRICE_ID,env.STRIPE_PREMIUM_YEARLY_PRICE_ID,...(env.STRIPE_PREMIUM_LEGACY_PRICE_IDS||'').split(',').map(x=>x.trim())].filter(Boolean),base:env.BILLING_PUBLIC_URL||'',enabled:env.BILLING_ENABLED==='true',maxMinutes:Math.min(60,Math.max(15,Number(env.PREMIUM_TICKET_MAX_MINUTES)||60))});
 const allowTestBilling=env=>env.NODE_ENV!=='production'||(
- env.BILLING_SANDBOX_DEPLOYMENT==='true'&&env.RAILWAY_ENVIRONMENT_NAME==='billing-staging'
+ env.BILLING_SANDBOX_DEPLOYMENT==='true'&&['staging','billing-staging'].includes((env.RAILWAY_ENVIRONMENT_NAME||'').toLowerCase())
 );
 export function billingReady(env=process.env){
  const s=billingSettings(env),mode=stripeMode(env),plans=configuredPremiumPlans(env);
@@ -25,7 +26,11 @@ export function billingReady(env=process.env){
  return !!(s.enabled&&mode&&mode===env.BILLING_STRIPE_MODE&&env.STRIPE_WEBHOOK_SECRET?.startsWith('whsec_')
   &&/^price_/.test(month||'')&&/^price_/.test(year||'')&&month!==year
   &&plans.month.amount&&plans.year.amount&&/^https:\/\/[^/?#@]+\/?$/.test(s.base)
-  &&(mode==='live'?env.BILLING_LIVE_APPROVED==='true'&&['automatic','off'].includes(env.BILLING_TAX_MODE):allowTestBilling(env)));
+  &&(mode==='live'?env.BILLING_LIVE_APPROVED==='true'&&['automatic','managed','off'].includes(env.BILLING_TAX_MODE):allowTestBilling(env)));
+}
+function checkoutTaxSettings(mode){
+ if(mode==='managed')return {managed_payments:{enabled:true}};
+ return {managed_payments:{enabled:false},adaptive_pricing:{enabled:false},...(mode==='automatic'?{automatic_tax:{enabled:true},customer_update:{address:'auto'}}:{})};
 }
 function configuredPrice(price,interval,expectedId){
  const offer=checkedTrialPrice(price,interval),plan=configuredPremiumPlans(process.env)[interval];
@@ -181,6 +186,17 @@ async function handleBillingCore({route,req,res,pool,required,json,send,fail,lim
   const m=await membership(pool,user.id,{actual:true});if(!m.trialUsed)fail(409,'New trials require payment details and renewal agreement in Stripe Checkout.');send(res,200,await status(pool,user));return true;
  }
  if(route==='/api/billing'&&req.method==='GET'){send(res,200,await status(pool,user));return true;}
+ if(route==='/api/billing/invoices'&&req.method==='GET'){
+  if(user.role!=='learner')fail(403,'Learner membership only');
+  limited(req,'billing-invoices-'+user.id,30);
+  const record=(await pool.query('SELECT customer_id FROM billing_memberships WHERE user_id=$1',[user.id])).rows[0];
+  if(!record?.customer_id){send(res,200,{invoices:[],hasMore:false});return true;}
+  stripe||=process.env.STRIPE_SECRET_KEY?stripeClient():null;
+  if(!stripe)fail(503,'Invoice history is temporarily unavailable.');
+  const history=await customerInvoiceHistory(stripe,record.customer_id);
+  send(res,200,history);return true;
+ }
+
  if(route==='/api/billing/admin'&&req.method==='GET'){
   if(!isPlatformOwner(user))fail(403,'Platform owner only');const members=(await pool.query('SELECT u.id,u.name,m.status,m.recurring_interval AS interval,m.paid_until AS "paidUntil",m.cancel_at_period_end AS "cancelAtPeriodEnd",EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=u.id AND b.blocked) AS "paymentReview" FROM users u JOIN billing_memberships m ON m.user_id=u.id ORDER BY m.updated_at DESC LIMIT 100')).rows;
   const teachers=(await pool.query("SELECT u.id,u.name,COALESCE(p.enabled,false) AS enabled FROM users u JOIN teacher_profiles t ON t.user_id=u.id AND t.status='approved' LEFT JOIN premium_class_teachers p ON p.teacher_id=u.id ORDER BY u.name")).rows;
@@ -226,7 +242,7 @@ async function handleBillingCore({route,req,res,pool,required,json,send,fail,lim
    if(d.trial){const offer=currentOffer;if(['priceId','amount','currency','interval','termsVersion'].some(k=>offer[k]!==d.offer?.[k]||offer[k]!==request.offer?.[k]))fail(409,'The price or terms changed. Refresh the offer and agree again.');}
    return {request,customer:m.customer_id};
   });
-  let session=pending.session;if(!session){const r=pending.request;session=await stripe.checkout.sessions.create({mode:'subscription',adaptive_pricing:{enabled:false},...(process.env.BILLING_TAX_MODE==='automatic'?{automatic_tax:{enabled:true},customer_update:{address:'auto'}}:{}),customer:pending.customer,client_reference_id:user.id,line_items:[{price:r.price_id,quantity:1}],payment_method_collection:'always',...(r.trial?{custom_text:{submit:{message:'3 days free, then automatic recurring charges at the price and frequency shown. Cancel before the trial ends in Continuum Account to avoid a charge.'}}}:{}),subscription_data:{metadata:{continuum_user:user.id,product:'continuum-premium',...(r.trial?{continuum_trial:renewalTermsVersion,checkout_request:r.id}:{})},...(r.trial?{trial_period_days:premiumTrialDays,trial_settings:{end_behavior:{missing_payment_method:'cancel'}}}:{})},success_url:base+'/?billing=success',cancel_url:base+'/?billing=cancelled'},{idempotencyKey:'continuum-checkout-'+r.id});await pool.query('UPDATE billing_checkout_requests SET session_id=$2 WHERE id=$1',[r.id,session.id]);}
+  let session=pending.session;if(!session){const r=pending.request;session=await stripe.checkout.sessions.create({mode:'subscription',...checkoutTaxSettings(process.env.BILLING_TAX_MODE),customer:pending.customer,client_reference_id:user.id,line_items:[{price:r.price_id,quantity:1}],payment_method_collection:'always',...(r.trial&&process.env.BILLING_TAX_MODE!=='managed'?{custom_text:{submit:{message:'3 days free, then automatic recurring charges at the price and frequency shown. Cancel before the trial ends in Continuum Account to avoid a charge.'}}}:{}),subscription_data:{metadata:{continuum_user:user.id,product:'continuum-premium',...(r.trial?{continuum_trial:renewalTermsVersion,checkout_request:r.id}:{})},...(r.trial?{trial_period_days:premiumTrialDays,trial_settings:{end_behavior:{missing_payment_method:'cancel'}}}:{})},success_url:base+'/?billing=success',cancel_url:base+'/?billing=cancelled'},{idempotencyKey:'continuum-checkout-'+r.id});await pool.query('UPDATE billing_checkout_requests SET session_id=$2 WHERE id=$1',[r.id,session.id]);}
   send(res,200,{url:stripePaymentUrl(session.url,'checkout.stripe.com')});return true;
  }
  if(route==='/api/billing/sync'){await billingTransaction(pool,async c=>{const m=(await c.query('SELECT customer_id FROM billing_memberships WHERE user_id=$1',[user.id])).rows[0];if(m?.customer_id){if(!stripe||!billingSettings().prices.length)fail(503,'Subscription management is temporarily unavailable.');await reconcileCustomer(c,m.customer_id,stripe)}});send(res,200,await status(pool,user));return true;}

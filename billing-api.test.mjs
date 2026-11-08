@@ -8,11 +8,16 @@ const testConfig={...process.env,NODE_ENV:'test'};
 assert.equal(billingReady(testConfig),true);
 assert.equal(billingReady({...testConfig,NODE_ENV:'production'}),false);
 assert.equal(billingReady({...testConfig,NODE_ENV:'production',BILLING_SANDBOX_DEPLOYMENT:'true',RAILWAY_ENVIRONMENT_NAME:'billing-staging'}),true);
+assert.equal(billingReady({...testConfig,NODE_ENV:'production',BILLING_SANDBOX_DEPLOYMENT:'true',RAILWAY_ENVIRONMENT_NAME:'Staging'}),true);
+assert.equal(billingReady({...testConfig,NODE_ENV:'production',BILLING_SANDBOX_DEPLOYMENT:'true',RAILWAY_ENVIRONMENT_NAME:'production'}),false);
+assert.equal(billingReady({...testConfig,NODE_ENV:'production',RAILWAY_ENVIRONMENT_NAME:'Staging'}),false);
 const liveConfig={...testConfig,STRIPE_SECRET_KEY:'sk_live_synthetic',BILLING_STRIPE_MODE:'live',NODE_ENV:'production'};
 assert.equal(billingReady(liveConfig),false);
 assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true'}),false);
 assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true',BILLING_TAX_MODE:'off'}),true);
-const customers=new Map(),subscriptions=new Map(),sessions=new Map(),idem=new Map(),invoices=new Map(),charges=new Map();let calls=0,createCalls=0,failCheckout=false,wrongPrice=false;
+assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true',BILLING_TAX_MODE:'managed'}),true);
+assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'false',BILLING_TAX_MODE:'managed'}),false);
+const customers=new Map(),subscriptions=new Map(),sessions=new Map(),idem=new Map(),invoices=new Map(),charges=new Map(),disputes=new Map();let calls=0,createCalls=0,failCheckout=false,wrongPrice=false;
 globalThis.fetch=async(input,options)=>{
  const u=new URL(String(input));if(u.hostname!=='api.stripe.com')return originalFetch(input,options);calls++;
  const form=new URLSearchParams(options.body?.toString()||''),path=u.pathname,header=new Headers(options.headers),key=header.get('Idempotency-Key');
@@ -23,13 +28,28 @@ globalThis.fetch=async(input,options)=>{
  }
  if(path==='/v1/subscriptions')return Response.json({object:'list',data:subscriptions.get(u.searchParams.get('customer'))||[],has_more:false});
  if(path==='/v1/checkout/sessions'&&options.method==='POST'){
+  const managed=process.env.BILLING_TAX_MODE==='managed';
+  assert.equal(form.get('managed_payments[enabled]'),String(managed));
+  assert.equal(form.get('adaptive_pricing[enabled]'),managed?null:'false');
+  if(managed){
+   assert.equal(form.get('automatic_tax[enabled]'),null);
+   assert.equal(form.get('customer_update[address]'),null);
+   assert.equal(form.get('custom_text[submit][message]'),null);
+   assert.equal(form.get('subscription_data[trial_period_days]'),'3');
+  }
   if(failCheckout){failCheckout=false;return Response.json({error:{type:'invalid_request_error',message:'synthetic outage'}},{status:400});}
   if(!idem.has(key)){const id='cs_test_'+sessions.size;const session={id,object:'checkout.session',status:'open',customer:form.get('customer'),url:'https://checkout.stripe.com/c/pay/'+id};sessions.set(id,session);idem.set(key,session);createCalls++;}return Response.json(idem.get(key));
  }
  if(path.startsWith('/v1/checkout/sessions/'))return Response.json(sessions.get(path.split('/').at(-1)));
  if(path==='/v1/billing_portal/sessions')return Response.json({id:'bps_test',url:'https://billing.stripe.com/p/session/test'});
+ if(path==='/v1/invoices'){
+  assert.equal(u.searchParams.get('customer'),customers.values().next().value);
+  return Response.json({data:[{id:'in_TestInvoice1',customer:u.searchParams.get('customer'),status:'paid',currency:'usd',total:999,hosted_invoice_url:'https://invoice.stripe.com/i/qa'},
+   {id:'in_PrivateInvoice2',customer:'cus_Unrelated',status:'paid',hosted_invoice_url:'https://invoice.stripe.com/i/private'}],has_more:false});
+ }
  if(path.startsWith('/v1/invoices/'))return Response.json(invoices.get(path.split('/').at(-1)));
  if(path.startsWith('/v1/charges/'))return Response.json(charges.get(path.split('/').at(-1)));
+ if(path.startsWith('/v1/disputes/'))return Response.json(disputes.get(path.split('/').at(-1)));
  if(path==='/v1/invoice_payments')return Response.json({object:'list',data:[{invoice:'in_first'}],has_more:false});
  throw Error('Unexpected synthetic Stripe endpoint '+path);
 };
@@ -59,6 +79,14 @@ try{
  const customer=customers.get(a.id),sub=paid(customer);assert.equal((await webhook('invoice.paid',{id:'in_first',customer},'evt_paid')).status,200);
  r=await api('/billing','GET',null,a.cookie);assert.equal(r.data.membership.premium,true);assert.equal(r.data.tickets.filter(t=>t.state==='available').length,1);
  assert.deepEqual(r.data.membership.plan,{interval:'month',amount:999,currency:'usd'});
+ assert.equal((await api('/billing/invoices')).status,401);
+ assert.equal((await api('/billing/invoices','GET',null,teacher.cookie)).status,403);
+ assert.deepEqual((await api('/billing/invoices','GET',null,b.cookie)).data,{invoices:[],hasMore:false});
+ const history=await api('/billing/invoices?customer=cus_Unrelated','GET',null,a.cookie);
+ assert.equal(history.status,200);
+ assert.deepEqual(history.data.invoices.map(i=>i.id),['in_TestInvoice1']);
+ assert.equal(history.data.invoices[0].hostedUrl,'https://invoice.stripe.com/i/qa');
+
  const admin=(await api('/billing/admin','GET',null,a.cookie)).data.report;
  assert.equal(admin.accounts.monthly,1);
  assert.equal(Number(admin.accounts.mrr),999);
@@ -89,14 +117,62 @@ try{
  // Ad-free is a server entitlement; client flags cannot request it.
  await api('/billing/admin','PUT',{ad:{title:'Test campaign',body:'First-party test',url:'https://example.test',enabled:true}},a.cookie);
  assert.equal((await api('/billing','GET',null,a.cookie)).data.ad,null);assert.equal((await api('/billing','GET',null,b.cookie)).data.ad.title,'Test campaign');
+ // Regression: scheduled cancellation retains paid access until the paid period ends.
+ subscriptions.get(customer)[0].cancel_at_period_end=true;
+ await webhook('customer.subscription.updated',{customer});
+ r=await api('/billing','GET',null,a.cookie);
+ assert.equal(r.data.membership.premium,true);
+ assert.equal(r.data.membership.cancelAtPeriodEnd,true);
+ subscriptions.get(customer)[0].cancel_at_period_end=false;
+ await webhook('customer.subscription.updated',{customer});
+ assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.cancelAtPeriodEnd,false);
+ // Regression: a failed renewal invoice must not grant/extend Premium access.
+ // A successfully paid recovery restores Premium without creating extra class tickets.
+ const failedRenewal=subscriptions.get(customer)[0];
+ failedRenewal.status='past_due';
+ failedRenewal.latest_invoice.status='open';
+ await webhook('invoice.payment_failed',{customer});
+ r=await api('/billing','GET',null,a.cookie);
+ assert.equal(r.data.membership.status,'past_due');
+ assert.equal(r.data.membership.premium,false);
+ paid(customer,'in_payment_recovered');
+ await webhook('invoice.paid',{customer});
+ r=await api('/billing','GET',null,a.cookie);
+ assert.equal(r.data.membership.premium,true);
+ assert.equal(r.data.tickets.length,3);
  // Fresh Stripe state wins even if an old event arrives after cancellation.
  subscriptions.get(customer)[0].status='canceled';await webhook('customer.subscription.deleted',{customer});await webhook('invoice.paid',{customer},'evt_old_invoice');assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.premium,false);
  paid(customer,'in_rejoin');await webhook('invoice.paid',{customer});assert.equal((await api('/billing','GET',null,a.cookie)).data.tickets.length,3);
+ charges.set('ch_partial',{id:'ch_partial',customer,invoice:'in_first',refunded:false,currency:'usd',amount_refunded:250});
+ assert.equal((await webhook('charge.refunded',{id:'ch_partial',customer})).status,200);
+ assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.premium,true);
+ assert.deepEqual((await api('/billing/admin','GET',null,a.cookie)).data.report.refunds.map(refund=>[refund.currency,Number(refund.amount)]),[['usd',250]]);
  // Full refunds remove unused benefits and do not allow them to be re-granted.
  charges.set('ch_test',{id:'ch_test',customer,payment_intent:'pi_test',invoice:'in_first',refunded:true});assert.equal((await webhook('charge.refunded',{id:'ch_test',customer})).status,200);r=await api('/billing','GET',null,a.cookie);assert.equal(r.data.membership.premium,false);assert.equal(r.data.tickets.filter(t=>t.state==='revoked').length,2);await webhook('invoice.paid',{customer});assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.premium,false);
  // Turning off new sales must not prevent a customer from cancelling in Stripe.
  process.env.BILLING_ENABLED='false';assert.equal((await checkout()).status,503);assert.equal((await api('/billing/portal','POST',{},a.cookie)).status,200);
  // Stripe failure persists a retryable checkout intent, never a phantom membership.
  process.env.BILLING_ENABLED='true';failCheckout=true;const failed=await api('/billing/checkout','POST',{key:crypto.randomUUID(),interval:'month'},b.cookie);assert.equal(failed.status,503);const recovered=await api('/billing/checkout','POST',{key:crypto.randomUUID(),interval:'month'},b.cookie);assert.equal(recovered.status,200);assert.equal((await db.query('SELECT count(*)::int AS n FROM billing_checkout_requests WHERE user_id=$1 AND active',[b.id])).rows[0].n,1);
- console.log('PASS: signed raw webhooks, duplicate/out-of-order events, durable Checkout, server entitlements, course gates, first-payment tickets, real slot redemption/cancellation, ads, refund revocation, owner isolation and portal cancellation while sales are disabled. No real Stripe requests or charges.');
+ const disputeCustomer=customers.get(b.id);
+ paid(disputeCustomer,'in_disputed');
+ await webhook('invoice.paid',{customer:disputeCustomer});
+ charges.set('ch_disputed',{id:'ch_disputed',customer:disputeCustomer,invoice:'in_disputed',refunded:false});
+ const dispute={id:'dp_test',charge:'ch_disputed',status:'needs_response'};
+ disputes.set(dispute.id,dispute);
+ assert.equal((await webhook('charge.dispute.created',dispute)).status,200);
+ r=await api('/billing','GET',null,b.cookie);
+ assert.equal(r.data.membership.status,'payment_review');
+ assert.equal(r.data.membership.premium,false);
+ dispute.status='won';
+ assert.equal((await webhook('charge.dispute.closed',dispute)).status,200);
+ assert.equal((await webhook('charge.dispute.created',{...dispute,status:'needs_response'})).status,200);
+ assert.equal((await api('/billing','GET',null,b.cookie)).data.membership.premium,true);
+ const managedLearner=await register('BillingManaged');
+ process.env.BILLING_TAX_MODE='managed';
+ const managedOffer=await api('/billing/trial-offer?interval=year','GET',null,managedLearner.cookie);
+ assert.equal(managedOffer.status,200);
+ const managedCheckout=await api('/billing/checkout','POST',{key:crypto.randomUUID(),interval:'year',trial:true,consent:true,offer:managedOffer.data.offer},managedLearner.cookie);
+ assert.equal(managedCheckout.status,200);
+ assert.equal((await api('/billing','GET',null,managedLearner.cookie)).data.membership.premium,false);
+ console.log('PASS: signed raw webhooks, duplicate/out-of-order events, durable Checkout, server entitlements, course gates, first-payment tickets, real slot redemption/cancellation, ads, refund and dispute handling, owner isolation and portal cancellation while sales are disabled. No real Stripe requests or charges.');
 }finally{globalThis.fetch=originalFetch;await new Promise(r=>testServer.close(r));await db.close()}

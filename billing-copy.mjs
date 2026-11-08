@@ -77,5 +77,20 @@ AI feedback|AIフィードバック|Comentarios de IA|Feedback de IA|AI 反馈|R
 Feature|機能|Función|Recurso|功能|Fonctionnalité|기능|Fitur|Функция|الميزة
 Summary|概要|Resumen|Resumo|概要|Résumé|요약|Ringkasan|Сводка|ملخّص
 
+Invoices and receipts|請求書と領収書|Facturas y recibos|Faturas e recibos|发票和收据|Factures et reçus|청구서 및 영수증|Faktur dan kuitansi|Счета и квитанции|الفواتير والإيصالات
+Invoice history is temporarily unavailable.|請求履歴を一時的に表示できません。|El historial de facturas no está disponible temporalmente.|O histórico de faturas está temporariamente indisponível.|暂时无法查看发票记录。|L’historique des factures est temporairement indisponible.|청구 내역을 일시적으로 확인할 수 없습니다.|Riwayat faktur sementara tidak tersedia.|История счетов временно недоступна.|سجل الفواتير غير متاح مؤقتًا.
+Loading invoices…|請求書を読み込み中…|Cargando facturas…|Carregando faturas…|正在加载发票…|Chargement des factures…|청구서를 불러오는 중…|Memuat faktur…|Загрузка счетов…|جارٍ تحميل الفواتير…
+No invoices yet.|請求書はまだありません。|Aún no hay facturas.|Ainda não há faturas.|暂无发票。|Aucune facture pour le moment.|아직 청구서가 없습니다.|Belum ada faktur.|Счетов пока нет.|لا توجد فواتير بعد.
+Invoice|請求書|Factura|Fatura|发票|Facture|청구서|Faktur|Счёт|فاتورة
+View invoice|請求書を表示|Ver factura|Ver fatura|查看发票|Voir la facture|청구서 보기|Lihat faktur|Посмотреть счёт|عرض الفاتورة
+Invoice PDF|請求書PDF|PDF de la factura|PDF da fatura|发票 PDF|PDF de la facture|청구서 PDF|PDF faktur|Счёт в PDF|ملف الفاتورة PDF
+For older invoices, open subscription management.|過去の請求書はサブスクリプション管理から確認できます。|Consulta las facturas anteriores en la gestión de suscripciones.|Consulte faturas anteriores no gerenciamento da assinatura.|请在订阅管理中查看更早的发票。|Consultez les anciennes factures dans la gestion de l’abonnement.|이전 청구서는 구독 관리에서 확인하세요.|Lihat faktur lama di pengelolaan langganan.|Предыдущие счета доступны в разделе управления подпиской.|اطّلع على الفواتير الأقدم من إدارة الاشتراك.
+Draft invoice|下書き|Factura en borrador|Fatura em rascunho|发票草稿|Brouillon de facture|청구서 초안|Draf faktur|Черновик счёта|مسودة فاتورة
+Open invoice|支払い待ち|Factura pendiente|Fatura pendente|待付款|Facture en attente|결제 대기|Faktur menunggu pembayaran|Ожидает оплаты|فاتورة بانتظار الدفع
+Paid invoice|支払い済み|Factura pagada|Fatura paga|已付款|Facture réglée|결제 완료|Faktur lunas|Оплаченный счёт|فاتورة مدفوعة
+Void invoice|無効|Factura anulada|Fatura anulada|已作废|Facture annulée|무효 청구서|Faktur dibatalkan|Аннулированный счёт|فاتورة ملغاة
+Uncollectible invoice|回収不能|Factura incobrable|Fatura incobrável|无法收款|Facture irrécouvrable|회수 불가|Faktur tidak tertagih|Счёт не подлежит взысканию|فاتورة متعذرة التحصيل
+Unknown invoice status|請求状況不明|Estado de factura desconocido|Status da fatura desconhecido|发票状态未知|Statut de facture inconnu|알 수 없는 청구 상태|Status faktur tidak diketahui|Статус счёта неизвестен|حالة الفاتورة غير معروفة
+
 `;
 export const billingCopy=Object.fromEntries(rows.trim().split('\n').filter(Boolean).map(line=>{const [k,...v]=line.split('|');if(![5,9].includes(v.length))throw Error('Billing translation missing');return [k,Object.fromEntries(['ja','es','pt','zh','fr','ko','id','ru','ar'].slice(0,v.length).map((l,i)=>[l,v[i]]))]}));
