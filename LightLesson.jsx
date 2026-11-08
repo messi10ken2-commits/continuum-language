@@ -154,7 +154,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   </div>
   {phase==='intro'?<section className="light-launch"><div className="light-launch-art"><PageScene lesson={lesson} caption=""/><span><Star size={30} fill="currentColor"/></span></div><span className="eyebrow">{lesson.level} · {tf('{0} questions',[activities.length])}</span><h1>{title}</h1><p>{t('Small steps. Clear guidance.')}</p><div className="light-round-facts"><span><Flame/>{activities.length*10} XP</span><span><Lightbulb/>{t('Hints when you need them')}</span></div><p className="light-record-note">{t('Get at least 80% right on the first try to pass.')}</p><button className="primary wide light-game-button" disabled={busy} onClick={()=>setPhase('exercise')}>{t('Let’s go')}<ArrowRight size={19}/></button>{modeControl}</section>:
   phase==='result'?<section className="light-celebration town-result">
-   {!suspended&&finishedHere&&passed&&reward&&!reward.failed&&<LessonMilestone key={record.id} user={user} reward={townReward}/>}
+   {finishedHere&&passed&&reward&&!reward.failed&&<LessonMilestone key={record.id} user={user} reward={townReward} visible={!suspended}/>}
    <h1 className="town-title">{t(!passed?'Keep practising':evidence.firstCorrect===activities.length?'Perfect clear!':'Lesson passed!')}</h1>
    <TownRibbon><b>{tf('First try: {0}/{1}',[evidence.firstCorrect,activities.length])} · {tf('Best combo ×{0}',[evidence.best])}</b></TownRibbon>
    {reward&&!reward.failed&&<TownScene language={language} kind={kind} collection={reward.collection} placements={reward.placements} built={reward.built} newPlot={reward.newPlot} highlight={finishedHere?reward.award?.index:undefined} celebrate={finishedHere&&!!reward.materials}/>}
