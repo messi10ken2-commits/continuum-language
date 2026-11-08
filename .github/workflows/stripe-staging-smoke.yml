@@ -1,0 +1,20 @@
+name: Stripe Staging Unpaid Checkout Smoke
+on:
+  pull_request:
+    paths:
+      - 'scripts/qa-stripe-staging-unpaid.mjs'
+      - '.github/workflows/stripe-staging-smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  staging-unpaid-checkout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Validate isolated Staging plans and unpaid Stripe Checkout
+        run: node scripts/qa-stripe-staging-unpaid.mjs
