@@ -1,4 +1,5 @@
 import {billingReport} from './billing-report.mjs';
+import {customerInvoiceHistory} from './billing-invoices.mjs';
 import {configuredPremiumPlans,isPremiumInterval,premiumPriceId,premiumTrialDays,stripeMode} from './premium-pricing.mjs';
 import {languageInfo} from './languages.mjs';
 import {regionalAudioPairs,regionalPlaybackLocale} from './regional-audio-pairs.mjs';
@@ -181,6 +182,17 @@ async function handleBillingCore({route,req,res,pool,required,json,send,fail,lim
   const m=await membership(pool,user.id,{actual:true});if(!m.trialUsed)fail(409,'New trials require payment details and renewal agreement in Stripe Checkout.');send(res,200,await status(pool,user));return true;
  }
  if(route==='/api/billing'&&req.method==='GET'){send(res,200,await status(pool,user));return true;}
+ if(route==='/api/billing/invoices'&&req.method==='GET'){
+  if(user.role!=='learner')fail(403,'Learner membership only');
+  limited(req,'billing-invoices-'+user.id,30);
+  const record=(await pool.query('SELECT customer_id FROM billing_memberships WHERE user_id=$1',[user.id])).rows[0];
+  if(!record?.customer_id){send(res,200,{invoices:[],hasMore:false});return true;}
+  stripe||=process.env.STRIPE_SECRET_KEY?stripeClient():null;
+  if(!stripe)fail(503,'Invoice history is temporarily unavailable.');
+  const history=await customerInvoiceHistory(stripe,record.customer_id);
+  send(res,200,history);return true;
+ }
+
  if(route==='/api/billing/admin'&&req.method==='GET'){
   if(!isPlatformOwner(user))fail(403,'Platform owner only');const members=(await pool.query('SELECT u.id,u.name,m.status,m.recurring_interval AS interval,m.paid_until AS "paidUntil",m.cancel_at_period_end AS "cancelAtPeriodEnd",EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=u.id AND b.blocked) AS "paymentReview" FROM users u JOIN billing_memberships m ON m.user_id=u.id ORDER BY m.updated_at DESC LIMIT 100')).rows;
   const teachers=(await pool.query("SELECT u.id,u.name,COALESCE(p.enabled,false) AS enabled FROM users u JOIN teacher_profiles t ON t.user_id=u.id AND t.status='approved' LEFT JOIN premium_class_teachers p ON p.teacher_id=u.id ORDER BY u.name")).rows;
