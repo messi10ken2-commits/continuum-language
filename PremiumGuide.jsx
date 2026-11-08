@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
-import {MessageCircle,Target,ClipboardCheck,Ticket,Video,PawPrint,ShieldCheck} from 'lucide-react';
+import {MessageCircle,Target,ClipboardCheck,Ticket,Video,PawPrint,ShieldCheck,BookOpenCheck} from 'lucide-react';
 import {t,tf} from './interface-runtime.mjs';
-export default function PremiumGuide({user,onAccount,compact=false,premium:initialPremium,courses,language='en',ticketProgrammeAvailable}){
+export default function PremiumGuide({user,onAccount,compact=false,premium:initialPremium,courses,language='en',ticketProgrammeAvailable,showUpcomingTicket=false}){
  const [billing,setBilling]=useState(null);
  useEffect(()=>{
   if(!user||initialPremium!==undefined)return;
@@ -19,7 +19,8 @@ export default function PremiumGuide({user,onAccount,compact=false,premium:initi
   [ClipboardCheck,'Understand your next step','Get detailed skill feedback, corrections and personalised practice suggestions.'],
   [Video,'Exclusive courses','Explore regional varieties, idioms and academic language.'],
   [PawPrint,'More companions','Choose a capybara, guinea pig, quokka or panda as your learning companion.'],
-  ...(ticketsAvailable?[[Ticket,'Meet a teacher','One introductory class ticket after your first successful paid subscription.']]:[]),
+  [BookOpenCheck,'Vocabulary and expression review','Revisit words and phrases from your lessons as they come up for review.'],
+  ...(ticketsAvailable||showUpcomingTicket?[[Ticket,'Meet a teacher',showUpcomingTicket?'One introductory class ticket will be available after your first successful paid store subscription.':'One introductory class ticket after your first successful paid subscription.']]:[]),
   [ShieldCheck,'Learn without interruptions','No Continuum ads. YouTube may still show its own ads.']
  ];
  return <section className={'premium-guide panel '+(compact?'compact':'')}>

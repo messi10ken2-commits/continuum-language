@@ -46,12 +46,25 @@ try{
   assert.equal((await api('/owner/settings','PUT',{key:f.key,enabled:true,revision:(await settings(f.key)).revision,reason:'Forbidden change'},reviewer)).status,403);
   if(f.key==='focusedPractice'){
    assert.notEqual((await api('/skills','POST',{task:'writing-a1'},learner)).status,503,'focused practice does not gate core skill tasks');
-   const saved=await db.query("INSERT INTO skill_submissions(user_id,task_id,response,result,submission_key) VALUES($1,'focus-en-interview-speaking','{}','{}','paused-assessment-qa') RETURNING id",[owner.id]);
-   assert.equal((await api('/skills/'+saved.rows[0].id+'/assess','POST',{aiConsent:true},owner)).status,503);
+   for(const actor of [owner,learner]){
+    const saved=await db.query("INSERT INTO skill_submissions(user_id,task_id,response,result,submission_key) VALUES($1,'focus-en-interview-speaking','{}','{}','paused-assessment-qa') RETURNING id",[actor.id]);
+    const assessment=await api('/skills/'+saved.rows[0].id+'/assess','POST',{},actor);
+    assert.equal(assessment.status,actor===owner?400:503);
+   }
   }
-  if(f.key==='selfStudy'){assert.equal((await api('/learning/introductions','PUT',{answers:[]},owner)).status,503);assert.equal((await api('/practice','GET',null,learner)).status,200);}
+  if(f.key==='selfStudy'){assert.equal((await api('/learning/introductions','PUT',{answers:[]},owner)).status,200);assert.equal((await api('/practice','GET',null,learner)).status,200);}
   if(f.key==='teacherApplications')assert.equal((await api('/profile','PUT',{profile:{name:'Learner',languages:['en'],primaryLanguage:'en',startMode:'manual',level:'A1',goal:'Test'}},learner)).status,200);
-  if(f.key==='exclusiveCourses'){assert.equal((await api('/billing/courses/en-workplace-diplomacy/audio?gallery=0','GET',null,learner)).status,503);const c=premiumCourses.find(c=>c.id==='en-workplace-diplomacy');for(const actor of [learner,owner]){assert.equal((await api('/billing/courses/'+c.id,'GET',null,actor)).status,503);assert.equal((await api('/billing/courses/'+c.id+'/finish','POST',{answers:c.questions.map(q=>q.answer),key:crypto.randomUUID()},actor)).status,503);assert.equal((await api('/answer-review/accepted?kind=premium&lesson='+c.id,'GET',null,actor)).status,503);assert.equal((await api('/answer-review','POST',{kind:'premium',lesson:c.id,question:0},actor)).status,503);}}
+  if(f.key==='exclusiveCourses'){
+   assert.equal((await api('/billing/courses/en-workplace-diplomacy/audio?gallery=0','GET',null,learner)).status,503);
+   const c=premiumCourses.find(c=>c.id==='en-workplace-diplomacy');
+   for(const actor of [learner,owner]){
+    const expected=actor===owner?200:503;
+    assert.equal((await api('/billing/courses/'+c.id,'GET',null,actor)).status,expected);
+    assert.equal((await api('/billing/courses/'+c.id+'/finish','POST',{answers:c.questions.map(q=>q.answer),key:crypto.randomUUID()},actor)).status,expected);
+    assert.equal((await api('/answer-review/accepted?kind=premium&lesson='+c.id,'GET',null,actor)).status,expected);
+   }
+   assert.equal((await api('/answer-review','POST',{kind:'premium',lesson:c.id,question:0},learner)).status,503);
+  }
   await change(f.key,true);
   if(f.key==='exclusiveCourses')for(const actor of [learner,owner])assert.equal((await api(path,'GET',null,actor)).status,200);
  }

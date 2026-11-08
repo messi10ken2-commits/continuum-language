@@ -17,8 +17,10 @@ const benefits=[
 ];
 function PlanFeatures({premium}){
  return <ul className="store-plan-features">
-  <li><Check aria-hidden="true"/><span>{t('Regular lessons, review and Learning Memory')}</span></li>
+  <li><Check aria-hidden="true"/><span>{t('Regular lessons and Learning Memory')}</span></li>
+  <li><Check aria-hidden="true"/><span>{t('Vocabulary and expression review')}</span></li>
   {benefits.map(([label,free,paid])=><li key={label}><Check aria-hidden="true"/><span>{t(label)}</span><strong>{t(premium?paid:free)}</strong></li>)}
+  {premium&&<li><Check aria-hidden="true"/><span><b>{t('Meet a teacher')}</b><br/>{t('One introductory class ticket')} · {t('Coming with paid store subscriptions')}</span></li>}
   {premium&&<li><Check aria-hidden="true"/><span>{t('No Continuum ads. YouTube may still show its own ads.')}</span></li>}
  </ul>;
 }
@@ -47,8 +49,8 @@ export default function Membership({user,initialData=null,onLearn,focusOffer=fal
    {m.testerPermanent&&<p>{t('Tester Premium')}: {t('Never')}</p>}
    {m.testerUntil&&!m.testerPermanent&&<p>{t('Tester Premium until')}: {new Date(m.testerUntil).toLocaleDateString()}</p>}
    {m.trialActive&&m.source==='trial'&&<p>{t('Your free digital Premium trial ends at')} {new Date(m.trialEndsAt).toLocaleString()}</p>}
-   <PremiumGuide premium courses={data.courses} language={language}/>
-   <button className="primary" onClick={onLearn}>{t('Open Practice Studio')}</button>
+   <PremiumGuide premium courses={data.courses} language={language} ticketProgrammeAvailable={data.ticketProgrammeAvailable} showUpcomingTicket/>
+   <div className="store-practice-action"><button className="primary" onClick={onLearn}>{t('Open Practice Studio')}</button></div>
   </>}
   <p className="store-manage-note">{t('Manage or restore your subscription in the app where you purchased it.')}</p>
   <div className="membership-actions"><button className="text-button" disabled={busy} onClick={refresh}>{t('Refresh membership')}</button><a href="/terms">{t('Terms of Service')}</a><a href="/privacy">{t('Privacy Policy')}</a></div>

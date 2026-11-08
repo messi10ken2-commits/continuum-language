@@ -313,7 +313,7 @@ function App(){
  const manageLearner=(learnerId,language)=>{sessionStorage.setItem('continuumTeachingContext:'+user.id,JSON.stringify({learnerId,language}));navigate('Overview')};
  const accountRevision=useRef(0);
  useInterfaceAccount(user);
- const supportUnread=useSupportUnread(user),platformFeatures=usePlatformState(user);
+ const supportUnread=useSupportUnread(user),serviceAvailability=usePlatformState(user),platformFeatures=profileRecord?.owner?{}:serviceAvailability;
  const [deviceHistory,setDeviceHistory]=useState(loadPracticeHistory),[practiceHistory,setPracticeHistory]=useState([]),[notes,setNotes]=useState([]);
  const [assessment,setAssessment]=useState(null);
  useEffect(()=>{let live=true;setAssessment(null);if(user?.role==='learner')api('/assessments?language='+language).then(r=>{if(live)setAssessment(r.history[0]||null)}).catch(()=>{});return()=>{live=false}},[user?.id,tab,language,membershipRevision]);
