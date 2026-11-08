@@ -3,15 +3,15 @@ import Stripe from 'stripe';
 import {premiumCourses} from './premium-courses.mjs';
 import {billingReady} from './billing-api.mjs';
 const originalFetch=globalThis.fetch;
-Object.assign(process.env,{STRIPE_SECRET_KEY:'sk_test_synthetic_billing',STRIPE_WEBHOOK_SECRET:'whsec_synthetic_billing',STRIPE_PREMIUM_MONTHLY_PRICE_ID:'price_premium_month',BILLING_PUBLIC_URL:'https://example.test',BILLING_ENABLED:'true',BILLING_STRIPE_MODE:'test',STRIPE_PREMIUM_YEARLY_PRICE_ID:'price_premium_year'});
+Object.assign(process.env,{NODE_ENV:'test',CONTINUUM_LEGACY_STRIPE_TEST:'true',STRIPE_SECRET_KEY:'sk_test_synthetic_billing',STRIPE_WEBHOOK_SECRET:'whsec_synthetic_billing',STRIPE_PREMIUM_MONTHLY_PRICE_ID:'price_premium_month',BILLING_PUBLIC_URL:'https://example.test',BILLING_ENABLED:'true',BILLING_STRIPE_MODE:'test',STRIPE_PREMIUM_YEARLY_PRICE_ID:'price_premium_year'});
 const testConfig={...process.env,NODE_ENV:'test'};
 assert.equal(billingReady(testConfig),true);
 assert.equal(billingReady({...testConfig,NODE_ENV:'production'}),false);
-assert.equal(billingReady({...testConfig,NODE_ENV:'production',BILLING_SANDBOX_DEPLOYMENT:'true',RAILWAY_ENVIRONMENT_NAME:'billing-staging'}),true);
+assert.equal(billingReady({...testConfig,NODE_ENV:'production',BILLING_SANDBOX_DEPLOYMENT:'true',RAILWAY_ENVIRONMENT_NAME:'billing-staging'}),false);
 const liveConfig={...testConfig,STRIPE_SECRET_KEY:'sk_live_synthetic',BILLING_STRIPE_MODE:'live',NODE_ENV:'production'};
 assert.equal(billingReady(liveConfig),false);
 assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true'}),false);
-assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true',BILLING_TAX_MODE:'off'}),true);
+assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true',BILLING_TAX_MODE:'off'}),false);
 const customers=new Map(),subscriptions=new Map(),sessions=new Map(),idem=new Map(),invoices=new Map(),charges=new Map();let calls=0,createCalls=0,failCheckout=false,wrongPrice=false;
 globalThis.fetch=async(input,options)=>{
  const u=new URL(String(input));if(u.hostname!=='api.stripe.com')return originalFetch(input,options);calls++;

@@ -1,3 +1,4 @@
+import {requireActiveService} from './platform-controls.mjs';
 import {isLearningLanguage} from './languages.mjs';
 import {safeSavedCorrections} from './correction-integrity.mjs';
 import {serveStudioSpeech} from './speech-api.mjs';
@@ -80,6 +81,7 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
  if(match){const r=await pool.query('SELECT * FROM skill_submissions WHERE id=$1',[match[1]]);const row=r.rows[0];if(!row)fail(404,'Submission not found');await skillAccess(pool,user,row,fail);if(user.role==='teacher')sharedPremium=(await membership(pool,row.user_id,{actual:true})).premium;const task=getSkillTask(row.task_id);
   if(match[2]==='assess'&&req.method==='POST'){
    if(user.role!=='learner'||user.id!==row.user_id||!task||task.skill==='Listening')fail(403,'Only the learner can request AI assessment of their writing or recording');
+   if(!row.assessment_id&&!task.lessonId)await requireActiveService(pool,'focusedPractice',fail);
    const data=await json(req);if(data.aiConsent!==true)fail(400,'Confirm sending this response to OpenAI for assessment');
    if(data.displayLanguage!==undefined&&!validInterfaceLanguage(data.displayLanguage))fail(400,'Choose a display language');
    if(data.assessmentKey!==undefined&&!/^[a-f0-9-]{36}$/.test(data.assessmentKey))fail(400,'Invalid assessment request');
