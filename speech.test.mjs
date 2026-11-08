@@ -127,3 +127,20 @@ test('a slow conversation provider cannot extend the full natural-voice request 
  try{await assert.rejects(synthesizeSpeech('Hello there.','en-US',{voiceProfile:'mira',env:{GEMINI_API_KEY:'synthetic-deadline',OPENAI_API_KEY:'synthetic-backup'},fetchImpl:async()=>{calls++;now=27000;return new Response('{}',{status:503});}}),e=>e.status===503);assert.equal(calls,1,'Do not start more provider requests after the deadline');}
  finally{Date.now=originalNow;}
 });
+
+test('Japanese clock readings use corrected bundles and explicit kana in synthesis',async()=>{
+ const {serveStudioSpeech}=await import('./speech-api.mjs');
+ const {bundledRecording}=await import('./bundled-audio.mjs');
+ const text='毎朝、七時に起きます。',locale='ja-JP',reading='毎朝、しちじに起きます。';
+ assert.equal(speechRecipe(text,locale).input,reading);
+ assert.equal(speechRecipe('17時に七時間働きます。',locale).input,'17時に七時間働きます。');
+ assert.equal(speechRecipe('７時半に出ます。',locale).input,'しちじ半に出ます。');
+ assert.ok(allowedSpeech(text,locale));
+ const clip=bundledRecording(text,locale);
+ assert.equal(clip.record.modelText,reading);
+ const forbidden=()=>assert.fail('Corrected bundled audio must be playable offline');
+ let headers,body;
+ await serveStudioSpeech({req:{},res:{writeHead:(_status,h)=>{headers=h},end(b){body=b}},pool:{query:forbidden},text,locale,limited:forbidden,synthesize:forbidden});
+ assert.equal(headers['X-Audio-Version'],'bundled-ja-clock-v1');
+ assert.deepEqual(body,clip.audio);
+});

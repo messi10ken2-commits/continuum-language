@@ -43,7 +43,7 @@ test('an earned color selection takes precedence over future unlocks in its slot
  assert.equal(placed.find(item=>item.slot===2).index,11);
 });
 
-test('one building per fully cleared lesson, with completed districts available and an empty next district',()=>{
+test('the town counts one building per fully cleared lesson',()=>{
  const route=[
   {lesson:{id:'one'},legacyRounds:2},{lesson:{id:'two'},legacyRounds:1},{lesson:{id:'three'},legacyRounds:1}
  ];
@@ -53,14 +53,14 @@ test('one building per fully cleared lesson, with completed districts available 
   {lesson:'one',round:2,id:'invalid'},
   {lesson:'other-course',round:0,id:'foreign'}
  ];
- assert.deepEqual(townConstruction(route,rows,2),{built:0,total:3,district:0,lastDistrict:0,buildings:[]});
+ assert.deepEqual(townConstruction(route,rows),{built:0,total:3,buildings:[]});
  rows.push({lesson:'two',round:0,id:'b'},{lesson:'one',round:1,id:'c'});
- assert.deepEqual(townConstruction(route,rows,2),{
-  built:2,total:3,district:0,lastDistrict:1,buildings:[{lesson:'two',clearId:'b'},{lesson:'one',clearId:'c'}]
+ assert.deepEqual(townConstruction(route,rows),{
+  built:2,total:3,buildings:[{lesson:'two',clearId:'b'},{lesson:'one',clearId:'c'}]
  });
  rows.push({lesson:'three',round:0,id:'d'});
- assert.deepEqual(townConstruction(route,rows,2),{
-  built:3,total:3,district:1,lastDistrict:1,buildings:[{lesson:'two',clearId:'b'},{lesson:'one',clearId:'c'},{lesson:'three',clearId:'d'}]
+ assert.deepEqual(townConstruction(route,rows),{
+  built:3,total:3,buildings:[{lesson:'two',clearId:'b'},{lesson:'one',clearId:'c'},{lesson:'three',clearId:'d'}]
  });
 });
 
@@ -105,5 +105,5 @@ test('a single new pass builds once and legacy decorations keep their positions'
  assert.equal(lightRouteStats(route,completed).done,2);
  assert.equal(lightRouteStats(route,completed).xp,240);
  assert.deepEqual(townCollection(route,completed).map(item=>item.clearId),['a','b','c','pass']);
- assert.deepEqual(townConstruction(route,completed,3).buildings.map(item=>item.clearId),['b','pass']);
+ assert.deepEqual(townConstruction(route,completed).buildings.map(item=>item.clearId),['b','pass']);
 });

@@ -62,12 +62,11 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
    const collection=townCollection(route,rows);
    const award=collection.find(item=>item.clearId===record.id);
    const lots=townArt(language).stages.length-1;
-   const construction=townConstruction(route,rows,lots);
+   const construction=townConstruction(route,rows);
    const building=construction.buildings.findIndex(entry=>entry.clearId===record.id);
-   const district=building>=0?Math.floor(building/lots):construction.district;
    setReward({collection,placements:townCoursePlacements(language,route,placements),award,
-    built:Math.min(lots,construction.built-district*lots),
-    newPlot:finishedHere&&building>=0?building%lots:undefined,
+    built:Math.min(lots,construction.built),
+    newPlot:finishedHere&&building>=0&&building<lots?building:undefined,
     materials:rows.find(r=>r.id===record.id)?.materials??0});
   }).catch(()=>{if(live)setReward({failed:true})});
   return()=>{live=false};

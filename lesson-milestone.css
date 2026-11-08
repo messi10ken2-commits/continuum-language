@@ -50,30 +50,6 @@
  height: min(90%, 16rem);
  object-fit: contain;
 }
-.milestone-art > .milestone-world { object-position: right center; }
-.milestone-art > .milestone-capybara {
- position: absolute;
- inset-inline-start: 10%;
- bottom: 8%;
- width: clamp(5rem, 24vw, 10rem);
- height: auto;
- object-fit: contain;
- filter: drop-shadow(0 .45rem .45rem #43267166);
- transform: rotate(-10deg);
-}
-.milestone-conversation {
- position: absolute;
- inset-inline-start: 35%;
- top: 12%;
- display: grid;
- place-items: center;
- width: 3.75rem;
- height: 3.75rem;
- border-radius: 1.1rem;
- background: #fff;
- color: #643ac0;
- transform: rotate(10deg);
-}
 .lesson-milestone .milestone-primary, .lesson-milestone .milestone-skip {
  display: inline-flex;
  gap: .65rem;
@@ -93,7 +69,6 @@
 @media (prefers-reduced-motion: no-preference) {
  .milestone-content { animation: milestone-arrive 340ms ease-out both; }
  .milestone-reward .milestone-art > img { animation: milestone-reveal 780ms cubic-bezier(.18,.7,.25,1) both; }
- .milestone-capybara { animation: milestone-reveal 850ms cubic-bezier(.18,.7,.25,1) both; }
 }
 @keyframes milestone-arrive {
  from { opacity: 0; transform: translateY(1rem); }
@@ -111,23 +86,4 @@
 .lesson-milestone button:disabled {
  cursor: default;
  opacity: .65;
-}
-@media (prefers-reduced-motion: no-preference) {
- .lesson-milestone-premium .milestone-capybara {
-  animation: milestone-companion 2.5s ease-in-out infinite alternate;
- }
- .lesson-milestone-premium .milestone-world {
-  animation: milestone-panorama 15s ease-in-out both;
- }
- .lesson-milestone-premium .milestone-conversation {
-  animation: milestone-reveal 550ms cubic-bezier(.18,.7,.25,1) both;
- }
-}
-@keyframes milestone-companion {
- from { transform: translateY(.4rem) rotate(-12deg); }
- to { transform: translateY(-.9rem) rotate(4deg); }
-}
-@keyframes milestone-panorama {
- from { transform: scale(1); }
- to { transform: scale(1.18) translateX(-3%); }
 }

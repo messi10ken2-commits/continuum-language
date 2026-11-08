@@ -1,10 +1,11 @@
 import React,{useEffect,useId,useRef,useState} from 'react';
-import {ArrowRight,BookOpenCheck,MessageCircle,ShieldCheck,Sparkles} from 'lucide-react';
+import {ArrowRight,Sparkles} from 'lucide-react';
 import {createPortal} from 'react-dom';
 import {billingRequest} from './Membership.jsx';
 import {playRewardSound} from './feedback-sound.mjs';
 import {t,tf} from './interface-runtime.mjs';
 import './lesson-milestone.css';
+import PremiumAdScene from './PremiumAdScene.jsx';
 import {promotionAfterCompletion,promotionDurationSeconds} from './lesson-promotion.mjs';
 
 function MilestoneDialog({kind,label,title,art,children,onClose}){
@@ -117,15 +118,10 @@ export function LessonPromotion({user}){
   setOffer(state.current.pending);
   setSeconds(promotionDurationSeconds);
  };
- const feature=seconds>10?0:seconds>5?1:2;
- const Icon=[MessageCircle,BookOpenCheck,ShieldCheck][feature];
- const title=t(['More room to speak','Vocabulary and expression review','Learn without interruptions'][feature]);
- const summary=t(['Longer AI conversations with up to 48 replies per session.','Revisit words and phrases from your lessons as they come up for review.','No Continuum ads. YouTube may still show its own ads.'][feature]);
- return <MilestoneDialog kind="premium" label={t('Continuum Premium promotion')} title={title} onClose={close} art={<>
-  <img className="milestone-world" src="/membership/premium-flow-v1.webp" alt=""/>
-  <img className="milestone-capybara" src="/companions-v2/capybara-head-happy.webp" alt=""/>
-  <span className="milestone-conversation" key={feature}><Icon size={32} aria-hidden="true"/></span>
- </>}>
+ const scene=seconds>11?0:seconds>7?1:seconds>2?2:3;
+ const title=t(['More room to speak','Vocabulary and expression review','Learn without interruptions','Go further with Premium'][scene]);
+ const summary=t(['Longer AI conversations with up to 48 replies per session.','Revisit words and phrases from your lessons as they come up for review.','No Continuum ads. YouTube may still show its own ads.','Make more room for real-life practice.'][scene]);
+ return <MilestoneDialog kind="premium" label={t('Continuum Premium promotion')} title={title} onClose={close} art={<PremiumAdScene key={scene} scene={scene}/>}>
   <p>{summary}</p>
   <progress className="milestone-timer" aria-label={t('Continuum Premium promotion')} value={promotionDurationSeconds-seconds} max={promotionDurationSeconds}/>
   {seconds>0&&<p>{tf('Continue in {0} seconds',[seconds])}</p>}

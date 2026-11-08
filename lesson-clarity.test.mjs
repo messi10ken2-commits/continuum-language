@@ -20,3 +20,25 @@ test('concise question presentation preserves the full task body and does not mu
  }
  assert.equal(questionPromptSource({prompt:'Choose a polite request that allows a later reply.'}),null,'unrecognized constraints are never removed');
 });
+
+test('full-sentence Japanese routine questions specify the meaning and the response format',async()=>{
+ const {qualityQuestionBank}=await import('./question-quality.mjs');
+ const {getLessonVariant}=await import('./course.mjs');
+ const lesson=getLesson('ja-a1-v2-lesson-3');
+ const expected=['パンを食べます。','家で勉強します。','六時に起きます。','毎朝走ります。','明日働きます。'];
+ for(const version of [4,5,6,7,8]){
+  const questions=getLessonVariant(lesson.id,`v${version}-clarity-fixture-12345`).questions.filter(q=>/^table:0:[0-4]:2$/.test(q.coverage));
+  assert.ok(questions.length>0);
+  for(const q of questions){
+   const row=Number(q.coverage.split(':')[2]);
+   const prompt=questionPromptSource(q);
+   assert.equal(prompt.instruction,'Write the full sentence in polite Japanese.');
+   assert.match(prompt.body,/^Say “.+” Use the verb /);
+   assert.equal(q.answer,expected[row]);
+  }
+ }
+ assert.equal(qualityQuestionBank(lesson).filter(q=>/^table:0:[0-4]:2$/.test(q.coverage)).length,5);
+ for(const base of lessonList){
+  for(const q of qualityQuestionBank(base))assert.doesNotMatch(q.prompt,/(?:^|\n)Example: ____\s*$/,`${base.id} ${q.coverage}`);
+ }
+});
