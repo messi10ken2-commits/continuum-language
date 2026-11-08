@@ -38,12 +38,12 @@ export default function Membership({user,initialData=null,onLearn,focusOffer=fal
   {!m.premium?<div className="store-plan-grid">
    <article className="store-plan store-plan-premium">
     <div className="store-plan-ribbon"><Star size={16} aria-hidden="true"/>{t('Go further with Premium')}</div>
-    <div className="store-plan-body"><header><div><h3>Premium</h3><p>{t('Make more room for real-life practice.')}</p></div><img className="store-plan-companion" src="/companions-v2/capybara-head-happy.webp" alt="" width="72" height="72"/></header>
+    <div className="store-plan-body"><div className="store-plan-intro"><div><h3>Premium</h3><p>{t('Make more room for real-life practice.')}</p></div><img className="store-plan-companion" src="/companions-v2/capybara-head-happy.webp" alt="" width="72" height="72"/></div>
      <PlanFeatures premium/>
      <div className="store-plan-purchase"><strong>{t('Monthly')} · {t('Yearly')}</strong><p>{t('Store purchases are in preparation. The app will show local prices, eligible trials and renewal terms before purchase.')}</p><span>{t('App Store')}</span><span>{t('Google Play')}</span></div>
     </div>
    </article>
-   <article className="store-plan"><div className="store-plan-body"><header><div><h3>{t('Free')}</h3><p>{t('Build a daily learning habit.')}</p></div><MessageCircle className="store-plan-icon" size={27} aria-hidden="true"/></header><PlanFeatures/><button className="outline-button store-continue" onClick={onLearn}>{t('Keep learning for free')}</button></div></article>
+   <article className="store-plan"><div className="store-plan-body"><div className="store-plan-intro"><div><h3>{t('Free')}</h3><p>{t('Build a daily learning habit.')}</p></div><MessageCircle className="store-plan-icon" size={27} aria-hidden="true"/></div><PlanFeatures/><button className="outline-button store-continue" onClick={onLearn}>{t('Keep learning for free')}</button></div></article>
   </div>:<>
    {provider&&<p className="membership-notice">{provider} · {t('Sandbox subscription')}{m.paidUntil&&<> · {tf('Access until {0}',[new Date(m.paidUntil).toLocaleString()])}</>}</p>}
    {m.testerPermanent&&<p>{t('Tester Premium')}: {t('Never')}</p>}

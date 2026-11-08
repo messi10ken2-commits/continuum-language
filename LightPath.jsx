@@ -14,7 +14,6 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
  const [{completed,placements},setProgress]=useState({completed:[],placements:[]}),[ready,setReady]=useState(false),[failed,setFailed]=useState(false),[reload,setReload]=useState(0);
  useEffect(()=>{let live=true;setReady(false);setFailed(false);lightTownProgress(user).then(progress=>{if(live){setProgress(progress);setReady(true)}}).catch(()=>{if(live)setFailed(true)});return()=>{live=false}},[user?.id,language,reload]);
  const kind=useLightCompanion(user,language),[selected,setSelected]=useState(null);
- const [districtSelection,setDistrictSelection]=useState(null);
  const languageRoute=useMemo(()=>lightRoute(language),[language]);
  const route=languageRoute.filter(row=>row.chapter.level===level),stats=lightRouteStats(route,completed),allStats=lightRouteStats(languageRoute,completed);
  const pending=route.find(row=>!stats.keys.has(row.lesson.id));
@@ -46,14 +45,14 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
  const languageLessons=new Set(languageRoute.map(r=>r.lesson.id));
  const materials=completed.reduce((n,r)=>n+(languageLessons.has(r.lesson)?r.materials??materialsPerRound:0),0);
  const lots=townArt(language).stages.length-1;
- const construction=townConstruction(languageRoute,completed,lots);
- const district=districtSelection?.language===language?Math.min(districtSelection.index,construction.lastDistrict):construction.district;
- const districtBuildings=construction.buildings.slice(district*lots,(district+1)*lots);
- const places=districtBuildings.map(({lesson})=>{
+ const construction=townConstruction(languageRoute,completed);
+ const buildings=construction.buildings.slice(-lots);
+ const pins=mission?buildings.slice(-(lots-1)):buildings;
+ const places=pins.map(({lesson})=>{
   const row=languageRoute.find(r=>r.lesson.id===lesson);
   return {id:lesson,label:t(row.lesson.title),status:'done',onOpen:()=>onStart(lesson)};
  });
- if(mission&&district===construction.lastDistrict&&places.length<lots)places.push({
+ if(mission)places.push({
   id:mission.lesson.id,label:t(mission.lesson.title),status:'current',onOpen:()=>onStart(mission.lesson.id)
  });
  const levelsControl=<nav className="light-levels" aria-label={t('Level')}>{levels.map(l=><button key={l.id} aria-pressed={level===l.id} onClick={()=>setLevel(l.id)}>{l.id}</button>)}</nav>;
@@ -66,11 +65,8 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
   <div className="town-metrics"><b>{t('Chapter progress')} {chapterStats.done}/{chapterStats.total}</b><TownSegments value={chapterStats.done} total={chapterStats.total} label={t('Chapter progress')} round/><span><TownGem/> {t('Materials')} <b>{materials}</b></span></div>
   <div className="town-construction-status">
    <b>{tf('Buildings {0}/{1}',[construction.built,construction.total])}</b>
-   {construction.lastDistrict>0&&<select className="town-district-select" aria-label={t('Town district')} value={district} onChange={e=>setDistrictSelection({language,index:Number(e.target.value)})}>
-    {Array.from({length:construction.lastDistrict+1},(_,index)=><option key={index} value={index}>{tf('District {0}',[index+1])}</option>)}
-   </select>}
   </div>
-  <TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements} built={districtBuildings.length}/>
+  <TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements} built={buildings.length}/>
   <div className="town-paper town-mission">
    {mission?<><h2><Feather aria-hidden="true"/><LessonText text={mission.lesson.title} language={language}/></h2>
    <div className="town-mission-meta"><Clock size={16}/>{tf('{0} questions · about 2 min',[lightActivities(mission.lesson).length])}</div>

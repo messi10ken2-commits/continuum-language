@@ -7,7 +7,7 @@ import {LanguageContext} from './LanguageContext.jsx';
 import {languageInfo} from './languages.mjs';
 import React,{useEffect,useRef,useState,useContext} from 'react';
 import {Play,Square,LoaderCircle} from 'lucide-react';
-import {isolatedSpeechWord,speechParts} from './sentence-audio.mjs';
+import {isolatedSpeechWord,speechParts,speechPronunciation} from './sentence-audio.mjs';
 import {audioLookahead} from './audio-lookahead.mjs';
 import './sentence-audio.css';
 let active=null;
@@ -72,7 +72,8 @@ export default function SentenceAudio({text,lang='auto',compact=false,presentati
  const devicePlay=()=>{
   active?.stop();stop();setError('');setSource('Device voice · quality varies');setAttribution(null);setBundled(false);const token=generation.current;
   active={owner:owner.current,stop,device:true};setLoading(true);
-  const controller=createDevicePlayback(speechParts(text,lang,locale),{
+  const parts=speechParts(text,lang,locale).map(part=>({...part,text:speechPronunciation(part.text,part.lang)}));
+  const controller=createDevicePlayback(parts,{
    synth:window.speechSynthesis,Utterance:window.SpeechSynthesisUtterance,rate:()=>speed.current,
    isCurrent:()=>mounted.current&&token===generation.current,
    onStart:()=>{if(onPlaybackChange)setAudible(true);setLoading(false);setPlaying(true);onPlayed?.();},onComplete:stop,

@@ -1,5 +1,6 @@
 // Presentation only: never changes question IDs, seeds, answers or grading.
 const rules=[
+ [/^Write the full sentence in polite Japanese\.\n/,'Write the full sentence in polite Japanese.'],
  [/^Complete the sentence\. Type only the missing word or phrase\.\n/,'Complete the sentence.'],
  [/^Use the information below to produce the requested form\. Type only that form, not its grammatical name\.\n/,'Complete the missing form.'],
  [/^Choose the interpretation supported by this expression\.\n/,'Choose the meaning.'],

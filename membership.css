@@ -47,7 +47,8 @@
 .store-plan-premium{border-color:#beaaee;box-shadow:0 4px 0 #d9c9f7}
 .store-plan-ribbon{display:flex;gap:8px;align-items:center;padding:10px 18px;background:linear-gradient(115deg,#6330b8,#4c4cab,#246e75);color:#fff;font-weight:750}
 .store-plan-body{padding:clamp(14px,3.5vw,24px)}
-.store-plan-body header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.store-plan-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.store-plan-intro>div{min-width:0;overflow-wrap:anywhere}
 .store-plan-body :is(h3,h4,p){margin:0 0 .45rem}
 .store-plan-icon{flex:none;box-sizing:content-box;padding:10px;border-radius:16px;background:#eee8fc;color:#5837a7}
 .store-plan-features{display:grid;gap:.65rem;padding:0;margin:1rem 0;list-style:none}

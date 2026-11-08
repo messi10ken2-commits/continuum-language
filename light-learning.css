@@ -204,7 +204,6 @@
 .town-stage-new {animation:town-stage-appear .55s ease-out both}
 @keyframes town-stage-appear {from {opacity:.5} to {opacity:1}}
 .town-construction-status {display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:8px 14px 0;color:var(--town-ink);font-size:.86rem}
-.town-district-select {max-width:100%;min-height:36px;padding:2px 8px;border:1px solid #e5c6b0;border-radius:10px;background:#fff8ee;color:inherit;font:inherit}
 .town-building-note {font-weight:700}
 @media(prefers-reduced-motion:reduce){
  .town-stage-new {animation:none}

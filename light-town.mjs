@@ -58,11 +58,7 @@ export function townPlacedRewards(collection,placements=[]){
  return [...placed.values()];
 }
 
-export function townConstruction(route,completed,lotsPerDistrict){
+export function townConstruction(route,completed){
  const {buildings}=lightProgressEvidence(route,completed);
- const built=buildings.length;
- const total=route.length;
- const district=Math.max(0,Math.ceil(built/lotsPerDistrict)-1);
- const lastDistrict=Math.max(0,Math.ceil(Math.min(total,built+1)/lotsPerDistrict)-1);
- return {built,total,district,lastDistrict,buildings};
+ return {built:buildings.length,total:route.length,buildings};
 }

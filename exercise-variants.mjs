@@ -2,7 +2,7 @@ import {expandedExerciseBank} from './expanded-language-catalog.mjs';
 import {idiomExercises} from './c1-idioms.mjs';
 import {correctEntryNote} from './expression-watchouts.mjs';
 import {everydayQuestions} from './everyday-expressions.mjs';
-import {qualityQuestions} from './question-quality.mjs';
+import {clarifyRoutineQuestion,qualityQuestions} from './question-quality.mjs';
 import {appliedExercises} from './applied-exercises.mjs';
 import {practicalFormQuestions} from './practical-form-questions.mjs';
 import exerciseBank from './lesson-exercises.json' with {type:'json'};
@@ -21,6 +21,7 @@ export function expandedExercises(base,seed){
  // Preserve the learning sequence and all coverage; only distractors and word
  // tiles shuffle. Never drop taught entries for the sake of a short session.
  if(/^v[678]-/.test(seed))source=qualityQuestions(base,source);
+ else source=source.map(q=>clarifyRoutineQuestion(base,q));
  if(/^v[5678]-/.test(seed))source=appliedExercises(base,source,random);
  if(/^v[78]-/.test(seed))source=[...source,...everydayQuestions(base)];
  source=source.map(q=>correctEntryNote(base,q));

@@ -1,4 +1,6 @@
+import {billingCopy} from './billing-copy.mjs';
 const rows=`
+
 Use work to ask a subject question about the employee.|workを使って、誰がここで働いているのかを尋ねる主語疑問文を作ってください。|Usa work para preguntar qué persona trabaja aquí.|Use work para perguntar quem trabalha aqui.|请用 work 构成询问员工身份的主语疑问句。|Utilisez work pour former une question portant sur l’identité de la personne qui travaille ici.
 
 Prices may decrease in the future. Complete the open condition.|今後、価格が下がる可能性があります。現実的な未来の条件を表す文を完成させてください。|Es posible que los precios bajen. Completa la condición de futuro posible.|Os preços podem cair no futuro. Complete a condição de futuro possível.|价格将来可能下降。请补全表示现实未来可能性的条件句。|Les prix pourraient baisser. Complétez la condition portant sur un avenir possible.
@@ -41,6 +43,7 @@ export function localizeQualityBody(body,locale){
  const i=Object.keys(qualityCues).indexOf(locale);
  return body.split('\n').map(line=>{
   if(qualityCues[locale]?.[line])return qualityCues[locale][line];
+  if(billingCopy[line]?.[locale])return billingCopy[line][locale];
   for(const [text,translations] of Object.entries(suffixes))if(line.endsWith(text))line=line.slice(0,-text.length)+translations[i];
   return line.replace(/\bSubject: /g,['主語：','Sujeto: ','Sujeito: ','主语：','Sujet : '][i]).replace(/\b[Uu]se ([^.]+)\.$/,(_,original)=>{
    const terms={

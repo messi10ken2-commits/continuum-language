@@ -5,6 +5,7 @@ import {practicalFormQuestions} from './practical-form-questions.mjs';
 import {reviewedCourseTitles} from './reviewed-course-titles.mjs';
 const locales=['en','ja','es','pt','zh','fr'];
 const instruction={
+ sentence:['Write the full sentence in polite Japanese.','丁寧な日本語で文全体を書いてください。','Escribe la oración completa en japonés cortés.','Escreva a frase inteira em japonês polido.','请用日语礼貌体写出完整句子。','Écrivez la phrase entière en japonais poli.'],
  fill:['Complete the sentence. Type only the missing word or phrase.','文の意味と形に合うように空欄を埋めてください。入力するのは空欄の語句だけです。','Completa la oración. Escribe solo la palabra o expresión que falta.','Complete a frase. Digite apenas a palavra ou expressão que falta.','请补全句子，只填写空缺的单词或短语。','Complétez la phrase. Écrivez uniquement le mot ou le groupe de mots manquant.'],
  form:['Use the information below to produce the requested form. Type only that form, not its grammatical name.','下の情報をもとに、このレッスンで学んだ形を作ってください。文法用語ではなく、指定された語句・文だけを入力してください。','Con la información siguiente, forma la expresión solicitada según esta lección. Escribe la forma, no su nombre gramatical.','Use as informações abaixo para produzir a forma solicitada nesta lição. Digite a forma, não o nome gramatical.','根据以下信息，写出本课所学的指定形式。请填写实际的词语或句子，不要填写语法名称。','À partir des indications ci-dessous, donnez la forme demandée dans cette leçon. Écrivez la forme elle-même, pas son nom grammatical.'],
  verb:['Complete the sentence with the correct form of {0}. Type only the missing form.','{0}を適切な形にして空欄を埋めてください。入力するのは空欄の部分だけです。','Completa la oración con la forma adecuada de {0}. Escribe solo la forma que falta.','Complete a frase com a forma adequada de {0}. Digite apenas a forma que falta.','请用 {0} 的适当形式补全句子，只填写空缺部分。','Complétez la phrase avec la forme appropriée de {0}. Écrivez uniquement la forme manquante.'],
@@ -45,7 +46,20 @@ const intentions={
  should:'Express an expected outcome, not a proven fact.',must:'Express a strong conclusion from the evidence.',"can't":'Express that the conclusion is impossible.',may:'Express an uncertain possibility.',could:'Express an ability in an imagined situation.',might:'Express a tentative possibility, not certainty.',have:'Complete the verb phrase referring to an unrealised past possibility.', 'going to':'Express a prediction based on visible evidence.'
 };
 const alternatives=(answer,body,accepted=[answer])=>[...new Set([...accepted,...({should:['ought to'],could:['would be able to'],might:['may','could'],may:/____\s+not/.test(body)?['might']:['might','could'],"can't":['cannot',"couldn't",'could not'],'going to':['about to'],porque:['ya que','puesto que'],'después':['luego','más tarde'],'行く':['いく']}[answer]||[])])];
+const routineSentences=[
+ 'Say “I eat bread.” Use the verb 食べる.',
+ 'Say “I study at home.” Use the verb 勉強する.',
+ 'Say “I get up at six.” Use the verb 起きる.',
+ 'Say “I run every morning.” Use the verb 走る.',
+ 'Say “I work tomorrow.” Use the verb 働く.'
+];
+export function clarifyRoutineQuestion(base,q){
+ const row=/^table:0:([0-4]):2$/.exec(q.coverage||'');
+ if(base.id!=='ja-a1-v2-lesson-3'||q.type!=='text'||!row)return q;
+ return make(q,'sentence',routineSentences[Number(row[1])]);
+}
 export function qualityQuestion(base,q){
+ const routine=clarifyRoutineQuestion(base,q);if(routine!==q)return routine;
  const a=authored[base.id]?.[q.coverage];if(a){
   const key=base.id+':'+q.coverage;
   const aliases={
