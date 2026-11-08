@@ -37,3 +37,11 @@
 .membership-comparison{overflow-x:auto;margin-block:14px}
 .membership-comparison table{width:100%;border-collapse:collapse;text-align:start}
 .membership-comparison :is(th,td){text-align:start;padding:.5rem;border-bottom:1px solid #e8e1ef;overflow-wrap:anywhere}
+
+/* Learner invoice records are read-only Stripe-hosted links. */
+.membership-invoices{margin-block:20px}
+.membership-invoices ul{list-style:none;padding:0;margin:12px 0;display:grid;gap:10px}
+.membership-invoices li{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;min-width:0;padding:12px 14px;border:1px solid var(--border,#ded9e8);border-radius:12px}
+.membership-invoices li>span{flex:1 1 170px;min-width:0;overflow-wrap:anywhere}
+.membership-invoices li>strong{font-variant-numeric:tabular-nums}
+.membership-invoices a{font-size:.9em;text-decoration:underline;text-underline-offset:3px}
