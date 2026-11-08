@@ -18,7 +18,7 @@ const uuid=/^[a-f0-9-]{36}$/;
 const err=(status,message)=>{throw Object.assign(Error(message),{status})};
 export const billingSettings=(env=process.env)=>({prices:[env.STRIPE_PREMIUM_MONTHLY_PRICE_ID,env.STRIPE_PREMIUM_YEARLY_PRICE_ID,...(env.STRIPE_PREMIUM_LEGACY_PRICE_IDS||'').split(',').map(x=>x.trim())].filter(Boolean),base:env.BILLING_PUBLIC_URL||'',enabled:env.BILLING_ENABLED==='true',maxMinutes:Math.min(60,Math.max(15,Number(env.PREMIUM_TICKET_MAX_MINUTES)||60))});
 const allowTestBilling=env=>env.NODE_ENV!=='production'||(
- env.BILLING_SANDBOX_DEPLOYMENT==='true'&&env.RAILWAY_ENVIRONMENT_NAME==='billing-staging'
+ env.BILLING_SANDBOX_DEPLOYMENT==='true'&&['staging','billing-staging'].includes((env.RAILWAY_ENVIRONMENT_NAME||'').toLowerCase())
 );
 export function billingReady(env=process.env){
  const s=billingSettings(env),mode=stripeMode(env),plans=configuredPremiumPlans(env);
