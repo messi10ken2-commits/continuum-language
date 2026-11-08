@@ -4,7 +4,7 @@ const safeInvoiceUrl=value=>{
   try {
     const url=new URL(value);
     if(url.protocol!=='https:'||url.username||url.password||
-      !['invoice.stripe.com','files.stripe.com'].includes(url.hostname))return null;
+      !['invoice.stripe.com','pay.stripe.com','files.stripe.com'].includes(url.hostname))return null;
     return url.href;
   } catch { return null; }
 };
