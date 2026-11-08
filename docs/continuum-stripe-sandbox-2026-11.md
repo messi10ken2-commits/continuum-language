@@ -17,14 +17,15 @@ This is an operator runbook for the **Continuum Stripe Sandbox**. It is not the 
 
 - Isolated Staging PostgreSQL `Postgres-DN6v` with its own persistent Railway volume was created with operator approval. It is **not** the production database.
 - The Staging app `unique-contentment` started successfully after `DATABASE_URL` was configured via `\${{Postgres-DN6v.DATABASE_URL}}` using Railway's private reference. Railway deployment status: SUCCESS, startup log: `Continuum API ready`.
-- Staging public domain: `https://unique-contentment-staging.up.railway.app` (Railway-managed TLS/DNS). Public end-to-end HTTP from outside Railway has not been established by this run.
+- Staging public domain: `https://unique-contentment-staging.up.railway.app` (Railway-managed TLS/DNS). The external Staging smoke test reached the app, registered disposable learners, verified both offers, and opened Stripe-hosted Checkout without granting Premium.
 - Stripe sandbox webhook endpoint: `we_1UZTho9Eu6Fev9ZMCGk0EsV1`, version `2026-09-30.endive`, at `https://unique-contentment-staging.up.railway.app/api/billing/webhook`. Its signing secret has been stored in **Staging only**, without exposing it in Git.
 - Sandbox Customer Portal configuration: `bpc_1UZTir9Eu6Fev9ZMUYHvqlPd`. Payment method updates, invoices/receipts, and cancellation at period end are enabled; plan switching remains disabled pending dedicated proration testing. Configuration ID is set on Staging.
-- `BILLING_PUBLIC_URL` and both price IDs are configured on Staging. `BILLING_ENABLED=false` and `BILLING_SANDBOX_DEPLOYMENT=false` **remain** in place; no Stripe secret API key is configured. No real purchases were enabled.
-- Two direct Stripe **sandbox** hosted Checkout Sessions were successfully created, one with the $9.99 monthly Price and one with the $79.99 annual Price, each with 3 trial days, required payment method, and zero immediate due. Line item price IDs and intervals were verified. These uncompleted sessions do **not** test completed card entry, webhook delivery, app entitlements, paid invoices, or renewal.
+- Staging has a Sandbox API key, endpoint signing secret, and both test Price IDs. The owner previously completed monthly Sandbox Checkout in Staging and confirmed Premium access.
+- Two separate Sandbox subscriptions entered a 72-hour trial. Manually ending those trials generated paid $9.99 monthly and $79.99 annual invoices. Sandbox also produced a payment-failed invoice, successful partial and full refunds, and an active subscription with cancellation scheduled for period end. Railway recorded HTTP 200 deliveries for the test webhook traffic. The direct Stripe fixtures were separate from the Staging learner entitlement tests.
+- The connected Stripe interface cannot advance Test Clocks. Natural trial expiry, monthly and annual renewals, payment retry and recovery, completed cancellation, and actual disputes remain Sandbox QA gates. Application tests use signed synthetic events to verify recovery, cancellation, disputes, and duplicate or out-of-order delivery.
 - **Important discovered compatibility issue:** the Continuum Sandbox account defaults to Stripe Managed Payments **enabled**, while the existing application Checkout request disables Adaptive Pricing. Stripe rejected initial sandbox Checkout requests. Explicitly setting `managed_payments: {enabled:false}` fixes the conflict. This has been added to the PR along with a regression test. Do not enable Managed Payments without separately evaluating its merchant-of-record, eligibility, tax and pricing consequences.
 
-The original billing guard only accepted `RAILWAY_ENVIRONMENT_NAME=billing-staging`. This branch also supports `Staging`, but still requires `BILLING_SANDBOX_DEPLOYMENT=true`, explicit Stripe **test** mode, Price IDs, webhook secret, and HTTPS origin. The production environment does **not** satisfy the sandbox guard. The PR is not merged or deployed.
+The billing guard accepts `billing-staging` and `Staging`. It requires `BILLING_SANDBOX_DEPLOYMENT=true`, explicit Stripe **test** mode, Price IDs, webhook secret, and HTTPS origin. The production environment does **not** satisfy the sandbox guard. PR #91 feeds Railway Staging and has not been merged into Production.
 
 ## Staging-only variable checklist
 
@@ -49,7 +50,7 @@ DATABASE_URL=YOUR-ISOLATED-STAGING-POSTGRES-URL
 
 **Do not check actual keys into Git or paste them into chat.** Supply using Railway secret-variable settings. `BILLING_PUBLIC_URL` must match the staging app's HTTPS origin, not the live application. For a sandbox deployment, do not set `BILLING_LIVE_APPROVED=true`.
 
-The sandbox event destination and test Customer Portal have been configured (see above). The **missing prerequisite** is a Continuum Sandbox `sk_test_...` key in Railway Staging, entered by the operator through Railway's secret settings; this cannot be retrieved by the connected Stripe API. Never use a Kotoba or Continuum live key.
+Use Railway's secret settings for any future rotation of the Continuum Sandbox key and Staging webhook signing secret. Keep Kotoba and Continuum Live credentials out of Staging.
 
 ## Verification and go-live gates
 
@@ -58,7 +59,7 @@ The sandbox event destination and test Customer Portal have been configured (see
 3. Confirm trial offer on both prices, explicit consent, payment method collection, and **72-hour** free trial.
 4. Use Stripe test cards and Test Clocks to verify trial-to-paid, monthly/annual renewals, payment failures, cancellation, refunds, disputes, retries/idempotency, and invoice history. Check server-side Premium entitlement; Checkout redirects alone never unlock Premium.
 5. Verify an actual hosted invoice/PDF in learner Membership, and that one learner cannot view another customer's invoices.
-6. Execute repository tests. PR invoice safety and frontend build pass; the general workflow is currently obstructed by a third-party `ffmpeg-static` download returning HTTP 504, so full QA still requires a successful rerun.
+6. Execute repository tests. Invoice safety and frontend compilation passed. The six-language browser test used an obsolete `.study-page` selector for Photo mode. Confirm the corrected mode-specific selector in GitHub Actions and exercise the payment screens in desktop and mobile browsers before signing off.
 7. Keep production `BILLING_ENABLED=false` until a **separate** live Stripe account setup, live Price IDs, tax review, legal/refund terms, webhook, user-controlled test charge/refund, and final operational sign-off.
 
-**Paid teacher lessons, teacher payouts, Connect, and separate one-time invoices are not included in this sandbox Premium integration.** Stripe Billing automatically provides invoices for Premium subscriptions. Use the Stripe Dashboard for exceptional/manual invoicing until that independent purchase flow is specified.
+Teacher classes use the existing booking and ticket flow. Future paid classes need a separate payment record linked to each booking, package credits, cancellation and refund reconciliation, and a teacher earnings ledger. Teacher payouts and Connect require separate business approval and a verified payout design.

@@ -15,7 +15,7 @@ const liveConfig={...testConfig,STRIPE_SECRET_KEY:'sk_live_synthetic',BILLING_ST
 assert.equal(billingReady(liveConfig),false);
 assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true'}),false);
 assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true',BILLING_TAX_MODE:'off'}),true);
-const customers=new Map(),subscriptions=new Map(),sessions=new Map(),idem=new Map(),invoices=new Map(),charges=new Map();let calls=0,createCalls=0,failCheckout=false,wrongPrice=false;
+const customers=new Map(),subscriptions=new Map(),sessions=new Map(),idem=new Map(),invoices=new Map(),charges=new Map(),disputes=new Map();let calls=0,createCalls=0,failCheckout=false,wrongPrice=false;
 globalThis.fetch=async(input,options)=>{
  const u=new URL(String(input));if(u.hostname!=='api.stripe.com')return originalFetch(input,options);calls++;
  const form=new URLSearchParams(options.body?.toString()||''),path=u.pathname,header=new Headers(options.headers),key=header.get('Idempotency-Key');
@@ -42,6 +42,7 @@ globalThis.fetch=async(input,options)=>{
  }
  if(path.startsWith('/v1/invoices/'))return Response.json(invoices.get(path.split('/').at(-1)));
  if(path.startsWith('/v1/charges/'))return Response.json(charges.get(path.split('/').at(-1)));
+ if(path.startsWith('/v1/disputes/'))return Response.json(disputes.get(path.split('/').at(-1)));
  if(path==='/v1/invoice_payments')return Response.json({object:'list',data:[{invoice:'in_first'}],has_more:false});
  throw Error('Unexpected synthetic Stripe endpoint '+path);
 };
@@ -145,5 +146,19 @@ try{
  process.env.BILLING_ENABLED='false';assert.equal((await checkout()).status,503);assert.equal((await api('/billing/portal','POST',{},a.cookie)).status,200);
  // Stripe failure persists a retryable checkout intent, never a phantom membership.
  process.env.BILLING_ENABLED='true';failCheckout=true;const failed=await api('/billing/checkout','POST',{key:crypto.randomUUID(),interval:'month'},b.cookie);assert.equal(failed.status,503);const recovered=await api('/billing/checkout','POST',{key:crypto.randomUUID(),interval:'month'},b.cookie);assert.equal(recovered.status,200);assert.equal((await db.query('SELECT count(*)::int AS n FROM billing_checkout_requests WHERE user_id=$1 AND active',[b.id])).rows[0].n,1);
- console.log('PASS: signed raw webhooks, duplicate/out-of-order events, durable Checkout, server entitlements, course gates, first-payment tickets, real slot redemption/cancellation, ads, refund revocation, owner isolation and portal cancellation while sales are disabled. No real Stripe requests or charges.');
+ const disputeCustomer=customers.get(b.id);
+ paid(disputeCustomer,'in_disputed');
+ await webhook('invoice.paid',{customer:disputeCustomer});
+ charges.set('ch_disputed',{id:'ch_disputed',customer:disputeCustomer,invoice:'in_disputed',refunded:false});
+ const dispute={id:'dp_test',charge:'ch_disputed',status:'needs_response'};
+ disputes.set(dispute.id,dispute);
+ assert.equal((await webhook('charge.dispute.created',dispute)).status,200);
+ r=await api('/billing','GET',null,b.cookie);
+ assert.equal(r.data.membership.status,'payment_review');
+ assert.equal(r.data.membership.premium,false);
+ dispute.status='won';
+ assert.equal((await webhook('charge.dispute.closed',dispute)).status,200);
+ assert.equal((await webhook('charge.dispute.created',{...dispute,status:'needs_response'})).status,200);
+ assert.equal((await api('/billing','GET',null,b.cookie)).data.membership.premium,true);
+ console.log('PASS: signed raw webhooks, duplicate/out-of-order events, durable Checkout, server entitlements, course gates, first-payment tickets, real slot redemption/cancellation, ads, refund and dispute handling, owner isolation and portal cancellation while sales are disabled. No real Stripe requests or charges.');
 }finally{globalThis.fetch=originalFetch;await new Promise(r=>testServer.close(r));await db.close()}
