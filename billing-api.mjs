@@ -8,6 +8,7 @@ import {premiumGalleryFrames} from './premium-session.mjs';
 import {premiumVideoSources} from './premium-video-lessons.mjs';
 import {serveStudioSpeech} from './speech-api.mjs';
 import {migratePremiumAccess,premiumAccess,handlePremiumAccess} from './premium-access.mjs';
+import {handleStoreSubscriptions,migrateStoreSubscriptions,storeSandboxAccess} from './store-subscriptions.mjs';
 import Stripe from 'stripe';
 import crypto from 'node:crypto';
 import {isPlatformOwner} from './profiles-api.mjs';
@@ -62,13 +63,14 @@ export async function migrateBilling(pool){await pool.query(`
  ALTER TABLE class_bookings ADD COLUMN IF NOT EXISTS premium_ticket_id uuid REFERENCES premium_class_tickets(id);
  CREATE TABLE IF NOT EXISTS premium_course_attempts(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),user_id uuid NOT NULL REFERENCES users(id),course_id text NOT NULL,correct integer NOT NULL,total integer NOT NULL,client_key text NOT NULL,created_at timestamptz NOT NULL DEFAULT now(),UNIQUE(user_id,client_key));
  CREATE TABLE IF NOT EXISTS billing_ad_campaign(id integer PRIMARY KEY CHECK(id=1),title text NOT NULL,body text NOT NULL,url text NOT NULL,enabled boolean NOT NULL DEFAULT false);
- `);await migratePremiumAccess(pool);await migrateTrial(pool)}
+ `);await migratePremiumAccess(pool);await migrateTrial(pool);await migrateStoreSubscriptions(pool)}
 export async function membership(c,userId,{actual=false}={}){
  const r=(await c.query(`SELECT m.*,EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=$1 AND b.blocked) AS blocked FROM users u LEFT JOIN billing_memberships m ON m.user_id=u.id WHERE u.id=$1`,[userId])).rows[0];
  const trial=await trialStatus(c,userId);const access=await premiumAccess(c,userId),billingPremium=!!(r&&!r.blocked&&r.status==='active'&&Date.parse(r.paid_until)>Date.now()),tester=!!access.testerActive&&!r?.blocked;
+ const storeAccess=await storeSandboxAccess(c,userId);
  if(actual)access.previewMode=null;
- const premium=access.previewMode?access.previewMode==='premium':billingPremium||tester||trial.trialActive&&!r?.blocked;
- return {...trial,trialEligible:!premium&&!trial.trialUsed&&!r?.blocked,tier:premium?'premium':'free',premium,adFree:premium,allFunctions:premium,exclusiveCourses:premium,plan:isPremiumInterval(r?.recurring_interval)?{interval:r.recurring_interval,amount:r.recurring_amount,currency:r.recurring_currency}:null,status:r?.blocked?'payment_review':r?.status||'free',paidUntil:r?.paid_until||null,cancelAtPeriodEnd:r?.cancel_at_period_end||false,customer:!!r?.customer_id,billingPremium,previewMode:access.previewMode,testerUntil:access.testerUntil,testerPermanent:access.testerPermanent,source:access.previewMode?'owner_preview':billingPremium?'subscription':tester?'invitation':trial.trialActive&&!r?.blocked?'trial':'free'};
+ const premium=access.previewMode?access.previewMode==='premium':billingPremium||!!storeAccess||tester||trial.trialActive&&!r?.blocked;
+ return {...trial,trialEligible:!premium&&!trial.trialUsed&&!r?.blocked,tier:premium?'premium':'free',premium,adFree:premium,allFunctions:premium,exclusiveCourses:premium,plan:isPremiumInterval(r?.recurring_interval)?{interval:r.recurring_interval,amount:r.recurring_amount,currency:r.recurring_currency}:null,status:storeAccess?'active':r?.blocked?'payment_review':r?.status||'free',paidUntil:storeAccess&&!billingPremium?storeAccess.access_until:r?.paid_until||null,cancelAtPeriodEnd:r?.cancel_at_period_end||false,customer:!!r?.customer_id,billingPremium,previewMode:access.previewMode,testerUntil:access.testerUntil,testerPermanent:access.testerPermanent,source:access.previewMode?'owner_preview':billingPremium?'subscription':storeAccess?storeAccess.provider+'_sandbox':tester?'invitation':trial.trialActive&&!r?.blocked?'trial':'free'};
 }
 export async function syncClassTickets(c,userId){
  // Move a reservation only after the replacement is actually confirmed.
@@ -233,4 +235,4 @@ async function handleBillingCore({route,req,res,pool,required,json,send,fail,lim
  fail(404,'Billing endpoint not found');
 }
 
-export async function handleBilling(args){try{return await handleBillingCore(args)}catch(e){if(e.type?.startsWith('Stripe')||e.name?.startsWith('Stripe')){console.warn('Stripe request failed',JSON.stringify({type:e.type||e.name,code:/^[a-zA-Z0-9_]{1,80}$/.test(e.code||'')?e.code:'provider_error'}));args.fail(503,'Payment service is temporarily unavailable. No membership change has been confirmed.');}throw e}}
+export async function handleBilling(args){try{if(await handleStoreSubscriptions(args))return true;return await handleBillingCore(args)}catch(e){if(e.type?.startsWith('Stripe')||e.name?.startsWith('Stripe')){console.warn('Stripe request failed',JSON.stringify({type:e.type||e.name,code:/^[a-zA-Z0-9_]{1,80}$/.test(e.code||'')?e.code:'provider_error'}));args.fail(503,'Payment service is temporarily unavailable. No membership change has been confirmed.');}throw e}}
