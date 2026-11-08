@@ -113,5 +113,7 @@ A new decoration for your Word Town.|ワードタウンに新しい飾りが増�
 
 App Store|App Store|App Store|App Store|App Store|App Store|App Store|App Store|App Store|App Store
 Google Play|Google Play|Google Play|Google Play|Google Play|Google Play|Google Play|Google Play|Google Play|Google Play
+Vocabulary and expression review requires Premium.|語彙・表現の復習はPremium限定です。|El repaso de vocabulario y expresiones requiere Premium.|A revisão de vocabulário e expressões requer Premium.|词汇和表达复习需要 Premium。|La révision du vocabulaire et des expressions nécessite Premium.|어휘 및 표현 복습은 Premium 전용입니다.|Ulasan kosakata dan ungkapan memerlukan Premium.|Для повторения слов и выражений нужен Premium.|مراجعة المفردات والتعبيرات تتطلب Premium.
+Continue in {0} seconds|あと{0}秒で続けられます|Continúa en {0} segundos|Continue em {0} segundos|{0} 秒后继续|Continuez dans {0} secondes|{0}초 후에 계속할 수 있어요|Lanjut dalam {0} detik|Продолжить через {0} сек.|يمكنك المتابعة بعد {0} ثانية
 `;
 export const billingCopy=Object.fromEntries(rows.trim().split('\n').filter(Boolean).map(line=>{const [k,...v]=line.split('|');if(![5,9].includes(v.length))throw Error('Billing translation missing');return [k,Object.fromEntries(['ja','es','pt','zh','fr','ko','id','ru','ar'].slice(0,v.length).map((l,i)=>[l,v[i]]))]}));

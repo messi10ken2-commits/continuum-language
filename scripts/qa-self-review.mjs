@@ -10,6 +10,7 @@ const {testServer,db}=await import('../test-server.mjs');const origin='http://12
 async function api(path,method='GET',body,person){const r=await fetch(origin+'/api'+path,{method,headers:{'Content-Type':'application/json',...(person?{cookie:person.cookie}:{})},...(body?{body:JSON.stringify(body)}:{})});const data=await r.json();assert.ok(r.ok,JSON.stringify({path,status:r.status,data}));return {...data,cookie:r.headers.get('set-cookie')?.split(';')[0]};}
 async function register(name,role){const r=await api('/auth/register','POST',{name,email:name+'@example.test',password:'synthetic-test-password',role,adult:true});return {id:r.user.id,cookie:r.cookie};}
 const learner=await register('BrowserLearner','learner'),teacher=await register('BrowserTeacher','teacher');process.env.CONTINUUM_OWNER_USER_ID=learner.id;
+await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[learner.id]);
 await api('/profile','PUT',{profile:{name:'BrowserLearner',languages:['en','pt'],primaryLanguage:'en',level:'A1',startMode:'manual',goal:'Synthetic browser class cycle'}},learner);
 const profile=await mkdtemp(join(tmpdir(),'continuum-classroom-')),browser=spawn(process.env.CHROMIUM_BIN||'chromium',['--headless','--no-sandbox','--disable-dev-shm-usage','--remote-debugging-address=127.0.0.1','--remote-debugging-port=0','--user-data-dir='+profile,'about:blank'],{stdio:['ignore','ignore','pipe']});
 const sockets=[],exceptions=[];

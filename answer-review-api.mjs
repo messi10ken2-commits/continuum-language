@@ -10,6 +10,7 @@ export async function handleAnswerReview({route,req,res,pool,required,json,send,
  if(req.method!=='POST')fail(405,'Use POST');const d=await json(req);
  if(!['lesson','premium','review'].includes(d.kind)||typeof d.lesson!=='string'||!Number.isInteger(d.question)||d.question<0)fail(400,'Choose a valid exercise');
  await requireActiveService(pool,d.kind==='premium'?'exclusiveCourses':d.kind==='review'?'review':'selfStudy',fail,user);
+ if(d.kind==='review'&&!(await membership(pool,user.id)).premium)fail(403,'Vocabulary and expression review requires Premium.');
  if(d.kind==='review'&&!/^[0-9a-f-]{36}$/.test(d.lesson))fail(400,'Choose a valid review item');
  let lesson;try{lesson=d.kind==='review'?await (async()=>{const item=(await pool.query('SELECT lesson_id,question,language FROM review_items WHERE user_id=$1 AND id=$2',[user.id,d.lesson])).rows[0];return item?{...getLesson(item.lesson_id),language:item.language,questions:[item.question]}:null})():d.kind==='premium'?premiumCourseById(d.lesson):getLessonVariant(d.lesson,d.seed)}catch{fail(400,'Invalid exercise version')}
  if(!lesson)fail(404,'Exercise not found');if(d.kind==='premium'&&!(await membership(pool,user.id)).premium)fail(403,'Premium is required for this course.');

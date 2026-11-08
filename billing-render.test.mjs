@@ -8,7 +8,8 @@ try{const {default:Membership}=await vite.ssrLoadModule('/Membership.jsx');const
   assert.ok(!html.includes('Stripe'));assert.ok(!html.includes('USD 9.99'));assert.ok(!html.includes('checkout.stripe.com'));
   if(!premium){assert.ok(html.includes('App Store'));assert.ok(html.includes('Google Play'));}
   else assert.ok(html.includes('store-practice-action'));
-  if(language==='en'){assert.ok(html.includes('Meet a teacher'));assert.ok(html.includes('Vocabulary and expression review'));}
+  if(language==='en'){assert.ok(html.includes('Meet a teacher'));assert.equal((html.match(/Vocabulary and expression review/g)||[]).length,1);
+   if(!premium)assert.ok(!html.split('Build a daily learning habit.')[1].includes('Vocabulary and expression review'));}
   assert.ok(!html.includes('premium-guide-ticket-note'));assert.ok(!html.includes('past_due'));}}
 
  console.log('PASS: free and Premium membership views render ten display languages with translated subscription statuses, store channels are shown without a web checkout or hardcoded prices.');
