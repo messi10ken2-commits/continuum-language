@@ -1,3 +1,4 @@
+import {meteredFetch} from './ai-metering.mjs';
 // Keep evidence within the provider named in the learner's consent. A missing
 // Gemini model may move to another supported Gemini text model, not another vendor.
 let discovery=null;
@@ -18,12 +19,12 @@ export async function requestPatternBatch(system,context,{fetchImpl=fetch}={}){
    const configured=(process.env.GEMINI_ASSESSMENT_MODEL||'gemini-2.5-flash').replace(/^models\//,'');
    const cacheKey=configured+':'+process.env.GEMINI_API_KEY;
    let model=discovery?.key===cacheKey&&discovery.until>Date.now()?discovery.model:configured;
-   const generate=m=>fetchImpl(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':process.env.GEMINI_API_KEY},body:JSON.stringify({systemInstruction:{parts:[{text:system}]},contents:[{role:'user',parts:[{text:context}]}],generationConfig:{temperature:0.2,responseMimeType:'application/json'}}),signal:AbortSignal.timeout(60000)});
+   const generate=m=>meteredFetch(fetchImpl, `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(m)}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':process.env.GEMINI_API_KEY},body:JSON.stringify({systemInstruction:{parts:[{text:system}]},contents:[{role:'user',parts:[{text:context}]}],generationConfig:{temperature:0.2,responseMimeType:'application/json'}}),signal:AbortSignal.timeout(60000)});
    const retryGenerate=async m=>{let response=await generate(m);if(response.status===503){await new Promise(resolve=>setTimeout(resolve,1000));response=await generate(m);}return response;};
    let response=await retryGenerate(model);
    if(response.status===404||response.status===503){
     await checked(response,'Gemini',model).catch(()=>{});
-    const listing=await fetchImpl('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000',{headers:{'x-goog-api-key':process.env.GEMINI_API_KEY},signal:AbortSignal.timeout(15000)});
+    const listing=await meteredFetch(fetchImpl, 'https://generativelanguage.googleapis.com/v1beta/models?pageSize=1000',{headers:{'x-goog-api-key':process.env.GEMINI_API_KEY},signal:AbortSignal.timeout(15000)});
     await checked(listing,'Gemini','model-list');
     const models=(await listing.json()).models||[];
     const candidates=models.filter(m=>m.supportedGenerationMethods?.includes('generateContent')&&/^models\/gemini-[\w.-]*flash[\w.-]*$/.test(m.name)&&!/(?:image|audio|live|tts|thinking|exp)/i.test(m.name));
@@ -38,7 +39,7 @@ export async function requestPatternBatch(system,context,{fetchImpl=fetch}={}){
   }
   if(process.env.OPENAI_API_KEY){
    const model=process.env.OPENAI_ASSESSMENT_MODEL||'gpt-4o-mini';
-   const response=await fetchImpl('https://api.openai.com/v1/responses',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${process.env.OPENAI_API_KEY}`},body:JSON.stringify({model,store:false,max_output_tokens:3000,input:[{role:'system',content:system},{role:'user',content:context}],text:{format:{type:'json_object'}}}),signal:AbortSignal.timeout(60000)});
+   const response=await meteredFetch(fetchImpl, 'https://api.openai.com/v1/responses',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${process.env.OPENAI_API_KEY}`},body:JSON.stringify({model,store:false,max_output_tokens:3000,input:[{role:'system',content:system},{role:'user',content:context}],text:{format:{type:'json_object'}}}),signal:AbortSignal.timeout(60000)});
    await checked(response,'OpenAI',model);const d=await response.json();return {value:parse(d.output_text||d.output?.flatMap(x=>x.content||[]).filter(x=>x.type==='output_text').map(x=>x.text).join('')),provider:'OpenAI',model};
   }
   throw failure(unconfigured);

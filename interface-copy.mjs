@@ -6,6 +6,7 @@ import {invitationCopy} from './invitation-copy.mjs';
 import {focusCopy} from './focus-copy.mjs';
 import {billingCopy} from './billing-copy.mjs';
 import {skillEvidenceCopy} from './skill-evidence-copy.mjs';
+import {aiOperationsCopy} from './ai-operations-copy.mjs';
 import {classroomUiCopy} from './classroom-copy.mjs';
 import {speakingCopy} from './speaking-copy.mjs';
 // Reviewed first-visit and everyday navigation copy. English is the source key.
@@ -208,7 +209,7 @@ Object.assign(interfaceCopy,speakingCopy);
 
 Object.assign(interfaceCopy,classroomUiCopy);
 
-Object.assign(interfaceCopy,skillEvidenceCopy);
+Object.assign(interfaceCopy,skillEvidenceCopy,aiOperationsCopy);
 
 Object.assign(interfaceCopy,billingCopy);
 

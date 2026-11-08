@@ -1,3 +1,4 @@
+import {handleAIOwner} from './ai-owner.mjs';
 import {learningLanguageIds} from './languages.mjs';
 import {isPlatformOwner} from './profiles-api.mjs';
 import {membership,billingTransaction,billingSettings,billingReady,reconcileCustomer,stripeClient} from './billing-api.mjs';
@@ -34,6 +35,7 @@ export async function handleOwner({route,req,res,pool,required,currentUser,json,
  if(route==='/api/platform'&&req.method==='GET'){const rows=(await pool.query('SELECT key,enabled FROM platform_controls')).rows;send(res,200,{features:Object.fromEntries(platformFeatures.map(f=>[f.key,rows.find(r=>r.key===f.key)?.enabled??true]))});return true;}
  if(!route.startsWith('/api/owner'))return false;
  const user=await required(req);if(!isPlatformOwner(user))fail(403,'Platform owner only');
+ if(await handleAIOwner({route,req,res,pool,user,json,send,fail,limited,accessSQL}))return true;
  if(route==='/api/owner/overview'&&req.method==='GET'){
   const [accounts,teachers,classes,contacts,audit]=await Promise.all([
    pool.query(accessSQL+" SELECT role,tier,count(*)::int AS count FROM plans GROUP BY role,tier"),

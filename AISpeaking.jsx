@@ -1,3 +1,4 @@
+import AIAllowance,{aiRequestKey,clearAIRequestKey,notifyAIAllowance} from './AIAllowance.jsx';
 import SpeakingCoaching from './SpeakingCoaching.jsx';
 import {needsSpeakingFeedback} from './speaking-goal.mjs';
 import {useStudyActivity} from './LearningActivity.jsx';
@@ -34,13 +35,13 @@ export default function AISpeaking({language,user,onBack}){
  useEffect(()=>{const thread=last.current?.parentElement;if(thread)thread.scrollTop=thread.scrollHeight},[session?.messages.length]);
  useEffect(()=>{if(session?.id)window.scrollTo({top:0,behavior:'instant'})},[session?.id]);
  useEffect(()=>{if(session?.review)document.querySelector('.conversation-review')?.scrollIntoView({block:'start',behavior:'smooth'})},[session?.id,!!session?.review]);
- const run=async fn=>{if(pending.current)return;pending.current=true;setBusy(true);setError('');try{return await fn()}catch(e){if(mounted.current&&e.name!=='AbortError')setError(e.message)}finally{pending.current=false;if(mounted.current)setBusy(false)}};
+ const run=async fn=>{if(pending.current)return;pending.current=true;setBusy(true);setError('');try{return await fn()}catch(e){if(mounted.current&&e.name!=='AbortError')setError(e.message)}finally{pending.current=false;if(mounted.current){setBusy(false);notifyAIAllowance('conversation')}}};
  const accept=s=>{if(!mounted.current)return;sessionRef.current=s;setSession(s);setHistory(h=>[s,...h.filter(x=>x.id!==s.id)]);};
  const pauseVoice=()=>{voice.current?.stop();setVoiceState('paused');setVoiceLevel(0)};
  const resetVoice=()=>{voice.current?.stop();voice.current=null;setVoiceState('idle');setVoiceLevel(0);setReviewFailed(false)};
  useEffect(()=>{const pause=()=>{if(voice.current?.active){voice.current.stop();setVoiceState('paused');setVoiceLevel(0)}};const visibility=()=>{if(document.hidden)pause()};document.addEventListener('visibilitychange',visibility);window.addEventListener('pagehide',pause);return()=>{document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',pause)}},[]);
 
- const start=()=>run(async()=>{resetVoice();const d=await request('',{language,level,scenario,displayLanguage:interfaceLanguage(),aiConsent:consent,prefetchAudio:mode==='voice'&&!deviceVoice},controller.current.signal);accept(d.session);setText('');key.current=crypto.randomUUID();});
+ const start=()=>run(async()=>{resetVoice();const storageKey=['continuum-speaking-start',user?.id,language,level,scenario].join(':');const d=await request('',{startKey:aiRequestKey(storageKey),language,level,scenario,displayLanguage:interfaceLanguage(),aiConsent:consent,prefetchAudio:mode==='voice'&&!deviceVoice},controller.current.signal);clearAIRequestKey(storageKey);accept(d.session);setText('');key.current=crypto.randomUUID();});
  const open=s=>run(async()=>{resetVoice();const d=await request('/'+s.id,undefined,controller.current.signal);accept(d.session);setText('');key.current=crypto.randomUUID();});
  const audioURL=(s,i=s.messages.length-1)=>'/api/speaking/'+s.id+'/audio/'+i;
  const startVoice=()=>{
@@ -54,7 +55,7 @@ export default function AISpeaking({language,user,onBack}){
     if(pending.current)throw Error('A reply is still being prepared. Please wait.');
     pending.current=true;if(mounted.current)setBusy(true);
     try{const s=sessionRef.current;const d=await request('/'+s.id+'/turn',{revision:s.revision,turnKey:key.current,aiConsent:true,audio,prefetchAudio:!voice.current?.deviceVoice},controller.current.signal);accept(d.session);key.current=crypto.randomUUID();return {url:audioURL(d.session),text:d.session.messages.at(-1).text,locale};}
-    finally{pending.current=false;if(mounted.current)setBusy(false);}
+    finally{pending.current=false;if(mounted.current){setBusy(false);notifyAIAllowance('conversation')};}
    }
   });
   voice.current.deviceVoice=deviceVoice;voice.current.silenceMs=longPause?2200:1300;
@@ -67,6 +68,7 @@ export default function AISpeaking({language,user,onBack}){
  const toList=()=>{resetVoice();setSession(null);sessionRef.current=null;setText('');setError('')};
  const consentBox=<label className="speaking-consent"><input type="checkbox" checked={consent} disabled={busy||voiceActive} onChange={e=>setConsent(e.target.checked)}/><span>{t('I agree to send my conversation and submitted recordings to the configured AI provider (Gemini or OpenAI) for replies and feedback. Transcripts and reviews are saved to my account; raw recordings are not stored in conversation history.')} {t('Audio-based pronunciation scores are saved with your conversation.')}</span></label>;
  return <div className={'ai-speaking '+(session?'in-conversation':'')}>
+  <AIAllowance bucket="conversation" user={user}/>
   <button className="text-button" disabled={busy} onClick={()=>{resetVoice();onBack()}}><ArrowLeft size={17}/>{t('Back to learning path')}</button>
   {!session&&<section className="page-intro"><span className="eyebrow">{t('AI CONVERSATION')}</span><h1>{t('Speak in real-life situations')}</h1><p>{t('A short conversation. A useful review. A clearer next step.')}</p><p>{t('Free: one conversation per day, up to 7 minutes. All scenarios are available. Pauses and provider waits do not count. Daily allowance resets at 00:00 UTC.')}</p></section>}
   {error&&<div className="auth-error" role="alert"><p>{t(error)}</p>{reviewFailed&&session?<button className="text-button" disabled={busy} onClick={()=>review(reviewFailed==='communication',reviewFailed==='feedback')}>{t(reviewFailed==='feedback'?'Update speaking feedback':reviewFailed==='communication'?'Reassess communication':'Try creating review again')}</button>:!session?<button className="text-button" disabled={busy} onClick={()=>run(async()=>{const d=await request('?language='+language,undefined,controller.current.signal);if(mounted.current){setHistory(d.sessions);setAvailable(d.available);setPremium(d.premium)}})}>{t('Try again')}</button>:<button disabled={busy||voiceActive} className="text-button" onClick={()=>run(async()=>{const d=await request('/'+session.id,undefined,controller.current.signal);if(d.session.messages.some(m=>m.key===key.current)){key.current=crypto.randomUUID();if(voice.current)voice.current.retryClip=null;}accept(d.session)})}>{t('Reload saved conversation')}</button>}</div>}

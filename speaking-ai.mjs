@@ -1,3 +1,4 @@
+import {meteredFetch} from './ai-metering.mjs';
 import {verifySpeakingFeedback,speakingFeedbackVersion} from './speaking-feedback.mjs';
 import {speakingGoal} from './speaking-goal.mjs';
 import {exactLearnerQuote,learnerTurns,validateCommunication,communicationFields,assessCommunication} from './communication-score.mjs';
@@ -82,7 +83,7 @@ export async function voiceTurnSpeaking(session,response,{fetchImpl=fetch,conver
  if(env.GEMINI_API_KEY){
   const model=(env.GEMINI_VOICE_CONVERSATION_MODEL||env.GEMINI_CONVERSATION_MODEL||env.GEMINI_ASSESSMENT_MODEL||'gemini-2.5-flash').replace(/^models\//,'');
   requests.push({provider:'gemini',key:env.GEMINI_API_KEY,model,run:async()=>{
-   const r=await fetchImpl(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':env.GEMINI_API_KEY},body:JSON.stringify({systemInstruction:{parts:[{text:instruction}]},contents:[{role:'user',parts:[{text:context},{inline_data:{mime_type:'audio/wav',data}}]}],generationConfig:{temperature:0.4,responseMimeType:'application/json',maxOutputTokens:1800,...(/^gemini-2\.5-flash(?:$|-)/.test(model)?{thinkingConfig:{thinkingBudget:0}}:{})}}),signal:AbortSignal.timeout(12000)});
+   const r=await meteredFetch(fetchImpl, `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,{method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':env.GEMINI_API_KEY},body:JSON.stringify({systemInstruction:{parts:[{text:instruction}]},contents:[{role:'user',parts:[{text:context},{inline_data:{mime_type:'audio/wav',data}}]}],generationConfig:{temperature:0.4,responseMimeType:'application/json',maxOutputTokens:1800,...(/^gemini-2\.5-flash(?:$|-)/.test(model)?{thinkingConfig:{thinkingBudget:0}}:{})}}),signal:AbortSignal.timeout(12000)});
    if(!r.ok){backoff?.fail('gemini',env.GEMINI_API_KEY,model,r.status,Number(r.headers.get('retry-after'))||60);throw Error('Voice partner unavailable');}
    const p=await r.json();return p.candidates?.[0]?.content?.parts?.filter(x=>!x.thought).map(x=>x.text||'').join('');
   }});
@@ -90,7 +91,7 @@ export async function voiceTurnSpeaking(session,response,{fetchImpl=fetch,conver
  if(env.OPENAI_API_KEY){
   const model=env.OPENAI_AUDIO_CONVERSATION_MODEL||env.OPENAI_AUDIO_ASSESSMENT_MODEL||'gpt-audio-1.5';
   requests.push({provider:'openai',key:env.OPENAI_API_KEY,model,run:async()=>{
-   const r=await fetchImpl('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${env.OPENAI_API_KEY}`},body:JSON.stringify({model,modalities:['text'],store:false,max_completion_tokens:1800,messages:[{role:'system',content:instruction},{role:'user',content:[{type:'text',text:context},{type:'input_audio',input_audio:{data,format:'wav'}}]}]}),signal:AbortSignal.timeout(12000)});
+   const r=await meteredFetch(fetchImpl, 'https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',Authorization:`Bearer ${env.OPENAI_API_KEY}`},body:JSON.stringify({model,modalities:['text'],store:false,max_completion_tokens:1800,messages:[{role:'system',content:instruction},{role:'user',content:[{type:'text',text:context},{type:'input_audio',input_audio:{data,format:'wav'}}]}]}),signal:AbortSignal.timeout(12000)});
    if(!r.ok){backoff?.fail('openai',env.OPENAI_API_KEY,model,r.status,Number(r.headers.get('retry-after'))||60);throw Error('Voice partner unavailable');}
    const p=await r.json();return p.choices?.[0]?.message?.content;
   }});

@@ -1,3 +1,5 @@
+import {migrateAIMetering,withAIUsage,identifyAIUser} from './ai-metering.mjs';
+import {migrateAIOperations} from './ai-operations.mjs';
 import {migrateLightLearning,handleLightLearning} from './light-learning-api.mjs';
 import {migrateAdventure,handleAdventure} from './adventure-api.mjs';
 import {migrateTeacherRanking} from './teacher-ranking.mjs';
@@ -76,6 +78,8 @@ async function migrate(){
  await migratePatterns(pool);
  await migrateAssessments(pool);
  await migrateSkills(pool);
+ await migrateAIOperations(pool);
+ await migrateAIMetering(pool);
  await migrateSpeech(pool);
  await migrateReview(pool);
  await migrateLocalization(pool);
@@ -93,7 +97,7 @@ function limited(req,key,limit=12){const address=(req.headers['x-forwarded-for']
 const parsedBody=Symbol('validated request JSON');
 async function json(req){if(req[parsedBody])return req[parsedBody];let body='';for await(const chunk of req){body+=chunk;if(body.length>(req.url==='/api/skills'||/^\/api\/speaking\/[a-f0-9-]+\/turn$/.test(req.url)?1500000:300000))fail(413,'Request too large')}try{const value=JSON.parse(body||'{}');if(!value||typeof value!=='object'||Array.isArray(value))fail(400,'Expected a JSON object');req[parsedBody]=value;return value}catch{fail(400,'Invalid JSON object')}}
 async function currentUser(req){const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(!token)return null;const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',[hash(token)]);return result.rows[0]||null}
-async function required(req,role){const user=await currentUser(req);if(!user)fail(401,'Sign in to continue');if(role&&user.role!==role)fail(403,'Not allowed for this account');return user}
+async function required(req,role){const user=await currentUser(req);if(!user)fail(401,'Sign in to continue');if(role&&user.role!==role)fail(403,'Not allowed for this account');identifyAIUser(user.id);return user}
 async function linked(teacherId,learnerId){const r=await pool.query('SELECT 1 FROM teacher_links WHERE teacher_id=$1 AND learner_id=$2',[teacherId,learnerId]);if(!r.rowCount)fail(403,'This learner has not shared access with you')}
 async function startSession(res,user){const token=random();await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '30 days')",[hash(token),user.id]);send(res,200,{user},{'Set-Cookie':`${cookieName}=${token}; ${cookieAttrs}`})}
 function safeEmail(email){return String(email||'').trim().toLowerCase()}
@@ -231,5 +235,13 @@ async function handle(req,res){
 async function serve(req,res,route){const page={ '/terms':'terms','/privacy':'privacy','/help':'help'}[route];if(page&&(req.method==='GET'||req.method==='HEAD')){const query=new URL(req.url,'http://localhost').searchParams.get('q')?.slice(0,120)||'';const html=renderPublicDocument(page,query);res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"});res.end(req.method==='HEAD'?undefined:html);return;}if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});let filename=path.resolve(dist,'.'+route);if(!filename.startsWith(dist+path.sep)&&filename!==dist)return send(res,404,{error:'Not found'});if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');try{const data=await fs.readFile(filename);if(path.extname(filename)==='.m4a'&&req.headers.range){const m=/^bytes=(\d*)-(\d*)$/.exec(req.headers.range);let start=m?.[1]?Number(m[1]):m?.[2]?Math.max(0,data.length-Number(m[2])):NaN,end=m?.[1]&&m?.[2]?Math.min(data.length-1,Number(m[2])):data.length-1;if(!m||!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<0||start>=data.length||end<start){res.writeHead(416,{'Content-Range':'bytes */'+data.length});res.end();return}res.writeHead(206,{'Content-Type':'audio/mp4','Accept-Ranges':'bytes','Content-Range':`bytes ${start}-${end}/${data.length}`,'Content-Length':end-start+1});res.end(req.method==='HEAD'?undefined:data.subarray(start,end+1));return}res.writeHead(200,{'Content-Type':mime[path.extname(filename)]||'application/octet-stream','Cache-Control':filename.endsWith('index.html')||route==='/legal.css'?'no-cache':'public, max-age=31536000, immutable'});res.end(req.method==='HEAD'?undefined:data)}catch{send(res,404,{error:'Not found'})}}
 if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
 await migrate();
-if(process.env.NODE_ENV==='production'){void warmLocalization(pool);void warmPatternProvider();}
-http.createServer((req,res)=>handle(req,res).catch(err=>{if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));if(err.status<500||err.status===503)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));
+if(process.env.NODE_ENV==='production'){void withAIUsage(pool,'translation-warmup',()=>warmLocalization(pool));void withAIUsage(pool,'patterns-warmup',()=>warmPatternProvider());}
+function trackedRequest(req,res){
+ const path=new URL(req.url,'http://localhost').pathname;
+ const feature=path.startsWith('/api/speaking')?'conversation':path.startsWith('/api/skills')?'skill-assessment':path.startsWith('/api/patterns')?'recurring-patterns':path==='/api/localization'?'translation':path==='/api/speech'?'studio-speech':'other-ai';
+ return withAIUsage(pool,feature,async()=>{
+  if(feature==='studio-speech')identifyAIUser((await currentUser(req))?.id??null);
+  return handle(req,res);
+ },{getTier:async id=>(await membership(pool,id)).premium?'premium':'free'});
+}
+http.createServer((req,res)=>trackedRequest(req,res).catch(err=>{if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));if(err.status<500||err.status===503)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));

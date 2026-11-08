@@ -38,7 +38,7 @@ try{
    assessments++;
    return Response.json({choices:[{message:{content:JSON.stringify({
     assessable,ratings:[3,3,3,3],evidence:['Task','Flow','Language','Register'],feedback:'Short account.',nextStep:'Add a detail.',
-    strengths:[],corrections:language==='it'?[]:[{original:transcript,improved:transcript,explanation:'Optional rewording.'}],transcript,
+    strengths:[],corrections:language==='it'?[]:[{original:transcript,improved:'Optional '+transcript,explanation:'Optional rewording.'}],transcript,
     cefr:{level:'A1',confidence:'low',limitations:'Short sample.',evidence:[{quote:transcript,reason:'Describes a past activity.'}]},
     pronunciation:{assessable,ratings:[3,3,3,3],evidence:['Clear sounds','Steady timing','Clear phrasing','Intelligible'],feedback:'Clear.'}
    })}}]});

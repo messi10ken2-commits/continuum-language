@@ -2,13 +2,14 @@ import {isLearningLanguage} from './languages.mjs';
 import {safeSavedCorrections} from './correction-integrity.mjs';
 import {serveStudioSpeech} from './speech-api.mjs';
 import {premiumSkillTasks,premiumSkillSummary} from './premium-skills.mjs';
-import {membership} from './billing-api.mjs';
+import {membership,billingTransaction} from './billing-api.mjs';
+import {aiTier,dailyAIUsage,denyAI,reserveAI,settleAI} from './ai-operations.mjs';
+import {aiContext} from './ai-metering.mjs';
 import {visibleSkillResult} from './premium-policy.mjs';
 import {validInterfaceLanguage} from './interface-languages.mjs';
 import {teacherScope,requestedScope} from './teacher-access.mjs';
 import {aiConfigured,savedSkillResult} from './ai-assessment.mjs';
 import {skillEvidenceVersion} from './skill-evidence.mjs';
-const pendingAI=new Set();
 import {isDeepStrictEqual} from 'node:util';
 import {getSkillTask as getCoreSkillTask,rubricFor,skillTasks} from './skills-content.mjs';
 const getSkillTask=id=>getCoreSkillTask(id)||premiumSkillTasks.find(t=>t.id===id);
@@ -23,7 +24,7 @@ export async function skillAccess(pool,user,row,fail){if(user.id===row.user_id)r
 // Unscored attempts can be reassessed with fresh consent; scored attempts stay cached.
 function needsScoreRefresh(result){
  const ai=result.aiAssessment||result;
- return ai.evaluationVersion===skillEvidenceVersion&&ai.score===null&&
+ return ai.evaluationVersion===skillEvidenceVersion&&!ai.assessmentFinalized&&ai.score===null&&
   ['ai-reviewed','ai-unassessable'].includes(ai.status);
 }
 export async function handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}){
@@ -43,6 +44,10 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
  };
  if(route==='/api/skills/catalog'&&req.method==='GET'){send(res,200,{premium,tasks:premiumSkillSummary});return true;}
  const taskRoute=route.match(/^\/api\/skills\/tasks\/([a-z0-9-]+)(?:\/(audio))?$/);if(taskRoute&&req.method==='GET'){if(!premium)fail(403,'Premium is required for scenario-focused practice.');const task=getSkillTask(taskRoute[1]);if(!task?.premium)fail(404,'Practice not found');if(taskRoute[2]){const sample=new URL(req.url,'http://localhost').searchParams.get('sample');return serveStudioSpeech({req,res,pool,text:sample==='prompt'?task.prompt:sample==='model'?task.model:task.audio,locale:sample==='prompt'?'en-US':task.locale,privateAudio:true,send,fail,limited});}send(res,200,{task});return true;}
+ if(route==='/api/skills/ai-usage'&&req.method==='GET'){
+  if(user.role!=='learner')fail(403,'Learner account required');
+  send(res,200,{usage:await dailyAIUsage(pool,user.id,'focused',premium)});return true;
+ }
  if(route==='/api/skills/ai-status'&&req.method==='GET'){send(res,200,{available:aiConfigured()});return true;}
  if(route==='/api/skills'&&req.method==='GET'){
   if(user.role!=='learner')fail(403,'Learner account required');
@@ -77,19 +82,47 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
    if(user.role!=='learner'||user.id!==row.user_id||!task||task.skill==='Listening')fail(403,'Only the learner can request AI assessment of their writing or recording');
    const data=await json(req);if(data.aiConsent!==true)fail(400,'Confirm sending this response to OpenAI for assessment');
    if(data.displayLanguage!==undefined&&!validInterfaceLanguage(data.displayLanguage))fail(400,'Choose a display language');
-   if((row.result.aiAssessment||row.result).evaluationVersion===skillEvidenceVersion&&!needsScoreRefresh(row.result)){send(res,200,{result:visible(row).result});return true;}
+   if(data.assessmentKey!==undefined&&!/^[a-f0-9-]{36}$/.test(data.assessmentKey))fail(400,'Invalid assessment request');
+   const reusable=result=>{
+    const ai=result.aiAssessment||result;
+    return ai.evaluationVersion===skillEvidenceVersion&&(!needsScoreRefresh(result)||data.assessmentKey&&ai.assessmentKey===data.assessmentKey);
+   };
+   if(reusable(row.result)){send(res,200,{result:visible(row).result});return true;}
    if(!aiConfigured()){send(res,503,{error:'AI assessment is not connected yet. Your response is saved.'});return true;}
-   limited(req,'ai-assessment',10);if(pendingAI.has(user.id))fail(409,'An AI assessment is already running. Please wait.');
-   pendingAI.add(user.id);
+   const bucket=row.assessment_id||task.lessonId?'other':'focused';
+   const feature=row.assessment_id?'cefr-assessment':task.lessonId?'skill-assessment':task.skill==='Speaking'?'focused-speaking':'focused-writing';
+   const reservation=await billingTransaction(pool,async c=>{
+    await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[user.id]);
+    const fresh=(await c.query('SELECT result FROM skill_submissions WHERE id=$1',[row.id])).rows[0].result;
+    if(reusable(fresh))return {result:fresh};
+    const pending=(await c.query("SELECT 1 FROM ai_operations WHERE user_id=$1 AND bucket IN ('focused','other') AND completed_at IS NULL AND expires_at>now() LIMIT 1",[user.id])).rows.length;
+    if(pending)return {pending:true};
+    const slot=await reserveAI(c,{userId:user.id,bucket,feature,key:row.id,premium});
+    if(slot.completed)return {result:fresh};
+    if(slot.token)limited(req,'ai-assessment',10);
+    return slot;
+   });
+   if(reservation.result){send(res,200,{result:visible({...row,result:reservation.result}).result});return true;}
+   if(reservation.denied)await denyAI(pool,user.id,bucket,premium,fail);
+   if(reservation.pending)fail(409,'An AI assessment is already running. Please wait.');
+   const {token}=reservation;
+   let committed=false;
    try{
-    const ai=await assessSkill({...task,displayLanguage:data.displayLanguage||'en',prompt:row.result.taskPrompt||task.prompt},row.response);
-    const fresh=await pool.query('SELECT result FROM skill_submissions WHERE id=$1',[row.id]);
-    const previous=fresh.rows[0].result;
-    const result=previous.status==='reviewed'?{...previous,aiAssessment:ai}:{...previous,...ai,aiAssessment:ai};
-    await pool.query('UPDATE skill_submissions SET result=$2::jsonb WHERE id=$1',[row.id,JSON.stringify(result)]);
+    const ai=await aiContext(feature,{tier:aiTier(premium),operationId:row.id},()=>assessSkill({...task,displayLanguage:data.displayLanguage||'en',prompt:row.result.taskPrompt||task.prompt},row.response));
+    if(data.assessmentKey)ai.assessmentKey=data.assessmentKey;
+    ai.assessmentFinalized=ai.status==='ai-reviewed';
+    const result=await billingTransaction(pool,async c=>{
+     const {rows:[fresh]}=await c.query('SELECT result FROM skill_submissions WHERE id=$1 FOR UPDATE',[row.id]);
+     const previous=fresh.result;
+     const updated=previous.status==='reviewed'?{...previous,aiAssessment:ai}:{...previous,...ai,aiAssessment:ai};
+     await c.query('UPDATE skill_submissions SET result=$2::jsonb WHERE id=$1',[row.id,JSON.stringify(updated)]);
+     await settleAI(c,token,ai.assessmentFinalized);
+     return updated;
+    });
+    committed=true;
     send(res,200,{result:visible({...row,result}).result});return true;
    }catch(e){send(res,502,{error:e.message||'AI assessment unavailable. Your response is saved.'});return true;}
-   finally{pendingAI.delete(user.id);}
+   finally{if(!committed)await settleAI(pool,token,false);}
   }
   if(!match[2]&&req.method==='GET'){send(res,200,{taskInfo:task?.premium?{id:task.id,title:task.title,language:task.language,locale:task.locale,skill:task.skill,level:task.level,premium:true}:undefined,submission:visible({id:row.id,task:row.task_id,assessment:row.assessment_id,response:row.response,result:row.result,at:row.created_at})});return true;}
   if(match[2]&&req.method==='PUT'){if(user.role!=='teacher'||task.skill==='Listening')fail(403,'Teacher review required');const data=await json(req),criteria=rubricFor(task.skill);if(!Array.isArray(data.ratings)||data.ratings.length!==criteria.length||data.ratings.some(n=>!Number.isInteger(n)||n<0||n>4)||typeof data.feedback!=='string'||data.feedback.trim().length<10||data.feedback.length>3000)fail(400,'Rate all four criteria and add specific feedback');const result={...row.result,status:'reviewed',score:Math.round(data.ratings.reduce((a,b)=>a+b,0)/16*100),criteria,ratings:data.ratings,feedback:data.feedback,reviewer:user.name,reviewedAt:new Date().toISOString()};await pool.query('UPDATE skill_submissions SET result=$2::jsonb WHERE id=$1',[row.id,JSON.stringify(result)]);send(res,200,{result:visible({...row,result}).result});return true;}
