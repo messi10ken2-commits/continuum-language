@@ -1,0 +1,33 @@
+name: Billing Invoice Safety QA
+on:
+  pull_request:
+    paths:
+      - 'billing-invoices.mjs'
+      - 'billing-invoices.test.mjs'
+      - 'billing-api.mjs'
+      - 'BillingInvoices.jsx'
+      - 'Membership.jsx'
+      - 'membership.css'
+      - '.github/workflows/billing-invoice-qa.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  invoice-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check invoice API syntax
+        run: |
+          node --check billing-api.mjs
+          node --check billing-invoices.mjs
+      - name: Run read-only invoice URL and ownership boundary tests
+        run: node --test billing-invoices.test.mjs
+      - name: Install dependencies for Vite compilation
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Build full frontend (Membership invoice integration)
+        run: npm run build
