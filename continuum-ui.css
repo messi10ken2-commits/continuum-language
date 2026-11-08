@@ -195,6 +195,7 @@
 .app.continuum-ui .assessment-summary :is(h3,p,.eyebrow) {color:inherit}
 .app.continuum-ui .assessment-summary p {opacity:.8;font-size:12px}
 .app.continuum-ui .assessment-summary .primary {background:#f6f0ff;color:#59308c;box-shadow:none;flex-shrink:0}
+.app.continuum-ui.ui-illustrated .course-expedition .approved-record-disclosure > .assessment-summary > .assessment-reassessment {color:#fff}
 .app.continuum-ui :is(.learning-log-group,.live-patterns,.skill-record,.learning-consistency,.illustrated-activity) {margin:18px 0;border-radius:20px;padding:20px}
 .app.continuum-ui :is(.learning-log-entry,.connected-note,.skill-record article) {border-radius:13px}
 .app.continuum-ui :is(.learning-log-filters,.illustrated-periods,.recurring-pattern-filters) {display:flex;gap:6px;flex-wrap:wrap;background:#f4effa;padding:4px;border-radius:13px}
