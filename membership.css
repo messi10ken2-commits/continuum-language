@@ -26,3 +26,14 @@
 .app.rpg-mode .practice-studio[data-view]:not([data-view="home"]){min-height:calc(100dvh - 240px)}
 
 .premium-guide-ticket-note{display:block;margin-top:.45rem}
+
+.membership-pricing{min-width:0;margin:20px 0;padding:16px;border:1px solid #ddd4ec;border-radius:16px}
+.membership-plan-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.membership-plan-options label{display:flex;align-items:flex-start;gap:8px;padding:12px;border:1px solid #ddd4ec;border-radius:12px}
+.membership-plan-options label:has(input:checked){border-color:#7153b4;background:#f5efff}
+.membership-plan-options input{flex:none;margin-top:4px}
+.membership-plan-options strong{display:block}
+@media(max-width:480px){.membership-plan-options{grid-template-columns:1fr}}
+.membership-comparison{overflow-x:auto;margin-block:14px}
+.membership-comparison table{width:100%;border-collapse:collapse;text-align:start}
+.membership-comparison :is(th,td){text-align:start;padding:.5rem;border-bottom:1px solid #e8e1ef;overflow-wrap:anywhere}

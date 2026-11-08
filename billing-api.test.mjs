@@ -1,14 +1,26 @@
 import assert from 'node:assert/strict';
 import Stripe from 'stripe';
 import {premiumCourses} from './premium-courses.mjs';
+import {billingReady} from './billing-api.mjs';
 const originalFetch=globalThis.fetch;
-Object.assign(process.env,{STRIPE_SECRET_KEY:'sk_test_synthetic_billing',STRIPE_WEBHOOK_SECRET:'whsec_synthetic_billing',STRIPE_PREMIUM_MONTHLY_PRICE_ID:'price_premium_month',BILLING_PUBLIC_URL:'https://example.test',BILLING_ENABLED:'true'});
-const customers=new Map(),subscriptions=new Map(),sessions=new Map(),idem=new Map(),invoices=new Map(),charges=new Map();let calls=0,createCalls=0,failCheckout=false;
+Object.assign(process.env,{STRIPE_SECRET_KEY:'sk_test_synthetic_billing',STRIPE_WEBHOOK_SECRET:'whsec_synthetic_billing',STRIPE_PREMIUM_MONTHLY_PRICE_ID:'price_premium_month',BILLING_PUBLIC_URL:'https://example.test',BILLING_ENABLED:'true',BILLING_STRIPE_MODE:'test',STRIPE_PREMIUM_YEARLY_PRICE_ID:'price_premium_year'});
+const testConfig={...process.env,NODE_ENV:'test'};
+assert.equal(billingReady(testConfig),true);
+assert.equal(billingReady({...testConfig,NODE_ENV:'production'}),false);
+assert.equal(billingReady({...testConfig,NODE_ENV:'production',BILLING_SANDBOX_DEPLOYMENT:'true',RAILWAY_ENVIRONMENT_NAME:'billing-staging'}),true);
+const liveConfig={...testConfig,STRIPE_SECRET_KEY:'sk_live_synthetic',BILLING_STRIPE_MODE:'live',NODE_ENV:'production'};
+assert.equal(billingReady(liveConfig),false);
+assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true'}),false);
+assert.equal(billingReady({...liveConfig,BILLING_LIVE_APPROVED:'true',BILLING_TAX_MODE:'off'}),true);
+const customers=new Map(),subscriptions=new Map(),sessions=new Map(),idem=new Map(),invoices=new Map(),charges=new Map();let calls=0,createCalls=0,failCheckout=false,wrongPrice=false;
 globalThis.fetch=async(input,options)=>{
  const u=new URL(String(input));if(u.hostname!=='api.stripe.com')return originalFetch(input,options);calls++;
  const form=new URLSearchParams(options.body?.toString()||''),path=u.pathname,header=new Headers(options.headers),key=header.get('Idempotency-Key');
  if(path==='/v1/customers'){const user=form.get('metadata[continuum_user]');if(!customers.has(user))customers.set(user,'cus_'+customers.size);return Response.json({id:customers.get(user),object:'customer'});}
- if(path.startsWith('/v1/prices/'))return Response.json({id:'price_premium_month',object:'price',active:true,type:'recurring',unit_amount:990,currency:'usd',recurring:{interval:'month'},livemode:false});
+ if(path.startsWith('/v1/prices/')){
+  const id=path.split('/').at(-1),year=id==='price_premium_year';
+  return Response.json({id,object:'price',active:true,type:'recurring',unit_amount:wrongPrice?1:year?7999:999,currency:'usd',recurring:{interval:year?'year':'month'},livemode:false});
+ }
  if(path==='/v1/subscriptions')return Response.json({object:'list',data:subscriptions.get(u.searchParams.get('customer'))||[],has_more:false});
  if(path==='/v1/checkout/sessions'&&options.method==='POST'){
   if(failCheckout){failCheckout=false;return Response.json({error:{type:'invalid_request_error',message:'synthetic outage'}},{status:400});}
@@ -26,7 +38,7 @@ async function api(path,method='GET',body,cookie){const r=await originalFetch(ba
 async function register(name,role='learner'){const r=await api('/auth/register','POST',{name,email:name+'@example.test',password:'synthetic-password-123',role,adult:true});assert.equal(r.status,200);return {...r.data.user,cookie:r.cookie};}
 let eventN=0;
 async function webhook(type,object,eventId='evt_'+ ++eventN,signature=true){const payload=JSON.stringify({id:eventId,object:'event',type,livemode:false,created:Math.floor(Date.now()/1000),data:{object}});const sig=Stripe.webhooks.generateTestHeaderString({payload,secret:process.env.STRIPE_WEBHOOK_SECRET,timestamp:Math.floor(Date.now()/1000)});const r=await originalFetch(base+'/api/billing/webhook',{method:'POST',headers:{'Content-Type':'application/json','Stripe-Signature':signature?sig:'bad'},body:payload});return {status:r.status,data:await r.json()};}
-function paid(customer,invoiceId='in_first',status='active'){const invoice={id:invoiceId,status:'paid',amount_paid:990,currency:'usd'};invoices.set(invoiceId,invoice);const sub={id:'sub_'+customer,customer,status,created:100,latest_invoice:invoice,items:{data:[{price:{id:'price_premium_month'},current_period_end:Math.floor(Date.now()/1000)+86400*30}]},cancel_at_period_end:false};subscriptions.set(customer,[sub]);return sub;}
+function paid(customer,invoiceId='in_first',status='active'){const invoice={id:invoiceId,status:'paid',amount_paid:999,currency:'usd',status_transitions:{paid_at:Math.floor(Date.now()/1000)},lines:{data:[{pricing:{price_details:{price:'price_premium_month'}}}]}};invoices.set(invoiceId,invoice);const sub={id:'sub_'+customer,customer,status,created:100,latest_invoice:invoice,items:{data:[{price:{id:'price_premium_month',unit_amount:999,currency:'usd',recurring:{interval:'month'}},current_period_end:Math.floor(Date.now()/1000)+86400*30}]},cancel_at_period_end:false};subscriptions.set(customer,[sub]);return sub;}
 try{
  const a=await register('BillingOwner'),b=await register('BillingOther'),teacher=await register('BillingTeacher','teacher');process.env.CONTINUUM_OWNER_USER_ID=a.id;
  assert.equal((await api('/billing')).status,401);assert.equal((await api('/billing/admin','GET',null,b.cookie)).status,403);
@@ -34,11 +46,23 @@ try{
  assert.equal((await webhook('invoice.paid',{},'evt_bad',false)).status,400);
  // Checkout is durable and serialized: two different browser keys cannot open two purchases.
  const checkout=()=>api('/billing/checkout','POST',{key:crypto.randomUUID(),interval:'month'},a.cookie);
+ wrongPrice=true;
+ assert.equal((await checkout()).status,503);
+ assert.equal(customers.size,0);
+ wrongPrice=false;
  const cs=await Promise.all([checkout(),checkout()]);assert.ok(cs.every(x=>x.status===200),JSON.stringify(cs));assert.equal(createCalls,1);assert.equal(cs[0].data.url,cs[1].data.url);
  // A success redirect is not evidence of a payment.
  assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.premium,false);
+ process.env.PREMIUM_TICKET_PROGRAMME_ENABLED='true';
+ await db.query("INSERT INTO teacher_profiles(user_id,status,data) VALUES($1,'approved',$2)",[teacher.id,JSON.stringify({languages:['en']})]);await db.query('INSERT INTO teacher_links(teacher_id,learner_id,languages) VALUES($1,$2,$3)',[teacher.id,a.id,['en']]);
+ assert.equal((await api('/billing/admin','PUT',{teacherId:teacher.id,enabled:true},a.cookie)).status,200);
  const customer=customers.get(a.id),sub=paid(customer);assert.equal((await webhook('invoice.paid',{id:'in_first',customer},'evt_paid')).status,200);
  r=await api('/billing','GET',null,a.cookie);assert.equal(r.data.membership.premium,true);assert.equal(r.data.tickets.filter(t=>t.state==='available').length,1);
+ assert.deepEqual(r.data.membership.plan,{interval:'month',amount:999,currency:'usd'});
+ const admin=(await api('/billing/admin','GET',null,a.cookie)).data.report;
+ assert.equal(admin.accounts.monthly,1);
+ assert.equal(Number(admin.accounts.mrr),999);
+ assert.equal(Number(admin.invoices[0].amount),999);
  await webhook('invoice.paid',{id:'in_first',customer},'evt_paid');paid(customer,'in_second');await webhook('invoice.paid',{id:'in_second',customer});assert.equal((await api('/billing','GET',null,a.cookie)).data.tickets.length,1);
  assert.equal((await checkout()).status,409);
  const open=await api('/billing/courses/en-workplace-diplomacy','GET',null,a.cookie);assert.equal(open.status,200);assert.ok(!Object.hasOwn(open.data.course.questions[0],'answer'));assert.ok(!Object.hasOwn(open.data.course.questions[0],'note'));
@@ -46,8 +70,6 @@ try{
  // Preserve legacy three-ticket grants without awarding extra tickets on renewal.
  await db.query("INSERT INTO premium_class_tickets(user_id,number) VALUES($1,2),($1,3)",[a.id]);
  // Real slot reservation consumes exactly one ticket and cancellation returns it.
- await db.query("INSERT INTO teacher_profiles(user_id,status,data) VALUES($1,'approved',$2)",[teacher.id,JSON.stringify({languages:['en']})]);await db.query('INSERT INTO teacher_links(teacher_id,learner_id,languages) VALUES($1,$2,$3)',[teacher.id,a.id,['en']]);
- assert.equal((await api('/billing/admin','PUT',{teacherId:teacher.id,enabled:true},a.cookie)).status,200);
  const thread=(await api('/classroom/threads','POST',{otherId:teacher.id,language:'en'},a.cookie)).data.threadId;
  const start=new Date(Date.now()+86400000);start.setUTCSeconds(0,0);const end=new Date(+start+50*60000);const slot=(await db.query('INSERT INTO class_availability(teacher_id,starts_at,ends_at,timezone,client_key) VALUES($1,$2,$3,$4,$5) RETURNING id',[teacher.id,start,end,'UTC','billing-slot-one'])).rows[0];
  const bookingBody={threadId:thread,slotId:slot.id,topic:'Premium test class',clientKey:'billing-booking-0001',usePremiumTicket:true};const booking=await api('/classroom/bookings','POST',bookingBody,a.cookie);assert.equal(booking.status,201,JSON.stringify(booking));assert.equal(booking.data.booking.premiumTicket,true);
