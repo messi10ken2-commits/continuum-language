@@ -6,10 +6,10 @@ test('invoice summaries include only fields needed by the learner',()=>{
  const result=customerInvoiceSummary({id:'in_ABC123',number:'C-001',status:'paid',currency:'usd',
   total:7999,amount_paid:7999,created:1783500000,
   hosted_invoice_url:'https://invoice.stripe.com/i/test-id',
-  invoice_pdf:'https://files.stripe.com/links/abc',
+  invoice_pdf:'https://pay.stripe.com/invoice/acct_123/test_abc/pdf',
   customer_email:'private@example.com',description:'private content'});
  assert.equal(result.amountPaid,7999);
- assert.equal(result.pdfUrl,'https://files.stripe.com/links/abc');
+ assert.equal(result.pdfUrl,'https://pay.stripe.com/invoice/acct_123/test_abc/pdf');
  assert.equal('customer_email' in result,false);
  assert.equal('description' in result,false);
 });
