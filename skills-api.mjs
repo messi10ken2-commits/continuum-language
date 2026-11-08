@@ -7,6 +7,7 @@ import {visibleSkillResult} from './premium-policy.mjs';
 import {validInterfaceLanguage} from './interface-languages.mjs';
 import {teacherScope,requestedScope} from './teacher-access.mjs';
 import {aiConfigured,savedSkillResult} from './ai-assessment.mjs';
+import {skillEvidenceVersion} from './skill-evidence.mjs';
 const pendingAI=new Set();
 import {isDeepStrictEqual} from 'node:util';
 import {getSkillTask as getCoreSkillTask,rubricFor,skillTasks} from './skills-content.mjs';
@@ -19,12 +20,27 @@ export async function migrateSkills(pool){await pool.query(`CREATE TABLE IF NOT 
  CREATE INDEX IF NOT EXISTS skills_user_time ON skill_submissions(user_id,created_at DESC);`);}
 const fields='id,task_id AS task,assessment_id AS assessment,result,created_at AS at';
 export async function skillAccess(pool,user,row,fail){if(user.id===row.user_id)return; if(user.role!=='teacher')fail(403,'Not allowed');const scope=await teacherScope(pool,user.id,row.user_id,fail);if(!scope.selfLearning)fail(403,'This learner has not shared this evidence');if(row.task_id){const task=getSkillTask(row.task_id);if(!task||!scope.languages.includes(task.language||'es'))fail(403,'This language is not shared with you');}return scope;}
+// The old correction filter erased scores for responses the rubric had assessed.
+function needsScoreRefresh(result){
+ const ai=result.aiAssessment||result;
+ return ai.evaluationVersion===skillEvidenceVersion&&ai.status==='ai-reviewed'&&ai.assessable===true&&
+  ai.partial===true&&ai.score===null&&ai.communicationScore===null&&ai.ratings?.length===0;
+}
 export async function handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}){
  if(!route.startsWith('/api/skills'))return false;
  const user=await required(req);
  const premium=(await membership(pool,user.id)).premium;
  let sharedPremium=false;
- const visible=s=>{const task=getSkillTask(s.task||s.task_id);return {...s,...(task?.premium?{taskInfo:{id:task.id,title:task.title,language:task.language,locale:task.locale,skill:task.skill,level:task.level,premium:true}}:{}),result:visibleSkillResult(s.result?.aiAssessment?{...s.result,aiAssessment:safeSavedCorrections(s.result.aiAssessment,task?.language||'es')}:s.result?.status==='ai-reviewed'?safeSavedCorrections(s.result,task?.language||'es'):s.result,user.role==='teacher'?sharedPremium:premium,{assessment:!!(s.assessment||s.assessment_id)})};};
+ const visible=s=>{
+  const task=getSkillTask(s.task||s.task_id),language=task?.language||'es';
+  const saved=s.result.aiAssessment?{...s.result,aiAssessment:safeSavedCorrections(s.result.aiAssessment,language)}
+   :s.result.status==='ai-reviewed'?safeSavedCorrections(s.result,language):s.result;
+  let result=visibleSkillResult(saved,user.role==='teacher'?sharedPremium:premium,{assessment:!!(s.assessment||s.assessment_id)});
+  if(user.role==='learner'&&needsScoreRefresh(s.result)){
+   result=result.aiAssessment?{...result,aiAssessment:{...result.aiAssessment,retryAssessment:true}}:{...result,retryAssessment:true};
+  }
+  return {...s,...(task?.premium?{taskInfo:{id:task.id,title:task.title,language:task.language,locale:task.locale,skill:task.skill,level:task.level,premium:true}}:{}),result};
+ };
  if(route==='/api/skills/catalog'&&req.method==='GET'){send(res,200,{premium,tasks:premiumSkillSummary});return true;}
  const taskRoute=route.match(/^\/api\/skills\/tasks\/([a-z0-9-]+)(?:\/(audio))?$/);if(taskRoute&&req.method==='GET'){if(!premium)fail(403,'Premium is required for scenario-focused practice.');const task=getSkillTask(taskRoute[1]);if(!task?.premium)fail(404,'Practice not found');if(taskRoute[2]){const sample=new URL(req.url,'http://localhost').searchParams.get('sample');return serveStudioSpeech({req,res,pool,text:sample==='prompt'?task.prompt:sample==='model'?task.model:task.audio,locale:sample==='prompt'?'en-US':task.locale,privateAudio:true,send,fail,limited});}send(res,200,{task});return true;}
  if(route==='/api/skills/ai-status'&&req.method==='GET'){send(res,200,{available:aiConfigured()});return true;}
@@ -61,7 +77,7 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
    if(user.role!=='learner'||user.id!==row.user_id||!task||task.skill==='Listening')fail(403,'Only the learner can request AI assessment of their writing or recording');
    const data=await json(req);if(data.aiConsent!==true)fail(400,'Confirm sending this response to OpenAI for assessment');
    if(data.displayLanguage!==undefined&&!validInterfaceLanguage(data.displayLanguage))fail(400,'Choose a display language');
-   if((row.result.aiAssessment||row.result).evaluationVersion==='skill-evidence-v3'){send(res,200,{result:visible(row).result});return true;}
+   if((row.result.aiAssessment||row.result).evaluationVersion===skillEvidenceVersion&&!needsScoreRefresh(row.result)){send(res,200,{result:visible(row).result});return true;}
    if(!aiConfigured()){send(res,503,{error:'AI assessment is not connected yet. Your response is saved.'});return true;}
    limited(req,'ai-assessment',10);if(pendingAI.has(user.id))fail(409,'An AI assessment is already running. Please wait.');
    pendingAI.add(user.id);
