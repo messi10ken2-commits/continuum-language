@@ -10,6 +10,7 @@ function MilestoneDialog({kind,label,title,art,children,onClose}){
  useEffect(()=>{
   const element=dialog.current;
   element.showModal();
+  element.querySelector('[data-milestone-focus]')?.focus({preventScroll:true});
   return()=>element.close();
  },[]);
  return createPortal(<dialog ref={dialog} className={`lesson-milestone lesson-milestone-${kind}`} aria-labelledby={titleId} onCancel={event=>{event.preventDefault();onClose()}}>
@@ -23,11 +24,11 @@ function MilestoneDialog({kind,label,title,art,children,onClose}){
 }
 
 const promotionSeen=new Map();
-export default function LessonMilestone({user,reward}){
+export default function LessonMilestone({user,reward,visible=true}){
  const [rewardSeen,setRewardSeen]=useState(false),[offerOpen,setOfferOpen]=useState(false);
  const waitingForReward=!!reward&&!rewardSeen;
  useEffect(()=>{
-  if(user?.role!=='learner'||waitingForReward)return;
+  if(!visible||user?.role!=='learner'||waitingForReward)return;
   const day=new Date().toISOString().slice(0,10),key='continuum-premium-promotion:'+user.id;
   let active=true;
   // Store a single day per account, so the cap also applies across browser tabs.
@@ -42,11 +43,12 @@ export default function LessonMilestone({user,reward}){
   const closeOffer=()=>{active=false;setOfferOpen(false)};
   window.addEventListener('continuum-membership-changed',closeOffer);
   return()=>{active=false;window.removeEventListener('continuum-membership-changed',closeOffer)};
- },[user?.id,user?.role,waitingForReward]);
+ },[user?.id,user?.role,visible,waitingForReward]);
 
+ if(!visible)return null;
  if(waitingForReward)return <MilestoneDialog key="reward" kind="reward" label={t('New reward unlocked')} title={reward.title} art={reward.art} onClose={()=>setRewardSeen(true)}>
   <p>{reward.description}</p>
-  <button className="milestone-primary" autoFocus onClick={()=>setRewardSeen(true)}>{t('Continue')}<ArrowRight size={18} aria-hidden="true"/></button>
+  <button className="milestone-primary" data-milestone-focus onClick={()=>setRewardSeen(true)}>{t('Continue')}<ArrowRight size={18} aria-hidden="true"/></button>
  </MilestoneDialog>;
  if(!offerOpen)return null;
  const close=()=>setOfferOpen(false);
@@ -57,6 +59,6 @@ export default function LessonMilestone({user,reward}){
  </>}>
   <p>{t('Practise real conversations, get detailed feedback and learn without Continuum ads.')}</p>
   <button className="milestone-primary" onClick={()=>{close();window.dispatchEvent(new Event('continuum-premium-request'))}}>{t('Explore Premium')}<ArrowRight size={18} aria-hidden="true"/></button>
-  <button className="milestone-skip" autoFocus onClick={close}>{t('Continue learning')}</button>
+  <button className="milestone-skip" data-milestone-focus onClick={close}>{t('Continue learning')}</button>
  </MilestoneDialog>;
 }
