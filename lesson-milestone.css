@@ -87,3 +87,14 @@
  cursor: default;
  opacity: .65;
 }
+.lesson-milestone-premium .milestone-art {
+ width: min(100%, 29.25dvh);
+ height: auto;
+ aspect-ratio: 512 / 910;
+ background: #241541;
+}
+.milestone-art > .milestone-promo-media {
+ width: 100%;
+ height: 100%;
+ object-fit: contain;
+}

@@ -5,7 +5,6 @@ import {billingRequest} from './Membership.jsx';
 import {playRewardSound} from './feedback-sound.mjs';
 import {t,tf} from './interface-runtime.mjs';
 import './lesson-milestone.css';
-import PremiumAdScene from './PremiumAdScene.jsx';
 import {promotionAfterCompletion,promotionDurationSeconds} from './lesson-promotion.mjs';
 
 function MilestoneDialog({kind,label,title,art,children,onClose}){
@@ -118,14 +117,30 @@ export function LessonPromotion({user}){
   setOffer(state.current.pending);
   setSeconds(promotionDurationSeconds);
  };
- const scene=seconds>11?0:seconds>7?1:seconds>2?2:3;
- const title=t(['More room to speak','Vocabulary and expression review','Learn without interruptions','Go further with Premium'][scene]);
- const summary=t(['Longer AI conversations with up to 48 replies per session.','Revisit words and phrases from your lessons as they come up for review.','No Continuum ads. YouTube may still show its own ads.','Make more room for real-life practice.'][scene]);
- return <MilestoneDialog kind="premium" label={t('Continuum Premium promotion')} title={title} onClose={close} art={<PremiumAdScene key={scene} scene={scene}/>}>
-  <p>{summary}</p>
+ return <MilestoneDialog kind="premium" label={t('Continuum Premium promotion')} title={t('Go further with Premium')} onClose={close} art={<PremiumAdVideo key={offer}/>}>
+  <p>{t('Make more room for real-life practice.')}</p>
   <progress className="milestone-timer" aria-label={t('Continuum Premium promotion')} value={promotionDurationSeconds-seconds} max={promotionDurationSeconds}/>
   {seconds>0&&<p>{tf('Continue in {0} seconds',[seconds])}</p>}
   <button className="milestone-primary" disabled={seconds>0} onClick={()=>{close();window.dispatchEvent(new Event('continuum-premium-request'))}}>{t('Explore Premium')}<ArrowRight size={18} aria-hidden="true"/></button>
   <button className="milestone-skip" disabled={seconds>0} onClick={close}>{t('Continue learning')}</button>
  </MilestoneDialog>;
+}
+
+
+function PremiumAdVideo(){
+ const [failed,setFailed]=useState(false);
+ const poster='/promotions/continuum-premium-en.webp';
+ if(failed)return <img className="milestone-promo-media" src={poster} alt=""/>;
+ return <video
+  className="milestone-promo-media"
+  src="/promotions/continuum-premium-15s-en.mp4"
+  poster={poster}
+  aria-label={t('Continuum Premium promotion')}
+  autoPlay={!window.matchMedia('(prefers-reduced-motion: reduce)').matches}
+  muted
+  playsInline
+  controls
+  preload="metadata"
+  onError={()=>setFailed(true)}
+ />;
 }
