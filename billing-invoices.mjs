@@ -3,7 +3,7 @@ const safeInvoiceUrl=value=>{
   if(typeof value!=='string')return null;
   try {
     const url=new URL(value);
-    if(url.protocol!=='https:'||url.username||url.password||
+    if(url.protocol!=='https:'||url.port||url.username||url.password||
       !['invoice.stripe.com','pay.stripe.com','files.stripe.com'].includes(url.hostname))return null;
     return url.href;
   } catch { return null; }
@@ -26,6 +26,9 @@ export function customerInvoiceSummary(item){
 export async function customerInvoiceHistory(stripe,customerId){
   if(typeof customerId!=='string'||!/^cus_[A-Za-z0-9]+$/.test(customerId))throw Error('Invalid billing customer');
   const result=await stripe.invoices.list({customer:customerId,limit:24});
-  return {invoices:(result.data||[]).map(customerInvoiceSummary).filter(Boolean),
+  // Verify returned ownership as well as scoping the request. Never pass a hosted
+  // URL through if the provider response omits or disagrees with the customer.
+  const owns=item=>(typeof item?.customer==='string'?item.customer:item?.customer?.id)===customerId;
+  return {invoices:(result.data||[]).filter(owns).map(customerInvoiceSummary).filter(Boolean),
     hasMore:result.has_more===true};
 }

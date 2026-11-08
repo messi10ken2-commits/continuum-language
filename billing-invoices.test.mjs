@@ -16,15 +16,19 @@ test('invoice summaries include only fields needed by the learner',()=>{
 test('rejects untrusted invoice links and invalid identifiers',()=>{
  const result=customerInvoiceSummary({id:'in_valid',status:'paid',
  hosted_invoice_url:'https://invoice.stripe.com.evil.example/steal',
- invoice_pdf:'javascript:alert(1)'});
+ invoice_pdf:'https://invoice.stripe.com:8443/i/private'});
  assert.equal(result.hostedUrl,null);
  assert.equal(result.pdfUrl,null);
  assert.equal(customerInvoiceSummary({id:'other'}),null);
 });
 test('fetches only supplied customer and does not create charges',async()=>{
  let calls=0;const mock={invoices:{list:async args=>{calls++;assert.deepEqual(args,{customer:'cus_Test123',limit:24});
- return {data:[{id:'in_Test123',status:'open',currency:'usd',amount_paid:0,total:999}],has_more:false};}}};
- assert.equal((await customerInvoiceHistory(mock,'cus_Test123')).invoices.length,1);
+ return {data:[
+  {id:'in_Test123',customer:{id:'cus_Test123'},status:'open',currency:'usd',amount_paid:0,total:999},
+  {id:'in_Other',customer:'cus_Other',hosted_invoice_url:'https://invoice.stripe.com/i/other'},
+  {id:'in_Unscoped',hosted_invoice_url:'https://invoice.stripe.com/i/unscoped'}
+ ],has_more:false};}}};
+ assert.deepEqual((await customerInvoiceHistory(mock,'cus_Test123')).invoices.map(i=>i.id),['in_Test123']);
  assert.equal(calls,1);
  await assert.rejects(customerInvoiceHistory(mock,'cus_Invalid!'));
  assert.equal(calls,1);

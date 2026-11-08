@@ -35,6 +35,11 @@ globalThis.fetch=async(input,options)=>{
  }
  if(path.startsWith('/v1/checkout/sessions/'))return Response.json(sessions.get(path.split('/').at(-1)));
  if(path==='/v1/billing_portal/sessions')return Response.json({id:'bps_test',url:'https://billing.stripe.com/p/session/test'});
+ if(path==='/v1/invoices'){
+  assert.equal(u.searchParams.get('customer'),customers.values().next().value);
+  return Response.json({data:[{id:'in_TestInvoice1',customer:u.searchParams.get('customer'),status:'paid',currency:'usd',total:999,hosted_invoice_url:'https://invoice.stripe.com/i/qa'},
+   {id:'in_PrivateInvoice2',customer:'cus_Unrelated',status:'paid',hosted_invoice_url:'https://invoice.stripe.com/i/private'}],has_more:false});
+ }
  if(path.startsWith('/v1/invoices/'))return Response.json(invoices.get(path.split('/').at(-1)));
  if(path.startsWith('/v1/charges/'))return Response.json(charges.get(path.split('/').at(-1)));
  if(path==='/v1/invoice_payments')return Response.json({object:'list',data:[{invoice:'in_first'}],has_more:false});
@@ -66,6 +71,14 @@ try{
  const customer=customers.get(a.id),sub=paid(customer);assert.equal((await webhook('invoice.paid',{id:'in_first',customer},'evt_paid')).status,200);
  r=await api('/billing','GET',null,a.cookie);assert.equal(r.data.membership.premium,true);assert.equal(r.data.tickets.filter(t=>t.state==='available').length,1);
  assert.deepEqual(r.data.membership.plan,{interval:'month',amount:999,currency:'usd'});
+ assert.equal((await api('/billing/invoices')).status,401);
+ assert.equal((await api('/billing/invoices','GET',null,teacher.cookie)).status,403);
+ assert.deepEqual((await api('/billing/invoices','GET',null,b.cookie)).data,{invoices:[],hasMore:false});
+ const history=await api('/billing/invoices?customer=cus_Unrelated','GET',null,a.cookie);
+ assert.equal(history.status,200);
+ assert.deepEqual(history.data.invoices.map(i=>i.id),['in_TestInvoice1']);
+ assert.equal(history.data.invoices[0].hostedUrl,'https://invoice.stripe.com/i/qa');
+
  const admin=(await api('/billing/admin','GET',null,a.cookie)).data.report;
  assert.equal(admin.accounts.monthly,1);
  assert.equal(Number(admin.accounts.mrr),999);
@@ -122,6 +135,10 @@ try{
  // Fresh Stripe state wins even if an old event arrives after cancellation.
  subscriptions.get(customer)[0].status='canceled';await webhook('customer.subscription.deleted',{customer});await webhook('invoice.paid',{customer},'evt_old_invoice');assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.premium,false);
  paid(customer,'in_rejoin');await webhook('invoice.paid',{customer});assert.equal((await api('/billing','GET',null,a.cookie)).data.tickets.length,3);
+ charges.set('ch_partial',{id:'ch_partial',customer,invoice:'in_first',refunded:false,currency:'usd',amount_refunded:250});
+ assert.equal((await webhook('charge.refunded',{id:'ch_partial',customer})).status,200);
+ assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.premium,true);
+ assert.deepEqual((await api('/billing/admin','GET',null,a.cookie)).data.report.refunds.map(refund=>[refund.currency,Number(refund.amount)]),[['usd',250]]);
  // Full refunds remove unused benefits and do not allow them to be re-granted.
  charges.set('ch_test',{id:'ch_test',customer,payment_intent:'pi_test',invoice:'in_first',refunded:true});assert.equal((await webhook('charge.refunded',{id:'ch_test',customer})).status,200);r=await api('/billing','GET',null,a.cookie);assert.equal(r.data.membership.premium,false);assert.equal(r.data.tickets.filter(t=>t.state==='revoked').length,2);await webhook('invoice.paid',{customer});assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.premium,false);
  // Turning off new sales must not prevent a customer from cancelling in Stripe.
