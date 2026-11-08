@@ -26,6 +26,10 @@ globalThis.fetch=async(input,options)=>{
  }
  if(path==='/v1/subscriptions')return Response.json({object:'list',data:subscriptions.get(u.searchParams.get('customer'))||[],has_more:false});
  if(path==='/v1/checkout/sessions'&&options.method==='POST'){
+  // New Stripe accounts may default to Managed Payments: explicit opt-out is required
+  // because Continuum uses custom membership entitlements and disables adaptive pricing.
+  assert.equal(form.get('managed_payments[enabled]'),'false');
+  assert.equal(form.get('adaptive_pricing[enabled]'),'false');
   if(failCheckout){failCheckout=false;return Response.json({error:{type:'invalid_request_error',message:'synthetic outage'}},{status:400});}
   if(!idem.has(key)){const id='cs_test_'+sessions.size;const session={id,object:'checkout.session',status:'open',customer:form.get('customer'),url:'https://checkout.stripe.com/c/pay/'+id};sessions.set(id,session);idem.set(key,session);createCalls++;}return Response.json(idem.get(key));
  }
