@@ -17,3 +17,11 @@ export function questionPromptSource(q){
  if(cloze)return {instruction:'Complete the sentence.',context:cloze[1].replace(/\bComplete(?: the sentence)?$/,'').trim(),body:cloze[2],learningText:true};
  return null;
 }
+
+// A full model may be stored as context for listening or cloze exercises.
+// Only authored visible contexts or the existing Exclusive Course contexts
+// are shown as additional material.
+export function visibleQuestionContext(question,showCourseContext=false){
+ const context=question.context?.trim();
+ return context&&(question.displayContext||showCourseContext)&&!question.prompt.includes(context)?context:null;
+}

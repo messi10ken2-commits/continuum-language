@@ -3,6 +3,7 @@
 export const exerciseContextCopy={
  'A colleague proposes launching tomorrow, but testing is unfinished.':{pt:'Um colega propõe lançar amanhã, mas os testes ainda não foram concluídos.'},
  'A colleague says they are spread too thin.':{pt:'Um colega diz que está sobrecarregado com tarefas demais.'},
+ 'You are waiting for a friend.':{ja:'友人を待っています。',es:'Estás esperando a un amigo.',pt:'Você está esperando um amigo.',zh:'你正在等一位朋友。',fr:'Tu attends un ami.',ko:'친구를 기다리고 있습니다.',id:'Kamu sedang menunggu seorang teman.',ru:'Вы ждёте друга.',ar:'أنت تنتظر صديقًا.'},
  'You want to go to the fourth floor.':{pt:'Você quer ir ao quarto andar.'},
  'You need to understand an unfamiliar local word.':{pt:'Você precisa entender uma palavra local desconhecida.'},
  'You have not heard a local expression before.':{pt:'Você nunca ouviu essa expressão local antes.'},

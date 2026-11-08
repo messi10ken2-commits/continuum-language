@@ -18,3 +18,21 @@ test('Portuguese scenario copy reaches both the shared prompt and the exclusive 
  const player=renderToStaticMarkup(React.createElement(ExclusiveCoursePlayer,{course:{...course,questions:[{...q,answer:undefined}]},user:{id:'qa'},initialDraft:{answers:[],checks:{},key:'scenario-qa'},onExit(){}}));assert.ok(player.includes(translated));assert.ok(!player.includes('>'+q.context+'<'));assert.ok(player.includes('¿Ustedes quieren tomar algo?'),'Spanish answer choices must remain Spanish');runtime.setInterfaceLanguage('en',{persist:false});
  }finally{await vite.close()}
 });
+test('the C1 English meaning question renders its target sentence before the answer choices',async()=>{
+ const vite=await createServer({server:{middlewareMode:true,hmr:false},appType:'custom'});
+ try{
+  const {LessonPlayer}=await vite.ssrLoadModule('/SelfStudy.jsx');
+  const {getLesson,getLessonVariant}=await vite.ssrLoadModule('/course.mjs');
+  const {setInterfaceLanguage}=await vite.ssrLoadModule('/interface-runtime.mjs');
+  setInterfaceLanguage('en',{persist:false});
+  const lesson=getLesson('en-c1-everyday-idioms-1'),seed='v8-context-audit-123456789';
+  const questions=getLessonVariant(lesson.id,seed).questions;
+  const index=questions.findIndex(q=>q.prompt==='Choose the meaning in this situation.'&&q.context?.includes('off the cuff'));
+  assert.ok(index>=0);
+  const html=renderToStaticMarkup(React.createElement(LessonPlayer,{lesson,language:'en',initialAnswers:questions.slice(0,index).map(q=>q.answer),initialSeed:seed,onDraft(){},onExit(){},onComplete(){}}));
+  const quote=renderToStaticMarkup(React.createElement('blockquote',{lang:'en-US',dir:'auto'},questions[index].context));
+  assert.ok(html.includes(quote));
+  assert.ok(html.indexOf(quote)<html.indexOf('class="answers"'));
+  assert.doesNotMatch(html,/<figure class="page-scene/);
+ }finally{await vite.close()}
+});
