@@ -1,5 +1,6 @@
 import RenewalTrialOffer,{trialPrice} from './RenewalTrialOffer.jsx';
 import PremiumGuide from './PremiumGuide.jsx';
+import BillingInvoices from './BillingInvoices.jsx';
 import {InvitationAdmin,InvitationRedeem} from './PremiumAccess.jsx';
 import React,{useEffect,useRef,useState} from 'react';
 import {t,tf} from './interface-runtime.mjs';
@@ -66,6 +67,7 @@ export default function Membership({user,initialData=null,onLearn,focusOffer=fal
   <button className="text-button" disabled={busy} onClick={()=>run(async()=>setData(m.customer&&data.portalAvailable?await billingRequest('/sync','POST',{}):await billingRequest()))}>{t('Refresh membership')}</button>
  </div>{mayPurchase&&!checkoutAvailable&&!m.trialEligible&&<p>{t('Checkout is not open yet.')}</p>}
  {(data.ticketProgrammeAvailable||data.tickets.length>0)&&<><h3>{t('Class tickets')}</h3><div className="membership-tickets">{['available','reserved','used','revoked'].map(state=><span key={state}>{t({available:'Available',reserved:'Reserved',used:'Used',revoked:'Revoked'}[state])} <b>{data.tickets.filter(x=>x.state===state).length}</b></span>)}</div></>}
+ <BillingInvoices customer={m.customer} request={billingRequest}/>
  {m.premium&&<button className="primary" onClick={onLearn}>{t('Open Practice Studio')}</button>}
 
  </section>;
