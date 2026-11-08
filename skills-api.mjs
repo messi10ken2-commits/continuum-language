@@ -20,11 +20,11 @@ export async function migrateSkills(pool){await pool.query(`CREATE TABLE IF NOT 
  CREATE INDEX IF NOT EXISTS skills_user_time ON skill_submissions(user_id,created_at DESC);`);}
 const fields='id,task_id AS task,assessment_id AS assessment,result,created_at AS at';
 export async function skillAccess(pool,user,row,fail){if(user.id===row.user_id)return; if(user.role!=='teacher')fail(403,'Not allowed');const scope=await teacherScope(pool,user.id,row.user_id,fail);if(!scope.selfLearning)fail(403,'This learner has not shared this evidence');if(row.task_id){const task=getSkillTask(row.task_id);if(!task||!scope.languages.includes(task.language||'es'))fail(403,'This language is not shared with you');}return scope;}
-// The old correction filter erased scores for responses the rubric had assessed.
+// Unscored attempts can be reassessed with fresh consent; scored attempts stay cached.
 function needsScoreRefresh(result){
  const ai=result.aiAssessment||result;
- return ai.evaluationVersion===skillEvidenceVersion&&ai.status==='ai-reviewed'&&ai.assessable===true&&
-  ai.partial===true&&ai.score===null&&ai.communicationScore===null&&ai.ratings?.length===0;
+ return ai.evaluationVersion===skillEvidenceVersion&&ai.score===null&&
+  ['ai-reviewed','ai-unassessable'].includes(ai.status);
 }
 export async function handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}){
  if(!route.startsWith('/api/skills'))return false;

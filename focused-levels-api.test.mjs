@@ -84,7 +84,11 @@ try{
   const assessed=await api('/skills/'+saved.data.submission.id+'/assess','POST',{aiConsent:true},paid.cookie);
   assert.equal(assessed.status,200);
   assert.equal(assessed.data.result.aiAssessment.score,null);
-  assert.equal(assessed.data.result.aiAssessment.retryAssessment,undefined);
+  assert.equal(assessed.data.result.aiAssessment.retryAssessment,true);
+  assessable=true;
+  const retried=await api('/skills/'+saved.data.submission.id+'/assess','POST',{aiConsent:true},paid.cookie);
+  assert.equal(retried.data.result.aiAssessment.score,75);
+  assert.equal(retried.data.result.aiAssessment.retryAssessment,undefined);
  }finally{globalThis.fetch=originalFetch;delete process.env.OPENAI_API_KEY;}
  console.log('PASS: 20 language/level API paths, correct grading, historical task resolution, access protection, and speaking score recovery across five languages.');
 }finally{await new Promise(r=>testServer.close(r));await db.close()}
