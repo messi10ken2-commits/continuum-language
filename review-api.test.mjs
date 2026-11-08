@@ -12,6 +12,12 @@ try{
  const draft={answers:answers.slice(0,1),seed};
  assert.equal((await call('/learning/'+id,'PUT',draft,a.cookie)).status,200);
  assert.equal((await call('/learning/'+id,'PUT',draft,a.cookie)).status,200);
+ assert.equal((await call('/review?language=pt','GET',null,a.cookie)).status,403);
+ const captured=(await db.query('SELECT id FROM review_items WHERE user_id=$1',[a.data.user.id])).rows[0];
+ assert.ok(captured,'Free lesson mistakes remain available after upgrading');
+ assert.equal((await call('/review/'+captured.id+'/check','POST',{answer:'anything',submissionKey:crypto.randomUUID()},a.cookie)).status,403);
+ assert.equal((await call('/answer-review','POST',{kind:'review',lesson:captured.id,question:0,answer:'anything',consent:true},a.cookie)).status,403);
+ for(const account of [a,b])await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[account.data.user.id]);
  let pool=await call('/review?language=pt','GET',null,a.cookie);assert.equal(pool.status,200,JSON.stringify(pool.data));assert.equal(pool.data.items.length,1);const item=pool.data.items[0];assert.equal(item.misses,1);
  assert.equal((await call('/review?language=es','GET',null,a.cookie)).data.items.length,0);
  assert.equal((await call('/review?language=pt','GET',null,b.cookie)).data.items.length,0);

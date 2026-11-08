@@ -1,5 +1,5 @@
 import LessonMilestone from './LessonMilestone.jsx';
-import {feedbackSoundEnabled,playCorrectSound} from './feedback-sound.mjs';
+import {feedbackSoundEnabled,playCorrectSound,prepareFeedbackSound} from './feedback-sound.mjs';
 import React,{forwardRef,useEffect,useImperativeHandle,useLayoutEffect,useRef,useState} from 'react';
 import {ArrowRight,CheckCircle2,Lightbulb,Flame,Star,BookOpenCheck,Headphones,X} from 'lucide-react';
 import {t,tf,interfaceLanguage} from './interface-runtime.mjs';
@@ -127,12 +127,13 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  };
  useImperativeHandle(ref,()=>({save:()=>persist(),busy}),[record,state,ready,busy,error]);
  const exit=async()=>{if(await persist()){stopSentenceAudio();onExit()}};
- const next=async()=>{const a=activities[state.steps.length],answer=a.type==='observe'?true:lightAnswer(a,state.choice);if(!lightCorrect(a,answer))return;const value={...blank(),steps:[...state.steps,{answer,hint:state.hint,missed:!!state.missed}]};if(await persist(value)){stopSentenceAudio();if(value.steps.length===activities.length){setFinishedHere(true);setPhase('result')}}};
+ const next=async()=>{const a=activities[state.steps.length],answer=a.type==='observe'?true:lightAnswer(a,state.choice);if(!lightCorrect(a,answer))return;prepareFeedbackSound({retry:true});const value={...blank(),steps:[...state.steps,{answer,hint:state.hint,missed:!!state.missed}]};if(await persist(value)){stopSentenceAudio();if(value.steps.length===activities.length){setFinishedHere(true);setPhase('result')}}};
  const restart=()=>{setRecord({id:crypto.randomUUID(),revision:0});setState(blank());setFinishedHere(false);setPhase('intro');setError('')};
  const a=activities[state.steps.length],good=a&&lightCorrect(a,lightAnswer(a,state.choice)),nextLesson=passed?nextLightLesson(lesson):null;
  const choose=value=>{if(state.checked&&!good)setState(s=>({...s,choice:value,checked:false}));else setState(s=>({...s,choice:value}))};
  const combo=state.missed?0:evidence.combo+(state.checked&&good?1:0);
  const check=()=>{
+  prepareFeedbackSound({retry:true});
   if(state.checked&&!good){setState(s=>({...s,choice:null,checked:false}));return}
   if(good){
    if(feedbackSoundEnabled())void playCorrectSound();
@@ -141,6 +142,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  };
  if(!ready)return <section className="panel">{modeControl}<p role="status">{t(error||'Loading your light practice…')}</p>{error&&<button className="outline-button" onClick={()=>setRetry(n=>n+1)}>{t('Try again')}</button>}<button className="back" onClick={onExit}>{t('Back to Light path')}</button></section>;
  const title=<LessonText text={lesson.title} language={language}/>;
+ const rewardLoading=phase==='result'&&finishedHere&&passed&&!reward;
  const townReward=reward?.award?{
   title:townRewardLabel(reward.award,language),
   description:t(reward.newPlot===undefined?'A new decoration for your Word Town.':'A new building opened in your town!'),
@@ -148,13 +150,13 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  }:null;
  const refresh=async()=>{setRefreshing(true);try{await lightProgress(user);setRetry(n=>n+1)}finally{setRefreshing(false)}};
  return <div ref={root} className="study-lesson light-lesson light-game light-town" data-phase={phase}>
-  <div role="banner" className="light-game-top"><button aria-label={t('Save & exit')} className="light-close" disabled={busy} onClick={exit}><X size={22}/></button>
+  <div role="banner" className="light-game-top"><button aria-label={t('Save & exit')} className="light-close" disabled={busy||rewardLoading} onClick={exit}><X size={22}/></button>
    <div className="town-round-progress"><TownSegments value={state.steps.length} total={activities.length} label={t('Learning progress')}/><b>{Math.min(state.steps.length+1,activities.length)}/{activities.length}</b></div>
-   <LessonModeControl compact mode="light" onChange={onStandard} busy={busy}/>
+   <LessonModeControl compact mode="light" onChange={onStandard} busy={busy||rewardLoading}/>
   </div>
   {phase==='intro'?<section className="light-launch"><div className="light-launch-art"><PageScene lesson={lesson} caption=""/><span><Star size={30} fill="currentColor"/></span></div><span className="eyebrow">{lesson.level} · {tf('{0} questions',[activities.length])}</span><h1>{title}</h1><p>{t('Small steps. Clear guidance.')}</p><div className="light-round-facts"><span><Flame/>{activities.length*10} XP</span><span><Lightbulb/>{t('Hints when you need them')}</span></div><p className="light-record-note">{t('Get at least 80% right on the first try to pass.')}</p><button className="primary wide light-game-button" disabled={busy} onClick={()=>setPhase('exercise')}>{t('Let’s go')}<ArrowRight size={19}/></button>{modeControl}</section>:
   phase==='result'?<section className="light-celebration town-result">
-   {finishedHere&&passed&&reward&&!reward.failed&&<LessonMilestone key={record.id} user={user} reward={townReward} visible={!suspended}/>}
+   {finishedHere&&(!passed||reward)&&<LessonMilestone key={record.id} user={user} completionId={'light:'+record.id} reward={townReward} visible={!suspended}/>}
    <h1 className="town-title">{t(!passed?'Keep practising':evidence.firstCorrect===activities.length?'Perfect clear!':'Lesson passed!')}</h1>
    <TownRibbon><b>{tf('First try: {0}/{1}',[evidence.firstCorrect,activities.length])} · {tf('Best combo ×{0}',[evidence.best])}</b></TownRibbon>
    {reward&&!reward.failed&&<TownScene language={language} kind={kind} collection={reward.collection} placements={reward.placements} built={reward.built} newPlot={reward.newPlot} highlight={finishedHere?reward.award?.index:undefined} celebrate={finishedHere&&!!reward.materials}/>}
@@ -170,8 +172,8 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
     <div className="town-save-stamp"><BookOpenCheck size={24}/>{t('Light progress saved')}{reward?.award&&' · '+activities.length*10+' XP'}</div>
     <p>{t(passed?(user?'Your guided practice was saved.':'Saved on this device.'):'Get at least 80% right on the first try to pass.')}</p>
     {state.steps.some(step=>step.missed)&&<details className="town-review"><summary>{t('Review missed questions')}</summary>{activities.map((item,i)=>state.steps[i]?.missed&&<div key={item.id}><LightAnswerDetails activity={item} language={language}/>{spokenText(item)&&<SentenceAudio text={spokenText(item)} lang={item.audioLocale||item.locale||locale}/>}</div>)}</details>}
-    <button className="primary wide town-cta" onClick={!passed?restart:nextLesson&&onNext?()=>onNext(nextLesson):onExit}>{t(!passed?'Try again':nextLesson&&onNext?'Next Light lesson':'Back to town')}<ArrowRight size={19}/></button>
-    <div className="town-result-links">{(!passed||nextLesson&&onNext)&&<button className="text-button" onClick={onExit}>{t('Back to town')}</button>}{passed&&<button className="text-button" onClick={restart}>{t('Practise again')}</button>}</div>
+    <button className="primary wide town-cta" disabled={rewardLoading} onClick={!passed?restart:nextLesson&&onNext?()=>onNext(nextLesson):onExit}>{t(!passed?'Try again':nextLesson&&onNext?'Next Light lesson':'Back to town')}<ArrowRight size={19}/></button>
+    <div className="town-result-links">{(!passed||nextLesson&&onNext)&&<button className="text-button" disabled={rewardLoading} onClick={onExit}>{t('Back to town')}</button>}{passed&&<button className="text-button" disabled={rewardLoading} onClick={restart}>{t('Practise again')}</button>}</div>
    </div>
   </section>:
   <section className="light-game-board" tabIndex={-1} aria-label={t('Practice question')}>

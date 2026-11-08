@@ -103,3 +103,31 @@
  from { opacity: .2; scale: .74; translate: 0 1rem; }
  to { opacity: 1; scale: 1; translate: 0 0; }
 }
+.milestone-timer {
+ width: min(100%, 23rem);
+ height: .5rem;
+ accent-color: #ffe29d;
+}
+.lesson-milestone button:disabled {
+ cursor: default;
+ opacity: .65;
+}
+@media (prefers-reduced-motion: no-preference) {
+ .lesson-milestone-premium .milestone-capybara {
+  animation: milestone-companion 2.5s ease-in-out infinite alternate;
+ }
+ .lesson-milestone-premium .milestone-world {
+  animation: milestone-panorama 15s ease-in-out both;
+ }
+ .lesson-milestone-premium .milestone-conversation {
+  animation: milestone-reveal 550ms cubic-bezier(.18,.7,.25,1) both;
+ }
+}
+@keyframes milestone-companion {
+ from { transform: translateY(.4rem) rotate(-12deg); }
+ to { transform: translateY(-.9rem) rotate(4deg); }
+}
+@keyframes milestone-panorama {
+ from { transform: scale(1); }
+ to { transform: scale(1.18) translateX(-3%); }
+}

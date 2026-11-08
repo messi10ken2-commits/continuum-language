@@ -18,7 +18,7 @@ const benefits=[
 function PlanFeatures({premium}){
  return <ul className="store-plan-features">
   <li><Check aria-hidden="true"/><span>{t('Regular lessons and Learning Memory')}</span></li>
-  <li><Check aria-hidden="true"/><span>{t('Vocabulary and expression review')}</span></li>
+  {premium&&<li><Check aria-hidden="true"/><span>{t('Vocabulary and expression review')}</span></li>}
   {benefits.map(([label,free,paid])=><li key={label}><Check aria-hidden="true"/><span>{t(label)}</span><strong>{t(premium?paid:free)}</strong></li>)}
   {premium&&<li><Check aria-hidden="true"/><span><b>{t('Meet a teacher')}</b><br/>{t('One introductory class ticket')} · {t('Coming with paid store subscriptions')}</span></li>}
   {premium&&<li><Check aria-hidden="true"/><span>{t('No Continuum ads. YouTube may still show its own ads.')}</span></li>}

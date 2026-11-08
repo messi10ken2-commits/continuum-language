@@ -1,3 +1,4 @@
+import {membership} from './billing-api.mjs';
 import {learningLanguageIds} from './languages.mjs';
 import {withVerifiedAnswers} from './verified-answers.mjs';
 import {correctEntryNote} from './expression-watchouts.mjs';
@@ -8,6 +9,7 @@ export async function handleReview({route,req,res,pool,required,json,send,fail})
  if(!route.startsWith('/api/review'))return false;
  const reply=(...args)=>{send(...args);return true;};
  const user=await required(req,'learner');
+ if(!(await membership(pool,user.id)).premium)fail(403,'Vocabulary and expression review requires Premium.');
  if(route==='/api/review'&&req.method==='GET'){
   // One-time catch-up for historical attempts with saved per-question outcomes.
   const c=await pool.connect();try{await c.query('BEGIN');await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[user.id]);

@@ -36,7 +36,7 @@ export default function PremiumGuide({user,onAccount,compact=false,premium:initi
   <div className="premium-guide-benefits">
    {benefits.map(([Icon,title,copy])=><article key={title}><Icon size={23} aria-hidden="true"/><h3>{t(title)}</h3><p>{Icon===Video&&courseCount>0&&<>{tf('{0} lessons in your learning language.',[courseCount])} </>}{t(copy)}</p></article>)}
   </div>
-  <p className="premium-guide-note"><strong>{t('Free')}</strong> · {t('Standard and Light lessons, Word Town, vocabulary review and one AI conversation a day for up to seven minutes.')}</p>
+  <p className="premium-guide-note"><strong>{t('Free')}</strong> · {t('Standard and Light lessons, Word Town and one AI conversation a day for up to seven minutes.')}</p>
   {ticketsAvailable&&<small className="premium-guide-ticket-note">{t('The introductory ticket is granted once, not on renewal. Participating teachers and duration limits apply. Tester invitations include a ticket only when specified.')}</small>}
  </section>;
 }
