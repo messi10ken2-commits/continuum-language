@@ -4,13 +4,12 @@ import React,{useEffect,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {Pause,Play,RotateCcw} from 'lucide-react';
 import {t} from './interface-runtime.mjs';
-import {livingMapState,livingMapTheme} from './living-map-model.mjs';
+import {livingMapPhaseLabels,livingMapState,livingMapTheme} from './living-map-model.mjs';
 import './living-map.css';
 export default function LivingMap({chapters,width,height,identity='map',language='en',controlsTarget}){
  const art=livingMapTheme(language),{completed,phase}=livingMapState(chapters),[paused,setPaused]=useState(false),[replay,setReplay]=useState(0),[changing,setChanging]=useState(false),[controlsHost,setControlsHost]=useState(null),previous=useRef(null);
  useEffect(()=>setControlsHost(controlsTarget?.current?.parentElement||null),[controlsTarget]);
  useEffect(()=>{const key='continuumPaintedWorld:'+identity;let old=previous.current;try{old??=Number(localStorage.getItem(key)||0);localStorage.setItem(key,String(completed))}catch{}if(completed>old){setReplay(n=>n+1);setChanging(true)}previous.current=completed;const timer=setTimeout(()=>setChanging(false),6500);return()=>clearTimeout(timer)},[completed,identity]);
- const labels=['A world that grows with you','The station is restored','The café is open','The neighbourhood is blooming','Warm lights across your neighbourhood'];
  const fx=art.effects,unlocked=phase>=art.motion.unlockPhase,hasTrain=['en','es','pt','ja'].includes(language),mask=([x,y,rx,ry])=>({maskImage:`radial-gradient(ellipse ${rx}% ${ry}% at ${x}% ${y}%,#000 62%,transparent 100%)`});
  // Keep each early restoration inside its own landmark region. The shared
  // restored plate also contains flowers in neighbouring areas.
@@ -40,6 +39,6 @@ export default function LivingMap({chapters,width,height,identity='map',language
  </>}
 
  </div>
- {controlsHost&&createPortal(<div className={"living-map-controls"+(changing?" world-changing-controls":"")} onPointerDown={e=>e.stopPropagation()}><span className="painted-status" role="status" aria-live="polite">{t(labels[phase])}</span>{phase>0&&<><button type="button" onClick={()=>{setPaused(false);setReplay(n=>n+1)}} aria-label={t('Replay world restoration')}><RotateCcw size={15}/></button><button type="button" onClick={()=>setPaused(v=>!v)} aria-pressed={paused} aria-label={t(paused?'Resume map motion':'Pause map motion')}>{paused?<Play size={15}/>:<Pause size={15}/>}</button></>}</div>,controlsHost)}
+ {controlsHost&&createPortal(<div className={"living-map-controls"+(changing?" world-changing-controls":"")} onPointerDown={e=>e.stopPropagation()}><span className="painted-status" role="status" aria-live="polite">{t(livingMapPhaseLabels[phase])}</span>{phase>0&&<><button type="button" onClick={()=>{setPaused(false);setReplay(n=>n+1)}} aria-label={t('Replay world restoration')}><RotateCcw size={15}/></button><button type="button" onClick={()=>setPaused(v=>!v)} aria-pressed={paused} aria-label={t(paused?'Resume map motion':'Pause map motion')}>{paused?<Play size={15}/>:<Pause size={15}/>}</button></>}</div>,controlsHost)}
  </div>
 }

@@ -62,3 +62,5 @@
 @media(max-width:720px){.store-plan-grid,.store-admin-grid{grid-template-columns:minmax(0,1fr)}}
 .store-plan-companion{flex:none;object-fit:contain;width:64px;height:64px;padding:4px;background:radial-gradient(circle at 25% 20%,#f7eaff,#e6d9ff 60%,#c6eee9);border-radius:24px;transform:rotate(5deg)}
 @media(max-width:420px){.app.continuum-ui .setting-content:has(.store-membership){padding:8px}.app.continuum-ui .setting-content .store-membership{padding:10px}.store-plan-companion{width:52px;height:52px}}
+
+.store-practice-action { margin-block-start: 1.25rem; }

@@ -96,7 +96,7 @@ test('verified store test purchases affect only their owner and are isolated fro
     assert.equal(directory.data.users.find(user => user.id === b.data.user.id)?.source, 'google_sandbox');
     const pause = await api('/api/owner/settings', 'PUT', a.cookie, {key: 'checkout', enabled: false, revision: 0, reason: 'Test store purchase pause'});
     assert.equal(pause.status, 200);
-    assert.equal((await api(path, 'GET', a.cookie)).status, 503);
+    assert.equal((await api(path, 'GET', a.cookie)).status, 200);
     assert.equal((await api(path, 'GET', b.cookie)).status, 503);
     assert.equal((await submit(b, 'google', 'test-purchase-token')).status, 200);
     googleState = 'SUBSCRIPTION_STATE_ON_HOLD';

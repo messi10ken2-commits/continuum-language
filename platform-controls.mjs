@@ -1,3 +1,5 @@
+import {isPlatformOwner} from './profiles-api.mjs';
+
 // Shared labels and route policy; all services remain enabled unless the owner pauses one.
 export const platformFeatures=[
  {key:'registration',label:'New registrations',description:'Allow new learner and teacher accounts.'},
@@ -32,6 +34,7 @@ export function controlledFeature(route,method){
 export function controlledFeatures(route,method){const keys=[controlledFeature(route,method)].filter(Boolean);if(method==='GET'&&/\/audio(?:\/|$)/.test(route)&&/^\/api\/(speaking|skills|billing\/courses)\//.test(route))keys.push('studioAudio');return [...new Set(keys)];}
 
 export const pausedServiceMessage='This service is temporarily paused by the administrator. Your saved records are unchanged.';
-export async function requireActiveService(pool,key,fail){
+export async function requireActiveService(pool,key,fail,user){
+ if(isPlatformOwner(user))return;
  if((await pool.query('SELECT 1 FROM platform_controls WHERE key=$1 AND NOT enabled',[key])).rows.length)fail(503,pausedServiceMessage);
 }

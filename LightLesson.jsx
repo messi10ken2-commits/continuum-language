@@ -1,3 +1,4 @@
+import LessonMilestone from './LessonMilestone.jsx';
 import {feedbackSoundEnabled,playCorrectSound} from './feedback-sound.mjs';
 import React,{forwardRef,useEffect,useImperativeHandle,useLayoutEffect,useRef,useState} from 'react';
 import {ArrowRight,CheckCircle2,Lightbulb,Flame,Star,BookOpenCheck,Headphones,X} from 'lucide-react';
@@ -140,6 +141,11 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  };
  if(!ready)return <section className="panel">{modeControl}<p role="status">{t(error||'Loading your light practice…')}</p>{error&&<button className="outline-button" onClick={()=>setRetry(n=>n+1)}>{t('Try again')}</button>}<button className="back" onClick={onExit}>{t('Back to Light path')}</button></section>;
  const title=<LessonText text={lesson.title} language={language}/>;
+ const townReward=reward?.award?{
+  title:townRewardLabel(reward.award,language),
+  description:t(reward.newPlot===undefined?'A new decoration for your Word Town.':'A new building opened in your town!'),
+  art:<TownRewardArt item={reward.award} language={language}/>
+ }:null;
  const refresh=async()=>{setRefreshing(true);try{await lightProgress(user);setRetry(n=>n+1)}finally{setRefreshing(false)}};
  return <div ref={root} className="study-lesson light-lesson light-game light-town" data-phase={phase}>
   <div role="banner" className="light-game-top"><button aria-label={t('Save & exit')} className="light-close" disabled={busy} onClick={exit}><X size={22}/></button>
@@ -148,6 +154,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   </div>
   {phase==='intro'?<section className="light-launch"><div className="light-launch-art"><PageScene lesson={lesson} caption=""/><span><Star size={30} fill="currentColor"/></span></div><span className="eyebrow">{lesson.level} · {tf('{0} questions',[activities.length])}</span><h1>{title}</h1><p>{t('Small steps. Clear guidance.')}</p><div className="light-round-facts"><span><Flame/>{activities.length*10} XP</span><span><Lightbulb/>{t('Hints when you need them')}</span></div><p className="light-record-note">{t('Get at least 80% right on the first try to pass.')}</p><button className="primary wide light-game-button" disabled={busy} onClick={()=>setPhase('exercise')}>{t('Let’s go')}<ArrowRight size={19}/></button>{modeControl}</section>:
   phase==='result'?<section className="light-celebration town-result">
+   {!suspended&&finishedHere&&passed&&reward&&!reward.failed&&<LessonMilestone key={record.id} user={user} reward={townReward}/>}
    <h1 className="town-title">{t(!passed?'Keep practising':evidence.firstCorrect===activities.length?'Perfect clear!':'Lesson passed!')}</h1>
    <TownRibbon><b>{tf('First try: {0}/{1}',[evidence.firstCorrect,activities.length])} · {tf('Best combo ×{0}',[evidence.best])}</b></TownRibbon>
    {reward&&!reward.failed&&<TownScene language={language} kind={kind} collection={reward.collection} placements={reward.placements} built={reward.built} newPlot={reward.newPlot} highlight={finishedHere?reward.award?.index:undefined} celebrate={finishedHere&&!!reward.materials}/>}

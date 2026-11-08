@@ -1,5 +1,7 @@
 import {learningSceneryFamily as learningArtFamily} from './learning-art-families.mjs';
 import themes from './public/living-map-panorama/manifest.json' with {type:'json'};
+export const livingMapPhaseLabels=['A world that grows with you','The station is restored','The café is open','The neighbourhood is blooming','Warm lights across your neighbourhood'];
+
 export function livingMapState(chapters=[]){
  const completed=chapters.filter(c=>Array.isArray(c.lessons)&&c.lessons.length>0&&c.completed===c.lessons.length).length;
  return {completed,phase:Math.min(4,completed)};

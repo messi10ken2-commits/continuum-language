@@ -15,8 +15,10 @@ export const ownerAudit=(c,user,kind,target,detail={})=>c.query('INSERT INTO own
 export async function enforcePlatformControls({route,req,pool,currentUser,json,fail}){
  const keys=controlledFeatures(route,req.method);if(!keys.length)return;
  const rows=(await pool.query('SELECT key FROM platform_controls WHERE key=ANY($1::text[]) AND NOT enabled',[keys])).rows;if(!rows.length)return;
+ const user=await currentUser(req);
+ if(isPlatformOwner(user))return;
  let blocked=rows;
- if(rows.some(r=>r.key==='teacherApplications')&&(await currentUser(req))?.role==='learner')blocked=rows.filter(r=>r.key!=='teacherApplications');
+ if(rows.some(r=>r.key==='teacherApplications')&&user?.role==='learner')blocked=rows.filter(r=>r.key!=='teacherApplications');
  if(blocked.some(r=>r.key==='focusedPractice')&&route==='/api/skills'&&req.method==='POST'){const d=await json(req);if(typeof d.task==='string'&&!d.task.startsWith('focus-'))blocked=blocked.filter(r=>r.key!=='focusedPractice');}
  if(!blocked.length)return;
  fail(503,pausedServiceMessage);
