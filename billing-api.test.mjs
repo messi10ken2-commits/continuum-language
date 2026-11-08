@@ -96,6 +96,29 @@ try{
  // Ad-free is a server entitlement; client flags cannot request it.
  await api('/billing/admin','PUT',{ad:{title:'Test campaign',body:'First-party test',url:'https://example.test',enabled:true}},a.cookie);
  assert.equal((await api('/billing','GET',null,a.cookie)).data.ad,null);assert.equal((await api('/billing','GET',null,b.cookie)).data.ad.title,'Test campaign');
+ // Regression: scheduled cancellation retains paid access until the paid period ends.
+ subscriptions.get(customer)[0].cancel_at_period_end=true;
+ await webhook('customer.subscription.updated',{customer});
+ r=await api('/billing','GET',null,a.cookie);
+ assert.equal(r.data.membership.premium,true);
+ assert.equal(r.data.membership.cancelAtPeriodEnd,true);
+ subscriptions.get(customer)[0].cancel_at_period_end=false;
+ await webhook('customer.subscription.updated',{customer});
+ assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.cancelAtPeriodEnd,false);
+ // Regression: a failed renewal invoice must not grant/extend Premium access.
+ // A successfully paid recovery restores Premium without creating extra class tickets.
+ const failedRenewal=subscriptions.get(customer)[0];
+ failedRenewal.status='past_due';
+ failedRenewal.latest_invoice.status='open';
+ await webhook('invoice.payment_failed',{customer});
+ r=await api('/billing','GET',null,a.cookie);
+ assert.equal(r.data.membership.status,'past_due');
+ assert.equal(r.data.membership.premium,false);
+ paid(customer,'in_payment_recovered');
+ await webhook('invoice.paid',{customer});
+ r=await api('/billing','GET',null,a.cookie);
+ assert.equal(r.data.membership.premium,true);
+ assert.equal(r.data.tickets.length,3);
  // Fresh Stripe state wins even if an old event arrives after cancellation.
  subscriptions.get(customer)[0].status='canceled';await webhook('customer.subscription.deleted',{customer});await webhook('invoice.paid',{customer},'evt_old_invoice');assert.equal((await api('/billing','GET',null,a.cookie)).data.membership.premium,false);
  paid(customer,'in_rejoin');await webhook('invoice.paid',{customer});assert.equal((await api('/billing','GET',null,a.cookie)).data.tickets.length,3);
