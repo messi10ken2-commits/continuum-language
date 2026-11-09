@@ -14,6 +14,11 @@ test('every available recap has a matching playable video, complete transcript a
 });
 test('video ranges support Safari probing, seeking, suffixes, HEAD and conditional caching',()=>{
  const id='en-visual-v1-cafe',full=call(id),range=call(id,{range:'bytes=0-1'});assert.equal(range.status,206);assert.deepEqual(range.body,full.body.subarray(0,2));
+ for(const [start,end] of [[1,1],[2,4],[7,30],[13,1023]]){
+  const partial=call(id,{range:`bytes=${start}-${end}`});
+  assert.deepEqual(partial.body,full.body.subarray(start,end+1));
+ }
+ assert.equal(call(id,{range:'bytes=7-30'},'HEAD').body,undefined);
  const tail=call(id,{range:'bytes=-32'});assert.deepEqual(tail.body,full.body.subarray(-32));assert.equal(call(id,{range:'bytes=99999999-'}).status,416);assert.equal(call(id,{range:'bytes=3-1'}).status,416);
  assert.equal(call(id,{},'HEAD').body,undefined);assert.equal(call(id,{'if-none-match':full.headers.ETag}).status,304);assert.equal(call(id,{},'POST').status,405);assert.equal(call('missing').status,404);
  assert.equal(videoRange('bytes=-0',100),null);assert.equal(videoRange('bytes=0-2,4-6',100),null);

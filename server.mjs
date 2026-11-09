@@ -17,17 +17,17 @@ import {migrateAuthLimits,createAuthLimiter,authClientAddress} from './auth-rate
 import {visiblePlacement} from './premium-policy.mjs';
 import {migrateBilling,handleBilling,handleBillingWebhook,membership} from './billing-api.mjs';
 import {migrateClassroom,handleClassroom,cancelUnsharedClasses} from './classroom-api.mjs';
-import {warmPatternProvider} from './pattern-provider.mjs';
 import {migrateSpeaking,handleSpeaking} from './speaking-api.mjs';
 import {migrateLocalization,handleLocalization,warmLocalization} from './localization-api.mjs';
 import {migrateReview,missedReviewItems,ingestReview,reviewRun} from './review-pool.mjs';
 import {handleReview} from './review-api.mjs';
 import {migrateProfiles,handleProfiles} from './profiles-api.mjs';
 import {teacherScope,requestedScope,validSharedLanguages} from './teacher-access.mjs';
-import {handleLessonMedia} from './lesson-media-api.mjs';
+import {handleLessonMedia,videoRange} from './lesson-media-api.mjs';
 import {migrateSpeech,handleSpeech} from './speech-api.mjs';
 import http from 'node:http';
 import fs from 'node:fs/promises';
+import {pipeline} from 'node:stream/promises';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
@@ -93,15 +93,70 @@ async function migrate(){
 }
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
-function limited(req,key,limit=12){const address=(req.headers['x-forwarded-for']||req.socket.remoteAddress||'unknown').toString().split(',')[0];const id=address+':'+key;const now=Date.now(),record=attempts.get(id)||{count:0,until:now+15*60e3};if(record.until<now){record.count=0;record.until=now+15*60e3}record.count++;attempts.set(id,record);if(record.count>limit)fail(429,'Too many attempts. Please try again later.')}
+const rateLimitUser=Symbol('verified rate-limit principal');
+let nextLimitCleanup=0;
+function limited(req,key,limit=12){
+ const now=Date.now(),id=(req[rateLimitUser]?'user:'+req[rateLimitUser]:'ip:'+authClientAddress(req))+':'+key;
+ if(now>=nextLimitCleanup){
+  for(const [entry,record] of attempts)if(record.until<=now)attempts.delete(entry);
+  nextLimitCleanup=now+60_000;
+ }
+ let record=attempts.get(id);
+ if(!record||record.until<=now){
+  if(!record&&attempts.size>=10_000)fail(429,'Too many attempts. Please try again later.');
+  record={count:0,until:now+15*60_000};
+  attempts.set(id,record);
+ }
+ if(record.count>=limit){
+  const error=new Error('Too many attempts. Please try again later.');
+  error.status=429;
+  error.retryAfter=Math.ceil((record.until-now)/1000);
+  throw error;
+ }
+ record.count++;
+}
 const parsedBody=Symbol('validated request JSON');
-async function json(req){if(req[parsedBody])return req[parsedBody];let body='';for await(const chunk of req){body+=chunk;if(body.length>(req.url==='/api/skills'||/^\/api\/speaking\/[a-f0-9-]+\/turn$/.test(req.url)?1500000:300000))fail(413,'Request too large')}try{const value=JSON.parse(body||'{}');if(!value||typeof value!=='object'||Array.isArray(value))fail(400,'Expected a JSON object');req[parsedBody]=value;return value}catch{fail(400,'Invalid JSON object')}}
-async function currentUser(req){const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(!token)return null;const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',[hash(token)]);return result.rows[0]||null}
+async function json(req){
+ if(req[parsedBody])return req[parsedBody];
+ const route=new URL(req.url,'http://localhost').pathname;
+ const maxBytes=route==='/api/skills'||/^\/api\/speaking\/[a-f0-9-]+\/turn$/.test(route)?1_500_000:300_000;
+ if(Number(req.headers['content-length'])>maxBytes)fail(413,'Request too large');
+ let size=0;
+ const chunks=[];
+ for await(const chunk of req.iterator({destroyOnReturn:false})){
+  size+=chunk.length;
+  if(size>maxBytes)fail(413,'Request too large');
+  chunks.push(chunk);
+ }
+ try{
+  const value=JSON.parse(Buffer.concat(chunks,size).toString('utf8')||'{}');
+  if(!value||typeof value!=='object'||Array.isArray(value))fail(400,'Expected a JSON object');
+  req[parsedBody]=value;
+  return value;
+ }catch{fail(400,'Invalid JSON object')}
+}
+const authenticatedUser=Symbol('request session lookup');
+function currentUser(req){
+ req[authenticatedUser]??=readCurrentUser(req);
+ return req[authenticatedUser];
+}
+async function readCurrentUser(req){
+ const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);
+ if(!token)return null;
+ const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',[hash(token)]);
+ const user=result.rows[0]||null;
+ if(user)req[rateLimitUser]=user.id;
+ return user;
+}
 async function required(req,role){const user=await currentUser(req);if(!user)fail(401,'Sign in to continue');if(role&&user.role!==role)fail(403,'Not allowed for this account');identifyAIUser(user.id);return user}
 async function linked(teacherId,learnerId){const r=await pool.query('SELECT 1 FROM teacher_links WHERE teacher_id=$1 AND learner_id=$2',[teacherId,learnerId]);if(!r.rowCount)fail(403,'This learner has not shared access with you')}
 async function startSession(res,user){const token=random();await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '30 days')",[hash(token),user.id]);send(res,200,{user},{'Set-Cookie':`${cookieName}=${token}; ${cookieAttrs}`})}
 function safeEmail(email){return String(email||'').trim().toLowerCase()}
 async function handle(req,res){
+ res.setHeader('X-Content-Type-Options','nosniff');
+ res.setHeader('X-Frame-Options','DENY');
+ res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
+ if(process.env.NODE_ENV==='production')res.setHeader('Strict-Transport-Security','max-age=31536000');
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
  if(handleLessonMedia(req,res,route))return;
  if(!route.startsWith('/api/'))return serve(req,res,route);
@@ -191,10 +246,18 @@ async function handle(req,res){
  }
  if(route==='/api/practice/import'&&req.method==='POST'){
   const user=await required(req,'learner'),data=await json(req);if(!Array.isArray(data.attempts)||data.attempts.length>2000)fail(400,'Invalid import');
-  for(const attempt of data.attempts){if(!Number.isInteger(attempt.score)||attempt.score<0||attempt.score>100||!Number.isInteger(attempt.total)||attempt.total<1||attempt.total>100||!getLesson(attempt.lesson||'subjunctive'))fail(400,'Invalid score')}
+  for(const attempt of data.attempts){if(!attempt||!Number.isInteger(attempt.score)||attempt.score<0||attempt.score>100||!Number.isInteger(attempt.total)||attempt.total<1||attempt.total>100||!getLesson(attempt.lesson||'subjunctive'))fail(400,'Invalid score')}
   const c=await pool.connect();try{await c.query('BEGIN');await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[user.id]);
   const existing=await c.query('SELECT 1 FROM practice_attempts WHERE user_id=$1 LIMIT 1',[user.id]);if(existing.rowCount)fail(409,'This account already has saved practice');
-  for(const attempt of [...data.attempts].reverse()){const date=attempt.at&&Number.isFinite(Date.parse(attempt.at))?new Date(attempt.at):new Date();await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,created_at) VALUES($1,$5,$2,$3,'imported',$4)",[user.id,attempt.score,attempt.total,date,attempt.lesson||'subjunctive'])}
+  if(data.attempts.length){
+   const records=[...data.attempts].reverse().map(attempt=>({
+    lesson:attempt.lesson||'subjunctive',score:attempt.score,total:attempt.total,
+    at:attempt.at&&Number.isFinite(Date.parse(attempt.at))?new Date(attempt.at):new Date()
+   }));
+   await c.query(`INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,created_at)
+    SELECT $1,lesson,score,total,'imported',at
+    FROM jsonb_to_recordset($2::jsonb) AS row(lesson text,score integer,total integer,at timestamptz)`,[user.id,JSON.stringify(records)]);
+  }
   await c.query('COMMIT')}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
   return send(res,200,{imported:data.attempts.length});
  }
@@ -232,10 +295,64 @@ async function handle(req,res){
  if(route==='/api/notes'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.revision,n.suggested_lesson_id AS "lessonId",(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[user.id]);return send(res,200,{notes:r.rows})}
  fail(404,'Not found');
 }
-async function serve(req,res,route){const page={ '/terms':'terms','/privacy':'privacy','/help':'help'}[route];if(page&&(req.method==='GET'||req.method==='HEAD')){const query=new URL(req.url,'http://localhost').searchParams.get('q')?.slice(0,120)||'';const html=renderPublicDocument(page,query);res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"});res.end(req.method==='HEAD'?undefined:html);return;}if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});let filename=path.resolve(dist,'.'+route);if(!filename.startsWith(dist+path.sep)&&filename!==dist)return send(res,404,{error:'Not found'});if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');try{const data=await fs.readFile(filename);const mediaType=mime[path.extname(filename)];if((mediaType==='audio/mp4'||mediaType==='video/mp4')&&req.headers.range){const m=/^bytes=(\d*)-(\d*)$/.exec(req.headers.range);let start=m?.[1]?Number(m[1]):m?.[2]?Math.max(0,data.length-Number(m[2])):NaN,end=m?.[1]&&m?.[2]?Math.min(data.length-1,Number(m[2])):data.length-1;if(!m||!Number.isSafeInteger(start)||!Number.isSafeInteger(end)||start<0||start>=data.length||end<start){res.writeHead(416,{'Content-Range':'bytes */'+data.length});res.end();return}res.writeHead(206,{'Content-Type':mediaType,'Accept-Ranges':'bytes','Content-Range':`bytes ${start}-${end}/${data.length}`,'Content-Length':end-start+1});res.end(req.method==='HEAD'?undefined:data.subarray(start,end+1));return}res.writeHead(200,{'Content-Type':mime[path.extname(filename)]||'application/octet-stream','Cache-Control':filename.endsWith('index.html')||route==='/legal.css'?'no-cache':'public, max-age=31536000, immutable'});res.end(req.method==='HEAD'?undefined:data)}catch{send(res,404,{error:'Not found'})}}
+function acceptsGzip(header=''){
+ const encodings=new Map(header.toLowerCase().split(',').map(value=>{
+  const [name,...parameters]=value.trim().split(';');
+  const quality=parameters.find(part=>part.trim().startsWith('q='));
+  return [name.trim(),quality?Number(quality.trim().slice(2)):1];
+ }));
+ return (encodings.get('gzip')??encodings.get('*')??0)>0;
+}
+const publicPages=new Map([['/terms','terms'],['/privacy','privacy'],['/help','help']]);
+async function serve(req,res,route){
+ if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});
+ const page=publicPages.get(route);
+ if(page){
+  const query=new URL(req.url,'http://localhost').searchParams.get('q')?.slice(0,120)||'';
+  const html=renderPublicDocument(page,query);
+  res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache','Content-Security-Policy':"default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"});
+  res.end(req.method==='HEAD'?undefined:html);
+  return;
+ }
+ let filename=path.resolve(dist,'.'+route);
+ if(!filename.startsWith(dist+path.sep)&&filename!==dist)return send(res,404,{error:'Not found'});
+ if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');
+ const type=mime[path.extname(filename)]||'application/octet-stream';
+ const media=type==='audio/mp4'||type==='video/mp4';
+ const compressible=filename.startsWith(path.join(dist,'assets')+path.sep)&&['.js','.css'].includes(path.extname(filename));
+ let file,gzip=false;
+ try{
+  if(compressible&&acceptsGzip(req.headers['accept-encoding'])){
+   file=await fs.open(filename+'.gz','r').catch(error=>{if(error.code!=='ENOENT')throw error;});
+   gzip=!!file;
+  }
+  file??=await fs.open(filename,'r');
+  const info=await file.stat();
+  if(!info.isFile())return send(res,404,{error:'Not found'});
+  const headers={'Content-Type':type,'Cache-Control':filename.endsWith('index.html')||route==='/legal.css'?'no-cache':'public, max-age=31536000, immutable'};
+  if(compressible)headers.Vary='Accept-Encoding';
+  if(gzip)headers['Content-Encoding']='gzip';
+  if(media)headers['Accept-Ranges']='bytes';
+  const range=media&&req.headers.range&&!req.headers['if-range']?videoRange(req.headers.range,info.size):undefined;
+  if(range===null){
+   res.writeHead(416,{...headers,'Content-Range':`bytes */${info.size}`});
+   res.end();
+   return;
+  }
+  if(range)headers['Content-Range']=`bytes ${range.start}-${range.end}/${info.size}`;
+  headers['Content-Length']=range?range.end-range.start+1:info.size;
+  res.writeHead(range?206:200,headers);
+  if(req.method==='HEAD'){res.end();return;}
+  await pipeline(file.createReadStream(range),res);
+ }catch(error){
+  if(res.headersSent||res.destroyed){res.destroy();return;}
+  if(error.code==='ENOENT'||error.code==='ENOTDIR')return send(res,404,{error:'Not found'});
+  throw error;
+ }finally{await file?.close();}
+}
 if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
 await migrate();
-if(process.env.NODE_ENV==='production'){void withAIUsage(pool,'translation-warmup',()=>warmLocalization(pool));void withAIUsage(pool,'patterns-warmup',()=>warmPatternProvider());}
+if(process.env.NODE_ENV==='production')void withAIUsage(pool,'translation-warmup',()=>warmLocalization(pool));
 function trackedRequest(req,res){
  const path=new URL(req.url,'http://localhost').pathname;
  const feature=path.startsWith('/api/speaking')?'conversation':path.startsWith('/api/skills')?'skill-assessment':path.startsWith('/api/patterns')?'recurring-patterns':path==='/api/localization'?'translation':path==='/api/speech'?'studio-speech':'other-ai';
@@ -244,4 +361,4 @@ function trackedRequest(req,res){
   return handle(req,res);
  },{getTier:async id=>(await membership(pool,id)).premium?'premium':'free'});
 }
-http.createServer((req,res)=>trackedRequest(req,res).catch(err=>{if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));if(err.status<500||err.status===503)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));
+http.createServer((req,res)=>trackedRequest(req,res).catch(err=>{if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));if(err.status===413)res.setHeader('Connection','close');if(err.status<500||err.status===503)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));
