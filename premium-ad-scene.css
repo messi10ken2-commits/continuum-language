@@ -1,6 +1,14 @@
 .lesson-milestone-premium .milestone-art {
  height: clamp(10rem, 43dvh, 24rem);
 }
+.premium-ad-video {
+ position: absolute;
+ inset: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: contain;
+ background: #241541;
+}
 .premium-ad-scene, .premium-ad-landscape, .premium-ad-props {
  position: absolute;
  inset: 0;
