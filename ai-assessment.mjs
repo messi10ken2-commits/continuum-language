@@ -9,7 +9,7 @@ import {spawn} from 'node:child_process';
 import {mkdtemp,writeFile,readFile,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import path from 'node:path';
-import ffmpeg from 'ffmpeg-static';
+export const ffmpegBinary=process.env.NODE_ENV==='production'?'/usr/bin/ffmpeg':(await import('ffmpeg-static')).default;
 export const aiConfigured=()=>!!(process.env.OPENAI_API_KEY||process.env.GEMINI_API_KEY);
 export const savedSkillResult=()=>({status:'saved',score:null,method:'recording-or-writing-only',feedback:'Your response is saved. Choose Get AI assessment to request feedback.',nextStep:''});
 const recordingDemuxers={webm:'matroska',mp4:'mov',ogg:'ogg',wav:'wav'};
@@ -24,7 +24,7 @@ export async function audioWav(response){
    // Force an audio container so untrusted bytes cannot select a playlist demuxer.
    const container=recordingDemuxers[match[1]];
    const tracks=container==='mov'?['-enable_drefs','0','-use_absolute_path','0']:[];
-   const child=spawn(ffmpeg,['-nostdin','-loglevel','error','-protocol_whitelist','file,pipe','-f',container,...tracks,'-i',input,'-t','90','-vn','-ac','1','-ar','16000','-c:a','pcm_s16le',output],{stdio:'ignore',timeout:15000});
+   const child=spawn(ffmpegBinary,['-nostdin','-loglevel','error','-protocol_whitelist','file,pipe','-f',container,...tracks,'-i',input,'-t','90','-vn','-ac','1','-ar','16000','-c:a','pcm_s16le',output],{stdio:'ignore',timeout:15000});
    child.on('error',()=>reject(Error('Audio conversion unavailable. Your recording remains saved.')));
    child.on('close',code=>code===0?resolve():reject(Error('Could not read the audio. Please record again.')));
   });

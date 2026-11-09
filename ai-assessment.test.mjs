@@ -1,8 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
-import ffmpeg from 'ffmpeg-static';
-import {assessSkill,audioWav,validateAudioSignal,validateEvaluation} from './ai-assessment.mjs';
+import {assessSkill,audioWav,ffmpegBinary,validateAudioSignal,validateEvaluation} from './ai-assessment.mjs';
 const evaluation={assessable:true,ratings:[3,2,3,4],evidence:['a','b','c','d'],feedback:'Clear request; give a reason.',nextStep:'Add a reason with porque.',strengths:['Clear request'],corrections:[],transcript:'',cefr:{level:null,confidence:'low',limitations:'Short sample.',evidence:[]},pronunciation:{assessable:true,ratings:[3,3,3,3],evidence:['clear sounds','steady timing','appropriate phrasing','understandable'],feedback:'Mostly clear.'}};
 const task={skill:'Writing',level:'A2',prompt:'Write a request.'};
 test('no key returns no fabricated score',async()=>{delete process.env.OPENAI_API_KEY;delete process.env.GEMINI_API_KEY;await assert.rejects(assessSkill(task,'Hola'),/not connected/);});
@@ -20,7 +19,7 @@ test('audio normalization restricts demuxing to the declared browser recording c
   wav:['-c:a','pcm_s16le']
  };
  for(const [format,options] of Object.entries(formats)){
-  const sample=spawnSync(ffmpeg,['-v','error','-f','lavfi','-i','sine=frequency=440:duration=0.3',...options,'-f',format,'pipe:1']);
+  const sample=spawnSync(ffmpegBinary,['-v','error','-f','lavfi','-i','sine=frequency=440:duration=0.3',...options,'-f',format,'pipe:1']);
   assert.equal(sample.status,0,sample.stderr.toString());
   const wav=await audioWav({audio:`data:audio/${format};base64,${sample.stdout.toString('base64')}`});
   assert.equal(Buffer.from(wav,'base64').toString('ascii',0,4),'RIFF');
