@@ -292,7 +292,7 @@ def main():
     if os.getenv("SOCIAL_AUTOPUBLISH_ENABLED", "").lower() != "true":
         print("Autopublish flag disabled: showcase skipped.")
         return
-    if os.getenv("SHOWCASE_PROMO_ENABLED", "true").lower() != "true":
+    if (os.getenv("SHOWCASE_PROMO_ENABLED") or "true").lower() != "true":
         print("Showcase promotion disabled.")
         return
     if not targets:
@@ -305,7 +305,6 @@ def main():
     channels = {**social, "instagram": instagram}
     media_cache = {}
     count = 0
-    verify_public(VIDEO_URL, b"\x00\x00\x00")  # MP4 starts with box length, followed by ftyp
     for day, platform, kind, hour in targets:
         when = due_at(day, hour)
         if when <= datetime.now(timezone.utc) + MIN_LEAD:
@@ -315,7 +314,10 @@ def main():
             print(f"{day}: {platform} {kind} showcase already queued", flush=True)
             continue
         if kind == "video":
-            urls = [VIDEO_URL]
+            if "video" not in media_cache:
+                verify_public(VIDEO_URL, b"\x00\x00\x00")
+                media_cache["video"] = [VIDEO_URL]
+            urls = media_cache["video"]
         else:
             image_date = visual_day(day)
             if image_date not in media_cache:
