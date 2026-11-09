@@ -158,9 +158,10 @@ def append_cta(body, language, platform, url):
     if not url:
         return body
     proposed = body + "\n" + url
-    if native_text_ok(proposed, language, platform) and (
-        platform != "x" or weighted_x_length(proposed) <= 260
-    ):
+    base_ok = native_text_ok(body, language, platform)
+    fits = (weighted_x_length(proposed) <= 260 if platform == "x"
+            else len(proposed) <= 500)
+    if base_ok and fits:
         return proposed
     return body
 
@@ -321,7 +322,7 @@ def main():
     if os.getenv("SOCIAL_AUTOPUBLISH_ENABLED", "").lower() != "true":
         print("Existing master social-autopublish gate is disabled.")
         return
-    if os.getenv("TEACHER_RECRUITMENT_ENABLED", "true").lower() != "true":
+    if (os.getenv("TEACHER_RECRUITMENT_ENABLED") or "true").lower() != "true":
         print("Teacher recruitment campaign paused.")
         return
     if not dates:
@@ -349,7 +350,8 @@ def main():
         for platform in missing:
             body = append_cta(tag_post(posts[platform], lang, platform),
                               lang, platform, url)
-            if not native_text_ok(body, lang, platform):
+            content_only = body[:-len(url)-1] if url and body.endswith("\n" + url) else body
+            if not native_text_ok(content_only, lang, platform):
                 raise ValueError(f"Invalid {platform} recruitment copy for {lang[0]}")
             post_id = schedule(token, channels[platform]["id"], body, when)
             print(f"Queued {day} {lang[0]} {platform} via {method}: {post_id}")
