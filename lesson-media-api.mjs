@@ -18,9 +18,13 @@ export function handleLessonMedia(req,res,route){
  if(!['GET','HEAD'].includes(req.method)){res.writeHead(405,{Allow:'GET, HEAD'});res.end();return true;}
  const headers={'Content-Type':'video/mp4','Accept-Ranges':'bytes','Cache-Control':'public, max-age=31536000, immutable',ETag:`"${entry.sha256}"`,'X-Content-Type-Options':'nosniff'};
  if(req.headers['if-none-match']===headers.ETag){res.writeHead(304,headers);res.end();return true;}
- const bytes=Buffer.from(bundles[entry.language][m[1]],'base64');
+ const encoded=bundles[entry.language][m[1]],size=entry.bytes;
  const rangeHeader=req.headers.range&&(!req.headers['if-range']||req.headers['if-range']===headers.ETag)?req.headers.range:null;
- if(rangeHeader){const range=videoRange(rangeHeader,bytes.length);if(!range){res.writeHead(416,{...headers,'Content-Range':`bytes */${bytes.length}`});res.end();return true;}
- const {start,end}=range;res.writeHead(206,{...headers,'Content-Range':`bytes ${start}-${end}/${bytes.length}`,'Content-Length':end-start+1});res.end(req.method==='HEAD'?undefined:bytes.subarray(start,end+1));return true;}
- res.writeHead(200,{...headers,'Content-Length':bytes.length});res.end(req.method==='HEAD'?undefined:bytes);return true;
+ if(rangeHeader){const range=videoRange(rangeHeader,size);if(!range){res.writeHead(416,{...headers,'Content-Range':`bytes */${size}`});res.end();return true;}
+ const {start,end}=range;res.writeHead(206,{...headers,'Content-Range':`bytes ${start}-${end}/${size}`,'Content-Length':end-start+1});if(req.method==='HEAD'){res.end();return true;}
+ // Four encoded characters carry three bytes. Decode only the groups covering the range.
+ const alignedStart=start-start%3;
+ const decoded=Buffer.from(encoded.slice(alignedStart/3*4,Math.ceil((end+1)/3)*4),'base64');
+ res.end(decoded.subarray(start-alignedStart,end+1-alignedStart));return true;}
+ res.writeHead(200,{...headers,'Content-Length':size});res.end(req.method==='HEAD'?undefined:Buffer.from(encoded,'base64'));return true;
 }

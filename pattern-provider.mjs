@@ -49,11 +49,3 @@ export async function requestPatternBatch(system,context,{fetchImpl=fetch}={}){
   throw failure('AI analysis timed out or could not connect. Your saved results are unchanged. Please try again.');
  }
 }
-
-export async function warmPatternProvider(){
- if(!process.env.GEMINI_API_KEY&&!process.env.OPENAI_API_KEY)return;
- try{const result=await requestPatternBatch('Return exactly {"items":[]} as JSON for this synthetic availability check. No learner data is included.','{"purpose":"startup availability check"}');
-  if(!Array.isArray(result.value?.items))throw Error('Invalid probe result');
-  console.log('Pattern analysis provider ready',JSON.stringify({provider:result.provider,model:result.model}));
- }catch{console.warn('Pattern analysis provider unavailable; calculated results remain available');}
-}

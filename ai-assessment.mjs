@@ -12,6 +12,7 @@ import path from 'node:path';
 import ffmpeg from 'ffmpeg-static';
 export const aiConfigured=()=>!!(process.env.OPENAI_API_KEY||process.env.GEMINI_API_KEY);
 export const savedSkillResult=()=>({status:'saved',score:null,method:'recording-or-writing-only',feedback:'Your response is saved. Choose Get AI assessment to request feedback.',nextStep:''});
+const recordingDemuxers={webm:'matroska',mp4:'mov',ogg:'ogg',wav:'wav'};
 export async function audioWav(response){
  const match=response?.audio?.match(/^data:audio\/(webm|mp4|ogg|wav)(?:;codecs=(?:[a-zA-Z0-9.,-]+|"[a-zA-Z0-9., -]+"))?;base64,([A-Za-z0-9+/]+=*)$/);
  if(!match)throw Error('The saved audio format is unsupported. Please record again.');
@@ -20,7 +21,10 @@ export async function audioWav(response){
   const input=path.join(dir,'input.'+match[1]),output=path.join(dir,'output.wav');
   await writeFile(input,Buffer.from(match[2],'base64'));
   await new Promise((resolve,reject)=>{
-   const child=spawn(ffmpeg,['-nostdin','-loglevel','error','-protocol_whitelist','file,pipe','-i',input,'-t','90','-vn','-ac','1','-ar','16000','-c:a','pcm_s16le',output],{stdio:'ignore',timeout:15000});
+   // Force an audio container so untrusted bytes cannot select a playlist demuxer.
+   const container=recordingDemuxers[match[1]];
+   const tracks=container==='mov'?['-enable_drefs','0','-use_absolute_path','0']:[];
+   const child=spawn(ffmpeg,['-nostdin','-loglevel','error','-protocol_whitelist','file,pipe','-f',container,...tracks,'-i',input,'-t','90','-vn','-ac','1','-ar','16000','-c:a','pcm_s16le',output],{stdio:'ignore',timeout:15000});
    child.on('error',()=>reject(Error('Audio conversion unavailable. Your recording remains saved.')));
    child.on('close',code=>code===0?resolve():reject(Error('Could not read the audio. Please record again.')));
   });

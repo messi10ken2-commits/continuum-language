@@ -278,3 +278,7 @@ for(const [source,values] of Object.entries(planningCopy))for(const [locale,valu
 for(const [source,values] of Object.entries(lessonCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
 
 for(const [source,values] of Object.entries(lightLearningCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
+
+// Reviewed welcome and media-control copy takes precedence over generated translations.
+for(const [locale,label] of Object.entries({ja:'音声',es:'Audio',pt:'Áudio',zh:'音频',fr:'Audio',ko:'오디오',id:'Audio',ru:'Звук',ar:'الصوت'}))
+ reviewedInterfaceCopy[locale].Audio=label;

@@ -1,5 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {spawnSync} from 'node:child_process';
+import ffmpeg from 'ffmpeg-static';
 import {assessSkill,audioWav,validateAudioSignal,validateEvaluation} from './ai-assessment.mjs';
 const evaluation={assessable:true,ratings:[3,2,3,4],evidence:['a','b','c','d'],feedback:'Clear request; give a reason.',nextStep:'Add a reason with porque.',strengths:['Clear request'],corrections:[],transcript:'',cefr:{level:null,confidence:'low',limitations:'Short sample.',evidence:[]},pronunciation:{assessable:true,ratings:[3,3,3,3],evidence:['clear sounds','steady timing','appropriate phrasing','understandable'],feedback:'Mostly clear.'}};
 const task={skill:'Writing',level:'A2',prompt:'Write a request.'};
@@ -9,3 +11,20 @@ test('speaking sends actual audio without requiring a browser transcript',async(
 test('Gemini speaking uses the REST inline audio format',async()=>{delete process.env.OPENAI_API_KEY;process.env.GEMINI_API_KEY='gemini-test';try{const r=await assessSkill({...task,skill:'Speaking'},{audio:'recording'},{convert:async()=> 'wav-bytes',fetchImpl:async(url,options)=>{assert.match(url,/generativelanguage\.googleapis\.com/);const body=JSON.parse(options.body),audio=body.contents[0].parts[1];assert.deepEqual(audio,{inline_data:{mime_type:'audio/wav',data:'wav-bytes'}});return {ok:true,json:async()=>({candidates:[{content:{parts:[{text:JSON.stringify(evaluation)}]}}]})};}});assert.equal(r.score,75);assert.equal(r.method,'gemini-audio-rubric-v3');}finally{delete process.env.GEMINI_API_KEY;}});
 test('invalid output, provider errors and unassessable audio never receive invented scores',async()=>{assert.throws(()=>validateEvaluation({...evaluation,ratings:[9,3,3,3]}));process.env.OPENAI_API_KEY='test-only';try{await assert.rejects(assessSkill(task,'Hola',{fetchImpl:async()=>({ok:false,status:429})}),/quota/);const r=await assessSkill(task,'...', {fetchImpl:async()=>({ok:true,json:async()=>({output_text:JSON.stringify({...evaluation,assessable:false})})})});assert.equal(r.score,null);assert.deepEqual(r.ratings,[]);}finally{delete process.env.OPENAI_API_KEY;}});
 test('real audio conversion accepts WAV and rejects corrupt bytes',async()=>{const b=Buffer.alloc(32044);b.write('RIFF');b.writeUInt32LE(b.length-8,4);b.write('WAVEfmt ',8);b.writeUInt32LE(16,16);b.writeUInt16LE(1,20);b.writeUInt16LE(1,22);b.writeUInt32LE(16000,24);b.writeUInt32LE(32000,28);b.writeUInt16LE(2,32);b.writeUInt16LE(16,34);b.write('data',36);b.writeUInt32LE(32000,40);assert.throws(()=>validateAudioSignal(b),/silent/);await assert.rejects(audioWav({audio:'data:audio/wav;base64,'+b.toString('base64')}),/silent/);for(let i=44;i<b.length;i+=2)b.writeInt16LE(Math.round(2000*Math.sin((i-44)/2*2*Math.PI*440/16000)),i);const wav=await audioWav({audio:'data:audio/wav;base64,'+b.toString('base64')});assert.equal(Buffer.from(wav,'base64').toString('ascii',0,4),'RIFF');await assert.rejects(audioWav({audio:'data:audio/mp4;base64,'+Buffer.alloc(150).toString('base64')}),/Could not read/);});
+
+test('audio normalization restricts demuxing to the declared browser recording container',async()=>{
+ const formats={
+  webm:['-c:a','libopus'],
+  mp4:['-c:a','aac','-movflags','frag_keyframe+empty_moov'],
+  ogg:['-c:a','libopus'],
+  wav:['-c:a','pcm_s16le']
+ };
+ for(const [format,options] of Object.entries(formats)){
+  const sample=spawnSync(ffmpeg,['-v','error','-f','lavfi','-i','sine=frequency=440:duration=0.3',...options,'-f',format,'pipe:1']);
+  assert.equal(sample.status,0,sample.stderr.toString());
+  const wav=await audioWav({audio:`data:audio/${format};base64,${sample.stdout.toString('base64')}`});
+  assert.equal(Buffer.from(wav,'base64').toString('ascii',0,4),'RIFF');
+ }
+ const playlist=Buffer.from('ffconcat version 1.0\nfile synthetic.wav\n').toString('base64');
+ await assert.rejects(audioWav({audio:`data:audio/wav;base64,${playlist}`}),/Could not read the audio/);
+});
