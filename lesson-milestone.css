@@ -15,9 +15,6 @@
  overscroll-behavior: contain;
  background: radial-gradient(ellipse at 50% 25%, #7356a6, #301c54 70%);
 }
-.lesson-milestone-premium {
- background: radial-gradient(ellipse at 75% 10%, #7c3ba0, transparent 52%), linear-gradient(155deg, #2a195e, #46218e 65%, #29215f);
-}
 .lesson-milestone::backdrop { background: #241541; }
 .milestone-content {
  display: grid;
@@ -86,4 +83,57 @@
 .lesson-milestone button:disabled {
  cursor: default;
  opacity: .65;
+}
+
+.lesson-milestone-premium {
+ padding: 0;
+ overflow: hidden;
+ background: #120d20;
+}
+.lesson-milestone-premium .milestone-content {
+ position: relative;
+ isolation: isolate;
+ height: 100%;
+ max-width: none;
+ animation: none;
+}
+.lesson-milestone-premium .milestone-art {
+ position: absolute;
+ z-index: -1;
+ inset: 0;
+ height: 100%;
+ border: 0;
+ border-radius: 0;
+}
+.lesson-milestone-premium .milestone-label,
+.lesson-milestone-premium h2 {
+ position: absolute;
+ width: 1px;
+ height: 1px;
+ overflow: hidden;
+ clip-path: inset(50%);
+}
+.milestone-ad-footer {
+ position: absolute;
+ inset: auto 0 0;
+ display: grid;
+ justify-items: center;
+ gap: .55rem;
+ padding: 1.5rem max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+ background: linear-gradient(transparent, #120d20ed 70%);
+}
+.milestone-ad-footer .milestone-skip { background: #241541; }
+.milestone-sound {
+ position: absolute;
+ top: max(1rem, env(safe-area-inset-top));
+ right: max(1rem, env(safe-area-inset-right));
+ display: grid;
+ place-items: center;
+ width: 44px;
+ height: 44px;
+ border: 1px solid #ffffff80;
+ border-radius: 50%;
+ background: #120d20d9;
+ color: #fff;
+ cursor: pointer;
 }
