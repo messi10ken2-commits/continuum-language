@@ -55,7 +55,10 @@ class ShowcaseTests(unittest.TestCase):
                       date(2026, 11, 14), datetime.now(timezone.utc), ["bad.jpg"])
 
     def test_gallery_cards_are_portrait_jpegs(self):
-        from PIL import Image
+        try:
+            from PIL import Image
+        except ModuleNotFoundError:
+            self.skipTest("Pillow is installed in the showcase publishing job, not the common text-only CI")
         for i in range(len(showcase.VISUALS)):
             picture = Image.open(io.BytesIO(showcase.build_gallery_card(i)))
             self.assertEqual(picture.size, (1080, 1350))
