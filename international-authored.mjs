@@ -1373,7 +1373,7 @@ export const authoredCurriculum = {
     "A1": [
       {
         "title": "Introduce yourself politely",
-        "rule": "Use は to mark the person being introduced and です for a polite identification. The particle は is pronounced wa. Add よろしくお願いします after a first introduction.",
+        "rule": "In 私は学生です, は marks 私 (I) as the topic, and です makes the statement polite. As a particle, は is pronounced wa. よろしくお願いします is a customary closing when you introduce yourself for the first time.",
         "example": "私は学生[です]。",
         "meaning": "The speaker identifies themself as a student.",
         "distractors": [

@@ -101,7 +101,8 @@ export async function handleSkills({route,req,res,pool,required,json,send,fail,l
     if(pending)return {pending:true};
     const slot=await reserveAI(c,{userId:user.id,bucket,feature,key:row.id,premium});
     if(slot.completed)return {result:fresh};
-    if(slot.token)limited(req,'ai-assessment',10);
+    // Leave room for the 15 Premium evaluations and bounded retries.
+    if(slot.token)limited(req,'ai-assessment',premium?24:10);
     return slot;
    });
    if(reservation.result){send(res,200,{result:visible({...row,result:reservation.result}).result});return true;}

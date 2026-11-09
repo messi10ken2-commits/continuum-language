@@ -353,12 +353,22 @@ async function serve(req,res,route){
 if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
 await migrate();
 if(process.env.NODE_ENV==='production')void withAIUsage(pool,'translation-warmup',()=>warmLocalization(pool));
-function trackedRequest(req,res){
- const path=new URL(req.url,'http://localhost').pathname;
+async function trackedRequest(req,res){
+ let path;
+ try{path=new URL(req.url,'http://localhost').pathname;}
+ catch{fail(400,'Invalid request URL');}
  const feature=path.startsWith('/api/speaking')?'conversation':path.startsWith('/api/skills')?'skill-assessment':path.startsWith('/api/patterns')?'recurring-patterns':path==='/api/localization'?'translation':path==='/api/speech'?'studio-speech':'other-ai';
  return withAIUsage(pool,feature,async()=>{
   if(feature==='studio-speech')identifyAIUser((await currentUser(req))?.id??null);
   return handle(req,res);
  },{getTier:async id=>(await membership(pool,id)).premium?'premium':'free'});
 }
-http.createServer((req,res)=>trackedRequest(req,res).catch(err=>{if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));if(err.status===413)res.setHeader('Connection','close');if(err.status<500||err.status===503)send(res,err.status,{error:err.message});else{console.error('Request failed',err);send(res,500,{error:'Server error'})}})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));
+http.createServer((req,res)=>trackedRequest(req,res).catch(err=>{
+ if(res.headersSent||res.destroyed){res.destroy();return;}
+ if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));
+ if(err.status===413)res.setHeader('Connection','close');
+ if(err.status<500||err.status===503)return send(res,err.status,{error:err.message});
+ const code=typeof err.code==='string'&&/^[A-Z0-9_]{1,36}$/.test(err.code)?err.code:'UNKNOWN';
+ console.error('Request failed',{code});
+ send(res,500,{error:'Server error'});
+})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));

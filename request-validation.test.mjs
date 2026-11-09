@@ -1,11 +1,21 @@
 import {dynamicTranslationSources} from './translation-test-fixtures.mjs';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
+import {request} from 'node:http';
 delete process.env.OPENAI_API_KEY;delete process.env.GEMINI_API_KEY;
 process.env.NODE_ENV='development';
 const {testServer,db}=await import('./test-server.mjs');
 const base='http://127.0.0.1:'+testServer.address().port;
 try{
+ const malformedURL=await new Promise((resolve,reject)=>{
+  const req=request({hostname:'127.0.0.1',port:testServer.address().port,path:'http://[invalid]/'},res=>{
+   res.resume();
+   res.on('end',()=>resolve(res.statusCode));
+  });
+  req.on('error',reject);
+  req.end();
+ });
+ assert.equal(malformedURL,400);
  for(const body of ['null','[]','true','42','"text"','{broken']){
   const r=await fetch(base+'/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body});
   assert.equal(r.status,400,body);assert.match((await r.json()).error,/JSON/);
