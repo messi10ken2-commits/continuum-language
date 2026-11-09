@@ -280,11 +280,5 @@ for(const [source,values] of Object.entries(lessonCopy))for(const [locale,value]
 for(const [source,values] of Object.entries(lightLearningCopy))for(const [locale,value] of Object.entries(values))(reviewedInterfaceCopy[locale]??={})[source]??=value;
 
 // Reviewed welcome and media-control copy takes precedence over generated translations.
-Object.assign(reviewedInterfaceCopy.ar,{
- 'One journey. Every way you learn.':'رحلة واحدة تجمع كل طرق تعلّمك.',
- 'Every way you learn.':'تجمع كل طرق تعلّمك.',
- 'Connect independent practice with a teacher who understands your progress.':'اجمع بين التعلّم الذاتي والدروس مع معلّم يواكب تقدّمك.',
- 'Create your teaching profile and submit it for review before joining the directory.':'أنشئ ملفك التعريفي بصفتك معلّمًا وأرسله للمراجعة قبل إدراجك في دليل المعلّمين.'
-});
 for(const [locale,label] of Object.entries({ja:'音声',es:'Audio',pt:'Áudio',zh:'音频',fr:'Audio',ko:'오디오',id:'Audio',ru:'Звук',ar:'الصوت'}))
  reviewedInterfaceCopy[locale].Audio=label;

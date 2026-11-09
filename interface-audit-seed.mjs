@@ -30,3 +30,21 @@ Your learning timeline|学習のタイムライン|Tu cronología de aprendizaje
 {0}’s learning memory|{0}さんの学習記録|Historial de aprendizaje de {0}|Histórico de aprendizagem de {0}|{0}的学习记录|Historique d’apprentissage de {0}|{0}님의 학습 기록|Riwayat belajar {0}|История обучения: {0}|سجل تعلّم {0}
 `;
 export const interfaceAuditSeed=Object.fromEntries(rows.trim().split('\n').filter(Boolean).map(row=>{const [source,...values]=row.split('|');if(values.length!==9)throw Error('Incomplete UI audit seed');return [source,Object.fromEntries(['ja','es','pt','zh','fr','ko','id','ru','ar'].map((l,i)=>[l,values[i]]))]}));
+
+// Contextual welcome copy, reviewed in both visual styles.
+for(const [source,value] of Object.entries({
+ 'One journey. Every way you learn.':'رحلة واحدة تجمع كل طرق تعلّمك.',
+ 'Every way you learn.':'تجمع كل طرق تعلّمك.',
+ 'Connect independent practice with a teacher who understands your progress.':'اجمع بين التعلّم الذاتي والدروس مع معلّم يواكب تقدّمك.',
+ 'Create your teaching profile and submit it for review before joining the directory.':'أنشئ ملفك التعريفي بصفتك معلّمًا وأرسله للمراجعة قبل إدراجك في دليل المعلّمين.'
+})) (interfaceAuditSeed[source]??={}).ar=value;
+
+for(const [source,translations] of Object.entries({
+ 'One journey.':{ko:'하나로 이어지는 배움.',id:'Satu perjalanan belajar.',ru:'Единый путь обучения.'},
+ 'Every way you learn.':{ko:'나에게 맞는 다양한 학습 방식.',id:'Beragam cara untuk belajar.',ru:'Разные способы учиться.'},
+ 'One journey. Every way you learn.':{
+  ko:'하나로 이어지는 배움. 나에게 맞는 다양한 학습 방식.',
+  id:'Satu perjalanan belajar. Beragam cara untuk belajar.',
+  ru:'Единый путь обучения. Разные способы учиться.'
+ }
+}))Object.assign(interfaceAuditSeed[source]??={},translations);

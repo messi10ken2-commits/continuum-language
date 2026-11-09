@@ -19,7 +19,9 @@ try{
   const intro=render();assert.ok(intro.includes(l.conversation?'External video is paused for privacy':'<img'),l.id+' intro image');
   storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));
   if(l.exerciseVersion)storage.set('continuumTestSeeds',JSON.stringify({[l.id]:l.exerciseVersion}));
-  const exercise=render();assert.ok(exercise.includes(l.conversation?'External video is paused for privacy':'Enlarge page image'),l.id+' practice visual');
+  const exercise=render();assert.ok(exercise.includes('question-card'),l.id+' draft resumes');
+  if(l.conversation)assert.ok(exercise.includes('External video is paused for privacy'),l.id+' video privacy');
+  else assert.equal(exercise.includes('Enlarge page image'),l.questions[0].showScene!==false,l.id+' practice visual respects the question’s scene setting');
   assert.ok(!exercise.includes('visual-focus'),l.id+' no recap answers in exercise');storage.clear();
  }
  for(const language of ['es','en','pt','ja']){
