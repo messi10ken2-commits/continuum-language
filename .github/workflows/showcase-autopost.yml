@@ -1,0 +1,54 @@
+name: Continuum Prelaunch Social Showcase
+
+on:
+  schedule:
+    # Recovery checks MYT 02:37, 08:37, 14:37, 20:37
+    - cron: '37 0,6,12,18 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/showcase-autopost.yml'
+      - 'social_automation/showcase.py'
+      - 'social_automation/test_showcase.py'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview next eligible slots without scheduling'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: continuum-prelaunch-showcase
+  cancel-in-progress: false
+
+jobs:
+  showcase:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image processor
+        run: python -m pip install 'Pillow>=10,<13'
+      - name: Offline validation
+        run: python -m unittest social_automation.test_showcase -v
+      - name: Schedule in Buffer
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          SOCIAL_AUTOPUBLISH_ENABLED: ${{ vars.SOCIAL_AUTOPUBLISH_ENABLED }}
+          SHOWCASE_PROMO_ENABLED: ${{ vars.SHOWCASE_PROMO_ENABLED }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INSTAGRAM_CHANNEL_ID: ${{ vars.INSTAGRAM_CHANNEL_ID }}
+          X_CHANNEL_ID: ${{ vars.X_CHANNEL_ID }}
+          THREADS_CHANNEL_ID: ${{ vars.THREADS_CHANNEL_ID }}
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
+            python -m social_automation.showcase --dry-run
+          else
+            python -m social_automation.showcase
+          fi
