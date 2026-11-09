@@ -49,6 +49,21 @@ export default function LessonMilestone({user,completionId,reward,visible=true})
  </MilestoneDialog>;
 }
 
+function PromotionMedia({scene}){
+ const [videoUnavailable,setVideoUnavailable]=useState(()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+ if(videoUnavailable)return <PremiumAdScene key={scene} scene={scene}/>;
+ return <video
+  className="premium-ad-video"
+  src="/membership/premium-promotion-v2.mp4"
+  aria-label={t('Continuum Premium promotion')}
+  autoPlay
+  muted
+  playsInline
+  controls
+  onError={()=>setVideoUnavailable(true)}
+ />;
+}
+
 export function LessonPromotion({user}){
  const key='continuum-lesson-promotion:'+user.id;
  const [offer,setOffer]=useState(0),[seconds,setSeconds]=useState(promotionDurationSeconds);
@@ -121,7 +136,7 @@ export function LessonPromotion({user}){
  const scene=seconds>11?0:seconds>7?1:seconds>2?2:3;
  const title=t(['More room to speak','Vocabulary and expression review','Learn without interruptions','Go further with Premium'][scene]);
  const summary=t(['Longer AI conversations with up to 48 replies per session.','Revisit words and phrases from your lessons as they come up for review.','No Continuum ads. YouTube may still show its own ads.','Make more room for real-life practice.'][scene]);
- return <MilestoneDialog kind="premium" label={t('Continuum Premium promotion')} title={title} onClose={close} art={<PremiumAdScene key={scene} scene={scene}/>}>
+ return <MilestoneDialog kind="premium" label={t('Continuum Premium promotion')} title={title} onClose={close} art={<PromotionMedia key={offer} scene={scene}/>}>
   <p>{summary}</p>
   <progress className="milestone-timer" aria-label={t('Continuum Premium promotion')} value={promotionDurationSeconds-seconds} max={promotionDurationSeconds}/>
   {seconds>0&&<p>{tf('Continue in {0} seconds',[seconds])}</p>}
