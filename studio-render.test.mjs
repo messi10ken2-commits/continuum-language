@@ -12,13 +12,13 @@ try{
  const courses=premiumCourseSummary.filter(course=>course.language==='pt');
  const initialData={membership:{premium:false},intervals:[],tickets:[],courses};
  const account=renderToStaticMarkup(React.createElement(Membership,{user:{id:'fixture',role:'learner'},language:'pt',initialData}));
- assert.match(account,/10 lessons in your learning language/);
- assert.match(account,/Standard and Light lessons, Word Town/);
- assert.match(account,/Choose a capybara, guinea pig, quokka or panda/);
- assert.match(account,/Learn without interruptions/);
+ assert.match(account,/Regular lessons and Learning Memory/);
+ assert.match(account,/Exclusive courses/);
  assert.match(account,/No Continuum ads\. YouTube may still show its own ads\./);
- assert.match(account,/Class tickets/);
- assert.match(account,/Checkout is not open yet/);
- assert.doesNotMatch(account,/membership-courses|Everyday negotiation in Portuguese/);
+ assert.match(account,/One introductory class ticket/);
+ assert.match(account,/Store purchases are in preparation/);
+ assert.match(account,/App Store/);
+ assert.match(account,/Google Play/);
+ assert.doesNotMatch(account,/membership-courses|Everyday negotiation in Portuguese|data-checkout/);
  console.log('PASS: Studio navigation and visual Premium guide render in all six display languages without fake checkout or untranslated headings.');
 }finally{await vite.close()}
