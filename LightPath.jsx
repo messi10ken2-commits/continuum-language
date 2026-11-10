@@ -5,7 +5,7 @@ import LessonText from './LessonText.jsx';
 import {levels} from './course.mjs';
 import {lightRoute,lightRouteStats} from './light-route.mjs';
 import {lightTownProgress,saveTownPlacement,setTownPlacement,LessonModeControl} from './LightLesson.jsx';
-import {TownScene,TownRewardArt,TownGem,TownRibbon,TownSegments,TownCollection,townRewardLabel,useLightCompanion} from './LightTown.jsx';
+import {TownScene,TownOpening,TownRewardArt,TownGem,TownRibbon,TownSegments,TownCollection,townRewardLabel,useLightCompanion} from './LightTown.jsx';
 import {materialsPerRound,townCollection,townConstruction,townCoursePlacements,townRewardAt} from './light-town.mjs';
 import {townArt} from './light-town-art.mjs';
 import {lightActivities,lightLessonVersion} from './light-learning-model.mjs';
@@ -66,7 +66,7 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
   <div className="town-construction-status">
    <b>{tf('Buildings {0}/{1}',[construction.built,construction.total])}</b>
   </div>
-  <TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements} built={buildings.length}/>
+  <TownOpening><TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements} built={buildings.length}/></TownOpening>
   <div className="town-paper town-mission">
    {mission?<><h2><Feather aria-hidden="true"/><LessonText text={mission.lesson.title} language={language}/></h2>
    <div className="town-mission-meta"><Clock size={16}/>{tf('{0} questions · about 2 min',[lightActivities(mission.lesson,0,lightLessonVersion).length])}</div>

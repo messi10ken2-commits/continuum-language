@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react';
-import {Check,LockKeyhole,Star,Gem} from 'lucide-react';
+import {Check,LockKeyhole,Star,Gem,Sparkles} from 'lucide-react';
 import {companions} from './adventure-model.mjs';
 import {t,tf} from './interface-runtime.mjs';
 import {townPlacedRewards} from './light-town.mjs';
@@ -85,5 +85,46 @@ export function TownScene({language,kind,places=[],collection=[],placements=[],h
    </span>;
   })}
   <TownCompanion kind={kind} celebrate={celebrate}/>
+ </div>;
+}
+
+const townOpeningKey='continuumWordTownOpeningSeen';
+let openingSeen=false;
+export function TownOpening({children}){
+ const [playing,setPlaying]=useState(false);
+ useEffect(()=>{
+  if(openingSeen||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  try{
+   if(sessionStorage.getItem(townOpeningKey))return;
+   sessionStorage.setItem(townOpeningKey,'1');
+  }catch{}
+  openingSeen=true;
+  setPlaying(true);
+ },[]);
+ useEffect(()=>{
+  if(!playing)return;
+  const timeout=window.setTimeout(()=>setPlaying(false),6500);
+  return()=>window.clearTimeout(timeout);
+ },[playing]);
+ const finish=()=>setPlaying(false);
+ return <div className="town-opening-frame">
+  <div inert={playing||undefined}>{children}</div>
+  {playing&&<div className="town-opening">
+   <video src="/light-town/word-town-opening.mp4" autoPlay muted playsInline aria-hidden="true" onEnded={finish} onError={finish}/>
+   <button type="button" onClick={finish}>{t('Continue')}</button>
+  </div>}
+ </div>;
+}
+
+export function TownRewardScene({language,kind,item,collection,placements,built}){
+ const placed=townPlacedRewards(collection,placements).some(reward=>reward.index===item.index);
+ const [x,y,width]=townArt(language).anchors[item.slot];
+ return <div className="town-reward-scene" data-placed={placed} style={{
+  '--town-landing-x':x+'%','--town-landing-y':y+'%','--town-landing-width':width+'%'
+ }}>
+  <TownScene language={language} kind={kind} collection={collection} placements={placements} built={built} highlight={placed?item.index:undefined}/>
+  <span className="town-reward-reveal" aria-hidden="true"><Sparkles/></span>
+  <span className="town-reward-flight" aria-hidden="true"><TownRewardArt item={item} language={language}/></span>
+  {placed&&<span className="town-reward-placed"><Check size={16} aria-hidden="true"/>{t('Placed in town')}</span>}
  </div>;
 }

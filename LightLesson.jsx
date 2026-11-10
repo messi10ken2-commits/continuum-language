@@ -11,7 +11,7 @@ import {languageInfo} from './languages.mjs';
 import {useStudyActivity} from './LearningActivity.jsx';
 import {PageScene} from './LessonMedia.jsx';
 import SentenceAudio,{stopSentenceAudio} from './SentenceAudio.jsx';
-import {TownCompanion,TownScene,TownGem,TownRibbon,TownSegments,TownRewardArt,townRewardLabel,useLightCompanion} from './LightTown.jsx';
+import {TownCompanion,TownScene,TownGem,TownRibbon,TownSegments,TownRewardArt,TownRewardScene,townRewardLabel,useLightCompanion} from './LightTown.jsx';
 import {lightMaterials,lightRoundEvidence,townCollection,townConstruction,townCourseKey,townCoursePlacements} from './light-town.mjs';
 import {townArt} from './light-town-art.mjs';
 import ConversationVideo from './ConversationVideo.jsx';
@@ -146,7 +146,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  const townReward=reward?.award?{
   title:townRewardLabel(reward.award,language),
   description:t(reward.newPlot===undefined?'A new decoration for your Word Town.':'A new building opened in your town!'),
-  art:<TownRewardArt item={reward.award} language={language}/>
+  art:<TownRewardScene language={language} kind={kind} item={reward.award} collection={reward.collection} placements={reward.placements} built={reward.built}/>
  }:null;
  const refresh=async()=>{setRefreshing(true);try{await lightProgress(user);setRetry(n=>n+1)}finally{setRefreshing(false)}};
  return <div ref={root} className="study-lesson light-lesson light-game light-town" data-phase={phase}>
