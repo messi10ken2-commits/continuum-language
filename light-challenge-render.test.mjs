@@ -8,7 +8,7 @@ test('each language renders its own town, reward art, and the selected companion
  const {access}=await import('node:fs/promises');
  const vite=await createServer({configFile:false,server:{middlewareMode:true,watch:null,hmr:false},appType:'custom'});
  try{
-  const {TownScene,TownRewardArt}=await vite.ssrLoadModule('/LightTown.jsx');
+  const {TownScene,TownRewardArt,TownRewardScene,TownOpening}=await vite.ssrLoadModule('/LightTown.jsx');
   const scenes=new Set();
   for(const language of learningLanguageIds){
    const art=townArt(language);
@@ -26,6 +26,16 @@ test('each language renders its own town, reward art, and the selected companion
     const phase=renderToStaticMarkup(React.createElement(TownScene,{language,built}));
     assert.deepEqual(art.stages.filter(url=>phase.includes(url)),[asset],language);
    }
+   const newest=collection.at(-1);
+   const reveal=renderToStaticMarkup(React.createElement(TownRewardScene,{language,item:newest,collection,placements:[],built:art.stages.length-1}));
+   assert.match(reveal,/data-placed="true"/);
+   assert.match(reveal,/Placed in town/);
+   assert.match(reveal,/data-new="true"/);
+   assert.ok(reveal.includes(townRewardImage(language,newest)));
+   const savedColor=renderToStaticMarkup(React.createElement(TownRewardScene,{language,item:newest,collection,placements:[{slot:0,rewardIndex:0}]}));
+   assert.match(savedColor,/data-placed="false"/);
+   assert.doesNotMatch(savedColor,/Placed in town|data-new="true"/);
+   assert.match(renderToStaticMarkup(React.createElement(TownOpening,null,React.createElement(TownScene,{language}))),/town-opening-frame/);
    for(const item of collection.slice(0,9)){
     const asset=townRewardImage(language,item);
     await access(new URL('public'+asset,import.meta.url));
