@@ -1,10 +1,10 @@
 import LessonMilestone from './LessonMilestone.jsx';
 import {feedbackSoundEnabled,playCorrectSound,prepareFeedbackSound} from './feedback-sound.mjs';
-import React,{forwardRef,useEffect,useImperativeHandle,useLayoutEffect,useRef,useState} from 'react';
+import React,{forwardRef,useEffect,useImperativeHandle,useLayoutEffect,useMemo,useRef,useState} from 'react';
 import {ArrowRight,CheckCircle2,Lightbulb,Flame,Star,BookOpenCheck,Headphones,X} from 'lucide-react';
 import {t,tf,interfaceLanguage} from './interface-runtime.mjs';
 import LessonText from './LessonText.jsx';
-import {lightActivities,lightAnswer,lightCorrect,lightLessonVersion,lightLessonPassed,validLightState} from './light-learning-model.mjs';
+import {lightActivities,lightAnswer,lightCorrect,lightLessonVersion,lightSingleLessonVersions,lightLessonPassed,validLightState} from './light-learning-model.mjs';
 import {nextLightLesson,lightRoute} from './light-route.mjs';
 import {getLesson} from './course.mjs';
 import {languageInfo} from './languages.mjs';
@@ -42,9 +42,10 @@ export async function saveTownPlacement(user,chapter,language,item){
 }
 export function LessonModeControl({mode,onChange,compact=false,busy=false}){return compact?<label className="lesson-mode-compact"><select aria-label={t('Learning mode')} disabled={busy} value={mode} onChange={e=>onChange(e.target.value)}><option value="light">{t('Light')}</option><option value="standard">{t('Standard')}</option></select></label>:<fieldset className="lesson-mode-control" disabled={busy}><legend>{t('Learning mode')}</legend><div>{['light','standard'].map(value=><button type="button" key={value} aria-pressed={mode===value} onClick={()=>onChange(value)}>{t(value==='light'?'Light':'Standard')}</button>)}</div><small>{t('Two ways to learn. Choose your own pace.')}</small></fieldset>}
 export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onStandard,modeControl,onNext,autoStart=false},ref){
- const activities=lightActivities(lesson),language=lesson.language||'es',locale=languageInfo(language).locale;
- const blank=()=>({version:lightLessonVersion,round:0,steps:[],choice:null,hint:false,checked:false});
- const [record,setRecord]=useState(null),[state,setState]=useState(blank),[ready,setReady]=useState(false),[phase,setPhase]=useState('intro'),[busy,setBusy]=useState(false),[error,setError]=useState(''),[retry,setRetry]=useState(0);
+ const language=lesson.language||'es',locale=languageInfo(language).locale;
+ const blank=(version=lightLessonVersion)=>({version,round:0,steps:[],choice:null,hint:false,checked:false});
+ const [record,setRecord]=useState(null),[state,setState]=useState(()=>blank()),[ready,setReady]=useState(false),[phase,setPhase]=useState('intro'),[busy,setBusy]=useState(false),[error,setError]=useState(''),[retry,setRetry]=useState(0);
+ const activities=useMemo(()=>lightActivities(lesson,0,state.version),[lesson,state.version]);
  const kind=useLightCompanion(user,language);
  const [speaking,setSpeaking]=useState(false),[reward,setReward]=useState(null);
  const [rewardRetry,setRewardRetry]=useState(0);
@@ -74,7 +75,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  const root=useRef(null),owner=user?.id||'guest',lock=useRef(false),[refreshing,setRefreshing]=useState(false);
  const endpoint='/'+lesson.id+'?round=0&version='+lightLessonVersion;
  useEffect(()=>{let live=true;setReady(false);setError('');const load=async()=>{try{let saved;if(user)saved=(await lightApi(endpoint)).record;else try{saved=JSON.parse(localStorage.getItem(lightStorageKey(user,lesson))||'null')}catch{}
-  if(!live)return;if(saved&&validLightState(activities,saved.state)&&saved.state.round===0){setRecord(saved);setState(saved.state);setPhase(saved.completedAt?'result':saved.state.steps.length||saved.state.choice!==null||autoStart?'exercise':'intro')}else{setRecord({id:crypto.randomUUID(),revision:0});setState(blank());setPhase(autoStart?'exercise':'intro')}setReady(true);
+  if(!live)return;if(lightSingleLessonVersions.includes(saved?.state?.version)&&saved.state.round===0&&validLightState(lightActivities(lesson,0,saved.state.version),saved.state)){setRecord(saved);setState(saved.state);setPhase(saved.completedAt?'result':saved.state.steps.length||saved.state.choice!==null||autoStart?'exercise':'intro')}else{setRecord({id:crypto.randomUUID(),revision:0});setState(blank());setPhase(autoStart?'exercise':'intro')}setReady(true);
  }catch{if(live)setError('Could not load light practice. Try again.')}};load();return()=>{live=false;stopSentenceAudio()}},[lesson.id,owner,retry]);
  useStudyActivity(!suspended&&ready&&phase==='exercise'&&user?.role==='learner'&&!busy);
  useLayoutEffect(()=>{
@@ -126,7 +127,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  };
  useImperativeHandle(ref,()=>({save:()=>persist(),busy}),[record,state,ready,busy,error]);
  const exit=async()=>{if(await persist()){stopSentenceAudio();onExit()}};
- const next=async()=>{const a=activities[state.steps.length],answer=a.type==='observe'?true:lightAnswer(a,state.choice);if(!lightCorrect(a,answer))return;prepareFeedbackSound({retry:true});const value={...blank(),steps:[...state.steps,{answer,hint:state.hint,missed:!!state.missed}]};if(await persist(value)){stopSentenceAudio();if(value.steps.length===activities.length){setFinishedHere(true);setPhase('result')}}};
+ const next=async()=>{const a=activities[state.steps.length],answer=a.type==='observe'?true:lightAnswer(a,state.choice);if(!lightCorrect(a,answer))return;prepareFeedbackSound({retry:true});const value={...blank(state.version),steps:[...state.steps,{answer,hint:state.hint,missed:!!state.missed}]};if(await persist(value)){stopSentenceAudio();if(value.steps.length===activities.length){setFinishedHere(true);setPhase('result')}}};
  const restart=()=>{setRecord({id:crypto.randomUUID(),revision:0});setState(blank());setFinishedHere(false);setPhase('intro');setError('')};
  const a=activities[state.steps.length],good=a&&lightCorrect(a,lightAnswer(a,state.choice)),nextLesson=passed?nextLightLesson(lesson):null;
  const choose=value=>{if(state.checked&&!good)setState(s=>({...s,choice:value,checked:false}));else setState(s=>({...s,choice:value}))};

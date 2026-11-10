@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {lessonList} from './course.mjs';import {legacyLightActivities,v2LightActivities,priorLightVersion,lightActivities,lightModels,lightRoundCount,lightAnswer,lightCorrect,validLightState,lightVersion,lightVersionFor,lightLessonPassed,lightLessonVersion} from './light-learning-model.mjs';import {lightLearningCopy} from './light-learning-copy.mjs';import {translationSource} from './localization-corpus.mjs';
+import {lessonList} from './course.mjs';import {legacyLightActivities,v2LightActivities,priorLightVersion,lightActivities,lightModels,lightRoundCount,lightAnswer,lightCorrect,validLightState,lightVersion,lightVersionFor,lightLessonPassed,lightLessonVersion,previousLightLessonVersion} from './light-learning-model.mjs';import {lightLearningCopy} from './light-learning-copy.mjs';import {translationSource} from './localization-corpus.mjs';
 test('every regular lesson across ten languages has a bounded, answerable authored guided session; tests remain Standard',()=>{
  const languages=new Set();for(const lesson of lessonList){const before=JSON.stringify(lesson),items=legacyLightActivities(lesson);if(lesson.checkpoint||lesson.summaryTest){assert.equal(items.length,0);continue}languages.add(lesson.language||'es');assert.ok(items.length>=2&&items.length<=4,lesson.id);const state={version:lightVersion,steps:[],choice:null,hint:false,checked:false};
   for(const a of items){const answer=a.type==='observe'?true:['meaning','video'].includes(a.type)?a.meaning:a.model;assert.ok(lightCorrect(a,answer),lesson.id);if(a.type==='build'){const indexes=a.tokens.map((_,i)=>i).reverse();assert.ok(lightCorrect(a,lightAnswer(a,indexes)),lesson.id)}if(a.meaning&&!a.meaningNative)assert.ok(translationSource(a.meaning,lesson.language||'es'),lesson.id+' must translate its meanings');state.steps.push({answer,hint:true});}assert.ok(validLightState(items,state),lesson.id);assert.equal(JSON.stringify(lesson),before,'must never modify the Standard lesson');}
@@ -46,13 +46,28 @@ test('Spanish comprehension labels stay in written questions and out of Light au
  }
 });
 
-test('one Light lesson preserves the opening question set and needs 80% first-try accuracy',()=>{
+test('new and saved single Light lessons remain answerable and need 80% first-try accuracy',()=>{
  for(const language of learningLanguageIds){
   const route=lightRoute(language);
   for(const [i,{lesson}] of route.entries()){
    const items=lightActivities(lesson,0,lightLessonVersion);
-   assert.deepEqual(items,lightActivities(lesson));
-   assert.ok(items.length===5||items.length===6);
+   assert.deepEqual(lightActivities(lesson,0,previousLightLessonVersion),lightActivities(lesson));
+   assert.ok(items.length===5||items.length===6,lesson.id);
+   const segmenter=new Intl.Segmenter(lesson.locale||'en',{granularity:'sentence'});
+   const spokenCounts=new Map();
+   for(const activity of items){
+    const answer=activity.type==='build'?activity.model:activity.meaning;
+    assert.ok(lightCorrect(activity,answer),lesson.id);
+    if(activity.type!=='build')assert.ok(activity.options.length>=2&&activity.options.includes(answer),lesson.id);
+    const text=activity.source==='model'?activity.model:activity.audio;
+    if(!text)continue;
+    const keys=new Set(Array.from(segmenter.segment(text),part=>part.segment.normalize('NFC').toLowerCase().replace(/[^\p{L}\p{N}\p{M}]+/gu,' ').trim()));
+    for(const key of keys){
+     const count=(spokenCounts.get(key)||0)+1;
+     assert.ok(count<=2,lesson.id+' repeats '+key);
+     spokenCounts.set(key,count);
+    }
+   }
    assert.deepEqual(lightActivities(lesson,1,lightLessonVersion),[]);
    assert.equal(nextLightLesson(lesson),route[i+1]?.lesson.id);
   }
@@ -64,4 +79,16 @@ test('one Light lesson preserves the opening question set and needs 80% first-tr
   steps[1]={missed:true};
   assert.equal(lightLessonPassed(steps,total),false);
  }
+});
+
+test('the Portuguese rhythm lesson uses several targets instead of recycling its opening sentence',()=>{
+ const lesson=lessonList.find(item=>item.id==='pt-sound-v1-1-1');
+ const items=lightActivities(lesson,0,lightLessonVersion);
+ assert.equal(items.length,6);
+ assert.ok(items.filter(item=>[item.model,item.audio].some(text=>text?.includes('Os amigos chegaram ao Brasil'))).length<=2);
+ for(const phrase of ['Brasil','os amigos']){
+  assert.ok(items.some(item=>item.model===phrase||item.question?.prompt.includes(phrase)),phrase);
+ }
+ assert.ok(items.some(item=>item.type==='listen'));
+ assert.ok(items.some(item=>item.type==='build'));
 });

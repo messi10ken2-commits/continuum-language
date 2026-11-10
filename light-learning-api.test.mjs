@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {testServer,db} from './test-server.mjs';import {lightRoute} from './light-route.mjs';
-import {lessonList} from './course.mjs';import {lightActivities,lightLessonVersion,lightVersion,priorLightVersion,legacyLightVersion,legacyLightActivities,v2LightActivities} from './light-learning-model.mjs';
+import {lessonList} from './course.mjs';import {lightActivities,lightLessonVersion,previousLightLessonVersion,lightVersion,priorLightVersion,legacyLightVersion,legacyLightActivities,v2LightActivities} from './light-learning-model.mjs';
 const base='http://127.0.0.1:'+testServer.address().port;
 async function account(name,role='learner'){const r=await fetch(base+'/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email:name+'@light.test',password:'SyntheticLightQA2026!',role,adult:true})});assert.ok(r.ok);return r.headers.get('set-cookie').split(';')[0]}
 async function req(cookie,path,method='GET',body,address){const r=await fetch(base+path,{method,headers:{cookie,'Content-Type':'application/json',...(address?{'X-Forwarded-For':address}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,data:await r.json()}}
@@ -61,10 +61,25 @@ test('guided records resume, isolate accounts, survive new sessions and never gr
  const passCookie=await account('single-lesson');
  const passLesson=lightRoute('es')[0].lesson,passPath='/api/learning/light/'+passLesson.id;
  const single={version:lightLessonVersion,round:0,choice:null,hint:false,checked:false};
- const steps=lightActivities(passLesson).map(a=>({answer:a.type==='build'?a.model:a.meaning,hint:false,missed:false}));
+ const steps=lightActivities(passLesson,0,lightLessonVersion).map(a=>({answer:a.type==='build'?a.model:a.meaning,hint:false,missed:false}));
  const submit=(steps,overrides={})=>req(passCookie,passPath,'PUT',{id:crypto.randomUUID(),revision:0,state:{...single,steps,...overrides}},'192.0.2.21');
  assert.equal((await submit(steps,{round:1})).status,400);
  assert.equal((await submit(steps.map(({answer,hint})=>({answer,hint})))).status,400);
+ const oldCookie=await account('single-lesson-previous');
+ const oldId=crypto.randomUUID();
+ const oldSteps=lightActivities(passLesson,0,previousLightLessonVersion).map(a=>({answer:a.type==='build'?a.model:a.meaning,hint:false,missed:false}));
+ const oldDraft={...single,version:previousLightLessonVersion,steps:oldSteps.slice(0,1)};
+ assert.equal((await req(oldCookie,passPath,'PUT',{id:oldId,revision:0,state:oldDraft})).status,200);
+ const resumePath=passPath+'?round=0&version='+lightLessonVersion;
+ assert.deepEqual((await req(oldCookie,resumePath)).data.record.state.steps,oldDraft.steps);
+ assert.equal((await req(oldCookie,resumePath)).data.record.state.version,previousLightLessonVersion);
+ const oldPass=await req(oldCookie,passPath,'PUT',{id:oldId,revision:1,state:{...oldDraft,steps:oldSteps}});
+ assert.equal(oldPass.data.record.state.passed,true);
+ const newId=crypto.randomUUID();
+ assert.equal((await req(oldCookie,passPath,'PUT',{id:newId,revision:0,state:{...single,steps}})).status,200);
+ assert.equal((await req(oldCookie,resumePath)).data.record.id,newId);
+ const oldAwards=(await req(oldCookie,'/api/learning/light/progress')).data.completed;
+ assert.deepEqual(oldAwards.map(row=>[row.id,row.lessonPass]),[[oldId,true]]);
  const corrected=steps.map((step,i)=>({...step,missed:i<2}));
  const failed=await submit(corrected,{passed:true});
  assert.equal(failed.status,200);
