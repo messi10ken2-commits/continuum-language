@@ -1,0 +1,94 @@
+/* Scenery and companions have depth. Answer controls stay in their plane. */
+.town-scene,.town-listen-stage {--light-pointer-x:0;--light-pointer-y:0}
+.town-companion-depth {
+ display:block;width:100%;height:100%;transform-origin:50% 90%;
+ filter:drop-shadow(0 3px 2px #43291b25);
+}
+.town-companion-ground {
+ position:absolute;left:21%;right:21%;bottom:5%;height:8%;border-radius:50%;
+ background:#37231d3d;filter:blur(3px);pointer-events:none;
+}
+button.town-companion {
+ appearance:none;padding:0;border:0;border-radius:40%;background:transparent;
+ min-width:44px;min-height:44px;font:inherit;cursor:pointer;pointer-events:auto;
+ touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+}
+button.town-companion:focus-visible {outline:3px solid #b56ab0;outline-offset:3px}
+button.town-companion:active {filter:drop-shadow(0 5px 4px #4c301b45)}
+button.town-companion[data-reacting="true"] {filter:drop-shadow(0 0 6px #ecc88a)}
+.town-listen-stage {perspective:900px}
+.town-listen-stage>img {transition:transform 260ms ease-out;transform-origin:center 70%}
+.town-scene {transition:transform 300ms ease-out;transform-origin:50% 85%}
+.town-reward-scene .town-scene {transform:none!important}
+.light-town .town-collection button,.light-town .word-builder-tiles button,
+.light-town .light-game-choices>button,.light-town .town-cta {
+ transition:box-shadow 160ms ease-out,border-color 160ms ease-out,background-color 160ms ease-out;
+}
+.light-town .town-cta {box-shadow:inset 0 1px #ffffff60,0 4px 0 #4b234c45}
+.light-town .town-cta:active:not(:disabled) {box-shadow:inset 0 2px 4px #3010363d,0 1px 0 #4b234c45}
+.light-town .word-builder-tiles button[disabled] {transition:none}
+@media (prefers-reduced-motion: no-preference) {
+ [data-motion] :is(.town-companion-depth,.town-companion-ground,.town-companion-sprite,.town-waves i,.town-waveform i),
+ [data-motion] .town-pin {animation-play-state:paused!important}
+ [data-motion="on"] .town-companion-depth {animation:light-companion-breathe 4.6s ease-in-out infinite}
+ [data-motion="on"] .town-companion-ground {animation:light-ground-breathe 4.6s ease-in-out infinite}
+ [data-motion="on"] :is(.town-companion-depth,.town-companion-ground,.town-companion-sprite,.town-waves i,.town-waveform i),
+ [data-motion="on"] .town-pin {animation-play-state:running!important}
+ [data-motion="on"] .town-companion[data-reacting="true"] .town-companion-depth {
+  animation:light-companion-greet 850ms cubic-bezier(.2,.65,.25,1) both;
+ }
+ .town-scene[data-motion="on"] {
+  transform:perspective(1000px) rotateX(calc(var(--light-pointer-y)*-1.2deg)) rotateY(calc(var(--light-pointer-x)*1.6deg));
+ }
+ .town-listen-stage[data-motion="on"]>img {
+  transform:translate3d(calc(var(--light-pointer-x)*-3px),calc(var(--light-pointer-y)*-2px),-7px) scale(1.015);
+ }
+ .town-listen-stage[data-motion="on"]>.town-companion .town-companion-depth {
+  translate:calc(var(--light-pointer-x)*4px) calc(var(--light-pointer-y)*2px);
+ }
+ [data-motion="on"] .town-building[data-status="current"] .town-pin {
+  animation:light-pin-beacon 3.6s ease-in-out infinite;
+ }
+ .light-town .town-question-card {animation:light-question-arrive 220ms ease-out both}
+ .light-town .town-question-card[data-feedback="correct"] .light-game-feedback svg {
+  animation:light-check-pop 400ms cubic-bezier(.2,.8,.3,1) both;
+ }
+ .light-town .town-segments i[data-filled="true"] {animation:light-check-pop 300ms ease-out both}
+ .light-town .town-collection button:active:not(:disabled) .town-reward-art {
+  transform:perspective(500px) rotateY(-9deg) scale(1.025);
+ }
+ .light-town .town-collection .town-reward-art {transition:transform 200ms ease-out}
+ .light-town .town-result-loot .town-reward-art {animation:light-reward-settle 650ms ease-out both}
+ .town-reward-flight .town-reward-art {animation:light-reward-turn 2.85s ease-in-out both}
+}
+@keyframes light-companion-breathe {
+ 0%,100% {transform:perspective(600px) rotateY(-3deg) scale(1)}
+ 50% {transform:perspective(600px) rotateY(3deg) scale(1.012,1.025)}
+}
+@keyframes light-ground-breathe {
+ 0%,100% {opacity:.6;scale:1}
+ 50% {opacity:.45;scale:.94}
+}
+@keyframes light-companion-greet {
+ 0%,100% {transform:perspective(600px) rotateY(0) translateY(0)}
+ 25% {transform:perspective(600px) rotateY(-12deg) rotateZ(-3deg) translateY(-3%)}
+ 55% {transform:perspective(600px) rotateY(10deg) rotateZ(3deg) translateY(-9%)}
+ 80% {transform:perspective(600px) rotateY(-3deg) translateY(1%)}
+}
+@keyframes light-pin-beacon {50% {translate:0 -2px;box-shadow:0 3px 7px #51254055}}
+@keyframes light-question-arrive {from {opacity:.65;translate:0 5px} to {opacity:1;translate:0 0}}
+@keyframes light-check-pop {0% {scale:.82} 65% {scale:1.08} 100% {scale:1}}
+@keyframes light-reward-settle {
+ 0% {transform:perspective(500px) rotateY(-14deg) translateY(-7px);opacity:.6}
+ 70% {transform:perspective(500px) rotateY(5deg) translateY(1px)}
+ 100% {transform:perspective(500px) rotateY(0) translateY(0);opacity:1}
+}
+@keyframes light-reward-turn {
+ 0%,65% {transform:perspective(500px) rotateY(-9deg)}
+ 82% {transform:perspective(500px) rotateY(12deg)}
+ 100% {transform:perspective(500px) rotateY(0)}
+}
+@media (prefers-reduced-motion: reduce) {
+ .light-town *,.town-reward-scene * {animation:none!important;transition:none!important}
+ .town-scene,.town-listen-stage>img,.town-companion-depth {transform:none!important;translate:none!important}
+}

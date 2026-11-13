@@ -1,3 +1,4 @@
+import {useLightMotion} from './light-motion.mjs';
 import LessonMilestone from './LessonMilestone.jsx';
 import {feedbackSoundEnabled,playCorrectSound,prepareFeedbackSound} from './feedback-sound.mjs';
 import React,{forwardRef,useEffect,useImperativeHandle,useLayoutEffect,useMemo,useRef,useState} from 'react';
@@ -179,8 +180,8 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   <section className="light-game-board" tabIndex={-1} aria-label={t('Practice question')}>
    <div className="light-task-heading"><span className="town-combo-chip" data-active={combo>=3}><Flame size={18}/>{tf('Combo ×{0}',[combo])}</span><button className="light-tip" aria-label={t('Show a hint')} disabled={busy||state.hint} onClick={()=>setState(s=>({...s,hint:true}))}><Lightbulb size={21}/></button></div>
    <h1 className="town-lesson-heading">{spokenText(a)&&<Headphones size={24} aria-hidden="true"/>}{title}</h1>
-   <TownLessonStage key={a.id} activity={a} lesson={lesson} language={language} kind={kind} speaking={speaking} onPlaybackChange={setSpeaking}/>
-   <div className="town-paper town-question-card">
+   <TownLessonStage key={a.id} activity={a} lesson={lesson} language={language} kind={kind} speaking={speaking} celebrate={state.checked&&good} onPlaybackChange={setSpeaking}/>
+   <div className="town-paper town-question-card" key={a.id} data-feedback={state.checked?(good?'correct':'retry'):'idle'}>
    <LightChallengePrompt activity={a} lesson={lesson} language={language} checked={state.checked}/>
    {a.type==='build'?<div className="word-builder"><div className="light-answer-slots" aria-live="polite" lang={a.locale||locale} dir="auto">{state.choice?.length?state.choice.map((index,i)=><button key={i} disabled={busy||state.checked} onClick={()=>choose(state.choice.filter((_,j)=>j!==i))}>{a.tokens[index]}</button>):<span>{t('Tap the word tiles')}</span>}</div><div className="word-builder-tiles" dir="auto">{a.tokens.map((token,i)=><button key={i} lang={a.locale||locale} disabled={busy||state.checked||state.choice?.includes(i)} onClick={()=>choose([...(state.choice||[]),i])}>{token}</button>)}</div><button className="text-button" disabled={busy||state.checked||!state.choice?.length} onClick={()=>choose(null)}>{t('Clear')}</button></div>:
    <div className="light-game-choices">{a.options.map((value,i)=><button key={i} aria-pressed={state.choice===value} disabled={busy||state.checked} className={state.choice===value?'selected':''} onClick={()=>choose(value)}><span className="light-choice-letter">{String.fromCharCode(65+i)}</span>{a.optionsNative||a.type==='meaning'&&a.meaningNative?<span lang={a.locale||locale} dir="auto">{value}</span>:<LessonText text={value} language={language} interactive={false}/>}</button>)}</div>}
@@ -215,11 +216,12 @@ function LightAnswerDetails({activity:a,language}){
 }
 export function LightPracticeHistory({user,language,onStart}){const [records,setRecords]=useState([]),[failed,setFailed]=useState(false);useEffect(()=>{let live=true;setRecords([]);setFailed(false);if(user?.role!=='learner')return;lightApi('').then(d=>{if(live)setRecords(d.records||[])}).catch(()=>{if(live)setFailed(true)});return()=>{live=false}},[user?.id,language]);const rows=records.filter(r=>(getLesson(r.lesson)?.language||'es')===language);return user?.role==='learner'?<details className="panel light-history"><summary>{t('Light practice history')}</summary>{failed?<p>{t('Could not load light practice. Try again.')}</p>:rows.length?<ul>{rows.map(r=><li key={r.id}><button onClick={()=>onStart?.(r.lesson)}><LessonText text={getLesson(r.lesson)?.title||r.lesson} language={language}/></button><span>{t(r.completedAt?'Guided practice complete':'Resume light practice')} · {new Date(r.at).toLocaleDateString(interfaceLanguage())}</span>{r.state.steps.length>0&&r.state.steps.every(step=>typeof step.missed==='boolean')&&<small>{tf('First try: {0}/{1} · Hints: {2}',[lightRoundEvidence(r.state.steps).firstCorrect,r.state.steps.length,lightRoundEvidence(r.state.steps).hints])}</small>}</li>)}</ul>:<p>{t('No light practice saved yet.')}</p>}</details>:null}
 
-function TownLessonStage({activity,lesson,language,kind,speaking,onPlaybackChange}){
+function TownLessonStage({activity,lesson,language,kind,speaking,celebrate,onPlaybackChange}){
+ const motion=useLightMotion();
  const recording=lesson.conversation?null:spokenText(activity)||(activity.type==='meaning'?activity.model:null);
- return <div className="town-listen-stage" data-speaking={speaking}>
+ return <div ref={motion} className="town-listen-stage" data-speaking={speaking} data-celebrate={celebrate}>
   <img src="/light-town/cafe.webp" alt="" width="1000" height="562"/>
-  <TownCompanion kind={kind} speaking={speaking}/>
+  <TownCompanion kind={kind} speaking={speaking} celebrate={celebrate}/>
   {recording&&<div className="town-listen-control">
    <SentenceAudio text={recording} lang={activity.audioLocale||activity.locale||languageInfo(language).locale} onPlaybackChange={onPlaybackChange} presentation="town"/>
   </div>}

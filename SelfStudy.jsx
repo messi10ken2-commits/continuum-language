@@ -3,6 +3,7 @@ import {journeyChapters} from './journey-model.mjs';
 import {livingMapPhaseLabels,livingMapState,livingMapTheme} from './living-map-model.mjs';
 import LightPath from './LightPath.jsx';
 import './light-learning.css';
+import './light-motion.css';
 import LightLesson,{LessonModeControl,LightPracticeHistory} from './LightLesson.jsx';
 import {lightActivities} from './light-learning-model.mjs';
 import {LessonVisibility,useLessonVisible} from './LessonVisibility.jsx';
