@@ -110,7 +110,9 @@ try{
   if(step<2){
    await page.locator('#lesson .light-game-footer .town-cta').click();
    await page.locator('#lesson .town-question-card[data-feedback="idle"]').waitFor();
-   assert.equal(await page.locator('#lesson .town-listen-control').count(),1,'audio controls survive question change');
+   const next=activities[step+1];
+   const hasAudio=!!(next.audio||next.type==='listen'||next.type==='meaning'||next.type==='build'&&!next.promptMeaning);
+   assert.equal(await page.locator('#lesson .town-listen-control').count(),Number(hasAudio),'one audio control when the next question includes listening');
   }
  }
  await page.emulateMedia({reducedMotion:'reduce'});
