@@ -37,7 +37,7 @@ const server=await createServer({
    if(!req.url?.startsWith('/__light_motion'))return next();
    try{
     const html=await server.transformIndexHtml(req.url,
-     '<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#lesson,#reward{margin-top:20px}#root{padding:10px}button{font:inherit}</style></head><body><div id="root"></div><script type="module" src="/.media-build/light-motion/entry.jsx"></script></body></html>');
+     '<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#lesson,#reward{margin-top:20px}#root{padding:10px 10px 100vh}button{font:inherit}</style></head><body><div id="root"></div><script type="module" src="/.media-build/light-motion/entry.jsx"></script></body></html>');
     res.setHeader('Content-Type','text/html');
     res.end(html);
    }catch(error){next(error)}
