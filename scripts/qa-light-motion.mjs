@@ -53,6 +53,7 @@ try{
  await context.route('**/api/**',route=>route.fulfill({status:503,contentType:'application/json',body:'{}'}));
  const page=await context.newPage(),errors=[];
  page.on('pageerror',error=>errors.push(error.message));
+ page.on('console',message=>{if(/same key|unique.*key/i.test(message.text()))errors.push(message.text())});
  const scene=page.locator('#town .town-scene');
  for(const language of ['en','es','pt','ja','zh','ko','fr','de','ar','it']){
   await page.goto(base+'/__light_motion?language='+language);
@@ -85,21 +86,35 @@ try{
  await page.waitForTimeout(320);
  const cardAfter=await card.boundingBox();
  assert.ok(Math.abs(cardBefore.x-cardAfter.x)<.5&&Math.abs(cardBefore.y-cardAfter.y)<.5,'scene parallax must not move answers');
- const first=lightActivities(getLesson('introductions'),0,lightLessonVersion)[0];
- if(first.type==='build'){
-  const used=new Set();
-  for(const token of first.model.split(first.joiner)){
-   const index=first.tokens.findIndex((value,index)=>value===token&&!used.has(index));
-   assert.ok(index>=0);
-   used.add(index);
-   await page.locator('#lesson .word-builder-tiles button').nth(index).click();
+ const activities=lightActivities(getLesson('introductions'),0,lightLessonVersion);
+ // Move through consecutive questions in the same mounted lesson. Reusing a
+ // sibling key used to leave each previous companion scene in the DOM.
+ for(const [step,activity] of activities.slice(0,3).entries()){
+  assert.equal(await page.locator('#lesson .town-listen-stage').count(),1,'one scene at question '+(step+1));
+  assert.equal(await page.locator('#lesson .town-companion').count(),1,'one companion at question '+(step+1));
+  assert.equal(await page.locator('#lesson .town-question-card').count(),1,'one question at question '+(step+1));
+  if(activity.type==='build'){
+   const used=new Set();
+   for(const token of activity.model.split(activity.joiner)){
+    const index=activity.tokens.findIndex((value,index)=>value===token&&!used.has(index));
+    assert.ok(index>=0);
+    used.add(index);
+    await page.locator('#lesson .word-builder-tiles button').nth(index).click();
+   }
+  }else{
+   await page.locator('#lesson .light-game-choices button').nth(activity.options.indexOf(activity.meaning)).click();
   }
- }else{
-  await page.locator('#lesson .light-game-choices button').nth(first.options.indexOf(first.meaning)).click();
+  await page.locator('#lesson .light-game-footer .town-cta').click();
+  await page.locator('#lesson .town-question-card[data-feedback="correct"]').waitFor();
+  assert.equal(await page.locator('#lesson .town-companion-sprite').getAttribute('data-celebrate'),'true');
+  if(step<2){
+   await page.locator('#lesson .light-game-footer .town-cta').click();
+   await page.locator('#lesson .town-question-card[data-feedback="idle"]').waitFor();
+   const next=activities[step+1];
+   const hasAudio=!!(next.audio||next.type==='listen'||next.type==='meaning'||next.type==='build'&&!next.promptMeaning);
+   assert.equal(await page.locator('#lesson .town-listen-control').count(),Number(hasAudio),'one audio control when the next question includes listening');
+  }
  }
- await page.locator('#lesson .light-game-footer .town-cta').click();
- await page.locator('#lesson .town-question-card[data-feedback="correct"]').waitFor();
- assert.equal(await page.locator('#lesson .town-companion-sprite').getAttribute('data-celebrate'),'true');
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.waitForFunction(()=>document.querySelector('#lesson .town-listen-stage').dataset.motion==='off');
  const animations=await stage.evaluate(el=>el.getAnimations({subtree:true}).filter(a=>a.playState==='running').length);
@@ -108,7 +123,7 @@ try{
  assert.equal(await page.locator('#reward .town-reward-flight').evaluate(el=>getComputedStyle(el).display),'none');
  assert.equal(await page.locator('#reward .town-decoration[data-new="true"]').count(),1);
  assert.deepEqual(errors,[]);
- console.log('PASS: ten language maps, eight tap/keyboard reactions, stable question controls, off-screen suspension and reduced-motion reward visibility.');
+ console.log('PASS: ten language maps, eight tap/keyboard reactions, single companion scene across consecutive questions, stable question controls, off-screen suspension and reduced-motion reward visibility.');
  await context.close();
 }finally{
  await browser?.close();
