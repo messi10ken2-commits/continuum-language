@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {mkdir,writeFile,rm} from 'node:fs/promises';
 import {createServer} from 'vite';
 import {chromium} from 'playwright';
+import {getLesson} from '../course.mjs';
+import {lightActivities,lightLessonVersion} from '../light-learning-model.mjs';
 const directory=new URL('../.media-build/light-motion/',import.meta.url);
 await mkdir(directory,{recursive:true});
 await writeFile(new URL('entry.jsx',directory),`
@@ -82,6 +84,21 @@ try{
  await page.waitForTimeout(320);
  const cardAfter=await card.boundingBox();
  assert.ok(Math.abs(cardBefore.x-cardAfter.x)<.5&&Math.abs(cardBefore.y-cardAfter.y)<.5,'scene parallax must not move answers');
+ const first=lightActivities(getLesson('introductions'),0,lightLessonVersion)[0];
+ if(first.type==='build'){
+  const used=new Set();
+  for(const token of first.model.split(first.joiner)){
+   const index=first.tokens.findIndex((value,index)=>value===token&&!used.has(index));
+   assert.ok(index>=0);
+   used.add(index);
+   await page.locator('#lesson .word-builder-tiles button').nth(index).click();
+  }
+ }else{
+  await page.locator('#lesson .light-game-choices button').nth(first.options.indexOf(first.meaning)).click();
+ }
+ await page.locator('#lesson .light-game-footer .town-cta').click();
+ await page.locator('#lesson .town-question-card[data-feedback="correct"]').waitFor();
+ assert.equal(await page.locator('#lesson .town-companion-sprite').getAttribute('data-celebrate'),'true');
  await page.emulateMedia({reducedMotion:'reduce'});
  await page.waitForFunction(()=>document.querySelector('#lesson .town-listen-stage').dataset.motion==='off');
  const animations=await stage.evaluate(el=>el.getAnimations({subtree:true}).filter(a=>a.playState==='running').length);
