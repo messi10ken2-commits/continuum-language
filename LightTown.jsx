@@ -1,9 +1,10 @@
 import React,{useEffect,useState} from 'react';
 import {Check,LockKeyhole,Star,Gem,Sparkles} from 'lucide-react';
-import {companions} from './adventure-model.mjs';
+import {companions,companionNames} from './adventure-model.mjs';
 import {t,tf} from './interface-runtime.mjs';
 import {townPlacedRewards} from './light-town.mjs';
 import {townArt,townRewardImage} from './light-town-art.mjs';
+import {useLightMotion} from './light-motion.mjs';
 
 export function useLightCompanion(user,language){
  const [selection,setSelection]=useState(null);
@@ -21,10 +22,22 @@ export function useLightCompanion(user,language){
 }
 
 export function TownCompanion({kind,speaking=false,celebrate=false}){
- return kind?<span className="town-companion" data-companion={kind} data-speaking={speaking} aria-hidden="true">
-  <img className="town-companion-sprite" src={'/light-town/'+kind+'.webp'} alt="" data-celebrate={celebrate}/>
-  {speaking&&<span className="town-waves"><i/><i/><i/></span>}
- </span>:null;
+ const [reacting,setReacting]=useState(false);
+ useEffect(()=>{
+  if(!reacting)return;
+  const timer=window.setTimeout(()=>setReacting(false),900);
+  return()=>window.clearTimeout(timer);
+ },[reacting]);
+ return kind?<button type="button" className="town-companion" data-companion={kind}
+  data-speaking={speaking} data-reacting={reacting}
+  aria-label={t(companionNames[kind])+' · '+t('Delighted reaction')}
+  onClick={()=>setReacting(true)}>
+  <span className="town-companion-ground" aria-hidden="true"/>
+  <span className="town-companion-depth" aria-hidden="true">
+   <img className="town-companion-sprite" src={'/light-town/'+kind+'.webp'} alt="" data-celebrate={celebrate}/>
+  </span>
+  {speaking&&<span className="town-waves" aria-hidden="true"><i/><i/><i/></span>}
+ </button>:null;
 }
 
 export function townRewardLabel(item,language='es'){
@@ -69,10 +82,11 @@ export function TownSegments({value,total,round=false,label}){
 }
 
 export function TownScene({language,kind,places=[],collection=[],placements=[],highlight,built,newPlot,celebrate=false}){
+ const motion=useLightMotion();
  const art=townArt(language);
  const builtLots=built??art.stages.length-1;
  const [companionX,companionY,companionWidth]=art.companion;
- return <div className={'town-scene'+(celebrate?' town-scene-celebrate':'')} style={{'--companion-x':companionX+'%','--companion-y':companionY+'%','--companion-width':companionWidth+'%'}}>
+ return <div ref={motion} className={'town-scene'+(celebrate?' town-scene-celebrate':'')} style={{'--companion-x':companionX+'%','--companion-y':companionY+'%','--companion-width':companionWidth+'%'}}>
   <img key={art.stages[builtLots]} className={'town-scenery'+(newPlot===undefined?'':' town-stage-new')} src={art.stages[builtLots]} alt="" width="1050" height="700"/>
   {places.map((place,i)=><button key={place.id} className="town-building" style={{left:art.pins[i][0]+'%',top:(place.status==='current'&&builtLots===i?art.pins[i][1]+23:art.pins[i][1])+'%'}} data-status={place.status} aria-current={place.status==='current'?'step':undefined} aria-label={place.label} onClick={place.onOpen} disabled={!place.onOpen}>
    {place.status==='current'&&<span className="town-marker-callout" aria-hidden="true">{t('Up next')}</span>}
