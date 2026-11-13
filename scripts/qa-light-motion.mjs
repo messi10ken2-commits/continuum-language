@@ -73,12 +73,13 @@ try{
  const box=await scene.boundingBox();
  await page.mouse.move(box.x+box.width*.8,box.y+box.height*.3);
  await page.waitForFunction(()=>Math.abs(Number(document.querySelector('#town .town-scene').style.getPropertyValue('--light-pointer-x')))>0.1);
- await page.locator('#lesson .town-question-card').scrollIntoViewIfNeeded();
+ await page.locator('#reward').scrollIntoViewIfNeeded();
  await page.waitForFunction(()=>document.querySelector('#town .town-scene').dataset.motion==='off');
  assert.equal(await scene.evaluate(el=>el.style.getPropertyValue('--light-pointer-x')),'');
  const card=page.locator('#lesson .town-question-card');
- const cardBefore=await card.boundingBox();
  const stage=page.locator('#lesson .town-listen-stage');
+ await stage.scrollIntoViewIfNeeded();
+ const cardBefore=await card.boundingBox();
  const stageBox=await stage.boundingBox();
  await page.mouse.move(stageBox.x+stageBox.width*.8,stageBox.y+stageBox.height*.4);
  await page.waitForTimeout(320);
