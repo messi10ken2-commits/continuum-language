@@ -6,7 +6,7 @@ import {createServer} from 'vite';
 import {chromium,webkit} from 'playwright';
 import {getLesson} from '../course.mjs';
 import {lightActivities} from '../light-learning-model.mjs';
-import {loadImmersiveUnit} from '../immersive/loader.mjs';
+import {loadImmersiveUnit,loadImmersivePack} from '../immersive/loader.mjs';
 const directory=new URL('../.media-build/immersive-ui/',import.meta.url);await mkdir(directory,{recursive:true});
 await writeFile(new URL('entry.jsx',directory),`
 import React from 'react';import{createRoot}from'react-dom/client';
@@ -42,6 +42,7 @@ try{
   await context.route('**/api/**',async route=>{
    const request=route.request(),url=new URL(request.url()),path=url.pathname;
    const json=data=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(data)});
+   if(path.startsWith('/api/immersive/content/'))return json({units:await loadImmersivePack(path.split('/').at(-1))});
    if(path.startsWith('/api/immersive/audio/')){audioRequests.push(path);return route.fulfill({status:200,contentType:'audio/wav',headers:{'X-Audio-Source':'AI-generated studio voice'},body:Buffer.from('synthetic-browser-sequencing-fixture')})}
    if(path==='/api/adventure'){adventureRequests.push(url.search);return json({companion:'fox'})}
    if(path.startsWith('/api/learning/light'))return json(path.endsWith('/progress')?{completed:[],placements:[]}:{record:null});
@@ -108,7 +109,9 @@ try{
   assert.equal(await page.locator('.immersive-source > .immersive-reading > p').count(),6);
   await page.locator('.standard-lesson-pane .answers button').nth(getLesson('en-immersive-market-v1-reading').questions[0].answer).click();
   await page.locator('.standard-lesson-pane .question-card > .primary').click();
+  await page.locator('.standard-lesson-pane .feedback.good').waitFor();
   await page.locator('.standard-lesson-pane .question-card > .primary').click();
+  await page.waitForFunction(()=>document.querySelector('.standard-lesson-pane .immersive-source-head span')?.textContent==='Part 2 of 6');
   assert.equal(adventureRequests.length,1,'Standard companion selection is fetched once across consecutive questions');
   await page.locator('.standard-lesson-pane .practice-top select').selectOption('light');
   await page.locator('.light-lesson-pane .immersive-excerpt').waitFor();
@@ -139,4 +142,5 @@ try{
   assert.deepEqual(errors,[]);console.log('PASS '+engineName+': forty native Light stages, failed-load recovery, full six-question save, ordered audio, current dialogue turn, Standard/Light draft preservation, embedded chapter conversation, modal cleanup and Arabic phone layout.');
   await context.close();await browser.close();browser=null;
  }
+}catch(error){if(browser){let i=0;for(const context of browser.contexts())for(const page of context.pages()){await page.screenshot({path:new URL('failure-'+i+'.png',directory).pathname,fullPage:true}).catch(()=>{});await writeFile(new URL('failure-'+i+'.txt',directory),await page.locator('body').innerText().catch(()=>String(error)));i++}}throw error
 }finally{await browser?.close();await server.close();await rm(new URL('entry.jsx',directory),{force:true})}

@@ -69,14 +69,21 @@ generate narration. Playback uses one current roleplay turn, or one/full
 reading/listening recording, with existing cancellation and next-clip lookahead.
 No bulk paid generation was performed during authoring.
 
-Narratives load as separate learning-language chunks. Shared instructional
+Narratives load as separate learning-language chunks. If a browser retains a failed
+module fetch, the explicit retry uses a bounded, cacheable public
+`/api/immersive/content/:language` response with the identical authored pack;
+it does not reload the lesson, expose learner data or call an AI provider. Shared instructional
 questions and evidence are stored once rather than repeated in ten metadata
 packs. For all ten packs, an equivalent UTF-8 metadata representation decreased
 from 1,106,780 to 323,784 bytes; gzip from 297,692 to 101,720 bytes. These are
 representation measurements, not confirmed production bandwidth or operating
 cost savings. The real renderer is a separate lazy chunk (~539 kB raw / 134 kB
-gzip in the local build); runtime performance on physical phones remains to be
-measured.
+gzip in the local build). A same-runtime comparison against the previous
+production source measured the initial JavaScript at 8,514,845 → 8,862,966
+bytes (+4.1%), and Node-default gzip at 2,142,974 → 2,253,408 bytes (+5.2%).
+This is feature overhead, not a load-time improvement. The existing large main
+bundle remains a performance limitation. Physical-phone performance remains
+unmeasured.
 
 Runtime React, React DOM, icon and Vite-plugin versions are pinned to the
 already locked production versions. Playwright 1.62.1 is a pinned development

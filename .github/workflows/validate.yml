@@ -11,6 +11,7 @@ permissions:
   contents: read
 jobs:
   validate:
+    needs: immersion
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -76,4 +77,5 @@ jobs:
           path: |
             .media-build/immersive/*.png
             .media-build/immersive-ui/*.png
+            .media-build/immersive-ui/*.txt
           if-no-files-found: ignore

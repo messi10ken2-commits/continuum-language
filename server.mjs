@@ -1,4 +1,4 @@
-import {handleImmersiveAudio} from './immersive-api.mjs';
+import {handleImmersiveAudio,handleImmersiveContent} from './immersive-api.mjs';
 import {migrateAIMetering,withAIUsage,identifyAIUser} from './ai-metering.mjs';
 import {migrateAIOperations} from './ai-operations.mjs';
 import {migrateLightLearning,handleLightLearning} from './light-learning-api.mjs';
@@ -170,6 +170,7 @@ async function handle(req,res){
  if(await handleSupport({route,req,res,pool,required,json,send,fail,limited}))return;
  await enforcePlatformControls({route,req,pool,currentUser,json,fail});
  if(await handleLightLearning({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleImmersiveContent({route,req,res,send,fail,limited}))return;
  if(await handleImmersiveAudio({route,req,res,pool,send,fail,limited}))return;
  if(await handleBilling({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleLocalization({route,req,res,pool,required,json,send,fail,limited}))return;

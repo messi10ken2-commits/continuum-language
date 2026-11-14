@@ -38,3 +38,13 @@ test('unknown lessons, path manipulation, out-of-range chunks and writes cannot 
 test('new recordings obey the existing administrator studio-audio control',()=>{
  assert.deepEqual(controlledFeatures('/api/immersive/audio/en-immersive-market-v1-reading/reading/0','GET'),['studioAudio']);
 });
+
+import {handleImmersiveContent} from './immersive-api.mjs';
+test('content recovery returns only public authored packs, uses bounded rate limits and does no database or synthesis work',async()=>{
+ const {args,state}=context('/api/immersive/content/ar');
+ args.send=(_res,status,data,headers)=>{state.sent={status,data,headers}};
+ assert.ok(await handleImmersiveContent(args));assert.equal(state.sent.status,200);assert.equal(Object.keys(state.sent.data.units).length,9);
+ assert.equal(state.sent.data.units.market.title,'سوق مناسب لجميع أهل الحي');
+ assert.equal(state.sent.headers['Cache-Control'],'public, max-age=3600');assert.equal(state.calls.length,0);assert.deepEqual(state.limited,[{key:'immersive-content',n:60}]);
+ for(const [route,method,status]of [['/api/immersive/content/__proto__','GET',404],['/api/immersive/content/ar/../../users','GET',404],['/api/immersive/content/en','POST',405]]){const {args}=context(route,{method});await assert.rejects(handleImmersiveContent(args),e=>e.status===status)}
+});

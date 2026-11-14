@@ -15,7 +15,7 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
  const source=question?.immersiveSource||{stage:lesson.immersive.stage,part:0};
  const [allAudio,setAllAudio]=useState(!light);
  useEffect(()=>{let active=true;setUnit(null);setFailed(false);onReady?.(false);
-  loadImmersiveUnit(lesson.language,lesson.immersive.key).then(data=>{if(active){setUnit(data);onReady?.(true)}}).catch(()=>{if(active)setFailed(true)});
+  loadImmersiveUnit(lesson.language,lesson.immersive.key,{retry:retry>0}).then(data=>{if(active){setUnit(data);onReady?.(true)}}).catch(()=>{if(active)setFailed(true)});
   return()=>{active=false;stopSentenceAudio()};
  },[lesson.id,retry]);
  useEffect(()=>{setAllAudio(!light);setLive(false);setSpeaking(false);stopSentenceAudio()},[question?.id,light]);
