@@ -3,15 +3,14 @@ import {loadImmersiveUnit} from './immersive/loader.mjs';
 import {immersiveRecordingPlaylist} from './immersive/audio-playlist.mjs';
 import {t,tf} from './interface-runtime.mjs';
 import SentenceAudio,{stopSentenceAudio} from './SentenceAudio.jsx';
-import {TownCompanion,useLightCompanion} from './LightTown.jsx';
+import {TownCompanion} from './LightTown.jsx';
 import AISpeaking from './AISpeaking.jsx';
 import './immersive.css';
 
 export default function ImmersiveMaterial({lesson,question,user,light=false,suspended=false,celebrate=false,companionKind,onReady}){
  const [unit,setUnit]=useState(null),[failed,setFailed]=useState(false),[retry,setRetry]=useState(0),[speaking,setSpeaking]=useState(false),[live,setLive]=useState(false);
  const dialog=useRef(null);
- const storedKind=useLightCompanion(light?null:user,lesson.language);
- const kind=light?companionKind:storedKind;
+ const kind=companionKind;
  useEffect(()=>{if(live)dialog.current?.showModal();else dialog.current?.close()},[live]);
  const source=question?.immersiveSource||{stage:lesson.immersive.stage,part:0};
  const [allAudio,setAllAudio]=useState(!light);

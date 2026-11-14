@@ -29,7 +29,7 @@ try{
  await server.listen();const base='http://127.0.0.1:'+server.httpServer.address().port+'/__immersive';
  for(const [engineName,engine]of Object.entries({chromium,webkit})){
   browser=await engine.launch({headless:true,args:engineName==='chromium'?['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});
-  const context=await browser.newContext({viewport:{width:390,height:844}}),audioRequests=[],speakingStarts=[],errors=[];
+  const context=await browser.newContext({viewport:{width:390,height:844}}),audioRequests=[],speakingStarts=[],adventureRequests=[],errors=[];
   await context.addInitScript(()=>{
    localStorage.clear();localStorage.setItem('continuumCorrectSound','off');
    window.Audio=class extends EventTarget{
@@ -43,7 +43,7 @@ try{
    const request=route.request(),url=new URL(request.url()),path=url.pathname;
    const json=data=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(data)});
    if(path.startsWith('/api/immersive/audio/')){audioRequests.push(path);return route.fulfill({status:200,contentType:'audio/wav',headers:{'X-Audio-Source':'AI-generated studio voice'},body:Buffer.from('synthetic-browser-sequencing-fixture')})}
-   if(path==='/api/adventure')return json({companion:'fox'});
+   if(path==='/api/adventure'){adventureRequests.push(url.search);return json({companion:'fox'})}
    if(path.startsWith('/api/learning/light'))return json(path.endsWith('/progress')?{completed:[],placements:[]}:{record:null});
    if(path==='/api/speaking/usage')return json({usage:null});
    if(path==='/api/speaking'&&request.method()==='GET')return json({available:true,premium:true,sessions:[]});
@@ -104,11 +104,12 @@ try{
   await page.locator('.immersive-audio .sentence-play').click();await page.waitForTimeout(350);
   assert.deepEqual(audioRequests.splice(0),['/api/immersive/audio/ja-immersive-market-v1-roleplay/roleplay/0']);
   // Standard retains the full source and an independent draft when switching.
-  await page.goto(base+'?language=en&mode=standard');await page.locator('.immersive-reading').first().waitFor();
+  await page.goto(base+'?language=en&mode=standard&live=1');await page.locator('.immersive-reading').first().waitFor();
   assert.equal(await page.locator('.immersive-source > .immersive-reading > p').count(),6);
   await page.locator('.standard-lesson-pane .answers button').nth(getLesson('en-immersive-market-v1-reading').questions[0].answer).click();
   await page.locator('.standard-lesson-pane .question-card > .primary').click();
   await page.locator('.standard-lesson-pane .question-card > .primary').click();
+  assert.equal(adventureRequests.length,1,'Standard companion selection is fetched once across consecutive questions');
   await page.locator('.standard-lesson-pane .practice-top select').selectOption('light');
   await page.locator('.light-lesson-pane .immersive-excerpt').waitFor();
   assert.equal(await page.locator('.light-lesson-pane .immersive-scene').count(),1);
@@ -116,7 +117,7 @@ try{
   await page.locator('.standard-lesson-pane:visible .immersive-source-head span').waitFor();
   assert.equal(await page.locator('.standard-lesson-pane .immersive-source-head span').innerText(),'Part 2 of 6');
   // Live room uses the chapter scenario/level and suspends its underlying scene.
-  await page.goto(base+'?language=en&key=tourism&stage=roleplay&live=1');
+  adventureRequests.length=0;await page.goto(base+'?language=en&key=tourism&stage=roleplay&live=1');
   await page.locator('.immersive-live .outline-button').click();
   const dialog=page.locator('dialog[open]');await dialog.waitFor();
   await dialog.locator('.speaking-setup select').waitFor();assert.equal(await dialog.locator('.speaking-setup select').inputValue(),'B2');assert.ok(await dialog.locator('.speaking-setup select').isDisabled());
@@ -124,6 +125,7 @@ try{
   await dialog.locator('.voice-stage .companion-3d').waitFor();
   assert.equal(speakingStarts.at(-1).scenario,'en-immersive-tourism-v1');assert.equal(speakingStarts.at(-1).language,'en');assert.equal(speakingStarts.at(-1).level,'B2');
   assert.equal(await page.locator('.immersive-scene').getAttribute('inert'),'');
+  assert.equal(adventureRequests.length,1,'Light material reuses the parent companion selection');
   if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('dialog .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-live-room.png',directory).pathname,fullPage:false});
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('dialog')?.open);
