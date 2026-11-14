@@ -54,6 +54,15 @@ try{
    if(path==='/api/localization'){
     const data=request.postDataJSON(),q=getLesson('ar-immersive-market-v1-reading').questions[0];
     const translated=new Map([[q.prompt,'ما الهدف من الاقتراح؟'],[q.options[0],'نقل جميع الأكشاك الاثني عشر إلى الحديقة.'],[q.options[1],'تحويل السوق إلى فعالية مسائية دائمة.'],[q.options[2],'تجربة تمديد ساعات العمل لمدة ستة أسابيع.']]);
+    if(data.locale==='ja'){
+     const archive=getLesson('en-immersive-archives-v1-reading').questions[0];
+     translated.clear();translated.set(archive.prompt,'公開事業では、どの区別を重視すべきですか。');
+     archive.options.forEach((text,i)=>translated.set(text,[
+      '検索しやすくなれば、欠けていた歴史的経験も必ず反映される。',
+      '残された寄贈資料の一部も、デジタル化すれば完全な記録と見なせる。',
+      '検索のしやすさが向上しても、資料がすべての人を等しく代表するとは限らない。'][i]));
+     translated.set(archive.note,'資料へのアクセスと、その資料が誰を代表するかは別の問題です。');
+    }
     return json({translations:data.items.filter(i=>translated.has(i.text)).map(i=>({id:translationKey(i.text,i.language||''),text:translated.get(i.text)}))});
    }
    if(path==='/api/activity/heartbeat'){activityPings.push(request.postDataJSON());return json({ok:true})}
@@ -189,6 +198,7 @@ try{
   await dialog.locator('.speaking-setup select').waitFor();assert.equal(await dialog.locator('.speaking-setup select').inputValue(),'B2');assert.ok(await dialog.locator('.speaking-setup select').isDisabled());
   await dialog.locator('.speaking-consent input').check();await dialog.locator('.speaking-setup > .primary').click();
   await dialog.locator('.voice-stage .companion-3d').waitFor();
+  assert.equal(await dialog.locator('.immersive-live-caption').innerText(),'Which proposal would you support?','current utterance is captioned next to the avatar');
   assert.equal(speakingStarts.at(-1).scenario,'en-immersive-tourism-v1');assert.equal(speakingStarts.at(-1).language,'en');assert.equal(speakingStarts.at(-1).level,'B2');
   assert.equal(await page.locator('.immersive-scene').getAttribute('inert'),'');
   assert.equal(adventureRequests.length,1,'Light material reuses the parent companion selection');
@@ -197,11 +207,16 @@ try{
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('dialog')?.open);
   assert.equal(await page.locator('dialog canvas').count(),0,'closing unmounts the live renderer');
   assert.notEqual(await page.evaluate(()=>document.body.style.overflow),'hidden','closing restores background scrolling');
+  await page.locator('.immersive-live .outline-button').click();
+  await dialog.getByRole('button',{name:'Close live conversation',exact:true}).click();
+  await page.waitForFunction(()=>!document.querySelector('dialog')?.open);
+  assert.equal(await page.locator('dialog canvas').count(),0,'the persistent close control also cleans up');
   await page.goto(base+'?language=en&key=archives&stage=reading&mode=standard&display=ja');
   await page.waitForFunction(()=>document.querySelector('.immersive-reading'));
-  assert.ok((await page.locator('h1').allTextContents()).some(text=>text.includes('デジタル資料館')),'Japanese display translates the English course heading');
+  assert.ok((await page.locator('.study-lesson :is(h1,h2)').allTextContents()).some(text=>text.includes('デジタル資料館')),'Japanese display translates the English course heading');
   assert.ok((await page.locator('.immersive-reading').first().innerText()).includes('archive'),'English learning passage stays English');
-  assert.equal(await page.locator('.study-lesson h1 .lesson-translation').count(),0,'bundled headings need no translation request');
+  assert.equal(await page.locator('.study-lesson :is(h1,h2) .lesson-translation').count(),0,'bundled headings need no translation request');
+  if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('.immersive-scene .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-japanese-heading.png',directory).pathname,fullPage:false});
   await page.goto(base+'?language=ar&display=ar');await page.locator('.immersive-excerpt').waitFor();
   await page.waitForFunction(()=>!document.querySelector('.lesson-translation'));assert.equal((await page.locator('.town-question-card .question-prompt h1').innerText()).trim(),'ما الهدف من الاقتراح؟');assert.equal(await page.locator('html').getAttribute('dir'),'rtl');assert.equal(await page.locator('.immersive-excerpt').getAttribute('dir'),'auto');
