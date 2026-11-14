@@ -45,7 +45,7 @@ export default function SentenceAudio({text,lang='auto',compact=false,presentati
  useEffect(()=>{setStudyPlayback(owner.current,audible);return()=>setStudyPlayback(owner.current,false)},[audible]);
  const release=()=>{clearInterval(playbackWatch.current);playbackWatch.current=null;if(audio.current){audio.current.onended=null;audio.current.onerror=null;audio.current.onplaying=null;audio.current.onwaiting=null;audio.current.onpause=null;audio.current.pause();audio.current.removeAttribute('src');audio.current.load();audio.current=null;}if(objectURL.current){URL.revokeObjectURL(objectURL.current);objectURL.current='';}};
  const stop=()=>{generation.current++;device.current?.stop();device.current=null;request.current?.abort();request.current=null;release();if(active?.owner===owner.current){active=null;}if(mounted.current){setAudible(false);setPlaying(false);setLoading(false);}};
- useEffect(()=>{readyClip.current=null;mounted.current=true;setPlaying(false);setLoading(false);setError('');setSource('');setAttribution(null);setBundled(false);return()=>{mounted.current=false;stop();}},[text,lang,locale,audioEndpoint,playlist]);
+ useEffect(()=>{readyClip.current=null;mounted.current=true;setAudible(false);setPlaying(false);setLoading(false);setError('');setSource('');setAttribution(null);setBundled(false);return()=>{mounted.current=false;stop();}},[text,lang,locale,audioEndpoint,playlist]);
  const play=async()=>{
   if(playing||loading){stop();return;}
   active?.stop();stop();const token=generation.current;active={owner:owner.current,stop};setError('');setSource(defaultSource);setLoading(true);

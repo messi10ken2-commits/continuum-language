@@ -14,7 +14,8 @@ import React from 'react';import{createRoot}from'react-dom/client';
 import LightLesson from '../../LightLesson.jsx';import{LessonPlayer}from'../../SelfStudy.jsx';
 import{LanguageContext}from'../../LanguageContext.jsx';import{getLesson}from'../../course.mjs';
 import{setInterfaceLanguage,bindInterfaceAccount}from'../../interface-runtime.mjs';
-import{useActivityTracker}from'../../LearningActivity.jsx';
+import{useActivityTracker,useStudyActivity}from'../../LearningActivity.jsx';
+import SentenceAudio from '../../SentenceAudio.jsx';
 import '../../styles.css';import '../../features.css';import '../../continuum-ui.css';
 import '../../light-learning.css';import '../../light-motion.css';
 const p=new URLSearchParams(location.search),language=p.get('language')||'en',key=p.get('key')||'market',stage=p.get('stage')||'reading';
@@ -22,7 +23,8 @@ setInterfaceLanguage(p.get('display')||'en',{persist:false});
 const lesson=getLesson(language+'-immersive-'+key+'-v1-'+stage),user=p.has('live')||p.has('display')?{id:'synthetic-immersive-browser',role:'learner'}:null;
 const complete=async result=>({id:'synthetic-completion',...result});
 const props={lesson,language,user,autoStart:true,lightAutoStart:true,initialAnswers:[],onDraft:async()=>{},onComplete:complete,onExit:()=>{},onStandard:()=>{}};
-function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <LanguageContext.Provider value={language}><div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div></LanguageContext.Provider>}
+function AudioSwap(){const[part,setPart]=React.useState(0);useStudyActivity(true);return <section className="audio-swap-fixture"><SentenceAudio text={part?'A different narrated example.':'The first narrated example.'} lang="en-US" audioEndpoint={'/api/immersive/audio/en-immersive-market-v1-reading/reading/'+part}/><button onClick={()=>setPart(1)}>Change narration text</button></section>}
+function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <LanguageContext.Provider value={language}>{p.has('audioSwap')?<AudioSwap/>:<div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div>}</LanguageContext.Provider>}
 createRoot(document.getElementById('root')).render(<App/>);
 `);
 const server=await createServer({configFile:false,optimizeDeps:{entries:[new URL('entry.jsx',directory).pathname]},server:{host:'127.0.0.1',port:0,hmr:false},appType:'custom',plugins:[{name:'immersion-ui',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(!req.url?.startsWith('/__immersive'))return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml(req.url,'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#root{padding:10px 8px 80px}</style></head><body><div id="root"></div><script type="module" src="/.media-build/immersive-ui/entry.jsx"></script></body></html>'))})}}]});
@@ -153,6 +155,17 @@ try{
   await timingPage.locator('.immersive-audio .sentence-play').click();await timingPage.waitForTimeout(40);
   await Promise.all([timingPage.waitForResponse(r=>r.url().endsWith('/api/activity/heartbeat')),timingPage.clock.fastForward(95000)]);
   assert.equal(activityPings.at(-1).active,false,'stopped and idle narration does not inflate study time');
+  // Updating a persistent SentenceAudio source must release its audible owner.
+  await timingPage.goto(base+'?language=en&live=1&audioSwap=1');await timingPage.bringToFront();
+  await timingPage.locator('.audio-swap-fixture .sentence-play').waitFor();
+  await timingPage.evaluate(()=>{window.__holdStudioAudio=true});
+  await timingPage.locator('.audio-swap-fixture .sentence-play').click();
+  await timingPage.waitForFunction(()=>document.querySelector('.audio-swap-fixture .sentence-play')?.getAttribute('aria-label')==='Stop audio');
+  await timingPage.getByRole('button',{name:'Change narration text',exact:true}).click();
+  await timingPage.waitForFunction(()=>document.querySelector('.audio-swap-fixture .sentence-play')?.getAttribute('aria-label')==='Listen to this text');
+  await timingPage.waitForTimeout(40);
+  await Promise.all([timingPage.waitForResponse(r=>r.url().endsWith('/api/activity/heartbeat')),timingPage.clock.fastForward(95000)]);
+  assert.equal(activityPings.at(-1).active,false,'a replaced narration source cannot leave an audible study owner behind');
   await timingPage.close();audioRequests.length=0;
   // Live room uses the chapter scenario/level and suspends its underlying scene.
   adventureRequests.length=0;await page.goto(base+'?language=en&key=tourism&stage=roleplay&live=1');
