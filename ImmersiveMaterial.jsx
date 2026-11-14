@@ -30,12 +30,12 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
  if(!unit)return <div className="immersive-loading" role="status">{t('Loading chapter…')}</div>;
  const text=stage==='roleplay'?unit.questions.roleplay[part]?.sceneLine:unit[stage]?.[part]?.text;
  return <section className={'immersive-material '+(light?'immersive-compact':'')} data-stage={stage} data-scene={lesson.immersive.scene}>
-  <div className="immersive-scene" inert={suspended||live?'':undefined}>
+  <div className="immersive-scene" inert={suspended||live}>
    <span className="immersive-scene-window" aria-hidden="true"/><span className="immersive-scene-shelf" aria-hidden="true"/>
    {kind&&<TownCompanion kind={kind} speaking={speaking} celebrate={celebrate}/>}
    <span className="immersive-scene-table" aria-hidden="true"/>
   </div>
-  <div className="immersive-source" inert={live?'':undefined}>
+  <div className="immersive-source" inert={live}>
    <div className="immersive-source-head"><b>{t(stage==='reading'?'Reading':stage==='listening'?'Listening':'Guided roleplay')}</b><span>{tf('Part {0} of {1}',[part+1,stage==='roleplay'?6:unit[stage].length])}</span></div>
    <p className="immersive-provenance">{t('Original fictional case study · Continuum')}</p>
    {stage==='reading'&&(light?<p className="immersive-excerpt" lang={lesson.locale} dir="auto">{text}</p>:<div className="immersive-reading" tabIndex={0} aria-label={t('Reading passage')} lang={lesson.locale} dir="auto">{unit.reading.map((p,i)=><p key={i} data-current={i===part}><span className="immersive-part-number" aria-hidden="true">{i+1}</span>{p.text}</p>)}</div>)}
