@@ -22,7 +22,18 @@ export function createCompanion(host,kind,state){
  const sun=new T.DirectionalLight(0xffe8cf,2.7);sun.position.set(-3,5,5);scene.add(sun);
  const rim=new T.DirectionalLight(0xded5ff,1.5);rim.position.set(4,3,-2);scene.add(rim);
  const materials=new Map(),geometries=new Set();
- const mat=color=>{if(!materials.has(color))materials.set(color,new T.MeshStandardMaterial({color,roughness:.7,metalness:0}));return materials.get(color)};
+ // A deterministic fine-strand bump texture: no protruding fur shells or downloads.
+ const furCanvas=document.createElement('canvas');furCanvas.width=furCanvas.height=512;
+ const ctx=furCanvas.getContext('2d');ctx.fillStyle='#909090';ctx.fillRect(0,0,512,512);
+ let seed=17;const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};
+ for(let i=0;i<13000;i++){
+  const x=random()*512,y=random()*512,shade=100+Math.floor(random()*70);
+  ctx.strokeStyle=`rgb(${shade},${shade},${shade})`;ctx.lineWidth=.45+random()*.45;
+  ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(x+1,y+3,x-.5,y+6+random()*3);ctx.stroke();
+ }
+ const furTexture=new T.CanvasTexture(furCanvas);furTexture.wrapS=furTexture.wrapT=T.RepeatWrapping;furTexture.repeat.set(3,2);
+
+ const mat=color=>{if(!materials.has(color))materials.set(color,new T.MeshStandardMaterial({color,roughness:[p.fur,p.muzzle,p.ear].includes(color)?.94:.7,metalness:0,...([p.fur,p.muzzle,p.ear].includes(color)?{bumpMap:furTexture,bumpScale:.017}:{})}));return materials.get(color)};
  const sphereGeo=new T.SphereGeometry(1,28,20);geometries.add(sphereGeo);
  const ball=(parent,color,position,scale)=>{
   const mesh=new T.Mesh(sphereGeo,mat(color));mesh.position.set(...position);mesh.scale.set(...scale);parent.add(mesh);return mesh;
@@ -36,27 +47,11 @@ export function createCompanion(host,kind,state){
   const geo=new T.TubeGeometry(curve,24,radius,6,false);geometries.add(geo);
   const mesh=new T.Mesh(geo,mat(color));parent.add(mesh);return mesh;
  };
- // Bounded instancing gives a soft directional coat without textures or fur shells.
- // Shared geometry, deterministic distribution and two fur draw calls per animal.
- const coat=(parent,color,center,scale,count)=>{
-  const geo=new T.SphereGeometry(1,5,4);geometries.add(geo);
-  const mesh=new T.InstancedMesh(geo,mat(color),count),dummy=new T.Object3D(),shade=new T.Color(color);
-  const golden=Math.PI*(3-Math.sqrt(5));
-  for(let i=0;i<count;i++){
-   const y=1-2*(i+.5)/count,r=Math.sqrt(1-y*y),a=i*golden;
-   const normal=new T.Vector3(Math.cos(a)*r/scale[0],y/scale[1],Math.sin(a)*r/scale[2]).normalize();
-   dummy.position.set(center[0]+Math.cos(a)*r*scale[0],center[1]+y*scale[1],center[2]+Math.sin(a)*r*scale[2]);
-   dummy.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),normal);
-   dummy.scale.set(.012,.035+(i%5)*.002,.009);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);
-   mesh.setColorAt(i,shade.clone().multiplyScalar(.88+(i%7)*.035));
-  }
-  parent.add(mesh);
- };
  const root=new T.Group();scene.add(root);
  const body=new T.Group();root.add(body);
  const bird=p.shape==='bird',long=kind==='capybara',small=kind==='guinea-pig';
  const bodyScale=bird?[.5,.66,.4]:small?[.65,.62,.46]:[.57,.69,.43];
- ball(body,p.fur,[0,.76,0],bodyScale);coat(body,p.fur,[0,.76,0],bodyScale,850);
+ ball(body,p.fur,[0,.76,0],bodyScale);
  if(!long)ball(body,p.muzzle,[0,.73,.35],bird?[.36,.43,.13]:[.34,.42,.13]);
  const feet=[-1,1].map(side=>ball(body,p.fur,[side*.38,.14,.22],[.23,.16,.3]));
  const arms=[-1,1].map(side=>{
@@ -65,12 +60,12 @@ export function createCompanion(host,kind,state){
  });
  const head=new T.Group();head.position.set(0,small?1.5:1.62,.04);body.add(head);
  const headScale=long?[.63,.53,.48]:kind==='fox'?[.6,.51,.43]:bird?[.53,.53,.43]:[.6,.54,.46];
- ball(head,p.fur,[0,0,0],headScale);coat(head,p.fur,[0,0,0],headScale,1100);
+ ball(head,p.fur,[0,0,0],headScale);
  const ears=[];
  if(p.shape==='point')for(const side of [-1,1]){
   const ear=cone(head,p.fur,[side*.42,.48,-.03],[.23,.53,.22]);ear.rotation.z=-side*.18;ears.push(ear);
   cone(head,p.ear,[side*.42,.49,.075],[.14,.32,.1]);
- }else if(p.shape==='flop')for(const side of [-1,1]){const ear=ball(head,p.ear,[side*.53,-.04,-.02],[.23,.43,.2]);ears.push(ear);coat(ear,p.ear,[0,0,0],[1,1,1],120);}
+ }else if(p.shape==='flop')for(const side of [-1,1]){const ear=ball(head,p.ear,[side*.53,-.04,-.02],[.23,.43,.2]);ears.push(ear);}
  else if(p.shape!=='bird')for(const side of [-1,1]){
   ball(head,p.shape==='panda'?p.ear:p.fur,[side*.43,long?.4:.43,-.04],long?[.14,.16,.12]:[.2,.21,.15]);
   if(p.shape!=='panda')ball(head,p.ear,[side*.43,long?.41:.44,.075],long?[.085,.09,.035]:[.12,.13,.04]);
@@ -83,9 +78,11 @@ export function createCompanion(host,kind,state){
   if(long){for(const side of [-1,1]){const nostril=ball(head,0x533424,[side*.14,-.015,.724],[.047,.024,.014]);nostril.rotation.z=side*.35;}}
   else ball(head,0x4a3028,[0,-.065,kind==='fox'?.65:.59],[.11,.075,.065]);
  }
+ const smileEyes=[];
  const eyes=[-1,1].map(side=>{
   if(p.shape==='panda'){const patch=ball(head,p.ear,[side*.25,.045,.4],[.19,.23,.08]);patch.rotation.z=side*.25;}
   const eye=new T.Group();eye.position.set(side*.26,.06,p.shape==='bird'?.4:.46);head.add(eye);
+  const smileEye=line(head,0x493229,[[side*(long?.34:.25)-.065,.06,.49],[side*(long?.34:.25),.105,.51],[side*(long?.34:.25)+.065,.06,.49]],.018);smileEye.visible=false;smileEyes.push(smileEye);
   ball(eye,0x27242d,[0,0,0],[.065,.083,.043]);ball(eye,0xfff7e9,[-.02,.03,.058],[.025,.03,.015]);return eye;
  });
  for(const side of [-1,1]){
@@ -93,8 +90,9 @@ export function createCompanion(host,kind,state){
   line(head,0x65432f,[[side*.18,.23,.43],[side*.25,.25,.45],[side*.31,.23,.43]],.018);
   if(kind==='cat')for(let i=0;i<3;i++)line(head,0xeee0ce,[[side*.32,-.2+i*.045,.49],[side*.55,-.22+i*.07,.46],[side*.68,-.2+i*.08,.37]],.006);
  }
- const mouth=ball(head,0x623a42,[0,-.32,p.shape==='bird'?.43:long?.7:.55],[.12,.035,.035]);
+ const mouth=ball(head,0x623a42,[0,-.32,p.shape==='bird'?.43:long?.7:.55],[.11,.09,.035]);
  // Draped triangular bandana, stitched edge, embroidered wheat crest.
+ ball(head,0xe78e8e,[0,-.38,p.shape==='bird'?.46:long?.73:.58],[.065,.035,.012]);
  const scarf=new T.Group();scarf.position.y=1.22;body.add(scarf);
  ball(scarf,0x662963,[0,0,0],[.58,.105,.43]);
  const fabricGeo=new T.BufferGeometry();
@@ -151,14 +149,14 @@ export function createCompanion(host,kind,state){
   ears.forEach((ear,i)=>{ear.rotation.x=reduced?0:Math.sin(t*1.8+i)*.035;});
   if(tail)tail.rotation.z=-.45+(reduced?0:Math.sin(t*(v.speaking?3:1.7))*.1);
   head.rotation.x=reduced?0:targetY*.05+(v.speaking?Math.sin(t*4)*.025:0);
-  const blink=reduced?1:(t%4.4<.14?.12:1);eyes.forEach(e=>e.scale.y=blink);
-  mouth.scale.y=v.speaking&&!reduced?.035*(1+Math.max(.05,v.level||Math.abs(Math.sin(t*10)))*3.7):.035;
+  const blink=reduced?1:(t%4.4<.14?.12:1);eyes.forEach(e=>{e.scale.y=blink;e.visible=!waving});smileEyes.forEach(e=>e.visible=waving);
+  mouth.scale.y=v.speaking&&!reduced?.07*(1+Math.max(.05,v.level||Math.abs(Math.sin(t*10)))*1.1):.09;
   arms.forEach((arm,i)=>{const side=i?1:-1;arm.rotation.z=waving?(i?2.1+Math.sin(t*12)*.22:-.2):side*(.15+(v.speaking&&!reduced?Math.sin(t*2.8)*.08:0))});
   feet.forEach((foot,i)=>foot.rotation.z=waving?(i?1:-1)*.05:0);
   renderer.render(scene,camera);host.dataset.frames=String((Number(host.dataset.frames)||0)+1);
  };
  return {
-  setActive(value,reduce){active=value;reduced=reduce;host.dataset.motion=active&&!reduce?'on':'off';renderer.setAnimationLoop(active&&!reduced?draw:null);if(active&&reduced){root.rotation.set(0,0,0);body.position.y=0;head.rotation.set(0,0,0);eyes.forEach(e=>e.scale.y=1);mouth.scale.y=.035;arms.forEach((a,i)=>a.rotation.z=(i?1:-1)*.15);renderer.render(scene,camera)}},
-  dispose(){if(disposed)return;disposed=true;renderer.setAnimationLoop(null);resize.disconnect();host.removeEventListener('pointermove',pointer);host.removeEventListener('pointerleave',leave);geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
+  setActive(value,reduce){active=value;reduced=reduce;host.dataset.motion=active&&!reduce?'on':'off';renderer.setAnimationLoop(active&&!reduced?draw:null);if(active&&reduced){root.rotation.set(0,0,0);body.position.y=0;head.rotation.set(0,0,0);eyes.forEach(e=>{e.scale.y=1;e.visible=true});smileEyes.forEach(e=>e.visible=false);mouth.scale.y=.09;arms.forEach((a,i)=>a.rotation.z=(i?1:-1)*.15);renderer.render(scene,camera)}},
+  dispose(){if(disposed)return;disposed=true;renderer.setAnimationLoop(null);resize.disconnect();host.removeEventListener('pointermove',pointer);host.removeEventListener('pointerleave',leave);geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());furTexture.dispose();renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
  };
 }

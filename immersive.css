@@ -41,40 +41,40 @@
 .immersive-live-panel::backdrop{background:#271b35aa;backdrop-filter:blur(4px)}
 
 /* Viewport dialog works in mobile Safari without requesting browser fullscreen. */
-.immersive-live-panel{position:fixed;inset:0;width:100%;height:100dvh;max-width:none;max-height:none;margin:0;padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(16px,env(safe-area-inset-left,0px));border:0;border-radius:0;overflow:auto;overscroll-behavior:contain;background:radial-gradient(ellipse at 20% 0,#f6e7c9,transparent 60%),#f8f3eb;color:#39233e}
+.immersive-live-panel,.app.continuum-ui dialog.immersive-live-panel{position:fixed;inset:0;width:100%;height:100dvh;max-width:none;max-height:none;margin:0;padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) env(safe-area-inset-bottom,0px) max(16px,env(safe-area-inset-left,0px));border:0;border-radius:0;overflow:auto;overscroll-behavior:contain;background:radial-gradient(ellipse at 20% 0,#f6e7c9,transparent 60%),#f8f3eb;color:#39233e}
 .immersive-close{position:fixed;inset-block-start:max(12px,env(safe-area-inset-top,0px));inset-inline-end:max(12px,env(safe-area-inset-right,0px));z-index:20;display:grid;place-items:center;width:46px;height:46px;border:1px solid #d2bdd7;border-radius:50%;background:#fffaf4ed;color:#58345f;font-size:30px;line-height:1;box-shadow:0 4px 20px #49334f18;cursor:pointer}
 .immersive-close:focus-visible{outline:3px solid #7f4db2;outline-offset:3px}
-.immersive-speaking{max-width:1360px;min-height:100%;padding:16px 0 24px;box-sizing:border-box}
-.immersive-speaking>.speaking-back{padding-inline-end:60px;min-height:44px}
-.immersive-speaking>.page-intro{max-width:760px;margin:20px auto}
-.immersive-speaking>.speaking-setup{max-width:760px;margin:24px auto}
-.immersive-speaking .conversation-room{padding:12px 0!important;margin:0;background:transparent;border:0;box-shadow:none}
-.immersive-speaking .speaking-session-head{padding-inline-end:50px;gap:8px}
-.immersive-speaking .speaking-session-head h2{font-size:clamp(20px,3vw,30px);margin:6px 0;line-height:1.4;overflow-wrap:anywhere}
-.immersive-speaking .conversation-live-layout.with-avatar{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
-.immersive-speaking .voice-stage{position:relative;isolation:isolate;overflow:hidden;min-height:62dvh;padding:18px 22px 20px;box-sizing:border-box;gap:12px;background:radial-gradient(ellipse at 50% 25%,#fff2d8aa,transparent 65%),linear-gradient(155deg,#ead1ae,#bacbbd);border:1px solid #c7b89d;border-radius:30px;box-shadow:inset 0 0 70px #87684925,0 12px 40px #6f4d3f12}
-.immersive-speaking .voice-stage::before{content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(0deg,#4c352f60,transparent 50%),var(--immersion-world) center/cover;opacity:.24;filter:blur(2px);pointer-events:none}
-.immersive-speaking .voice-stage .companion-3d{height:clamp(280px,43dvh,540px);width:100%;max-width:520px;flex:none;margin:0 auto}
-.immersive-speaking .voice-stage .town-companion-sprite{width:100%;height:100%;object-fit:contain}
-.immersive-speaking .immersive-voice-status{margin:0;font-size:14px;font-weight:700;padding:6px 16px;border-radius:30px;background:#fffaf1df;color:#583b62}
-.immersive-speaking[data-voice-state=listening] .immersive-voice-status{background:#e9f9ec;color:#245c3b}
-.immersive-speaking .voice-stage .voice-flow-note{max-width:480px;color:#49394a}
-.immersive-speaking .voice-preferences{max-width:480px}
-.immersive-speaking .voice-stage>small{color:#59465f}
-.immersive-speaking .voice-main-button{max-width:480px;min-height:54px;border-radius:28px;box-shadow:0 5px 15px #62467325}
-.immersive-speaking .conversation-chat .conversation-thread{max-height:65dvh;min-height:250px;scrollbar-gutter:stable;padding:12px 8px}
-.immersive-speaking .conversation-message{background:#ffffffdc;border:1px solid #dfd1df;box-shadow:0 3px 12px #39233e08}
-.immersive-speaking .conversation-message.user{background:#70528f;border-color:#70528f}
-.immersive-speaking .conversation-bottom{margin-top:18px}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking){max-width:1360px;min-height:100%;padding:16px 0 24px;box-sizing:border-box}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking)>.speaking-back{padding-inline-end:60px;min-height:44px}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking)>.page-intro{max-width:760px;margin:20px auto}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking)>.speaking-setup{max-width:760px;margin:24px auto}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .conversation-room{padding:12px 0!important;margin:0;background:transparent;border:0;box-shadow:none}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .speaking-session-head{padding-inline-end:50px;gap:8px}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .speaking-session-head h2{font-size:clamp(20px,3vw,30px);margin:6px 0;line-height:1.4;overflow-wrap:anywhere}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .conversation-live-layout.with-avatar{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-stage{position:relative;isolation:isolate;overflow:hidden;min-height:62dvh;padding:18px 22px 20px;box-sizing:border-box;gap:12px;background:radial-gradient(ellipse at 50% 25%,#fff2d8aa,transparent 65%),linear-gradient(155deg,#ead1ae,#bacbbd);border:1px solid #c7b89d;border-radius:30px;box-shadow:inset 0 0 70px #87684925,0 12px 40px #6f4d3f12}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-stage::before{content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(0deg,#4c352f60,transparent 50%),var(--immersion-world) center/cover;opacity:.24;filter:blur(2px);pointer-events:none}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-stage .companion-3d{height:clamp(280px,43dvh,540px);width:100%;max-width:520px;flex:none;margin:0 auto}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-stage .town-companion-sprite{width:100%;height:100%;object-fit:contain}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .immersive-voice-status{margin:0;font-size:14px;font-weight:700;padding:6px 16px;border-radius:30px;background:#fffaf1df;color:#583b62}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking)[data-voice-state=listening] .immersive-voice-status{background:#e9f9ec;color:#245c3b}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-stage .voice-flow-note{max-width:480px;color:#49394a}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-preferences{max-width:480px}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-stage>small{color:#59465f}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-main-button{max-width:480px;min-height:54px;border-radius:28px;box-shadow:0 5px 15px #62467325}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .conversation-chat .conversation-thread{max-height:65dvh;min-height:250px;scrollbar-gutter:stable;padding:12px 8px}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .conversation-message{background:#ffffffdc;border:1px solid #dfd1df;box-shadow:0 3px 12px #39233e08}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .conversation-message.user{background:#70528f;border-color:#70528f}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .conversation-bottom{margin-top:18px}
 @media(max-width:760px){
- .immersive-speaking .conversation-live-layout.with-avatar{grid-template-columns:minmax(0,1fr);gap:12px}
- .immersive-speaking .voice-stage{min-height:0;padding:12px 14px 16px;border-radius:24px}
- .immersive-speaking .voice-stage .companion-3d{height:clamp(230px,37dvh,420px)}
- .immersive-speaking .speaking-session-head{padding-inline-end:0}
- .immersive-speaking .speaking-session-head h2{font-size:21px}
- .immersive-speaking .conversation-chat .conversation-thread{max-height:32dvh;min-height:130px}
- .immersive-speaking .conversation-modes{margin:12px 0}
- .immersive-speaking .voice-stage .voice-flow-note{font-size:12px}
- .immersive-speaking .voice-preferences{gap:10px}
+ :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .conversation-live-layout.with-avatar{grid-template-columns:minmax(0,1fr);gap:12px}
+ :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-stage{min-height:0;padding:12px 14px 16px;border-radius:24px}
+ :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-stage .companion-3d{height:clamp(230px,37dvh,420px)}
+ :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .speaking-session-head{padding-inline-end:0}
+ :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .speaking-session-head h2{font-size:21px}
+ :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .conversation-chat .conversation-thread{max-height:32dvh;min-height:130px}
+ :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .conversation-modes{margin:12px 0}
+ :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-stage .voice-flow-note{font-size:12px}
+ :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .voice-preferences{gap:10px}
 }
-@media(prefers-reduced-motion:reduce){.immersive-speaking *{scroll-behavior:auto!important}}
+@media(prefers-reduced-motion:reduce){:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) *{scroll-behavior:auto!important}}

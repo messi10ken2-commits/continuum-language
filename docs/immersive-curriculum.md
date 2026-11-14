@@ -140,11 +140,10 @@ Escape/focus restoration. Voice, text, consent, budgets and reviews remain in
 the same conversation system. Closing unmounts the voice loop and 3D renderer.
 Per-language world backdrops are local assets.
 
-The procedural models now have species-specific anatomy, a bounded instanced
-coat, stitched triangular bandana with gold crest, leather backpack and rolled
+The procedural models now have species-specific anatomy, a shared procedural fine-strand
+bump texture, stitched triangular bandana with gold crest, leather backpack and rolled
 bedding. They are an approximation of the approved illustrated companions,
 not scans or an exact reproduction. Head/ear/tail motion supplements breathing,
-blinks, greetings and audio-driven mouth movement. Fur uses two principal
-instanced draw calls per animal; hidden/inert scenes pause and reduced-motion
+blinks, greetings and audio-driven mouth movement. Fur adds no extra meshes or model downloads; hidden/inert scenes pause and reduced-motion
 users receive a static frame. No model-generation service or extra API call is
 introduced. Physical low-end mobile GPU performance remains unmeasured.

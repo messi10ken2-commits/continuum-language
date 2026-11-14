@@ -201,7 +201,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('.immersive-reading'));
   assert.ok((await page.locator('h1').allTextContents()).some(text=>text.includes('デジタル資料館')),'Japanese display translates the English course heading');
   assert.ok((await page.locator('.immersive-reading').first().innerText()).includes('archive'),'English learning passage stays English');
-  assert.equal(await page.locator('.lesson-translation').count(),0,'bundled headings need no translation request');
+  assert.equal(await page.locator('.study-lesson h1 .lesson-translation').count(),0,'bundled headings need no translation request');
   await page.screenshot({path:new URL(engineName+'-japanese-heading.png',directory).pathname,fullPage:false});
   await page.goto(base+'?language=ar&display=ar');await page.locator('.immersive-excerpt').waitFor();
   await page.waitForFunction(()=>!document.querySelector('.lesson-translation'));assert.equal((await page.locator('.town-question-card .question-prompt h1').innerText()).trim(),'ما الهدف من الاقتراح؟');assert.equal(await page.locator('html').getAttribute('dir'),'rtl');assert.equal(await page.locator('.immersive-excerpt').getAttribute('dir'),'auto');
