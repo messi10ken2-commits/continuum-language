@@ -213,9 +213,9 @@ try{
   assert.equal(await page.locator('dialog canvas').count(),0,'the persistent close control also cleans up');
   await page.goto(base+'?language=en&key=archives&stage=reading&mode=standard&display=ja');
   await page.waitForFunction(()=>document.querySelector('.immersive-reading'));
-  assert.ok((await page.locator('.study-lesson :is(h1,h2)').allTextContents()).some(text=>text.includes('デジタル資料館')),'Japanese display translates the English course heading');
+  assert.ok((await page.locator('.lesson-context > b').innerText()).includes('デジタル資料館'),'Japanese display translates the English course heading');
   assert.ok((await page.locator('.immersive-reading').first().innerText()).includes('archive'),'English learning passage stays English');
-  assert.equal(await page.locator('.study-lesson :is(h1,h2) .lesson-translation').count(),0,'bundled headings need no translation request');
+  assert.equal(await page.locator('.lesson-context .lesson-translation').count(),0,'bundled headings need no translation request');
   if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('.immersive-scene .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-japanese-heading.png',directory).pathname,fullPage:false});
   await page.goto(base+'?language=ar&display=ar');await page.locator('.immersive-excerpt').waitFor();

@@ -1,3 +1,4 @@
+import {townArt} from './light-town-art.mjs';
 import Companion3D from './Companion3D.jsx';
 import './companion-3d.css';
 import AIAllowance,{aiRequestKey,clearAIRequestKey,notifyAIAllowance} from './AIAllowance.jsx';
@@ -69,7 +70,7 @@ export default function AISpeaking({language,user,onBack,initialScenario,initial
  const current=scenarioById(session?.scenario||scenario),partner=conversationPartner(session?.language||language,session?.scenario||scenario);
  const toList=()=>{resetVoice();setSession(null);sessionRef.current=null;setText('');setError('')};
  const consentBox=<label className="speaking-consent"><input type="checkbox" checked={consent} disabled={busy||voiceActive} onChange={e=>setConsent(e.target.checked)}/><span>{t('I agree to send my conversation and submitted recordings to the configured AI provider (Gemini or OpenAI) for replies and feedback. Transcripts and reviews are saved to my account; raw recordings are not stored in conversation history.')} {t('Audio-based pronunciation scores are saved with your conversation.')}</span></label>;
- return <div ref={container} className={'ai-speaking '+(embedded?'immersive-speaking ':'')+(session?'in-conversation':'')} data-voice-state={voiceState} style={embedded?{'--immersion-world':`url('/light-town/regions/${language}-town.webp')`}:undefined}>
+ return <div ref={container} className={'ai-speaking '+(embedded?'immersive-speaking ':'')+(session?'in-conversation':'')} data-voice-state={voiceState} style={embedded?{'--immersion-world':`url('${townArt(language).stages.at(-1)}')`}:undefined}>
   <AIAllowance bucket="conversation" user={user}/>
   <button className="text-button speaking-back" disabled={busy} onClick={()=>{resetVoice();onBack()}}><ArrowLeft size={17}/>{t('Back to learning path')}</button>
   {!session&&<section className="page-intro"><span className="eyebrow">{t('AI CONVERSATION')}</span><h1>{t('Speak in real-life situations')}</h1><p>{t('A short conversation. A useful review. A clearer next step.')}</p><p>{t('Free: one conversation per day, up to 7 minutes. All scenarios are available. Pauses and provider waits do not count. Daily allowance resets at 00:00 UTC.')}</p></section>}
