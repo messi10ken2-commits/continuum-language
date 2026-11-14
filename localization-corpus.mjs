@@ -1,3 +1,4 @@
+import {immersiveScenarios} from './immersive-course.mjs';
 import {isInstructionalExample} from './lesson-copy-roles.mjs';
 import supplementalLessonSources from './supplemental-lesson-sources.json' with {type:'json'};
 import {localizationLessons} from './lesson-localization-catalog.mjs';
@@ -48,7 +49,7 @@ for(const text of ['View lesson history','Learning tools','Review your learning 
 for(const source of assessmentDisplaySources)add(source.text,source.language,source.protectedValues);
 for(const text of feedbackTemplates)add(text.trim());
 for(const level of levels){add(level.name);add(level.description);}
-for(const s of speakingScenarios){add(s.title);for(const goal of s.goals)add(goal);}
+for(const s of [...speakingScenarios,...immersiveScenarios]){add(s.title);for(const goal of s.goals)add(goal);}
 for(const l of localizationLessons){
  lessonContext=l.level+' '+l.language+' lesson: '+l.title;
  add(l.title);

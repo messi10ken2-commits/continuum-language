@@ -30,7 +30,7 @@ async function studioClip(part,signal,endpoint=null){
  let attribution=null;try{const raw=r.headers.get('X-Audio-Attribution');if(raw)attribution=JSON.parse(decodeURIComponent(raw));}catch{/* Source metadata must not prevent playback. */}
  const clip={blob,attribution,bundled:r.headers.get('X-Audio-Delivery')==='bundled',source:r.headers.get('X-Audio-Source')==='Human recording'?'Human recording':'AI studio voice'};if(!endpoint){clips.set(key,clip);cacheBytes+=blob.size;}return clip;
 }
-export default function SentenceAudio({text,lang='auto',compact=false,presentation,onPlayed,onPlaybackChange,audioEndpoint=null,allowDeviceFallback=true}){
+export default function SentenceAudio({text,lang='auto',compact=false,presentation,playlist,onPlayed,onPlaybackChange,audioEndpoint=null,allowDeviceFallback=true}){
  const language=useContext(LanguageContext),locale=languageInfo(language).locale;
  const humanWord=nativeWordEntry(text,lang==='auto'?locale:lang)||publicHumanRecording(text,lang==='auto'?locale:lang);
  const defaultSource=humanWord||nativeKanaKey(text,lang==='auto'?locale:lang)?'Human recording':'AI studio voice';
@@ -43,13 +43,13 @@ export default function SentenceAudio({text,lang='auto',compact=false,presentati
  const owner=useRef({}),mounted=useRef(true),audio=useRef(null),request=useRef(null),objectURL=useRef(''),playbackWatch=useRef(null),generation=useRef(0),speed=useRef(1);
  const release=()=>{clearInterval(playbackWatch.current);playbackWatch.current=null;if(audio.current){audio.current.onended=null;audio.current.onerror=null;audio.current.onplaying=null;audio.current.onwaiting=null;audio.current.onpause=null;audio.current.pause();audio.current.removeAttribute('src');audio.current.load();audio.current=null;}if(objectURL.current){URL.revokeObjectURL(objectURL.current);objectURL.current='';}};
  const stop=()=>{generation.current++;device.current?.stop();device.current=null;request.current?.abort();request.current=null;release();if(active?.owner===owner.current){active=null;}if(mounted.current){setAudible(false);setPlaying(false);setLoading(false);}};
- useEffect(()=>{readyClip.current=null;mounted.current=true;setPlaying(false);setLoading(false);setError('');setSource('');setAttribution(null);setBundled(false);return()=>{mounted.current=false;stop();}},[text,lang,locale,audioEndpoint]);
+ useEffect(()=>{readyClip.current=null;mounted.current=true;setPlaying(false);setLoading(false);setError('');setSource('');setAttribution(null);setBundled(false);return()=>{mounted.current=false;stop();}},[text,lang,locale,audioEndpoint,playlist]);
  const play=async()=>{
   if(playing||loading){stop();return;}
   active?.stop();stop();const token=generation.current;active={owner:owner.current,stop};setError('');setSource(defaultSource);setLoading(true);
   request.current=new AbortController();const signal=request.current.signal;
-  const parts=speechParts(text,lang,locale).filter(p=>p.text.trim());let queued=readyClip.current;readyClip.current=null;let index=queued?.index||0,started=queued?.started||false;
-  const preparedClip=audioLookahead(parts,(part,signal)=>studioClip(part,signal,audioEndpoint),signal);
+  const parts=(playlist||speechParts(text,lang,locale)).filter(p=>p.text.trim());let queued=readyClip.current;readyClip.current=null;let index=queued?.index||0,started=queued?.started||false;
+  const preparedClip=audioLookahead(parts,(part,signal)=>studioClip(part,signal,part.endpoint||audioEndpoint),signal);
   const next=async()=>{if(!mounted.current||token!==generation.current)return;
    setAudible(false);release();if(index>=parts.length){setPlaying(false);setLoading(false);if(active?.owner===owner.current)active=null;return;}
    setLoading(true);let lastClip;

@@ -1,6 +1,6 @@
 import {chapters,lessonList,levels} from './course.mjs';
 import {lightActivities,lightRoundCount,priorLightVersion} from './light-learning-model.mjs';
-export function lightRoute(language,level){return chapters.filter(c=>(c.language||'es')===language&&!c.legacy&&(!level||c.level===level)).flatMap(c=>lessonList.filter(l=>l.chapter===c.id&&(l.language||'es')===language&&!l.checkpoint&&!l.summaryTest&&lightRoundCount(l)).map(lesson=>({lesson,chapter:c,legacyRounds:lightRoundCount(lesson)}))).sort((a,b)=>levels.findIndex(l=>l.id===a.lesson.level)-levels.findIndex(l=>l.id===b.lesson.level));}
+export function lightRoute(language,level){return chapters.filter(c=>(c.language||'es')===language&&!c.legacy&&(!level||c.level===level)).flatMap(c=>lessonList.filter(l=>l.chapter===c.id&&(l.language||'es')===language&&(!l.checkpoint||l.immersive)&&!l.summaryTest&&lightRoundCount(l)).map(lesson=>({lesson,chapter:c,legacyRounds:lightRoundCount(lesson)}))).sort((a,b)=>levels.findIndex(l=>l.id===a.lesson.level)-levels.findIndex(l=>l.id===b.lesson.level));}
 // Old rounds remain reward events. Only a full legacy lesson or a new pass
 // advances the lesson path, and a replay cannot earn a second lesson reward.
 export function lightProgressEvidence(route,completed){

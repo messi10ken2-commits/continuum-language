@@ -69,7 +69,7 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
   <TownOpening><TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements} built={buildings.length}/></TownOpening>
   <div className="town-paper town-mission">
    {mission?<><h2><Feather aria-hidden="true"/><LessonText text={mission.lesson.title} language={language}/></h2>
-   <div className="town-mission-meta"><Clock size={16}/>{tf('{0} questions · about 2 min',[lightActivities(mission.lesson,0,lightLessonVersion).length])}</div>
+   <div className="town-mission-meta"><Clock size={16}/>{tf(mission.lesson.immersive?'{0} questions · short source windows':'{0} questions · about 2 min',[lightActivities(mission.lesson,0,lightLessonVersion).length])}</div>
    <p><LessonText text={chapter.goal} language={language}/></p>
    <p className="town-building-note">{t('Pass a lesson to build a new place.')}</p>
    <button className="primary wide town-cta" onClick={()=>onStart(pending.lesson.id)}><Play size={20} fill="currentColor"/>{t('Continue Light')}<ArrowRight size={19}/></button></>:<h2><LessonText text={chapter.title} language={language}/></h2>}

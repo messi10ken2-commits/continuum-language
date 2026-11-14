@@ -1,3 +1,4 @@
+import {immersiveChapters,immersiveLessons} from './immersive-course.mjs';
 import {expandedVideoChapters,expandedVideoLessons,archivedExpandedVideoLessons} from './expanded-video-course.mjs';
 import {expandedVisualChapters,expandedVisualLessons,expandedVisualTransfer} from './expanded-visual-course.mjs';
 import {expandedChapters,expandedLessons,expandedTransfer} from './expanded-language-catalog.mjs';
@@ -168,6 +169,14 @@ chapters.push(...expandedChapters,...expandedSoundChapters,...expandedScriptChap
 lessonList.push(...expandedLessons,...expandedSoundLessons,...expandedScriptLessons,...expandedVisualLessons);
 chapters.push(...expandedVideoChapters);
 lessonList.push(...expandedVideoLessons);
+// Add new chapters before each existing level review without changing saved IDs.
+for(const chapter of immersiveChapters){
+ const summary=chapters.findIndex(c=>(c.language||'es')===chapter.language&&c.level===chapter.level&&c.summaryTest);
+ chapters.splice(summary<0?chapters.length:summary,0,chapter);
+ const units=immersiveLessons.filter(l=>l.chapter===chapter.id);
+ const index=lessonList.findIndex(l=>(l.language||'es')===chapter.language&&l.level===chapter.level&&l.summaryTest);
+ lessonList.splice(index<0?lessonList.length:index,0,...units);
+}
 enrichEverydayLessons(lessonList);
 export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id)||archivedExpandedVideoLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';

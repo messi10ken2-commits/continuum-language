@@ -1,3 +1,4 @@
+import ImmersiveMaterial from './ImmersiveMaterial.jsx';
 import {useLightMotion} from './light-motion.mjs';
 import LessonMilestone from './LessonMilestone.jsx';
 import {feedbackSoundEnabled,playCorrectSound,prepareFeedbackSound} from './feedback-sound.mjs';
@@ -48,6 +49,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  const [record,setRecord]=useState(null),[state,setState]=useState(()=>blank()),[ready,setReady]=useState(false),[phase,setPhase]=useState('intro'),[busy,setBusy]=useState(false),[error,setError]=useState(''),[retry,setRetry]=useState(0);
  const activities=useMemo(()=>lightActivities(lesson,0,state.version),[lesson,state.version]);
  const kind=useLightCompanion(user,language);
+ const [materialReady,setMaterialReady]=useState(!lesson.immersive);
  const [speaking,setSpeaking]=useState(false),[reward,setReward]=useState(null);
  const [rewardRetry,setRewardRetry]=useState(0);
  const [finishedHere,setFinishedHere]=useState(false);
@@ -180,16 +182,16 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   <section className="light-game-board" tabIndex={-1} aria-label={t('Practice question')}>
    <div className="light-task-heading"><span className="town-combo-chip" data-active={combo>=3}><Flame size={18}/>{tf('Combo ×{0}',[combo])}</span><button className="light-tip" aria-label={t('Show a hint')} disabled={busy||state.hint} onClick={()=>setState(s=>({...s,hint:true}))}><Lightbulb size={21}/></button></div>
    <h1 className="town-lesson-heading">{spokenText(a)&&<Headphones size={24} aria-hidden="true"/>}{title}</h1>
-   <TownLessonStage key={'stage:'+a.id} activity={a} lesson={lesson} language={language} kind={kind} speaking={speaking} celebrate={state.checked&&good} onPlaybackChange={setSpeaking}/>
+   {lesson.immersive?<ImmersiveMaterial key={'material:'+lesson.id} lesson={lesson} question={a.question} user={user} light suspended={suspended} celebrate={state.checked&&good} onReady={setMaterialReady}/>:<TownLessonStage key={'stage:'+a.id} activity={a} lesson={lesson} language={language} kind={kind} speaking={speaking} celebrate={state.checked&&good} onPlaybackChange={setSpeaking}/>}
    <div className="town-paper town-question-card" key={'question:'+a.id} data-feedback={state.checked?(good?'correct':'retry'):'idle'}>
    <LightChallengePrompt activity={a} lesson={lesson} language={language} checked={state.checked}/>
-   {a.type==='build'?<div className="word-builder"><div className="light-answer-slots" aria-live="polite" lang={a.locale||locale} dir="auto">{state.choice?.length?state.choice.map((index,i)=><button key={i} disabled={busy||state.checked} onClick={()=>choose(state.choice.filter((_,j)=>j!==i))}>{a.tokens[index]}</button>):<span>{t('Tap the word tiles')}</span>}</div><div className="word-builder-tiles" dir="auto">{a.tokens.map((token,i)=><button key={i} lang={a.locale||locale} disabled={busy||state.checked||state.choice?.includes(i)} onClick={()=>choose([...(state.choice||[]),i])}>{token}</button>)}</div><button className="text-button" disabled={busy||state.checked||!state.choice?.length} onClick={()=>choose(null)}>{t('Clear')}</button></div>:
-   <div className="light-game-choices">{a.options.map((value,i)=><button key={i} aria-pressed={state.choice===value} disabled={busy||state.checked} className={state.choice===value?'selected':''} onClick={()=>choose(value)}><span className="light-choice-letter">{String.fromCharCode(65+i)}</span>{a.optionsNative||a.type==='meaning'&&a.meaningNative?<span lang={a.locale||locale} dir="auto">{value}</span>:<LessonText text={value} language={language} interactive={false}/>}</button>)}</div>}
+   {a.type==='build'?<div className="word-builder"><div className="light-answer-slots" aria-live="polite" lang={a.locale||locale} dir="auto">{state.choice?.length?state.choice.map((index,i)=><button key={i} disabled={busy||state.checked||!materialReady} onClick={()=>choose(state.choice.filter((_,j)=>j!==i))}>{a.tokens[index]}</button>):<span>{t('Tap the word tiles')}</span>}</div><div className="word-builder-tiles" dir="auto">{a.tokens.map((token,i)=><button key={i} lang={a.locale||locale} disabled={busy||state.checked||state.choice?.includes(i)} onClick={()=>choose([...(state.choice||[]),i])}>{token}</button>)}</div><button className="text-button" disabled={busy||state.checked||!state.choice?.length} onClick={()=>choose(null)}>{t('Clear')}</button></div>:
+   <div className="light-game-choices">{a.options.map((value,i)=><button key={i} aria-pressed={state.choice===value} disabled={busy||state.checked||!materialReady} className={state.choice===value?'selected':''} onClick={()=>choose(value)}><span className="light-choice-letter">{String.fromCharCode(65+i)}</span>{a.optionsNative||a.type==='meaning'&&a.meaningNative?<span lang={a.locale||locale} dir="auto">{value}</span>:<LessonText text={value} language={language} interactive={false}/>}</button>)}</div>}
    {state.hint&&<div role="note" className="light-game-hint"><Lightbulb size={18}/><span>{a.type==='build'&&a.tokens.length>2?tf('Start with: {0}',[a.model.split(a.joiner||'')[0]]):t(a.question?'Look at the subject and the situation.':'Think about the whole meaning, not just one word.')}</span></div>}
    <div className={'light-game-footer '+(state.checked?good?'is-correct':'is-retry':'')}>
     {state.checked&&<div className="light-game-feedback" role="status"><CheckCircle2 size={24}/><div><strong>{t(good?'Nice work!':'No rush. Try once more.')}</strong>{good?<><p>{combo>1?tf('{0} in a row!',[combo]):t('You’ve got this!')}</p></>:<p>{t('Use a hint and give it another go.')}</p>}</div></div>}
     {state.checked&&<LightAnswerDetails activity={a} language={language}/>}
-    <button className="primary wide town-cta" disabled={busy||!state.checked&&(state.choice===null||a.type==='build'&&state.choice.length!==a.tokens.length)} onClick={state.checked&&good?next:check}>{t(busy?'Saving…':state.checked?good?'Keep going':'Try again':'Check answer')}<ArrowRight size={19}/></button>
+    <button className="primary wide town-cta" disabled={busy||!materialReady||!state.checked&&(state.choice===null||a.type==='build'&&state.choice.length!==a.tokens.length)} onClick={state.checked&&good?next:check}>{t(busy?'Saving…':state.checked?good?'Keep going':'Try again':'Check answer')}<ArrowRight size={19}/></button>
    </div>
    </div>
   </section>}

@@ -1,0 +1,41 @@
+.immersive-material{border:1px solid #d8c8df;border-radius:20px;overflow:hidden;background:#fffaf2;margin:12px 0 20px;color:#382640;isolation:isolate}
+.immersive-scene{position:relative;min-height:210px;height:clamp(200px,30vw,300px);overflow:hidden;display:grid;place-items:end center;background:linear-gradient(90deg,#ddd0b9 0 2%,transparent 2% 98%,#ddd0b9 98%),linear-gradient(160deg,#f4ddbb,#dfcfbd 65%,#b49b91)}
+.immersive-scene-window{position:absolute;right:9%;top:12%;width:27%;height:65%;border:9px solid #a87c55;border-radius:60px 60px 8px 8px;background:linear-gradient(105deg,transparent 47%,#b58a61 48% 52%,transparent 53%),linear-gradient(#abd5da,#e5ecd5 70%,#94ad89 71%);box-shadow:0 5px 20px #7d5f3d30}
+.immersive-scene-shelf{position:absolute;left:8%;top:24%;width:20%;height:44%;border-block:9px solid #a28065;background:repeating-linear-gradient(90deg,#85758a 0 12%,#d5b08b 12% 18%,#8d9c8d 18% 30%,#c99d86 30% 38%);box-shadow:0 12px 20px #473b4520}
+.immersive-scene>.town-companion{width:clamp(160px,33vw,255px);height:92%;aspect-ratio:auto;position:relative;bottom:-4%;z-index:2;filter:none}
+.immersive-scene .town-companion-depth{height:100%;width:100%}
+.immersive-scene-table{position:absolute;bottom:-15px;left:0;right:0;height:27px;border-radius:50% 50% 0 0;background:linear-gradient(#b88c65,#96735b);z-index:3;box-shadow:0 -5px 15px #503b4b15;pointer-events:none}
+.immersive-source{padding:16px clamp(14px,3vw,28px)}
+.immersive-source-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px}
+.immersive-source-head b{color:#714579;font-size:17px}
+.immersive-provenance{font-size:12px;opacity:.75;margin:6px 0 12px}
+.immersive-reading{max-height:52vh;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;padding-inline-end:12px;line-height:1.9;white-space:normal}
+.immersive-reading:focus-visible{outline:3px solid #a27cbf;outline-offset:3px}
+.immersive-reading p{font-size:clamp(16px,1.5vw,18px);line-height:1.9;margin:0 0 20px}
+.immersive-reading p[data-current=true]{border-inline-start:3px solid #ba94bb;padding-inline-start:12px}
+.immersive-part-number{display:block;font-size:12px;color:#7d657e;font-weight:800}
+.immersive-excerpt,.immersive-dialogue-line{font-size:clamp(16px,3.8vw,19px);line-height:1.8;white-space:pre-line;overflow-wrap:anywhere}
+.immersive-dialogue-line{padding:16px;border-radius:18px 18px 18px 3px;background:#eee3ef}
+.immersive-audio{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0}
+.immersive-reference{border-top:1px solid #ded1df;padding-top:12px;margin-top:14px}
+.immersive-source summary{cursor:pointer;min-height:40px;display:list-item;font-weight:700;padding:8px 0}
+.immersive-source h3{font-size:17px}
+.immersive-live{margin-top:14px;padding-top:12px;border-top:1px solid #ded1df}
+.immersive-live>p{font-size:14px;line-height:1.7}
+.immersive-live-panel{border:1px solid #d7c4dd;border-radius:16px;padding:12px;margin-top:14px}
+.immersive-live-panel .speaking-scenarios,.immersive-live-panel .learning-log-group{display:none}
+.immersive-live-panel .voice-stage .companion-3d{height:270px;width:min(100%,310px);margin:auto}
+.immersive-live-panel .voice-stage{background:linear-gradient(145deg,#ead6bc,#f5e8d5);border-radius:18px}
+.immersive-loading,.immersive-material-error{padding:24px;text-align:center;min-height:100px}
+.immersive-compact{margin:5px 8px 10px}
+.immersive-compact .immersive-scene{height:170px;min-height:170px}
+.immersive-compact .immersive-scene>.town-companion{width:185px;height:170px}
+.immersive-compact .immersive-reading{max-height:44vh}
+.immersive-compact .immersive-source{padding:12px 14px}
+.immersive-material[data-scene=market] .immersive-scene{background:linear-gradient(90deg,#e1bd7a10,#f0e4bf),linear-gradient(#e5d9bd,#adba9c)}
+.immersive-material[data-scene=work] .immersive-scene{background:linear-gradient(130deg,#e2dbed,#bad0d4)}
+.immersive-material[data-scene=town] .immersive-scene{background:linear-gradient(130deg,#c8dbe3,#b6cbb4)}
+@media(max-width:540px){.immersive-source{padding:14px}.immersive-live-panel{padding:7px}.immersive-material{border-radius:16px}.immersive-source-head{font-size:12px}}
+
+.immersive-live-panel{width:min(980px,calc(100vw - 24px));max-height:90dvh;overflow:auto;border:1px solid #d7c4dd;background:#fffaf5;color:#382640;box-sizing:border-box}
+.immersive-live-panel::backdrop{background:#271b35aa;backdrop-filter:blur(4px)}

@@ -1,3 +1,4 @@
+import {immersiveLightActivities} from './immersive-course.mjs';
 import {languageInfo} from './languages.mjs';
 import {speechParts} from './sentence-audio.mjs';
 import {isInstructionalExample} from './lesson-copy-roles.mjs';
@@ -10,7 +11,7 @@ export const previousLightLessonVersion='light-v5';
 export const lightLessonVersion='light-v6';
 export const lightSingleLessonVersions=[lightLessonVersion,previousLightLessonVersion];
 export const lightVersions=[...lightSingleLessonVersions,correctedLightVersion,lightVersion,priorLightVersion,'light-v1'];
-export const lightVersionFor=lesson=>lesson?.questions?.some(q=>unmarkedMeaningOptions(q,lesson))?correctedLightVersion:lightVersion;
+export const lightVersionFor=lesson=>lesson?.immersive?lightLessonVersion:lesson?.questions?.some(q=>unmarkedMeaningOptions(q,lesson))?correctedLightVersion:lightVersion;
 const historicalDisplayOptions=(q,lesson)=>!unmarkedMeaningOptions(q,lesson)&&displayLanguageOptions(q,lesson);
 export const legacyLightVersion='light-v1';
 // Practice only authored models/meanings. These activities never replace a test.
@@ -48,7 +49,7 @@ export function lightModels(lesson,{historical=false}={}){
  return pairs;
 }
 // Keep round numbers stable so existing completions and rewards still count.
-export function lightRoundCount(lesson){if(lesson?.conversation)return Math.max(1,Math.ceil((lesson.questions||[]).filter(q=>q.options?.length>1&&Number.isInteger(q.answer)).length/3));return Math.ceil(lightModels(lesson,{historical:true}).length/2)}
+export function lightRoundCount(lesson){if(lesson?.immersive)return 1;if(lesson?.conversation)return Math.max(1,Math.ceil((lesson.questions||[]).filter(q=>q.options?.length>1&&Number.isInteger(q.answer)).length/3));return Math.ceil(lightModels(lesson,{historical:true}).length/2)}
 export function v2LightActivities(lesson,round=0){
  if(!Number.isInteger(round)||round<0||round>=lightRoundCount(lesson))return [];
  if(lesson.conversation)return lesson.questions.filter(q=>q.options?.length>1&&Number.isInteger(q.answer)).slice(round*3,round*3+3).map((q,i)=>({id:`video-${round}-${i}`,type:'video',question:q,meaning:q.options[q.answer],options:rotate([q.options[q.answer],q.options.find(v=>v!==q.options[q.answer])],round+i),locale:languageInfo(lesson.language||'es').locale}));
@@ -71,6 +72,7 @@ export function lightLessonPassed(steps,total){
 }
 
 export function lightActivities(lesson,round=0,version=lightVersionFor(lesson)){
+ if(lesson?.immersive)return round===0&&version===lightLessonVersion?immersiveLightActivities(lesson):[];
  if(version===previousLightLessonVersion)return round===0?lightActivities(lesson):[];
  const diverse=version===lightLessonVersion;
  if(diverse&&round!==0)return [];

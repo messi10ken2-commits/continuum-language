@@ -49,6 +49,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   if(d.aiConsent!==true)fail(400,'Confirm AI conversation processing before starting');
   if(s?.premium&&!premium)fail(403,'Premium is required for this scenario.');
   if(!s||!validSpeakingLanguage(d.language)||!validSpeakingLevel(d.level)||!validInterfaceLanguage(d.displayLanguage))fail(400,'Choose a valid language, level and scenario');
+  if(s.immersive&&(s.language!==d.language||s.level!==d.level))fail(400,'Choose the chapter language and level');
   if(!aiConfigured())fail(503,'AI conversation is temporarily unavailable. Please try again later.');
   if(d.startKey!==undefined&&!/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(d.startKey))fail(400,'Invalid conversation start');
   const day=conversationDay();
@@ -65,7 +66,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
     const {rows:[old]}=await c.query('SELECT s.* FROM speaking_daily_allowance a JOIN speaking_sessions s ON s.id=a.session_id WHERE a.user_id=$1 AND a.day=$2',[user.id,day]);
     if(old){
      if(old.status==='completed')return {denied:true};
-     if(old.messages.some(m=>m.role==='user')||Date.parse(old.lease_until)>Date.now())return {row:old,reused:true};
+     if(old.messages.some(m=>m.role==='user')||Date.parse(old.lease_until)>Date.now()){if(s.immersive&&old.scenario!==s.id)return {denied:true};return {row:old,reused:true};}
      await c.query('DELETE FROM speaking_daily_allowance WHERE user_id=$1 AND day=$2',[user.id,day]);
      await c.query("DELETE FROM ai_operations WHERE user_id=$1 AND bucket='conversation' AND operation_key=$2 AND completed_at IS NULL",[user.id,old.id+':'+day]);
     }
