@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {createHash} from 'node:crypto';
-import {passportCards} from './passport-cards.mjs';
+import {passportCards,passportMilestone} from './passport-cards.mjs';
 import catalog from './public/passport-real/catalog.json' with {type:'json'};
 import art from './public/passport-stamps/manifest.json' with {type:'json'};
 test('every recovered real photo appears for its earned chapter with original earned date',()=>{
@@ -24,5 +24,15 @@ test('optional immersion chapters use distinct illustrated stamps without reallo
   const cards=passportCards([],language,{includeLocked:true}),added=cards.filter(c=>c.id.includes('-immersive-'));
   assert.equal(added.length,9);assert.ok(added.every(c=>c.illustration&&!c.photo&&!c.scene));
   assert.equal(new Set(added.map(c=>c.illustration.src)).size,9);
+ }
+});
+
+test('adding optional chapters preserves the date and eligibility of existing level keepsakes',async()=>{
+ const {journeyChapters}=await import('./journey-model.mjs');
+ for(const language of ['en','es','pt','ja','zh','ko','fr','de','ar','it'])for(const level of ['B1','B2','C1']){
+  const core=journeyChapters(language,level).filter(c=>!c.lessons.every(l=>l.immersive));
+  const stamps=core.map((c,i)=>({id:'chapter:'+c.id,at:new Date(Date.UTC(2026,10,14,0,i)).toISOString()}));
+  const milestone=passportMilestone(stamps,language);assert.equal(milestone.id,stamps.at(-1).id);assert.equal(milestone.at,stamps.at(-1).at);
+  assert.equal(passportMilestone(stamps.slice(1),language),null);
  }
 });

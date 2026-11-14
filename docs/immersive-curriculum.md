@@ -34,7 +34,9 @@ stages ordered, and do not lock old lessons. Historical lesson IDs, relative
 ordering, grading versions, accounts and saved records remain intact. New
 chapters have ninety illustrated passport stamps and stage-specific lesson
 card artwork; existing artwork assignments and photo-to-chapter mappings are
-preserved.
+preserved. Previously earned C1 finales and level keepsakes keep their
+original core requirements and dates; optional extension chapters cannot
+relock them.
 
 The conversation lesson combines guided decisions and an optional live AI
 conversation using the chapter's canonical language, level, goals and source

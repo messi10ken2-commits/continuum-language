@@ -206,6 +206,9 @@ try{
   assert.match(await earnedStamp.locator('img').getAttribute('src'),/^\/passport-stamps\/ja-/);
   await earnedStamp.click();await page.locator('.passport-dialog[open] img').waitFor();
   assert.equal(await page.locator('.passport-dialog .passport-scenery').count(),0,'new artwork is not mislabeled as a photograph');
+  const stampFrame=await page.locator('.passport-dialog').boundingBox(),stampImage=await page.locator('.passport-dialog img').boundingBox();
+  assert.ok(stampImage.x>=stampFrame.x&&stampImage.x+stampImage.width<=stampFrame.x+stampFrame.width,'the full illustrated stamp fits the phone dialog');
+
   await page.screenshot({path:new URL(engineName+'-immersion-stamp.png',directory).pathname,fullPage:false});
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('.passport-dialog').open);
   assert.deepEqual(errors,[]);console.log('PASS '+engineName+': forty native Light stages, failed-load recovery, full six-question save, ordered audio, current dialogue turn, Standard/Light draft preservation, embedded chapter conversation, modal cleanup and Arabic phone layout.');

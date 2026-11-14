@@ -27,6 +27,6 @@ export function passportCards(stamps=[],language='es',{includeLocked=false}={}){
 export function passportMilestone(stamps=[],language='es'){
  const special=stamps.find(s=>['return','rhythm'].includes(s.id));if(special)return special;
  const earned=new Map(stamps.map(s=>[s.id,s]));
- for(const level of journeyLevels){const ids=journeyChapters(language,level).map(c=>'chapter:'+c.id);if(ids.length&&ids.every(id=>earned.has(id))){const dated=ids.map(id=>earned.get(id)).filter(s=>Number.isFinite(Date.parse(s.at))).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));return dated[0]||{id:'level:'+level}}}
+ for(const level of journeyLevels){const ids=journeyChapters(language,level).filter(c=>!c.lessons.every(l=>l.immersive)).map(c=>'chapter:'+c.id);if(ids.length&&ids.every(id=>earned.has(id))){const dated=ids.map(id=>earned.get(id)).filter(s=>Number.isFinite(Date.parse(s.at))).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));return dated[0]||{id:'level:'+level}}}
  return null;
 }
