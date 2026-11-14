@@ -31,7 +31,7 @@ try{
  await server.listen();const base='http://127.0.0.1:'+server.httpServer.address().port+'/__immersive';
  for(const [engineName,engine]of Object.entries({chromium,webkit})){
   browser=await engine.launch({headless:true,args:engineName==='chromium'?['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});
-  const context=await browser.newContext({viewport:{width:390,height:844}}),audioRequests=[],speakingStarts=[],adventureRequests=[],activityPings=[],errors=diagnostics=[];
+  const context=await browser.newContext({viewport:{width:390,height:844}}),audioRequests=[],speakingStarts=[],adventureRequests=[],activityPings=[],lightRecords=new Map(),errors=diagnostics=[];
   await context.addInitScript(()=>{
    localStorage.clear();localStorage.setItem('continuumCorrectSound','off');
    window.Audio=class extends EventTarget{
@@ -50,7 +50,15 @@ try{
    if(path.startsWith('/api/immersive/content/'))return json({units:await loadImmersivePack(path.split('/').at(-1))});
    if(path.startsWith('/api/immersive/audio/')){audioRequests.push(path);return route.fulfill({status:200,contentType:'audio/wav',headers:{'X-Audio-Source':'AI-generated studio voice'},body:Buffer.from('synthetic-browser-sequencing-fixture')})}
    if(path==='/api/adventure'){adventureRequests.push(url.search);return json({companion:'fox'})}
-   if(path.startsWith('/api/learning/light'))return json(path.endsWith('/progress')?{completed:[],placements:[]}:{record:null});
+   if(path.startsWith('/api/learning/light')){
+    if(path.endsWith('/progress'))return json({completed:[],placements:[]});
+    if(request.method()==='PUT'){
+     const data=request.postDataJSON(),at=new Date().toISOString();
+     const record={id:data.id,revision:data.revision+1,state:data.state,at,completedAt:data.state.steps.length===6?at:null};
+     lightRecords.set(path,record);return json({record});
+    }
+    return json({record:lightRecords.get(path)||null});
+   }
    if(path==='/api/speaking/usage')return json({usage:null});
    if(path==='/api/speaking'&&request.method()==='GET')return json({available:true,premium:true,sessions:[]});
    if(path==='/api/speaking'&&request.method()==='POST'){
