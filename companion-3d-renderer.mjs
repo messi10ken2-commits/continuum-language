@@ -99,13 +99,13 @@ export function createCompanion(host,kind,state){
   head.rotation.z=reduced?0:Math.sin(t*.7)*.025;
   head.rotation.x=reduced?0:targetY*.05+(v.speaking?Math.sin(t*4)*.025:0);
   const blink=reduced?1:(t%4.4<.14?.12:1);eyes.forEach(e=>e.scale.y=blink);
-  mouth.scale.y=v.speaking&&!reduced?1+Math.max(.05,v.level||Math.abs(Math.sin(t*10)))*3.7:1;
-  arms.forEach((arm,i)=>{const side=i?1:-1;arm.rotation.z=waving?(i?-.9+Math.sin(t*12)*.22:.2):side*(.15+(v.speaking&&!reduced?Math.sin(t*2.8)*.08:0))});
+  mouth.scale.y=v.speaking&&!reduced?.035*(1+Math.max(.05,v.level||Math.abs(Math.sin(t*10)))*3.7):.035;
+  arms.forEach((arm,i)=>{const side=i?1:-1;arm.rotation.z=waving?(i?2.1+Math.sin(t*12)*.22:-.2):side*(.15+(v.speaking&&!reduced?Math.sin(t*2.8)*.08:0))});
   feet.forEach((foot,i)=>foot.rotation.z=waving?(i?1:-1)*.05:0);
   renderer.render(scene,camera);host.dataset.frames=String((Number(host.dataset.frames)||0)+1);
  };
  return {
-  setActive(value,reduce){active=value;reduced=reduce;host.dataset.motion=active&&!reduce?'on':'off';renderer.setAnimationLoop(active&&!reduced?draw:null);if(active&&reduced){root.rotation.set(0,0,0);body.position.y=0;head.rotation.set(0,0,0);eyes.forEach(e=>e.scale.y=1);mouth.scale.y=1;arms.forEach((a,i)=>a.rotation.z=(i?1:-1)*.15);renderer.render(scene,camera)}},
+  setActive(value,reduce){active=value;reduced=reduce;host.dataset.motion=active&&!reduce?'on':'off';renderer.setAnimationLoop(active&&!reduced?draw:null);if(active&&reduced){root.rotation.set(0,0,0);body.position.y=0;head.rotation.set(0,0,0);eyes.forEach(e=>e.scale.y=1);mouth.scale.y=.035;arms.forEach((a,i)=>a.rotation.z=(i?1:-1)*.15);renderer.render(scene,camera)}},
   dispose(){if(disposed)return;disposed=true;renderer.setAnimationLoop(null);resize.disconnect();host.removeEventListener('pointermove',pointer);host.removeEventListener('pointerleave',leave);geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());renderer.dispose();renderer.forceContextLoss();renderer.domElement.remove();}
  };
 }
