@@ -6,10 +6,11 @@ import {TownCompanion,useLightCompanion} from './LightTown.jsx';
 import AISpeaking from './AISpeaking.jsx';
 import './immersive.css';
 
-export default function ImmersiveMaterial({lesson,question,user,light=false,suspended=false,celebrate=false,onReady}){
+export default function ImmersiveMaterial({lesson,question,user,light=false,suspended=false,celebrate=false,companionKind,onReady}){
  const [unit,setUnit]=useState(null),[failed,setFailed]=useState(false),[retry,setRetry]=useState(0),[speaking,setSpeaking]=useState(false),[live,setLive]=useState(false);
  const dialog=useRef(null);
- const kind=useLightCompanion(user,lesson.language);
+ const storedKind=useLightCompanion(light?null:user,lesson.language);
+ const kind=light?companionKind:storedKind;
  useEffect(()=>{if(live)dialog.current?.showModal();else dialog.current?.close()},[live]);
  const source=question?.immersiveSource||{stage:lesson.immersive.stage,part:0};
  const [allAudio,setAllAudio]=useState(!light);
@@ -26,13 +27,13 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
   const rows=stage==='roleplay'?unit.questions.roleplay.map(q=>({text:q.sceneLine})):unit[stage]||[];
   return rows.flatMap((p,i)=>allAudio||i===part?[{text:p.text,lang:lesson.locale,endpoint:`/api/immersive/audio/${lesson.id}/${stage}/${i}`}]:[]);
  },[unit,stage,part,allAudio,lesson.id]);
- if(failed)return <div className="immersive-material-error" role="alert"><p>{t('Could not load this chapter. Your progress is saved.')}</p><button type="button" onClick={()=>setRetry(n=>n+1)}>{t('Try again')}</button></div>;
+ if(failed)return <div className="immersive-material-error" role="alert"><p>{t('Could not load this chapter. Try again.')}</p><button type="button" onClick={()=>setRetry(n=>n+1)}>{t('Try again')}</button></div>;
  if(!unit)return <div className="immersive-loading" role="status">{t('Loading chapter…')}</div>;
  const text=stage==='roleplay'?unit.questions.roleplay[part]?.sceneLine:unit[stage]?.[part]?.text;
  return <section className={'immersive-material '+(light?'immersive-compact':'')} data-stage={stage} data-scene={lesson.immersive.scene}>
   <div className="immersive-scene" inert={suspended||live?'':undefined}>
    <span className="immersive-scene-window" aria-hidden="true"/><span className="immersive-scene-shelf" aria-hidden="true"/>
-   <TownCompanion kind={kind||'capybara'} speaking={speaking} celebrate={celebrate}/>
+   {kind&&<TownCompanion kind={kind} speaking={speaking} celebrate={celebrate}/>}
    <span className="immersive-scene-table" aria-hidden="true"/>
   </div>
   <div className="immersive-source" inert={live?'':undefined}>

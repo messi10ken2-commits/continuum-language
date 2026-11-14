@@ -359,7 +359,7 @@ async function trackedRequest(req,res){
  let path;
  try{path=new URL(req.url,'http://localhost').pathname;}
  catch{fail(400,'Invalid request URL');}
- const feature=path.startsWith('/api/speaking')?'conversation':path.startsWith('/api/skills')?'skill-assessment':path.startsWith('/api/patterns')?'recurring-patterns':path==='/api/localization'?'translation':path==='/api/speech'?'studio-speech':'other-ai';
+ const feature=path.startsWith('/api/speaking')?'conversation':path.startsWith('/api/skills')?'skill-assessment':path.startsWith('/api/patterns')?'recurring-patterns':path==='/api/localization'?'translation':(path==='/api/speech'||path.startsWith('/api/immersive/audio/'))?'studio-speech':'other-ai';
  return withAIUsage(pool,feature,async()=>{
   if(feature==='studio-speech')identifyAIUser((await currentUser(req))?.id??null);
   return handle(req,res);

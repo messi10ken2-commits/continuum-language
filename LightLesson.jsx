@@ -136,6 +136,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
  const choose=value=>{if(state.checked&&!good)setState(s=>({...s,choice:value,checked:false}));else setState(s=>({...s,choice:value}))};
  const combo=state.missed?0:evidence.combo+(state.checked&&good?1:0);
  const check=()=>{
+  if(!materialReady||busy||!a)return;
   prepareFeedbackSound({retry:true});
   if(state.checked&&!good){setState(s=>({...s,choice:null,checked:false}));return}
   if(good){
@@ -182,7 +183,7 @@ export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onS
   <section className="light-game-board" tabIndex={-1} aria-label={t('Practice question')}>
    <div className="light-task-heading"><span className="town-combo-chip" data-active={combo>=3}><Flame size={18}/>{tf('Combo ×{0}',[combo])}</span><button className="light-tip" aria-label={t('Show a hint')} disabled={busy||state.hint} onClick={()=>setState(s=>({...s,hint:true}))}><Lightbulb size={21}/></button></div>
    <h1 className="town-lesson-heading">{spokenText(a)&&<Headphones size={24} aria-hidden="true"/>}{title}</h1>
-   {lesson.immersive?<ImmersiveMaterial key={'material:'+lesson.id} lesson={lesson} question={a.question} user={user} light suspended={suspended} celebrate={state.checked&&good} onReady={setMaterialReady}/>:<TownLessonStage key={'stage:'+a.id} activity={a} lesson={lesson} language={language} kind={kind} speaking={speaking} celebrate={state.checked&&good} onPlaybackChange={setSpeaking}/>}
+   {lesson.immersive?<ImmersiveMaterial key={'material:'+lesson.id} lesson={lesson} question={a.question} user={user} companionKind={kind} light suspended={suspended} celebrate={state.checked&&good} onReady={setMaterialReady}/>:<TownLessonStage key={'stage:'+a.id} activity={a} lesson={lesson} language={language} kind={kind} speaking={speaking} celebrate={state.checked&&good} onPlaybackChange={setSpeaking}/>}
    <div className="town-paper town-question-card" key={'question:'+a.id} data-feedback={state.checked?(good?'correct':'retry'):'idle'}>
    <LightChallengePrompt activity={a} lesson={lesson} language={language} checked={state.checked}/>
    {a.type==='build'?<div className="word-builder"><div className="light-answer-slots" aria-live="polite" lang={a.locale||locale} dir="auto">{state.choice?.length?state.choice.map((index,i)=><button key={i} disabled={busy||state.checked||!materialReady} onClick={()=>choose(state.choice.filter((_,j)=>j!==i))}>{a.tokens[index]}</button>):<span>{t('Tap the word tiles')}</span>}</div><div className="word-builder-tiles" dir="auto">{a.tokens.map((token,i)=><button key={i} lang={a.locale||locale} disabled={busy||state.checked||state.choice?.includes(i)} onClick={()=>choose([...(state.choice||[]),i])}>{token}</button>)}</div><button className="text-button" disabled={busy||state.checked||!state.choice?.length} onClick={()=>choose(null)}>{t('Clear')}</button></div>:

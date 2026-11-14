@@ -169,14 +169,11 @@ chapters.push(...expandedChapters,...expandedSoundChapters,...expandedScriptChap
 lessonList.push(...expandedLessons,...expandedSoundLessons,...expandedScriptLessons,...expandedVisualLessons);
 chapters.push(...expandedVideoChapters);
 lessonList.push(...expandedVideoLessons);
-// Add new chapters before each existing level review without changing saved IDs.
-for(const chapter of immersiveChapters){
- const summary=chapters.findIndex(c=>(c.language||'es')===chapter.language&&c.level===chapter.level&&c.summaryTest);
- chapters.splice(summary<0?chapters.length:summary,0,chapter);
- const units=immersiveLessons.filter(l=>l.chapter===chapter.id);
- const index=lessonList.findIndex(l=>(l.language||'es')===chapter.language&&l.level===chapter.level&&l.summaryTest);
- lessonList.splice(index<0?lessonList.length:index,0,...units);
-}
+// Keep every existing activity in its original relative order. Presentation
+// helpers keep the existing level review last; new specialist chapters do not
+// change its saved grading pool.
+chapters.push(...immersiveChapters);
+lessonList.push(...immersiveLessons);
 enrichEverydayLessons(lessonList);
 export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id)||archivedExpandedVideoLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';

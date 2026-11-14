@@ -39,3 +39,20 @@ export function nextLightLesson(lesson){
  const route=lightRoute(lesson.language||'es'),index=route.findIndex(row=>row.lesson.id===lesson.id);
  return index>=0?route[index+1]?.lesson.id:null;
 }
+
+// New immersion chapters are optional branches. Each begins independently;
+// adding one cannot lock an existing learner out of an old activity.
+export function lightLessonAvailability(route,keys){
+ const available=new Set(),chapterPrevious=new Map();let previous=true;
+ for(const {lesson,chapter} of route){
+  const done=keys.has(lesson.id);
+  if(chapter.immersive){
+   if((chapterPrevious.get(chapter.id)??true)||done)available.add(lesson.id);
+   chapterPrevious.set(chapter.id,done);
+  }else{
+   if(previous||done)available.add(lesson.id);
+   previous=done;
+  }
+ }
+ return available;
+}

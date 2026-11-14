@@ -17,7 +17,7 @@ export const platformFeatures=[
 ];
 export function controlledFeature(route,method){
  if(method==='POST'&&route==='/api/auth/register')return 'registration';
- if(route==='/api/speech')return 'studioAudio';
+ if(route==='/api/speech'||route.startsWith('/api/immersive/audio/'))return 'studioAudio';
  if(method==='GET'&&route==='/api/billing/store-sandbox'||method==='POST'&&['/api/billing/checkout','/api/billing/trial'].includes(route))return 'checkout';
  if(method==='PUT'&&route==='/api/profile')return 'teacherApplications';
  if(method==='GET'&&/^\/api\/teachers(?:\/|$)/.test(route))return 'teacherDirectory';
