@@ -1,5 +1,6 @@
 import React,{useEffect,useMemo,useRef,useState} from 'react';
 import {loadImmersiveUnit} from './immersive/loader.mjs';
+import {immersiveRecordingPlaylist} from './immersive/audio-playlist.mjs';
 import {t,tf} from './interface-runtime.mjs';
 import SentenceAudio,{stopSentenceAudio} from './SentenceAudio.jsx';
 import {TownCompanion,useLightCompanion} from './LightTown.jsx';
@@ -24,8 +25,7 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
  const part=Math.min(source.part||0,Math.max(0,(stage==='roleplay'?unit?.questions.roleplay:unit?.[stage])?.length-1));
  const recordings=useMemo(()=>{
   if(!unit)return [];
-  const rows=stage==='roleplay'?unit.questions.roleplay.map(q=>({text:q.sceneLine})):unit[stage]||[];
-  return rows.flatMap((p,i)=>allAudio||i===part?[{text:p.text,lang:lesson.locale,endpoint:`/api/immersive/audio/${lesson.id}/${stage}/${i}`}]:[]);
+  return immersiveRecordingPlaylist(lesson,unit,{stage,part,all:allAudio});
  },[unit,stage,part,allAudio,lesson.id]);
  if(failed)return <div className="immersive-material-error" role="alert"><p>{t('Could not load this chapter. Try again.')}</p><button type="button" onClick={()=>setRetry(n=>n+1)}>{t('Try again')}</button></div>;
  if(!unit)return <div className="immersive-loading" role="status">{t('Loading chapter…')}</div>;
