@@ -1,3 +1,4 @@
+import {immersiveHeadingTranslation} from './immersive/heading-copy.mjs';
 import {isInstructionContext,exerciseContextCopy} from './exercise-context.mjs';
 import {displayLanguageOptions} from './answer-language.mjs';
 import {keepsLocalizedInstructions} from './learning-text-protection.mjs';
@@ -35,6 +36,7 @@ export async function chooseInterfaceLanguage(id){
  finally{saving=false;emit();}
 }
 export function t(value,learningLanguage=''){
+ if(typeof value==='string'){const heading=immersiveHeadingTranslation(value.trim(),locale);if(heading)return value.replace(value.trim(),heading);}
  if(typeof value!=='string'||!value.trim()||locale==='en'||['Continuum','Learn with Flow'].includes(value.trim()))return value;
  const text=value.trim(),prefix=value.slice(0,value.indexOf(text)),suffix=value.slice(value.indexOf(text)+text.length);
  const source=translationSource(text,learningLanguage),protection=protectionFor(source);
@@ -49,7 +51,7 @@ export function t(value,learningLanguage=''){
 // fallback for a completed translation. Only published strings can enter the queue.
 export function lessonTranslationState(value,learningLanguage=''){
  const rendered=t(value,learningLanguage);
- if(typeof value!=='string'||!value.trim()||locale==='en')return {status:'ready',text:rendered};
+ if(typeof value!=='string'||!value.trim()||locale==='en'||immersiveHeadingTranslation(value.trim(),locale))return {status:'ready',text:rendered};
  const source=translationSource(value.trim(),learningLanguage),protection=protectionFor(source);
  if(rendered!==value||protection&&/^⟦KEEP_\d+⟧$/.test(protection.text))return {status:'ready',text:rendered};
  if(reviewedTranslation(value.trim(),locale)||interfaceCopy[value.trim()]?.[locale])return {status:'ready',text:rendered};

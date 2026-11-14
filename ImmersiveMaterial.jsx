@@ -11,7 +11,11 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
  const [unit,setUnit]=useState(null),[failed,setFailed]=useState(false),[retry,setRetry]=useState(0),[speaking,setSpeaking]=useState(false),[live,setLive]=useState(false);
  const dialog=useRef(null);
  const kind=companionKind;
- useEffect(()=>{if(live)dialog.current?.showModal();else dialog.current?.close()},[live]);
+ useEffect(()=>{
+  if(!live){dialog.current?.close();return;}
+  const previous=document.body.style.overflow;document.body.style.overflow='hidden';dialog.current?.showModal();
+  return()=>{document.body.style.overflow=previous;};
+ },[live]);
  const source=question?.immersiveSource||{stage:lesson.immersive.stage,part:0};
  const [allAudio,setAllAudio]=useState(!light);
  useEffect(()=>{let active=true;setUnit(null);setFailed(false);onReady?.(false);
@@ -55,6 +59,6 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
     
    </div>}
   </div>
-  <dialog ref={dialog} className="immersive-live-panel" aria-label={t('Live AI conversation')} onCancel={e=>{e.preventDefault();setLive(false)}} onClose={()=>setLive(false)}>{live&&!suspended&&<AISpeaking embedded language={lesson.language} user={user} initialScenario={lesson.immersive.unit} initialLevel={lesson.level} companion={kind||'capybara'} onBack={()=>setLive(false)}/>}</dialog>
+  <dialog ref={dialog} className="immersive-live-panel" aria-label={t('Live AI conversation')} onCancel={e=>{e.preventDefault();setLive(false)}} onClose={()=>setLive(false)}>{live&&!suspended&&<><button type="button" className="immersive-close" onClick={()=>setLive(false)} aria-label={t('Close live conversation')}>×</button><AISpeaking embedded language={lesson.language} user={user} initialScenario={lesson.immersive.unit} initialLevel={lesson.level} companion={kind||'capybara'} onBack={()=>setLive(false)}/></>}</dialog>
  </section>;
 }
