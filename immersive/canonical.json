@@ -278,11 +278,11 @@
     {
      "prompt": "Which interpretation of the proposed fee is justified?",
      "options": [
+      "It allows operators to exclude residents.",
       "It guarantees that every business will profit.",
-      "It funds administration; it does not grant control over public streets.",
-      "It allows operators to exclude residents."
+      "It funds administration; it does not grant control over public streets."
      ],
-     "answer": 1,
+     "answer": 2,
      "note": "The article explicitly limits what payment means.",
      "immersiveSource": {
       "stage": "reading",
@@ -292,11 +292,11 @@
     {
      "prompt": "A guide says a group of fifteen must book. Which correction follows the interview?",
      "options": [
-      "All groups of any size require a booking.",
       "Exactly fifteen people may block an entrance.",
-      "The proposed threshold is more than fifteen, while entrance rules still apply."
+      "The proposed threshold is more than fifteen, while entrance rules still apply.",
+      "All groups of any size require a booking."
      ],
-     "answer": 2,
+     "answer": 1,
      "note": "Retain both the threshold and the general access condition.",
      "immersiveSource": {
       "stage": "listening",
@@ -320,11 +320,11 @@
     {
      "prompt": "What additional evidence would support a garden stopping place?",
      "options": [
+      "Only a guide’s preference for the scenery.",
       "A promise that equipment will suit every visitor without testing.",
-      "A completed access check and confirmation that the space is available.",
-      "Only a guide’s preference for the scenery."
+      "A completed access check and confirmation that the space is available."
      ],
-     "answer": 1,
+     "answer": 2,
      "note": "Both availability and access remain unresolved.",
      "immersiveSource": {
       "stage": "listening",
@@ -671,11 +671,11 @@
     {
      "prompt": "What should an employee do when home conditions are unsuitable?",
      "options": [
-      "Leave the team without an availability update.",
       "Claim that the trial permanently closes the office.",
-      "Discuss using the office rather than assuming it is unavailable."
+      "Discuss using the office rather than assuming it is unavailable.",
+      "Leave the team without an availability update."
      ],
-     "answer": 2,
+     "answer": 1,
      "note": "The revised plan retains office access.",
      "immersiveSource": {
       "stage": "listening",
@@ -685,11 +685,11 @@
     {
      "prompt": "Which evidence would make the pilot comparison more informative?",
      "options": [
+      "Case difficulty, response quality and support contributions.",
       "Online status alone.",
-      "Only the most enthusiastic participant’s opinion.",
-      "Case difficulty, response quality and support contributions."
+      "Only the most enthusiastic participant’s opinion."
      ],
-     "answer": 2,
+     "answer": 0,
      "note": "The article identifies important missing variables.",
      "immersiveSource": {
       "stage": "reading",
@@ -713,11 +713,11 @@
     {
      "prompt": "Which conclusion goes beyond the evidence?",
      "options": [
+      "Different home conditions should be considered.",
       "The volunteers’ positive experience proves that every employee benefits.",
-      "The pilot offers observations worth examining.",
-      "Different home conditions should be considered."
+      "The pilot offers observations worth examining."
      ],
-     "answer": 0,
+     "answer": 1,
      "note": "Self-selected experiences do not represent everyone.",
      "immersiveSource": {
       "stage": "reading",
@@ -1036,11 +1036,11 @@
     {
      "prompt": "Which result could indicate successful waste prevention?",
      "options": [
-      "Lower surplus after cafés improve preparation planning.",
       "More extra food cooked only to fill donation boxes.",
-      "A higher box count without any information about contents."
+      "A higher box count without any information about contents.",
+      "Lower surplus after cafés improve preparation planning."
      ],
-     "answer": 0,
+     "answer": 2,
      "note": "The article distinguishes preventing surplus from redistributing it.",
      "immersiveSource": {
       "stage": "reading",
@@ -1050,11 +1050,11 @@
     {
      "prompt": "Why should the cafés’ totals include participation dates?",
      "options": [
-      "All three cafés have already joined for the same period.",
       "Dates prove that every container holds an identical meal.",
-      "A café joining later has had fewer collection opportunities."
+      "A café joining later has had fewer collection opportunities.",
+      "All three cafés have already joined for the same period."
      ],
-     "answer": 2,
+     "answer": 1,
      "note": "Compare exposure periods as well as totals.",
      "immersiveSource": {
       "stage": "listening",
@@ -1092,11 +1092,11 @@
     {
      "prompt": "Which reporting choice follows the privacy plan?",
      "options": [
-      "Link every recipient’s name to their personal finances.",
       "Replace distribution records with identifiable photographs.",
-      "Publish useful totals while keeping recipients’ identities private."
+      "Publish useful totals while keeping recipients’ identities private.",
+      "Link every recipient’s name to their personal finances."
      ],
-     "answer": 2,
+     "answer": 1,
      "note": "Separate operational records from public reporting.",
      "immersiveSource": {
       "stage": "reading",
@@ -1443,11 +1443,11 @@
     {
      "prompt": "Which budget claim would overstate the plan?",
      "options": [
+      "Fitting and removal funding guarantees that maintenance is already funded.",
       "Ongoing care needs a named arrangement as well as installation funding.",
-      "Different time horizons affect the comparison between shade options.",
-      "Fitting and removal funding guarantees that maintenance is already funded."
+      "Different time horizons affect the comparison between shade options."
      ],
-     "answer": 2,
+     "answer": 0,
      "note": "The article and interview distinguish installation from ongoing provision.",
      "immersiveSource": {
       "stage": "reading",
@@ -1457,11 +1457,11 @@
     {
      "prompt": "A resident supports the clinic site. What does that support not establish?",
      "options": [
-      "That the outstanding permission for the temporary structure has been granted.",
       "That access needs may differ from the priorities shown by footfall counts.",
-      "That residents can contribute relevant observations to the discussion."
+      "That residents can contribute relevant observations to the discussion.",
+      "That the outstanding permission for the temporary structure has been granted."
      ],
-     "answer": 0,
+     "answer": 2,
      "note": "Support and permission are distinct forms of evidence.",
      "immersiveSource": {
       "stage": "listening",
@@ -1471,11 +1471,11 @@
     {
      "prompt": "Averages improve but one access route becomes worse. Which report is most defensible?",
      "options": [
+      "Treat the average as false solely because one subgroup experiences a drawback.",
       "Publish the average and the uneven effects, and consider revising the intervention.",
-      "Publish the average alone because subgroup findings must agree with it.",
-      "Treat the average as false solely because one subgroup experiences a drawback."
+      "Publish the average alone because subgroup findings must agree with it."
      ],
-     "answer": 0,
+     "answer": 1,
      "note": "Overall and distributional findings can both be valid.",
      "immersiveSource": {
       "stage": "reading",
@@ -1836,11 +1836,11 @@
     {
      "prompt": "What does the correction target time not guarantee?",
      "options": [
-      "Resolution of every difficult disagreement within that period.",
       "Entry of a submitted correction into a review process.",
-      "A revision date and explanation for an accepted change."
+      "A revision date and explanation for an accepted change.",
+      "Resolution of every difficult disagreement within that period."
      ],
-     "answer": 0,
+     "answer": 2,
      "note": "A service target is not an unconditional outcome promise.",
      "immersiveSource": {
       "stage": "listening",
@@ -2173,11 +2173,11 @@
     {
      "prompt": "Which missing information could help examine selection into the shuttle group?",
      "options": [
+      "The number of publicity photographs taken on the first operating evening.",
       "The assumption that all non-users faced identical travel conditions.",
-      "Comparable prior attendance and reasons for registration or non-registration.",
-      "The number of publicity photographs taken on the first operating evening."
+      "Comparable prior attendance and reasons for registration or non-registration."
      ],
-     "answer": 1,
+     "answer": 2,
      "note": "Selection concerns the people being compared.",
      "immersiveSource": {
       "stage": "reading",
@@ -2187,11 +2187,11 @@
     {
      "prompt": "What does revising the success headline not imply?",
      "options": [
-      "That a group difference can be reported with appropriate qualification.",
       "That a causal inference requires more than the observed comparison alone.",
-      "That the panel has found the operational records were fabricated."
+      "That the panel has found the operational records were fabricated.",
+      "That a group difference can be reported with appropriate qualification."
      ],
-     "answer": 2,
+     "answer": 1,
      "note": "The interview explicitly separates inference from fabrication.",
      "immersiveSource": {
       "stage": "listening",
@@ -2215,11 +2215,11 @@
     {
      "prompt": "Which fact would be omitted by announcing a guaranteed extension now?",
      "options": [
-      "The operator has only agreed to discuss the term, and accessible transport still needs confirmation.",
       "The proposed term is shorter than the full-year contract initially requested.",
-      "The panel plans to review evidence before a further commitment."
+      "The panel plans to review evidence before a further commitment.",
+      "The operator has only agreed to discuss the term, and accessible transport still needs confirmation."
      ],
-     "answer": 0,
+     "answer": 2,
      "note": "Material conditions are still outstanding.",
      "immersiveSource": {
       "stage": "listening",
@@ -2243,11 +2243,11 @@
     {
      "prompt": "What would distinguish planned contextual analysis from an excuse after the event?",
      "options": [
-      "Promising that contextual information can never change interpretation.",
       "Recording relevant factors and decision criteria before observing the outcome.",
-      "Adding explanations only when a result threatens the preferred decision."
+      "Adding explanations only when a result threatens the preferred decision.",
+      "Promising that contextual information can never change interpretation."
      ],
-     "answer": 1,
+     "answer": 0,
      "note": "The interview advocates advance specification.",
      "immersiveSource": {
       "stage": "listening",
@@ -2580,11 +2580,11 @@
     {
      "prompt": "Why document the consultation questions?",
      "options": [
+      "To limit claims of consent to what participants were actually invited to consider.",
       "To convert every suggestion automatically into approval of later contractual terms.",
-      "To establish that attending a meeting removes the right to object afterwards.",
-      "To limit claims of consent to what participants were actually invited to consider."
+      "To establish that attending a meeting removes the right to object afterwards."
      ],
-     "answer": 2,
+     "answer": 0,
      "note": "The scope of consultation determines the scope of defensible inferences.",
      "immersiveSource": {
       "stage": "reading",
@@ -2608,11 +2608,11 @@
     {
      "prompt": "What would make an attendance-based success claim incomplete?",
      "options": [
+      "It describes the method used to count recorded visits.",
       "It omits people unable to book and activities displaced by the new programme.",
-      "It acknowledges that some real use of the hall has occurred.",
-      "It describes the method used to count recorded visits."
+      "It acknowledges that some real use of the hall has occurred."
      ],
-     "answer": 0,
+     "answer": 1,
      "note": "Visible attendance cannot capture every access and participation outcome.",
      "immersiveSource": {
       "stage": "reading",
@@ -2931,11 +2931,11 @@
     {
      "prompt": "Which response respects both Leila’s and Arun’s needs?",
      "options": [
+      "Cancel the market because they have different priorities.",
       "Extend shopping and remove every delivery restriction.",
-      "Offer later shopping while protecting quiet and clear access.",
-      "Cancel the market because they have different priorities."
+      "Offer later shopping while protecting quiet and clear access."
      ],
-     "answer": 1,
+     "answer": 2,
      "note": "Their concerns can be addressed together.",
      "immersiveSource": {
       "stage": "reading",
@@ -2945,11 +2945,11 @@
     {
      "prompt": "Which detail in the interview changes the article’s delivery plan?",
      "options": [
+      "A decision to stop selling bread altogether.",
       "A possible bread delivery at seven thirty through the rear entrance.",
-      "A confirmed move of every delivery to seven thirty.",
-      "A decision to stop selling bread altogether."
+      "A confirmed move of every delivery to seven thirty."
      ],
-     "answer": 0,
+     "answer": 1,
      "note": "The interview proposes one limited exception.",
      "immersiveSource": {
       "stage": "listening",
@@ -2959,11 +2959,11 @@
     {
      "prompt": "Why would a seller’s name be missing from the afternoon list?",
      "options": [
+      "Extra hours are optional, and availability may differ.",
       "The morning market has been cancelled.",
-      "Every seller has agreed to remain until six.",
-      "Extra hours are optional, and availability may differ."
+      "Every seller has agreed to remain until six."
      ],
-     "answer": 2,
+     "answer": 0,
      "note": "The smaller afternoon selection follows from optional participation.",
      "immersiveSource": {
       "stage": "reading",
@@ -2973,11 +2973,11 @@
     {
      "prompt": "A post says that people cannot talk after four. Which correction is accurate?",
      "options": [
+      "Every sound is forbidden after four.",
       "Only customers can speak after four.",
-      "The proposed restriction concerns amplified music.",
-      "Every sound is forbidden after four."
+      "The proposed restriction concerns amplified music."
      ],
-     "answer": 1,
+     "answer": 2,
      "note": "Do not expand a music restriction into a ban on conversation.",
      "immersiveSource": {
       "stage": "listening",
@@ -2987,11 +2987,11 @@
     {
      "prompt": "What would make the final report incomplete?",
      "options": [
+      "Recording the workload of volunteers.",
       "Reporting customer numbers without access or noise evidence.",
-      "Including feedback from people who do not shop there.",
-      "Recording the workload of volunteers."
+      "Including feedback from people who do not shop there."
      ],
-     "answer": 0,
+     "answer": 1,
      "note": "The plan needs several kinds of evidence.",
      "immersiveSource": {
       "stage": "reading",
@@ -3001,11 +3001,11 @@
     {
      "prompt": "You cannot attend Monday’s meeting. What can you still do?",
      "options": [
+      "Leave a written comment at the library.",
       "Assume that silence counts as a vote for permanent hours.",
-      "Ask a seller to invent your opinion.",
-      "Leave a written comment at the library."
+      "Ask a seller to invent your opinion."
      ],
-     "answer": 2,
+     "answer": 0,
      "note": "The interview gives an alternative way to contribute.",
      "immersiveSource": {
       "stage": "listening",
@@ -3310,11 +3310,11 @@
     {
      "prompt": "Which plan could support both quiet reading and a language exchange?",
      "options": [
-      "Keep the conversation group in the booked smaller room.",
       "Require everyone in the reading room to join the exchange.",
-      "Treat the same table as a quiet and noisy space at once."
+      "Treat the same table as a quiet and noisy space at once.",
+      "Keep the conversation group in the booked smaller room."
      ],
-     "answer": 0,
+     "answer": 2,
      "note": "The rooms can meet different needs.",
      "immersiveSource": {
       "stage": "reading",
@@ -3324,11 +3324,11 @@
     {
      "prompt": "A friend plans to arrive on the first Wednesday. What information should you pass on?",
      "options": [
-      "The first date is unchanged because it appeared on a poster.",
       "The building will be open every night.",
-      "The start has been corrected to the second Wednesday."
+      "The start has been corrected to the second Wednesday.",
+      "The first date is unchanged because it appeared on a poster."
      ],
-     "answer": 2,
+     "answer": 1,
      "note": "The updated announcement takes precedence.",
      "immersiveSource": {
       "stage": "listening",
@@ -3338,11 +3338,11 @@
     {
      "prompt": "Why does a later opening not guarantee archive access?",
      "options": [
+      "The evening service does not include an archive specialist.",
       "The step-free entrance is being removed.",
-      "All books must stay upstairs after five.",
-      "The evening service does not include an archive specialist."
+      "All books must stay upstairs after five."
      ],
-     "answer": 2,
+     "answer": 0,
      "note": "A general opening time does not establish every specialist service.",
      "immersiveSource": {
       "stage": "reading",
@@ -3366,11 +3366,11 @@
     {
      "prompt": "What would help interpret low attendance fairly?",
      "options": [
+      "Ignore comments from people who could not attend.",
       "Check whether the intended users knew about the trial.",
-      "Assume the service was widely advertised without checking.",
-      "Ignore comments from people who could not attend."
+      "Assume the service was widely advertised without checking."
      ],
-     "answer": 0,
+     "answer": 1,
      "note": "Awareness is one possible explanation to investigate.",
      "immersiveSource": {
       "stage": "reading",

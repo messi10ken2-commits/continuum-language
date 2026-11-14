@@ -1,11 +1,14 @@
 import {immersiveStageTitle} from './immersive/labels.mjs';
 import catalog from './immersive/catalog.json' with {type:'json'};
+import canonical from './immersive/canonical.json' with {type:'json'};
+import {expandImmersiveUnit} from './immersive/catalog-model.mjs';
 import {languageInfo} from './languages.mjs';
 import {immersiveTopics,immersiveStages,immersiveUnitId} from './immersive/topics.mjs';
 export const immersiveChapters=[],immersiveLessons=[],immersiveScenarios=[];
 const stageNames={reading:'Reading',listening:'Listening',roleplay:'Immersive conversation',checkpoint:'Chapter checkpoint'};
 for(const [language,units] of Object.entries(catalog))for(const topic of immersiveTopics){
- const source=units[topic.key];if(!source)throw Error('Missing immersive chapter: '+language+'/'+topic.key);
+ const compact=units[topic.key];if(!compact)throw Error('Missing immersive chapter: '+language+'/'+topic.key);
+ const source=expandImmersiveUnit(compact,canonical[topic.key]);
  const id=immersiveUnitId(language,topic.key),locale=languageInfo(language).locale;
  immersiveChapters.push({id,language,locale,level:topic.level,title:source.title,goal:source.goal,kind:'Immersive chapter',specialist:true,immersive:true,curriculumVersion:4});
  for(const stage of immersiveStages){
