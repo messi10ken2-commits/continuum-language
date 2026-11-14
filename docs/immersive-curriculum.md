@@ -67,7 +67,11 @@ It uses the existing speech cache, synthesis deduplication, daily budget,
 concurrency limit, administrator pause and usage metering. Navigation does not
 generate narration. Playback uses one current roleplay turn, or one/full
 reading/listening recording, with existing cancellation and next-clip lookahead.
-No bulk paid generation was performed during authoring.
+No bulk paid generation was performed during authoring. Detached audio playback
+registers audible study activity, so longer narration remains tracked beyond
+the idle-input timeout, without an additional timer or heartbeat stream.
+Completed Light state switches directly to the result view even if the save
+finishes before the asynchronous navigation continuation.
 
 Narratives load as separate learning-language chunks. If a browser retains a failed
 module fetch, the explicit retry uses a bounded, cacheable public

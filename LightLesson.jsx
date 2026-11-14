@@ -46,8 +46,11 @@ export function LessonModeControl({mode,onChange,compact=false,busy=false}){retu
 export default forwardRef(function LightLesson({lesson,user,suspended,onExit,onStandard,modeControl,onNext,autoStart=false},ref){
  const language=lesson.language||'es',locale=languageInfo(language).locale;
  const blank=(version=lightLessonVersion)=>({version,round:0,steps:[],choice:null,hint:false,checked:false});
- const [record,setRecord]=useState(null),[state,setState]=useState(()=>blank()),[ready,setReady]=useState(false),[phase,setPhase]=useState('intro'),[busy,setBusy]=useState(false),[error,setError]=useState(''),[retry,setRetry]=useState(0);
+ const [record,setRecord]=useState(null),[state,setState]=useState(()=>blank()),[ready,setReady]=useState(false),[requestedPhase,setPhase]=useState('intro'),[busy,setBusy]=useState(false),[error,setError]=useState(''),[retry,setRetry]=useState(0);
  const activities=useMemo(()=>lightActivities(lesson,0,state.version),[lesson,state.version]);
+ // A completed save may render before the async next() continuation changes
+ // screens. Never index a seventh activity during that transition.
+ const phase=activities.length>0&&state.steps.length===activities.length?'result':requestedPhase;
  const kind=useLightCompanion(user,language);
  const [materialReady,setMaterialReady]=useState(!lesson.immersive);
  const [speaking,setSpeaking]=useState(false),[reward,setReward]=useState(null);

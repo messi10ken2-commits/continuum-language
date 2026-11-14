@@ -13,6 +13,7 @@ import React from 'react';import{createRoot}from'react-dom/client';
 import LightLesson from '../../LightLesson.jsx';import{LessonPlayer}from'../../SelfStudy.jsx';
 import{LanguageContext}from'../../LanguageContext.jsx';import{getLesson}from'../../course.mjs';
 import{setInterfaceLanguage}from'../../interface-runtime.mjs';
+import{useActivityTracker}from'../../LearningActivity.jsx';
 import '../../styles.css';import '../../features.css';import '../../continuum-ui.css';
 import '../../light-learning.css';import '../../light-motion.css';
 const p=new URLSearchParams(location.search),language=p.get('language')||'en',key=p.get('key')||'market',stage=p.get('stage')||'reading';
@@ -20,28 +21,32 @@ setInterfaceLanguage(p.get('display')||'en',{persist:false});
 const lesson=getLesson(language+'-immersive-'+key+'-v1-'+stage),user=p.has('live')?{id:'synthetic-immersive-browser',role:'learner'}:null;
 const complete=async result=>({id:'synthetic-completion',...result});
 const props={lesson,language,user,autoStart:true,lightAutoStart:true,initialAnswers:[],onDraft:async()=>{},onComplete:complete,onExit:()=>{},onStandard:()=>{}};
-createRoot(document.getElementById('root')).render(<LanguageContext.Provider value={language}><div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div></LanguageContext.Provider>);
+function App(){useActivityTracker(user);return <LanguageContext.Provider value={language}><div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div></LanguageContext.Provider>}
+createRoot(document.getElementById('root')).render(<App/>);
 `);
 const server=await createServer({configFile:false,optimizeDeps:{entries:[new URL('entry.jsx',directory).pathname]},server:{host:'127.0.0.1',port:0,hmr:false},appType:'custom',plugins:[{name:'immersion-ui',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(!req.url?.startsWith('/__immersive'))return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml(req.url,'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#root{padding:10px 8px 80px}</style></head><body><div id="root"></div><script type="module" src="/.media-build/immersive-ui/entry.jsx"></script></body></html>'))})}}]});
 const languages=['en','es','pt','ja','zh','ko','fr','de','ar','it'];
-let browser;
+let browser,diagnostics=[];
 try{
  await server.listen();const base='http://127.0.0.1:'+server.httpServer.address().port+'/__immersive';
  for(const [engineName,engine]of Object.entries({chromium,webkit})){
   browser=await engine.launch({headless:true,args:engineName==='chromium'?['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});
-  const context=await browser.newContext({viewport:{width:390,height:844}}),audioRequests=[],speakingStarts=[],adventureRequests=[],errors=[];
+  const context=await browser.newContext({viewport:{width:390,height:844}}),audioRequests=[],speakingStarts=[],adventureRequests=[],activityPings=[],errors=diagnostics=[];
   await context.addInitScript(()=>{
    localStorage.clear();localStorage.setItem('continuumCorrectSound','off');
    window.Audio=class extends EventTarget{
     constructor(src){super();this.src=src;this.paused=true;this.currentTime=0;this.playbackRate=1;}
-    async play(){this.paused=false;this.onplaying?.();this.timer=setTimeout(()=>{if(!this.paused){this.currentTime=1;this.onended?.()}},90)}
-    pause(){this.paused=true;clearTimeout(this.timer);this.onpause?.()}
+    get currentTime(){return (this.elapsed||0)+(this.paused?0:(Date.now()-this.started)/1000)}
+    set currentTime(value){this.elapsed=value;this.started=Date.now()}
+    async play(){this.started=Date.now();this.paused=false;this.onplaying?.();if(!window.__holdStudioAudio)this.timer=setTimeout(()=>{if(!this.paused){this.currentTime=1;this.onended?.()}},90)}
+    pause(){this.elapsed=this.currentTime;this.paused=true;clearTimeout(this.timer);this.onpause?.()}
     removeAttribute(){}load(){}
    };
   });
   await context.route('**/api/**',async route=>{
    const request=route.request(),url=new URL(request.url()),path=url.pathname;
    const json=data=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(data)});
+   if(path==='/api/activity/heartbeat'){activityPings.push(request.postDataJSON());return json({ok:true})}
    if(path.startsWith('/api/immersive/content/'))return json({units:await loadImmersivePack(path.split('/').at(-1))});
    if(path.startsWith('/api/immersive/audio/')){audioRequests.push(path);return route.fulfill({status:200,contentType:'audio/wav',headers:{'X-Audio-Source':'AI-generated studio voice'},body:Buffer.from('synthetic-browser-sequencing-fixture')})}
    if(path==='/api/adventure'){adventureRequests.push(url.search);return json({companion:'fox'})}
@@ -119,6 +124,21 @@ try{
   await page.locator('.light-lesson-pane .lesson-mode-compact select').selectOption('standard');
   await page.locator('.standard-lesson-pane:visible .immersive-source-head span').waitFor();
   assert.equal(await page.locator('.standard-lesson-pane .immersive-source-head span').innerText(),'Part 2 of 6');
+  // Long detached narration remains study activity beyond the 90-second idle
+  // cutoff, without creating a second activity timer or extra heartbeat stream.
+  await page.goto(base+'?language=en');
+  const timingPage=await context.newPage();timingPage.on('pageerror',e=>errors.push(e.message));
+  await timingPage.clock.install();await timingPage.goto(base+'?language=en&mode=standard&live=1');await timingPage.bringToFront();await timingPage.locator('.immersive-reading').first().waitFor();
+  await timingPage.evaluate(()=>{window.__holdStudioAudio=true});
+  await timingPage.locator('.immersive-audio .sentence-play').click();
+  await timingPage.waitForFunction(()=>document.querySelector('.immersive-audio .sentence-play')?.getAttribute('aria-label')==='Stop audio');
+  await timingPage.waitForTimeout(40);
+  await Promise.all([timingPage.waitForResponse(r=>r.url().endsWith('/api/activity/heartbeat')),timingPage.clock.fastForward(95000)]);
+  assert.equal(activityPings.at(-1).active,true,'foreground narration remains active after 90 seconds without input');
+  await timingPage.locator('.immersive-audio .sentence-play').click();await timingPage.waitForTimeout(40);
+  await Promise.all([timingPage.waitForResponse(r=>r.url().endsWith('/api/activity/heartbeat')),timingPage.clock.fastForward(95000)]);
+  assert.equal(activityPings.at(-1).active,false,'stopped and idle narration does not inflate study time');
+  await timingPage.close();audioRequests.length=0;
   // Live room uses the chapter scenario/level and suspends its underlying scene.
   adventureRequests.length=0;await page.goto(base+'?language=en&key=tourism&stage=roleplay&live=1');
   await page.locator('.immersive-live .outline-button').click();
@@ -142,5 +162,5 @@ try{
   assert.deepEqual(errors,[]);console.log('PASS '+engineName+': forty native Light stages, failed-load recovery, full six-question save, ordered audio, current dialogue turn, Standard/Light draft preservation, embedded chapter conversation, modal cleanup and Arabic phone layout.');
   await context.close();await browser.close();browser=null;
  }
-}catch(error){if(browser){let i=0;for(const context of browser.contexts())for(const page of context.pages()){await page.screenshot({path:new URL('failure-'+i+'.png',directory).pathname,fullPage:true}).catch(()=>{});await writeFile(new URL('failure-'+i+'.txt',directory),await page.locator('body').innerText().catch(()=>String(error)));i++}}throw error
+}catch(error){if(browser){let i=0;for(const context of browser.contexts())for(const page of context.pages()){await page.screenshot({path:new URL('failure-'+i+'.png',directory).pathname,fullPage:true}).catch(()=>{});await writeFile(new URL('failure-'+i+'.txt',directory),(await page.locator('body').innerText().catch(()=>String(error)))+'\nBrowser errors:\n'+JSON.stringify(diagnostics,null,2));i++}}throw error
 }finally{await browser?.close();await server.close();await rm(new URL('entry.jsx',directory),{force:true})}
