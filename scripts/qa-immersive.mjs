@@ -201,7 +201,7 @@ try{
   if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('.immersive-scene .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-c1-desktop.png',directory).pathname,fullPage:true});
   await page.setViewportSize({width:390,height:844});await page.goto(base+'?language=ja&passport=1');
-  const earnedStamp=page.locator('.passport-stamp:not([disabled])');assert.equal(await earnedStamp.count(),1);
+  const earnedStamp=page.locator('.passport-stamp:not([disabled])');assert.equal(await earnedStamp.count(),1);await earnedStamp.scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>{const image=document.querySelector('.passport-stamp:not([disabled])>img');return image?.complete&&image.naturalWidth>0});
   assert.match(await earnedStamp.locator('img').getAttribute('src'),/^\/passport-stamps\/ja-/);
   await earnedStamp.click();await page.locator('.passport-dialog[open] img').waitFor();
