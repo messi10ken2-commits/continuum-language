@@ -5,6 +5,7 @@ import {mkdir,writeFile,rm} from 'node:fs/promises';
 import {createServer} from 'vite';
 import {chromium,webkit} from 'playwright';
 import {getLesson} from '../course.mjs';
+import {translationKey} from '../localization-corpus.mjs';
 import {lightActivities} from '../light-learning-model.mjs';
 import {loadImmersiveUnit,loadImmersivePack} from '../immersive/loader.mjs';
 const directory=new URL('../.media-build/immersive-ui/',import.meta.url);await mkdir(directory,{recursive:true});
@@ -12,16 +13,16 @@ await writeFile(new URL('entry.jsx',directory),`
 import React from 'react';import{createRoot}from'react-dom/client';
 import LightLesson from '../../LightLesson.jsx';import{LessonPlayer}from'../../SelfStudy.jsx';
 import{LanguageContext}from'../../LanguageContext.jsx';import{getLesson}from'../../course.mjs';
-import{setInterfaceLanguage}from'../../interface-runtime.mjs';
+import{setInterfaceLanguage,bindInterfaceAccount}from'../../interface-runtime.mjs';
 import{useActivityTracker}from'../../LearningActivity.jsx';
 import '../../styles.css';import '../../features.css';import '../../continuum-ui.css';
 import '../../light-learning.css';import '../../light-motion.css';
 const p=new URLSearchParams(location.search),language=p.get('language')||'en',key=p.get('key')||'market',stage=p.get('stage')||'reading';
 setInterfaceLanguage(p.get('display')||'en',{persist:false});
-const lesson=getLesson(language+'-immersive-'+key+'-v1-'+stage),user=p.has('live')?{id:'synthetic-immersive-browser',role:'learner'}:null;
+const lesson=getLesson(language+'-immersive-'+key+'-v1-'+stage),user=p.has('live')||p.has('display')?{id:'synthetic-immersive-browser',role:'learner'}:null;
 const complete=async result=>({id:'synthetic-completion',...result});
 const props={lesson,language,user,autoStart:true,lightAutoStart:true,initialAnswers:[],onDraft:async()=>{},onComplete:complete,onExit:()=>{},onStandard:()=>{}};
-function App(){useActivityTracker(user);return <LanguageContext.Provider value={language}><div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div></LanguageContext.Provider>}
+function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <LanguageContext.Provider value={language}><div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div></LanguageContext.Provider>}
 createRoot(document.getElementById('root')).render(<App/>);
 `);
 const server=await createServer({configFile:false,optimizeDeps:{entries:[new URL('entry.jsx',directory).pathname]},server:{host:'127.0.0.1',port:0,hmr:false},appType:'custom',plugins:[{name:'immersion-ui',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(!req.url?.startsWith('/__immersive'))return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml(req.url,'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#root{padding:10px 8px 80px}</style></head><body><div id="root"></div><script type="module" src="/.media-build/immersive-ui/entry.jsx"></script></body></html>'))})}}]});
@@ -46,6 +47,12 @@ try{
   await context.route('**/api/**',async route=>{
    const request=route.request(),url=new URL(request.url()),path=url.pathname;
    const json=data=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(data)});
+   if(path==='/api/interface-language')return json({language:new URL(request.headers().referer).searchParams.get('display')||'en'});
+   if(path==='/api/localization'){
+    const data=request.postDataJSON(),q=getLesson('ar-immersive-market-v1-reading').questions[0];
+    const translated=new Map([[q.prompt,'ما الهدف من الاقتراح؟'],[q.options[0],'نقل جميع الأكشاك الاثني عشر إلى الحديقة.'],[q.options[1],'تحويل السوق إلى فعالية مسائية دائمة.'],[q.options[2],'تجربة تمديد ساعات العمل لمدة ستة أسابيع.']]);
+    return json({translations:data.items.filter(i=>translated.has(i.text)).map(i=>({id:translationKey(i.text,i.language||''),text:translated.get(i.text)}))});
+   }
    if(path==='/api/activity/heartbeat'){activityPings.push(request.postDataJSON());return json({ok:true})}
    if(path.startsWith('/api/immersive/content/'))return json({units:await loadImmersivePack(path.split('/').at(-1))});
    if(path.startsWith('/api/immersive/audio/')){audioRequests.push(path);return route.fulfill({status:200,contentType:'audio/wav',headers:{'X-Audio-Source':'AI-generated studio voice'},body:Buffer.from('synthetic-browser-sequencing-fixture')})}
@@ -162,10 +169,12 @@ try{
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('dialog')?.open);
   assert.equal(await page.locator('dialog canvas').count(),0,'closing unmounts the live renderer');
   await page.goto(base+'?language=ar&display=ar');await page.locator('.immersive-excerpt').waitFor();
-  assert.equal(await page.locator('html').getAttribute('dir'),'rtl');assert.equal(await page.locator('.immersive-excerpt').getAttribute('dir'),'auto');
+  await page.waitForFunction(()=>!document.querySelector('.lesson-translation'));assert.equal((await page.locator('.town-question-card .question-prompt h1').innerText()).trim(),'ما الهدف من الاقتراح؟');assert.equal(await page.locator('html').getAttribute('dir'),'rtl');assert.equal(await page.locator('.immersive-excerpt').getAttribute('dir'),'auto');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+  if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('.immersive-scene .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-arabic-phone.png',directory).pathname,fullPage:true});
   await page.setViewportSize({width:1280,height:900});await page.goto(base+'?language=en&key=heat&mode=standard');await page.locator('.immersive-reading').first().waitFor();
+  if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('.immersive-scene .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-c1-desktop.png',directory).pathname,fullPage:true});
   assert.deepEqual(errors,[]);console.log('PASS '+engineName+': forty native Light stages, failed-load recovery, full six-question save, ordered audio, current dialogue turn, Standard/Light draft preservation, embedded chapter conversation, modal cleanup and Arabic phone layout.');
   await context.close();await browser.close();browser=null;

@@ -15,7 +15,9 @@ They are not real reporting or licensed documentary footage. The interface
 identifies that provenance and synthetic studio narration explicitly.
 
 Reading passages, listening scripts, roleplay lines and spoken response options
-are authored in the learning language. Comprehension instructions, explanations
+are authored in the learning language. Native chapter titles and goals are
+explicitly preserved, including non-Latin scripts, so they are never mistaken
+for unavailable interface translations. Comprehension instructions, explanations
 and paraphrase options use the existing selected-interface-language localization
 system. Native utterances are protected from interface translation. Fixed new
 UI copy covers all ten supported interface languages; these differ from the ten
@@ -83,8 +85,8 @@ from 1,106,780 to 323,784 bytes; gzip from 297,692 to 101,720 bytes. These are
 representation measurements, not confirmed production bandwidth or operating
 cost savings. The real renderer is a separate lazy chunk (~539 kB raw / 134 kB
 gzip in the local build). A same-runtime comparison against the previous
-production source measured the initial JavaScript at 8,514,845 → 8,862,966
-bytes (+4.1%), and Node-default gzip at 2,142,974 → 2,253,408 bytes (+5.2%).
+production source measured the initial JavaScript at 8,514,845 → 8,863,823
+bytes (+4.1%), and Node-default gzip at 2,142,974 → 2,253,744 bytes (+5.2%).
 This is feature overhead, not a load-time improvement. The existing large main
 bundle remains a performance limitation. Physical-phone performance remains
 unmeasured.

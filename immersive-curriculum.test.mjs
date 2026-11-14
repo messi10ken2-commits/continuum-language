@@ -8,6 +8,7 @@ import {lightActivities,lightLessonVersion,lightLessonPassed,validLightState} fr
 import {lightRoute,lightLessonAvailability} from './light-route.mjs';
 import {immersiveLightEvidence} from './immersive-memory.mjs';
 import {buildPatternEvidence} from './learning-patterns.mjs';
+import {translationSource,protectSource} from './localization-corpus.mjs';
 import {displayLanguageOptions} from './answer-language.mjs';
 const added=chapters.filter(c=>c.immersive),lessons=lessonList.filter(l=>l.immersive);
 test('ten languages contain exactly 2 B1, 3 B2 and 4 C1 four-stage chapters without a writing stage',()=>{
@@ -71,4 +72,16 @@ test('Learning Memory derives first-attempt evidence without inventing incorrect
  assert.ok(report.topics[0].evidence[0].text.includes('original incorrect wording was not retained'));
  assert.deepEqual(immersiveLightEvidence([{...record,state:{...record.state,steps:record.state.steps.slice(0,2)}}]),[]);
  assert.deepEqual(immersiveLightEvidence([{...record,state:{...record.state,version:'light-v5'}}]),[]);
+});
+
+test('native chapter labels remain readable in every UI language while comprehension remains translatable',()=>{
+ for(const lesson of lessons){
+  for(const value of [lesson.title,lesson.explanation])for(const language of ['',lesson.language]){
+   const source=translationSource(value,language);assert.ok(source,lesson.id+' native label');
+   const protectedValue=protectSource(source);assert.match(protectedValue.text,/^⟦KEEP_\d+⟧$/);assert.equal(protectedValue.restore(protectedValue.text),value);
+  }
+  if(lesson.immersive.stage!=='roleplay'){
+   for(const q of lesson.questions){assert.ok(translationSource(q.prompt,lesson.language));for(const option of q.options)assert.ok(translationSource(option));}
+  }
+ }
 });

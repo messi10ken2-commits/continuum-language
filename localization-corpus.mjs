@@ -94,6 +94,15 @@ for(const task of skillTasks){
  for(const tip of task.tips||[])add(tip,language,preserve);
  for(const q of task.questions||[]){const protectedQ=[...preserve,...questionLearningText(q,language)];add(q.prompt,language,protectedQ);add(q.note,language,protectedQ);}
 }
+// Chapter names and goals are authored learning-language material, including
+// scripts without Latin letters. Do not classify them as untranslated UI copy.
+function keepImmersiveNative(text,language){
+ if(typeof text!=='string'||!text.trim())return;
+ for(const scope of ['',language])corpus.set(translationKey(text,scope),{text,language:scope,context:'Authored immersion chapter name or learning goal',protectedValues:[text]});
+}
+for(const lesson of lessonList.filter(l=>l.immersive))for(const key of ['title','explanation'])keepImmersiveNative(lesson[key],lesson.language);
+for(const chapter of chapters.filter(c=>c.immersive))for(const key of ['title','goal'])keepImmersiveNative(chapter[key],chapter.language);
+for(const scenario of immersiveScenarios){keepImmersiveNative(scenario.title,scenario.language);for(const goal of scenario.goals)keepImmersiveNative(goal,scenario.language);}
 const baselineEntries=new Map();
 for(const source of supplementalLessonSources){const key=translationKey(source.text,source.language);if(!baselineEntries.has(key))baselineEntries.set(key,corpus.get(key)||null);add(source.text,source.language,source.protectedValues);}
 // Build-time audits can regenerate supplements without accidentally retaining stale protections.
