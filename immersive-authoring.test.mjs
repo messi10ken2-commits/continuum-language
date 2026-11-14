@@ -8,9 +8,11 @@ import {units as chinese} from './immersive/zh.mjs';
 import {units as french} from './immersive/fr.mjs';
 import {units as italian} from './immersive/it.mjs';
 import {units as german} from './immersive/de.mjs';
+import {units as korean} from './immersive/ko.mjs';
+import {units as arabic} from './immersive/ar.mjs';
 import {validateImmersiveUnits} from './immersive/validate.mjs';
 import {localizeUnit} from './immersive/localize.mjs';
-for(const [language,pack] of Object.entries({en:units,ja:japanese,es:spanish,pt:portuguese,zh:chinese,fr:french,it:italian,de:german}))test(language+' authored sources and exercises have valid, non-repeated source windows',()=>{
+for(const [language,pack] of Object.entries({en:units,ja:japanese,es:spanish,pt:portuguese,zh:chinese,fr:french,it:italian,de:german,ko:korean,ar:arabic}))test(language+' authored sources and exercises have valid, non-repeated source windows',()=>{
  assert.deepEqual(validateImmersiveUnits(language,pack,{english:units}),[]);
 });
 test('authoring audit detects an untranslated source and a repeated answer',()=>{
@@ -30,7 +32,7 @@ test('native dialogue rotates the intended answer without changing its meaning',
 import canonical from './immersive/canonical.json' with {type:'json'};
 import {compactImmersiveUnit,expandImmersiveUnit} from './immersive/catalog-model.mjs';
 test('shared catalog metadata preserves every authored question, answer and evidence summary',()=>{
- for(const pack of [units,japanese,spanish,portuguese,chinese,french,italian,german])for(const [key,u]of Object.entries(pack)){
+ for(const pack of [units,japanese,spanish,portuguese,chinese,french,italian,german,korean,arabic])for(const [key,u]of Object.entries(pack)){
   const restored=expandImmersiveUnit(compactImmersiveUnit(u),canonical[key]);
   assert.deepEqual(restored.questions,u.questions,key);
   assert.deepEqual(restored.evidence,[...u.reading.map(p=>p.point),...u.listening.map(p=>p.point)]);

@@ -7,14 +7,14 @@ export default function Companion3D({kind='capybara',speaking=false,celebrate=fa
  values.current={speaking,celebrate,reacting,level};
  const [ready,setReady]=useState(false);
  useEffect(()=>{
-  const element=host.current;if(!element)return;
+  const element=host.current;if(!element)return;setReady(false);
   let live=true,creating=false,inView=false;
   const preference=matchMedia('(prefers-reduced-motion: reduce)');
   const sync=()=>player.current?.setActive(inView&&!document.hidden&&!element.closest('[inert]'),preference.matches);
   const start=async()=>{
    if(creating||player.current||!live)return;creating=true;
    try{
-    rendererModule??=import('./companion-3d-renderer.mjs');
+    rendererModule??=import('./companion-3d-renderer.mjs').catch(error=>{rendererModule=undefined;throw error});
     const {createCompanion}=await rendererModule;
     if(!live)return;
     player.current=createCompanion(element,kind,()=>values.current);

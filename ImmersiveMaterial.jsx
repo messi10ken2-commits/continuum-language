@@ -56,6 +56,6 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
     
    </div>}
   </div>
-  <dialog ref={dialog} className="immersive-live-panel" aria-label={t('Live AI conversation')} onCancel={e=>{e.preventDefault();setLive(false)}} onClose={()=>setLive(false)}>{live&&!suspended&&<AISpeaking language={lesson.language} user={user} initialScenario={lesson.immersive.unit} initialLevel={lesson.level} companion={kind||'capybara'} onBack={()=>setLive(false)}/>}</dialog>
+  <dialog ref={dialog} className="immersive-live-panel" aria-label={t('Live AI conversation')} onCancel={e=>{e.preventDefault();setLive(false)}} onClose={()=>setLive(false)}>{live&&!suspended&&<AISpeaking embedded language={lesson.language} user={user} initialScenario={lesson.immersive.unit} initialLevel={lesson.level} companion={kind||'capybara'} onBack={()=>setLive(false)}/>}</dialog>
  </section>;
 }
