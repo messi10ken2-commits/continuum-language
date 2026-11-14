@@ -20,7 +20,9 @@ function add(text,locale,scope,lesson,fallback=locale){if(typeof text!=='string'
 function questions(l,qs){const locale=l.locale||languageInfo(l.language||'es').locale,lang=l.language||'es';for(const q of qs){if(q.audio)add(q.audioSpeech||q.audio,q.audioLocale||locale,'listening',l.id);if(!displayLanguageOptions(q,l)){if(!q.optionsLang||q.optionsLang.split('-')[0]===lang)for(const o of q.options||[])add(o,q.optionsLang||locale,'option',l.id);const correct=q.type==='text'?q.answer:q.options?.[q.answer];canPlayAnswerAudio(q,l)&&add(q.answerAudio||correct,q.answerLocale||q.optionsLang||locale,'feedback',l.id);}}}
 const seen=new Set();
 const reachable=[...lessonList,...legacyInternationalLessons,...archivedExpandedVideoLessons].filter(l=>{if(seen.has(l.id))return false;seen.add(l.id);return true;});
-for(const l of reachable){const locale=l.locale||languageInfo(l.language||'es').locale;
+// Immersion recordings use canonical segmented endpoints and on-demand studio
+// narration. They are not references to the historical bundled audio pack.
+for(const l of reachable.filter(l=>!l.immersive)){const locale=l.locale||languageInfo(l.language||'es').locale;
  for(const f of visualFrames(l,{all:true}))add(f.audio||f.text,f.lang||locale,'gallery',l.id);
  add(l.example,l.exampleLang||l.locale||'auto','example',l.id,locale);
  for(const w of l.vocabulary||[])for(const k of ['term','phrase','example'])add(w[k],locale,'vocabulary-'+k,l.id);

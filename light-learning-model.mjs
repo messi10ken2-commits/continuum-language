@@ -37,7 +37,7 @@ export function validLightState(activities,state){return !!state&&lightVersions.
 // Light is its own complete route. Every authored model is covered over short rounds.
 export function lightModels(lesson,{historical=false}={}){
  const displayOptions=historical?historicalDisplayOptions:displayLanguageOptions;
- if(!lesson||lesson.checkpoint||lesson.summaryTest)return [];
+ if(!lesson||lesson.immersive||lesson.checkpoint||lesson.summaryTest)return [];
  const language=lesson.language||'es',locale=languageInfo(language).locale,pairs=[],seen=new Set();
  const add=(model,meaning,extra={})=>{if(typeof model!=='string'||lesson.characters?.length&&language==='ja'&&/^[a-z]+$/i.test(model)||!model.trim()||model.length>400||/_{2,}|https?:/.test(model)||seen.has(model.trim()))return;seen.add(model.trim());pairs.push({model:model.trim(),meaning:typeof meaning==='string'&&meaning.trim()!==model.trim()?meaning.trim():'',locale,...extra})};
  for(const w of [...(lesson.vocabulary||[]),...(lesson.expressions||[])]){add(w.phrase||w.term,w.meaning||w.translation);if(w.example)add(w.example,w.exampleTranslation)}
@@ -64,7 +64,7 @@ export function v2LightActivities(lesson,round=0){
 }
 function rotate(values,n){return n%2?values:values.toReversed()}
 export function lightAudioTargets(lessons){const found=new Map();const add=(text,locale,lesson)=>{if(!text)return;for(const part of speechParts(text,locale,locale)){const key=JSON.stringify([part.lang,part.text.normalize('NFC').trim()]);if(!found.has(key))found.set(key,{text:part.text.normalize('NFC').trim(),locale:part.lang,lesson})}};
- for(const lesson of lessons){if(lesson.checkpoint||lesson.summaryTest)continue;for(const p of lightModels(lesson))add(p.audio||p.model,p.locale,lesson.id);for(const q of lesson.questions||[])if(q.audio)add(q.audioSpeech||q.audio,q.audioLocale||languageInfo(lesson.language||'es').locale,lesson.id)}return [...found.values()];}
+ for(const lesson of lessons){if(lesson.immersive||lesson.checkpoint||lesson.summaryTest)continue;for(const p of lightModels(lesson))add(p.audio||p.model,p.locale,lesson.id);for(const q of lesson.questions||[])if(q.audio)add(q.audioSpeech||q.audio,q.audioLocale||languageInfo(lesson.language||'es').locale,lesson.id)}return [...found.values()];}
 
 // Six retrieval questions, without counting previews as answers. Keep old versions immutable.
 export function lightLessonPassed(steps,total){

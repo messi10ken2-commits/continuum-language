@@ -25,11 +25,16 @@ learning languages (Indonesian/Russian UI; German/Italian learning content).
 
 Standard presents the full article and full recording, with individual parts
 available. Light presents six manageable source windows/questions in one run;
-its checkpoint is included. Five of six first-attempt answers are needed to
+its checkpoint is included. Standard checkpoints randomize their six authored
+questions/choices with revision-bearing seeds; saved drafts and grading use the
+same seed. Five of six first-attempt answers are needed to
 meet the existing ≥80% threshold. It does not restore historical multi-round
 practice. New chapters are optional branches in Light, with their internal
 stages ordered, and do not lock old lessons. Historical lesson IDs, relative
-ordering, grading versions, accounts and saved records remain intact.
+ordering, grading versions, accounts and saved records remain intact. New
+chapters have ninety illustrated passport stamps and stage-specific lesson
+card artwork; existing artwork assignments and photo-to-chapter mappings are
+preserved.
 
 The conversation lesson combines guided decisions and an optional live AI
 conversation using the chapter's canonical language, level, goals and source
@@ -69,7 +74,9 @@ It uses the existing speech cache, synthesis deduplication, daily budget,
 concurrency limit, administrator pause and usage metering. Navigation does not
 generate narration. Playback uses one current roleplay turn, or one/full
 reading/listening recording, with existing cancellation and next-clip lookahead.
-No bulk paid generation was performed during authoring. Detached audio playback
+These new narratives are on-demand studio recordings, separate from the
+unchanged provider-independent historical bundled pack. No bulk paid generation
+was performed during authoring. Detached audio playback
 registers audible study activity, so longer narration remains tracked beyond
 the idle-input timeout, without an additional timer or heartbeat stream.
 Completed Light state switches directly to the result view even if the save
@@ -85,8 +92,8 @@ from 1,106,780 to 323,784 bytes; gzip from 297,692 to 101,720 bytes. These are
 representation measurements, not confirmed production bandwidth or operating
 cost savings. The real renderer is a separate lazy chunk (~539 kB raw / 134 kB
 gzip in the local build). A same-runtime comparison against the previous
-production source measured the initial JavaScript at 8,514,845 → 8,863,823
-bytes (+4.1%), and Node-default gzip at 2,142,974 → 2,253,744 bytes (+5.2%).
+production source measured the initial JavaScript at 8,514,845 → 8,929,015
+bytes (+4.9%), and Node-default gzip at 2,142,974 → 2,264,401 bytes (+5.7%).
 This is feature overhead, not a load-time improvement. The existing large main
 bundle remains a performance limitation. Physical-phone performance remains
 unmeasured.
@@ -112,7 +119,9 @@ The expanded Chromium/WebKit integration suite covers forty native Light stage
 screens per engine, load recovery, audio sequence, six-question completion,
 mode/draft preservation, live-dialog cleanup, phone RTL and desktop layout.
 Its results and production Docker verification must be confirmed before merge.
-The workflow uploads screenshots for visual inspection.
+The workflow uploads screenshots for visual inspection. The complete Node
+regression suite runs once in parallel with immersion browser QA; the final
+existing-browser/security/Docker job requires both to pass.
 
 At this documentation checkpoint, the full feature is on the working branch,
 not yet deployed. Do not treat a passing source audit as native-editor semantic

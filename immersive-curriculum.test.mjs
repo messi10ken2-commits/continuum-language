@@ -85,3 +85,14 @@ test('native chapter labels remain readable in every UI language while comprehen
   }
  }
 });
+
+test('seeded immersion checkpoints reproduce source windows and grading and retain their authored revision',()=>{
+ for(const lesson of lessons.filter(l=>l.checkpoint)){
+  const seed='v1-'+lesson.exerciseVersion+'-first-123456789',other='v1-'+lesson.exerciseVersion+'-second-123456789';
+  const a=getLessonVariant(lesson.id,seed),b=getLessonVariant(lesson.id,other);
+  assert.deepEqual(a,getLessonVariant(lesson.id,seed));assert.notDeepEqual(a.questions,b.questions);assert.equal(a.questions.length,6);
+  assert.equal(gradeLesson(lesson.id,a.questions.map(q=>q.answer),seed).score,100);
+  for(const q of a.questions)assert.deepEqual(q.immersiveSource,lesson.questions.find(x=>x.id===q.id).immersiveSource);
+  assert.ok(isCurrentLessonDraft(lesson.id,[a.questions[0].answer],seed));assert.ok(!isCurrentLessonDraft(lesson.id,[],'v1-immersive-v0-first-123456789'));
+ }
+});

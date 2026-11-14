@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import {mkdir,writeFile,rm} from 'node:fs/promises';
 import {createServer} from 'vite';
 import {chromium,webkit} from 'playwright';
-import {getLesson} from '../course.mjs';
+import {getLesson,getLessonVariant} from '../course.mjs';
 import {translationKey} from '../localization-corpus.mjs';
 import {lightActivities} from '../light-learning-model.mjs';
 import {loadImmersiveUnit,loadImmersivePack} from '../immersive/loader.mjs';
@@ -12,7 +12,8 @@ const directory=new URL('../.media-build/immersive-ui/',import.meta.url);await m
 await writeFile(new URL('entry.jsx',directory),`
 import React from 'react';import{createRoot}from'react-dom/client';
 import LightLesson from '../../LightLesson.jsx';import{LessonPlayer}from'../../SelfStudy.jsx';
-import{LanguageContext}from'../../LanguageContext.jsx';import{getLesson}from'../../course.mjs';
+import{LanguageContext}from'../../LanguageContext.jsx';import{getLesson,chapters}from'../../course.mjs';
+import Passport from '../../Passport.jsx';
 import{setInterfaceLanguage,bindInterfaceAccount}from'../../interface-runtime.mjs';
 import{useActivityTracker,useStudyActivity}from'../../LearningActivity.jsx';
 import SentenceAudio from '../../SentenceAudio.jsx';
@@ -22,9 +23,9 @@ const p=new URLSearchParams(location.search),language=p.get('language')||'en',ke
 setInterfaceLanguage(p.get('display')||'en',{persist:false});
 const lesson=getLesson(language+'-immersive-'+key+'-v1-'+stage),user=p.has('live')||p.has('display')?{id:'synthetic-immersive-browser',role:'learner'}:null;
 const complete=async result=>({id:'synthetic-completion',...result});
-const props={lesson,language,user,autoStart:true,lightAutoStart:true,initialAnswers:[],onDraft:async()=>{},onComplete:complete,onExit:()=>{},onStandard:()=>{}};
+const props={lesson,language,user,autoStart:true,lightAutoStart:true,initialAnswers:p.has('intro')?undefined:[],initialSeed:p.get('seed')||undefined,onDraft:async(_answers,seed)=>{window.__draftSeed=seed},onComplete:complete,onExit:()=>{},onStandard:()=>{}};
 function AudioSwap(){const[part,setPart]=React.useState(0);useStudyActivity(true);return <section className="audio-swap-fixture"><SentenceAudio text={part?'A different narrated example.':'The first narrated example.'} lang="en-US" audioEndpoint={'/api/immersive/audio/en-immersive-market-v1-reading/reading/'+part}/><button onClick={()=>setPart(1)}>Change narration text</button></section>}
-function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <LanguageContext.Provider value={language}>{p.has('audioSwap')?<AudioSwap/>:<div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div>}</LanguageContext.Provider>}
+function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <LanguageContext.Provider value={language}>{p.has('audioSwap')?<AudioSwap/>:p.has('passport')?<Passport language={language} stamps={[{id:'chapter:'+lesson.chapter,kind:'chapter',title:chapters.find(c=>c.id===lesson.chapter).title,at:'2026-11-14T12:00:00Z'}]}/>:<div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div>}</LanguageContext.Provider>}
 createRoot(document.getElementById('root')).render(<App/>);
 `);
 const server=await createServer({configFile:false,optimizeDeps:{entries:[new URL('entry.jsx',directory).pathname]},server:{host:'127.0.0.1',port:0,hmr:false},appType:'custom',plugins:[{name:'immersion-ui',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(!req.url?.startsWith('/__immersive'))return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml(req.url,'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#root{padding:10px 8px 80px}</style></head><body><div id="root"></div><script type="module" src="/.media-build/immersive-ui/entry.jsx"></script></body></html>'))})}}]});
@@ -141,6 +142,16 @@ try{
   await page.locator('.light-lesson-pane .lesson-mode-compact select').selectOption('standard');
   await page.locator('.standard-lesson-pane:visible .immersive-source-head span').waitFor();
   assert.equal(await page.locator('.standard-lesson-pane .immersive-source-head span').innerText(),'Part 2 of 6');
+  // Standard checkpoint retakes carry their authored revision in the seed.
+  await page.goto(base+'?language=en&stage=checkpoint&mode=standard&intro=1');
+  await page.getByRole('button',{name:'Start practice',exact:false}).click();
+  await page.locator('.standard-lesson-pane .immersive-source-head span').waitFor();
+  const checkpointSeed=await page.evaluate(()=>window.__draftSeed);assert.match(checkpointSeed,/^v1-immersive-v1-/);
+  const checkpoint=getLessonVariant('en-immersive-market-v1-checkpoint',checkpointSeed);
+  assert.equal(await page.locator('.standard-lesson-pane .immersive-source-head span').innerText(),'Part '+(checkpoint.questions[0].immersiveSource.part+1)+' of 6');
+  await page.goto(base+'?language=en&stage=checkpoint&mode=standard&seed='+checkpointSeed);
+  await page.locator('.standard-lesson-pane .immersive-source-head span').waitFor();
+  assert.equal(await page.locator('.standard-lesson-pane .immersive-source-head span').innerText(),'Part '+(checkpoint.questions[0].immersiveSource.part+1)+' of 6');
   // Long detached narration remains study activity beyond the 90-second idle
   // cutoff, without creating a second activity timer or extra heartbeat stream.
   await page.goto(base+'?language=en');
@@ -189,6 +200,14 @@ try{
   await page.setViewportSize({width:1280,height:900});await page.goto(base+'?language=en&key=heat&mode=standard');await page.locator('.immersive-reading').first().waitFor();
   if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('.immersive-scene .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-c1-desktop.png',directory).pathname,fullPage:true});
+  await page.setViewportSize({width:390,height:844});await page.goto(base+'?language=ja&passport=1');
+  const earnedStamp=page.locator('.passport-stamp:not([disabled])');assert.equal(await earnedStamp.count(),1);
+  await page.waitForFunction(()=>{const image=document.querySelector('.passport-stamp:not([disabled])>img');return image?.complete&&image.naturalWidth>0});
+  assert.match(await earnedStamp.locator('img').getAttribute('src'),/^\/passport-stamps\/ja-/);
+  await earnedStamp.click();await page.locator('.passport-dialog[open] img').waitFor();
+  assert.equal(await page.locator('.passport-dialog .passport-scenery').count(),0,'new artwork is not mislabeled as a photograph');
+  await page.screenshot({path:new URL(engineName+'-immersion-stamp.png',directory).pathname,fullPage:false});
+  await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('.passport-dialog').open);
   assert.deepEqual(errors,[]);console.log('PASS '+engineName+': forty native Light stages, failed-load recovery, full six-question save, ordered audio, current dialogue turn, Standard/Light draft preservation, embedded chapter conversation, modal cleanup and Arabic phone layout.');
   await context.close();await browser.close();browser=null;
  }

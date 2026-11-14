@@ -11,7 +11,7 @@ permissions:
   contents: read
 jobs:
   validate:
-    needs: immersion
+    needs: [immersion, tests]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -41,7 +41,6 @@ jobs:
             .media-build/six-languages
             .media-build/language-records
           if-no-files-found: ignore
-      - run: npm run test:qa
       - run: npm run audit:language
       - run: npm audit --omit=dev
       - name: Build production image
@@ -50,6 +49,19 @@ jobs:
         run: |
           docker run --rm continuum-security-check node scripts/check-runtime.mjs
           test "$(docker run --rm continuum-security-check id -u)" != "0"
+
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm run check:runtime
+      - run: npm ci
+      - run: npm run test:qa
 
   immersion:
     runs-on: ubuntu-latest

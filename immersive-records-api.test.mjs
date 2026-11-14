@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {test} from 'node:test';
 import {testServer,db} from './test-server.mjs';
-import {getLesson} from './course.mjs';
+import {getLesson,getLessonVariant} from './course.mjs';
 import {lightActivities,lightLessonVersion} from './light-learning-model.mjs';
 const base='http://127.0.0.1:'+testServer.address().port;
 async function account(name){const r=await fetch(base+'/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email:name+'@immersion.test',password:'SyntheticImmersionQA2026!',role:'learner',adult:true})});assert.ok(r.ok);return r.headers.get('set-cookie').split(';')[0]}
@@ -29,5 +29,15 @@ test('real saved immersion records preserve first attempts, isolate accounts and
  const changed=await call(owner,'/patterns?language=es');assert.notEqual(changed.data.revision,report.data.revision,'new evidence invalidates the calculated report fingerprint');
  assert.equal(changed.data.coverage.lessons,2);
  assert.equal((await call(owner,'/learning/light/'+lesson.id,'PUT',{id:crypto.randomUUID(),revision:0,state:{...blank,version:'light-v5',steps:corrected}})).status,400,'new chapter IDs cannot be submitted with legacy grading');
+ const checkpoint=getLesson('es-immersive-market-v1-checkpoint'),seed='v1-'+checkpoint.exerciseVersion+'-api-first-123456789',variant=getLessonVariant(checkpoint.id,seed);
+ const answers=variant.questions.map(q=>q.answer);
+ const draft=await call(owner,'/learning/'+checkpoint.id,'PUT',{answers:answers.slice(0,1),seed});assert.equal(draft.status,200);
+ assert.equal((await call(owner,'/learning')).data.drafts.find(d=>d.lesson===checkpoint.id).seed,seed);
+ assert.ok(!(await call(other,'/learning')).data.drafts.some(d=>d.lesson===checkpoint.id));
+ const key=crypto.randomUUID(),submission={lesson:checkpoint.id,seed,answers,submissionKey:key};
+ const completed=await call(owner,'/practice','POST',submission);assert.equal(completed.status,201);assert.equal(completed.data.attempt.score,100);
+ assert.equal((await call(owner,'/practice','POST',submission)).data.attempt.id,completed.data.attempt.id);
+ assert.equal((await call(owner,'/practice','POST',{...submission,seed:'v1-immersive-v0-api-first-123456789',submissionKey:crypto.randomUUID()})).status,400);
+ assert.ok(!(await call(owner,'/learning')).data.drafts.some(d=>d.lesson===checkpoint.id));
  console.log('PASS: real in-memory PostgreSQL, first-attempt scoring, immutable history, cross-account/language isolation, reward gating and Learning Memory cache invalidation.');
 }finally{testServer.close();await db.close()}});

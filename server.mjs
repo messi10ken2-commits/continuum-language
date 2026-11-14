@@ -33,7 +33,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import pg from 'pg';
-import {getLesson,getLessonVariant,gradeLesson,validAnswer,isCurrentLessonDraft} from './course.mjs';
+import {getLesson,getLessonVariant,gradeLesson,validAnswer,isCurrentLessonDraft,isCurrentLessonRevision} from './course.mjs';
 import {migratePatterns,handlePatterns} from './patterns-api.mjs';
 import {questionEvidence} from './learning-patterns.mjs';
 import {assessSkill} from './ai-assessment.mjs';
@@ -235,7 +235,7 @@ async function handle(req,res){
  }
  if(route==='/api/practice'&&req.method==='POST'){
   const user=await required(req,'learner'),data=await json(req);let result,resolved;
-  try{const current=getLesson(data.lesson);if(current?.exerciseVersion&&current.exerciseVersion!==data.seed)throw Error('Updated exercise: reload this lesson');resolved=await withVerifiedAnswers(pool,user.id,getLessonVariant(data.lesson,data.seed));result=gradeResolvedLesson(resolved,data.answers)}catch{fail(400,'Invalid completed exercise')}
+  try{const current=getLesson(data.lesson);if(!isCurrentLessonRevision(current,data.seed))throw Error('Updated exercise: reload this lesson');resolved=await withVerifiedAnswers(pool,user.id,getLessonVariant(data.lesson,data.seed));result=gradeResolvedLesson(resolved,data.answers)}catch{fail(400,'Invalid completed exercise')}
   const key=data.submissionKey||null;if(key!==null&&(typeof key!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(key)))fail(400,'Invalid submission key');
   const c=await pool.connect();try{
    await c.query('BEGIN');

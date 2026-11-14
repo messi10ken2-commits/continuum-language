@@ -35,10 +35,17 @@ try{
    storage.delete('continuumLessonDrafts');storage.delete('continuumTestSeeds');
   }
  }
- for(const l of fullLessonList.filter(l=>l.specialist&&l.skill!=='Grammar'&&!l.checkpoint&&!l.visualStory&&!l.conversation)){
+ for(const l of fullLessonList.filter(l=>l.specialist&&!l.immersive&&l.skill!=='Grammar'&&!l.checkpoint&&!l.visualStory&&!l.conversation)){
   const html=render(l.language||'es',l.id);assert.ok(html.includes(l.characters?'Character studio':'Your sound studio'),l.id);
   if(l.pronunciationTarget)assert.ok(html.includes(l.language==='ja'?'Record &amp; compare':'Record &amp; assess'),l.id);
   storage.set('continuumTestSeeds',JSON.stringify({[l.id]:l.exerciseVersion}));storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));assert.ok(render(l.language||'es',l.id).includes('question-card'),l.id);storage.delete('continuumLessonDrafts');
+ }
+ // Immersion is a source-reading/conversation specialist, not a sound studio.
+ for(const l of fullLessonList.filter(l=>l.immersive)){
+  assert.ok(render(l.language,l.id).includes('lesson-intro-card'),l.id);
+  storage.set('continuumTestSeeds',JSON.stringify({[l.id]:l.exerciseVersion}));storage.set('continuumLessonDrafts',JSON.stringify({[l.id]:[]}));
+  const html=render(l.language,l.id);assert.ok(html.includes('question-card')&&html.includes('immersive-loading'),l.id);assert.ok(!html.includes('Your sound studio'),l.id);
+  storage.delete('continuumLessonDrafts');storage.delete('continuumTestSeeds');
  }
  // Render the new tile interaction from a saved v2 draft in every language.
  for(const language of ['es','en','pt','ja']){

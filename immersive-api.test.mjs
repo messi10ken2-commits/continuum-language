@@ -48,3 +48,10 @@ test('content recovery returns only public authored packs, uses bounded rate lim
  assert.equal(state.sent.headers['Cache-Control'],'public, max-age=3600');assert.equal(state.calls.length,0);assert.deepEqual(state.limited,[{key:'immersive-content',n:60}]);
  for(const [route,method,status]of [['/api/immersive/content/__proto__','GET',404],['/api/immersive/content/ar/../../users','GET',404],['/api/immersive/content/en','POST',405]]){const {args}=context(route,{method});await assert.rejects(handleImmersiveContent(args),e=>e.status===status)}
 });
+
+test('new source recordings do not pretend to be historical bundled word/example references',async()=>{
+ const {ordinaryLessonAudioTargets}=await import('./lesson-audio-targets.mjs'),{lightAudioTargets,lightModels}=await import('./light-learning-model.mjs'),{lessonList,getLesson}=await import('./course.mjs');
+ const ordinary=ordinaryLessonAudioTargets();assert.ok(ordinary.length>12000);assert.ok(ordinary.every(r=>r.lessons.every(id=>!getLesson(id)?.immersive)));
+ assert.ok(lightAudioTargets(lessonList).every(r=>!getLesson(r.lesson)?.immersive));
+ for(const lesson of lessonList.filter(l=>l.immersive))assert.deepEqual(lightModels(lesson),[]);
+});
