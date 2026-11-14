@@ -1,5 +1,3 @@
-import Companion3D from './Companion3D.jsx';
-import './companion-3d.css';
 import React,{useEffect,useState} from 'react';
 import {Check,LockKeyhole,Star,Gem,Sparkles} from 'lucide-react';
 import {companions,companionNames} from './adventure-model.mjs';
@@ -36,7 +34,7 @@ export function TownCompanion({kind,speaking=false,celebrate=false}){
   onClick={()=>setReacting(true)}>
   <span className="town-companion-ground" aria-hidden="true"/>
   <span className="town-companion-depth" aria-hidden="true">
-   <Companion3D kind={kind} speaking={speaking} celebrate={celebrate} reacting={reacting}><img className="town-companion-sprite" src={'/light-town/'+kind+'.webp'} alt="" data-celebrate={celebrate}/></Companion3D>
+   <img className="town-companion-sprite" src={'/light-town/'+kind+'.webp'} alt="" data-celebrate={celebrate}/>
   </span>
   {speaking&&<span className="town-waves" aria-hidden="true"><i/><i/><i/></span>}
  </button>:null;

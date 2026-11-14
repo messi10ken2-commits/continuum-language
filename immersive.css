@@ -80,3 +80,15 @@
 @media(prefers-reduced-motion:reduce){:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) *{scroll-behavior:auto!important}}
 
 :is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .immersive-live-caption{width:100%;max-width:480px;max-height:13dvh;overflow:auto;overscroll-behavior:contain;box-sizing:border-box;margin:0;padding:12px 16px;background:#fffaf2ed;border:1px solid #dfcdb5;border-radius:16px;font-size:16px;line-height:1.7;color:#3d2d3e;text-align:start;white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* Restore the approved illustrated companion; standard materials use still art. */
+.immersive-static-scene{background:#f8f4ed}
+.immersive-static-scene .page-scene{margin:0;border:0;border-radius:0}
+.immersive-static-scene .page-scene-button{display:block;width:100%}
+.immersive-static-scene .visual-practice-photo{display:block;width:100%;height:clamp(190px,32vw,340px);object-fit:cover}
+.immersive-static-scene figcaption{padding:8px 14px;font-size:12px;line-height:1.6}
+.immersive-compact .immersive-scene.town-listen-stage{height:auto;min-height:170px;aspect-ratio:1.8;margin:0;background:none}
+.immersive-compact .immersive-scene.town-listen-stage>.town-companion{position:absolute;left:25%;bottom:12%;width:clamp(92px,31vw,173px);height:auto;aspect-ratio:1}
+.illustrated-conversation-companion{width:100%;max-width:400px;height:270px;margin:auto;display:grid;place-items:center}
+.illustrated-conversation-companion>.town-companion{width:100%;height:100%;max-width:320px;aspect-ratio:1;filter:none}
+:is(.app.continuum-ui .immersive-speaking,.immersive-speaking) .illustrated-conversation-companion{height:clamp(210px,30dvh,360px);flex:none}

@@ -1,3 +1,4 @@
+import {immersiveSceneArt} from './immersive/scene-art.mjs';
 import LessonText from './LessonText.jsx';
 import {illustratedLessonArt} from './illustrated-art.mjs';
 import {useJourneyLayout} from './JourneyLayout.jsx';
@@ -10,9 +11,9 @@ import {lessonList} from './course.mjs';
 import {hasLessonMedia,hasRecapVideo,mediaThemes,photoInfo,photoFor,themeFor,videoFor,visualFrames} from './lesson-media.mjs';
 import './lesson-media.css';
 export function LessonImage({lesson,className='',eager=false}){
- const [failed,setFailed]=useState(false);const theme=themeFor(lesson);const {layout}=useJourneyLayout();const illustrated=layout==='illustrated';const source=illustrated?illustratedLessonArt(lesson).src:photoFor(lesson);
+ const [failed,setFailed]=useState(false);const theme=themeFor(lesson);const {layout}=useJourneyLayout();const illustrated=layout==='illustrated';const source=lesson.immersive?immersiveSceneArt(lesson,layout):illustrated?illustratedLessonArt(lesson).src:photoFor(lesson);
  useEffect(()=>setFailed(false),[source]);
- return failed?<div className={`media-image-fallback ${className}`} role="img" aria-label={uiText(mediaThemes[theme].name)}><span>{uiText(mediaThemes[theme].name)}</span></div>:<img className={className} src={source} alt={illustrated?uiText('Illustrated practice scene'):photoInfo(lesson).alt} width={640} height={360} loading={eager?'eager':'lazy'} decoding="async" onError={()=>setFailed(true)}/>;
+ return failed?<div className={`media-image-fallback ${className}`} role="img" aria-label={uiText(mediaThemes[theme].name)}><span>{uiText(mediaThemes[theme].name)}</span></div>:<img className={className} src={source} alt={lesson.immersive?uiText(lesson.title,lesson.language):illustrated?uiText('Illustrated practice scene'):photoInfo(lesson).alt} width={640} height={360} loading={eager?'eager':'lazy'} decoding="async" onError={()=>setFailed(true)}/>;
 }
 export function VisualDiscovery({language='es',level,onStart}){
  const stories=lessonList.filter(l=>(l.language||'es')===language&&(l.visualStory||l.conversation)&&(!level||l.level===level));

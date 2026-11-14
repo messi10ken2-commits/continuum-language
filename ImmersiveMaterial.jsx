@@ -1,3 +1,5 @@
+import {PageScene} from './LessonMedia.jsx';
+import {useLightMotion} from './light-motion.mjs';
 import React,{useEffect,useMemo,useRef,useState} from 'react';
 import {loadImmersiveUnit} from './immersive/loader.mjs';
 import {immersiveRecordingPlaylist} from './immersive/audio-playlist.mjs';
@@ -7,6 +9,13 @@ import {TownCompanion} from './LightTown.jsx';
 import AISpeaking from './AISpeaking.jsx';
 import './immersive.css';
 
+function IllustratedMaterialScene({kind,speaking,celebrate,suspended}){
+ const motion=useLightMotion();
+ return <div ref={motion} className="immersive-scene town-listen-stage" inert={suspended} data-speaking={speaking} data-celebrate={celebrate}>
+  <img src="/light-town/cafe.webp" alt="" width="1000" height="562"/>
+  {kind&&<TownCompanion kind={kind} speaking={speaking} celebrate={celebrate}/>}
+ </div>;
+}
 export default function ImmersiveMaterial({lesson,question,user,light=false,suspended=false,celebrate=false,companionKind,onReady}){
  const [unit,setUnit]=useState(null),[failed,setFailed]=useState(false),[retry,setRetry]=useState(0),[speaking,setSpeaking]=useState(false),[live,setLive]=useState(false);
  const dialog=useRef(null);
@@ -34,11 +43,7 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
  if(!unit)return <div className="immersive-loading" role="status">{t('Loading chapter…')}</div>;
  const text=stage==='roleplay'?unit.questions.roleplay[part]?.sceneLine:unit[stage]?.[part]?.text;
  return <section className={'immersive-material '+(light?'immersive-compact':'')} data-stage={stage} data-scene={lesson.immersive.scene}>
-  <div className="immersive-scene" inert={suspended||live}>
-   <span className="immersive-scene-window" aria-hidden="true"/><span className="immersive-scene-shelf" aria-hidden="true"/>
-   {kind&&<TownCompanion kind={kind} speaking={speaking} celebrate={celebrate}/>}
-   <span className="immersive-scene-table" aria-hidden="true"/>
-  </div>
+  {light?<IllustratedMaterialScene kind={kind} speaking={speaking} celebrate={celebrate} suspended={suspended||live}/>:<div className="immersive-static-scene" inert={suspended||live}><PageScene lesson={lesson}/></div>}
   <div className="immersive-source" inert={live}>
    <div className="immersive-source-head"><b>{t(stage==='reading'?'Reading':stage==='listening'?'Listening':'Guided roleplay')}</b><span>{tf('Part {0} of {1}',[part+1,stage==='roleplay'?6:unit[stage].length])}</span></div>
    <p className="immersive-provenance">{t('Original fictional case study · Continuum')}</p>
