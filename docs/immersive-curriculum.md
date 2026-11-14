@@ -46,19 +46,23 @@ Article evidence and later interview updates are labeled separately in model
 context. A used free allowance cannot silently open a different chapter's
 conversation. No payment implementation or allowance increase is introduced.
 
-## Companion motion
+## Companion presentation
 
-Light's existing eight companions now have procedural Three.js geometry with
-perspective, lighting, blinking, breathing, greeting and speech-reactive motion.
-The lesson scene and embedded live room use the selected companion. The old
-illustration is the fallback when WebGL is unavailable or loses context.
-Speech motion follows playback state/envelope, not phoneme-accurate lip sync.
+The approved eight illustrated companion images are used directly, with the
+existing CSS breathing, greeting, celebration and speech-reactive movement.
+Light lessons retain the cafe setting, selected companion and audio controls.
+Visibility, inert-state and reduced-motion controls remain in place.
 
-The renderer loads only when visible, caps rendering at 30 fps and device pixel
-ratio at 1.5, suspends offscreen/inactive/inert scenes and respects reduced
-motion. Unmount releases geometry, materials, renderer and context. Live rooms
-use native dialogs; closing them stops media and requests. Starting an embedded
-session scrolls that dialog, preserving the underlying lesson's position.
+Standard immersion materials use topic-specific still images: illustrated art
+in Illustration mode and real photographs in Photo mode. Scene selection is
+independent of answers, scores and learner-entered text. All ten learning
+languages are covered. Reading/listening no longer fetch an unused companion.
+
+Procedural WebGL companions are not imported by the application. Their source
+is retained for deferred work, but no renderer chunk or model is downloaded.
+Live-conversation development is on hold. Existing conversation functionality,
+consent, budgets and saved records remain available with illustrated companions.
+Native dialog closing still stops media and requests and preserves lesson scroll.
 
 ## Data, audio and efficiency
 
@@ -92,8 +96,8 @@ questions and evidence are stored once rather than repeated in ten metadata
 packs. For all ten packs, an equivalent UTF-8 metadata representation decreased
 from 1,106,780 to 323,784 bytes; gzip from 297,692 to 101,720 bytes. These are
 representation measurements, not confirmed production bandwidth or operating
-cost savings. The real renderer is a separate lazy chunk (~539 kB raw / 134 kB
-gzip in the local build). A same-runtime comparison against the previous
+cost savings. The unused procedural renderer is no longer shipped. Historical
+measurements from the initial immersion release follow: a same-runtime comparison against the previous
 production source measured the initial JavaScript at 8,514,845 → 8,929,015
 bytes (+4.9%), and Node-default gzip at 2,142,974 → 2,264,401 bytes (+5.7%).
 This is feature overhead, not a load-time improvement. The existing large main
@@ -116,34 +120,20 @@ source-grounded mocked text/voice requests, and Learning Memory invalidation.
 The application build and structural language audit pass locally. The production
 dependency audit reports no known vulnerabilities at the time of this run.
 
-The real 3D renderer's eight species and lifecycle were verified in Chromium CI.
-The expanded Chromium/WebKit integration suite covers forty native Light stage
-screens per engine, load recovery, audio sequence, six-question completion,
-mode/draft preservation, live-dialog cleanup, phone RTL and desktop layout.
-Its results and production Docker verification must be confirmed before merge.
-The workflow uploads screenshots for visual inspection. The complete Node
-regression suite runs once in parallel with immersion browser QA; the final
-existing-browser/security/Docker job requires both to pass.
+The Chromium/WebKit integration suite checks forty native Light stage screens
+per engine, load recovery, audio sequence, six-question completion, mode/draft
+preservation, dialog cleanup, phone RTL and desktop layout. It also verifies
+both source stages in both Standard visual styles for all ten languages,
+loads the actual still images, checks the restored cafe and capybara, and rejects
+procedural canvases in those learner screens. The existing Light motion suite
+covers all eight companion choices, tap/keyboard reactions, offscreen suspension
+and reduced-motion behavior. These checks and production Docker verification
+must pass before deployment; screenshots are uploaded for inspection.
 
-At this documentation checkpoint, the full feature is on the working branch,
-not yet deployed. Do not treat a passing source audit as native-editor semantic
-certification, pronunciation listening verification or physical iPhone testing.
-No destructive migration is required. The rollback target is the previously
-live commit `cbc55bdfa96ac8451b2358103ef66c25db491d7d`; keep new records intact
-when rolling back and reintroduce their reader before interpreting them again.
-
-## Immersion presentation refinement
-
-The live conversation uses a native full-viewport dialog (including mobile safe
-areas), with an always-available close button, background scroll lock and
-Escape/focus restoration. Voice, text, consent, budgets and reviews remain in
-the same conversation system. Closing unmounts the voice loop and 3D renderer.
-Per-language world backdrops are local assets.
-
-The procedural models now have species-specific anatomy, a shared procedural fine-strand
-bump texture, stitched triangular bandana with gold crest, leather backpack and rolled
-bedding. They are an approximation of the approved illustrated companions,
-not scans or an exact reproduction. Head/ear/tail motion supplements breathing,
-blinks, greetings and audio-driven mouth movement. Fur adds no extra meshes or model downloads; hidden/inert scenes pause and reduced-motion
-users receive a static frame. No model-generation service or extra API call is
-introduced. Physical low-end mobile GPU performance remains unmeasured.
+The full Node regression suite runs in parallel with immersion browser QA; the
+final existing-browser/security/Docker job requires both to pass. A structural
+audit is not native-editor semantic certification, pronunciation listening
+verification or physical iPhone testing. No destructive migration is required.
+Rollback for this presentation-only restoration is the preceding production
+commit `df2b4b1c5c48d9f02d6d0e97b0c40130ab6a8c40`; learner records and
+curriculum identifiers remain unchanged.

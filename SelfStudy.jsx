@@ -125,7 +125,7 @@ function StandardLessonPlayer({suspended=false,modeControl,compactModeControl,ex
  const answerCorrect=(q,a)=>external?!!q._check&&q._check.first.value===a&&q._check.first.correct:isCorrect(q,a);
  const missedQuestions=full=>full.length===lesson.questions.length&&!baseLesson.checkpoint&&!baseLesson.summaryTest?lesson.questions.flatMap((q,i)=>answerCorrect(q,full[i])?[]:[i]):[];
  const [materialReady,setMaterialReady]=useState(!baseLesson.immersive);
- const companionKind=useLightCompanion(baseLesson.immersive?user:null,language);
+ const companionKind=useLightCompanion(baseLesson.immersive?.stage==='roleplay'?user:null,language);
  const [soundEnabled,setSoundEnabled]=useState(feedbackSoundEnabled);
  const [reviewIndex,setReviewIndex]=useState(0);
  const questionCount=baseLesson.checkpoint||baseLesson.summaryTest?getLessonVariant(baseLesson.id,seed||(baseLesson.testSeedPrefix||'v1-')+'preview-123456789').questions.length:lesson.questions.length;

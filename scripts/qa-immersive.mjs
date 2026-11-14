@@ -5,6 +5,7 @@ import {mkdir,writeFile,rm} from 'node:fs/promises';
 import {createServer} from 'vite';
 import {chromium,webkit} from 'playwright';
 import {getLesson,getLessonVariant} from '../course.mjs';
+import {immersiveSceneArt} from '../immersive/scene-art.mjs';
 import {translationKey} from '../localization-corpus.mjs';
 import {lightActivities} from '../light-learning-model.mjs';
 import {loadImmersiveUnit,loadImmersivePack} from '../immersive/loader.mjs';
@@ -12,7 +13,8 @@ const directory=new URL('../.media-build/immersive-ui/',import.meta.url);await m
 await writeFile(new URL('entry.jsx',directory),`
 import React from 'react';import{createRoot}from'react-dom/client';
 import LightLesson from '../../LightLesson.jsx';import{LessonPlayer}from'../../SelfStudy.jsx';
-import{LanguageContext}from'../../LanguageContext.jsx';import{getLesson,chapters}from'../../course.mjs';
+import{LanguageContext}from'../../LanguageContext.jsx';import{getLesson,chapters,lessonList}from'../../course.mjs';
+import{JourneyLayoutContext}from'../../JourneyLayout.jsx';
 import Passport from '../../Passport.jsx';
 import{setInterfaceLanguage,bindInterfaceAccount}from'../../interface-runtime.mjs';
 import{useActivityTracker,useStudyActivity}from'../../LearningActivity.jsx';
@@ -21,11 +23,11 @@ import '../../styles.css';import '../../features.css';import '../../continuum-ui
 import '../../light-learning.css';import '../../light-motion.css';
 const p=new URLSearchParams(location.search),language=p.get('language')||'en',key=p.get('key')||'market',stage=p.get('stage')||'reading';
 setInterfaceLanguage(p.get('display')||'en',{persist:false});
-const lesson=getLesson(language+'-immersive-'+key+'-v1-'+stage),user=p.has('live')||p.has('display')?{id:'synthetic-immersive-browser',role:'learner'}:null;
+const lesson=p.has('legacy')?lessonList.find(l=>l.language==='en'&&!l.immersive&&l.level==='B1'&&l.expressions?.length):getLesson(language+'-immersive-'+key+'-v1-'+stage),user=p.has('live')||p.has('display')?{id:'synthetic-immersive-browser',role:'learner'}:null;
 const complete=async result=>({id:'synthetic-completion',...result});
 const props={lesson,language,user,autoStart:true,lightAutoStart:true,initialAnswers:p.has('intro')?undefined:[],initialSeed:p.get('seed')||undefined,onDraft:async(_answers,seed)=>{window.__draftSeed=seed},onComplete:complete,onExit:()=>{},onStandard:()=>{}};
 function AudioSwap(){const[part,setPart]=React.useState(0);useStudyActivity(true);return <section className="audio-swap-fixture"><SentenceAudio text={part?'A different narrated example.':'The first narrated example.'} lang="en-US" audioEndpoint={'/api/immersive/audio/en-immersive-market-v1-reading/reading/'+part}/><button onClick={()=>setPart(1)}>Change narration text</button></section>}
-function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <LanguageContext.Provider value={language}>{p.has('audioSwap')?<AudioSwap/>:p.has('passport')?<Passport language={language} stamps={[{id:'chapter:'+lesson.chapter,kind:'chapter',title:chapters.find(c=>c.id===lesson.chapter).title,at:'2026-11-14T12:00:00Z'}]}/>:<div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div>}</LanguageContext.Provider>}
+function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <JourneyLayoutContext.Provider value={{layout:p.get('layout')||'photo'}}><LanguageContext.Provider value={language}>{p.has('audioSwap')?<AudioSwap/>:p.has('passport')?<Passport language={language} stamps={[{id:'chapter:'+lesson.chapter,kind:'chapter',title:chapters.find(c=>c.id===lesson.chapter).title,at:'2026-11-14T12:00:00Z'}]}/>:<div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div>}</LanguageContext.Provider></JourneyLayoutContext.Provider>}
 createRoot(document.getElementById('root')).render(<App/>);
 `);
 const server=await createServer({configFile:false,optimizeDeps:{entries:[new URL('entry.jsx',directory).pathname]},server:{host:'127.0.0.1',port:0,hmr:false},appType:'custom',plugins:[{name:'immersion-ui',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(!req.url?.startsWith('/__immersive'))return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml(req.url,'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#root{padding:10px 8px 80px}</style></head><body><div id="root"></div><script type="module" src="/.media-build/immersive-ui/entry.jsx"></script></body></html>'))})}}]});
@@ -68,7 +70,7 @@ try{
    if(path==='/api/activity/heartbeat'){activityPings.push(request.postDataJSON());return json({ok:true})}
    if(path.startsWith('/api/immersive/content/'))return json({units:await loadImmersivePack(path.split('/').at(-1))});
    if(path.startsWith('/api/immersive/audio/')){audioRequests.push(path);return route.fulfill({status:200,contentType:'audio/wav',headers:{'X-Audio-Source':'AI-generated studio voice'},body:Buffer.from('synthetic-browser-sequencing-fixture')})}
-   if(path==='/api/adventure'){adventureRequests.push(url.search);return json({companion:'fox'})}
+   if(path==='/api/adventure'){adventureRequests.push(url.search);return json({companion:new URL(request.headers().referer).searchParams.get('kind')||'fox'})}
    if(path.startsWith('/api/learning/light')){
     if(path.endsWith('/progress'))return json({completed:[],placements:[]});
     if(request.method()==='PUT'){
@@ -103,7 +105,7 @@ try{
    await page.locator('.immersive-material').waitFor();
    await page.locator('.light-game-choices button:not([disabled])').first().waitFor();
    assert.equal(await page.locator('.immersive-scene .town-companion').count(),1,language+'/'+stage);
-   assert.equal(await page.locator('.town-listen-stage').count(),0,'no duplicate old scene');
+   assert.equal(await page.locator('.town-listen-stage').count(),1,'one approved cafe scene');
    assert.equal(await page.locator('.town-question-card').count(),1);
    const unit=await loadImmersiveUnit(language,'market');
    if(stage==='reading')assert.equal((await page.locator('.immersive-excerpt').innerText()).trim(),unit.reading[0].text);
@@ -144,13 +146,29 @@ try{
   await page.locator('.standard-lesson-pane .feedback.good').waitFor();
   await page.locator('.standard-lesson-pane .question-card > .primary').click();
   await page.waitForFunction(()=>document.querySelector('.standard-lesson-pane .immersive-source-head span')?.textContent==='Part 2 of 6');
-  assert.equal(adventureRequests.length,1,'Standard companion selection is fetched once across consecutive questions');
+  assert.equal(adventureRequests.length,0,'Standard reading does not request an unused companion');
   await page.locator('.standard-lesson-pane .practice-top select').selectOption('light');
   await page.locator('.light-lesson-pane .immersive-excerpt').waitFor();
   assert.equal(await page.locator('.light-lesson-pane .immersive-scene').count(),1);
   await page.locator('.light-lesson-pane .lesson-mode-compact select').selectOption('standard');
   await page.locator('.standard-lesson-pane:visible .immersive-source-head span').waitFor();
   assert.equal(await page.locator('.standard-lesson-pane .immersive-source-head span').innerText(),'Part 2 of 6');
+  // Every learning language uses still art in both standard styles and both source stages.
+  for(const language of languages)for(const stage of ['reading','listening'])for(const layout of ['photo','illustrated']){
+   await page.goto(base+'?language='+language+'&key=archives&stage='+stage+'&mode=standard&layout='+layout);
+   const art=page.locator('.immersive-static-scene .visual-practice-photo');await art.waitFor();
+   await art.evaluate(img=>img.complete&&img.naturalWidth?Promise.resolve():new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(Error('Scene image failed'))}));
+   assert.equal(await art.getAttribute('src'),immersiveSceneArt(getLesson(language+'-immersive-archives-v1-'+stage),layout));
+   assert.equal(await page.locator('.immersive-static-scene .town-companion,canvas').count(),0,'standard uses appropriate still images without procedural avatars');
+   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+   if(language==='en'&&stage==='reading')await page.screenshot({path:new URL(engineName+'-standard-'+layout+'.png',directory).pathname,fullPage:false});
+  }
+  await page.goto(base+'?language=en&legacy=1&live=1&kind=capybara');
+  await page.locator('.town-listen-stage .town-companion[data-companion=capybara]').waitFor();
+  assert.equal(await page.locator('.town-listen-stage>img').getAttribute('src'),'/light-town/cafe.webp');
+  assert.equal(await page.locator('.town-companion-sprite').getAttribute('src'),'/light-town/capybara.webp');
+  assert.equal(await page.locator('canvas').count(),0);
+  await page.screenshot({path:new URL(engineName+'-restored-light.png',directory).pathname,fullPage:false});
   // Standard checkpoint retakes carry their authored revision in the seed.
   await page.goto(base+'?language=en&stage=checkpoint&mode=standard&intro=1');
   await page.getByRole('button',{name:'Start practice',exact:false}).click();
@@ -190,41 +208,38 @@ try{
   // Live room uses the chapter scenario/level and suspends its underlying scene.
   adventureRequests.length=0;await page.goto(base+'?language=en&key=tourism&stage=roleplay&live=1');
   await page.locator('.immersive-live .outline-button').click();
-  const dialog=page.locator('dialog[open]');await dialog.waitFor();
+  const dialog=page.locator('dialog.immersive-live-panel[open]');await dialog.waitFor();
   const bounds=await dialog.boundingBox(),viewport=page.viewportSize();
   assert.ok(bounds.x<=1&&bounds.y<=1&&Math.abs(bounds.width-viewport.width)<=1&&Math.abs(bounds.height-viewport.height)<=1,'live room fills the viewport');
   assert.equal(await page.evaluate(()=>document.body.style.overflow),'hidden','background scrolling is locked');
   await dialog.getByRole('button',{name:'Close live conversation',exact:true}).waitFor();
   await dialog.locator('.speaking-setup select').waitFor();assert.equal(await dialog.locator('.speaking-setup select').inputValue(),'B2');assert.ok(await dialog.locator('.speaking-setup select').isDisabled());
   await dialog.locator('.speaking-consent input').check();await dialog.locator('.speaking-setup > .primary').click();
-  await dialog.locator('.voice-stage .companion-3d').waitFor();
+  await dialog.locator('.voice-stage .town-companion-sprite').waitFor();
+  assert.equal(await dialog.locator('canvas').count(),0,'live companion uses the approved illustration');
   assert.equal(await dialog.locator('.immersive-live-caption').innerText(),'Which proposal would you support?','current utterance is captioned next to the avatar');
   assert.equal(speakingStarts.at(-1).scenario,'en-immersive-tourism-v1');assert.equal(speakingStarts.at(-1).language,'en');assert.equal(speakingStarts.at(-1).level,'B2');
   assert.equal(await page.locator('.immersive-scene').getAttribute('inert'),'');
   assert.equal(adventureRequests.length,1,'Light material reuses the parent companion selection');
-  if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('dialog .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-live-room.png',directory).pathname,fullPage:false});
-  await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('dialog')?.open);
+  await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('dialog.immersive-live-panel')?.open);
   assert.equal(await page.locator('dialog canvas').count(),0,'closing unmounts the live renderer');
   assert.notEqual(await page.evaluate(()=>document.body.style.overflow),'hidden','closing restores background scrolling');
   await page.locator('.immersive-live .outline-button').click();
   await dialog.getByRole('button',{name:'Close live conversation',exact:true}).click();
-  await page.waitForFunction(()=>!document.querySelector('dialog')?.open);
+  await page.waitForFunction(()=>!document.querySelector('dialog.immersive-live-panel')?.open);
   assert.equal(await page.locator('dialog canvas').count(),0,'the persistent close control also cleans up');
   await page.goto(base+'?language=en&key=archives&stage=reading&mode=standard&display=ja');
   await page.waitForFunction(()=>document.querySelector('.immersive-reading'));
   assert.ok((await page.locator('.lesson-context > b').innerText()).includes('デジタル資料館'),'Japanese display translates the English course heading');
   assert.ok((await page.locator('.immersive-reading').first().innerText()).includes('archive'),'English learning passage stays English');
   assert.equal(await page.locator('.lesson-context .lesson-translation').count(),0,'bundled headings need no translation request');
-  if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('.immersive-scene .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-japanese-heading.png',directory).pathname,fullPage:false});
   await page.goto(base+'?language=ar&display=ar');await page.locator('.immersive-excerpt').waitFor();
   await page.waitForFunction(()=>!document.querySelector('.lesson-translation'));assert.equal((await page.locator('.town-question-card .question-prompt h1').innerText()).trim(),'ما الهدف من الاقتراح؟');assert.equal(await page.locator('html').getAttribute('dir'),'rtl');assert.equal(await page.locator('.immersive-excerpt').getAttribute('dir'),'auto');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
-  if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('.immersive-scene .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-arabic-phone.png',directory).pathname,fullPage:true});
   await page.setViewportSize({width:1280,height:900});await page.goto(base+'?language=en&key=heat&mode=standard');await page.locator('.immersive-reading').first().waitFor();
-  if(engineName==='chromium')await page.waitForFunction(()=>document.querySelector('.immersive-scene .companion-3d')?.dataset.ready==='true');
   await page.screenshot({path:new URL(engineName+'-c1-desktop.png',directory).pathname,fullPage:true});
   await page.setViewportSize({width:390,height:844});await page.goto(base+'?language=ja&passport=1');
   const earnedStamp=page.locator('.passport-stamp:not([disabled])');assert.equal(await earnedStamp.count(),1);await earnedStamp.scrollIntoViewIfNeeded();

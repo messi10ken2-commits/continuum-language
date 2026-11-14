@@ -81,8 +81,8 @@ jobs:
           node scripts/build-immersive-catalog.mjs
           git diff --exit-code -- immersive/canonical.json immersive/catalog.json
       - run: npx playwright install --with-deps chromium webkit
-      - name: Verify real 3D lifecycle and integrated immersion lessons
-        run: node scripts/qa-companion-3d.mjs && node scripts/qa-immersive.mjs
+      - name: Verify restored companions and integrated immersion lessons
+        run: node scripts/qa-immersive.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
