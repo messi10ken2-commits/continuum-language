@@ -1,3 +1,4 @@
+import {immersiveLightEvidence} from './immersive-memory.mjs';
 import {getLesson,lessonList,isCorrect,getLessonVariant} from './course.mjs';
 import {getSkillTask,rubricFor} from './skills-content.mjs';
 import {languageOf} from './languages.mjs';
@@ -8,13 +9,14 @@ export function questionEvidence(id,answers,seed,resolved=null){
  lesson.questions.forEach((q,i)=>{const topic=getLesson(q.sourceLesson)?q.sourceLesson:id;const row=byTopic.get(topic)||{lesson:topic,correct:0,total:0,items:[]};row.total++;const correct=isCorrect(q,answers[i]);if(correct)row.correct++;row.items.push({prompt:q.prompt,correct,response:q.type==='text'?answers[i]:q.options[answers[i]],expected:q.type==='text'?q.answer:q.options[q.answer],explanation:q.note||''});byTopic.set(topic,row);});
  return [...byTopic.values()];
 }
-export function buildPatternEvidence({language='es',attempts=[],notes=[],submissions=[],assessments=[],pronunciation=[]}){
+export function buildPatternEvidence({language='es',attempts=[],notes=[],submissions=[],assessments=[],pronunciation=[],lightRecords=[]}){
+ attempts=[...attempts,...immersiveLightEvidence(lightRecords)];
  const topics=new Map(),coverage={lessons:0,classes:0,skills:0,assessments:0,pronunciation:0};
  const add=(id,title,kind,lessonId,event)=>{const row=topics.get(id)||{id,title,kind,lessonId:lessonId||null,events:[]};row.events.push(event);topics.set(id,row);};
  for(const a of attempts){if(languageOf(a.lesson)!==language)continue;coverage.lessons++;
   const evidence=Array.isArray(a.evidence)&&a.evidence.length?a.evidence:[{lesson:a.lesson||'subjunctive',correct:a.score/100*a.total,total:a.total}];
   for(const e of evidence){const l=getLesson(e.lesson);if(!l||languageOf(e.lesson)!==language||!e.total)continue;
-   add('lesson:'+l.id,l.title,'Lesson accuracy',lessonList.some(x=>x.id===l.id)?l.id:null,{id:'practice:'+a.id+':'+l.id,at:a.at,score:Math.round(e.correct/e.total*100),correct:e.correct,total:e.total,text:`${e.correct}/${e.total} correct${a.source==='imported'?' (imported score)':''}. ${Array.isArray(a.evidence)&&a.evidence.length?'Recorded question outcomes.':'Only the overall activity score was stored; specific errors are unknown.'}${e.items?.some(x=>!x.correct)?' Missed items: '+e.items.filter(x=>!x.correct).map(x=>JSON.stringify({prompt:x.prompt,response:x.response,expected:x.expected,explanation:x.explanation})).join(' ').slice(0,3500):''}`});
+   add('lesson:'+l.id,l.title,'Lesson accuracy',lessonList.some(x=>x.id===l.id)?l.id:null,{id:'practice:'+a.id+':'+l.id,at:a.at,score:Math.round(e.correct/e.total*100),correct:e.correct,total:e.total,text:`${a.source==='light'?'Light first-attempt choices; original incorrect wording was not retained. ':''}${e.correct}/${e.total} correct${a.source==='imported'?' (imported score)':''}. ${Array.isArray(a.evidence)&&a.evidence.length?'Recorded question outcomes.':'Only the overall activity score was stored; specific errors are unknown.'}${e.items?.some(x=>!x.correct)?' Missed items: '+e.items.filter(x=>!x.correct).map(x=>JSON.stringify({prompt:x.prompt,response:x.response,expected:x.expected,explanation:x.explanation})).join(' ').slice(0,3500):''}`});
   }
  }
  for(const s of submissions){const task=getSkillTask(s.task);if(!task||(task.language||'es')!==language)continue;coverage.skills++;

@@ -1,6 +1,6 @@
 import {chapters,lessonList,levels} from './course.mjs';
 import {lightActivities,lightRoundCount,priorLightVersion} from './light-learning-model.mjs';
-export function lightRoute(language,level){return chapters.filter(c=>(c.language||'es')===language&&!c.legacy&&(!level||c.level===level)).flatMap(c=>lessonList.filter(l=>l.chapter===c.id&&(l.language||'es')===language&&!l.checkpoint&&!l.summaryTest&&lightRoundCount(l)).map(lesson=>({lesson,chapter:c,legacyRounds:lightRoundCount(lesson)}))).sort((a,b)=>levels.findIndex(l=>l.id===a.lesson.level)-levels.findIndex(l=>l.id===b.lesson.level));}
+export function lightRoute(language,level){return chapters.filter(c=>(c.language||'es')===language&&!c.legacy&&(!level||c.level===level)).flatMap(c=>lessonList.filter(l=>l.chapter===c.id&&(l.language||'es')===language&&(!l.checkpoint||l.immersive)&&!l.summaryTest&&lightRoundCount(l)).map(lesson=>({lesson,chapter:c,legacyRounds:lightRoundCount(lesson)}))).sort((a,b)=>levels.findIndex(l=>l.id===a.lesson.level)-levels.findIndex(l=>l.id===b.lesson.level));}
 // Old rounds remain reward events. Only a full legacy lesson or a new pass
 // advances the lesson path, and a replay cannot earn a second lesson reward.
 export function lightProgressEvidence(route,completed){
@@ -38,4 +38,21 @@ export function lightRouteStats(route,completed){
 export function nextLightLesson(lesson){
  const route=lightRoute(lesson.language||'es'),index=route.findIndex(row=>row.lesson.id===lesson.id);
  return index>=0?route[index+1]?.lesson.id:null;
+}
+
+// New immersion chapters are optional branches. Each begins independently;
+// adding one cannot lock an existing learner out of an old activity.
+export function lightLessonAvailability(route,keys){
+ const available=new Set(),chapterPrevious=new Map();let previous=true;
+ for(const {lesson,chapter} of route){
+  const done=keys.has(lesson.id);
+  if(chapter.immersive){
+   if((chapterPrevious.get(chapter.id)??true)||done)available.add(lesson.id);
+   chapterPrevious.set(chapter.id,done);
+  }else{
+   if(previous||done)available.add(lesson.id);
+   previous=done;
+  }
+ }
+ return available;
 }

@@ -5808,5 +5808,1805 @@
   "language": "it",
   "context": "study",
   "src": "/illustrated-lessons/it-study.webp"
+ },
+ "en-immersive-market-v1-reading": {
+  "language": "en",
+  "context": "market",
+  "src": "/illustrated-lessons/en-market.webp"
+ },
+ "en-immersive-market-v1-listening": {
+  "language": "en",
+  "context": "market",
+  "src": "/illustrated-lessons/en-food.webp"
+ },
+ "en-immersive-market-v1-roleplay": {
+  "language": "en",
+  "context": "market",
+  "src": "/illustrated-lessons/en-city.webp"
+ },
+ "en-immersive-market-v1-checkpoint": {
+  "language": "en",
+  "context": "market",
+  "src": "/illustrated-lessons/en-cafe.webp"
+ },
+ "en-immersive-library-v1-reading": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-nature.webp"
+ },
+ "en-immersive-library-v1-listening": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-travel.webp"
+ },
+ "en-immersive-library-v1-roleplay": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-city.webp"
+ },
+ "en-immersive-library-v1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-cafe.webp"
+ },
+ "en-immersive-tourism-v1-reading": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-cafe.webp"
+ },
+ "en-immersive-tourism-v1-listening": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-market.webp"
+ },
+ "en-immersive-tourism-v1-roleplay": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-food.webp"
+ },
+ "en-immersive-tourism-v1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-travel.webp"
+ },
+ "en-immersive-work-v1-reading": {
+  "language": "en",
+  "context": "work",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "en-immersive-work-v1-listening": {
+  "language": "en",
+  "context": "work",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "en-immersive-work-v1-roleplay": {
+  "language": "en",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "en-immersive-work-v1-checkpoint": {
+  "language": "en",
+  "context": "work",
+  "src": "/illustrated-lessons/en-city.webp"
+ },
+ "en-immersive-food-v1-reading": {
+  "language": "en",
+  "context": "food",
+  "src": "/illustrated-lessons/en-food.webp"
+ },
+ "en-immersive-food-v1-listening": {
+  "language": "en",
+  "context": "food",
+  "src": "/illustrated-lessons/en-cafe.webp"
+ },
+ "en-immersive-food-v1-roleplay": {
+  "language": "en",
+  "context": "food",
+  "src": "/illustrated-lessons/en-market.webp"
+ },
+ "en-immersive-food-v1-checkpoint": {
+  "language": "en",
+  "context": "food",
+  "src": "/illustrated-lessons/en-nature.webp"
+ },
+ "en-immersive-heat-v1-reading": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-city.webp"
+ },
+ "en-immersive-heat-v1-listening": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-cafe.webp"
+ },
+ "en-immersive-heat-v1-roleplay": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-nature.webp"
+ },
+ "en-immersive-heat-v1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-market.webp"
+ },
+ "en-immersive-archives-v1-reading": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-food.webp"
+ },
+ "en-immersive-archives-v1-listening": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-travel.webp"
+ },
+ "en-immersive-archives-v1-roleplay": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-city.webp"
+ },
+ "en-immersive-archives-v1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-cafe.webp"
+ },
+ "en-immersive-research-v1-reading": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-nature.webp"
+ },
+ "en-immersive-research-v1-listening": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-market.webp"
+ },
+ "en-immersive-research-v1-roleplay": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-food.webp"
+ },
+ "en-immersive-research-v1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-travel.webp"
+ },
+ "en-immersive-heritage-v1-reading": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-library.webp"
+ },
+ "en-immersive-heritage-v1-listening": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-classroom.webp"
+ },
+ "en-immersive-heritage-v1-roleplay": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-listening.webp"
+ },
+ "en-immersive-heritage-v1-checkpoint": {
+  "language": "en",
+  "context": "study",
+  "src": "/illustrated-lessons/en-work.webp"
+ },
+ "es-immersive-market-v1-reading": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-market.webp"
+ },
+ "es-immersive-market-v1-listening": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-food.webp"
+ },
+ "es-immersive-market-v1-roleplay": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-city.webp"
+ },
+ "es-immersive-market-v1-checkpoint": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-cafe.webp"
+ },
+ "es-immersive-library-v1-reading": {
+  "language": "es",
+  "context": "work",
+  "src": "/illustrated-lessons/es-nature.webp"
+ },
+ "es-immersive-library-v1-listening": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-travel.webp"
+ },
+ "es-immersive-library-v1-roleplay": {
+  "language": "es",
+  "context": "work",
+  "src": "/illustrated-lessons/es-city.webp"
+ },
+ "es-immersive-library-v1-checkpoint": {
+  "language": "es",
+  "context": "work",
+  "src": "/illustrated-lessons/es-cafe.webp"
+ },
+ "es-immersive-tourism-v1-reading": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-cafe.webp"
+ },
+ "es-immersive-tourism-v1-listening": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-market.webp"
+ },
+ "es-immersive-tourism-v1-roleplay": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-nature.webp"
+ },
+ "es-immersive-tourism-v1-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-food.webp"
+ },
+ "es-immersive-work-v1-reading": {
+  "language": "es",
+  "context": "work",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "es-immersive-work-v1-listening": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-market.webp"
+ },
+ "es-immersive-work-v1-roleplay": {
+  "language": "es",
+  "context": "work",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "es-immersive-work-v1-checkpoint": {
+  "language": "es",
+  "context": "work",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "es-immersive-food-v1-reading": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "es-immersive-food-v1-listening": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-food.webp"
+ },
+ "es-immersive-food-v1-roleplay": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-city.webp"
+ },
+ "es-immersive-food-v1-checkpoint": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-nature.webp"
+ },
+ "es-immersive-heat-v1-reading": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-city.webp"
+ },
+ "es-immersive-heat-v1-listening": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-market.webp"
+ },
+ "es-immersive-heat-v1-roleplay": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-nature.webp"
+ },
+ "es-immersive-heat-v1-checkpoint": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-cafe.webp"
+ },
+ "es-immersive-archives-v1-reading": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-food.webp"
+ },
+ "es-immersive-archives-v1-listening": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-travel.webp"
+ },
+ "es-immersive-archives-v1-roleplay": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-city.webp"
+ },
+ "es-immersive-archives-v1-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-cafe.webp"
+ },
+ "es-immersive-research-v1-reading": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-nature.webp"
+ },
+ "es-immersive-research-v1-listening": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-market.webp"
+ },
+ "es-immersive-research-v1-roleplay": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-food.webp"
+ },
+ "es-immersive-research-v1-checkpoint": {
+  "language": "es",
+  "context": "study",
+  "src": "/illustrated-lessons/es-travel.webp"
+ },
+ "es-immersive-heritage-v1-reading": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-culture.webp"
+ },
+ "es-immersive-heritage-v1-listening": {
+  "language": "es",
+  "context": "market",
+  "src": "/illustrated-lessons/es-market.webp"
+ },
+ "es-immersive-heritage-v1-roleplay": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-city.webp"
+ },
+ "es-immersive-heritage-v1-checkpoint": {
+  "language": "es",
+  "context": "culture",
+  "src": "/illustrated-lessons/es-nature.webp"
+ },
+ "pt-immersive-market-v1-reading": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-city.webp"
+ },
+ "pt-immersive-market-v1-listening": {
+  "language": "pt",
+  "context": "market",
+  "src": "/illustrated-lessons/pt-market.webp"
+ },
+ "pt-immersive-market-v1-roleplay": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-cafe.webp"
+ },
+ "pt-immersive-market-v1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-nature.webp"
+ },
+ "pt-immersive-library-v1-reading": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-food.webp"
+ },
+ "pt-immersive-library-v1-listening": {
+  "language": "pt",
+  "context": "market",
+  "src": "/illustrated-lessons/pt-travel.webp"
+ },
+ "pt-immersive-library-v1-roleplay": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-city.webp"
+ },
+ "pt-immersive-library-v1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-cafe.webp"
+ },
+ "pt-immersive-tourism-v1-reading": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-cafe.webp"
+ },
+ "pt-immersive-tourism-v1-listening": {
+  "language": "pt",
+  "context": "market",
+  "src": "/illustrated-lessons/pt-market.webp"
+ },
+ "pt-immersive-tourism-v1-roleplay": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-nature.webp"
+ },
+ "pt-immersive-tourism-v1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-food.webp"
+ },
+ "pt-immersive-work-v1-reading": {
+  "language": "pt",
+  "context": "work",
+  "src": "/illustrated-lessons/pt-travel.webp"
+ },
+ "pt-immersive-work-v1-listening": {
+  "language": "pt",
+  "context": "market",
+  "src": "/illustrated-lessons/pt-market.webp"
+ },
+ "pt-immersive-work-v1-roleplay": {
+  "language": "pt",
+  "context": "work",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "pt-immersive-work-v1-checkpoint": {
+  "language": "pt",
+  "context": "work",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "pt-immersive-food-v1-reading": {
+  "language": "pt",
+  "context": "culture",
+  "src": "/illustrated-lessons/pt-city.webp"
+ },
+ "pt-immersive-food-v1-listening": {
+  "language": "pt",
+  "context": "market",
+  "src": "/illustrated-lessons/pt-food.webp"
+ },
+ "pt-immersive-food-v1-roleplay": {
+  "language": "pt",
+  "context": "culture",
+  "src": "/illustrated-lessons/pt-nature.webp"
+ },
+ "pt-immersive-food-v1-checkpoint": {
+  "language": "pt",
+  "context": "culture",
+  "src": "/illustrated-lessons/pt-cafe.webp"
+ },
+ "pt-immersive-heat-v1-reading": {
+  "language": "pt",
+  "context": "culture",
+  "src": "/illustrated-lessons/pt-city.webp"
+ },
+ "pt-immersive-heat-v1-listening": {
+  "language": "pt",
+  "context": "market",
+  "src": "/illustrated-lessons/pt-market.webp"
+ },
+ "pt-immersive-heat-v1-roleplay": {
+  "language": "pt",
+  "context": "culture",
+  "src": "/illustrated-lessons/pt-nature.webp"
+ },
+ "pt-immersive-heat-v1-checkpoint": {
+  "language": "pt",
+  "context": "culture",
+  "src": "/illustrated-lessons/pt-cafe.webp"
+ },
+ "pt-immersive-archives-v1-reading": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-food.webp"
+ },
+ "pt-immersive-archives-v1-listening": {
+  "language": "pt",
+  "context": "market",
+  "src": "/illustrated-lessons/pt-travel.webp"
+ },
+ "pt-immersive-archives-v1-roleplay": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-city.webp"
+ },
+ "pt-immersive-archives-v1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-cafe.webp"
+ },
+ "pt-immersive-research-v1-reading": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-nature.webp"
+ },
+ "pt-immersive-research-v1-listening": {
+  "language": "pt",
+  "context": "market",
+  "src": "/illustrated-lessons/pt-market.webp"
+ },
+ "pt-immersive-research-v1-roleplay": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-food.webp"
+ },
+ "pt-immersive-research-v1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-travel.webp"
+ },
+ "pt-immersive-heritage-v1-reading": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-library.webp"
+ },
+ "pt-immersive-heritage-v1-listening": {
+  "language": "pt",
+  "context": "market",
+  "src": "/illustrated-lessons/pt-market.webp"
+ },
+ "pt-immersive-heritage-v1-roleplay": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-classroom.webp"
+ },
+ "pt-immersive-heritage-v1-checkpoint": {
+  "language": "pt",
+  "context": "study",
+  "src": "/illustrated-lessons/pt-listening.webp"
+ },
+ "ja-immersive-market-v1-reading": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-city.webp"
+ },
+ "ja-immersive-market-v1-listening": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-cafe.webp"
+ },
+ "ja-immersive-market-v1-roleplay": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-nature.webp"
+ },
+ "ja-immersive-market-v1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-market.webp"
+ },
+ "ja-immersive-library-v1-reading": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-food.webp"
+ },
+ "ja-immersive-library-v1-listening": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-travel.webp"
+ },
+ "ja-immersive-library-v1-roleplay": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-city.webp"
+ },
+ "ja-immersive-library-v1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-cafe.webp"
+ },
+ "ja-immersive-tourism-v1-reading": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-cafe.webp"
+ },
+ "ja-immersive-tourism-v1-listening": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-nature.webp"
+ },
+ "ja-immersive-tourism-v1-roleplay": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-market.webp"
+ },
+ "ja-immersive-tourism-v1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-food.webp"
+ },
+ "ja-immersive-work-v1-reading": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-travel.webp"
+ },
+ "ja-immersive-work-v1-listening": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "ja-immersive-work-v1-roleplay": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/listening-v2.webp"
+ },
+ "ja-immersive-work-v1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/journey-illustrated/classes-v2.webp"
+ },
+ "ja-immersive-food-v1-reading": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-city.webp"
+ },
+ "ja-immersive-food-v1-listening": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-cafe.webp"
+ },
+ "ja-immersive-food-v1-roleplay": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-nature.webp"
+ },
+ "ja-immersive-food-v1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-market.webp"
+ },
+ "ja-immersive-heat-v1-reading": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-city.webp"
+ },
+ "ja-immersive-heat-v1-listening": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-cafe.webp"
+ },
+ "ja-immersive-heat-v1-roleplay": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-nature.webp"
+ },
+ "ja-immersive-heat-v1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-market.webp"
+ },
+ "ja-immersive-archives-v1-reading": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-food.webp"
+ },
+ "ja-immersive-archives-v1-listening": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-travel.webp"
+ },
+ "ja-immersive-archives-v1-roleplay": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-city.webp"
+ },
+ "ja-immersive-archives-v1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-cafe.webp"
+ },
+ "ja-immersive-research-v1-reading": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-nature.webp"
+ },
+ "ja-immersive-research-v1-listening": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-market.webp"
+ },
+ "ja-immersive-research-v1-roleplay": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-food.webp"
+ },
+ "ja-immersive-research-v1-checkpoint": {
+  "language": "ja",
+  "context": "study",
+  "src": "/illustrated-lessons/ja-travel.webp"
+ },
+ "ja-immersive-heritage-v1-reading": {
+  "language": "ja",
+  "context": "culture",
+  "src": "/illustrated-lessons/ja-culture.webp"
+ },
+ "ja-immersive-heritage-v1-listening": {
+  "language": "ja",
+  "context": "culture",
+  "src": "/illustrated-lessons/ja-city.webp"
+ },
+ "ja-immersive-heritage-v1-roleplay": {
+  "language": "ja",
+  "context": "culture",
+  "src": "/illustrated-lessons/ja-nature.webp"
+ },
+ "ja-immersive-heritage-v1-checkpoint": {
+  "language": "ja",
+  "context": "culture",
+  "src": "/illustrated-lessons/ja-work.webp"
+ },
+ "zh-immersive-market-v1-reading": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-immersive-market-v1-listening": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-nature.webp"
+ },
+ "zh-immersive-market-v1-roleplay": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-market.webp"
+ },
+ "zh-immersive-market-v1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-city.webp"
+ },
+ "zh-immersive-library-v1-reading": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-immersive-library-v1-listening": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-nature.webp"
+ },
+ "zh-immersive-library-v1-roleplay": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-market.webp"
+ },
+ "zh-immersive-library-v1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-food.webp"
+ },
+ "zh-immersive-tourism-v1-reading": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-immersive-tourism-v1-listening": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-nature.webp"
+ },
+ "zh-immersive-tourism-v1-roleplay": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-market.webp"
+ },
+ "zh-immersive-tourism-v1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-food.webp"
+ },
+ "zh-immersive-work-v1-reading": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-travel.webp"
+ },
+ "zh-immersive-work-v1-listening": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-city.webp"
+ },
+ "zh-immersive-work-v1-roleplay": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-immersive-work-v1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-nature.webp"
+ },
+ "zh-immersive-food-v1-reading": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-market.webp"
+ },
+ "zh-immersive-food-v1-listening": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-food.webp"
+ },
+ "zh-immersive-food-v1-roleplay": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-travel.webp"
+ },
+ "zh-immersive-food-v1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/journey-illustrated/library-v2.webp"
+ },
+ "zh-immersive-heat-v1-reading": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-city.webp"
+ },
+ "zh-immersive-heat-v1-listening": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-immersive-heat-v1-roleplay": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-nature.webp"
+ },
+ "zh-immersive-heat-v1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-market.webp"
+ },
+ "zh-immersive-archives-v1-reading": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-food.webp"
+ },
+ "zh-immersive-archives-v1-listening": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-travel.webp"
+ },
+ "zh-immersive-archives-v1-roleplay": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-city.webp"
+ },
+ "zh-immersive-archives-v1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-immersive-research-v1-reading": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-nature.webp"
+ },
+ "zh-immersive-research-v1-listening": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-market.webp"
+ },
+ "zh-immersive-research-v1-roleplay": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-food.webp"
+ },
+ "zh-immersive-research-v1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-travel.webp"
+ },
+ "zh-immersive-heritage-v1-reading": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-city.webp"
+ },
+ "zh-immersive-heritage-v1-listening": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-cafe.webp"
+ },
+ "zh-immersive-heritage-v1-roleplay": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-nature.webp"
+ },
+ "zh-immersive-heritage-v1-checkpoint": {
+  "language": "zh",
+  "context": "study",
+  "src": "/illustrated-lessons/zh-market.webp"
+ },
+ "ko-immersive-market-v1-reading": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-city.webp"
+ },
+ "ko-immersive-market-v1-listening": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-cafe.webp"
+ },
+ "ko-immersive-market-v1-roleplay": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-market.webp"
+ },
+ "ko-immersive-market-v1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-travel.webp"
+ },
+ "ko-immersive-library-v1-reading": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-city.webp"
+ },
+ "ko-immersive-library-v1-listening": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-cafe.webp"
+ },
+ "ko-immersive-library-v1-roleplay": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-nature.webp"
+ },
+ "ko-immersive-library-v1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-market.webp"
+ },
+ "ko-immersive-tourism-v1-reading": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-city.webp"
+ },
+ "ko-immersive-tourism-v1-listening": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-cafe.webp"
+ },
+ "ko-immersive-tourism-v1-roleplay": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-nature.webp"
+ },
+ "ko-immersive-tourism-v1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-market.webp"
+ },
+ "ko-immersive-work-v1-reading": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-food.webp"
+ },
+ "ko-immersive-work-v1-listening": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-travel.webp"
+ },
+ "ko-immersive-work-v1-roleplay": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-city.webp"
+ },
+ "ko-immersive-work-v1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-cafe.webp"
+ },
+ "ko-immersive-food-v1-reading": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-nature.webp"
+ },
+ "ko-immersive-food-v1-listening": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-market.webp"
+ },
+ "ko-immersive-food-v1-roleplay": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-food.webp"
+ },
+ "ko-immersive-food-v1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-travel.webp"
+ },
+ "ko-immersive-heat-v1-reading": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-city.webp"
+ },
+ "ko-immersive-heat-v1-listening": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-cafe.webp"
+ },
+ "ko-immersive-heat-v1-roleplay": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-nature.webp"
+ },
+ "ko-immersive-heat-v1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-market.webp"
+ },
+ "ko-immersive-archives-v1-reading": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-food.webp"
+ },
+ "ko-immersive-archives-v1-listening": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-travel.webp"
+ },
+ "ko-immersive-archives-v1-roleplay": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-city.webp"
+ },
+ "ko-immersive-archives-v1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-cafe.webp"
+ },
+ "ko-immersive-research-v1-reading": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-nature.webp"
+ },
+ "ko-immersive-research-v1-listening": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-market.webp"
+ },
+ "ko-immersive-research-v1-roleplay": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-food.webp"
+ },
+ "ko-immersive-research-v1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-travel.webp"
+ },
+ "ko-immersive-heritage-v1-reading": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-city.webp"
+ },
+ "ko-immersive-heritage-v1-listening": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-cafe.webp"
+ },
+ "ko-immersive-heritage-v1-roleplay": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-nature.webp"
+ },
+ "ko-immersive-heritage-v1-checkpoint": {
+  "language": "ko",
+  "context": "study",
+  "src": "/illustrated-lessons/ko-market.webp"
+ },
+ "fr-immersive-market-v1-reading": {
+  "language": "fr",
+  "context": "culture",
+  "src": "/illustrated-lessons/fr-city.webp"
+ },
+ "fr-immersive-market-v1-listening": {
+  "language": "fr",
+  "context": "market",
+  "src": "/illustrated-lessons/fr-market.webp"
+ },
+ "fr-immersive-market-v1-roleplay": {
+  "language": "fr",
+  "context": "culture",
+  "src": "/illustrated-lessons/fr-nature.webp"
+ },
+ "fr-immersive-market-v1-checkpoint": {
+  "language": "fr",
+  "context": "culture",
+  "src": "/illustrated-lessons/fr-travel.webp"
+ },
+ "fr-immersive-library-v1-reading": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-city.webp"
+ },
+ "fr-immersive-library-v1-listening": {
+  "language": "fr",
+  "context": "market",
+  "src": "/illustrated-lessons/fr-market.webp"
+ },
+ "fr-immersive-library-v1-roleplay": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-immersive-library-v1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-nature.webp"
+ },
+ "fr-immersive-tourism-v1-reading": {
+  "language": "fr",
+  "context": "home",
+  "src": "/illustrated-lessons/fr-food.webp"
+ },
+ "fr-immersive-tourism-v1-listening": {
+  "language": "fr",
+  "context": "market",
+  "src": "/illustrated-lessons/fr-market.webp"
+ },
+ "fr-immersive-tourism-v1-roleplay": {
+  "language": "fr",
+  "context": "home",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-immersive-tourism-v1-checkpoint": {
+  "language": "fr",
+  "context": "home",
+  "src": "/illustrated-lessons/fr-nature.webp"
+ },
+ "fr-immersive-work-v1-reading": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-travel.webp"
+ },
+ "fr-immersive-work-v1-listening": {
+  "language": "fr",
+  "context": "market",
+  "src": "/illustrated-lessons/fr-market.webp"
+ },
+ "fr-immersive-work-v1-roleplay": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-city.webp"
+ },
+ "fr-immersive-work-v1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-immersive-food-v1-reading": {
+  "language": "fr",
+  "context": "culture",
+  "src": "/illustrated-lessons/fr-nature.webp"
+ },
+ "fr-immersive-food-v1-listening": {
+  "language": "fr",
+  "context": "market",
+  "src": "/illustrated-lessons/fr-food.webp"
+ },
+ "fr-immersive-food-v1-roleplay": {
+  "language": "fr",
+  "context": "culture",
+  "src": "/illustrated-lessons/fr-travel.webp"
+ },
+ "fr-immersive-food-v1-checkpoint": {
+  "language": "fr",
+  "context": "culture",
+  "src": "/illustrated-lessons/fr-city.webp"
+ },
+ "fr-immersive-heat-v1-reading": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-city.webp"
+ },
+ "fr-immersive-heat-v1-listening": {
+  "language": "fr",
+  "context": "market",
+  "src": "/illustrated-lessons/fr-market.webp"
+ },
+ "fr-immersive-heat-v1-roleplay": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-immersive-heat-v1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-nature.webp"
+ },
+ "fr-immersive-archives-v1-reading": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-food.webp"
+ },
+ "fr-immersive-archives-v1-listening": {
+  "language": "fr",
+  "context": "market",
+  "src": "/illustrated-lessons/fr-travel.webp"
+ },
+ "fr-immersive-archives-v1-roleplay": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-city.webp"
+ },
+ "fr-immersive-archives-v1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-immersive-research-v1-reading": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-nature.webp"
+ },
+ "fr-immersive-research-v1-listening": {
+  "language": "fr",
+  "context": "market",
+  "src": "/illustrated-lessons/fr-market.webp"
+ },
+ "fr-immersive-research-v1-roleplay": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-food.webp"
+ },
+ "fr-immersive-research-v1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-travel.webp"
+ },
+ "fr-immersive-heritage-v1-reading": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-city.webp"
+ },
+ "fr-immersive-heritage-v1-listening": {
+  "language": "fr",
+  "context": "market",
+  "src": "/illustrated-lessons/fr-market.webp"
+ },
+ "fr-immersive-heritage-v1-roleplay": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-cafe.webp"
+ },
+ "fr-immersive-heritage-v1-checkpoint": {
+  "language": "fr",
+  "context": "study",
+  "src": "/illustrated-lessons/fr-nature.webp"
+ },
+ "de-immersive-market-v1-reading": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-nature.webp"
+ },
+ "de-immersive-market-v1-listening": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-market.webp"
+ },
+ "de-immersive-market-v1-roleplay": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-travel.webp"
+ },
+ "de-immersive-market-v1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-city.webp"
+ },
+ "de-immersive-library-v1-reading": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-immersive-library-v1-listening": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-nature.webp"
+ },
+ "de-immersive-library-v1-roleplay": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-market.webp"
+ },
+ "de-immersive-library-v1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-food.webp"
+ },
+ "de-immersive-tourism-v1-reading": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-immersive-tourism-v1-listening": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-market.webp"
+ },
+ "de-immersive-tourism-v1-roleplay": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-food.webp"
+ },
+ "de-immersive-tourism-v1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-city.webp"
+ },
+ "de-immersive-work-v1-reading": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-immersive-work-v1-listening": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-nature.webp"
+ },
+ "de-immersive-work-v1-roleplay": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-market.webp"
+ },
+ "de-immersive-work-v1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-food.webp"
+ },
+ "de-immersive-food-v1-reading": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-travel.webp"
+ },
+ "de-immersive-food-v1-listening": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-work.webp"
+ },
+ "de-immersive-food-v1-roleplay": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-home.webp"
+ },
+ "de-immersive-food-v1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-culture.webp"
+ },
+ "de-immersive-heat-v1-reading": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-city.webp"
+ },
+ "de-immersive-heat-v1-listening": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-immersive-heat-v1-roleplay": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-nature.webp"
+ },
+ "de-immersive-heat-v1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-market.webp"
+ },
+ "de-immersive-archives-v1-reading": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-food.webp"
+ },
+ "de-immersive-archives-v1-listening": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-travel.webp"
+ },
+ "de-immersive-archives-v1-roleplay": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-city.webp"
+ },
+ "de-immersive-archives-v1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-immersive-research-v1-reading": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-nature.webp"
+ },
+ "de-immersive-research-v1-listening": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-market.webp"
+ },
+ "de-immersive-research-v1-roleplay": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-food.webp"
+ },
+ "de-immersive-research-v1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-travel.webp"
+ },
+ "de-immersive-heritage-v1-reading": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-city.webp"
+ },
+ "de-immersive-heritage-v1-listening": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-cafe.webp"
+ },
+ "de-immersive-heritage-v1-roleplay": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-nature.webp"
+ },
+ "de-immersive-heritage-v1-checkpoint": {
+  "language": "de",
+  "context": "study",
+  "src": "/illustrated-lessons/de-market.webp"
+ },
+ "ar-immersive-market-v1-reading": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-city.webp"
+ },
+ "ar-immersive-market-v1-listening": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-cafe.webp"
+ },
+ "ar-immersive-market-v1-roleplay": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-nature.webp"
+ },
+ "ar-immersive-market-v1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-travel.webp"
+ },
+ "ar-immersive-library-v1-reading": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-city.webp"
+ },
+ "ar-immersive-library-v1-listening": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-cafe.webp"
+ },
+ "ar-immersive-library-v1-roleplay": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-nature.webp"
+ },
+ "ar-immersive-library-v1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-market.webp"
+ },
+ "ar-immersive-tourism-v1-reading": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-city.webp"
+ },
+ "ar-immersive-tourism-v1-listening": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-cafe.webp"
+ },
+ "ar-immersive-tourism-v1-roleplay": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-nature.webp"
+ },
+ "ar-immersive-tourism-v1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-market.webp"
+ },
+ "ar-immersive-work-v1-reading": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-food.webp"
+ },
+ "ar-immersive-work-v1-listening": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-travel.webp"
+ },
+ "ar-immersive-work-v1-roleplay": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-city.webp"
+ },
+ "ar-immersive-work-v1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-cafe.webp"
+ },
+ "ar-immersive-food-v1-reading": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-nature.webp"
+ },
+ "ar-immersive-food-v1-listening": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-market.webp"
+ },
+ "ar-immersive-food-v1-roleplay": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-food.webp"
+ },
+ "ar-immersive-food-v1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-travel.webp"
+ },
+ "ar-immersive-heat-v1-reading": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-city.webp"
+ },
+ "ar-immersive-heat-v1-listening": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-cafe.webp"
+ },
+ "ar-immersive-heat-v1-roleplay": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-nature.webp"
+ },
+ "ar-immersive-heat-v1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-market.webp"
+ },
+ "ar-immersive-archives-v1-reading": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-food.webp"
+ },
+ "ar-immersive-archives-v1-listening": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-travel.webp"
+ },
+ "ar-immersive-archives-v1-roleplay": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-city.webp"
+ },
+ "ar-immersive-archives-v1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-cafe.webp"
+ },
+ "ar-immersive-research-v1-reading": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-nature.webp"
+ },
+ "ar-immersive-research-v1-listening": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-market.webp"
+ },
+ "ar-immersive-research-v1-roleplay": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-food.webp"
+ },
+ "ar-immersive-research-v1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-travel.webp"
+ },
+ "ar-immersive-heritage-v1-reading": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-city.webp"
+ },
+ "ar-immersive-heritage-v1-listening": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-cafe.webp"
+ },
+ "ar-immersive-heritage-v1-roleplay": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-nature.webp"
+ },
+ "ar-immersive-heritage-v1-checkpoint": {
+  "language": "ar",
+  "context": "study",
+  "src": "/illustrated-lessons/ar-market.webp"
+ },
+ "it-immersive-market-v1-reading": {
+  "language": "it",
+  "context": "culture",
+  "src": "/illustrated-lessons/it-city.webp"
+ },
+ "it-immersive-market-v1-listening": {
+  "language": "it",
+  "context": "culture",
+  "src": "/illustrated-lessons/it-nature.webp"
+ },
+ "it-immersive-market-v1-roleplay": {
+  "language": "it",
+  "context": "culture",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-immersive-market-v1-checkpoint": {
+  "language": "it",
+  "context": "culture",
+  "src": "/illustrated-lessons/it-market.webp"
+ },
+ "it-immersive-library-v1-reading": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-travel.webp"
+ },
+ "it-immersive-library-v1-listening": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-city.webp"
+ },
+ "it-immersive-library-v1-roleplay": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-immersive-library-v1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-nature.webp"
+ },
+ "it-immersive-tourism-v1-reading": {
+  "language": "it",
+  "context": "culture",
+  "src": "/illustrated-lessons/it-city.webp"
+ },
+ "it-immersive-tourism-v1-listening": {
+  "language": "it",
+  "context": "culture",
+  "src": "/illustrated-lessons/it-nature.webp"
+ },
+ "it-immersive-tourism-v1-roleplay": {
+  "language": "it",
+  "context": "culture",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-immersive-tourism-v1-checkpoint": {
+  "language": "it",
+  "context": "culture",
+  "src": "/illustrated-lessons/it-market.webp"
+ },
+ "it-immersive-work-v1-reading": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-food.webp"
+ },
+ "it-immersive-work-v1-listening": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-travel.webp"
+ },
+ "it-immersive-work-v1-roleplay": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-city.webp"
+ },
+ "it-immersive-work-v1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-immersive-food-v1-reading": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-nature.webp"
+ },
+ "it-immersive-food-v1-listening": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-market.webp"
+ },
+ "it-immersive-food-v1-roleplay": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-food.webp"
+ },
+ "it-immersive-food-v1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-travel.webp"
+ },
+ "it-immersive-heat-v1-reading": {
+  "language": "it",
+  "context": "market",
+  "src": "/illustrated-lessons/it-market.webp"
+ },
+ "it-immersive-heat-v1-listening": {
+  "language": "it",
+  "context": "market",
+  "src": "/illustrated-lessons/it-food.webp"
+ },
+ "it-immersive-heat-v1-roleplay": {
+  "language": "it",
+  "context": "market",
+  "src": "/illustrated-lessons/it-city.webp"
+ },
+ "it-immersive-heat-v1-checkpoint": {
+  "language": "it",
+  "context": "market",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-immersive-archives-v1-reading": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-nature.webp"
+ },
+ "it-immersive-archives-v1-listening": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-travel.webp"
+ },
+ "it-immersive-archives-v1-roleplay": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-city.webp"
+ },
+ "it-immersive-archives-v1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-immersive-research-v1-reading": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-nature.webp"
+ },
+ "it-immersive-research-v1-listening": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-market.webp"
+ },
+ "it-immersive-research-v1-roleplay": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-food.webp"
+ },
+ "it-immersive-research-v1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-travel.webp"
+ },
+ "it-immersive-heritage-v1-reading": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-city.webp"
+ },
+ "it-immersive-heritage-v1-listening": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-cafe.webp"
+ },
+ "it-immersive-heritage-v1-roleplay": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-nature.webp"
+ },
+ "it-immersive-heritage-v1-checkpoint": {
+  "language": "it",
+  "context": "study",
+  "src": "/illustrated-lessons/it-market.webp"
  }
 }

@@ -67,10 +67,10 @@ test('every course heading and chapter goal has reviewed copy in all five locale
  const {lessonList,chapters,levels}=await import('./course.mjs');
  const {reviewedCourseTitles:copy}=await import('./reviewed-course-titles.mjs');
  const {t,setInterfaceLanguage}=await import('./interface-runtime.mjs');
- const sources=[...lessonList.map(l=>({text:l.title,language:l.language||'es'})),...chapters.flatMap(c=>[{text:c.title,language:c.language||'es'},{text:c.goal,language:c.language||'es'}]),...levels.map(l=>({text:l.name,language:''}))];
+ const sources=[...lessonList.map(l=>({text:l.title,language:l.language||'es',native:!!l.immersive})),...chapters.flatMap(c=>[{text:c.title,language:c.language||'es',native:!!c.immersive},{text:c.goal,language:c.language||'es',native:!!c.immersive}]),...levels.map(l=>({text:l.name,language:''}))];
  for(const locale of ['ja','es','pt','zh','fr']){
   setInterfaceLanguage(locale,{persist:false});
-  for(const {text,language} of sources){assert.ok(copy[locale][text]?.trim(),locale+': '+text);assert.ok(translationSource(text,language));assert.equal(t(text,language),copy[locale][text]);}
+  for(const {text,language,native} of sources){const source=translationSource(text,language);assert.ok(source);if(native){assert.match(protectSource(source).text,/^⟦KEEP_\d+⟧$/);assert.equal(t(text,language),text);}else{assert.ok(copy[locale][text]?.trim(),locale+': '+text);assert.equal(t(text,language),copy[locale][text]);}}
  }
  setInterfaceLanguage('ja',{persist:false});
  assert.equal(t('Interpret a qualified endorsement','ja'),'留保のある評価を読み取る');

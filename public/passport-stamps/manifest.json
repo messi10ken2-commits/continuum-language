@@ -3950,5 +3950,725 @@
     "theme": "nuance",
     "source": "/illustrated-lessons/pt-culture.webp",
     "sha256": "ac8945b7e78c4097d56ccf881b77e724104368a1f014fa8b6dd86fc24cf510d5"
+  },
+  "es:chapter:es-immersive-market-v1": {
+    "src": "/passport-stamps/es-1b2787fb08e499.svg",
+    "title": "Un mercado para todo el barrio",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/es-market.webp",
+    "sha256": "c88c69fc143af493a7707d59a7da80b52c0db36b68e97ca1f3fc2a0ea611564d"
+  },
+  "es:chapter:es-immersive-library-v1": {
+    "src": "/passport-stamps/es-d852c95d3141b8.svg",
+    "title": "La biblioteca después del trabajo",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "e8e08cce2800c3d35ebcb31189cae8d2b43d21f101400e8ecdf65d50c86115e3"
+  },
+  "es:chapter:es-immersive-tourism-v1": {
+    "src": "/passport-stamps/es-7e65ea5bc95c07.svg",
+    "title": "Visitar un barrio donde vive gente",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/es-travel.webp",
+    "sha256": "58b0b9014ab981198f9a971ffbc6e808df0ed7f0d00a8b0bbde0f2e9507117f4"
+  },
+  "es:chapter:es-immersive-work-v1": {
+    "src": "/passport-stamps/es-8d5a2e10ddcf25.svg",
+    "title": "Una prueba justa de trabajo flexible",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/es-work.webp",
+    "sha256": "4c5378a42350ca82cfa3674da2f1563be975ab3361af0f202e4bef14bef6a71e"
+  },
+  "es:chapter:es-immersive-food-v1": {
+    "src": "/passport-stamps/es-2bdb46c6cef349.svg",
+    "title": "Compartir alimentos sin generar más desperdicio",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/es-food.webp",
+    "sha256": "a70c2f8f2db1a55de4a7bcfb615112ddee62c756965f58f1d785ddd4a834a99c"
+  },
+  "es:chapter:es-immersive-heat-v1": {
+    "src": "/passport-stamps/es-337764f3cce0b4.svg",
+    "title": "Refrescar la ciudad sin ocultar las contrapartidas",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/es-nature.webp",
+    "sha256": "f9160f5b032c8f9ad26371e7556c4305350b7c73d7501e1e7547bf7c4973c855"
+  },
+  "es:chapter:es-immersive-archives-v1": {
+    "src": "/passport-stamps/es-9c772afe0b6875.svg",
+    "title": "¿Quién aparece en un archivo digital?",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "9d97f33628dd0e46f0d09d6589640035ccf37ddf452a430b0bb36f8d47ac1488"
+  },
+  "es:chapter:es-immersive-research-v1": {
+    "src": "/passport-stamps/es-cd4d70f7849190.svg",
+    "title": "Pruebas, financiación y afirmaciones defendibles",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/es-study.webp",
+    "sha256": "4b3d6db4f4e9b544cc4e94f1d7dadf47a6a85ea6a8a5b03565ebfa0c091e6f29"
+  },
+  "es:chapter:es-immersive-heritage-v1": {
+    "src": "/passport-stamps/es-fcafe44841e31d.svg",
+    "title": "Patrimonio compartido, decisiones compartidas",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/es-culture.webp",
+    "sha256": "5239c29f133e17df603227ae26dcc00e1880d5c35c1fc27dd51badd438f72aa0"
+  },
+  "ja:chapter:ja-immersive-market-v1": {
+    "src": "/passport-stamps/ja-283c3dfa339ca3.svg",
+    "title": "みんなが利用しやすい市場",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/ja-market.webp",
+    "sha256": "018cb8373475dfedd8efd0603ad5b3941da2e81a49c2f518f0abaa8460820131"
+  },
+  "ja:chapter:ja-immersive-library-v1": {
+    "src": "/passport-stamps/ja-091d13db7adfa5.svg",
+    "title": "夜の図書館を使いやすくする",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "1236d1b72f2cce4c1b9016a66dd095138689681d58ab398810b35a8efd24b0da"
+  },
+  "ja:chapter:ja-immersive-tourism-v1": {
+    "src": "/passport-stamps/ja-1851dfbe8435a7.svg",
+    "title": "訪れる人と、そこに暮らす人",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/ja-travel.webp",
+    "sha256": "8eaaf369d6b83014b709d0d7903d3354ed0076f26ec7d44edd5b8faa3c9d113e"
+  },
+  "ja:chapter:ja-immersive-work-v1": {
+    "src": "/passport-stamps/ja-eaf318cff766bd.svg",
+    "title": "柔軟な働き方を公平に試す",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/ja-work.webp",
+    "sha256": "c63f93a324458ad7cd65a2c471c2f2792d2698cd77b0340945397e73603cfc0d"
+  },
+  "ja:chapter:ja-immersive-food-v1": {
+    "src": "/passport-stamps/ja-b09c79ffefacd7.svg",
+    "title": "食品を分け合い、余りを減らす",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/ja-food.webp",
+    "sha256": "064181ab30f320fa196bd68837374aac611bf75b69b96ad1499df928b150d85e"
+  },
+  "ja:chapter:ja-immersive-heat-v1": {
+    "src": "/passport-stamps/ja-a342d52769bba8.svg",
+    "title": "都市を冷やす施策と、見落とされる負担",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/ja-nature.webp",
+    "sha256": "d83cad9f84c07b087b0f3f827fb83a89693a00f16ecf8927f1744f0187f9919c"
+  },
+  "ja:chapter:ja-immersive-archives-v1": {
+    "src": "/passport-stamps/ja-9fc23bcef1e621.svg",
+    "title": "デジタル資料館で、誰の歴史が見えるのか",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "50f336d33eaf98bba222b46b019ed612ffec2161fa531fc8f2fbaa60406b2f94"
+  },
+  "ja:chapter:ja-immersive-research-v1": {
+    "src": "/passport-stamps/ja-36137982108992.svg",
+    "title": "根拠と資金、どこまで主張できるか",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/ja-study.webp",
+    "sha256": "049fa72802f106f3ae998761ed5086368fe15946c59c27e0b1b5717c9567c9ec"
+  },
+  "ja:chapter:ja-immersive-heritage-v1": {
+    "src": "/passport-stamps/ja-41d814f178842c.svg",
+    "title": "誰の文化遺産を、誰が決めるのか",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/ja-culture.webp",
+    "sha256": "13d468b7656c245c4de984b14c69d32cae8e9dbbe73a728020f4e97366c4377a"
+  },
+  "pt:chapter:pt-immersive-market-v1": {
+    "src": "/passport-stamps/pt-dfbede9b58c439.svg",
+    "title": "Uma feira para todo o bairro",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/pt-market.webp",
+    "sha256": "a0aa5205f54b3136179e847e8cab748aec093990a8053ecc71025ea2b8624975"
+  },
+  "pt:chapter:pt-immersive-library-v1": {
+    "src": "/passport-stamps/pt-c0eef30f2ccdcc.svg",
+    "title": "A biblioteca depois do expediente",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "6e338c2aee1748bfd198bf2b6a612561f06c58b39918e2271ee40847d81a8416"
+  },
+  "pt:chapter:pt-immersive-tourism-v1": {
+    "src": "/passport-stamps/pt-31821451d76f07.svg",
+    "title": "Visitar um bairro onde as pessoas vivem",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/pt-travel.webp",
+    "sha256": "2fa2e24128ad1cc1bde27562df6eb9768fb4ddd7def8f592ba35b179fcde8f61"
+  },
+  "pt:chapter:pt-immersive-work-v1": {
+    "src": "/passport-stamps/pt-703bbbea561a33.svg",
+    "title": "Um teste justo de trabalho flexível",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/pt-work.webp",
+    "sha256": "0c6ca084306a833e0c9b12007e5f60f09b7f5ff80c78090e5ad788b49c4d153f"
+  },
+  "pt:chapter:pt-immersive-food-v1": {
+    "src": "/passport-stamps/pt-e709a86e8bd5dd.svg",
+    "title": "Compartilhar alimentos e evitar desperdício",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/pt-food.webp",
+    "sha256": "6cdbab17d577117ef6202771f51a9841cc29705839256690b976036240dfddb5"
+  },
+  "pt:chapter:pt-immersive-heat-v1": {
+    "src": "/passport-stamps/pt-cd2c9a2c8da0f4.svg",
+    "title": "Refrescar a cidade sem esconder as contrapartidas",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/pt-nature.webp",
+    "sha256": "42d4e8279ec83be9c0e19cbaefa00ab5531398d0c7b3f5d32a58f3dfa8268d68"
+  },
+  "pt:chapter:pt-immersive-archives-v1": {
+    "src": "/passport-stamps/pt-62854984add6ad.svg",
+    "title": "Quem aparece em um arquivo digital?",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "44ed725cd8623b7fb5095daf5602e7fadb8a0208ce05ab492989717445368816"
+  },
+  "pt:chapter:pt-immersive-research-v1": {
+    "src": "/passport-stamps/pt-cec5aa9340f74b.svg",
+    "title": "Evidências, financiamento e conclusões possíveis",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/pt-study.webp",
+    "sha256": "5538c55d5ddb3d25c9d2c8f0a02c4c935c5d18063744dd68e5a7c26548b8948a"
+  },
+  "pt:chapter:pt-immersive-heritage-v1": {
+    "src": "/passport-stamps/pt-acf9ed3e6f0c87.svg",
+    "title": "Patrimônio de quem, decisão de quem?",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/pt-culture.webp",
+    "sha256": "70b8fc717f159542b5858aa2bb1941a220ba193539f5a7d4d42446e95e6be70f"
+  },
+  "en:chapter:en-immersive-market-v1": {
+    "src": "/passport-stamps/en-7233a1a859bea6.svg",
+    "title": "A market that works for everyone",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/en-market.webp",
+    "sha256": "3d16569312264d8d4ab00a41babb4e7a5a6c252004ffd0670194ac3f77f9bcdf"
+  },
+  "en:chapter:en-immersive-library-v1": {
+    "src": "/passport-stamps/en-8fea9f1fc17c58.svg",
+    "title": "An evening library for the neighbourhood",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "14ba1115e0490f53888ef1a0862506429317ef6f6f87b373ecf032bda0195450"
+  },
+  "en:chapter:en-immersive-tourism-v1": {
+    "src": "/passport-stamps/en-a67773a7d52feb.svg",
+    "title": "Visitors and the people who live here",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/en-travel.webp",
+    "sha256": "1f991ac00283236a65c5b3ad9aa680955e94d1cb1b06beb9ff8e0579a01f9050"
+  },
+  "en:chapter:en-immersive-work-v1": {
+    "src": "/passport-stamps/en-e2042fabb693c6.svg",
+    "title": "A fair experiment with flexible work",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/en-work.webp",
+    "sha256": "f8f4f1fbce8bcea4602e0c8c23d28ad76139ce5953b0211e3235d4a840a99d45"
+  },
+  "en:chapter:en-immersive-food-v1": {
+    "src": "/passport-stamps/en-4ed11b4fdf175f.svg",
+    "title": "Good food, fewer leftovers",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/en-food.webp",
+    "sha256": "b34b032128ba0447005cf6ecf3c5a5d1b1e0d9a892e799d329d83a192533fca3"
+  },
+  "en:chapter:en-immersive-heat-v1": {
+    "src": "/passport-stamps/en-43cb352555d614.svg",
+    "title": "Cooling a city without hiding the trade-offs",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/en-nature.webp",
+    "sha256": "ca98f21c8c87f9940ed837866f1e39ba3ae4ec8769450db3bbc178225a52b7e0"
+  },
+  "en:chapter:en-immersive-archives-v1": {
+    "src": "/passport-stamps/en-8de1311483729f.svg",
+    "title": "Who becomes visible in a digital archive?",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "985fbd25b239e6f2f77c74c59545b80b0f9ee55e8de89785e6de91f270fdc3b4"
+  },
+  "en:chapter:en-immersive-research-v1": {
+    "src": "/passport-stamps/en-dd5346876b1a20.svg",
+    "title": "Evidence, funding and the claims we can make",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/en-study.webp",
+    "sha256": "093040194f9c568273b980b466c04f59a493c51b23ff324a923ec1c3c71e8f5e"
+  },
+  "en:chapter:en-immersive-heritage-v1": {
+    "src": "/passport-stamps/en-cc6777738ae836.svg",
+    "title": "Whose heritage, and who decides?",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/en-culture.webp",
+    "sha256": "e25b85cb295d30168c975ca9435693df51501df1b22e23600db23592ea0b72a7"
+  },
+  "zh:chapter:zh-immersive-market-v1": {
+    "src": "/passport-stamps/zh-473fd5fb8c2b68.svg",
+    "title": "让大家都方便的周末市集",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/zh-market.webp",
+    "sha256": "a9da16fa9dd12c173848764d11a8bcd6544e2e32e0a707919f8f353e80babba5"
+  },
+  "zh:chapter:zh-immersive-library-v1": {
+    "src": "/passport-stamps/zh-4c273f3fed4d1f.svg",
+    "title": "下班后也能去的图书馆",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/zh-study.webp",
+    "sha256": "53eda89187ce8355ec77198bf3907e1f31eb1b44ebd6968c0c64a550bbff8e6f"
+  },
+  "zh:chapter:zh-immersive-tourism-v1": {
+    "src": "/passport-stamps/zh-52d5e469958cad.svg",
+    "title": "游客走进有人生活的街区",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/zh-travel.webp",
+    "sha256": "bd48beb323d7f44c91a86c1fd50f8bcf1fd1e79770dd61b204febb5951d26492"
+  },
+  "zh:chapter:zh-immersive-work-v1": {
+    "src": "/passport-stamps/zh-b554162cedfecd.svg",
+    "title": "公平试行弹性工作",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/zh-work.webp",
+    "sha256": "72712b6e5d74bc0a909e0349b5bc4e8b20f28a15a69e4d5210dd166fc252c8de"
+  },
+  "zh:chapter:zh-immersive-food-v1": {
+    "src": "/passport-stamps/zh-fffcc633f116fd.svg",
+    "title": "分享余粮，也减少浪费",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/zh-food.webp",
+    "sha256": "0bcad1ab563cc4b4ef91741d0ac628d1385b15dca4ef636f5f7738f5046cf0d5"
+  },
+  "zh:chapter:zh-immersive-heat-v1": {
+    "src": "/passport-stamps/zh-2ac183a6c688bf.svg",
+    "title": "给城市降温，也看清取舍",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/zh-nature.webp",
+    "sha256": "359029c9ca9d8706529852c068d93fb279f6e342c4d0ca002506b708ecbf446c"
+  },
+  "zh:chapter:zh-immersive-archives-v1": {
+    "src": "/passport-stamps/zh-9d380a3e666eb8.svg",
+    "title": "数字档案让谁被看见？",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/zh-study.webp",
+    "sha256": "ede584a95599351daeb004b363f9a38d9c7b1a37024fc7bcdc4ee3d78b4b68b4"
+  },
+  "zh:chapter:zh-immersive-research-v1": {
+    "src": "/passport-stamps/zh-baa8291dc04be4.svg",
+    "title": "证据、资助与可以作出的结论",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/zh-study.webp",
+    "sha256": "b87a36d74d70b6037053d15f91c0cdb971c508da63122881fc170519d7ecc1ca"
+  },
+  "zh:chapter:zh-immersive-heritage-v1": {
+    "src": "/passport-stamps/zh-4dcd47a1f903af.svg",
+    "title": "谁的遗产，由谁决定？",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/zh-culture.webp",
+    "sha256": "cd8eed028e54376e96d8b958a72ffd4320f73d33317ee3a331143c05041610f4"
+  },
+  "ko:chapter:ko-immersive-market-v1": {
+    "src": "/passport-stamps/ko-c22b25ee24b054.svg",
+    "title": "모두가 편하게 이용하는 주말 시장",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/ko-market.webp",
+    "sha256": "1d1cd807bd49eaa82034da4dacce8b040b98cea9ca3506e6509a9af2efa3e315"
+  },
+  "ko:chapter:ko-immersive-library-v1": {
+    "src": "/passport-stamps/ko-3c9cb1188d759d.svg",
+    "title": "퇴근 후에도 이용하는 도서관",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/ko-study.webp",
+    "sha256": "2341fa6894ae076e7c71df28e699e9fccce1ce4d3694da91a9ac81b2669d2140"
+  },
+  "ko:chapter:ko-immersive-tourism-v1": {
+    "src": "/passport-stamps/ko-fb5faa67af8013.svg",
+    "title": "관광객과 함께 살아가는 동네",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/ko-travel.webp",
+    "sha256": "8fc2d003703e29f904faff13b61505494061eb73b84dd5aabcbb30029728262e"
+  },
+  "ko:chapter:ko-immersive-work-v1": {
+    "src": "/passport-stamps/ko-ccbea46b09e0eb.svg",
+    "title": "공정한 유연근무 실험",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/ko-work.webp",
+    "sha256": "a2858f5abbf4b47b55d08898bbcf7f099be52f3e183c2fc672bfd4e131b651bc"
+  },
+  "ko:chapter:ko-immersive-food-v1": {
+    "src": "/passport-stamps/ko-e0d7438f92082b.svg",
+    "title": "남은 음식을 나누고 낭비를 줄이기",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/ko-food.webp",
+    "sha256": "b00d8c3575f296025f3fdc612d3a9a95bd85c43d704d3b7061573aa89bc54a85"
+  },
+  "ko:chapter:ko-immersive-heat-v1": {
+    "src": "/passport-stamps/ko-784434ec957f35.svg",
+    "title": "도시를 식히되 상충하는 조건도 드러내기",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/ko-nature.webp",
+    "sha256": "8c5c3df064da37fe29eb00ae7ae32345047990eeb7020281681018a9947c4c91"
+  },
+  "ko:chapter:ko-immersive-archives-v1": {
+    "src": "/passport-stamps/ko-3f21f5fc9a7ec6.svg",
+    "title": "디지털 기록에서 누가 보이는가",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/ko-study.webp",
+    "sha256": "560702ff81caf6956d70cc20795ba6fbd952fa615fe554858f3d0b7ebe758b6e"
+  },
+  "ko:chapter:ko-immersive-research-v1": {
+    "src": "/passport-stamps/ko-1cfae78d7777a7.svg",
+    "title": "증거, 지원금, 그리고 정당한 주장",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/ko-study.webp",
+    "sha256": "641ce233aa749356f1c217cd96485817bbc40e4a0dd162fa999a763bbda91733"
+  },
+  "ko:chapter:ko-immersive-heritage-v1": {
+    "src": "/passport-stamps/ko-0a2cf58205956b.svg",
+    "title": "누구의 유산이며 누가 결정하는가",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/ko-culture.webp",
+    "sha256": "51c57b3b3fb1c78887456f0dd8fd85cae93e11b4deff718793bf95df8f698fdc"
+  },
+  "fr:chapter:fr-immersive-market-v1": {
+    "src": "/passport-stamps/fr-61f05d2443e3f8.svg",
+    "title": "Un marché agréable pour tout le quartier",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/fr-market.webp",
+    "sha256": "54b6c23532b22e111b245acac95837959fce7f20258d46fa484ad5d1db1e4a78"
+  },
+  "fr:chapter:fr-immersive-library-v1": {
+    "src": "/passport-stamps/fr-f189ed30663de4.svg",
+    "title": "La bibliothèque après le travail",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/fr-study.webp",
+    "sha256": "706935c939110706724229cab5d03dad4c3ec35867aed6e0052c3a7f7ae028ea"
+  },
+  "fr:chapter:fr-immersive-tourism-v1": {
+    "src": "/passport-stamps/fr-d4919056a2a53b.svg",
+    "title": "Visiteurs et habitants : partager le quartier",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/fr-travel.webp",
+    "sha256": "e8dfca9a8d7869bf8227744ce4d22b87bc21e7592b53ab9d5d80fa1c40fe2bd9"
+  },
+  "fr:chapter:fr-immersive-work-v1": {
+    "src": "/passport-stamps/fr-ef221186c9dce3.svg",
+    "title": "Expérimenter le travail flexible avec équité",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/fr-work.webp",
+    "sha256": "1d960204fbd5ecd3a674eaa03f121652e173bd8e8fa2df639491b80e96461c38"
+  },
+  "fr:chapter:fr-immersive-food-v1": {
+    "src": "/passport-stamps/fr-64faa26f60f97a.svg",
+    "title": "Partager les invendus sans créer de surplus",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/fr-food.webp",
+    "sha256": "70c922632e24765548e9247ada8c09df3390ffea394592c346788585e3741397"
+  },
+  "fr:chapter:fr-immersive-heat-v1": {
+    "src": "/passport-stamps/fr-081f00169e8b53.svg",
+    "title": "Rafraîchir la ville sans masquer les arbitrages",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/fr-nature.webp",
+    "sha256": "fd30d0b1900d803a023c736fb5ab2036d33e2a518b3c4014a4c648b56fe7ec3b"
+  },
+  "fr:chapter:fr-immersive-archives-v1": {
+    "src": "/passport-stamps/fr-5f792acb0e60b1.svg",
+    "title": "Qui devient visible dans une archive numérique ?",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/fr-study.webp",
+    "sha256": "d5992eb423a53fec3570829101b3c5f52571ce79ae57a71bce9da0e98708ebb4"
+  },
+  "fr:chapter:fr-immersive-research-v1": {
+    "src": "/passport-stamps/fr-25f5656953a68b.svg",
+    "title": "Preuves, financement et conclusions défendables",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/fr-study.webp",
+    "sha256": "38b7f247b6d34d13920eb1482767fc0944ce18faae31440b85a642d2b9ee65ee"
+  },
+  "fr:chapter:fr-immersive-heritage-v1": {
+    "src": "/passport-stamps/fr-39c443ee6f3e73.svg",
+    "title": "Quel patrimoine, et qui décide ?",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/fr-culture.webp",
+    "sha256": "fa52b93752d5acb0eb5c4ee49632e0e4d4338e4f9586349aeae15b42498d1ce9"
+  },
+  "de:chapter:de-immersive-market-v1": {
+    "src": "/passport-stamps/de-13069a13827c6e.svg",
+    "title": "Ein Markt für das ganze Viertel",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/de-market.webp",
+    "sha256": "78f8b9a65c4f77d1b00b72d9655b27016dc03265f70792b7288358f10575dc9f"
+  },
+  "de:chapter:de-immersive-library-v1": {
+    "src": "/passport-stamps/de-99b573f31e6a14.svg",
+    "title": "Die Bibliothek nach Feierabend",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/de-study.webp",
+    "sha256": "2d27e280e124799013ed4c8027b9706ec0e0117937cec46f769609af94ef73bf"
+  },
+  "de:chapter:de-immersive-tourism-v1": {
+    "src": "/passport-stamps/de-bf7a43e61b9036.svg",
+    "title": "Zu Besuch in einem bewohnten Viertel",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/de-travel.webp",
+    "sha256": "6830efef0114bd9a588b0ee01c3630c8a5bf7f2e37754b0850bed1d60fcbd944"
+  },
+  "de:chapter:de-immersive-work-v1": {
+    "src": "/passport-stamps/de-8a570ecbd679a4.svg",
+    "title": "Flexibles Arbeiten fair erproben",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/de-work.webp",
+    "sha256": "898d03dd23923d884eb75fe067747421fd0540068182bb9849912c077c4896e2"
+  },
+  "de:chapter:de-immersive-food-v1": {
+    "src": "/passport-stamps/de-e1228e0219429f.svg",
+    "title": "Überschüsse teilen und Verschwendung vermeiden",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/de-food.webp",
+    "sha256": "09f768bee8d64bdb770ad792341f8fa658c985592ebab31fa28ba9595c8df8c1"
+  },
+  "de:chapter:de-immersive-heat-v1": {
+    "src": "/passport-stamps/de-b41258c20c33ab.svg",
+    "title": "Die Stadt kühlen, ohne Zielkonflikte zu verdecken",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/de-nature.webp",
+    "sha256": "3fc6ac39bb3975c97ef7728ce2bd0c2afa69a490b952badc3f1af19c2543ae05"
+  },
+  "de:chapter:de-immersive-archives-v1": {
+    "src": "/passport-stamps/de-f0a0844b94bbb5.svg",
+    "title": "Wer wird im digitalen Archiv sichtbar?",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/de-study.webp",
+    "sha256": "c0dd35c615bed43d307802f6c801fb912b500dff59b6f6b0f00afb99333e3979"
+  },
+  "de:chapter:de-immersive-research-v1": {
+    "src": "/passport-stamps/de-89c6a099926492.svg",
+    "title": "Belege, Finanzierung und tragfähige Aussagen",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/de-study.webp",
+    "sha256": "162b51cac80c3261ce32fa55a06fa1465630f821c965afceb07b3d6d854724cf"
+  },
+  "de:chapter:de-immersive-heritage-v1": {
+    "src": "/passport-stamps/de-553099fc91d12e.svg",
+    "title": "Wessen Erbe, und wer entscheidet?",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/de-culture.webp",
+    "sha256": "1c83c3ed291bcc7aacbe7584be4978b72275c5969a5d2940568fa1bd2e2ac08f"
+  },
+  "ar:chapter:ar-immersive-market-v1": {
+    "src": "/passport-stamps/ar-66aaf13ef2ac5b.svg",
+    "title": "سوق مناسب لجميع أهل الحي",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/ar-market.webp",
+    "sha256": "7bc2da5bb862a2fcf0ae2609cfe2265f762d009b8ff32c9fea11487a4299d0cc"
+  },
+  "ar:chapter:ar-immersive-library-v1": {
+    "src": "/passport-stamps/ar-44f939958ce0af.svg",
+    "title": "المكتبة بعد انتهاء العمل",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/ar-study.webp",
+    "sha256": "e136847b5cb477e01c980b0c038b0857d3baedd62f275e5585466f5d34cbffab"
+  },
+  "ar:chapter:ar-immersive-tourism-v1": {
+    "src": "/passport-stamps/ar-882e6384d10652.svg",
+    "title": "الزوار والسكان: تقاسم الحي",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/ar-travel.webp",
+    "sha256": "a19affc588b21c591c8d272f569d9fe9989738155a7911008e587e5c6bac4c53"
+  },
+  "ar:chapter:ar-immersive-work-v1": {
+    "src": "/passport-stamps/ar-bb146cc32136ba.svg",
+    "title": "تجربة عادلة للعمل المرن",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/ar-work.webp",
+    "sha256": "788d468fa64539c5f9890d503a73ba1b866bd530f277a626e7da9767f6536f82"
+  },
+  "ar:chapter:ar-immersive-food-v1": {
+    "src": "/passport-stamps/ar-32ad0f30d699fb.svg",
+    "title": "تقاسم الفائض ومنع الهدر",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/ar-food.webp",
+    "sha256": "6cba64f351cb7dd92e2f20b2e7ef55b0dda8252563db0f887a6bdcc2c3cdac8a"
+  },
+  "ar:chapter:ar-immersive-heat-v1": {
+    "src": "/passport-stamps/ar-8af971f73f750a.svg",
+    "title": "تبريد المدينة دون إخفاء المفاضلات",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/ar-nature.webp",
+    "sha256": "a90fc16ae6bbf420a6111cc57a64f7c12124327a945508258c343f376f674006"
+  },
+  "ar:chapter:ar-immersive-archives-v1": {
+    "src": "/passport-stamps/ar-44cb6ec0afeb00.svg",
+    "title": "من يظهر في الأرشيف الرقمي؟",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/ar-study.webp",
+    "sha256": "848d9dc1006a29d9f4e2e26a5adf5fb7aa0aa65712f57653619be0f0353e8708"
+  },
+  "ar:chapter:ar-immersive-research-v1": {
+    "src": "/passport-stamps/ar-66cf826b2dd22c.svg",
+    "title": "الأدلة والتمويل وحدود ما ندعيه",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/ar-study.webp",
+    "sha256": "28579a7a972a79bdd19430180b913d34682d63404535b137667862184fbf2a65"
+  },
+  "ar:chapter:ar-immersive-heritage-v1": {
+    "src": "/passport-stamps/ar-c9ba6f43056f73.svg",
+    "title": "تراث من، وقرار من؟",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/ar-culture.webp",
+    "sha256": "f3338466d0c21584b885a6e3321c3bfa7c01e55a3217c1469a5e077a07e889da"
+  },
+  "it:chapter:it-immersive-market-v1": {
+    "src": "/passport-stamps/it-6fc7994ae37dab.svg",
+    "title": "Un mercato per tutto il quartiere",
+    "level": "B1",
+    "theme": "words",
+    "source": "/illustrated-lessons/it-market.webp",
+    "sha256": "0b9ae89ac2e07e944fe657b94d52990bea95bfbb929d1972adeecf0e72ba70c1"
+  },
+  "it:chapter:it-immersive-library-v1": {
+    "src": "/passport-stamps/it-dcbcb5f6e12725.svg",
+    "title": "La biblioteca dopo il lavoro",
+    "level": "B1",
+    "theme": "stories",
+    "source": "/illustrated-lessons/it-study.webp",
+    "sha256": "65d5f40a843c1fc2e8539280bb0a086a497491c5295d05cabc486ade33b6261f"
+  },
+  "it:chapter:it-immersive-tourism-v1": {
+    "src": "/passport-stamps/it-30f8be2b2949a6.svg",
+    "title": "Visitatori e residenti: condividere il quartiere",
+    "level": "B2",
+    "theme": "travelwork",
+    "source": "/illustrated-lessons/it-travel.webp",
+    "sha256": "7c52f1217b553704f1b45fdb3bec0cffe35176937e9dd5d171c2fdd9f87cdb41"
+  },
+  "it:chapter:it-immersive-work-v1": {
+    "src": "/passport-stamps/it-af0b21ebbbb478.svg",
+    "title": "Una prova equa di lavoro flessibile",
+    "level": "B2",
+    "theme": "meeting",
+    "source": "/illustrated-lessons/it-work.webp",
+    "sha256": "1eb532f28e49204fc63d0a8b1e890673730451a5da89aecf6a10816af5f857a0"
+  },
+  "it:chapter:it-immersive-food-v1": {
+    "src": "/passport-stamps/it-c70bde9f48b69d.svg",
+    "title": "Condividere le eccedenze, prevenire gli sprechi",
+    "level": "B2",
+    "theme": "combinations",
+    "source": "/illustrated-lessons/it-food.webp",
+    "sha256": "2e296afe9544ced3e6f68bfba14e031f497befbe75e92b3d2b049fd8154de972"
+  },
+  "it:chapter:it-immersive-heat-v1": {
+    "src": "/passport-stamps/it-94fb468618bca5.svg",
+    "title": "Raffrescare la città senza nascondere i compromessi",
+    "level": "C1",
+    "theme": "growth",
+    "source": "/illustrated-lessons/it-nature.webp",
+    "sha256": "585a6bc727418b92ca6f1214acde3101118aa1aa04ed94cedba26b53ce7a0a78"
+  },
+  "it:chapter:it-immersive-archives-v1": {
+    "src": "/passport-stamps/it-52f4fe88e97bd5.svg",
+    "title": "Chi diventa visibile in un archivio digitale?",
+    "level": "C1",
+    "theme": "letters",
+    "source": "/illustrated-lessons/it-study.webp",
+    "sha256": "8f2965925366600b1d5217628e3c30d11c73e3aad6f4951c8b74cd9fa99e7dcb"
+  },
+  "it:chapter:it-immersive-research-v1": {
+    "src": "/passport-stamps/it-9e48169a0fc278.svg",
+    "title": "Prove, finanziamenti e conclusioni sostenibili",
+    "level": "C1",
+    "theme": "evidence",
+    "source": "/illustrated-lessons/it-study.webp",
+    "sha256": "cac4d8e6c6df4a8edefb7b6e1fc8719d862b768240ab4506e9bde251ee2b2659"
+  },
+  "it:chapter:it-immersive-heritage-v1": {
+    "src": "/passport-stamps/it-3dfa0681f228ae.svg",
+    "title": "Di chi è il patrimonio, e chi decide?",
+    "level": "C1",
+    "theme": "nuance",
+    "source": "/illustrated-lessons/it-culture.webp",
+    "sha256": "74278c6834e26458b243a6ca15f50b2c2d057983ad73d001376945691117bfd5"
   }
 }

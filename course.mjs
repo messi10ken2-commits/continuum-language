@@ -1,3 +1,4 @@
+import {immersiveChapters,immersiveLessons} from './immersive-course.mjs';
 import {expandedVideoChapters,expandedVideoLessons,archivedExpandedVideoLessons} from './expanded-video-course.mjs';
 import {expandedVisualChapters,expandedVisualLessons,expandedVisualTransfer} from './expanded-visual-course.mjs';
 import {expandedChapters,expandedLessons,expandedTransfer} from './expanded-language-catalog.mjs';
@@ -168,6 +169,11 @@ chapters.push(...expandedChapters,...expandedSoundChapters,...expandedScriptChap
 lessonList.push(...expandedLessons,...expandedSoundLessons,...expandedScriptLessons,...expandedVisualLessons);
 chapters.push(...expandedVideoChapters);
 lessonList.push(...expandedVideoLessons);
+// Keep every existing activity in its original relative order. Presentation
+// helpers keep the existing level review last; new specialist chapters do not
+// change its saved grading pool.
+chapters.push(...immersiveChapters);
+lessonList.push(...immersiveLessons);
 enrichEverydayLessons(lessonList);
 export const getLesson=id=>lessonList.find(l=>l.id===id)||legacyInternationalLessons.find(l=>l.id===id)||archivedExpandedVideoLessons.find(l=>l.id===id);
 export const lessonTitle=id=>getLesson(id||'subjunctive')?.title||'Previous practice';
@@ -188,6 +194,12 @@ export function getLessonVariant(id,seed){
  let state=2166136261;for(const c of seed+id){state^=c.charCodeAt(0);state=Math.imul(state,16777619)>>>0;}
  const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
  const shuffle=xs=>{const a=[...xs];for(let i=a.length-1;i>0;i--){const j=Math.floor(random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+ if(base.immersive){
+  // These checkpoints have six authored transfer tasks and source windows,
+  // not the legacy four-item chapter bank. Saved seeds remain reproducible.
+  const questions=shuffle(base.questions).map(q=>{const order=shuffle(q.options.map((_,i)=>i));return {...q,options:order.map(i=>q.options[i]),answer:order.indexOf(q.answer)};});
+  return {...base,questions};
+ }
  const archived=legacyInternationalLessons.includes(base);
  const availableChapters=archived?legacyInternationalChapters:chapters;
  const groups=base.summaryTest?availableChapters.filter(c=>(!base.testSeedPrefix||seed.startsWith(base.testSeedPrefix)||!idiomChapters.some(x=>x.id===c.id))&&c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest&&!c.specialist):availableChapters.filter(c=>c.id===base.chapter);
@@ -208,6 +220,7 @@ export function getLessonVariant(id,seed){
 // getLessonVariant stay unchanged; this returns the union before random draws.
 export function authoredTransferQuestions(id){
  const base=getLesson(id);if(!base||(!base.checkpoint&&!base.summaryTest))return [];
+ if(base.immersive)return base.questions.map(q=>({...q,topic:chapters.find(c=>c.id===base.chapter)?.title}));
  const archived=legacyInternationalLessons.includes(base);
  const available=archived?legacyInternationalChapters:chapters;
  const groups=base.summaryTest?available.filter(c=>c.level===base.level&&(c.language||'es')===(base.language||'es')&&!c.summaryTest&&!c.specialist):available.filter(c=>c.id===base.chapter);
@@ -215,9 +228,14 @@ export function authoredTransferQuestions(id){
 }
 
 // A changed video question set cannot resume answers saved by index against the old set.
+export function isCurrentLessonRevision(lesson,seed){
+ if(!lesson)return false;
+ if(!lesson.exerciseVersion||seed===lesson.exerciseVersion)return true;
+ return !!(lesson.immersive&&lesson.checkpoint&&typeof seed==='string'&&seed.startsWith('v1-'+lesson.exerciseVersion+'-')&&/^v1-[a-zA-Z0-9-]{10,100}$/.test(seed));
+}
 export function isCurrentLessonDraft(id,answers,seed){
  // Compare the base content revision, not expandedExercises' numeric format version.
- try{const base=getLesson(id),lesson=getLessonVariant(id,seed);return !!lesson&&(!base.exerciseVersion||seed===base.exerciseVersion)&&Array.isArray(answers)&&(answers.length<lesson.questions.length||answers.length===lesson.questions.length&&!lesson.checkpoint&&!lesson.summaryTest&&answers.some((a,i)=>!isCorrect(lesson.questions[i],a)))&&answers.every((a,i)=>validAnswer(lesson.questions[i],a));}catch{return false;}
+ try{const base=getLesson(id),lesson=getLessonVariant(id,seed);return !!lesson&&isCurrentLessonRevision(base,seed)&&Array.isArray(answers)&&(answers.length<lesson.questions.length||answers.length===lesson.questions.length&&!lesson.checkpoint&&!lesson.summaryTest&&answers.some((a,i)=>!isCorrect(lesson.questions[i],a)))&&answers.every((a,i)=>validAnswer(lesson.questions[i],a));}catch{return false;}
 }
 
 export function gradeResolvedLesson(lesson,answers){if(!lesson||!Array.isArray(answers)||answers.length!==lesson.questions.length||!answers.every((a,i)=>validAnswer(lesson.questions[i],a)))throw Error('Invalid completed exercise');const correct=answers.filter((a,i)=>isCorrect(lesson.questions[i],a)).length;return {score:Math.round(correct/answers.length*100),total:answers.length,correct};}

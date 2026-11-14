@@ -1,3 +1,4 @@
+import {handleImmersiveAudio,handleImmersiveContent} from './immersive-api.mjs';
 import {migrateAIMetering,withAIUsage,identifyAIUser} from './ai-metering.mjs';
 import {migrateAIOperations} from './ai-operations.mjs';
 import {migrateLightLearning,handleLightLearning} from './light-learning-api.mjs';
@@ -32,7 +33,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import pg from 'pg';
-import {getLesson,getLessonVariant,gradeLesson,validAnswer,isCurrentLessonDraft} from './course.mjs';
+import {getLesson,getLessonVariant,gradeLesson,validAnswer,isCurrentLessonDraft,isCurrentLessonRevision} from './course.mjs';
 import {migratePatterns,handlePatterns} from './patterns-api.mjs';
 import {questionEvidence} from './learning-patterns.mjs';
 import {assessSkill} from './ai-assessment.mjs';
@@ -169,6 +170,8 @@ async function handle(req,res){
  if(await handleSupport({route,req,res,pool,required,json,send,fail,limited}))return;
  await enforcePlatformControls({route,req,pool,currentUser,json,fail});
  if(await handleLightLearning({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleImmersiveContent({route,req,res,send,fail,limited}))return;
+ if(await handleImmersiveAudio({route,req,res,pool,send,fail,limited}))return;
  if(await handleBilling({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleLocalization({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleClassroom({route,req,res,pool,required,json,send,fail,limited}))return;
@@ -232,7 +235,7 @@ async function handle(req,res){
  }
  if(route==='/api/practice'&&req.method==='POST'){
   const user=await required(req,'learner'),data=await json(req);let result,resolved;
-  try{const current=getLesson(data.lesson);if(current?.exerciseVersion&&current.exerciseVersion!==data.seed)throw Error('Updated exercise: reload this lesson');resolved=await withVerifiedAnswers(pool,user.id,getLessonVariant(data.lesson,data.seed));result=gradeResolvedLesson(resolved,data.answers)}catch{fail(400,'Invalid completed exercise')}
+  try{const current=getLesson(data.lesson);if(!isCurrentLessonRevision(current,data.seed))throw Error('Updated exercise: reload this lesson');resolved=await withVerifiedAnswers(pool,user.id,getLessonVariant(data.lesson,data.seed));result=gradeResolvedLesson(resolved,data.answers)}catch{fail(400,'Invalid completed exercise')}
   const key=data.submissionKey||null;if(key!==null&&(typeof key!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(key)))fail(400,'Invalid submission key');
   const c=await pool.connect();try{
    await c.query('BEGIN');
@@ -357,7 +360,7 @@ async function trackedRequest(req,res){
  let path;
  try{path=new URL(req.url,'http://localhost').pathname;}
  catch{fail(400,'Invalid request URL');}
- const feature=path.startsWith('/api/speaking')?'conversation':path.startsWith('/api/skills')?'skill-assessment':path.startsWith('/api/patterns')?'recurring-patterns':path==='/api/localization'?'translation':path==='/api/speech'?'studio-speech':'other-ai';
+ const feature=path.startsWith('/api/speaking')?'conversation':path.startsWith('/api/skills')?'skill-assessment':path.startsWith('/api/patterns')?'recurring-patterns':path==='/api/localization'?'translation':(path==='/api/speech'||path.startsWith('/api/immersive/audio/'))?'studio-speech':'other-ai';
  return withAIUsage(pool,feature,async()=>{
   if(feature==='studio-speech')identifyAIUser((await currentUser(req))?.id??null);
   return handle(req,res);

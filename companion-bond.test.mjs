@@ -2,3 +2,13 @@ import test from 'node:test';import assert from 'node:assert/strict';import {bon
 test('bond thresholds are 5/15/30 and never imply the C1 finale',()=>{for(const n of [0,4,5,14,15,29,30,40]){const b=bondState(n);assert.equal(b.reaction,n>=5);assert.equal(b.voice,n>=15);assert.equal(b.expression,n>=30);assert.equal(b.finale,false)}});
 test('finale requires every authored C1 lesson and its final summary pass in selected language',()=>{for(const language of ['es','en','ja','pt']){const ls=lessonList.filter(l=>(l.language||'es')===language&&l.level==='C1'),all=ls.map(l=>({lesson:l.id,score:l.passScore||80,source:'exercise'}));assert.equal(passedJourneyFinale(all,language),true);assert.equal(passedJourneyFinale(all.slice(1),language),false);assert.equal(passedJourneyFinale(all.filter(a=>!ls.find(l=>l.id===a.lesson).summaryTest),language),false);assert.equal(passedJourneyFinale(all.map(a=>({...a,source:'imported'})),language),false)}});
 test('learning days deduplicate dates, ignore other languages and invalid/imported evidence',()=>{const en=lessonList.find(l=>l.language==='en'),ja=lessonList.find(l=>l.language==='ja'),a={lesson:en.id,score:80,source:'exercise',at:'2026-01-01T12:00:00Z'};assert.equal(languageLearningDays([a,a,{...a,at:'2026-01-02T12:00:00Z'},{...a,lesson:ja.id},{...a,at:'bad'},{...a,source:'imported'}],'en','UTC'),2)});
+
+test('optional immersion chapters cannot relock a previously earned C1 finale',()=>{
+ for(const language of ['en','es','pt','ja','zh','ko','fr','de','ar','it']){
+  const core=lessonList.filter(l=>(l.language||'es')===language&&l.level==='C1'&&!l.immersive);
+  const passed=core.map(l=>({lesson:l.id,score:l.passScore||80,source:'exercise'}));
+  assert.ok(passedJourneyFinale(passed,language));assert.ok(!passedJourneyFinale(passed.slice(1),language));
+  const optional=lessonList.filter(l=>l.language===language&&l.level==='C1'&&l.immersive).map(l=>({lesson:l.id,score:100,source:'exercise'}));
+  assert.ok(!passedJourneyFinale(optional,language));
+ }
+});

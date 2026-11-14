@@ -11,6 +11,7 @@ permissions:
   contents: read
 jobs:
   validate:
+    needs: [immersion, tests]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -25,7 +26,6 @@ jobs:
       - run: node scripts/audit-expanded-bundle.mjs
       - name: Install browser QA runtime
         run: |
-          npm install --no-save --package-lock=false playwright@1.62.1
           npx playwright install --with-deps chromium webkit
       - name: Verify Light motion, interactions and accessibility
         run: node scripts/qa-light-motion.mjs
@@ -41,7 +41,6 @@ jobs:
             .media-build/six-languages
             .media-build/language-records
           if-no-files-found: ignore
-      - run: npm run test:qa
       - run: npm run audit:language
       - run: npm audit --omit=dev
       - name: Build production image
@@ -50,3 +49,46 @@ jobs:
         run: |
           docker run --rm continuum-security-check node scripts/check-runtime.mjs
           test "$(docker run --rm continuum-security-check id -u)" != "0"
+
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm run check:runtime
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test:qa
+
+  immersion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Verify authored curriculum and deterministic metadata
+        run: |
+          node scripts/audit-immersive-content.mjs
+          node scripts/build-immersive-canonical.mjs
+          node scripts/build-immersive-catalog.mjs
+          git diff --exit-code -- immersive/canonical.json immersive/catalog.json
+      - run: npx playwright install --with-deps chromium webkit
+      - name: Verify real 3D lifecycle and integrated immersion lessons
+        run: node scripts/qa-companion-3d.mjs && node scripts/qa-immersive.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: immersive-browser-evidence
+          path: |
+            .media-build/immersive/*.png
+            .media-build/immersive-ui/*.png
+            .media-build/immersive-ui/*.txt
+          if-no-files-found: ignore

@@ -1,3 +1,4 @@
+import {immersiveScenario} from './immersive-course.mjs';
 import {expandedSpeakingOpenings} from './expanded-speaking-openings.mjs';
 import {languages,courseBands} from './languages.mjs';
 export const speakingScenarios=[
@@ -11,7 +12,7 @@ export const speakingScenarios=[
  ,{id:'living',premium:true,title:'Handle problems living abroad',role:'a landlord arranging a repair for a tenant; ask realistic follow-up questions, negotiate access and confirm arrangements without pretending to give legal advice',goals:['Describe a household problem and its impact.','Discuss repair times and access.','Confirm responsibilities and the next step.'],opening:{en:'Hello, you mentioned a problem in your apartment. What has happened?',pt:'Olá, você comentou que está com um problema no apartamento. O que aconteceu?',es:'Hola, me has comentado que hay un problema en tu piso. ¿Qué ha pasado?',ja:'こんにちは。お部屋で何か問題があったとのことですが、どうされましたか。'}}
 ];
 for(const scenario of speakingScenarios)for(const [language,openings] of Object.entries(expandedSpeakingOpenings)){if(!openings[scenario.id])throw Error('Missing native conversation opening');scenario.opening[language]=openings[scenario.id];}
-export const scenarioById=id=>speakingScenarios.find(s=>s.id===id);
+export const scenarioById=id=>speakingScenarios.find(s=>s.id===id)||immersiveScenario(id);
 export const validSpeakingLanguage=id=>languages.some(l=>l.id===id);
 export const validSpeakingLevel=id=>courseBands.includes(id);
 export const maxSpeakingTurns=12;
