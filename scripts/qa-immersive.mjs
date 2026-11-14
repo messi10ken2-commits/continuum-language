@@ -182,6 +182,10 @@ try{
   adventureRequests.length=0;await page.goto(base+'?language=en&key=tourism&stage=roleplay&live=1');
   await page.locator('.immersive-live .outline-button').click();
   const dialog=page.locator('dialog[open]');await dialog.waitFor();
+  const bounds=await dialog.boundingBox(),viewport=page.viewportSize();
+  assert.ok(bounds.x<=1&&bounds.y<=1&&Math.abs(bounds.width-viewport.width)<=1&&Math.abs(bounds.height-viewport.height)<=1,'live room fills the viewport');
+  assert.equal(await page.evaluate(()=>document.body.style.overflow),'hidden','background scrolling is locked');
+  await dialog.getByRole('button',{name:'Close live conversation',exact:true}).waitFor();
   await dialog.locator('.speaking-setup select').waitFor();assert.equal(await dialog.locator('.speaking-setup select').inputValue(),'B2');assert.ok(await dialog.locator('.speaking-setup select').isDisabled());
   await dialog.locator('.speaking-consent input').check();await dialog.locator('.speaking-setup > .primary').click();
   await dialog.locator('.voice-stage .companion-3d').waitFor();
@@ -192,6 +196,13 @@ try{
   await page.screenshot({path:new URL(engineName+'-live-room.png',directory).pathname,fullPage:false});
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('dialog')?.open);
   assert.equal(await page.locator('dialog canvas').count(),0,'closing unmounts the live renderer');
+  assert.notEqual(await page.evaluate(()=>document.body.style.overflow),'hidden','closing restores background scrolling');
+  await page.goto(base+'?language=en&key=archives&stage=reading&mode=standard&display=ja');
+  await page.waitForFunction(()=>document.querySelector('.immersive-reading'));
+  assert.ok((await page.locator('h1').allTextContents()).some(text=>text.includes('デジタル資料館')),'Japanese display translates the English course heading');
+  assert.ok((await page.locator('.immersive-reading').first().innerText()).includes('archive'),'English learning passage stays English');
+  assert.equal(await page.locator('.lesson-translation').count(),0,'bundled headings need no translation request');
+  await page.screenshot({path:new URL(engineName+'-japanese-heading.png',directory).pathname,fullPage:false});
   await page.goto(base+'?language=ar&display=ar');await page.locator('.immersive-excerpt').waitFor();
   await page.waitForFunction(()=>!document.querySelector('.lesson-translation'));assert.equal((await page.locator('.town-question-card .question-prompt h1').innerText()).trim(),'ما الهدف من الاقتراح؟');assert.equal(await page.locator('html').getAttribute('dir'),'rtl');assert.equal(await page.locator('.immersive-excerpt').getAttribute('dir'),'auto');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));

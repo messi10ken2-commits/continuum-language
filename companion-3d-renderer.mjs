@@ -1,84 +1,135 @@
 import * as T from 'three';
 
 const palettes={
- capybara:{fur:0xb98a59,muzzle:0xddba8b,ear:0xa16c48,shape:'round'},
- cat:{fur:0x9d8ba9,muzzle:0xe9d5ce,ear:0xe8b5c0,shape:'point'},
+ capybara:{fur:0xc98c42,muzzle:0xb9763b,ear:0x8c542c,shape:'round'},
+ cat:{fur:0x9e8aa7,muzzle:0xe9d5ce,ear:0xe8b5c0,shape:'point'},
  fox:{fur:0xd88c40,muzzle:0xffe8d0,ear:0x664337,shape:'point'},
- dog:{fur:0xc29a73,muzzle:0xf6dfbf,ear:0x7c573e,shape:'flop'},
+ dog:{fur:0xd7a04f,muzzle:0xf1cd8b,ear:0xc48b44,shape:'flop'},
  bird:{fur:0x6d9bb5,muzzle:0xe9d8ba,ear:0xefb965,shape:'bird'},
  'guinea-pig':{fur:0xd1ad82,muzzle:0xf0e0ca,ear:0xd7a9a3,shape:'round'},
- quokka:{fur:0xb4a083,muzzle:0xe4d5b9,ear:0x8c725b,shape:'round'},
+ quokka:{fur:0xc28d4d,muzzle:0xe3b779,ear:0x8c725b,shape:'round'},
  panda:{fur:0xf0e9db,muzzle:0xffffff,ear:0x3a373d,shape:'panda'}
 };
 export function createCompanion(host,kind,state){
  const p=palettes[kind]||palettes.capybara;
  const renderer=new T.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});
  renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.5));
- renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.3;
+ renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;
  renderer.domElement.className='companion-3d-canvas';host.append(renderer.domElement);host.dataset.renderer='webgl';
  const scene=new T.Scene(),camera=new T.PerspectiveCamera(31,1,.1,30);
- camera.position.set(0,1.25,6.7);camera.lookAt(0,1.1,0);
- scene.add(new T.HemisphereLight(0xfff2dd,0x8b7192,3));
- const sun=new T.DirectionalLight(0xffdfb1,4);sun.position.set(-3,5,5);scene.add(sun);
- const rim=new T.DirectionalLight(0xded5ff,2);rim.position.set(4,3,-2);scene.add(rim);
+ camera.position.set(0,1.26,6.5);camera.lookAt(0,1.15,0);
+ scene.add(new T.HemisphereLight(0xfff2dd,0x756380,1.8));
+ const sun=new T.DirectionalLight(0xffe8cf,2.7);sun.position.set(-3,5,5);scene.add(sun);
+ const rim=new T.DirectionalLight(0xded5ff,1.5);rim.position.set(4,3,-2);scene.add(rim);
  const materials=new Map(),geometries=new Set();
  const mat=color=>{if(!materials.has(color))materials.set(color,new T.MeshStandardMaterial({color,roughness:.7,metalness:0}));return materials.get(color)};
+ const sphereGeo=new T.SphereGeometry(1,28,20);geometries.add(sphereGeo);
  const ball=(parent,color,position,scale)=>{
-  const geo=new T.SphereGeometry(1,24,16);geometries.add(geo);
-  const mesh=new T.Mesh(geo,mat(color));mesh.position.set(...position);mesh.scale.set(...scale);parent.add(mesh);return mesh;
+  const mesh=new T.Mesh(sphereGeo,mat(color));mesh.position.set(...position);mesh.scale.set(...scale);parent.add(mesh);return mesh;
  };
+ const coneGeo=new T.ConeGeometry(1,1,24);geometries.add(coneGeo);
  const cone=(parent,color,position,scale)=>{
-  const geo=new T.ConeGeometry(1,1,24);geometries.add(geo);
-  const mesh=new T.Mesh(geo,mat(color));mesh.position.set(...position);mesh.scale.set(...scale);parent.add(mesh);return mesh;
+  const mesh=new T.Mesh(coneGeo,mat(color));mesh.position.set(...position);mesh.scale.set(...scale);parent.add(mesh);return mesh;
+ };
+ const line=(parent,color,points,radius=.012)=>{
+  const curve=new T.CatmullRomCurve3(points.map(v=>new T.Vector3(...v)));
+  const geo=new T.TubeGeometry(curve,24,radius,6,false);geometries.add(geo);
+  const mesh=new T.Mesh(geo,mat(color));parent.add(mesh);return mesh;
+ };
+ // Bounded instancing gives a soft directional coat without textures or fur shells.
+ // Shared geometry, deterministic distribution and two fur draw calls per animal.
+ const coat=(parent,color,center,scale,count)=>{
+  const geo=new T.SphereGeometry(1,5,4);geometries.add(geo);
+  const mesh=new T.InstancedMesh(geo,mat(color),count),dummy=new T.Object3D(),shade=new T.Color(color);
+  const golden=Math.PI*(3-Math.sqrt(5));
+  for(let i=0;i<count;i++){
+   const y=1-2*(i+.5)/count,r=Math.sqrt(1-y*y),a=i*golden;
+   const normal=new T.Vector3(Math.cos(a)*r/scale[0],y/scale[1],Math.sin(a)*r/scale[2]).normalize();
+   dummy.position.set(center[0]+Math.cos(a)*r*scale[0],center[1]+y*scale[1],center[2]+Math.sin(a)*r*scale[2]);
+   dummy.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),normal);
+   dummy.scale.set(.012,.035+(i%5)*.002,.009);dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);
+   mesh.setColorAt(i,shade.clone().multiplyScalar(.88+(i%7)*.035));
+  }
+  parent.add(mesh);
  };
  const root=new T.Group();scene.add(root);
  const body=new T.Group();root.add(body);
- ball(body,p.fur,[0,.78,0],[.63,.77,.44]);
- ball(body,p.muzzle,[0,.77,.36],[.43,.49,.12]);
- const feet=[-1,1].map(side=>ball(body,p.fur,[side*.38,.14,.22],[.29,.19,.36]));
+ const bird=p.shape==='bird',long=kind==='capybara',small=kind==='guinea-pig';
+ const bodyScale=bird?[.5,.66,.4]:small?[.65,.62,.46]:[.57,.69,.43];
+ ball(body,p.fur,[0,.76,0],bodyScale);coat(body,p.fur,[0,.76,0],bodyScale,850);
+ if(!long)ball(body,p.muzzle,[0,.73,.35],bird?[.36,.43,.13]:[.34,.42,.13]);
+ const feet=[-1,1].map(side=>ball(body,p.fur,[side*.38,.14,.22],[.23,.16,.3]));
  const arms=[-1,1].map(side=>{
   const pivot=new T.Group();pivot.position.set(side*.51,1.03,.03);pivot.rotation.z=side*.15;body.add(pivot);
   ball(pivot,p.fur,[side*.03,-.24,.07],p.shape==='bird'?[.28,.4,.12]:[.19,.38,.21]);return pivot;
  });
- const head=new T.Group();head.position.set(0,1.68,.04);body.add(head);
- ball(head,p.fur,[0,0,0],kind==='capybara'?[.69,.54,.48]:[.63,.57,.46]);
+ const head=new T.Group();head.position.set(0,small?1.5:1.62,.04);body.add(head);
+ const headScale=long?[.63,.53,.48]:kind==='fox'?[.6,.51,.43]:bird?[.53,.53,.43]:[.6,.54,.46];
+ ball(head,p.fur,[0,0,0],headScale);coat(head,p.fur,[0,0,0],headScale,1100);
+ const ears=[];
  if(p.shape==='point')for(const side of [-1,1]){
-  const ear=cone(head,p.fur,[side*.42,.48,-.03],[.23,.53,.22]);ear.rotation.z=-side*.18;
+  const ear=cone(head,p.fur,[side*.42,.48,-.03],[.23,.53,.22]);ear.rotation.z=-side*.18;ears.push(ear);
   cone(head,p.ear,[side*.42,.49,.075],[.14,.32,.1]);
- }else if(p.shape==='flop')for(const side of [-1,1])ball(head,p.ear,[side*.56,-.04,-.02],[.22,.46,.17]);
+ }else if(p.shape==='flop')for(const side of [-1,1]){const ear=ball(head,p.ear,[side*.53,-.04,-.02],[.23,.43,.2]);ears.push(ear);coat(ear,p.ear,[0,0,0],[1,1,1],120);}
  else if(p.shape!=='bird')for(const side of [-1,1]){
-  ball(head,p.shape==='panda'?p.ear:p.fur,[side*.46,.43,-.04],[.23,.23,.15]);
-  if(p.shape!=='panda')ball(head,p.ear,[side*.46,.44,.075],[.14,.14,.04]);
+  ball(head,p.shape==='panda'?p.ear:p.fur,[side*.43,long?.4:.43,-.04],long?[.14,.16,.12]:[.2,.21,.15]);
+  if(p.shape!=='panda')ball(head,p.ear,[side*.43,long?.41:.44,.075],long?[.085,.09,.035]:[.12,.13,.04]);
  }
  if(p.shape==='bird'){
   const crest=cone(head,p.fur,[0,.56,-.04],[.12,.35,.12]);crest.rotation.z=-.3;
   const beak=cone(head,0xeab15b,[0,-.08,.52],[.18,.36,.17]);beak.rotation.x=Math.PI/2;
  }else{
-  ball(head,p.muzzle,[0,-.18,.36],kind==='capybara'?[.49,.28,.31]:[.39,.26,.22]);
-  ball(head,0x4e3c39,[0,-.09,.64],kind==='capybara'?[.18,.12,.1]:[.12,.09,.07]);
+  ball(head,p.muzzle,[0,-.13,long?.43:.36],long?[.43,.29,.32]:kind==='fox'?[.39,.25,.26]:[.36,.25,.23]);
+  if(long){for(const side of [-1,1]){const nostril=ball(head,0x533424,[side*.14,-.015,.724],[.047,.024,.014]);nostril.rotation.z=side*.35;}}
+  else ball(head,0x4a3028,[0,-.065,kind==='fox'?.65:.59],[.11,.075,.065]);
  }
  const eyes=[-1,1].map(side=>{
   if(p.shape==='panda'){const patch=ball(head,p.ear,[side*.25,.045,.4],[.19,.23,.08]);patch.rotation.z=side*.25;}
   const eye=new T.Group();eye.position.set(side*.26,.06,p.shape==='bird'?.4:.46);head.add(eye);
-  ball(eye,0x27242d,[0,0,0],[.085,.108,.065]);ball(eye,0xfff7e9,[-.02,.03,.058],[.025,.03,.015]);return eye;
+  ball(eye,0x27242d,[0,0,0],[.065,.083,.043]);ball(eye,0xfff7e9,[-.02,.03,.058],[.025,.03,.015]);return eye;
  });
- for(const side of [-1,1])ball(head,0xdfa09a,[side*.43,-.13,.39],[.11,.05,.025]);
- const mouth=ball(head,0x623a42,[0,-.3,p.shape==='bird'?.43:.58],[.11,.035,.04]);
- const scarf=new T.Group();scarf.position.y=1.25;body.add(scarf);
- ball(scarf,0x73518e,[0,0,0],[.62,.14,.45]);
- const knot=cone(scarf,0x73518e,[.14,-.23,.4],[.24,.48,.07]);knot.rotation.z=.18;
- ball(scarf,0xe1bc73,[.15,-.18,.47],[.06,.06,.025]);
- // A travelling companion's satchel; reusable geometry, no external textures.
- ball(body,0x79523e,[-.55,.62,.19],[.24,.28,.13]);
- ball(body,0xb68653,[-.55,.64,.31],[.2,.11,.025]);
- ball(body,0xe5c981,[-.55,.57,.33],[.045,.06,.02]);
+ for(const side of [-1,1]){
+  ball(head,0xdf9b88,[side*.43,-.12,.39],[.09,.04,.025]);
+  line(head,0x65432f,[[side*.18,.23,.43],[side*.25,.25,.45],[side*.31,.23,.43]],.018);
+  if(kind==='cat')for(let i=0;i<3;i++)line(head,0xeee0ce,[[side*.32,-.2+i*.045,.49],[side*.55,-.22+i*.07,.46],[side*.68,-.2+i*.08,.37]],.006);
+ }
+ const mouth=ball(head,0x623a42,[0,-.32,p.shape==='bird'?.43:long?.7:.55],[.12,.035,.035]);
+ // Draped triangular bandana, stitched edge, embroidered wheat crest.
+ const scarf=new T.Group();scarf.position.y=1.22;body.add(scarf);
+ ball(scarf,0x662963,[0,0,0],[.58,.105,.43]);
+ const fabricGeo=new T.BufferGeometry();
+ const fabricPoints=[[-.47,-.015,.4],[0,-.16,.51],[.47,-.015,.4],[0,-.54,.48]];
+ fabricGeo.setAttribute('position',new T.Float32BufferAttribute(fabricPoints.flat(),3));fabricGeo.setIndex([0,1,3,1,2,3]);fabricGeo.computeVertexNormals();geometries.add(fabricGeo);
+ const fabricMat=new T.MeshStandardMaterial({color:0x742768,roughness:.94,side:T.DoubleSide});materials.set('fabric',fabricMat);scarf.add(new T.Mesh(fabricGeo,fabricMat));
+ line(scarf,0xae6f91,[[-.45,-.04,.41],[0,-.52,.495],[.45,-.04,.41]],.012);
+ for(const side of [-1,1]){
+  line(scarf,0xe7ba58,[[0,-.4,.515],[side*.12,-.28,.524],[side*.19,-.15,.505]],.008);
+  for(let i=0;i<3;i++){
+   const leaf=ball(scarf,0xe7ba58,[side*(.055+i*.047),-.345+i*.07,.528],[.014,.039,.007]);leaf.rotation.z=side*-.65;
+   const leaf2=ball(scarf,0xe7ba58,[side*(.1+i*.037),-.365+i*.07,.525],[.014,.035,.007]);leaf2.rotation.z=side*.85;
+  }
+ }
+ // Leather backpack and rolled blanket remain visible around the shoulder.
+ const pack=new T.Group();pack.position.set(-.46,.87,-.24);pack.rotation.z=-.12;body.add(pack);
+ ball(pack,0x7e4729,[0,0,0],[.31,.43,.24]);
+ ball(pack,0xa76b3c,[-.08,-.09,.18],[.24,.22,.12]);
+ ball(pack,0xbc8650,[-.08,.09,.24],[.25,.12,.045]);
+ ball(pack,0xe5b65d,[-.08,-.01,.3],[.045,.05,.018]);
+ line(body,0x81512f,[[-.45,1.29,.19],[-.37,1.07,.36],[-.42,.77,.38],[-.5,.54,.1]],.045);
+ line(body,0xd5a374,[[-.465,1.29,.223],[-.385,1.07,.393],[-.435,.77,.413],[-.515,.54,.133]],.006);
+ ball(body,0xdfb45c,[-.38,1.05,.41],[.074,.083,.026]);ball(body,0x6d4029,[-.38,1.05,.44],[.043,.05,.012]);
+ const roll=ball(pack,0xd3b27d,[-.04,.37,-.01],[.36,.17,.17]);
+ const spiral=[];for(let i=0;i<55;i++){const a=i*.24,r=.012+i*.0022;spiral.push([-.385,.37+Math.cos(a)*r,-.01+Math.sin(a)*r]);}line(pack,0x927043,spiral,.014);
+ for(const x of [-.17,.14])ball(pack,0x805336,[x,.37,.01],[.035,.18,.18]);
  if(kind==='cat')for(const side of [-1,1])for(let i=0;i<2;i++){
   const stripe=ball(head,0x6f5e7c,[side*(.48+i*.025),.14-i*.13,.28],[.1,.035,.09]);stripe.rotation.z=side*.28;
  }
- if(kind==='fox'||kind==='cat'){
-  const tail=ball(body,p.fur,[.67,.48,-.25],[.28,.52,.27]);tail.rotation.z=-.45;
+ let tail;
+ if(['fox','cat','dog','quokka'].includes(kind)){
+  tail=ball(body,p.fur,[.61,.48,-.25],kind==='fox'?[.3,.55,.28]:kind==='cat'?[.14,.6,.15]:[.18,.36,.18]);tail.rotation.z=-.45;
   if(kind==='fox')ball(body,p.muzzle,[.85,.82,-.25],[.2,.22,.21]);
  }
+ if(kind==='guinea-pig'){ball(head,0x8d5830,[-.46,.0,-.05],[.18,.4,.28]);ball(head,p.muzzle,[.27,-.16,.23],[.26,.36,.27]);}
  if(p.shape==='bird')ball(body,p.fur,[0,.48,-.43],[.24,.35,.22]);
  const floorGeo=new T.CircleGeometry(.73,40);geometries.add(floorGeo);
  const floorMat=new T.MeshBasicMaterial({color:0x553755,transparent:true,opacity:.13,depthWrite:false});materials.set('shadow',floorMat);
@@ -96,7 +147,9 @@ export function createCompanion(host,kind,state){
   const waving=!reduced&&now<greetUntil;
   root.rotation.y=reduced?0:root.rotation.y+(targetX*.34+Math.sin(t*.65)*.035-root.rotation.y)*.08;
   body.position.y=reduced?0:Math.sin(t*1.5)*.018+(waving?Math.abs(Math.sin((greetUntil-now)/1400*Math.PI*2))*.07:0);
-  head.rotation.z=reduced?0:Math.sin(t*.7)*.025;
+  head.rotation.z=reduced?0:Math.sin(t*.7)*.035+(waving?-.08:0);
+  ears.forEach((ear,i)=>{ear.rotation.x=reduced?0:Math.sin(t*1.8+i)*.035;});
+  if(tail)tail.rotation.z=-.45+(reduced?0:Math.sin(t*(v.speaking?3:1.7))*.1);
   head.rotation.x=reduced?0:targetY*.05+(v.speaking?Math.sin(t*4)*.025:0);
   const blink=reduced?1:(t%4.4<.14?.12:1);eyes.forEach(e=>e.scale.y=blink);
   mouth.scale.y=v.speaking&&!reduced?.035*(1+Math.max(.05,v.level||Math.abs(Math.sin(t*10)))*3.7):.035;

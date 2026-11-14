@@ -74,11 +74,11 @@ test('Learning Memory derives first-attempt evidence without inventing incorrect
  assert.deepEqual(immersiveLightEvidence([{...record,state:{...record.state,version:'light-v5'}}]),[]);
 });
 
-test('native chapter labels remain readable in every UI language while comprehension remains translatable',()=>{
+test('display headings are translatable while comprehension remains translatable',()=>{
  for(const lesson of lessons){
   for(const value of [lesson.title,lesson.explanation])for(const language of ['',lesson.language]){
    const source=translationSource(value,language);assert.ok(source,lesson.id+' native label');
-   const protectedValue=protectSource(source);assert.match(protectedValue.text,/^⟦KEEP_\d+⟧$/);assert.equal(protectedValue.restore(protectedValue.text),value);
+   assert.deepEqual(source.protectedValues,[]);
   }
   if(lesson.immersive.stage!=='roleplay'){
    for(const q of lesson.questions){assert.ok(translationSource(q.prompt,lesson.language));for(const option of q.options)assert.ok(translationSource(option));}
@@ -95,4 +95,20 @@ test('seeded immersion checkpoints reproduce source windows and grading and reta
   for(const q of a.questions)assert.deepEqual(q.immersiveSource,lesson.questions.find(x=>x.id===q.id).immersiveSource);
   assert.ok(isCurrentLessonDraft(lesson.id,[a.questions[0].answer],seed));assert.ok(!isCurrentLessonDraft(lesson.id,[],'v1-immersive-v0-first-123456789'));
  }
+});
+
+test('all 360 immersion headings and goals follow all ten display languages without provider calls',async()=>{
+ const {setInterfaceLanguage,t,lessonTranslationState}=await import('./interface-runtime.mjs');
+ const {immersiveHeadingTranslation}=await import('./immersive/heading-copy.mjs');
+ for(const locale of ['en','ja','es','pt','zh','fr','ko','id','ru','ar']){
+  setInterfaceLanguage(locale,{persist:false});
+  for(const lesson of lessons)for(const text of [lesson.title,lesson.explanation]){
+   const expected=immersiveHeadingTranslation(text,locale);assert.ok(expected?.trim(),lesson.id+':'+locale);
+   assert.equal(t(text,lesson.language),expected);
+   assert.deepEqual(lessonTranslationState(text,lesson.language),{status:'ready',text:expected});
+  }
+ }
+ setInterfaceLanguage('ja',{persist:false});
+ assert.equal(t('Who becomes visible in a digital archive? · Reading','en'),'デジタル資料館で、誰の歴史が見えるのか · 読解');
+ setInterfaceLanguage('en',{persist:false});
 });
