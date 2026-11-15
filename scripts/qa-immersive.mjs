@@ -38,7 +38,7 @@ try{
  for(const [engineName,engine]of Object.entries({chromium,webkit})){
   browser=await engine.launch({headless:true,args:engineName==='chromium'?['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});
   const context=await browser.newContext({viewport:{width:390,height:844}}),audioRequests=[],speakingStarts=[],speakingTurns=[],adventureRequests=[],activityPings=[],lightRecords=new Map(),errors=diagnostics=[];
-  await context.addInitScript(()=>{
+  const initializeBrowser=()=>{
    localStorage.clear();localStorage.setItem('continuumCorrectSound','off');
    window.Audio=class extends EventTarget{
     constructor(src){super();this.src=src;this.paused=true;this.currentTime=0;this.playbackRate=1;}
@@ -48,9 +48,10 @@ try{
     pause(){this.elapsed=this.currentTime;this.paused=true;clearTimeout(this.timer);this.onpause?.()}
     removeAttribute(){}load(){}
    };
-  });
+  };
+  await context.addInitScript(initializeBrowser);
   let liveSession=null,failNextTurn=true;
-  await context.route('**/api/**',async route=>{
+  const apiRoute=async route=>{
    const request=route.request(),url=new URL(request.url()),path=url.pathname;
    const json=data=>route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(data)});
    if(path==='/api/interface-language')return json({language:new URL(request.headers().referer).searchParams.get('display')||'en'});
@@ -96,7 +97,8 @@ try{
    if(path.endsWith('/review')){liveSession={...liveSession,review:{reviewTier:'basic',summary:'Your practice is saved.',strengths:['You explained your proposal.'],score:82}};return json({session:liveSession})}
    if(path.endsWith('/activity'))return json({budget:{maxTurns:30,limitSeconds:420,usedSeconds:0}});
    return route.fulfill({status:503,contentType:'application/json',body:'{}'});
-  });
+  };
+  await context.route('**/api/**',apiRoute);
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('console',message=>{if(/same key|unique.*key/i.test(message.text()))errors.push(message.text())});
   // A failed native import must leave answers disabled and offer a recovery.
   let rejected=false;
@@ -193,7 +195,11 @@ try{
   // Long detached narration remains study activity beyond the 90-second idle
   // cutoff, without creating a second activity timer or extra heartbeat stream.
   await page.goto(base+'?language=en');
-  const timingPage=await context.newPage();timingPage.on('pageerror',e=>errors.push(e.message));
+  // Page.clock controls its entire BrowserContext. Keep time travel out of
+  // the real-time conversation/viewport/screenshot checks that follow.
+  const timingContext=await browser.newContext({viewport:{width:390,height:844}});
+  await timingContext.addInitScript(initializeBrowser);await timingContext.route('**/api/**',apiRoute);
+  const timingPage=await timingContext.newPage();timingPage.on('pageerror',e=>errors.push(e.message));
   await timingPage.clock.install();await timingPage.goto(base+'?language=en&mode=standard&live=1');await timingPage.bringToFront();await timingPage.locator('.immersive-reading').first().waitFor();
   await timingPage.evaluate(()=>{window.__holdStudioAudio=true});
   await timingPage.locator('.immersive-audio .sentence-play').click();
@@ -215,7 +221,7 @@ try{
   await timingPage.waitForTimeout(40);
   await Promise.all([timingPage.waitForResponse(r=>r.url().endsWith('/api/activity/heartbeat')),timingPage.clock.fastForward(95000)]);
   assert.equal(activityPings.at(-1).active,false,'a replaced narration source cannot leave an audible study owner behind');
-  await timingPage.close();audioRequests.length=0;
+  await timingContext.close();await page.bringToFront();audioRequests.length=0;
   // Live room uses the chapter scenario/level and suspends its underlying scene.
   adventureRequests.length=0;await page.goto(base+'?language=en&key=tourism&stage=roleplay&live=1');
   await page.locator('.immersive-live .outline-button').click();
@@ -264,15 +270,8 @@ try{
   // Dismiss composing focus before restoring the keyboard-closed viewport.
   await reply.blur();
   await page.setViewportSize({width:390,height:844});
-  // Keep the snapshot from restyling every input while the viewport settles.
-  await page.waitForFunction(()=>document.fonts.check('16px "DM Sans"'));
-  // Chromium can leave FontFaceSet.ready unresolved after viewport/input changes
-  // even when the used face is loaded. Keep the explicit check above and avoid
-  // Playwright's redundant global ready wait for this one capture only.
-  const fontWaitOverride=process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY;
-  process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY='1';
-  try{await page.screenshot({path:new URL(engineName+'-live-chat.png',directory).pathname,fullPage:false,caret:'initial'})}
-  finally{if(fontWaitOverride===undefined)delete process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY;else process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY=fontWaitOverride}
+  await page.waitForFunction(()=>document.querySelector('.immersive-conversation-room').getBoundingClientRect().height===innerHeight);
+  await page.screenshot({path:new URL(engineName+'-live-chat.png',directory).pathname,fullPage:false});
   await dialog.getByRole('button',{name:'Finish and get review',exact:true}).click();
   await dialog.locator('.conversation-review').waitFor();
 
