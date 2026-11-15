@@ -33,12 +33,18 @@ createRoot(document.getElementById('root')).render(<App/>);
 const server=await createServer({configFile:false,optimizeDeps:{entries:[new URL('entry.jsx',directory).pathname]},server:{host:'127.0.0.1',port:0,hmr:false},appType:'custom',plugins:[{name:'immersion-ui',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(!req.url?.startsWith('/__immersive'))return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml(req.url,'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#root{padding:10px 8px 80px}</style></head><body><div id="root"></div><script type="module" src="/.media-build/immersive-ui/entry.jsx"></script></body></html>'))})}}]});
 const languages=['en','es','pt','ja','zh','ko','fr','de','ar','it'];
 const liveOnly=process.argv.includes('--live-only');
-let browser,diagnostics=[];
+let browser,diagnostics=[],pendingRequests=new Map();
+// Lessons assert their own visible readiness; unrelated media must not hold
+// navigation open after the document and requested lesson are available.
+const navigate=(page,url)=>page.goto(url,{waitUntil:'domcontentloaded'});
 try{
  await server.listen();const base='http://127.0.0.1:'+server.httpServer.address().port+'/__immersive';
  for(const [engineName,engine]of Object.entries({chromium,webkit})){
   browser=await engine.launch({headless:true,args:engineName==='chromium'?['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});
   const context=await browser.newContext({viewport:{width:390,height:844}}),audioRequests=[],speakingStarts=[],speakingTurns=[],adventureRequests=[],activityPings=[],lightRecords=new Map(),errors=diagnostics=[];
+  pendingRequests=new Map();
+  context.on('request',r=>pendingRequests.set(r,{url:r.url(),type:r.resourceType(),at:Date.now()}));
+  context.on('requestfinished',r=>pendingRequests.delete(r));context.on('requestfailed',r=>pendingRequests.delete(r));
   const initializeBrowser=()=>{
    localStorage.clear();localStorage.setItem('continuumCorrectSound','off');
    window.Audio=class extends EventTarget{
@@ -105,7 +111,7 @@ try{
   // A failed native import must leave answers disabled and offer a recovery.
   let rejected=false;
   await page.route('**/immersive/ar.mjs*',async route=>{if(!rejected){rejected=true;await route.abort()}else await route.continue()});
-  await page.goto(base+'?language=ar');
+  await navigate(page,base+'?language=ar');
   await page.locator('.immersive-material-error').waitFor();
   assert.ok(await page.locator('.light-game-choices button').first().isDisabled());
   await page.locator('.immersive-material-error button').click();
@@ -113,7 +119,7 @@ try{
   assert.ok(await page.locator('.light-game-choices button').first().isEnabled());
   await page.unroute('**/immersive/ar.mjs*');
   for(const language of languages)for(const stage of ['reading','listening','roleplay','checkpoint']){
-   await page.goto(base+'?language='+language+'&stage='+stage);
+   await navigate(page,base+'?language='+language+'&stage='+stage);
    await page.locator('.immersive-material').waitFor();
    await page.locator('.light-game-choices button:not([disabled])').first().waitFor();
    assert.equal(await page.locator('.immersive-scene .town-companion').count(),1,language+'/'+stage);
@@ -127,7 +133,7 @@ try{
    assert.equal(audioRequests.length,0,'navigation alone must not generate audio');
   }
   // Progress through all six distinct source windows in one mounted Light lesson.
-  await page.goto(base+'?language=pt&key=tourism');
+  await navigate(page,base+'?language=pt&key=tourism');
   const lesson=getLesson('pt-immersive-tourism-v1-reading'),activities=lightActivities(lesson);
   for(const [i,a]of activities.entries()){
    await page.locator('.light-game-choices button:not([disabled])').first().waitFor();
@@ -142,16 +148,16 @@ try{
   const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('continuumLightV5:guest:pt-immersive-tourism-v1-reading')));
   assert.equal(saved.state.steps.length,6);assert.ok(saved.completedAt);
   // Full audio walks each canonical part once; guided dialogue asks one turn.
-  await page.goto(base+'?language=ja&stage=listening');await page.locator('.immersive-material').waitFor();
+  await navigate(page,base+'?language=ja&stage=listening');await page.locator('.immersive-material').waitFor();
   await page.locator('.immersive-audio .text-button').click();await page.locator('.immersive-audio .sentence-play').click();
   await page.waitForFunction(()=>!document.querySelector('.immersive-audio .sentence-play')?.disabled);
   for(let i=0;i<100&&audioRequests.length<6;i++)await page.waitForTimeout(30);
   assert.deepEqual(audioRequests.splice(0),Array.from({length:6},(_,i)=>'/api/immersive/audio/ja-immersive-market-v1-listening/listening/'+i));
-  await page.goto(base+'?language=ja&stage=roleplay');await page.locator('.immersive-material').waitFor();
+  await navigate(page,base+'?language=ja&stage=roleplay');await page.locator('.immersive-material').waitFor();
   await page.locator('.immersive-audio .sentence-play').click();await page.waitForTimeout(350);
   assert.deepEqual(audioRequests.splice(0),['/api/immersive/audio/ja-immersive-market-v1-roleplay/roleplay/0']);
   // Standard retains the full source and an independent draft when switching.
-  await page.goto(base+'?language=en&mode=standard&live=1');await page.locator('.immersive-reading').first().waitFor();
+  await navigate(page,base+'?language=en&mode=standard&live=1');await page.locator('.immersive-reading').first().waitFor();
   assert.equal(await page.locator('.immersive-source > .immersive-reading > p').count(),6);
   await page.locator('.standard-lesson-pane .answers button').nth(getLesson('en-immersive-market-v1-reading').questions[0].answer).click();
   await page.locator('.standard-lesson-pane .question-card > .primary').click();
@@ -167,7 +173,7 @@ try{
   assert.equal(await page.locator('.standard-lesson-pane .immersive-source-head span').innerText(),'Part 2 of 6');
   // Every learning language uses still art in both standard styles and both source stages.
   for(const language of languages)for(const stage of ['reading','listening'])for(const layout of ['photo','illustrated']){
-   await page.goto(base+'?language='+language+'&key=archives&stage='+stage+'&mode=standard&layout='+layout);
+   await navigate(page,base+'?language='+language+'&key=archives&stage='+stage+'&mode=standard&layout='+layout);
    const art=page.locator('.immersive-static-scene .visual-practice-photo');await art.waitFor();
    await art.evaluate(img=>img.complete&&img.naturalWidth?Promise.resolve():new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(Error('Scene image failed'))}));
    assert.equal(await art.getAttribute('src'),immersiveSceneArt(getLesson(language+'-immersive-archives-v1-'+stage),layout));
@@ -175,34 +181,34 @@ try{
    assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
    if(language==='en'&&stage==='reading')await page.screenshot({path:new URL(engineName+'-standard-'+layout+'.png',directory).pathname,fullPage:false});
   }
-  await page.goto(base+'?language=en&key=tourism&stage=roleplay&mode=standard&live=1');
+  await navigate(page,base+'?language=en&key=tourism&stage=roleplay&mode=standard&live=1');
   await page.locator('.immersive-live .outline-button').waitFor();
   assert.equal(await page.locator('.immersive-static-scene').count(),0,'speaking entry has no unrelated large still image');
-  await page.goto(base+'?language=en&legacy=1&live=1&kind=capybara');
+  await navigate(page,base+'?language=en&legacy=1&live=1&kind=capybara');
   await page.locator('.town-listen-stage .town-companion[data-companion=capybara]').waitFor();
   assert.equal(await page.locator('.town-listen-stage>img').getAttribute('src'),'/light-town/cafe.webp');
   assert.equal(await page.locator('.town-companion-sprite').getAttribute('src'),'/light-town/capybara.webp');
   assert.equal(await page.locator('canvas').count(),0);
   await page.screenshot({path:new URL(engineName+'-restored-light.png',directory).pathname,fullPage:false});
   // Standard checkpoint retakes carry their authored revision in the seed.
-  await page.goto(base+'?language=en&stage=checkpoint&mode=standard&intro=1');
+  await navigate(page,base+'?language=en&stage=checkpoint&mode=standard&intro=1');
   await page.getByRole('button',{name:'Start practice',exact:false}).click();
   await page.locator('.standard-lesson-pane .immersive-source-head span').waitFor();
   const checkpointSeed=await page.evaluate(()=>window.__draftSeed);assert.match(checkpointSeed,/^v1-immersive-v1-/);
   const checkpoint=getLessonVariant('en-immersive-market-v1-checkpoint',checkpointSeed);
   assert.equal(await page.locator('.standard-lesson-pane .immersive-source-head span').innerText(),'Part '+(checkpoint.questions[0].immersiveSource.part+1)+' of 6');
-  await page.goto(base+'?language=en&stage=checkpoint&mode=standard&seed='+checkpointSeed);
+  await navigate(page,base+'?language=en&stage=checkpoint&mode=standard&seed='+checkpointSeed);
   await page.locator('.standard-lesson-pane .immersive-source-head span').waitFor();
   assert.equal(await page.locator('.standard-lesson-pane .immersive-source-head span').innerText(),'Part '+(checkpoint.questions[0].immersiveSource.part+1)+' of 6');
   // Long detached narration remains study activity beyond the 90-second idle
   // cutoff, without creating a second activity timer or extra heartbeat stream.
-  await page.goto(base+'?language=en');
+  await navigate(page,base+'?language=en');
   // Page.clock controls its entire BrowserContext. Keep time travel out of
   // the real-time conversation/viewport/screenshot checks that follow.
   const timingContext=await browser.newContext({viewport:{width:390,height:844}});
   await timingContext.addInitScript(initializeBrowser);await timingContext.route('**/api/**',apiRoute);
   const timingPage=await timingContext.newPage();timingPage.on('pageerror',e=>errors.push(e.message));
-  await timingPage.clock.install();await timingPage.goto(base+'?language=en&mode=standard&live=1');await timingPage.bringToFront();await timingPage.locator('.immersive-reading').first().waitFor();
+  await timingPage.clock.install();await navigate(timingPage,base+'?language=en&mode=standard&live=1');await timingPage.bringToFront();await timingPage.locator('.immersive-reading').first().waitFor();
   await timingPage.evaluate(()=>{window.__holdStudioAudio=true});
   await timingPage.locator('.immersive-audio .sentence-play').click();
   await timingPage.waitForFunction(()=>document.querySelector('.immersive-audio .sentence-play')?.getAttribute('aria-label')==='Stop audio');
@@ -213,7 +219,7 @@ try{
   await Promise.all([timingPage.waitForResponse(r=>r.url().endsWith('/api/activity/heartbeat')),timingPage.clock.fastForward(95000)]);
   assert.equal(activityPings.at(-1).active,false,'stopped and idle narration does not inflate study time');
   // Updating a persistent SentenceAudio source must release its audible owner.
-  await timingPage.goto(base+'?language=en&live=1&audioSwap=1');await timingPage.bringToFront();
+  await navigate(timingPage,base+'?language=en&live=1&audioSwap=1');await timingPage.bringToFront();
   await timingPage.locator('.audio-swap-fixture .sentence-play').waitFor();
   await timingPage.evaluate(()=>{window.__holdStudioAudio=true});
   await timingPage.locator('.audio-swap-fixture .sentence-play').click();
@@ -226,7 +232,7 @@ try{
   await timingContext.close();await page.bringToFront();audioRequests.length=0;
   }
   // Live room uses the chapter scenario/level and suspends its underlying scene.
-  adventureRequests.length=0;await page.goto(base+'?language=en&key=tourism&stage=roleplay&live=1');
+  adventureRequests.length=0;await navigate(page,base+'?language=en&key=tourism&stage=roleplay&live=1');
   await page.locator('.immersive-live .outline-button').click();
   const dialog=page.locator('dialog.immersive-live-panel[open]');await dialog.waitFor();
   const bounds=await dialog.boundingBox(),viewport=page.viewportSize();
@@ -288,17 +294,17 @@ try{
   await dialog.getByRole('button',{name:'Close live conversation',exact:true}).click();
   await page.waitForFunction(()=>!document.querySelector('dialog.immersive-live-panel')?.open);
   assert.equal(await page.locator('dialog canvas').count(),0,'the persistent close control also cleans up');
-  await page.goto(base+'?language=en&key=archives&stage=reading&mode=standard&display=ja');
+  await navigate(page,base+'?language=en&key=archives&stage=reading&mode=standard&display=ja');
   await page.waitForFunction(()=>document.querySelector('.immersive-reading'));
   assert.ok((await page.locator('.lesson-context > b').innerText()).includes('デジタル資料館'),'Japanese display translates the English course heading');
   assert.ok((await page.locator('.immersive-reading').first().innerText()).includes('archive'),'English learning passage stays English');
   assert.equal(await page.locator('.lesson-context .lesson-translation').count(),0,'bundled headings need no translation request');
   await page.screenshot({path:new URL(engineName+'-japanese-heading.png',directory).pathname,fullPage:false});
-  await page.goto(base+'?language=ar&display=ar');await page.locator('.immersive-excerpt').waitFor();
+  await navigate(page,base+'?language=ar&display=ar');await page.locator('.immersive-excerpt').waitFor();
   await page.waitForFunction(()=>!document.querySelector('.lesson-translation'));assert.equal((await page.locator('.town-question-card .question-prompt h1').innerText()).trim(),'ما الهدف من الاقتراح؟');assert.equal(await page.locator('html').getAttribute('dir'),'rtl');assert.equal(await page.locator('.immersive-excerpt').getAttribute('dir'),'auto');
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
   await page.screenshot({path:new URL(engineName+'-arabic-phone.png',directory).pathname,fullPage:true});
-  await page.goto(base+'?language=ar&key=tourism&stage=roleplay&live=1&display=ar');
+  await navigate(page,base+'?language=ar&key=tourism&stage=roleplay&live=1&display=ar');
   await page.locator('.immersive-live .outline-button').click();
   await dialog.locator('.speaking-consent input').check();await dialog.locator('.room-start-button').click();
   await dialog.getByText('ما الاقتراح الذي تؤيده؟',{exact:true}).waitFor();
@@ -310,9 +316,9 @@ try{
   await page.screenshot({path:new URL(engineName+'-live-arabic.png',directory).pathname,fullPage:false});
   await page.keyboard.press('Escape');
   if(!liveOnly){
-  await page.setViewportSize({width:1280,height:900});await page.goto(base+'?language=en&key=heat&mode=standard');await page.locator('.immersive-reading').first().waitFor();
+  await page.setViewportSize({width:1280,height:900});await navigate(page,base+'?language=en&key=heat&mode=standard');await page.locator('.immersive-reading').first().waitFor();
   await page.screenshot({path:new URL(engineName+'-c1-desktop.png',directory).pathname,fullPage:true});
-  await page.setViewportSize({width:390,height:844});await page.goto(base+'?language=ja&passport=1');
+  await page.setViewportSize({width:390,height:844});await navigate(page,base+'?language=ja&passport=1');
   const earnedStamp=page.locator('.passport-stamp:not([disabled])');assert.equal(await earnedStamp.count(),1);await earnedStamp.scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>{const image=document.querySelector('.passport-stamp:not([disabled])>img');return image?.complete&&image.naturalWidth>0});
   assert.match(await earnedStamp.locator('img').getAttribute('src'),/^\/passport-stamps\/ja-/);
@@ -327,5 +333,5 @@ try{
   assert.deepEqual(errors,[]);console.log('PASS '+engineName+(liveOnly?': focused conversation, retry, review, viewport and RTL.':': forty native Light stages, failed-load recovery, full six-question save, ordered audio, current dialogue turn, Standard/Light draft preservation, embedded chapter conversation, modal cleanup and Arabic phone layout.'));
   await context.close();await browser.close();browser=null;
  }
-}catch(error){if(browser){let i=0;for(const context of browser.contexts())for(const page of context.pages()){await page.screenshot({path:new URL('failure-'+i+'.png',directory).pathname,fullPage:true}).catch(()=>{});await writeFile(new URL('failure-'+i+'.txt',directory),(await page.locator('body').innerText().catch(()=>String(error)))+'\nBrowser errors:\n'+JSON.stringify(diagnostics,null,2));i++}}throw error
+}catch(error){console.error('Pending browser requests:',JSON.stringify([...pendingRequests.values()].map(r=>({...r,ageMs:Date.now()-r.at})),null,2));if(browser){let i=0;for(const context of browser.contexts())for(const page of context.pages()){await page.screenshot({path:new URL('failure-'+i+'.png',directory).pathname,fullPage:true}).catch(()=>{});await writeFile(new URL('failure-'+i+'.txt',directory),(await page.locator('body').innerText().catch(()=>String(error)))+'\nBrowser errors:\n'+JSON.stringify(diagnostics,null,2));i++}}throw error
 }finally{await browser?.close();await server.close();await rm(new URL('entry.jsx',directory),{force:true})}
