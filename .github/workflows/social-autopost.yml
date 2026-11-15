@@ -43,7 +43,8 @@ jobs:
           CONTINUUM_URL: ${{ vars.CONTINUUM_URL }}
           INTRO_POST_DATE: ${{ vars.INTRO_POST_DATE }}
           CAMPAIGN_START: '2026-10-18'
-          CAMPAIGN_END: '2026-11-16'
+          # Continue regular posting indefinitely; use the existing opt-out flag to stop.
+          CAMPAIGN_END: '9999-12-31'
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
             python -m social_automation.poster --dry-run
