@@ -227,6 +227,7 @@ try{
   assert.ok((await dialog.locator('h1').innerText()).includes('B2'));
   await dialog.locator('.speaking-consent input').check();await dialog.locator('.room-start-button').click();
   await dialog.locator('.immersive-room-actor .town-companion-sprite').waitFor();
+  await dialog.getByText('Which proposal would you support?',{exact:true}).waitFor();
   assert.equal(await dialog.locator('canvas').count(),0,'the approved companion stays in use');
   assert.equal(await dialog.locator('.immersive-live-caption').count(),0,'no transcript is repeated over the companion');
   assert.equal(await dialog.getByText('Which proposal would you support?',{exact:true}).count(),1,'one visible transcript channel');

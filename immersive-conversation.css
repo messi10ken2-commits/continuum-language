@@ -8,7 +8,7 @@
 .immersive-conversation-room :is(button,summary,textarea,select):focus-visible{outline:3px solid #f8d48c;outline-offset:3px}
 .immersive-conversation-room .room-voice-status{font-size:12px;line-height:1.4;color:#f7efd9;overflow-wrap:anywhere}
 .app.continuum-ui dialog:has(.immersive-conversation-room)>.immersive-close{color:#fff;border-color:#ffffff38;background:#153e34bb;width:44px;height:44px;inset-block-start:calc(10px + env(safe-area-inset-top,0px));box-shadow:none}
-.immersive-room-actor{position:relative;isolation:isolate;display:grid;place-items:center;min-height:0;overflow:hidden;padding:calc(56px + env(safe-area-inset-top,0px)) 14px 2px;box-sizing:border-box}
+.immersive-room-actor{position:relative;isolation:isolate;display:grid;place-items:center;min-height:0;overflow:hidden;padding:calc(70px + env(safe-area-inset-top,0px)) 14px 2px;box-sizing:border-box}
 .immersive-room-actor::before{content:'';position:absolute;z-index:-2;inset:-10px;background:var(--conversation-world) center 42%/cover;filter:blur(5px) saturate(.7);opacity:.3;pointer-events:none}
 .immersive-room-actor::after{content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(transparent 30%,#10362b99 80%,#10362b);pointer-events:none}
 .app.continuum-ui .immersive-room-actor>.town-companion,.immersive-room-actor>.town-companion{display:block;position:relative;inset:auto;transform:none;width:100%;max-width:560px;height:100%;min-height:0;aspect-ratio:auto;margin:0;padding:0;border:0;border-radius:0;background:none;filter:drop-shadow(0 10px 12px #001d2170)}
@@ -60,3 +60,5 @@
 }
 @media(max-width:380px){.immersive-room-controls{gap:6px;padding-inline:10px}.immersive-conversation-room .room-voice-button{padding-inline:8px;font-size:13px}}
 @media(prefers-reduced-motion:reduce){.immersive-room-chat .conversation-thread{scroll-behavior:auto}}
+
+.app.continuum-ui dialog:has(.immersive-conversation-room)>.immersive-close svg{width:22px;height:22px;display:block}

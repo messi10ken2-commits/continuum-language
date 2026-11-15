@@ -1,3 +1,4 @@
+import {X} from 'lucide-react';
 import {PageScene} from './LessonMedia.jsx';
 import {useLightMotion} from './light-motion.mjs';
 import React,{useEffect,useMemo,useRef,useState} from 'react';
@@ -65,6 +66,6 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
    </details>
 
   </div>
-  <dialog ref={dialog} className="immersive-live-panel" aria-label={t('Live AI conversation')} onCancel={e=>{e.preventDefault();setLive(false)}} onClose={()=>setLive(false)}>{live&&!suspended&&<><button type="button" className="immersive-close" onClick={()=>setLive(false)} aria-label={t('Close live conversation')}>×</button><AISpeaking embedded language={lesson.language} user={user} initialScenario={lesson.immersive.unit} initialLevel={lesson.level} companion={kind||'capybara'} onBack={()=>setLive(false)}/></>}</dialog>
+  <dialog ref={dialog} className="immersive-live-panel" aria-label={t('Live AI conversation')} onCancel={e=>{e.preventDefault();setLive(false)}} onClose={()=>setLive(false)}>{live&&!suspended&&<><button type="button" className="immersive-close" onClick={()=>setLive(false)} aria-label={t('Close live conversation')}><X size={22}/></button><AISpeaking embedded language={lesson.language} user={user} initialScenario={lesson.immersive.unit} initialLevel={lesson.level} companion={kind||'capybara'} onBack={()=>setLive(false)}/></>}</dialog>
  </section>;
 }
