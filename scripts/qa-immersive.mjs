@@ -32,6 +32,7 @@ createRoot(document.getElementById('root')).render(<App/>);
 `);
 const server=await createServer({configFile:false,optimizeDeps:{entries:[new URL('entry.jsx',directory).pathname]},server:{host:'127.0.0.1',port:0,hmr:false},appType:'custom',plugins:[{name:'immersion-ui',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(!req.url?.startsWith('/__immersive'))return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml(req.url,'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#root{padding:10px 8px 80px}</style></head><body><div id="root"></div><script type="module" src="/.media-build/immersive-ui/entry.jsx"></script></body></html>'))})}}]});
 const languages=['en','es','pt','ja','zh','ko','fr','de','ar','it'];
+const liveOnly=process.argv.includes('--live-only');
 let browser,diagnostics=[];
 try{
  await server.listen();const base='http://127.0.0.1:'+server.httpServer.address().port+'/__immersive';
@@ -100,6 +101,7 @@ try{
   };
   await context.route('**/api/**',apiRoute);
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('console',message=>{if(/same key|unique.*key/i.test(message.text()))errors.push(message.text())});
+  if(!liveOnly){
   // A failed native import must leave answers disabled and offer a recovery.
   let rejected=false;
   await page.route('**/immersive/ar.mjs*',async route=>{if(!rejected){rejected=true;await route.abort()}else await route.continue()});
@@ -222,6 +224,7 @@ try{
   await Promise.all([timingPage.waitForResponse(r=>r.url().endsWith('/api/activity/heartbeat')),timingPage.clock.fastForward(95000)]);
   assert.equal(activityPings.at(-1).active,false,'a replaced narration source cannot leave an audible study owner behind');
   await timingContext.close();await page.bringToFront();audioRequests.length=0;
+  }
   // Live room uses the chapter scenario/level and suspends its underlying scene.
   adventureRequests.length=0;await page.goto(base+'?language=en&key=tourism&stage=roleplay&live=1');
   await page.locator('.immersive-live .outline-button').click();
@@ -267,11 +270,11 @@ try{
   await reply.fill('We should review the results next month.');await reply.press('Enter');
   await dialog.getByText('Let us review that proposal. 2',{exact:true}).waitFor();
   assert.ok(await dialog.getByRole('button',{name:'Finish and get review',exact:true}).isEnabled());
-  // Dismiss composing focus before restoring the keyboard-closed viewport.
+  // Capture the short input viewport itself, then restore the full height.
   await reply.blur();
-  await page.setViewportSize({width:390,height:844});
-  await page.waitForFunction(()=>document.querySelector('.immersive-conversation-room').getBoundingClientRect().height===innerHeight);
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
   await page.screenshot({path:new URL(engineName+'-live-chat.png',directory).pathname,fullPage:false});
+  await page.setViewportSize({width:390,height:844});
   await dialog.getByRole('button',{name:'Finish and get review',exact:true}).click();
   await dialog.locator('.conversation-review').waitFor();
 
@@ -303,6 +306,7 @@ try{
   assert.ok(rtlStatus.x>=rtlClose.x+rtlClose.width,'RTL status reserves space for the close button');
   await page.screenshot({path:new URL(engineName+'-live-arabic.png',directory).pathname,fullPage:false});
   await page.keyboard.press('Escape');
+  if(!liveOnly){
   await page.setViewportSize({width:1280,height:900});await page.goto(base+'?language=en&key=heat&mode=standard');await page.locator('.immersive-reading').first().waitFor();
   await page.screenshot({path:new URL(engineName+'-c1-desktop.png',directory).pathname,fullPage:true});
   await page.setViewportSize({width:390,height:844});await page.goto(base+'?language=ja&passport=1');
@@ -316,7 +320,8 @@ try{
 
   await page.screenshot({path:new URL(engineName+'-immersion-stamp.png',directory).pathname,fullPage:false});
   await page.keyboard.press('Escape');await page.waitForFunction(()=>!document.querySelector('.passport-dialog').open);
-  assert.deepEqual(errors,[]);console.log('PASS '+engineName+': forty native Light stages, failed-load recovery, full six-question save, ordered audio, current dialogue turn, Standard/Light draft preservation, embedded chapter conversation, modal cleanup and Arabic phone layout.');
+  }
+  assert.deepEqual(errors,[]);console.log('PASS '+engineName+(liveOnly?': focused conversation, retry, review, viewport and RTL.':': forty native Light stages, failed-load recovery, full six-question save, ordered audio, current dialogue turn, Standard/Light draft preservation, embedded chapter conversation, modal cleanup and Arabic phone layout.'));
   await context.close();await browser.close();browser=null;
  }
 }catch(error){if(browser){let i=0;for(const context of browser.contexts())for(const page of context.pages()){await page.screenshot({path:new URL('failure-'+i+'.png',directory).pathname,fullPage:true}).catch(()=>{});await writeFile(new URL('failure-'+i+'.txt',directory),(await page.locator('body').innerText().catch(()=>String(error)))+'\nBrowser errors:\n'+JSON.stringify(diagnostics,null,2));i++}}throw error
