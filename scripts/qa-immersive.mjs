@@ -265,7 +265,7 @@ try{
   await reply.blur();
   await page.setViewportSize({width:390,height:844});
   // Keep the snapshot from restyling every input while the viewport settles.
-  await page.waitForFunction(()=>document.fonts.check('16px Manrope')&&document.fonts.check('16px "DM Sans"'));
+  await page.waitForFunction(()=>document.fonts.check('16px "DM Sans"'));
   await page.screenshot({path:new URL(engineName+'-live-chat.png',directory).pathname,fullPage:false,caret:'initial'});
   await dialog.getByRole('button',{name:'Finish and get review',exact:true}).click();
   await dialog.locator('.conversation-review').waitFor();
