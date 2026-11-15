@@ -270,10 +270,13 @@ try{
   await reply.fill('We should review the results next month.');await reply.press('Enter');
   await dialog.getByText('Let us review that proposal. 2',{exact:true}).waitFor();
   assert.ok(await dialog.getByRole('button',{name:'Finish and get review',exact:true}).isEnabled());
-  // Capture the short input viewport itself, then restore the full height.
+  // Keep functional layout checks independent of optional capture tooling:
+  // headless capture stalls after input in this fixture; initial/desktop/RTL
+  // viewport captures remain required below and above.
+  const textControls=await dialog.locator('.immersive-room-controls').boundingBox();
+  assert.ok(textControls.y+textControls.height<=600,'text controls stay in the short viewport after replies');
+  assert.ok(await dialog.evaluate(el=>el.scrollHeight<=el.clientHeight+1),'typed replies do not overflow the dialog');
   await reply.blur();
-  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
-  await page.screenshot({path:new URL(engineName+'-live-chat.png',directory).pathname,fullPage:false});
   await page.setViewportSize({width:390,height:844});
   await dialog.getByRole('button',{name:'Finish and get review',exact:true}).click();
   await dialog.locator('.conversation-review').waitFor();

@@ -154,3 +154,5 @@ iPhone software-keyboard behavior is not certified by headless browser tests.
 The original furry companion illustrations are retained and framed without
 covering controls or dialogue. No procedural 3D model is introduced. Ordinary AI
 Practice Studio and reading/listening lesson presentations are unchanged.
+
+Browser QA limitation: the supplementary post-input chat PNG stalls in the headless capture tool. It is not required evidence. The same flow still asserts visible replies, single utterances, retry/idempotency, short-viewport control bounds, no dialog overflow, and review completion. Initial mobile, desktop and RTL live-room PNGs remain required. Physical iPhone keyboard behavior is unverified.
