@@ -292,6 +292,8 @@ try{
   assert.equal(await dialog.getByText('ما الاقتراح الذي تؤيده؟',{exact:true}).count(),1);
   assert.equal(await dialog.locator('.conversation-message p').getAttribute('dir'),'auto');
   await dialog.getByRole('button',{name:'إعدادات المحادثة',exact:true}).waitFor();
+  const rtlStatus=await dialog.locator('.room-voice-status').boundingBox(),rtlClose=await dialog.locator('.immersive-close').boundingBox();
+  assert.ok(rtlStatus.x>=rtlClose.x+rtlClose.width,'RTL status reserves space for the close button');
   await page.screenshot({path:new URL(engineName+'-live-arabic.png',directory).pathname,fullPage:false});
   await page.keyboard.press('Escape');
   await page.setViewportSize({width:1280,height:900});await page.goto(base+'?language=en&key=heat&mode=standard');await page.locator('.immersive-reading').first().waitFor();
