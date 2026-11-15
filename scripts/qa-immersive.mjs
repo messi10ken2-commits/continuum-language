@@ -261,6 +261,8 @@ try{
   await reply.fill('We should review the results next month.');await reply.press('Enter');
   await dialog.getByText('Let us review that proposal. 2',{exact:true}).waitFor();
   assert.ok(await dialog.getByRole('button',{name:'Finish and get review',exact:true}).isEnabled());
+  // Dismiss composing focus before restoring the keyboard-closed viewport.
+  await reply.blur();
   await page.setViewportSize({width:390,height:844});
   await page.screenshot({path:new URL(engineName+'-live-chat.png',directory).pathname,fullPage:false});
   await dialog.getByRole('button',{name:'Finish and get review',exact:true}).click();
