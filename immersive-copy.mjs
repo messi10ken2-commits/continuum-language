@@ -1,5 +1,6 @@
 // English source | Japanese | Spanish | Portuguese | Chinese | French | Korean | Indonesian | Russian | Arabic
 const rows=`
+Conversation settings|会話の設定|Configuración de la conversación|Configurações da conversa|会话设置|Paramètres de la conversation|대화 설정|Pengaturan percakapan|Настройки разговора|إعدادات المحادثة
 Immersive chapter|没入型チャプター|Capítulo inmersivo|Capítulo imersivo|沉浸式章节|Chapitre immersif|몰입형 챕터|Bab imersif|Иммерсивная глава|فصل تفاعلي
 Immersive conversation|没入型会話|Conversación inmersiva|Conversa imersiva|沉浸式会话|Conversation immersive|몰입형 대화|Percakapan imersif|Иммерсивный разговор|محادثة تفاعلية
 Guided roleplay|ガイド付きロールプレイ|Juego de rol guiado|Simulação guiada|引导式角色扮演|Jeu de rôle guidé|안내형 역할극|Bermain peran terpandu|Ролевая практика с подсказками|تقمص أدوار موجّه

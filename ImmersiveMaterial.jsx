@@ -43,8 +43,13 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
  if(!unit)return <div className="immersive-loading" role="status">{t('Loading chapter…')}</div>;
  const text=stage==='roleplay'?unit.questions.roleplay[part]?.sceneLine:unit[stage]?.[part]?.text;
  return <section className={'immersive-material '+(light?'immersive-compact':'')} data-stage={stage} data-scene={lesson.immersive.scene}>
-  {light?<IllustratedMaterialScene kind={kind} speaking={speaking} celebrate={celebrate} suspended={suspended||live}/>:<div className="immersive-static-scene" inert={suspended||live}><PageScene lesson={lesson}/></div>}
+  {light?<IllustratedMaterialScene kind={kind} speaking={speaking} celebrate={celebrate} suspended={suspended||live}/>:lesson.immersive.stage!=='roleplay'&&<div className="immersive-static-scene" inert={suspended||live}><PageScene lesson={lesson}/></div>}
   <div className="immersive-source" inert={live}>
+   {lesson.immersive.stage==='roleplay'&&<div className="immersive-live">
+    <button type="button" className="outline-button" disabled={!user||suspended} aria-expanded={live} onClick={()=>{stopSentenceAudio();setLive(v=>!v)}}>{t(live?'Close live conversation':'Live AI conversation')}</button>
+    {!user&&<p>{t('Sign in to save a live AI conversation.')}</p>}
+
+   </div>}
    <div className="immersive-source-head"><b>{t(stage==='reading'?'Reading':stage==='listening'?'Listening':'Guided roleplay')}</b><span>{tf('Part {0} of {1}',[part+1,stage==='roleplay'?6:unit[stage].length])}</span></div>
    <p className="immersive-provenance">{t('Original fictional case study · Continuum')}</p>
    {stage==='reading'&&(light?<p className="immersive-excerpt" lang={lesson.locale} dir="auto">{text}</p>:<div className="immersive-reading" tabIndex={0} aria-label={t('Reading passage')} lang={lesson.locale} dir="auto">{unit.reading.map((p,i)=><p key={i} data-current={i===part}><span className="immersive-part-number" aria-hidden="true">{i+1}</span>{p.text}</p>)}</div>)}
@@ -54,15 +59,11 @@ export default function ImmersiveMaterial({lesson,question,user,light=false,susp
    </div>
    {stage==='listening'&&<details><summary>{t('Show transcript')}</summary><div className="immersive-reading" lang={lesson.locale} dir="auto">{(allAudio?unit.listening:[unit.listening[part]]).map((p,i)=><p key={i}>{p.text}</p>)}</div></details>}
    <details className="immersive-reference"><summary>{t('Chapter sources')}</summary><p>{t('These are original fictional learning materials, not reports of real events. The recording uses an AI studio voice.')}</p>
+    {lesson.immersive.stage==='roleplay'&&<p>{t('Practise decisions in the guided roleplay, then use your own voice in the live conversation. Guided scores measure your choices, not speaking proficiency.')}</p>}
     <h3>{t('Reading')}</h3><div className="immersive-reading" lang={lesson.locale} dir="auto">{unit.reading.map((p,i)=><p key={i}>{p.text}</p>)}</div>
     <h3>{t('Listening transcript')}</h3><div className="immersive-reading" lang={lesson.locale} dir="auto">{unit.listening.map((p,i)=><p key={i}>{p.text}</p>)}</div>
    </details>
-   {lesson.immersive.stage==='roleplay'&&<div className="immersive-live">
-    <p>{t('Practise decisions in the guided roleplay, then use your own voice in the live conversation. Guided scores measure your choices, not speaking proficiency.')}</p>
-    <button type="button" className="outline-button" disabled={!user||suspended} aria-expanded={live} onClick={()=>{stopSentenceAudio();setLive(v=>!v)}}>{t(live?'Close live conversation':'Live AI conversation')}</button>
-    {!user&&<p>{t('Sign in to save a live AI conversation.')}</p>}
-    
-   </div>}
+
   </div>
   <dialog ref={dialog} className="immersive-live-panel" aria-label={t('Live AI conversation')} onCancel={e=>{e.preventDefault();setLive(false)}} onClose={()=>setLive(false)}>{live&&!suspended&&<><button type="button" className="immersive-close" onClick={()=>setLive(false)} aria-label={t('Close live conversation')}>×</button><AISpeaking embedded language={lesson.language} user={user} initialScenario={lesson.immersive.unit} initialLevel={lesson.level} companion={kind||'capybara'} onBack={()=>setLive(false)}/></>}</dialog>
  </section>;
