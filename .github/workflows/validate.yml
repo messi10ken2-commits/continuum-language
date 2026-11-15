@@ -66,7 +66,7 @@ jobs:
 
   immersion:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -82,7 +82,7 @@ jobs:
           git diff --exit-code -- immersive/canonical.json immersive/catalog.json
       - run: npx playwright install --with-deps chromium webkit
       - name: Verify restored companions and integrated immersion lessons
-        run: node scripts/qa-immersive.mjs
+        run: node scripts/qa-immersive.mjs --live-only && node scripts/qa-immersive.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

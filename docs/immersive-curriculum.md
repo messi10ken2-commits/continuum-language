@@ -60,8 +60,11 @@ languages are covered. Reading/listening no longer fetch an unused companion.
 
 Procedural WebGL companions are not imported by the application. Their source
 is retained for deferred work, but no renderer chunk or model is downloaded.
-Live-conversation development is on hold. Existing conversation functionality,
-consent, budgets and saved records remain available with illustrated companions.
+The chapter conversation uses a full-viewport companion scene and one chat
+transcript. Voice settings, goals, usage and disclosures open from a settings
+control. Consent remains explicit before starting; budgets, requests and saved
+records stay in the existing conversation controller. The guided six-question
+lesson remains available separately and never starts paid AI work automatically.
 Native dialog closing still stops media and requests and preserves lesson scroll.
 
 ## Data, audio and efficiency
@@ -137,3 +140,19 @@ verification or physical iPhone testing. No destructive migration is required.
 Rollback for this presentation-only restoration is the preceding production
 commit `df2b4b1c5c48d9f02d6d0e97b0c40130ab6a8c40`; learner records and
 curriculum identifiers remain unchanged.
+
+## Focused conversation acceptance
+
+The companion scene and chat occupy the available viewport without a scrolling
+stack of cards. Each assistant utterance appears once, in the chat. Voice/text
+switching, draft retention after network failure, idempotent retry, completion
+and review use the original AISpeaking logic. The portrait remains visible in
+text mode. A visual-viewport resize handler keeps the composer in the available
+height; browser QA covers phone, short viewport, desktop and Arabic RTL. Physical
+iPhone software-keyboard behavior is not certified by headless browser tests.
+
+The original furry companion illustrations are retained and framed without
+covering controls or dialogue. No procedural 3D model is introduced. Ordinary AI
+Practice Studio and reading/listening lesson presentations are unchanged.
+
+Browser QA limitation: the supplementary post-input chat PNG stalls in the headless capture tool. It is not required evidence. The same flow still asserts visible replies, single utterances, retry/idempotency, short-viewport control bounds, no dialog overflow, and review completion. Initial mobile, desktop and RTL live-room PNGs remain required. Physical iPhone keyboard behavior is unverified.
