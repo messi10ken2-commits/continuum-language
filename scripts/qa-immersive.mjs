@@ -266,7 +266,13 @@ try{
   await page.setViewportSize({width:390,height:844});
   // Keep the snapshot from restyling every input while the viewport settles.
   await page.waitForFunction(()=>document.fonts.check('16px "DM Sans"'));
-  await page.screenshot({path:new URL(engineName+'-live-chat.png',directory).pathname,fullPage:false,caret:'initial'});
+  // Chromium can leave FontFaceSet.ready unresolved after viewport/input changes
+  // even when the used face is loaded. Keep the explicit check above and avoid
+  // Playwright's redundant global ready wait for this one capture only.
+  const fontWaitOverride=process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY;
+  process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY='1';
+  try{await page.screenshot({path:new URL(engineName+'-live-chat.png',directory).pathname,fullPage:false,caret:'initial'})}
+  finally{if(fontWaitOverride===undefined)delete process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY;else process.env.PW_TEST_SCREENSHOT_NO_FONTS_READY=fontWaitOverride}
   await dialog.getByRole('button',{name:'Finish and get review',exact:true}).click();
   await dialog.locator('.conversation-review').waitFor();
 
