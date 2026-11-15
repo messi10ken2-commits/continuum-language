@@ -30,7 +30,17 @@ function AudioSwap(){const[part,setPart]=React.useState(0);useStudyActivity(true
 function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <JourneyLayoutContext.Provider value={{layout:p.get('layout')||'photo'}}><LanguageContext.Provider value={language}>{p.has('audioSwap')?<AudioSwap/>:p.has('passport')?<Passport language={language} stamps={[{id:'chapter:'+lesson.chapter,kind:'chapter',title:chapters.find(c=>c.id===lesson.chapter).title,at:'2026-11-14T12:00:00Z'}]}/>:<div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div>}</LanguageContext.Provider></JourneyLayoutContext.Provider>}
 createRoot(document.getElementById('root')).render(<App/>);
 `);
-const server=await createServer({configFile:false,optimizeDeps:{entries:[new URL('entry.jsx',directory).pathname]},server:{host:'127.0.0.1',port:0,hmr:false},appType:'custom',plugins:[{name:'immersion-ui',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(!req.url?.startsWith('/__immersive'))return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml(req.url,'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#root{padding:10px 8px 80px}</style></head><body><div id="root"></div><script type="module" src="/.media-build/immersive-ui/entry.jsx"></script></body></html>'))})}}]});
+// Serve fixture APIs over real HTTP, including unload/visibility beacons.
+// Browser interception can leave keepalive requests pending across navigations.
+let fixtureApi=null;
+async function serveFixtureApi(req,res){
+ const chunks=[];for await(const chunk of req)chunks.push(chunk);
+ const body=Buffer.concat(chunks).toString();
+ const request={url:()=>`http://${req.headers.host}${req.url}`,headers:()=>req.headers,method:()=>req.method,postDataJSON:()=>body?JSON.parse(body):null};
+ try{await fixtureApi({request:()=>request,fulfill:async({status=200,contentType,headers={},body=''})=>{res.writeHead(status,{...(contentType?{'Content-Type':contentType}:{}),...headers});res.end(body)}})}
+ catch(error){console.error('Fixture API error:',request.url(),error);if(!res.headersSent)res.writeHead(500,{'Content-Type':'application/json'});if(!res.writableEnded)res.end(JSON.stringify({error:'Fixture API failed'}))}
+}
+const server=await createServer({configFile:false,optimizeDeps:{entries:[new URL('entry.jsx',directory).pathname]},server:{host:'127.0.0.1',port:0,hmr:false},appType:'custom',plugins:[{name:'immersion-ui',configureServer(server){server.middlewares.use(async(req,res,next)=>{if(req.url?.startsWith('/api/')){await serveFixtureApi(req,res);return}if(!req.url?.startsWith('/__immersive'))return next();res.setHeader('Content-Type','text/html');res.end(await server.transformIndexHtml(req.url,'<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}*{box-sizing:border-box}#root{padding:10px 8px 80px}</style></head><body><div id="root"></div><script type="module" src="/.media-build/immersive-ui/entry.jsx"></script></body></html>'))})}}]});
 const languages=['en','es','pt','ja','zh','ko','fr','de','ar','it'];
 const liveOnly=process.argv.includes('--live-only');
 let browser,diagnostics=[],pendingRequests=new Map();
@@ -105,7 +115,7 @@ try{
    if(path.endsWith('/activity'))return json({budget:{maxTurns:30,limitSeconds:420,usedSeconds:0}});
    return route.fulfill({status:503,contentType:'application/json',body:'{}'});
   };
-  await context.route('**/api/**',apiRoute);
+  fixtureApi=apiRoute;
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('console',message=>{if(/same key|unique.*key/i.test(message.text()))errors.push(message.text())});
   if(!liveOnly){
   // A failed native import must leave answers disabled and offer a recovery.
@@ -206,7 +216,7 @@ try{
   // Page.clock controls its entire BrowserContext. Keep time travel out of
   // the real-time conversation/viewport/screenshot checks that follow.
   const timingContext=await browser.newContext({viewport:{width:390,height:844}});
-  await timingContext.addInitScript(initializeBrowser);await timingContext.route('**/api/**',apiRoute);
+  await timingContext.addInitScript(initializeBrowser);
   const timingPage=await timingContext.newPage();timingPage.on('pageerror',e=>errors.push(e.message));
   await timingPage.clock.install();await navigate(timingPage,base+'?language=en&mode=standard&live=1');await timingPage.bringToFront();await timingPage.locator('.immersive-reading').first().waitFor();
   await timingPage.evaluate(()=>{window.__holdStudioAudio=true});
