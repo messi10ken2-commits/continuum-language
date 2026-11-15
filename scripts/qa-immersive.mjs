@@ -52,6 +52,9 @@ try{
  for(const [engineName,engine]of Object.entries({chromium,webkit})){
   browser=await engine.launch({headless:true,args:engineName==='chromium'?['--no-sandbox','--use-gl=angle','--use-angle=swiftshader','--enable-unsafe-swiftshader']:[]});
   const context=await browser.newContext({viewport:{width:390,height:844}}),audioRequests=[],speakingStarts=[],speakingTurns=[],adventureRequests=[],activityPings=[],lightRecords=new Map(),errors=diagnostics=[];
+  // Cold Vite module graphs include the full multilingual corpus. Keep a
+  // bounded allowance for CI compilation, separate from production latency.
+  context.setDefaultTimeout(90000);context.setDefaultNavigationTimeout(90000);
   pendingRequests=new Map();
   context.on('request',r=>pendingRequests.set(r,{url:r.url(),type:r.resourceType(),at:Date.now()}));
   context.on('requestfinished',r=>pendingRequests.delete(r));context.on('requestfailed',r=>pendingRequests.delete(r));
@@ -216,6 +219,7 @@ try{
   // Page.clock controls its entire BrowserContext. Keep time travel out of
   // the real-time conversation/viewport/screenshot checks that follow.
   const timingContext=await browser.newContext({viewport:{width:390,height:844}});
+  timingContext.setDefaultTimeout(90000);timingContext.setDefaultNavigationTimeout(90000);
   await timingContext.addInitScript(initializeBrowser);
   const timingPage=await timingContext.newPage();timingPage.on('pageerror',e=>errors.push(e.message));
   await timingPage.clock.install();await navigate(timingPage,base+'?language=en&mode=standard&live=1');await timingPage.bringToFront();await timingPage.locator('.immersive-reading').first().waitFor();
