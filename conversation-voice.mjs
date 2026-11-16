@@ -1,4 +1,5 @@
 import {speechChunks} from './speech-chunks.mjs';
+import {speechEnvelope,speechLevelAt} from './speech-envelope.mjs';
 // End-of-turn detection is based on microphone energy, never a browser ASR vendor.
 export function newVoiceWindow(now){return {started:now,lastSpeech:now,heard:false,speechFrames:0,noise:0.002};}
 export function detectVoiceEnd(window,rms,now,{silenceMs=1500,maxMs=45000,idleMs=20000}={}){
@@ -79,11 +80,11 @@ export class ConversationVoiceLoop{
    }
    if(!response.headers.get('content-type')?.startsWith('audio/')||!bytes?.byteLength||bytes.byteLength>8100000)throw Error('The voice response could not be played. Please retry.');
    const buffer=await this.context.decodeAudioData(bytes.slice(0));if(!this.valid(epoch))return;
-   prepared={url,bytes,buffer};this.preparedClip=prepared;
+   prepared={url,bytes,buffer,envelope:speechEnvelope(buffer)};this.preparedClip=prepared;
   }
   this.onVoiceNotice?.('');
   const {bytes,buffer}=prepared;
-  if(this.player){await this.playMedia(bytes,epoch,buffer.duration);if(this.valid(epoch))this.preparedClip=null;return;}
+  if(this.player){await this.playMedia(bytes,epoch,buffer.duration,prepared.envelope);if(this.valid(epoch))this.preparedClip=null;return;}
   if(this.context.state==='suspended')await this.context.resume();
   if(this.context.state!=='running')throw Error('Tap Resume conversation to allow audio playback.');
   const source=this.context.createBufferSource(),meter=this.context.createAnalyser();source.buffer=buffer;meter.fftSize=512;source.connect(meter);meter.connect(this.context.destination);this.source=source;
@@ -91,17 +92,20 @@ export class ConversationVoiceLoop{
   await new Promise((resolve,reject)=>{this.endPlayback=resolve;source.onended=resolve;try{source.start()}catch(e){reject(e)}});
   this.stopMeter();source.disconnect();meter.disconnect();this.source=null;this.endPlayback=null;if(this.valid(epoch))this.preparedClip=null;
  }
- async playMedia(bytes,epoch,expectedDuration=0){
+ async playMedia(bytes,epoch,expectedDuration=0,envelope=null){
   const player=this.player,URL=this.host.URL||globalThis.URL;
   this.playbackURL=URL.createObjectURL(new Blob([bytes],{type:'audio/wav'}));player.src=this.playbackURL;player.muted=false;player.volume=1;player.playbackRate=this.rate;player.preservesPitch=true;
   try{await new Promise((resolve,reject)=>{
    let lastTime=0,lastProgress=Date.now();
    const fail=()=>reject(Error('Tap Resume conversation to allow audio playback.'));
    this.endPlayback=resolve;player.onended=()=>{if(this.valid(epoch)&&expectedDuration&&player.currentTime+.25<expectedDuration){reject(Error('Audio stopped before the response finished. Tap Resume conversation to retry.'));return;}resolve();};player.onerror=fail;
-   player.onplaying=()=>{if(!this.valid(epoch)){resolve();return;}lastProgress=Date.now();this.state('speaking');};
+   let audible=false;
+   player.onplaying=()=>{if(!this.valid(epoch)){resolve();return;}audible=true;lastProgress=Date.now();this.state('speaking');};
+   player.onwaiting=player.onpause=()=>{audible=false;this.onLevel?.(0)};
+   this.stopMeter();this.levelTimer=setInterval(()=>{if(this.valid(epoch))this.onLevel?.(audible&&!player.paused?speechLevelAt(envelope,player.currentTime):0)},60);
    this.playbackWatch=setInterval(()=>{if(!this.valid(epoch)){resolve();return;}if(player.currentTime>lastTime){lastTime=player.currentTime;lastProgress=Date.now();}if(Date.now()-lastProgress>15000)fail();},250);
    const playback=player.play();playback?.catch(fail);
-  });}finally{clearInterval(this.playbackWatch);player.onended=null;player.onerror=null;player.onplaying=null;player.pause();player.removeAttribute('src');player.load();URL.revokeObjectURL(this.playbackURL);this.playbackURL=null;this.endPlayback=null;this.onLevel?.(0);}
+  });}finally{clearInterval(this.playbackWatch);this.stopMeter();player.onended=null;player.onerror=null;player.onplaying=null;player.onwaiting=null;player.onpause=null;player.pause();player.removeAttribute('src');player.load();URL.revokeObjectURL(this.playbackURL);this.playbackURL=null;this.endPlayback=null;}
  }
  async speakDevice(epoch){
   let text=this.currentText,locale=this.currentLocale||this.locale;
@@ -132,7 +136,7 @@ export class ConversationVoiceLoop{
   this.stopMeter();const bytes=new Uint8Array(analyser.fftSize);
   this.levelTimer=setInterval(()=>{if(!this.valid(epoch))return;analyser.getByteTimeDomainData(bytes);const rms=Math.sqrt(bytes.reduce((sum,b)=>sum+((b-128)/128)**2,0)/bytes.length);this.onLevel?.(Math.min(1,rms*9));},60);
  }
- stopMeter(){clearInterval(this.levelTimer);this.onLevel?.(0);}
+ stopMeter(){clearInterval(this.levelTimer);this.levelTimer=null;this.onLevel?.(0);}
  listen(epoch){return new Promise((resolve,reject)=>{
   const MR=this.host.MediaRecorder,mime=['audio/webm;codecs=opus','audio/mp4','audio/ogg;codecs=opus'].find(t=>MR.isTypeSupported(t));
   const recorder=new MR(this.stream,{...(mime?{mimeType:mime}:{}),audioBitsPerSecond:32000});this.recorder=recorder;

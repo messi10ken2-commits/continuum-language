@@ -18,7 +18,7 @@ import{JourneyLayoutContext}from'../../JourneyLayout.jsx';
 import Passport from '../../Passport.jsx';
 import{setInterfaceLanguage,bindInterfaceAccount}from'../../interface-runtime.mjs';
 import{useActivityTracker,useStudyActivity}from'../../LearningActivity.jsx';
-import SentenceAudio from '../../SentenceAudio.jsx';
+import SentenceAudio from '../../SentenceAudio.jsx';import ConversationCompanion from '../../ConversationCompanion.jsx';
 import '../../styles.css';import '../../features.css';import '../../continuum-ui.css';
 import '../../light-learning.css';import '../../light-motion.css';
 const p=new URLSearchParams(location.search),language=p.get('language')||'en',key=p.get('key')||'market',stage=p.get('stage')||'reading';
@@ -27,7 +27,8 @@ const lesson=p.has('legacy')?lessonList.find(l=>l.language==='en'&&!l.immersive&
 const complete=async result=>({id:'synthetic-completion',...result});
 const props={lesson,language,user,autoStart:true,lightAutoStart:true,initialAnswers:p.has('intro')?undefined:[],initialSeed:p.get('seed')||undefined,onDraft:async(_answers,seed)=>{window.__draftSeed=seed},onComplete:complete,onExit:()=>{},onStandard:()=>{}};
 function AudioSwap(){const[part,setPart]=React.useState(0);useStudyActivity(true);return <section className="audio-swap-fixture"><SentenceAudio text={part?'A different narrated example.':'The first narrated example.'} lang="en-US" audioEndpoint={'/api/immersive/audio/en-immersive-market-v1-reading/reading/'+part}/><button onClick={()=>setPart(1)}>Change narration text</button></section>}
-function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <JourneyLayoutContext.Provider value={{layout:p.get('layout')||'photo'}}><LanguageContext.Provider value={language}>{p.has('audioSwap')?<AudioSwap/>:p.has('passport')?<Passport language={language} stamps={[{id:'chapter:'+lesson.chapter,kind:'chapter',title:chapters.find(c=>c.id===lesson.chapter).title,at:'2026-11-14T12:00:00Z'}]}/>:<div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div>}</LanguageContext.Provider></JourneyLayoutContext.Provider>}
+function PuppetShowcase(){return <section style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',height:'100vh',background:'#143c30'}}>{[0,.4,1].map((level,i)=><div className="immersive-room-actor" key={i} style={{position:'relative',inset:'auto',height:'100%'}}><ConversationCompanion kind={p.get('puppet')} state="speaking" level={level}/><span style={{position:'absolute',top:15,color:'white'}}>Voice amplitude {level}</span></div>)}</section>}
+function App(){useActivityTracker(user);React.useEffect(()=>{if(user)void bindInterfaceAccount(user)},[]);return <JourneyLayoutContext.Provider value={{layout:p.get('layout')||'photo'}}><LanguageContext.Provider value={language}>{p.has('puppet')?<PuppetShowcase/>:p.has('audioSwap')?<AudioSwap/>:p.has('passport')?<Passport language={language} stamps={[{id:'chapter:'+lesson.chapter,kind:'chapter',title:chapters.find(c=>c.id===lesson.chapter).title,at:'2026-11-14T12:00:00Z'}]}/>:<div className="app continuum-ui"><main style={{width:'100%',maxWidth:760,margin:'auto'}}>{p.get('mode')==='standard'?<LessonPlayer {...props}/>:<LightLesson {...props}/>}</main></div>}</LanguageContext.Provider></JourneyLayoutContext.Provider>}
 createRoot(document.getElementById('root')).render(<App/>);
 `);
 // Serve fixture APIs over real HTTP, including unload/visibility beacons.
@@ -112,7 +113,7 @@ try{
     const data=request.postDataJSON();speakingTurns.push(data);
     if(failNextTurn){failNextTurn=false;return route.fulfill({status:503,contentType:'application/json',body:JSON.stringify({error:'A reply is still being prepared. Please wait.'})})}
     assert.equal(data.revision,liveSession.revision);
-    liveSession={...liveSession,revision:liveSession.revision+1,messages:[...liveSession.messages,{role:'user',text:data.text,mode:'text'},{role:'assistant',text:'Let us review that proposal. '+(liveSession.revision+1),mode:'text'}]};return json({session:liveSession});
+    liveSession={...liveSession,revision:liveSession.revision+1,messages:[...liveSession.messages,{role:'user',text:data.text,mode:'text'},{role:'assistant',text:data.text==='Please explain the longer proposal.'?'A fair trial should protect residents while welcoming visitors. We can compare access, noise and local purchases, then review the results with both groups. '.repeat(18):'Let us review that proposal. '+(liveSession.revision+1),mode:'text'}]};return json({session:liveSession});
    }
    if(path.endsWith('/review')){liveSession={...liveSession,review:{reviewTier:'basic',summary:'Your practice is saved.',strengths:['You explained your proposal.'],score:82}};return json({session:liveSession})}
    if(path.endsWith('/activity'))return json({budget:{maxTurns:30,limitSeconds:420,usedSeconds:0}});
@@ -120,6 +121,23 @@ try{
   };
   fixtureApi=apiRoute;
   const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));page.on('console',message=>{if(/same key|unique.*key/i.test(message.text()))errors.push(message.text())});
+  if(liveOnly&&engineName==='chromium'){
+   await page.setViewportSize({width:1280,height:700});
+   for(const kind of ['bird','fox','cat','dog','capybara','guinea-pig','quokka','panda']){
+    await navigate(page,base+'?puppet='+kind);
+    await page.waitForFunction(()=>document.querySelectorAll('.call-companion[data-renderer=puppet]').length===3);
+    await page.waitForTimeout(300); // Let the three amplitude poses settle before comparison.
+    await page.screenshot({path:new URL('puppet-'+kind+'.png',directory).pathname,fullPage:false});
+    if(kind!=='panda')await page.locator('canvas').evaluateAll(items=>items.forEach(canvas=>canvas.getContext('webgl')?.getExtension('WEBGL_lose_context')?.loseContext()));
+   }
+   // A lost graphics context must leave the approved illustration visible.
+   await page.locator('.call-companion-puppet').first().evaluate(canvas=>canvas.dispatchEvent(new Event('webglcontextlost',{cancelable:true})));
+   assert.equal(await page.locator('.call-companion').first().getAttribute('data-renderer'),'image');
+   assert.equal(await page.locator('.call-companion-art').first().evaluate(img=>getComputedStyle(img).opacity),'1','context loss reveals the approved fallback');
+   await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>[...document.querySelectorAll('.call-companion')].every(e=>e.dataset.motion==='off'));
+   await page.emulateMedia({reducedMotion:'no-preference'});
+   await page.setViewportSize({width:390,height:844});
+  }
   if(!liveOnly){
   // A failed native import must leave answers disabled and offer a recovery.
   let rejected=false;
@@ -255,14 +273,14 @@ try{
   await dialog.getByRole('button',{name:'Close live conversation',exact:true}).waitFor();
   assert.ok((await dialog.locator('h1').innerText()).includes('B2'));
   await dialog.locator('.speaking-consent input').check();await dialog.locator('.room-start-button').click();
-  await dialog.locator('.immersive-room-actor .town-companion-sprite').waitFor();
+  await dialog.locator('.immersive-room-actor .call-companion-art').waitFor();
   await dialog.getByText('Which proposal would you support?',{exact:true}).waitFor();
-  assert.equal(await dialog.locator('canvas').count(),0,'the approved companion stays in use');
+  assert.equal(await dialog.locator('canvas').count(),1,'one lightweight textured puppet with the approved image fallback');
   assert.equal(await dialog.locator('.immersive-live-caption').count(),0,'no transcript is repeated over the companion');
   assert.equal(await dialog.getByText('Which proposal would you support?',{exact:true}).count(),1,'one visible transcript channel');
   assert.equal(await dialog.locator('.voice-preferences').count(),0,'voice settings are not in the main scene');
   const actor=await dialog.locator('.immersive-room-actor').boundingBox(),chat=await dialog.locator('.immersive-room-chat').boundingBox(),controls=await dialog.locator('.immersive-room-controls').boundingBox();
-  assert.ok(actor.height>200&&actor.y+actor.height<=chat.y+1&&chat.y+chat.height<=controls.y+1,'actor, chat and controls have distinct viewport regions');
+  assert.ok(actor.height>viewport.height*.65&&chat.height<viewport.height*.35&&chat.y+chat.height<=controls.y+1,'the companion dominates the viewport with one bounded caption overlaid');
   assert.ok(controls.y+controls.height<=viewport.height+1,'controls remain in view');
   assert.ok(await dialog.evaluate(el=>el.scrollHeight<=el.clientHeight+1),'conversation fits without scrolling the whole dialog');
   await dialog.getByRole('button',{name:'Conversation settings',exact:true}).click();
@@ -278,6 +296,8 @@ try{
   await page.screenshot({path:new URL(engineName+'-live-room-desktop.png',directory).pathname,fullPage:false});
   await page.setViewportSize({width:390,height:600});
   await dialog.getByRole('button',{name:'Text chat',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.immersive-conversation-room').getBoundingClientRect().height===600);
+  const shortActor=await dialog.locator('.immersive-room-actor').boundingBox();
   const reply=dialog.locator('#immersive-reply');await reply.fill('I would support a small trial.');
   const inputBox=await reply.boundingBox();assert.ok(inputBox.y+inputBox.height<=600,'the input fits a shorter viewport');
   await reply.press('Enter');await dialog.locator('[role=alert]').waitFor();
@@ -285,10 +305,21 @@ try{
   await page.waitForFunction(()=>!document.querySelector('#immersive-reply').disabled);
   await reply.press('Enter');await dialog.getByText('Let us review that proposal. 1',{exact:true}).waitFor();
   assert.equal(speakingTurns.length,2);assert.equal(speakingTurns[0].turnKey,speakingTurns[1].turnKey,'retry keeps the idempotency key');
-  assert.equal(await dialog.getByText('I would support a small trial.',{exact:true}).count(),1);
-  assert.equal(await dialog.getByText('Which proposal would you support?',{exact:true}).count(),1);
+  assert.equal(await dialog.getByText('I would support a small trial.',{exact:true}).count(),0,'the previous utterance fades away');
+  assert.equal(await dialog.getByText('Which proposal would you support?',{exact:true}).count(),0,'the opening is not stacked in the call');
   await reply.fill('We should review the results next month.');await reply.press('Enter');
   await dialog.getByText('Let us review that proposal. 2',{exact:true}).waitFor();
+  await reply.fill('Please explain the longer proposal.');await reply.press('Enter');
+  await dialog.locator('.conversation-message[data-message-index="6"]').waitFor();
+  assert.equal(await dialog.locator('.room-current-turn > article').count(),1,'one current caption after a long response');
+  assert.equal(liveSession.messages.length,7,'all turns remain saved for review and memory');
+  const afterLong=await dialog.locator('.immersive-room-actor').boundingBox();
+  assert.ok(Math.abs(afterLong.height-shortActor.height)<1,'long dialogue cannot shrink the companion stage');
+  const paragraph=await dialog.locator('.conversation-message p').boundingBox();assert.ok(paragraph.height<=600*.2,'long current captions scroll within a bounded panel');
+  await dialog.getByRole('button',{name:'Conversation settings',exact:true}).click();
+  await dialog.locator('.immersive-room-settings').getByText('Conversation transcript',{exact:true}).click();
+  await dialog.locator('.room-history li').nth(6).waitFor();assert.equal(await dialog.locator('.room-history li').count(),7,'history is available only on request');
+  await page.keyboard.press('Escape');assert.equal(await dialog.locator('.room-history').count(),0);
   assert.ok(await dialog.getByRole('button',{name:'Finish and get review',exact:true}).isEnabled());
   // Keep functional layout checks independent of optional capture tooling:
   // headless capture stalls after input in this fixture; initial/desktop/RTL

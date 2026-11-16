@@ -2,7 +2,8 @@ import React,{useEffect,useRef,useState} from 'react';
 import {Mic2,MessageCircle,ArrowRight,CheckCircle2,Settings2,Pause} from 'lucide-react';
 import {t} from './interface-runtime.mjs';
 import AIAllowance from './AIAllowance.jsx';
-import {TownCompanion} from './LightTown.jsx';
+import ConversationCompanion from './ConversationCompanion.jsx';
+import {currentConversationCaption} from './conversation-caption.mjs';
 import {useLightMotion} from './light-motion.mjs';
 import {townArt} from './light-town-art.mjs';
 import ConversationAvatar from './ConversationAvatar.jsx';
@@ -11,13 +12,23 @@ import './immersive-conversation.css';
 
 // Presentation only: requests, consent, budgets and voice lifecycle stay in AISpeaking.
 export default function ImmersiveConversationRoom({containerRef,session,current,language,level,locale,user,companion,partner,mode,onMode,busy,consentBox,consent,available,onStart,errorBox,voiceNotice,voiceState,voiceLevel,voiceActive,onVoice,deviceVoice,onDeviceVoice,longPause,onLongPause,text,onText,onSend,onFinish,reviewPending,expired,count,turnLimit}){
- const [settings,setSettings]=useState(false),menuButton=useRef(null),thread=useRef(null),motion=useLightMotion();
- useEffect(()=>{if(thread.current)thread.current.scrollTop=session||errorBox?thread.current.scrollHeight:0},[session?.messages.length,!!errorBox]);
+ const [settings,setSettings]=useState(false),[history,setHistory]=useState(false),menuButton=useRef(null),controls=useRef(null),motion=useLightMotion();
+ const incoming=currentConversationCaption(session),[caption,setCaption]=useState(incoming),[phase,setPhase]=useState('in');
+ const [replayActive,setReplayActive]=useState(false),[replayLevel,setReplayLevel]=useState(0);
+ useEffect(()=>{
+  if(incoming?.key===caption?.key)return;
+  if(!incoming||!caption){setCaption(incoming);setPhase('in');return}
+  setPhase('out');const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const timer=setTimeout(()=>{setCaption(incoming);setPhase('in')},reduced?0:150);
+  return()=>clearTimeout(timer);
+ },[incoming?.key,caption?.key]);
  useEffect(()=>{
   const root=containerRef.current,dialog=root?.closest('dialog'),viewport=window.visualViewport;
   const resize=()=>{const height=viewport?.height||window.innerHeight;root?.style.setProperty('--conversation-vh',height+'px');dialog?.style.setProperty('--conversation-vh',height+'px')};
-  resize();viewport?.addEventListener('resize',resize);window.addEventListener('resize',resize);
-  return()=>{viewport?.removeEventListener('resize',resize);window.removeEventListener('resize',resize);dialog?.style.removeProperty('--conversation-vh')};
+  const fitControls=()=>root?.style.setProperty('--call-controls-height',(controls.current?.getBoundingClientRect().height||80)+'px');
+  const observer=new ResizeObserver(fitControls);if(controls.current)observer.observe(controls.current);
+  resize();fitControls();viewport?.addEventListener('resize',resize);window.addEventListener('resize',resize);
+  return()=>{observer.disconnect();viewport?.removeEventListener('resize',resize);window.removeEventListener('resize',resize);dialog?.style.removeProperty('--conversation-vh')};
  },[]);
  const status=reviewPending?'Creating your review…':busy?'Your partner is thinking…':voiceState==='speaking'?'Your partner is speaking':voiceState==='listening'?'Listening to you…':voiceState==='thinking'?'Your partner is thinking…':voiceState==='preparing'||voiceState==='connecting'?'Preparing…':voiceState==='paused'?'Conversation paused':'Ready when you are';
  return <main ref={containerRef} className="immersive-conversation-room" data-mode={mode} data-voice-state={voiceState} style={{'--conversation-world':`url('${townArt(language).stages.at(-1)}')`}} onKeyDown={e=>{if(e.key==='Escape'&&settings){e.preventDefault();e.stopPropagation();setSettings(false);menuButton.current?.focus()}}}>
@@ -33,22 +44,23 @@ export default function ImmersiveConversationRoom({containerRef,session,current,
    {session?.budget&&<p>{Math.max(0,Math.ceil((session.budget.limitSeconds-session.budget.usedSeconds)/60))} {t('minutes remaining')} · {count}/{turnLimit} {t('learner replies')}</p>}
    <details><summary>{t('Your communication goals')}</summary><ul>{current.goals.map(g=><li key={g}>{t(g)}</li>)}</ul></details>
    <AIAllowance bucket="conversation" user={user}/>
+   {session&&<details onToggle={e=>setHistory(e.currentTarget.open)}><summary>{t('Conversation transcript')}</summary>{history&&<ol className="room-history">{session.messages.map((m,i)=><li key={i}><b>{m.role==='assistant'?t('AI conversation partner'):t(m.mode==='voice'?'You · voice transcript':'You · typed reply')}</b><p lang={locale} dir="auto">{m.text}</p></li>)}</ol>}</details>}
    <p className="room-disclosure">{t('AI-generated portrait with a synthetic voice. Not a live video. Your camera is not used.')}</p>
    <p className="room-disclosure">{t('Voice transcripts can contain recognition errors. Review the transcript before interpreting AI feedback.')}</p>
   </aside>}
   <section ref={motion} className="immersive-room-actor" aria-label={t('AI conversation partner')} onClick={()=>{if(settings)setSettings(false)}}>
-   {companion?<TownCompanion kind={companion} speaking={voiceState==='speaking'}/>:<ConversationAvatar state={voiceState} level={voiceLevel} partner={partner}/>}
+   {companion?<ConversationCompanion kind={companion} state={replayActive?'speaking':busy&&!voiceActive?'thinking':voiceState} level={replayActive?replayLevel:voiceState==='speaking'?voiceLevel:0} utterance={session?.messages.filter(m=>m.role==='assistant').at(-1)?.text||''}/>:<ConversationAvatar state={replayActive?'speaking':voiceState} level={replayActive?replayLevel:voiceLevel} partner={partner}/>}
   </section>
   <section className="immersive-room-chat" aria-label={t('Conversation transcript')}>
-   <div ref={thread} className="conversation-thread" role="log" aria-label={t('Conversation transcript')} aria-live="polite" aria-relevant="additions text">
-    {!session&&<><p className="room-opening">{t(current.title)}</p>{consentBox}{available===false&&<p role="status">{t('AI conversation is temporarily unavailable. Please try again later.')}</p>}</>}
-    {session?.messages.map((m,i)=><article className={'conversation-message '+m.role} key={i}><span className="sr-only">{m.role==='assistant'?t('AI conversation partner'):t(m.mode==='voice'?'You · voice transcript':'You · typed reply')}</span><p lang={locale} dir="auto">{m.text}</p>{m.role==='assistant'&&!voiceActive&&<SentenceAudio text={m.text} lang={locale} compact audioEndpoint={'/api/speaking/'+session.id+'/audio/'+i}/>}</article>)}
+   <div className="room-current-turn" aria-label={t('Conversation transcript')}>
+    {!session&&<div className="room-setup"><p className="room-opening">{t(current.title)}</p>{consentBox}{available===false&&<p role="status">{t('AI conversation is temporarily unavailable. Please try again later.')}</p>}</div>}
+    {session&&caption&&<article className={'conversation-message '+caption.role+' caption-'+phase} key={caption.key} data-message-index={caption.index} role="status" aria-live="polite" aria-atomic="true"><span className="sr-only">{caption.role==='assistant'?t('AI conversation partner'):t(caption.mode==='voice'?'You · voice transcript':'You · typed reply')}</span><p lang={locale} dir="auto" tabIndex={0}>{caption.text}</p>{caption.role==='assistant'&&!voiceActive&&<SentenceAudio text={caption.text} lang={locale} compact audioEndpoint={'/api/speaking/'+session.id+'/audio/'+caption.index} onPlaybackChange={setReplayActive} onPlaybackLevel={setReplayLevel}/>}</article>}
     {voiceNotice&&<p className="room-notice" role="status">{t(voiceNotice)}</p>}
     {errorBox}
     {expired&&<p className="room-notice" role="status">{t('Your conversation time is complete. Finish and get your review.')}</p>}
    </div>
   </section>
-  <footer className="immersive-room-controls">
+  <footer ref={controls} className="immersive-room-controls">
    {session?<>
     <div className="room-reply-method" role="group" aria-label={t('Reply method')}>
      <button type="button" className="room-icon-button" aria-label={t(mode==='voice'?'Text chat':'Voice conversation')} title={t(mode==='voice'?'Text chat':'Voice conversation')} disabled={busy} onClick={()=>onMode(mode==='voice'?'text':'voice')}>{mode==='voice'?<MessageCircle size={21}/>:<Mic2 size={21}/>}</button>

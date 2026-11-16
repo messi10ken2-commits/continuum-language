@@ -1,64 +1,47 @@
-/* Chapter conversations are a single viewport, with one transcript channel. */
+/* The call stage never participates in transcript intrinsic sizing. */
 .app.continuum-ui dialog.immersive-live-panel:has(.immersive-conversation-room),dialog.immersive-live-panel:has(.immersive-conversation-room){padding:0;overflow:hidden;height:var(--conversation-vh,100dvh);background:#153c30;color:#fff}
-.immersive-conversation-room,.app.continuum-ui .immersive-conversation-room{position:relative;isolation:isolate;display:grid;grid-template-rows:minmax(0,1.15fr) minmax(100px,.85fr) auto;height:var(--conversation-vh,100dvh);width:100%;max-width:none;min-height:0;overflow:hidden;box-sizing:border-box;background:radial-gradient(ellipse at 50% 20%,#69714d77,transparent 65%),linear-gradient(#284c39,#0e3028);color:#fff;font-family:inherit}
+.immersive-conversation-room,.app.continuum-ui .immersive-conversation-room{position:relative;isolation:isolate;display:block;height:var(--conversation-vh,100dvh);width:100%;max-width:none;min-height:0;overflow:hidden;box-sizing:border-box;background:radial-gradient(ellipse at 50% 24%,#69714d77,transparent 70%),linear-gradient(#284c39,#0e3028);color:#fff;font-family:inherit}
 .immersive-room-header{position:absolute;inset:0 0 auto;z-index:5;display:flex;align-items:center;gap:12px;height:calc(64px + env(safe-area-inset-top,0px));padding-block:calc(10px + env(safe-area-inset-top,0px)) 10px;padding-inline:14px 72px;box-sizing:border-box;background:linear-gradient(#132e25aa,transparent);pointer-events:none}
 .immersive-room-header>*{pointer-events:auto}
 .immersive-conversation-room .room-icon-button{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;min-width:44px;min-height:44px;padding:0;flex:none;border:1px solid #ffffff38;border-radius:50%;background:#153e34bb;color:#fff;box-shadow:none;cursor:pointer;font:inherit}
 .immersive-conversation-room button:disabled{opacity:.4;cursor:not-allowed}
-.immersive-conversation-room :is(button,summary,textarea,select):focus-visible{outline:3px solid #f8d48c;outline-offset:3px}
+.immersive-conversation-room :is(button,summary,textarea,select,[tabindex]):focus-visible{outline:3px solid #f8d48c;outline-offset:3px}
 .immersive-conversation-room .room-voice-status{font-size:12px;line-height:1.4;color:#f7efd9;overflow-wrap:anywhere}
-.app.continuum-ui dialog:has(.immersive-conversation-room)>.immersive-close{color:#fff;border-color:#ffffff38;background:#153e34bb;width:44px;height:44px;inset-block-start:calc(10px + env(safe-area-inset-top,0px));box-shadow:none}
-.immersive-room-actor{position:relative;isolation:isolate;display:grid;place-items:center;min-height:0;overflow:hidden;padding:calc(70px + env(safe-area-inset-top,0px)) 14px 2px;box-sizing:border-box}
-.immersive-room-actor::before{content:'';position:absolute;z-index:-2;inset:-10px;background:var(--conversation-world) center 42%/cover;filter:blur(5px) saturate(.7);opacity:.3;pointer-events:none}
-.immersive-room-actor::after{content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(transparent 30%,#10362b99 80%,#10362b);pointer-events:none}
-.app.continuum-ui .immersive-room-actor>.town-companion,.immersive-room-actor>.town-companion{display:block;position:relative;inset:auto;transform:none;width:100%;max-width:560px;height:100%;min-height:0;aspect-ratio:auto;margin:0;padding:0;border:0;border-radius:0;background:none;filter:drop-shadow(0 10px 12px #001d2170)}
-.immersive-room-actor .town-companion-depth{display:block;width:100%;height:100%;min-height:0;filter:none}
-.immersive-room-actor .town-companion-sprite{display:block;width:100%;height:100%;max-height:100%;object-fit:contain;filter:contrast(1.025) saturate(1.025)}
-.immersive-room-actor .town-companion-ground{display:none}
-.immersive-room-actor .conversation-avatar.photoreal{height:100%;max-width:500px;width:100%;margin:0}
+.app.continuum-ui dialog:has(.immersive-conversation-room)>.immersive-close{z-index:20;color:#fff;border-color:#ffffff38;background:#153e34bb;width:44px;height:44px;inset-block-start:calc(10px + env(safe-area-inset-top,0px));box-shadow:none}
+.app.continuum-ui dialog:has(.immersive-conversation-room)>.immersive-close svg{width:22px;height:22px;display:block}
+.immersive-room-actor{position:absolute;isolation:isolate;inset:calc(64px + env(safe-area-inset-top,0px)) 0 var(--call-controls-height,80px);display:grid;place-items:center;overflow:hidden;min-height:0;padding:0}
+.immersive-room-actor::before{content:'';position:absolute;z-index:-2;inset:-10px;background:var(--conversation-world) center 42%/cover;filter:blur(6px) saturate(.7);opacity:.28;pointer-events:none}
+.immersive-room-actor::after{content:'';position:absolute;z-index:-1;inset:0;background:linear-gradient(transparent 45%,#10362b88);pointer-events:none}
+.immersive-room-actor .call-companion{display:block;position:relative;width:100%;height:100%;min-height:0;margin:0;padding:0;border:0;border-radius:0;background:none;overflow:visible;cursor:pointer;box-shadow:none;touch-action:manipulation}
+.call-companion-art,.call-companion-puppet{position:absolute;left:var(--rig-left,0);top:var(--rig-top,0);width:var(--rig-width,100%);height:var(--rig-height,100%);max-width:none;object-fit:contain;pointer-events:none;filter:drop-shadow(0 10px 12px #001d2160)}
+.call-companion-puppet{opacity:0}.call-companion[data-renderer=puppet] .call-companion-puppet{opacity:1}.call-companion[data-renderer=puppet] .call-companion-art{opacity:0}
+.immersive-room-actor .conversation-avatar.photoreal{height:100%;max-width:650px;width:100%;margin:0}
 .immersive-room-actor .avatar-portrait{height:100%;width:100%;aspect-ratio:auto;border:0;border-radius:0;background:transparent}
-.immersive-room-actor .avatar-portrait>img{height:100%;object-fit:contain;object-position:center bottom}
+.immersive-room-actor .avatar-portrait>img{height:100%;width:100%;object-fit:contain;object-position:center}
 .immersive-room-actor :is(.avatar-photo-shade,.avatar-photo-caption,.avatar-ai-label,.avatar-state,.avatar-wave){display:none}
-.immersive-room-chat{min-width:0;min-height:0;overflow:hidden;padding:2px max(14px,env(safe-area-inset-right,0px)) 2px max(14px,env(safe-area-inset-left,0px));background:linear-gradient(#10362b,#10362b00)}
-.app.continuum-ui .immersive-room-chat .conversation-thread,.immersive-room-chat .conversation-thread{height:100%;max-height:none;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#ffffff40 transparent;background:none;border:0;border-radius:0;padding:8px 3px;box-sizing:border-box;scroll-behavior:smooth}
-.app.continuum-ui .immersive-room-chat .conversation-message,.immersive-room-chat .conversation-message{width:fit-content;max-width:90%;margin:0 0 10px;padding:12px 15px;border:1px solid #ffffff18;border-radius:18px 18px 18px 4px;background:#ffffff14;color:#fff;box-shadow:none;box-sizing:border-box;overflow-wrap:anywhere;text-align:start}
-.app.continuum-ui .immersive-room-chat .conversation-message.user,.immersive-room-chat .conversation-message.user{margin-inline-start:auto;background:#257b59;border-color:#6fc49330;border-radius:18px 18px 4px 18px}
-.app.continuum-ui .immersive-room-chat .conversation-message p,.immersive-room-chat .conversation-message p{font-size:16px;line-height:1.65;color:#fff;margin:0;white-space:pre-wrap}
-.immersive-room-chat .sentence-audio{margin-top:7px}
-.immersive-room-chat .sentence-play{min-width:36px;min-height:36px}
-.immersive-room-chat :is(.conversation-thinking,.room-notice){font-size:13px;line-height:1.6;color:#f1e2c4;margin:8px 3px}
-.immersive-room-chat .auth-error{background:#fff0ea;color:#632f36;border-radius:14px;padding:12px}
-.immersive-room-chat .room-opening{font-size:17px;font-weight:650;line-height:1.6;margin:8px 0;color:#fff}
+.immersive-room-chat{position:absolute;z-index:2;inset:auto 0 calc(var(--call-controls-height,80px) + 8px);width:min(680px,calc(100% - 28px));margin-inline:auto;min-width:0;pointer-events:none}
+.room-current-turn{width:100%;max-height:min(44dvh,390px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;pointer-events:auto}
+.app.continuum-ui .immersive-room-chat .conversation-message,.immersive-room-chat .conversation-message{width:100%;max-width:none;margin:0;padding:14px 18px;border:1px solid #ffffff25;border-radius:22px;background:#153d32e8;backdrop-filter:blur(12px);color:#fff;box-shadow:0 5px 30px #001b2020;box-sizing:border-box;overflow-wrap:anywhere;text-align:start;transition:opacity .15s ease,translate .15s ease}
+.app.continuum-ui .immersive-room-chat .conversation-message.user,.immersive-room-chat .conversation-message.user{background:#24674de8}
+.app.continuum-ui .immersive-room-chat .conversation-message p,.immersive-room-chat .conversation-message p{max-height:min(19dvh,170px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;font-size:16px;line-height:1.6;color:#fff;margin:0;white-space:pre-wrap}
+.conversation-message.caption-out{opacity:0;translate:0 -6px}.conversation-message.caption-in{animation:call-caption-in .2s ease both}
+@keyframes call-caption-in{from{opacity:0;translate:0 6px}to{opacity:1;translate:0 0}}
+.immersive-room-chat .sentence-audio{margin-top:7px}.immersive-room-chat .sentence-play{min-width:44px;min-height:44px}
+.immersive-room-chat .room-notice{font-size:13px;line-height:1.6;color:#f1e2c4;margin:8px 3px;padding:4px 8px;background:#12382eee;border-radius:12px}
+.immersive-room-chat .auth-error{max-height:150px;overflow:auto;background:#fff0ea;color:#632f36;border-radius:14px;padding:12px;margin-top:8px}
+.immersive-room-chat .room-setup{padding:16px;border:1px solid #ffffff25;border-radius:22px;background:#143c32ed}
+.immersive-room-chat .room-opening{font-size:17px;font-weight:650;line-height:1.6;margin:0 0 10px;color:#fff}
 .immersive-room-chat .speaking-consent{background:#fdf7eb;color:#293e36;padding:14px;border-radius:16px;margin:10px 0;font-size:13px;line-height:1.6}
-.immersive-room-controls{display:flex;align-items:flex-end;gap:10px;min-width:0;padding:12px max(14px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));background:#0f3028;box-sizing:border-box}
+.immersive-room-controls{position:absolute;z-index:3;inset:auto 0 0;width:min(100%,760px);margin-inline:auto;display:flex;align-items:flex-end;gap:10px;min-width:0;padding:12px max(14px,env(safe-area-inset-right,0px)) calc(14px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));background:linear-gradient(transparent,#0f3028 40%);box-sizing:border-box}
 .immersive-room-controls .room-reply-method{display:flex;align-items:center;gap:0;padding:0;border:0;border-radius:28px;flex:none}
 .immersive-room-controls .room-reply-method .room-icon-button{width:44px;min-width:44px;background:#153e34bb}
-.immersive-room-controls .room-icon-button[aria-pressed=true]{background:#e9f3d8;color:#154432}
 .immersive-conversation-room .room-voice-button,.immersive-conversation-room .room-start-button{display:flex;align-items:center;justify-content:center;gap:8px;flex:1;min-width:0;min-height:54px;padding:12px 15px;border:1px solid #d6e6c1;border-radius:28px;background:#edf4e2;color:#143e2b;font:inherit;font-size:14px;font-weight:750;cursor:pointer;line-height:1.3}
-.immersive-conversation-room .room-voice-button.live{background:#addec3;border-color:#addec3}
-.immersive-room-controls .room-start-button{max-width:500px;margin:auto}
+.immersive-conversation-room .room-voice-button.live{background:#addec3;border-color:#addec3}.immersive-room-controls .room-start-button{max-width:500px;margin:auto}
 .immersive-conversation-room .conversation-composer,.app.continuum-ui .immersive-conversation-room .conversation-composer{display:flex;align-items:flex-end;gap:4px;flex:1;min-width:0;margin:0;padding:5px 6px 5px 10px;border:1px solid #ffffff40;border-radius:24px;background:#fff;box-sizing:border-box}
 .immersive-conversation-room .conversation-composer textarea,.app.continuum-ui .immersive-conversation-room .conversation-composer textarea{width:100%;flex:1;min-width:0;min-height:38px;max-height:110px;margin:0;padding:8px 0;border:0;border-radius:0;resize:none;background:transparent;color:#17382c;font:inherit;font-size:16px;line-height:1.4;box-sizing:border-box}
-.immersive-conversation-room .conversation-composer .room-icon-button{width:38px;height:38px;min-width:38px;min-height:38px;background:#246b4d;border:0}
-.immersive-room-controls .room-finish{margin-bottom:5px}
+.immersive-conversation-room .conversation-composer .room-icon-button{width:38px;height:38px;min-width:38px;min-height:38px;background:#246b4d;border:0}.immersive-room-controls .room-finish{margin-bottom:5px}
 .immersive-conversation-room .immersive-room-settings{position:absolute;z-index:10;inset-block-start:calc(66px + env(safe-area-inset-top,0px));inset-inline-start:12px;width:min(460px,calc(100% - 24px));max-height:calc(100% - 160px);overflow:auto;overscroll-behavior:contain;padding:18px;border:1px solid #d6d3bf;border-radius:20px;background:#fffcf2;color:#213d31;box-shadow:0 16px 60px #001d2a80;box-sizing:border-box;font-size:14px;line-height:1.6}
-.immersive-room-settings h2{font-size:18px;margin:0 0 12px}
-.immersive-room-settings>p{margin:10px 0}
-.immersive-room-settings .voice-preferences{max-width:none;background:#fff;border:1px solid #d7d8c9;padding:12px;box-sizing:border-box;display:flex;gap:12px}
-.immersive-room-settings .voice-preferences label{flex:1;min-width:0}
-.immersive-room-settings .voice-preferences select{width:100%;font-size:16px;min-height:42px;color:#213d31;background:#fff}
-.immersive-room-settings .room-disclosure{font-size:12px;color:#51685d}
-.immersive-room-settings details{padding:10px 0}
-.immersive-room-settings summary{cursor:pointer;min-height:36px;font-weight:650}
-.immersive-room-settings .ai-allowance{margin:12px 0;font-size:13px}
-@media(min-width:900px){
- .immersive-conversation-room,.app.continuum-ui .immersive-conversation-room{grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);grid-template-rows:minmax(0,1fr) auto}
- .immersive-room-actor{grid-column:1;grid-row:1/3;padding:70px 30px 28px}
- .immersive-room-chat{grid-column:2;grid-row:1;padding-top:70px;background:linear-gradient(90deg,#12372b77,#10362b)}
- .immersive-room-controls{grid-column:2;grid-row:2}
- .immersive-room-actor::after{background:linear-gradient(90deg,transparent 40%,#10362b)}
-}
-@media(max-width:380px){.immersive-room-controls{gap:6px;padding-inline:10px}.immersive-conversation-room .room-voice-button{padding-inline:8px;font-size:13px}}
-@media(prefers-reduced-motion:reduce){.immersive-room-chat .conversation-thread{scroll-behavior:auto}}
-
-.app.continuum-ui dialog:has(.immersive-conversation-room)>.immersive-close svg{width:22px;height:22px;display:block}
+.immersive-room-settings h2{font-size:18px;margin:0 0 12px}.immersive-room-settings>p{margin:10px 0}.immersive-room-settings .voice-preferences{max-width:none;background:#fff;border:1px solid #d7d8c9;padding:12px;box-sizing:border-box;display:flex;gap:12px}.immersive-room-settings .voice-preferences label{flex:1;min-width:0}.immersive-room-settings .voice-preferences select{width:100%;font-size:16px;min-height:42px;color:#213d31;background:#fff}.immersive-room-settings .room-disclosure{font-size:12px;color:#51685d}.immersive-room-settings details{padding:10px 0}.immersive-room-settings summary{cursor:pointer;min-height:36px;font-weight:650}.immersive-room-settings .ai-allowance{margin:12px 0;font-size:13px}.room-history{padding-inline-start:20px}.room-history li{margin:12px 0}.room-history p{white-space:pre-wrap;overflow-wrap:anywhere;margin:4px 0}
+@media(min-width:900px){.immersive-room-chat .conversation-message p{font-size:18px}.immersive-room-chat{bottom:calc(var(--call-controls-height,80px) + 14px)}}
+@media(max-width:380px){.immersive-room-controls{gap:6px;padding-inline:10px}.immersive-conversation-room .room-voice-button{padding-inline:8px;font-size:13px}.immersive-room-chat{width:calc(100% - 20px)}}
+@media(prefers-reduced-motion:reduce){.conversation-message.caption-in{animation:none}.conversation-message{transition:none!important}}

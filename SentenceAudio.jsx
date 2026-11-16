@@ -10,6 +10,7 @@ import {Play,Square,LoaderCircle} from 'lucide-react';
 import {isolatedSpeechWord,speechParts,speechPronunciation} from './sentence-audio.mjs';
 import {audioLookahead} from './audio-lookahead.mjs';
 import {setStudyPlayback} from './study-playback.mjs';
+import {decodeSpeechEnvelope,speechLevelAt} from './speech-envelope.mjs';
 import './sentence-audio.css';
 let active=null;
 export const stopSentenceAudio=()=>active?.stop();
@@ -31,19 +32,20 @@ async function studioClip(part,signal,endpoint=null){
  let attribution=null;try{const raw=r.headers.get('X-Audio-Attribution');if(raw)attribution=JSON.parse(decodeURIComponent(raw));}catch{/* Source metadata must not prevent playback. */}
  const clip={blob,attribution,bundled:r.headers.get('X-Audio-Delivery')==='bundled',source:r.headers.get('X-Audio-Source')==='Human recording'?'Human recording':'AI studio voice'};if(!endpoint){clips.set(key,clip);cacheBytes+=blob.size;}return clip;
 }
-export default function SentenceAudio({text,lang='auto',compact=false,presentation,playlist,onPlayed,onPlaybackChange,audioEndpoint=null,allowDeviceFallback=true}){
+export default function SentenceAudio({text,lang='auto',compact=false,presentation,playlist,onPlayed,onPlaybackChange,onPlaybackLevel,audioEndpoint=null,allowDeviceFallback=true}){
  const language=useContext(LanguageContext),locale=languageInfo(language).locale;
  const humanWord=nativeWordEntry(text,lang==='auto'?locale:lang)||publicHumanRecording(text,lang==='auto'?locale:lang);
  const defaultSource=humanWord||nativeKanaKey(text,lang==='auto'?locale:lang)?'Human recording':'AI studio voice';
  const [playing,setPlaying]=useState(false),[loading,setLoading]=useState(false),[slow,setSlow]=useState(false),[error,setError]=useState(''),[source,setSource]=useState('');
  const [audible,setAudible]=useState(false);
+ const levelCallback=useRef(onPlaybackLevel),levelTimer=useRef(null);levelCallback.current=onPlaybackLevel;
  useEffect(()=>{onPlaybackChange?.(audible);return()=>onPlaybackChange?.(false)},[audible,onPlaybackChange]);
  const [attribution,setAttribution]=useState(null),[bundled,setBundled]=useState(false);
  const humanCredit=attribution||humanWord;
  const device=useRef(null),readyClip=useRef(null);
  const owner=useRef({}),mounted=useRef(true),audio=useRef(null),request=useRef(null),objectURL=useRef(''),playbackWatch=useRef(null),generation=useRef(0),speed=useRef(1);
  useEffect(()=>{setStudyPlayback(owner.current,audible);return()=>setStudyPlayback(owner.current,false)},[audible]);
- const release=()=>{clearInterval(playbackWatch.current);playbackWatch.current=null;if(audio.current){audio.current.onended=null;audio.current.onerror=null;audio.current.onplaying=null;audio.current.onwaiting=null;audio.current.onpause=null;audio.current.pause();audio.current.removeAttribute('src');audio.current.load();audio.current=null;}if(objectURL.current){URL.revokeObjectURL(objectURL.current);objectURL.current='';}};
+ const release=()=>{clearInterval(levelTimer.current);levelTimer.current=null;levelCallback.current?.(0);clearInterval(playbackWatch.current);playbackWatch.current=null;if(audio.current){audio.current.onended=null;audio.current.onerror=null;audio.current.onplaying=null;audio.current.onwaiting=null;audio.current.onpause=null;audio.current.pause();audio.current.removeAttribute('src');audio.current.load();audio.current=null;}if(objectURL.current){URL.revokeObjectURL(objectURL.current);objectURL.current='';}};
  const stop=()=>{generation.current++;device.current?.stop();device.current=null;request.current?.abort();request.current=null;release();if(active?.owner===owner.current){active=null;}if(mounted.current){setAudible(false);setPlaying(false);setLoading(false);}};
  useEffect(()=>{readyClip.current=null;mounted.current=true;setAudible(false);setPlaying(false);setLoading(false);setError('');setSource('');setAttribution(null);setBundled(false);return()=>{mounted.current=false;stop();}},[text,lang,locale,audioEndpoint,playlist]);
  const play=async()=>{
@@ -58,10 +60,12 @@ export default function SentenceAudio({text,lang='auto',compact=false,presentati
    try{
     let clip;if(queued){clip=queued.clip;queued=null;index++;}else clip=await preparedClip(index++);lastClip=clip;if(!mounted.current||token!==generation.current)return;
     setSource(clip.source);setAttribution(clip.attribution);setBundled(clip.bundled);objectURL.current=URL.createObjectURL(clip.blob);const player=new Audio(objectURL.current);audio.current=player;player.playbackRate=speed.current;player.preservesPitch=true;
+    let envelope=null,outputAudible=false;
+    if(levelCallback.current){void decodeSpeechEnvelope(clip.blob).then(value=>{if(mounted.current&&token===generation.current&&audio.current===player)envelope=value});levelTimer.current=setInterval(()=>{if(token===generation.current)levelCallback.current?.(outputAudible&&!player.paused?speechLevelAt(envelope,player.currentTime):0)},60)}
     let lastTime=0,lastProgress=Date.now();playbackWatch.current=setInterval(()=>{if(token!==generation.current)return;if(player.currentTime>lastTime){lastTime=player.currentTime;lastProgress=Date.now();}if(Date.now()-lastProgress>15000){stop();setError('Could not play the studio recording. Tap Listen to retry.');}},500);
     {
-     player.onplaying=()=>{if(token===generation.current)setAudible(true)};
-     player.onwaiting=player.onpause=()=>{if(token===generation.current)setAudible(false)};
+     player.onplaying=()=>{if(token===generation.current){outputAudible=true;setAudible(true)}};
+     player.onwaiting=player.onpause=()=>{if(token===generation.current){outputAudible=false;levelCallback.current?.(0);setAudible(false)}};
     }
     player.onended=next;player.onerror=()=>{if(token===generation.current){stop();setError('Could not play the studio recording. Tap Listen to retry.');}};
     await player.play();if(!mounted.current||token!==generation.current)return;
