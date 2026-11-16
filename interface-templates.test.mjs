@@ -4,6 +4,16 @@ import {interfaceReliabilityCopy} from './interface-reliability-copy.mjs';
 import {t,tf,setInterfaceLanguage} from './interface-runtime.mjs';
 import {reviewedTranslation} from './reviewed-interface-copy.mjs';
 import {translationSource} from './localization-corpus.mjs';
+test('interface audit catches raw status state while permitting translated status and user text',async()=>{
+ const {mkdtemp,writeFile,rm}=await import('node:fs/promises'),{tmpdir}=await import('node:os'),{join}=await import('node:path'),{auditInterfaceTemplates}=await import('./scripts/audit-interface-templates.mjs');
+ const dir=await mkdtemp(join(tmpdir(),'ui-status-audit-'));
+ try{
+  await writeFile(join(dir,'Example.jsx'),"function Screen(){const[message,setMessage]=useState('');return <p>{message}</p>}");
+  assert.equal(auditInterfaceTemplates(dir).issues[0].kind,'untranslated-state-message');
+  await writeFile(join(dir,'Example.jsx'),"function Screen(){const[message,setMessage]=useState('');return <p>{t(message)}<span lang='en'>{userNote}</span></p>}");
+  assert.deepEqual(auditInterfaceTemplates(dir).issues,[]);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
 test('reviewed UI templates are available offline in every display language and retain all inserted values',()=>{
  for(const locale of ['ja','es','pt','zh','fr']){setInterfaceLanguage(locale,{persist:false});for(const [key,translations] of Object.entries(interfaceReliabilityCopy)){
   assert.ok(translationSource(key),key);assert.ok(translations[locale]);const placeholders=[...key.matchAll(/\{(\d+)\}/g)].map(x=>Number(x[1]));const values=Array.from({length:Math.max(-1,...placeholders)+1},(_,i)=>'KEEP_VALUE_'+i);

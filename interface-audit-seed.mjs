@@ -1,5 +1,7 @@
 // Reviewed common UI and name-safe templates. User values are inserted after translation.
 const rows=`
+Learner connected.|学習者と連携しました。|Estudiante vinculado.|Aluno conectado.|已关联学习者。|Apprenant connecté.|학습자가 연결되었습니다.|Pelajar berhasil dihubungkan.|Ученик подключён.|تم ربط المتعلم.
+Class note saved to this learner’s account.|授業メモを学習者のアカウントに保存しました。|La nota de clase se guardó en la cuenta de este estudiante.|A anotação da aula foi salva na conta deste aluno.|课堂笔记已保存到该学习者的账户。|La note de cours a été enregistrée dans le compte de cet apprenant.|이 학습자의 계정에 수업 노트를 저장했습니다.|Catatan kelas disimpan ke akun pelajar ini.|Заметка об уроке сохранена в аккаунте этого ученика.|تم حفظ ملاحظة الدرس في حساب هذا المتعلم.
 Trial|お試し期間|Prueba|Período de teste|试用期|Période d’essai|체험 기간|Masa uji coba|Пробный период|الفترة التجريبية
 Past due|支払期限超過|Pago vencido|Pagamento em atraso|付款逾期|Paiement en retard|결제 기한 초과|Pembayaran terlambat|Просрочен платёж|متأخر السداد
 Unpaid|未払い|Sin pagar|Não pago|未付款|Impayé|미결제|Belum dibayar|Не оплачено|غير مدفوع
