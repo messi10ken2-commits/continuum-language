@@ -34,6 +34,13 @@ test('failed presence writes retry on the next active tick without a retry loop'
  let tick,calls=0;const pulse=createConversationPulse({send:async()=>{if(++calls===1)throw Error('offline');},every:fn=>{tick=fn;},cancel:()=>{}});
  await pulse.update(true);assert.equal(calls,1);tick();await pulse.update(true);assert.equal(calls,2);await pulse.stop();
 });
+test('a failed pause is retried even while inactive, then idle polling stops',async()=>{
+ let tick,failPause=true;const requests=[];
+ const pulse=createConversationPulse({send:async active=>{requests.push(active);if(!active&&failPause){failPause=false;throw Error('offline');}},every:fn=>{tick=fn;},cancel:()=>{}});
+ await pulse.update(true);await pulse.update(false);assert.deepEqual(requests,[true,false]);
+ tick();await pulse.update(false);assert.deepEqual(requests,[true,false,false]);
+ tick();await pulse.update(false);assert.equal(requests.length,3);await pulse.stop();
+});
 test('study presence retains daily attendance, all active ticks, final pause and failure recovery',()=>{
  const gate=createStudyPulseGate();let idleWrites=0;
  for(let i=0;i<61;i++)idleWrites+=Number(gate.shouldSend(false,'day-1'));

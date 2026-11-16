@@ -14,7 +14,7 @@ export function createConversationPulse({send,onBudget=()=>{},every=setInterval,
   }).finally(()=>{running=null;});
   return running;
  };
- const timer=every(()=>{if(active&&!closing){force=true;void pump();}},10000);
+ const timer=every(()=>{if(!closing&&(active||lastSent===undefined)){force=true;void pump();}},10000);
  return {
   update(value){if(closing)return Promise.resolve();active=!!value;return pump();},
   stop(){if(!closing){closing=true;active=false;cancel(timer);}return pump();}
