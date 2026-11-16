@@ -1,0 +1,31 @@
+name: Diagnose OpenAI API billing (no SNS posts)
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_billable_request:
+        description: 'Send one very small OpenAI text request to check API billing'
+        type: boolean
+        default: true
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Safely verify API account, org, and credit error
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          EXPECTED_OPENAI_ORG_ID: ${{ vars.OPENAI_ORG_ID }}
+          EXPECTED_OPENAI_PROJECT_ID: ${{ vars.OPENAI_PROJECT_ID }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          RUN_BILLABLE_TEST: ${{ inputs.test_billable_request }}
+        run: python social_automation/diagnose_openai.py
