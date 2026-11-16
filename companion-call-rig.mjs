@@ -19,7 +19,7 @@ export async function createCallRig(host,values,{kind='capybara',signal,onLost}=
  if(signal?.aborted){disposeModel(gltf.scene);throw new DOMException('Aborted','AbortError')}
  let renderer;
  try{
-  const apply=bindFaceRig(gltf.scene);renderer=new T.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});
+  const apply=bindFaceRig(gltf.scene),bounds=new T.Box3().setFromObject(gltf.scene),portraitHalfWidth=Math.max(1.17,Math.abs(bounds.min.x)*1.06,Math.abs(bounds.max.x)*1.06);renderer=new T.WebGLRenderer({alpha:true,antialias:true,powerPreference:'low-power'});
   renderer.setPixelRatio(Math.min(globalThis.devicePixelRatio||1,1.25));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.3;renderer.setClearColor(0,0);
   const canvas=renderer.domElement;canvas.className='call-companion-rig-canvas';host.append(canvas);
   const scene=new T.Scene(),camera=new T.OrthographicCamera(-1.3,1.3,1.625,-1.625,.1,40);camera.position.set(0,1.8,7);camera.lookAt(0,1.8,0);scene.add(gltf.scene);
@@ -27,7 +27,7 @@ export async function createCallRig(host,values,{kind='capybara',signal,onLost}=
   const motion=new FaceMotion();let active=false,reduced=false,disposed=false,contextLost=false,frame=0,last=0,draws=0;
   const paint=(dt=0)=>{const v=values(),speaking=v.state==='speaking',state=['thinking','preparing'].includes(v.state)?'thinking':speaking?'speaking':'listening';const pose=motion.update({dt,state,level:speaking?v.level:0,audible:speaking,reduced:reduced||!active});apply(pose);renderer.render(scene,camera);host.dataset.frames=String(++draws);host.dataset.mouth=pose.mouth.toFixed(3)};
   const tick=now=>{frame=0;if(disposed||!active||reduced)return;if(now-last>=1000/24){paint(Math.min(.1,(now-last)/1000));last=now}frame=requestAnimationFrame(tick)};
-  const resize=()=>{if(disposed||contextLost)return;const {width,height}=host.getBoundingClientRect();if(width<1||height<1)return;const ratio=width/height,halfHeight=Math.max(1.625,1.17/ratio);camera.left=-halfHeight*ratio;camera.right=halfHeight*ratio;camera.top=halfHeight;camera.bottom=-halfHeight;camera.updateProjectionMatrix();const scale=Math.min(1,600/width,900/height);renderer.setSize(Math.round(width*scale),Math.round(height*scale),false);paint()};
+  const resize=()=>{if(disposed||contextLost)return;const {width,height}=host.getBoundingClientRect();if(width<1||height<1)return;const ratio=width/height,halfHeight=Math.max(1.625,portraitHalfWidth/ratio);camera.left=-halfHeight*ratio;camera.right=halfHeight*ratio;camera.top=halfHeight;camera.bottom=-halfHeight;camera.updateProjectionMatrix();const scale=Math.min(1,600/width,900/height);renderer.setSize(Math.round(width*scale),Math.round(height*scale),false);paint()};
   const observer=new ResizeObserver(resize);observer.observe(host);resize();
   const lost=e=>{e.preventDefault();contextLost=true;cancelAnimationFrame(frame);frame=0;active=false;onLost?.()};canvas.addEventListener('webglcontextlost',lost);
   return {setActive(value,reduce){if(disposed||contextLost)return;active=value;reduced=reduce;cancelAnimationFrame(frame);frame=0;last=performance.now();paint();if(active&&!reduced)frame=requestAnimationFrame(tick)},dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(frame);observer.disconnect();canvas.removeEventListener('webglcontextlost',lost);disposeModel(gltf.scene);renderer.dispose();renderer.forceContextLoss();canvas.remove()}};
