@@ -21,3 +21,13 @@ The model comes from the approved v3 Blender prototype. The production renderer 
 The focused automated suite covers production GLTF binding, actual jaw/morph deformation, PCM/silence/pauses, state transitions and existing conversation voice flow. Local browser launch is unavailable in this environment; Safari/iPhone GPU behavior and the real-device visual/audio flow remain to be checked.
 
 Rollback: revert the production integration commit to restore the existing capybara puppet; previous main is `678bf73d8efaae469f0cc5c35665da4c75b37daa`.
+
+## All-species 3D calls (2026-11-16)
+
+All eight selectable companions now use the same actual bone/morph renderer. The approved capybara v3 GLB is unchanged. Bird, fox, cat, dog, guinea pig, quokka and panda have separate bundled GLBs with species-specific coats, ears/beak/muzzle, skull proportions, matching purple bandanas and wheat embroidery. The call presentation is a face-and-shoulders portrait, following the approved capybara; town/map illustrations remain the existing artwork.
+
+`companion-call-models.mjs` is the explicit asset allowlist. Only the selected model loads; an invalid selection resolves to the existing bird default. Switching companions remounts the component so an old async load cannot replace the new species. All kinds retain the existing no-network/WebGL/context-loss illustration fallback, low-power renderer limits, offscreen/hidden/inert suspension and reduced-motion behavior. The shared audible PCM amplitude drives the jaw and mouth/tongue targets; this remains amplitude-driven animation, not phoneme-level lip sync.
+
+Reproduce one of the seven new models with Blender 4.3+: `blender --background --python scripts/build-companion-rigs.py -- fox` (substitute another new species key). The generator does not overwrite the approved capybara model. New models omit prototype animation/audio clips. Unit checks load every GLB through Three.js and verify actual jaw/mouth deformation, eyelids and silent/reduced-motion closure. `node scripts/qa-conversation-rigs.mjs` exercises the production React component in Chromium and WebKit, capturing listening/speaking poses for each species and checking one-model loading, switching, offscreen/reduced-motion suspension, cleanup and graphics/network fallback.
+
+Rollback: revert the all-species integration commit; the previous production revision is `b533ed9199ef0a0eb74c7bd68953ebbbf7761387`. No database migrations or new provider calls.

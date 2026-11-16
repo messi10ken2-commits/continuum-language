@@ -1,7 +1,7 @@
 name: Immersive companion preview
 on:
   push:
-    branches: ['codex/immersive-polish']
+    branches: ['codex/immersive-polish', 'codex/companion-rigs']
 permissions:
   contents: read
 concurrency:
@@ -19,12 +19,13 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium webkit
-      - run: node scripts/qa-companion-3d.mjs && node scripts/qa-immersive.mjs
+      - run: node scripts/qa-conversation-rigs.mjs && node scripts/qa-companion-3d.mjs && node scripts/qa-immersive.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: companion-3d-previews
           path: |
+            .media-build/conversation-rigs/*.png
             .media-build/immersive/*.png
             .media-build/immersive-ui/*.png
             .media-build/immersive-ui/*.txt
