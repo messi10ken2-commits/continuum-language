@@ -20,11 +20,13 @@ vec2 turn(vec2 p,vec4 region,float angle){vec2 d=p-region.xy;float w=1.-smoothst
 vec2 closeRegion(vec2 p,vec4 region,float openness,float angle){
  vec2 d=p-region.xy;float c=cos(angle),s=sin(angle);d=mat2(c,-s,s,c)*d;
  float x=abs(d.x)/region.z,y=abs(d.y)/region.w;
- if(x<1.&&y<1.){float influence=1.-smoothstep(.6,1.,x);float exponent=mix(1.,max(.055,openness),influence);d.y=sign(d.y)*region.w*pow(y,exponent);}
+ // A compact, smooth displacement keeps the centre and boundary continuous.
+ // Power-warping sign(y) produced a visible cut through the painted muzzle.
+ if(x<1.&&y<1.){float edge=(1.-x*x)*(1.-y*y);d.y*=1.+(1.-openness)*edge*edge;}
  return region.xy+mat2(c,s,-s,c)*d;
 }
 void main(){vec2 p=uv*size;p=turn(p,arm,armAngle);p=turn(p,head,headAngle);
- p=closeRegion(p,mouth,jaw,tilt);p=closeRegion(p,eyeA,1.-blink*.93,0.);p=closeRegion(p,eyeB,1.-blink*.93,0.);
+ p=closeRegion(p,mouth,mix(.4,1.,jaw),tilt);p=closeRegion(p,eyeA,1.-blink*.93,0.);p=closeRegion(p,eyeB,1.-blink*.93,0.);
  vec2 sampleAt=p/size;if(sampleAt.x<0.||sampleAt.x>1.||sampleAt.y<0.||sampleAt.y>1.)gl_FragColor=vec4(0.);else gl_FragColor=texture2D(artwork,sampleAt);}`;
 
 export function createCompanionPuppet(canvas,image,rig){
