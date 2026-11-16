@@ -1,7 +1,8 @@
 import * as T from 'three';
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js';
 import {FaceMotion} from './companion-face-motion.mjs';
-export const CAPYBARA_MODEL='/companions-3d/capybara-pop-v3.glb';
+import {CALL_MODELS,callCompanionKind} from './companion-call-models.mjs';
+export const CAPYBARA_MODEL=CALL_MODELS.capybara;
 export function bindFaceRig(model){
  const bones={},morphs=[];model.traverse(o=>{if(o.isBone)bones[o.userData.name||o.name]={object:o,rest:o.quaternion.clone()};if(o.isMesh&&o.morphTargetDictionary)morphs.push(o)});
  for(const name of ['head','neck','jaw','eye.-1','eye.1'])if(!bones[name])throw Error('Incomplete companion rig');
@@ -12,8 +13,8 @@ export function bindFaceRig(model){
  };
 }
 function disposeModel(model){const materials=new Set(),geometries=new Set();model.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)for(const m of [o.material].flat())materials.add(m);if(o.isSkinnedMesh)o.skeleton?.dispose()});geometries.forEach(g=>g.dispose());materials.forEach(m=>{for(const v of Object.values(m))if(v?.isTexture)v.dispose();m.dispose()})}
-export async function createCallRig(host,values,{signal,onLost}={}){
- const response=await fetch(CAPYBARA_MODEL,{signal});if(!response.ok)throw Error('Companion model unavailable');
+export async function createCallRig(host,values,{kind='capybara',signal,onLost}={}){
+ const response=await fetch(CALL_MODELS[callCompanionKind(kind)],{signal});if(!response.ok)throw Error('Companion model unavailable');
  const gltf=await new GLTFLoader().parseAsync(await response.arrayBuffer(),'');
  if(signal?.aborted){disposeModel(gltf.scene);throw new DOMException('Aborted','AbortError')}
  let renderer;

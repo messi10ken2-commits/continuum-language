@@ -125,13 +125,13 @@ try{
    await page.setViewportSize({width:1280,height:700});
    for(const kind of ['bird','fox','cat','dog','capybara','guinea-pig','quokka','panda']){
     await navigate(page,base+'?puppet='+kind);
-    await page.waitForFunction(()=>document.querySelectorAll('.call-companion[data-renderer=puppet]').length===3);
+    await page.waitForFunction(()=>document.querySelectorAll('.call-companion[data-renderer=rig3d]').length===3);
     await page.waitForTimeout(300); // Let the three amplitude poses settle before comparison.
     await page.screenshot({path:new URL('puppet-'+kind+'.png',directory).pathname,fullPage:false});
-    if(kind!=='panda')await page.locator('canvas').evaluateAll(items=>items.forEach(canvas=>canvas.getContext('webgl')?.getExtension('WEBGL_lose_context')?.loseContext()));
+    if(kind!=='panda')await page.locator('canvas').evaluateAll(items=>items.forEach(canvas=>canvas.getContext('webgl2')?.getExtension('WEBGL_lose_context')?.loseContext()));
    }
    // A lost graphics context must leave the approved illustration visible.
-   await page.locator('.call-companion-puppet').first().evaluate(canvas=>canvas.dispatchEvent(new Event('webglcontextlost',{cancelable:true})));
+   await page.locator('.call-companion-rig-canvas').first().evaluate(canvas=>canvas.dispatchEvent(new Event('webglcontextlost',{cancelable:true})));
    assert.equal(await page.locator('.call-companion').first().getAttribute('data-renderer'),'image');
    assert.equal(await page.locator('.call-companion-art').first().evaluate(img=>getComputedStyle(img).opacity),'1','context loss reveals the approved fallback');
    await page.emulateMedia({reducedMotion:'reduce'});await page.waitForFunction(()=>[...document.querySelectorAll('.call-companion')].every(e=>e.dataset.motion==='off'));
