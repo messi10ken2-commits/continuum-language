@@ -45,3 +45,8 @@
 @media(min-width:900px){.immersive-room-chat .conversation-message p{font-size:18px}.immersive-room-chat{bottom:calc(var(--call-controls-height,80px) + 14px)}}
 @media(max-width:380px){.immersive-room-controls{gap:6px;padding-inline:10px}.immersive-conversation-room .room-voice-button{padding-inline:8px;font-size:13px}.immersive-room-chat{width:calc(100% - 20px)}}
 @media(prefers-reduced-motion:reduce){.conversation-message.caption-in{animation:none}.conversation-message{transition:none!important}}
+.call-companion-3d .call-companion-art{inset:0;width:100%;height:100%;object-fit:contain}
+.call-companion-rig{position:absolute;inset:0;opacity:0;pointer-events:none}
+.call-companion-rig-canvas{display:block;width:100%;height:100%}
+.call-companion[data-renderer=rig3d] .call-companion-rig{opacity:1}
+.call-companion[data-renderer=rig3d] .call-companion-art{opacity:0}

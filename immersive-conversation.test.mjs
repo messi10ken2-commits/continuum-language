@@ -15,7 +15,7 @@ test('chapter calls stage only the current utterance while retaining the stored 
    assert.equal(html.split(utterance).length-1,1);assert.ok(html.includes('/light-town/'+companion+'.webp'));
    assert.ok(!html.includes('immersive-live-caption'));assert.ok(!html.includes('voice-preferences'));
    assert.ok(!html.includes('Older turn'));assert.equal(messages.length,41,'presentation does not truncate the saved conversation');
-   assert.ok(html.includes('data-message-index="40"'));assert.ok(html.includes('call-companion-puppet'));assert.ok(html.includes('data-renderer="image"'),'SSR retains an image fallback');assert.ok(html.includes('aria-label="Conversation settings"'));
+   assert.ok(html.includes('data-message-index="40"'));assert.ok(html.includes(companion==='capybara'?'call-companion-rig':'call-companion-puppet'));assert.ok(html.includes('data-renderer="image"'),'SSR retains an image fallback');assert.ok(html.includes('aria-label="Conversation settings"'));
   }
  }finally{await vite.close()}
 });

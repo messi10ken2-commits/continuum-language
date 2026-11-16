@@ -1,11 +1,15 @@
 import React,{useEffect,useRef,useState} from 'react';
+import RiggedConversationCompanion from './RiggedConversationCompanion.jsx';
 import {companionNames} from './adventure-model.mjs';
 import {t} from './interface-runtime.mjs';
 import {companionRig,createCompanionPuppet} from './companion-puppet.mjs';
 
 // A textured 2.5D puppet, not a replacement 3D animal. Audio amplitude drives
 // local jaw deformation; microphone amplitude never makes the partner speak.
-export default function ConversationCompanion({kind,state='idle',level=0,utterance=''}){
+export default function ConversationCompanion(props){
+ return props.kind==='capybara'?<RiggedConversationCompanion {...props}/>:<PuppetConversationCompanion {...props}/>;
+}
+function PuppetConversationCompanion({kind,state='idle',level=0,utterance=''}){
  const selected=companionRig[kind]?kind:'bird',rig=companionRig[selected],button=useRef(null),image=useRef(null),canvas=useRef(null),wake=useRef(()=>{}),turns=useRef(0),activity=useRef({state,level,gestureAt:0,question:false});
  const [renderer,setRenderer]=useState('image');activity.current.state=state;activity.current.level=Number.isFinite(level)?Math.min(1,Math.max(0,level)):0;
  useEffect(()=>{turns.current++;activity.current.question=/[?？؟]/.test(utterance);activity.current.gestureAt=turns.current===1||turns.current%3===0||/[!！]/.test(utterance)?performance.now():-Infinity;wake.current()},[utterance]);

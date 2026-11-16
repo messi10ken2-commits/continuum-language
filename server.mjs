@@ -48,7 +48,7 @@ const sessionDays=30;
 const authLimited=createAuthLimiter(pool);
 
 const attempts=new Map();
-const mime={'.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.mp4':'video/mp4','.m4a':'audio/mp4','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon','.woff2':'font/woff2'};
+const mime={'.glb':'model/gltf-binary','.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.mp4':'video/mp4','.m4a':'audio/mp4','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon','.woff2':'font/woff2'};
 const hash=text=>crypto.createHash('sha256').update(text).digest('hex');
 const random=()=>crypto.randomBytes(32).toString('base64url');
 const cookieName='continuum_session';
