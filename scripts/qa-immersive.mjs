@@ -297,6 +297,10 @@ try{
   await page.setViewportSize({width:390,height:600});
   await dialog.getByRole('button',{name:'Text chat',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('.immersive-conversation-room').getBoundingClientRect().height===600);
+  // Text mode changes control height. Wait for the production ResizeObserver
+  // before comparing stages, rather than sampling the preceding voice layout.
+  const controlsFitted=()=>{const room=document.querySelector('.immersive-conversation-room'),controls=room?.querySelector('.immersive-room-controls');return controls&&Math.abs(parseFloat(room.style.getPropertyValue('--call-controls-height'))-controls.getBoundingClientRect().height)<.5};
+  await page.waitForFunction(controlsFitted);
   const shortActor=await dialog.locator('.immersive-room-actor').boundingBox();
   const reply=dialog.locator('#immersive-reply');await reply.fill('I would support a small trial.');
   const inputBox=await reply.boundingBox();assert.ok(inputBox.y+inputBox.height<=600,'the input fits a shorter viewport');
@@ -313,8 +317,9 @@ try{
   await dialog.locator('.conversation-message[data-message-index="6"]').waitFor();
   assert.equal(await dialog.locator('.room-current-turn > article').count(),1,'one current caption after a long response');
   assert.equal(liveSession.messages.length,7,'all turns remain saved for review and memory');
+  await page.waitForFunction(controlsFitted);
   const afterLong=await dialog.locator('.immersive-room-actor').boundingBox();
-  assert.ok(Math.abs(afterLong.height-shortActor.height)<1,'long dialogue cannot shrink the companion stage');
+  assert.ok(Math.abs(afterLong.height-shortActor.height)<1,'long dialogue cannot shrink the companion stage: '+JSON.stringify({shortActor,afterLong}));
   const paragraph=await dialog.locator('.conversation-message p').boundingBox();assert.ok(paragraph.height<=600*.2,'long current captions scroll within a bounded panel');
   await dialog.getByRole('button',{name:'Conversation settings',exact:true}).click();
   await dialog.locator('.immersive-room-settings').getByText('Conversation transcript',{exact:true}).click();
