@@ -26,9 +26,10 @@ jobs:
       - name: Preserve development simulator build
         run: tar -czf /tmp/continuum-ios-development.tar.gz -C /tmp/continuum-ios/Build/Products/Debug-iphonesimulator App.app
       - name: Launch in iPhone simulator
+        timeout-minutes: 8
         run: |
           xcrun simctl list devices available -j > /tmp/continuum-simulators.json
-          IOS_SIMULATOR_ID=$(python3 -c 'import json; d=json.load(open("/tmp/continuum-simulators.json")); print(next(x["udid"] for xs in d["devices"].values() for x in xs if x["name"].startswith("iPhone")))')
+          IOS_SIMULATOR_ID=$(python3 -c 'import json; d=json.load(open("/tmp/continuum-simulators.json")); runtimes=sorted(d["devices"],key=lambda key: tuple(int(n) for n in key.rsplit("iOS-",1)[-1].split("-") if n.isdigit()),reverse=True); print(next(x["udid"] for key in runtimes for x in d["devices"][key] if x["name"].startswith("iPhone")))')
           xcrun simctl boot "$IOS_SIMULATOR_ID"
           xcrun simctl bootstatus "$IOS_SIMULATOR_ID" -b
           printf 'IOS_SIMULATOR_ID=%s\n' "$IOS_SIMULATOR_ID" >> "$GITHUB_ENV"
