@@ -7,6 +7,7 @@ import {t,tf} from './interface-runtime.mjs';
 import './lesson-milestone.css';
 import PremiumAdScene from './PremiumAdScene.jsx';
 import {promotionAfterCompletion,promotionDurationSeconds} from './lesson-promotion.mjs';
+import {isNative} from './native-platform.mjs';
 
 function MilestoneDialog({kind,label,title,art,children,onClose}){
  const dialog=useRef(null),titleId=useId();
@@ -92,8 +93,8 @@ function PromotionDialog({onFinish}){
   };
  },[videoUnavailable]);
  const scene=seconds>11?0:seconds>7?1:seconds>2?2:3;
- const label=t('Continuum Premium promotion');
- return <MilestoneDialog kind="premium" label={label} title={t('Go further with Premium')} onClose={seconds===0?()=>onFinish(false):undefined} art={videoUnavailable
+ const label=t(isNative()?'Advertisement':'Continuum Premium promotion');
+ return <MilestoneDialog kind="premium" label={label} title={t('Go further with Premium')} onClose={isNative()||seconds===0?()=>onFinish(false):undefined} art={videoUnavailable
   ?<PremiumAdScene key={scene} scene={scene}/>
   :<video
    ref={video}
@@ -119,6 +120,7 @@ function PromotionDialog({onFinish}){
    onError={()=>setVideoUnavailable(true)}
   />
  }>
+  {isNative()&&<div className="milestone-ad-footer"><button className="milestone-primary" onClick={()=>onFinish(false)}>{t('Close')}</button><button className="milestone-skip" onClick={()=>{onFinish(false);window.dispatchEvent(new CustomEvent('continuum-native-navigation',{detail:'support'}))}}>{t('Report advertisement')}</button></div>}
   {seconds>0?<>
    {!videoUnavailable&&<button className="milestone-sound" type="button" aria-label={t('Audio')} aria-pressed={!muted} onClick={()=>setMuted(!muted)}>
     {muted?<VolumeX size={22} aria-hidden="true"/>:<Volume2 size={22} aria-hidden="true"/>}

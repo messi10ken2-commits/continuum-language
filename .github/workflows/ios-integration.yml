@@ -1,0 +1,42 @@
+name: iOS integration
+on:
+  push:
+    branches: ['codex/ios-integration']
+permissions:
+  contents: read
+concurrency:
+  group: ios-integration-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  native-build:
+    runs-on: macos-26
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npm run ios:sync
+      - run: npm run ios:check
+      - name: Build unsigned simulator application
+        run: xcodebuild -project ios/App/App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath /tmp/continuum-ios CODE_SIGNING_ALLOWED=NO build
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: continuum-ios-simulator
+          path: /tmp/continuum-ios/Build/Products/Debug-iphonesimulator/App.app
+  shared-backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test:qa
+      - run: npm run build:native

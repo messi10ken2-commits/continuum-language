@@ -10,6 +10,8 @@ import {gradeResolvedLesson} from './course.mjs';
 import {migrateActivity,handleActivity} from './activity-api.mjs';
 import {renderPublicDocument} from './public-documents.mjs';
 import {handlePrivacySettings} from './privacy-api.mjs';
+import {handleNativeAccount} from './native-account-api.mjs';
+import {requestSessionToken,nativeSessionRequest,nativeOrigins,handleNativeOrigin} from './native-policy.mjs';
 import {migrateOwner,handleOwner,enforcePlatformControls} from './owner-api.mjs';
 import {migrateSupport,handleSupport} from './support-api.mjs';
 import {assertSecureRuntime} from './runtime-policy.mjs';
@@ -142,7 +144,7 @@ function currentUser(req){
  return req[authenticatedUser];
 }
 async function readCurrentUser(req){
- const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);
+ const token=requestSessionToken(req);
  if(!token)return null;
  const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',[hash(token)]);
  const user=result.rows[0]||null;
@@ -151,7 +153,7 @@ async function readCurrentUser(req){
 }
 async function required(req,role){const user=await currentUser(req);if(!user)fail(401,'Sign in to continue');if(role&&user.role!==role)fail(403,'Not allowed for this account');identifyAIUser(user.id);return user}
 async function linked(teacherId,learnerId){const r=await pool.query('SELECT 1 FROM teacher_links WHERE teacher_id=$1 AND learner_id=$2',[teacherId,learnerId]);if(!r.rowCount)fail(403,'This learner has not shared access with you')}
-async function startSession(res,user){const token=random();await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '30 days')",[hash(token),user.id]);send(res,200,{user},{'Set-Cookie':`${cookieName}=${token}; ${cookieAttrs}`})}
+async function startSession(res,user,req){const token=random();await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '30 days')",[hash(token),user.id]);send(res,200,{user,...(req&&nativeSessionRequest(req)?{sessionToken:token}:{})},{'Set-Cookie':`${cookieName}=${token}; ${cookieAttrs}`})}
 function safeEmail(email){return String(email||'').trim().toLowerCase()}
 async function handle(req,res){
  res.setHeader('X-Content-Type-Options','nosniff');
@@ -161,8 +163,10 @@ async function handle(req,res){
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
  if(handleLessonMedia(req,res,route))return;
  if(!route.startsWith('/api/'))return serve(req,res,route);
+ if(handleNativeOrigin(req,res,route,fail))return;
  if(await handleBillingWebhook({route,req,res,pool,send,fail}))return;
- if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
+ if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&!nativeOrigins.has(origin)){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
+ if(await handleNativeAccount({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleAnswerReview({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleActivity({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handlePrivacySettings({route,req,res,pool,required,json,send,fail}))return;
@@ -188,16 +192,16 @@ async function handle(req,res){
  if(route==='/api/auth/register'&&req.method==='POST'){
   await authLimited('register-ip',authClientAddress(req),6);const data=await json(req);const email=safeEmail(data.email),name=String(data.name||'').trim(),password=String(data.password||'');
   if(!data.adult||!/^\S+@\S+\.\S+$/.test(email)||email.length>254||name.length<2||name.length>80||password.length<12||password.length>128||!['learner','teacher'].includes(data.role))fail(400,'Enter a valid name, email, 12+ character password, and confirm you are 18 or older');
-  try{const result=await pool.query('INSERT INTO users(email,name,role,password_hash) VALUES($1,$2,$3,$4) RETURNING id,email,name,role',[email,name,data.role,await passwordHash(password)]);return startSession(res,result.rows[0])}catch(e){if(e.code==='23505')fail(409,'An account already uses this email');throw e}
+  try{const result=await pool.query('INSERT INTO users(email,name,role,password_hash) VALUES($1,$2,$3,$4) RETURNING id,email,name,role',[email,name,data.role,await passwordHash(password)]);return startSession(res,result.rows[0],req)}catch(e){if(e.code==='23505')fail(409,'An account already uses this email');throw e}
  }
  if(route==='/api/auth/login'&&req.method==='POST'){
   await authLimited('login-ip',authClientAddress(req),12);const data=await json(req);const email=safeEmail(data.email);
   if(email.length>254||typeof data.password!=='string'||data.password.length<1||data.password.length>128)fail(401,'Email or password is incorrect');
   await authLimited('login-account',email,30);
-  const r=await pool.query('SELECT * FROM users WHERE email=$1',[email]);if(!await passwordMatches(data.password,r.rows[0]?.password_hash))fail(401,'Email or password is incorrect');const {id,name,role}=r.rows[0];return startSession(res,{id,email,name,role});
+  const r=await pool.query('SELECT * FROM users WHERE email=$1',[email]);if(!await passwordMatches(data.password,r.rows[0]?.password_hash))fail(401,'Email or password is incorrect');const {id,name,role}=r.rows[0];return startSession(res,{id,email,name,role},req);
  }
  if(route==='/api/auth/logout'&&req.method==='POST'){
-  const token=(req.headers.cookie||'').split(';').map(x=>x.trim()).find(x=>x.startsWith(cookieName+'='))?.slice(cookieName.length+1);if(token)await pool.query('DELETE FROM sessions WHERE token_hash=$1',[hash(token)]);return send(res,200,{ok:true},{'Set-Cookie':`${cookieName}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${process.env.NODE_ENV==='production'?'; Secure':''}`});
+  const token=requestSessionToken(req);if(token)await pool.query('DELETE FROM sessions WHERE token_hash=$1',[hash(token)]);return send(res,200,{ok:true},{'Set-Cookie':`${cookieName}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${process.env.NODE_ENV==='production'?'; Secure':''}`});
  }
  if(route==='/api/privacy'&&req.method==='GET'){
   const user=await required(req,'learner');const r=await pool.query('SELECT share_self_learning FROM users WHERE id=$1',[user.id]);return send(res,200,{shareSelfLearning:r.rows[0].share_self_learning});

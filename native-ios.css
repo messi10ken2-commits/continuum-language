@@ -1,0 +1,14 @@
+.continuum-native{color-scheme:light;background:#fffdfb}
+.continuum-native body{padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);-webkit-tap-highlight-color:transparent}
+.continuum-native .app.continuum-ui .mobile-nav{padding-bottom:max(12px,env(safe-area-inset-bottom));min-height:calc(64px + env(safe-area-inset-bottom))}
+.continuum-native .app.continuum-ui .content{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.continuum-native .lesson-milestone{max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px)}
+.continuum-native.native-keyboard-open .app.continuum-ui .mobile-nav{display:none}
+.continuum-native.native-keyboard-open .app.continuum-ui .content{padding-bottom:12px}
+.continuum-native :is(input,textarea,select){font-size:max(16px,1em)}
+.native-connection-status{position:sticky;top:0;z-index:50;padding:10px;background:#fff1cf;color:#493a15;text-align:center}
+.native-tools{padding:18px;border:1px solid var(--ui-border);border-radius:18px;margin-top:18px}
+.native-tools :is(button,input){min-height:44px}
+.native-tools label{display:grid;gap:6px;margin:12px 0}
+.native-tools .native-danger{color:#9e2536}
+@media(prefers-reduced-motion:reduce){.continuum-native *, .continuum-native *::before,.continuum-native *::after{scroll-behavior:auto!important}}
