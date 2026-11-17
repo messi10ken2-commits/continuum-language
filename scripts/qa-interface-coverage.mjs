@@ -30,7 +30,7 @@ try{
    await page.locator('.light-path .town-cta').waitFor();await page.waitForFunction(native=>document.querySelector('.town-path-head>span')?.textContent.includes(native),languageInfo(language).native);await inspect('light-town-'+language);
   }
  }else{
-  await nav.first().click();const share=(await api('/share-code','POST',{language:'en'},people.learner.cookie)).data.code;
+  await nav.first().click();await page.locator('.welcome .eyebrow').waitFor();assert.ok((await page.locator('.welcome .eyebrow').innerText()).includes((reviewedTranslation('English',locale)||interfaceCopy.English?.[locale]).toUpperCase()),locale+' shared language label');const share=(await api('/share-code','POST',{language:'en'},people.learner.cookie)).data.code;
   await page.locator('.connect-code input').fill(share);await page.locator('.connect-code form button').click();
   await page.getByText(reviewedTranslation('Learner connected.',locale),{exact:true}).waitFor();await inspect('connection-confirmation');
   await nav.nth(2).click();await page.locator('.teacher-note-form textarea').fill('Synthetic audit note '+locale);
