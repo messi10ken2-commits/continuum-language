@@ -341,8 +341,8 @@ function App(){
  const icons={'Support':MessageCircle,'Admin':CheckCircle2,'Review teachers':CheckCircle2,'Overview':LayoutDashboard,'Learn':BookOpen,'Practice Studio':Sparkles,'Level test':Award,'My classes':CalendarDays,'Learning memory':NotebookPen,'Class notes':NotebookPen,'Assignments':Target,'Account':Users};
  const navigate=n=>{setTab(n);setActiveLesson(null);window.scrollTo({top:0,behavior:'smooth'})};
  useEffect(()=>{
-  const expired=()=>{accountRevision.current++;setUser(null);setPracticeHistory([]);setNotes([]);setAssessment(null);setRole('learner');setWelcome(false);setActiveLesson(null);setTab('Account');};
-  const reconnect=()=>{void api('/auth/me').then(data=>{if(data.user){setUser(data.user);setRole(data.user.role);}setAuthError('');}).catch(()=>{});};
+  const expired=()=>{accountRevision.current++;setAuthReady(true);setUser(null);setPracticeHistory([]);setNotes([]);setAssessment(null);setRole('learner');setWelcome(false);setActiveLesson(null);setTab('Account');};
+  const reconnect=()=>{const revision=++accountRevision.current;void api('/auth/me').then(async data=>{if(revision!==accountRevision.current)return;if(data.user){setUser(data.user);setRole(data.user.role);if(data.user.role==='learner'){const history=await api('/practice');if(revision===accountRevision.current)setPracticeHistory(history.attempts);}}else expired();setAuthError('');}).catch(()=>{}).finally(()=>{if(revision===accountRevision.current)setAuthReady(true)});};
   const nativeNavigation=event=>{const destination={account:'Account',support:'Support',classes:'My classes',learn:'Learn'}[event.detail];if(destination&&!activeLesson)navigate(destination);};
   window.addEventListener('continuum-session-expired',expired);window.addEventListener('continuum-native-navigation',nativeNavigation);
   window.addEventListener('continuum-native-resume',reconnect);window.addEventListener('online',reconnect);

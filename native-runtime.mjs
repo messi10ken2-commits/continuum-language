@@ -34,7 +34,7 @@ export async function initializeNative(){
  });
  document.addEventListener('click',event=>{
   const link=event.target.closest?.('a[href]');if(!link)return;const url=new URL(link.href,location.href);
-  if(['https:','http:','mailto:','tel:'].includes(url.protocol)||['/terms','/privacy','/support','/privacy-settings'].includes(url.pathname)){
+  if(['https:','http:','mailto:','tel:'].includes(url.protocol)||['/terms','/privacy','/support','/privacy-settings','/visual-credits.html'].includes(url.pathname)){
    event.preventDefault();const address=url.protocol==='capacitor:'?origin+url.pathname:url.href;
    if(address.startsWith('https:'))void Browser.open({url:address});else if(['mailto:','tel:'].includes(url.protocol))location.href=url.href;
   }

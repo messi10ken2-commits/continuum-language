@@ -4,6 +4,7 @@ import {InvitationAdmin,InvitationRedeem} from './PremiumAccess.jsx';
 import React,{useEffect,useRef,useState} from 'react';
 import {t,tf} from './interface-runtime.mjs';
 import './membership.css';
+import {isNative} from './native-platform.mjs';
 export async function billingRequest(path='',method='GET',body){const r=await fetch('/api/billing'+path,{method,credentials:'same-origin',headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});const d=await r.json();if(!r.ok)throw Error(d.error||'Please try again');return d;}
 export const membershipStatusLabel=status=>t(({active:'Active',free:'Free',trialing:'Trial',past_due:'Past due',unpaid:'Unpaid',incomplete:'Incomplete',incomplete_expired:'Expired',paused:'Paused',canceled:'Cancelled',cancelled:'Cancelled',payment_review:'Payment review'})[status]||status);
 export function MembershipAd({user}){const [ad,setAd]=useState(null);useEffect(()=>{let live=true;if(user)billingRequest().then(d=>{if(live)setAd(d.membership.adFree?null:d.ad)}).catch(()=>{});return()=>{live=false}},[user?.id]);return ad?<aside className="membership-ad" aria-label={t('Advertisement')}><small>{t('Advertisement')}</small><a href={ad.url} target="_blank" rel="sponsored noopener noreferrer">{ad.title}</a><p>{ad.body}</p></aside>:null;}
@@ -20,7 +21,7 @@ function PlanFeatures({premium}){
   <li><Check aria-hidden="true"/><span>{t('Regular lessons and Learning Memory')}</span></li>
   {premium&&<li><Check aria-hidden="true"/><span>{t('Vocabulary and expression review')}</span></li>}
   {benefits.map(([label,free,paid])=><li key={label}><Check aria-hidden="true"/><span>{t(label)}</span><strong>{t(premium?paid:free)}</strong></li>)}
-  {premium&&<li><Check aria-hidden="true"/><span><b>{t('Meet a teacher')}</b><br/>{t('One introductory class ticket')} · {t('Coming with paid store subscriptions')}</span></li>}
+  {premium&&!isNative()&&<li><Check aria-hidden="true"/><span><b>{t('Meet a teacher')}</b><br/>{t('One introductory class ticket')} · {t('Coming with paid store subscriptions')}</span></li>}
   {premium&&<li><Check aria-hidden="true"/><span>{t('No Continuum ads. YouTube may still show its own ads.')}</span></li>}
  </ul>;
 }
