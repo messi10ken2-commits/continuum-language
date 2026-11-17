@@ -74,11 +74,16 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
          kSecAttrAccount as String: "continuum-session"]
     }
     public override func load() {
-        for name in [AVAudioSession.interruptionNotification, AVAudioSession.routeChangeNotification] {
-            observers.append(NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
-                self?.notifyListeners("audioInterrupted", data: [:])
-            })
-        }
+        observers.append(NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] event in
+            guard let value = event.userInfo?[AVAudioSessionInterruptionTypeKey] as? UInt,
+                  value == AVAudioSession.InterruptionType.began.rawValue else { return }
+            self?.notifyListeners("audioInterrupted", data: [:])
+        })
+        observers.append(NotificationCenter.default.addObserver(forName: AVAudioSession.routeChangeNotification, object: nil, queue: .main) { [weak self] event in
+            guard let value = event.userInfo?[AVAudioSessionRouteChangeReasonKey] as? UInt,
+                  value == AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue || value == AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue else { return }
+            self?.notifyListeners("audioInterrupted", data: [:])
+        })
     }
     deinit { observers.forEach { NotificationCenter.default.removeObserver($0) } }
     @objc func readSession(_ call: CAPPluginCall) {

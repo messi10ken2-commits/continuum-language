@@ -9,7 +9,7 @@ export default defineConfig(({mode})=>{
   name:'continuum-bundled-native-shell',enforce:'pre',
   transformIndexHtml:{order:'pre',handler(html){return html.replace('src="/main.jsx"','src="/native-entry.mjs"').replace('initial-scale=1.0','initial-scale=1.0, viewport-fit=cover');}},
   transform(code,id){if(!/\.(?:jsx?|mjs|json|css)(?:\?|$)/.test(id)||id.includes('/node_modules/'))return;
-   return code.replace(rootPattern,s=>s[0]+origin+s.slice(1)).replace(/url\((['"]?)\/(?!\/)([^)]+)\)/g,(_,q,p)=>'url('+q+origin+'/'+p+')');
+   return code.replace(rootPattern,s=>s[0]+origin+s.slice(1)).replace(/(["'`])\/api(?=\/|["'`])/g,(_,q)=>q+origin+'/api').replace(/url\((['"]?)\/(?!\/)([^)]+)\)/g,(match,q,p)=>roots.some(root=>p.startsWith(root+'/'))?'url('+q+origin+'/'+p+')':match);
   }
  }]:[]};
 });

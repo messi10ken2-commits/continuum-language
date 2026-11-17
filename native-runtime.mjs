@@ -1,7 +1,7 @@
 import {Capacitor,registerPlugin} from '@capacitor/core';
 import {App} from '@capacitor/app';import {Browser} from '@capacitor/browser';
 import {Network} from '@capacitor/network';import {Keyboard} from '@capacitor/keyboard';
-import {StatusBar,Style} from '@capacitor/status-bar';import {SplashScreen} from '@capacitor/splash-screen';
+import {StatusBar,Style} from '@capacitor/status-bar';
 import {Haptics,NotificationType} from '@capacitor/haptics';
 import {LocalNotifications} from '@capacitor/local-notifications';
 import {createNativeFetch} from './native-transport.mjs';
@@ -27,7 +27,9 @@ export async function initializeNative(){
  await Keyboard.addListener('keyboardWillHide',()=>document.documentElement.classList.remove('native-keyboard-open'));
  await LocalNotifications.addListener('localNotificationActionPerformed',event=>{const section=event.notification.extra?.section;if(section==='learn')window.dispatchEvent(new CustomEvent('continuum-native-navigation',{detail:section}));});
  await App.addListener('appUrlOpen',({url})=>{
-  const value=new URL(url);if(value.protocol!=='continuum-dev:'||value.hostname!=='open')return;
+  const value=new URL(url);if(value.protocol!=='continuum-dev:')return;
+  if(value.hostname==='reset'){const token=value.searchParams.get('token');if(/^[A-Za-z0-9_-]{43}$/.test(token||''))location.href='/?reset_token='+encodeURIComponent(token);return;}
+  if(value.hostname!=='open')return;
   const section=value.searchParams.get('section');if(['account','support','classes','learn'].includes(section))window.dispatchEvent(new CustomEvent('continuum-native-navigation',{detail:section}));
  });
  document.addEventListener('click',event=>{
@@ -39,5 +41,4 @@ export async function initializeNative(){
  });
  window.addEventListener('continuum-lesson-completed',()=>void Haptics.notification({type:NotificationType.Success}));
  await StatusBar.setStyle({style:Style.Light}).catch(()=>{});
- requestAnimationFrame(()=>void SplashScreen.hide());
 }

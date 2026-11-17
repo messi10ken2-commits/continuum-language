@@ -22,6 +22,6 @@ export function handleNativeOrigin(req,res,route,fail){
   res.setHeader('Access-Control-Allow-Methods','GET, POST, PUT, PATCH, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers','Authorization, Content-Type, X-Continuum-Client');res.writeHead(204);res.end();return true;
  }
- if(!['GET','HEAD'].includes(req.method)&&!(/^Bearer [A-Za-z0-9_-]{43}$/.test(req.headers.authorization||'')||(['/api/auth/login','/api/auth/register'].includes(route)&&nativeSessionRequest(req))))fail(403,'Native writes require an authenticated bearer session');
+ if(!['GET','HEAD'].includes(req.method)&&!(/^Bearer [A-Za-z0-9_-]{43}$/.test(req.headers.authorization||'')||(['/api/auth/login','/api/auth/register','/api/auth/recovery','/api/auth/reset'].includes(route)&&nativeSessionRequest(req))))fail(403,'Native writes require an authenticated bearer session');
  return false;
 }

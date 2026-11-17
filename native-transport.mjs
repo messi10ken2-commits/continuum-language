@@ -11,17 +11,19 @@ export function createNativeFetch({origin,fetchImpl,vault,onExpired=()=>{},timeo
   const {token}=await vault.readSession();if(token)headers.set('Authorization','Bearer '+token);else headers.delete('Authorization');
   const target=apiOrigin+url.pathname+url.search;
   const response=await fetchImpl(new Request(target,request),{headers,credentials:'omit',signal:AbortSignal.any([request.signal,AbortSignal.timeout(timeout)])});
-  if(response.status===401&&!url.pathname.endsWith('/auth/login')){await vault.clearSession();onExpired();}
+  if(response.status===401&&!['/api/auth/login','/api/account/deletion-request'].includes(url.pathname)){await vault.clearSession();onExpired();}
   if(response.ok&&url.pathname==='/api/auth/logout')await vault.clearSession();
   if(response.headers.get('content-type')?.includes('application/json')){
    let data=await response.json();
    if(url.pathname==='/api/auth/me'||['/api/auth/login','/api/auth/register'].includes(url.pathname))account=data.user?.id;
+   if(url.pathname==='/api/auth/me'&&response.ok&&!data.user&&token){await vault.clearSession();onExpired();}
    if(url.pathname==='/api/auth/logout'&&response.ok)account=undefined;
    if(response.ok&&['/api/auth/login','/api/auth/register'].includes(url.pathname)){
     if(!data.sessionToken)throw Error('Native session support is not available on this backend yet');
     await vault.saveSession({token:data.sessionToken});delete data.sessionToken;
    }
-   const rewrite=value=>typeof value==='string'&&assetRoots.some(root=>value.startsWith('/'+root+'/'))?apiOrigin+value:Array.isArray(value)?value.map(rewrite):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rewrite(v)])):value;
+   const mediaKey=/^(?:src|poster|url|images?|imageUrl|photo|thumbnail|audio|audioUrl|video|videoUrl|asset|modelUrl|background)$/i;
+   const rewrite=(value,key='')=>typeof value==='string'&&mediaKey.test(key)&&(assetRoots.some(root=>value.startsWith('/'+root+'/'))||value.startsWith('/api/lesson-video/'))?apiOrigin+value:Array.isArray(value)?value.map(v=>rewrite(v,key)):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rewrite(v,k)])):value;
    const responseHeaders=new Headers(response.headers);responseHeaders.delete('content-length');responseHeaders.delete('content-encoding');
    return new Response(JSON.stringify(rewrite(data)),{status:response.status,headers:responseHeaders});
   }

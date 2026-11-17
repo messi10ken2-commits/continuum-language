@@ -11,6 +11,8 @@ import {migrateActivity,handleActivity} from './activity-api.mjs';
 import {renderPublicDocument} from './public-documents.mjs';
 import {handlePrivacySettings} from './privacy-api.mjs';
 import {handleNativeAccount} from './native-account-api.mjs';
+import {handleAccountRecovery,migrateAccountRecovery} from './account-recovery.mjs';
+import {migrateClassSafety,handleClassSafety} from './class-safety.mjs';
 import {requestSessionToken,nativeSessionRequest,nativeOrigins,handleNativeOrigin} from './native-policy.mjs';
 import {migrateOwner,handleOwner,enforcePlatformControls} from './owner-api.mjs';
 import {migrateSupport,handleSupport} from './support-api.mjs';
@@ -78,6 +80,7 @@ async function migrate(){
  await pool.query(`ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS evidence jsonb;`);
  await pool.query(`ALTER TABLE class_notes ADD COLUMN IF NOT EXISTS language text NOT NULL DEFAULT 'es';`);
  await migrateProfiles(pool);await migrateLightLearning(pool);
+ await migrateAccountRecovery(pool);
  await migratePatterns(pool);
  await migrateAssessments(pool);
  await migrateSkills(pool);
@@ -88,6 +91,7 @@ async function migrate(){
  await migrateLocalization(pool);
  await migrateSpeaking(pool);
  await migrateClassroom(pool);await migrateTeacherRanking(pool);
+ await migrateClassSafety(pool);
  await migrateBilling(pool);
  await migrateActivity(pool);
  await migrateAnswerReviews(pool);
@@ -167,6 +171,8 @@ async function handle(req,res){
  if(await handleBillingWebhook({route,req,res,pool,send,fail}))return;
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&!nativeOrigins.has(origin)){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
  if(await handleNativeAccount({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleClassSafety({route,req,res,pool,required,json,send,fail}))return;
+ if(await handleAccountRecovery({route,req,res,pool,json,send,fail,authLimited,clientAddress:authClientAddress}))return;
  if(await handleAnswerReview({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleActivity({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handlePrivacySettings({route,req,res,pool,required,json,send,fail}))return;
