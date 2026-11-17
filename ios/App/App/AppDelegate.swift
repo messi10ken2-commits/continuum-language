@@ -65,6 +65,7 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "products", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "purchase", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "restore", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "manageSubscriptions", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "finishTransaction", returnType: CAPPluginReturnPromise)
     ]
     private var observers: [NSObjectProtocol] = []
@@ -134,6 +135,9 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         guard let id = call.getString("productId"), productIDs.contains(id), let account = UUID(uuidString: call.getString("accountToken") ?? "") else { call.reject("Invalid store purchase"); return }
         Task {
             do {
+                guard #available(iOS 16.0, *) else { call.reject("Local StoreKit testing requires iOS 16 or later"); return }
+                let app = try await AppTransaction.shared
+                guard case .verified(let appTransaction) = app, appTransaction.environment == .xcode else { call.reject("Only the local Xcode StoreKit environment is allowed"); return }
                 guard let product = try await Product.products(for: [id]).first else { call.reject("Product unavailable"); return }
                 switch try await product.purchase(options: [.appAccountToken(account)]) {
                 case .success(let result):
@@ -160,6 +164,13 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
                 }
                 call.resolve(["transactionIds": ids])
             } catch { call.reject("Restore purchases failed", nil, error) }
+        }
+    }
+    @objc func manageSubscriptions(_ call: CAPPluginCall) {
+        Task { @MainActor in
+            guard let scene = self.bridge?.viewController?.view.window?.windowScene else { call.reject("App window unavailable"); return }
+            do { try await AppStore.showManageSubscriptions(in: scene); call.resolve() }
+            catch { call.reject("Subscription settings unavailable", nil, error) }
         }
     }
     @objc func finishTransaction(_ call: CAPPluginCall) {

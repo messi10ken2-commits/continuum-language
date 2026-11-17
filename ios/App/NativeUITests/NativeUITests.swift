@@ -25,6 +25,9 @@ final class NativeUITests: XCTestCase {
         tap("Account")
         XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "Native QA learner")).firstMatch.waitForExistence(timeout: 30))
         let screenshot = XCTAttachment(screenshot: app.screenshot()); screenshot.name = "Native account restored from Keychain"; screenshot.lifetime = .keepAlways; add(screenshot)
+        XCUIDevice.shared.orientation = .landscapeLeft
+        let landscape = XCTAttachment(screenshot: app.screenshot()); landscape.name = "Native account in landscape"; landscape.lifetime = .keepAlways; add(landscape)
+        XCUIDevice.shared.orientation = .portrait
         tap("Sign out")
         XCTAssertTrue(app.webViews.buttons["Already a member? Sign in"].waitForExistence(timeout: 30))
         app.terminate(); app.launch()

@@ -10,7 +10,7 @@ export function createNativeFetch({origin,fetchImpl,vault,onExpired=()=>{},timeo
   if(!['GET','HEAD'].includes(request.method)&&/^\/api\/(speaking|skills|patterns|speech)(?:\/|$)/.test(url.pathname)&&!url.pathname.endsWith('/activity')&&!allowsAI(account))return Response.json({error:'Allow AI services in Account > App settings before sending text or audio to OpenAI or Google Gemini.'},{status:403});
   const {token}=await vault.readSession();if(token)headers.set('Authorization','Bearer '+token);else headers.delete('Authorization');
   const target=apiOrigin+url.pathname+url.search;
-  const response=await fetchImpl(new Request(target,request),{headers,credentials:'omit',signal:AbortSignal.any([request.signal,AbortSignal.timeout(timeout)])});
+  const response=await fetchImpl(new Request(target,request),{headers,credentials:'omit',redirect:'error',signal:AbortSignal.any([request.signal,AbortSignal.timeout(timeout)])});
   if(response.status===401&&!['/api/auth/login','/api/account/deletion-request'].includes(url.pathname)){await vault.clearSession();onExpired();}
   if(response.ok&&url.pathname==='/api/auth/logout')await vault.clearSession();
   if(response.headers.get('content-type')?.includes('application/json')){

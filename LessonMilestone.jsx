@@ -120,7 +120,7 @@ function PromotionDialog({onFinish}){
    onError={()=>setVideoUnavailable(true)}
   />
  }>
-  {isNative()&&<div className="milestone-ad-footer"><button className="milestone-primary" onClick={()=>onFinish(false)}>{t('Close')}</button><button className="milestone-skip" onClick={()=>{onFinish(false);window.dispatchEvent(new CustomEvent('continuum-native-navigation',{detail:'support'}))}}>{t('Report advertisement')}</button></div>}
+  {isNative()&&<div className="milestone-ad-footer"><button className="milestone-primary" onClick={()=>onFinish(false)}>{t('Close')}</button><button className="milestone-skip" onClick={()=>{onFinish(false);window.dispatchEvent(new CustomEvent('continuum-native-navigation',{detail:'report-ad'}))}}>{t('Report advertisement')}</button></div>}
   {seconds>0?<>
    {!videoUnavailable&&<button className="milestone-sound" type="button" aria-label={t('Audio')} aria-pressed={!muted} onClick={()=>setMuted(!muted)}>
     {muted?<VolumeX size={22} aria-hidden="true"/>:<Volume2 size={22} aria-hidden="true"/>}

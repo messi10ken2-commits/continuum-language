@@ -34,11 +34,15 @@ export async function initializeNative(){
  });
  document.addEventListener('click',event=>{
   const link=event.target.closest?.('a[href]');if(!link)return;const url=new URL(link.href,location.href);
-  if(['https:','http:','mailto:','tel:'].includes(url.protocol)||['/terms','/privacy','/support','/privacy-settings','/visual-credits.html'].includes(url.pathname)){
+  if(url.protocol==='capacitor:'&&url.pathname==='/privacy-settings'){event.preventDefault();window.dispatchEvent(new Event('continuum-native-privacy'));return;}
+  if(['https:','http:','mailto:','tel:'].includes(url.protocol)||['/terms','/privacy','/support','/visual-credits.html'].includes(url.pathname)){
    event.preventDefault();const address=url.protocol==='capacitor:'?origin+url.pathname:url.href;
    if(address.startsWith('https:'))void Browser.open({url:address});else if(['mailto:','tel:'].includes(url.protocol))location.href=url.href;
   }
  });
  window.addEventListener('continuum-lesson-completed',()=>void Haptics.notification({type:NotificationType.Success}));
  await StatusBar.setStyle({style:Style.Light}).catch(()=>{});
+ let darkStatus=false;
+ const updateStatus=()=>{const room=document.querySelector('.immersive-conversation-room'),dark=!!room&&room.getBoundingClientRect().height>0;if(dark!==darkStatus){darkStatus=dark;void StatusBar.setStyle({style:dark?Style.Dark:Style.Light}).catch(()=>{});}};
+ new MutationObserver(updateStatus).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['open']});
 }

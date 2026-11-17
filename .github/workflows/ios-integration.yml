@@ -38,10 +38,11 @@ jobs:
       - name: Start isolated HTTPS backend and trust test certificate
         run: |
           npm run build
-          openssl req -x509 -newkey rsa:2048 -nodes -keyout /tmp/continuum-root.key -out /tmp/continuum-root.crt -days 1 -subj '/CN=Continuum CI Root' -addext 'basicConstraints=critical,CA:TRUE'
-          openssl req -newkey rsa:2048 -nodes -keyout /tmp/continuum-test.key -out /tmp/continuum-test.csr -subj '/CN=127.0.0.1'
+          IOS_OPENSSL_BIN="$(brew --prefix openssl@3)/bin/openssl"
+          "$IOS_OPENSSL_BIN" req -x509 -newkey rsa:2048 -nodes -keyout /tmp/continuum-root.key -out /tmp/continuum-root.crt -days 1 -subj '/CN=Continuum CI Root' -addext 'basicConstraints=critical,CA:TRUE'
+          "$IOS_OPENSSL_BIN" req -newkey rsa:2048 -nodes -keyout /tmp/continuum-test.key -out /tmp/continuum-test.csr -subj '/CN=127.0.0.1'
           printf 'subjectAltName=IP:127.0.0.1,DNS:localhost\nextendedKeyUsage=serverAuth\nbasicConstraints=CA:FALSE\n' > /tmp/continuum-test.ext
-          openssl x509 -req -in /tmp/continuum-test.csr -CA /tmp/continuum-root.crt -CAkey /tmp/continuum-root.key -CAcreateserial -out /tmp/continuum-test.crt -days 1 -extfile /tmp/continuum-test.ext
+          "$IOS_OPENSSL_BIN" x509 -req -in /tmp/continuum-test.csr -CA /tmp/continuum-root.crt -CAkey /tmp/continuum-root.key -CAcreateserial -out /tmp/continuum-test.crt -days 1 -extfile /tmp/continuum-test.ext
           xcrun simctl keychain "$IOS_SIMULATOR_ID" add-root-cert /tmp/continuum-root.crt
           node scripts/ios-test-backend.mjs > /tmp/continuum-ios-backend.log 2>&1 &
           printf '%s' "$!" > /tmp/continuum-ios-backend.pid
