@@ -275,7 +275,8 @@ try{
   await dialog.locator('.speaking-consent input').check();await dialog.locator('.room-start-button').click();
   await dialog.locator('.immersive-room-actor .call-companion-art').waitFor();
   await dialog.getByText('Which proposal would you support?',{exact:true}).waitFor();
-  assert.equal(await dialog.locator('canvas').count(),1,'one lightweight textured puppet with the approved image fallback');
+  await dialog.locator('.call-companion-rig-canvas').waitFor({state:'visible',timeout:30000});
+  assert.equal(await dialog.locator('canvas').count(),1,'one rigged companion with the approved image fallback');
   assert.equal(await dialog.locator('.immersive-live-caption').count(),0,'no transcript is repeated over the companion');
   assert.equal(await dialog.getByText('Which proposal would you support?',{exact:true}).count(),1,'one visible transcript channel');
   assert.equal(await dialog.locator('.voice-preferences').count(),0,'voice settings are not in the main scene');
