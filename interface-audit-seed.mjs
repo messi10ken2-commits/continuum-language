@@ -1,5 +1,6 @@
 // Reviewed common UI and name-safe templates. User values are inserted after translation.
 const rows=`
+milestones earned|達成したマイルストーン|hitos alcanzados|marcos alcançados|已达成的里程碑|étapes franchies|획득한 이정표|pencapaian diraih|получено достижений|المعالم المكتسبة
 Learner connected.|学習者と連携しました。|Estudiante vinculado.|Aluno conectado.|已关联学习者。|Apprenant connecté.|학습자가 연결되었습니다.|Pelajar berhasil dihubungkan.|Ученик подключён.|تم ربط المتعلم.
 Class note saved to this learner’s account.|授業メモを学習者のアカウントに保存しました。|La nota de clase se guardó en la cuenta de este estudiante.|A anotação da aula foi salva na conta deste aluno.|课堂笔记已保存到该学习者的账户。|La note de cours a été enregistrée dans le compte de cet apprenant.|이 학습자의 계정에 수업 노트를 저장했습니다.|Catatan kelas disimpan ke akun pelajar ini.|Заметка об уроке сохранена в аккаунте этого ученика.|تم حفظ ملاحظة الدرس في حساب هذا المتعلم.
 Trial|お試し期間|Prueba|Período de teste|试用期|Période d’essai|체험 기간|Masa uji coba|Пробный период|الفترة التجريبية
