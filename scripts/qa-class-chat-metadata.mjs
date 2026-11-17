@@ -29,7 +29,7 @@ try{
   await context.addCookies([{name:'continuum_session',value:person.cookie.split('=')[1],url:base}]);
   await context.addInitScript(({id,layout})=>{localStorage.setItem('continuumInterfaceLanguage','en');localStorage.setItem('continuumLanguage','en');localStorage.setItem('continuumJourneyLayout:'+id,layout);localStorage.setItem('continuumClassTimezone:'+id,'Asia/Kuala_Lumpur')},{id,layout});
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  async function openChat(){await page.goto(base);await page.locator('.app>aside nav button').filter({hasText:'My classes'}).click();await page.locator('.class-tabs button').filter({hasText:/^Messages/}).click();await page.locator('.class-conversation').first().click();await page.locator('.class-message.own').first().waitFor();}
+  async function openChat(){await page.goto(base);await page.locator('.mobile-nav button').filter({hasText:'Classes'}).click();await page.locator('.class-tabs button').filter({hasText:/^Messages/}).click();await page.locator('.class-conversation').first().click();await page.locator('.class-message.own').first().waitFor();}
   await openChat();
   const body='New saved '+layout+' '+role;
   await page.locator('.class-chat-compose textarea').fill(body);await page.locator('.class-chat-compose .primary').click();
