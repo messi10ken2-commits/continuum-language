@@ -191,6 +191,10 @@
 .app.continuum-ui .learner-shortcuts b {display:block;font-size:14px}
 .app.continuum-ui .learner-shortcuts small {display:block;font-size:11px;line-height:1.4;color:var(--ui-muted);margin-top:4px}
 .app.continuum-ui :is(.connected-memory-hero,.memory-hero,.record-recent,.assessment-summary,.assessment-hero,.report-summary) {border-radius:20px;border:1px solid var(--ui-border);padding:22px;background:linear-gradient(120deg,#f5efff,#fffaf6);box-shadow:var(--ui-shadow);margin:18px 0}
+.app.continuum-ui :is(.welcome,.note-head,.teacher-alert)>div {min-width:0;max-width:100%}
+.app.continuum-ui :is(.welcome h1,.page-intro h1,.note-head h2,.teacher-alert h2,.teacher-alert p) {overflow-wrap:anywhere}
+.app.continuum-ui .memory-hero>div:first-child {min-width:0;max-width:100%;flex-wrap:wrap}
+.app.continuum-ui .memory-hero>div:first-child>span {min-width:0;max-width:100%;overflow-wrap:anywhere}
 .app.continuum-ui .assessment-summary {background:#39205f;color:white;border-color:transparent;display:flex;align-items:center;gap:18px}
 .app.continuum-ui .assessment-summary :is(h3,p,.eyebrow) {color:inherit}
 .app.continuum-ui .assessment-summary p {opacity:.8;font-size:12px}
@@ -263,7 +267,7 @@
 .app.continuum-ui :is(.speaking-message,.conversation-message,.chat-message) {border-radius:16px;padding:14px;margin:9px 0;line-height:1.55}
 .app.continuum-ui :is(.speaking-controls,.conversation-controls) {display:flex;flex-wrap:wrap;gap:10px;border-radius:20px;padding:14px;background:#fffafcf2;border:1px solid var(--ui-border)}
 /* Live classes, discovery, calendar, messaging, assignments and teacher tools. */
-.app.continuum-ui :is(.class-tabs,.account-tabs) {display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;border:0;background:#f1ebf8;border-radius:14px;padding:5px;margin:18px 0;flex-wrap:wrap}
+.app.continuum-ui :is(.class-tabs,.account-tabs) {display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;border:0;background:#f1ebf8;border-radius:14px;padding:5px;margin:18px 0;flex-wrap:wrap;min-width:0;max-width:100%;contain:inline-size paint;overscroll-behavior-x:contain}
 .app.continuum-ui :is(.class-tabs,.account-tabs)>button {border:0;border-radius:10px;min-height:40px;padding:9px 12px;color:#776588;background:transparent;font-size:12px;display:flex;gap:7px;align-items:center;white-space:nowrap}
 .app.continuum-ui :is(.class-tabs,.account-tabs)>button.selected {background:white;color:#6339a2;box-shadow:0 2px 7px #48256c10}
 .app.continuum-ui .class-pilot {border:1px solid var(--ui-border);border-radius:13px;background:#faf6fd;color:#756287;padding:12px;gap:10px;font-size:12px}
@@ -755,6 +759,9 @@
 
 .app.journey-app.continuum-ui .continuum-header .continuum-language>svg{left:auto;right:12px;color:#62409b}
 .app.continuum-ui .continuum-language select:focus-visible{outline:3px solid #9271dc;outline-offset:3px}
+.app.continuum-ui :is(.continuum-language,.class-controls label){min-width:0;grid-template-columns:minmax(0,1fr);overflow-wrap:anywhere}
+.app.continuum-ui .class-controls>label{overflow:hidden}
+.app.continuum-ui :is(.continuum-language,.class-controls) select{min-width:0;width:100%;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .app.continuum-ui .passport-gallery{max-height:none;overflow:visible;scrollbar-gutter:auto}
 .app.continuum-ui .account-language-flag{overflow:hidden;padding:0;flex-shrink:0}
 .app.continuum-ui .account-language-flag img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}

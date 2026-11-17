@@ -1,7 +1,7 @@
 import {JourneyPhoto} from './JourneyVisual.jsx';
 import {classRequest} from './classroom-client.mjs';
 import {t as uiText,tf as uiTemplate} from './interface-runtime.mjs';
-const profileStatusLabel=value=>uiText(({draft:'Draft',pending:'Pending review',approved:'Approved',changes_requested:'Changes requested',editorial_update:'Editorial update'})[value]||value);
+export const profileStatusLabel=value=>uiText(({draft:'Draft',pending:'Pending review',approved:'Approved',changes_requested:'Changes requested',editorial_update:'Editorial update'})[value]||value);
 import React,{useState,useEffect} from 'react';
 import {languages,languageInfo} from './languages.mjs';
 import {ArrowRight,BookOpen,GraduationCap,Heart,Search,CheckCircle2} from 'lucide-react';

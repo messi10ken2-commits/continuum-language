@@ -5,6 +5,8 @@ const functions=new Set(['t','tf','uiText','uiTemplate']);
 export function auditInterfaceTemplates(root=process.cwd()){
  const issues=[],files=fs.readdirSync(root).filter(f=>f.endsWith('.jsx'));let templates=0;
  for(const file of files){const ast=parse(fs.readFileSync(path.join(root,file),'utf8'),{sourceType:'module',plugins:['jsx']});
+ const statusStates=new Set();
+ function collect(n){if(!n||typeof n!=='object')return;if(n.type==='VariableDeclarator'&&n.id.type==='ArrayPattern'&&/^(message|notice|success|error)$/.test(n.id.elements[0]?.name)&&n.init?.callee?.name==='useState')statusStates.add(n.id.elements[0].name);for(const [k,v]of Object.entries(n))if(!['loc','start','end'].includes(k)){if(Array.isArray(v))v.forEach(collect);else if(v&&typeof v==='object')collect(v);}}collect(ast);
  function visit(n,parents=[]){if(!n||typeof n!=='object')return;
   if(n.type==='CallExpression'&&functions.has(n.callee?.name)&&n.arguments[0]?.type==='StringLiteral'){
    const source=n.arguments[0].value.trim();if(/[A-Za-z]{3}\s+[A-Za-z]{3}/.test(source)){templates++;if(!translationSource(source))issues.push({file,line:n.loc.start.line,kind:'unregistered-interface-source',source});}
@@ -13,6 +15,7 @@ export function auditInterfaceTemplates(root=process.cwd()){
    const attribute=[...parents].reverse().find(p=>p.type==='JSXAttribute'),visible=!attribute||['title','aria-label','alt','label'].includes(attribute.name?.name);
    const source=n.quasis.map(q=>q.value.cooked).join('{value}');if(visible&&/[A-Za-z]{3}\s+[A-Za-z]{3}/.test(source))issues.push({file,line:n.loc.start.line,kind:'untranslated-visible-template',source});
   }
+  if(n.type==='JSXExpressionContainer'&&n.expression.type==='Identifier'&&statusStates.has(n.expression.name)&&!parents.some(p=>p.type==='JSXAttribute'))issues.push({file,line:n.loc.start.line,kind:'untranslated-state-message',source:n.expression.name});
   for(const [key,value] of Object.entries(n)){if(['loc','start','end'].includes(key))continue;if(Array.isArray(value))value.forEach(v=>visit(v,[...parents,n]));else if(value&&typeof value==='object')visit(value,[...parents,n]);}
  }visit(ast);}
  return {files:files.length,interfaceCalls:templates,issues};
