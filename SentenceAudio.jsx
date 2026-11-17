@@ -14,6 +14,7 @@ import {decodeSpeechEnvelope,speechLevelAt} from './speech-envelope.mjs';
 import './sentence-audio.css';
 let active=null;
 export const stopSentenceAudio=()=>active?.stop();
+if(typeof window!=='undefined')window.addEventListener('pagehide',stopSentenceAudio);
 const clips=new Map();let cacheBytes=0;
 async function studioClip(part,signal,endpoint=null){
  const key=JSON.stringify([part.lang,part.text.trim()]);if(!endpoint&&clips.has(key))return clips.get(key);

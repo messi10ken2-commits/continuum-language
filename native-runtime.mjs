@@ -14,13 +14,15 @@ export async function initializeNative(){
  const origin=__CONTINUUM_API_ORIGIN__;
  window.fetch=createNativeFetch({origin,fetchImpl:window.fetch.bind(window),vault:Native,assetRoots:__CONTINUUM_REMOTE_ROOTS__,allowsAI:id=>!!id&&localStorage.getItem('continuumNativeAIConsent:v1:'+id)==='yes',onExpired:()=>window.dispatchEvent(new Event('continuum-session-expired'))});
  if(navigator.mediaDevices?.getUserMedia){const capture=navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);navigator.mediaDevices.getUserMedia=async constraints=>{if(constraints.audio)await Native.prepareAudio();return capture(constraints);};}
- await Native.addListener('audioInterrupted',()=>window.dispatchEvent(new Event('pagehide')));
+ await Native.addListener('audioInterrupted',()=>{window.dispatchEvent(new Event('pagehide'));void Native.releaseAudio().catch(()=>{});});
  // Beacon's cookie-only transport is inappropriate for Keychain bearer sessions.
  navigator.sendBeacon=(url,data)=>{if(!String(url).startsWith('/api/'))return false;void fetch(url,{method:'POST',body:data,keepalive:true}).catch(()=>{});return true;};
  const network=await Network.getStatus();document.documentElement.classList.toggle('native-offline',!network.connected);
  await Network.addListener('networkStatusChange',s=>{document.documentElement.classList.toggle('native-offline',!s.connected);window.dispatchEvent(new Event(s.connected?'online':'offline'));});
  await App.addListener('appStateChange',({isActive})=>{
-  if(!isActive){document.querySelectorAll('audio,video').forEach(e=>e.pause());window.dispatchEvent(new Event('pagehide'));}
+  document.documentElement.classList.toggle('native-inactive',!isActive);
+  window.dispatchEvent(new Event('continuum-native-visibility'));
+  if(!isActive){void Native.releaseAudio().catch(()=>{});document.querySelectorAll('audio,video').forEach(e=>e.pause());window.dispatchEvent(new Event('pagehide'));}
   else{window.dispatchEvent(new Event('focus'));window.dispatchEvent(new Event('continuum-native-resume'));}
  });
  await Keyboard.addListener('keyboardWillShow',()=>document.documentElement.classList.add('native-keyboard-open'));

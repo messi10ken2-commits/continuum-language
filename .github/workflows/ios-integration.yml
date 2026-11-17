@@ -2,6 +2,7 @@ name: iOS integration
 on:
   push:
     branches: ['codex/ios-integration']
+    paths-ignore: ['docs/**']
 permissions:
   contents: read
 concurrency:

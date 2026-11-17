@@ -1,7 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {createNativeFetch} from './native-transport.mjs';
 const origin='https://api.example.test',token='n'.repeat(43);
 test('native fetch scopes credentials, saves login tokens only to vault, rewrites media and preserves form data',async()=>{
- let saved,call;const vault={readSession:async()=>({token:saved}),saveSession:async d=>saved=d.token,clearSession:async()=>saved=undefined};
+ let saved,call;const vault={readSession:async d=>{assert.equal(d.origin,origin);return {token:saved}},saveSession:async d=>{assert.equal(d.origin,origin);saved=d.token},clearSession:async d=>{assert.equal(d.origin,origin);saved=undefined}};
  const fetch=createNativeFetch({origin,vault,allowsAI:()=>true,assetRoots:['companions-3d'],fetchImpl:async(req,options)=>{call={req,options};return Response.json(typeof req!=='string'&&req.url.endsWith('/auth/login')?{user:{id:'same-web-user'},sessionToken:token}:{image:'/companions-3d/capybara.glb'});}});
  const login=await(await fetch('capacitor://localhost/api/auth/login',{method:'POST',body:'{}'})).json();
  assert.equal(saved,token);assert.equal(login.user.id,'same-web-user');assert.equal(login.sessionToken,undefined);

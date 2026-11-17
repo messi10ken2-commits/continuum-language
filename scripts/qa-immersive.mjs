@@ -370,7 +370,7 @@ try{
   await page.setViewportSize({width:1280,height:900});await navigate(page,base+'?language=en&key=heat&mode=standard');await page.locator('.immersive-reading').first().waitFor();
   await page.screenshot({path:new URL(engineName+'-c1-desktop.png',directory).pathname,fullPage:true});
   await page.setViewportSize({width:390,height:844});await navigate(page,base+'?language=ja&passport=1');
-  const earnedStamp=page.locator('.passport-stamp:not([disabled])');assert.equal(await earnedStamp.count(),1);await earnedStamp.scrollIntoViewIfNeeded();
+  const earnedStamp=page.locator('.passport-stamp:not([disabled])');await earnedStamp.first().waitFor({state:'visible',timeout:30000});assert.equal(await earnedStamp.count(),1);await earnedStamp.scrollIntoViewIfNeeded();
   await page.waitForFunction(()=>{const image=document.querySelector('.passport-stamp:not([disabled])>img');return image?.complete&&image.naturalWidth>0});
   assert.match(await earnedStamp.locator('img').getAttribute('src'),/^\/passport-stamps\/ja-/);
   await earnedStamp.click();await page.locator('.passport-dialog[open] img').waitFor();

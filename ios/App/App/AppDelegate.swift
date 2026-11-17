@@ -62,6 +62,7 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "saveSession", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "clearSession", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "prepareAudio", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "releaseAudio", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "products", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "purchase", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "restore", returnType: CAPPluginReturnPromise),
@@ -69,10 +70,14 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "finishTransaction", returnType: CAPPluginReturnPromise)
     ]
     private var observers: [NSObjectProtocol] = []
-    private var keychain: [String: Any] {
+    private func sessionKeychain(_ call: CAPPluginCall) -> [String: Any]? {
+        guard let origin = call.getString("origin"), let url = URLComponents(string: origin),
+              url.scheme == "https", url.host != nil, url.user == nil, url.password == nil,
+              url.query == nil, url.fragment == nil, url.path.isEmpty else { return nil }
+        return
         [kSecClass as String: kSecClassGenericPassword,
          kSecAttrService as String: Bundle.main.bundleIdentifier ?? "com.continuum.language.dev",
-         kSecAttrAccount as String: "continuum-session"]
+         kSecAttrAccount as String: "continuum-session:" + origin]
     }
     public override func load() {
         observers.append(NotificationCenter.default.addObserver(forName: AVAudioSession.interruptionNotification, object: nil, queue: .main) { [weak self] event in
@@ -88,6 +93,7 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
     }
     deinit { observers.forEach { NotificationCenter.default.removeObserver($0) } }
     @objc func readSession(_ call: CAPPluginCall) {
+        guard let keychain = sessionKeychain(call) else { call.reject("Invalid session origin"); return }
         var query = keychain; query[kSecReturnData as String] = true; query[kSecMatchLimit as String] = kSecMatchLimitOne
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
@@ -96,6 +102,7 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         call.resolve(["token": token])
     }
     @objc func saveSession(_ call: CAPPluginCall) {
+        guard let keychain = sessionKeychain(call) else { call.reject("Invalid session origin"); return }
         guard let token = call.getString("token"), token.range(of: "^[A-Za-z0-9_-]{43}$", options: .regularExpression) != nil else { call.reject("Invalid session"); return }
         var item = keychain; item[kSecValueData as String] = Data(token.utf8)
         item[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
@@ -106,6 +113,7 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         call.resolve()
     }
     @objc func clearSession(_ call: CAPPluginCall) {
+        guard let keychain = sessionKeychain(call) else { call.reject("Invalid session origin"); return }
         let status = SecItemDelete(keychain as CFDictionary)
         guard status == errSecSuccess || status == errSecItemNotFound else { call.reject("Could not clear secure session"); return }
         call.resolve()
@@ -117,6 +125,14 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
             try session.setActive(true)
             call.resolve()
         } catch { call.reject("Could not prepare microphone audio", nil, error) }
+    }
+    @objc func releaseAudio(_ call: CAPPluginCall) {
+        do {
+            let session = AVAudioSession.sharedInstance()
+            try session.setActive(false, options: .notifyOthersOnDeactivation)
+            try session.setCategory(.playback)
+            call.resolve()
+        } catch { call.reject("Could not release microphone audio", nil, error) }
     }
     private let productIDs = ["com.continuum.premium.monthly", "com.continuum.premium.yearly"]
     @objc func products(_ call: CAPPluginCall) {

@@ -1,6 +1,7 @@
 {
   "appId": "com.continuum.language.dev",
   "appName": "Continuum",
+  "loggingBehavior": "none",
   "webDir": "dist-native",
   "server": {"iosScheme": "capacitor", "hostname": "localhost"},
   "ios": {"contentInset": "never", "preferredContentMode": "mobile", "backgroundColor": "#fffdfb", "scrollEnabled": true},
