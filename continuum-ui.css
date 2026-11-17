@@ -193,6 +193,8 @@
 .app.continuum-ui :is(.connected-memory-hero,.memory-hero,.record-recent,.assessment-summary,.assessment-hero,.report-summary) {border-radius:20px;border:1px solid var(--ui-border);padding:22px;background:linear-gradient(120deg,#f5efff,#fffaf6);box-shadow:var(--ui-shadow);margin:18px 0}
 .app.continuum-ui :is(.welcome,.note-head,.teacher-alert)>div {min-width:0;max-width:100%}
 .app.continuum-ui :is(.welcome h1,.note-head h2,.teacher-alert h2,.teacher-alert p) {overflow-wrap:anywhere}
+.app.continuum-ui .memory-hero>div:first-child {min-width:0;max-width:100%;flex-wrap:wrap}
+.app.continuum-ui .memory-hero>div:first-child>span {min-width:0;max-width:100%;overflow-wrap:anywhere}
 .app.continuum-ui .assessment-summary {background:#39205f;color:white;border-color:transparent;display:flex;align-items:center;gap:18px}
 .app.continuum-ui .assessment-summary :is(h3,p,.eyebrow) {color:inherit}
 .app.continuum-ui .assessment-summary p {opacity:.8;font-size:12px}
