@@ -2,6 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {reviewedTranslation} from './reviewed-interface-copy.mjs';
 import {t,setInterfaceLanguage} from './interface-runtime.mjs';
+test('visible Indonesian UI copy never exposes generated underscore identifiers',async()=>{
+ const {auditDisplayCoverage}=await import('./scripts/audit-display-coverage.mjs'),{interfaceCopy}=await import('./interface-copy.mjs');
+ for(const {source}of auditDisplayCoverage().sources){if(/[a-z]_[a-z]/i.test(source))continue;const value=(reviewedTranslation(source,'id')||interfaceCopy[source]?.id||'').replace(/\{[^}]*\}/g,'');assert.ok(!/[a-z]_[a-z]/i.test(value),source+': '+value);}
+});
 test('teacher action confirmations and profile states translate offline in all nine non-English locales',()=>{
  try{for(const locale of ['ja','es','pt','zh','fr','ko','id','ru','ar']){
   setInterfaceLanguage(locale,{persist:false});

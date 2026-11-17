@@ -51,3 +51,6 @@ for(const [source,translations] of Object.entries({
   ru:'Единый путь обучения. Разные способы учиться.'
  }
 }))Object.assign(interfaceAuditSeed[source]??={},translations);
+
+// Visible Indonesian time labels must not expose generated identifier forms.
+for(const [source,id]of Object.entries({'min a day':'menit per hari','minutes remaining':'menit tersisa'}))Object.assign(interfaceAuditSeed[source]??={},{id});
