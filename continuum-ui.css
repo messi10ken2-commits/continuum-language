@@ -759,6 +759,8 @@
 
 .app.journey-app.continuum-ui .continuum-header .continuum-language>svg{left:auto;right:12px;color:#62409b}
 .app.continuum-ui .continuum-language select:focus-visible{outline:3px solid #9271dc;outline-offset:3px}
+.app.continuum-ui :is(.continuum-language,.class-controls label){min-width:0}
+.app.continuum-ui :is(.continuum-language,.class-controls) select{min-width:0;width:100%;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .app.continuum-ui .passport-gallery{max-height:none;overflow:visible;scrollbar-gutter:auto}
 .app.continuum-ui .account-language-flag{overflow:hidden;padding:0;flex-shrink:0}
 .app.continuum-ui .account-language-flag img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
