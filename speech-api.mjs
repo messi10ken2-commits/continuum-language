@@ -46,7 +46,7 @@ for(const lang of learningLanguageIds)for(let form=0;form<assessmentFormCount;fo
  for(const v of [1,2,3,4])try{collect(assessmentItems(form,lang+'-diagnostic-'+v));}catch{/* Unsupported historical form is not in the public catalog. */}
 }
 export const allowedSpeech=(text,locale)=>typeof text==='string'&&speechLocales.includes(locale)&&catalog.has(text.normalize('NFC').trim());
-export async function migrateSpeech(pool){await pool.query(`CREATE TABLE IF NOT EXISTS speech_cache (cache_key text PRIMARY KEY, audio bytea NOT NULL, provider text NOT NULL, model text NOT NULL, created_at timestamptz NOT NULL DEFAULT now()); CREATE TABLE IF NOT EXISTS speech_daily_budget (day date PRIMARY KEY, generated integer NOT NULL DEFAULT 0);`);}
+export async function migrateSpeech(pool){await pool.query(`CREATE TABLE IF NOT EXISTS speech_cache (cache_key text PRIMARY KEY, audio bytea NOT NULL, provider text NOT NULL, model text NOT NULL, created_at timestamptz NOT NULL DEFAULT now()); ALTER TABLE speech_cache ADD COLUMN IF NOT EXISTS owner_id uuid REFERENCES users(id) ON DELETE CASCADE; CREATE TABLE IF NOT EXISTS speech_daily_budget (day date PRIMARY KEY, generated integer NOT NULL DEFAULT 0);`);}
 const inFlight=new Map();let active=0;
 export async function handleSpeech({route,req,res,pool,json,send,fail,limited,synthesize=synthesizeSpeech}){
  if(route!=='/api/speech')return false;
@@ -56,7 +56,7 @@ export async function handleSpeech({route,req,res,pool,json,send,fail,limited,sy
  return serveStudioSpeech({req,res,pool,text,locale,send,fail,limited,synthesize});
 }
 // Call only after the caller has authorized the exact server-owned text.
-export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limited,synthesize=synthesizeSpeech,privateAudio=false,voiceProfile='default',validateAudio=true}){
+export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limited,synthesize=synthesizeSpeech,privateAudio=false,voiceProfile='default',validateAudio=true,ownerId=null}){
  const cacheControl=privateAudio?'private, no-store':null;
  if(typeof text!=='string'||!text.trim()||text.length>1800||!speechLocales.includes(locale))fail(400,'Invalid speech content');
  const word=voiceProfile==='default'?nativeWordEntry(text,locale):null;
@@ -68,7 +68,8 @@ export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limi
  const existingClip=pronounced!==bundledText?bundledRecordingInfo(bundledText,locale):null;
  if(voiceProfile==='default'&&(pronounced===bundledText||existingClip?.kind==='human'||existingClip?.modelText===pronounced)
   &&serveBundledRecording({res,text:bundledText,locale,privateAudio}))return true;
- const key=speechKey(text,locale,voiceProfile);const existing=await pool.query('SELECT audio,provider,model FROM speech_cache WHERE cache_key=$1',[key]);
+ if(ownerId&&!/^[a-f0-9-]{36}$/i.test(ownerId))fail(400,'Invalid audio owner');
+ const key=speechKey(text,locale,ownerId?voiceProfile+':account:'+ownerId:voiceProfile);const existing=await pool.query('SELECT audio,provider,model FROM speech_cache WHERE cache_key=$1',[key]);
  let result=existing.rows[0];if(result&&validateAudio&&!wavHasSpeechSignal(Buffer.from(result.audio)))result=null;const cached=!!result;
  if(!result){
   limited(req,'studio-speech',180);
@@ -78,7 +79,7 @@ export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limi
     const budget=await pool.query(`INSERT INTO speech_daily_budget(day,generated) VALUES(CURRENT_DATE,1) ON CONFLICT(day) DO UPDATE SET generated=speech_daily_budget.generated+1 WHERE speech_daily_budget.generated<$1 RETURNING generated`,[Number(process.env.TTS_DAILY_LIMIT)||1000]);
     if(!budget.rows.length)fail(429,'Today’s new-audio limit has been reached. Saved audio is still available.');
     const generated=await synthesize(text,locale,{voiceProfile});if(validateAudio&&!wavHasSpeechSignal(generated.audio))throw Object.assign(Error('Studio recording contained no audible speech. Please retry.'),{status:503});
-    await pool.query('INSERT INTO speech_cache(cache_key,audio,provider,model) VALUES($1,$2,$3,$4) ON CONFLICT(cache_key) DO UPDATE SET audio=EXCLUDED.audio,provider=EXCLUDED.provider,model=EXCLUDED.model,created_at=now()',[key,generated.audio,generated.provider,generated.model]);
+    await pool.query('INSERT INTO speech_cache(cache_key,audio,provider,model,owner_id) VALUES($1,$2,$3,$4,$5) ON CONFLICT(cache_key) DO UPDATE SET audio=EXCLUDED.audio,provider=EXCLUDED.provider,model=EXCLUDED.model,created_at=now()',[key,generated.audio,generated.provider,generated.model,ownerId]);
     // Bound persistent audio storage to the newest 256 MB. Evicted clips can be regenerated.
     await pool.query(`DELETE FROM speech_cache WHERE cache_key IN (SELECT cache_key FROM (SELECT cache_key,SUM(octet_length(audio)) OVER (ORDER BY created_at DESC,cache_key) AS bytes FROM speech_cache) ranked WHERE bytes>268435456)`);return generated;
    }finally{active--;}})();inFlight.set(key,task);

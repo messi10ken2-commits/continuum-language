@@ -1,3 +1,4 @@
+import {appleStoreSettings} from './apple-store-api.mjs';
 import {handleAIOwner} from './ai-owner.mjs';
 import {learningLanguageIds} from './languages.mjs';
 import {isPlatformOwner} from './profiles-api.mjs';
@@ -24,15 +25,13 @@ export async function enforcePlatformControls({route,req,pool,currentUser,json,f
  fail(503,pausedServiceMessage);
 }
 const accountAccessSQL=()=>`WITH access AS (
- SELECT u.id,u.name,u.email,u.role,u.created_at AS "createdAt",m.status AS "billingStatus",m.paid_until AS "paidUntil",m.cancel_at_period_end AS "cancelAtPeriodEnd",m.price_id AS "priceId",s.provider AS "storeProvider",s.access_until AS "storeUntil",
+ SELECT u.id,u.name,u.email,u.role,u.created_at AS "createdAt",m.status AS "billingStatus",m.paid_until AS "paidUntil",m.cancel_at_period_end AS "cancelAtPeriodEnd",m.price_id AS "priceId",s.provider AS "storeProvider",s.source AS "storeSource",s.access_until AS "storeUntil",
  EXISTS(SELECT 1 FROM billing_blocks b WHERE b.user_id=u.id AND b.blocked) AS blocked,
  EXISTS(SELECT 1 FROM premium_invitations i WHERE i.redeemed_by=u.id AND i.active AND (i.access_until IS NULL OR i.access_until>now())) AS invited,
  EXISTS(SELECT 1 FROM premium_trials t WHERE t.user_id=u.id AND t.ends_at>now() AND (t.kind='cardless' OR (m.status='trialing' AND m.subscription_id=t.subscription_id AND m.paid_until>now()))) AS trial,
  COALESCE(m.status='active' AND m.paid_until>now(),false) AS subscribed
  FROM users u LEFT JOIN billing_memberships m ON m.user_id=u.id
- LEFT JOIN LATERAL (SELECT provider,access_until FROM store_sandbox_subscriptions
-   WHERE ${storeSandboxEnabled()?'TRUE':'FALSE'} AND user_id=u.id AND access_until>now()
-   ORDER BY access_until DESC,provider LIMIT 1) s ON TRUE
+ LEFT JOIN LATERAL (SELECT * FROM (SELECT provider,provider||'_sandbox' AS source,access_until FROM store_sandbox_subscriptions WHERE ${storeSandboxEnabled()?'TRUE':'FALSE'} AND user_id=u.id AND access_until>now() UNION ALL SELECT 'apple' AS provider,CASE WHEN environment='Production' THEN 'apple' ELSE 'apple_sandbox' END AS source,access_until FROM apple_store_subscriptions WHERE ${appleStoreSettings().enabled?'TRUE':'FALSE'} AND environment='${appleStoreSettings().environment==='Production'?'Production':'Sandbox'}' AND user_id=u.id AND NOT revoked AND access_until>now()) stores ORDER BY access_until DESC,provider LIMIT 1) s ON TRUE WHERE NOT u.system_actor
 ), plans AS (SELECT *,CASE WHEN "storeProvider" IS NOT NULL OR NOT blocked AND (subscribed OR invited OR trial) THEN 'premium' ELSE 'free' END AS tier FROM access)`;
 const uuid=/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
 function params(req,fail){const p=new URL(req.url,'http://localhost').searchParams,offset=Number(p.get('offset')||0),q=(p.get('q')||'').trim(),role=p.get('role')||null,plan=p.get('plan')||null;if(!Number.isInteger(offset)||offset<0||offset>1000000||q.length>120||role&&!['learner','teacher'].includes(role)||plan&&!['free','premium'].includes(plan))fail(400,'Choose valid account filters');return {offset,q,role,plan};}
@@ -54,10 +53,10 @@ export async function handleOwner({route,req,res,pool,required,currentUser,json,
  }
  if(route==='/api/owner/users'&&req.method==='GET'){
   const {offset,q,role,plan}=params(req,fail),r=await pool.query(accessSQL+` SELECT *,count(*) OVER()::int AS total FROM plans WHERE ($1::text IS NULL OR role=$1) AND ($2::text IS NULL OR tier=$2) AND (name ILIKE $3 OR email ILIKE $3) ORDER BY "createdAt" DESC,id LIMIT 50 OFFSET $4`,[role,plan,'%'+q+'%',offset]);
-  send(res,200,{users:r.rows.map(({priceId,subscribed,invited,trial,blocked,total,storeProvider,storeUntil,...u})=>({...u,paidUntil:storeProvider&&!subscribed?storeUntil:u.paidUntil,billingStatus:storeProvider?'active':blocked?'payment_review':u.billingStatus||'free',source:subscribed&&!blocked?'subscription':storeProvider?storeProvider+'_sandbox':blocked?'free':invited?'invitation':trial?'trial':'free',interval:interval(priceId),owner:u.id===user.id})),total:r.rows[0]?.total||0,offset,limit:50});return true;
+  send(res,200,{users:r.rows.map(({priceId,subscribed,invited,trial,blocked,total,storeProvider,storeSource,storeUntil,...u})=>({...u,paidUntil:storeProvider&&!subscribed?storeUntil:u.paidUntil,billingStatus:storeProvider?'active':blocked?'payment_review':u.billingStatus||'free',source:subscribed&&!blocked?'subscription':storeProvider?storeSource:blocked?'free':invited?'invitation':trial?'trial':'free',interval:interval(priceId),owner:u.id===user.id})),total:r.rows[0]?.total||0,offset,limit:50});return true;
  }
  const account=route.match(/^\/api\/owner\/users\/([a-f0-9-]+)(?:\/(sync))?$/);
- if(account){if(!uuid.test(account[1]))fail(404,'Account not found');const target=(await pool.query('SELECT id,name,email,role,created_at AS "createdAt" FROM users WHERE id=$1',[account[1]])).rows[0];if(!target)fail(404,'Account not found');
+ if(account){if(!uuid.test(account[1]))fail(404,'Account not found');const target=(await pool.query('SELECT id,name,email,role,created_at AS "createdAt" FROM users WHERE id=$1 AND NOT system_actor',[account[1]])).rows[0];if(!target)fail(404,'Account not found');
   if(account[2]==='sync'&&req.method==='POST'){
    limited(req,'owner-membership-sync',30);if(!legacyStripeEnabled())fail(410,'Subscriptions are managed through the app stores.');if(!process.env.STRIPE_SECRET_KEY||!billingSettings().prices.length)fail(503,'Stripe synchronization is not configured.');
    try{await billingTransaction(pool,async c=>{const m=(await c.query('SELECT customer_id,price_id FROM billing_memberships WHERE user_id=$1 FOR UPDATE',[target.id])).rows[0];if(!m?.customer_id)fail(400,'This account has no Stripe customer record.');if(m.price_id&&!billingSettings().prices.includes(m.price_id))fail(409,'The current price is not in the configured plan list. Check billing configuration before refreshing.');await reconcileCustomer(c,m.customer_id,stripeClient());await ownerAudit(c,user,'subscription_synced',target.id);});}catch(e){if(e.status)throw e;fail(503,'Subscription synchronization is unavailable. Existing records were preserved.');}

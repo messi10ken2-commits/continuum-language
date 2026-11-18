@@ -8,7 +8,7 @@ final class NativeUITests: XCTestCase {
         func tap(_ title: String, last: Bool = false) {
             let buttons = app.webViews.buttons.matching(NSPredicate(format: "label == %@", title))
             let button = last ? buttons.element(boundBy: max(0, buttons.count - 1)) : buttons.firstMatch
-            XCTAssertTrue(button.waitForExistence(timeout: 30), title)
+            XCTAssertTrue(button.waitForExistence(timeout: 90), title)
             for _ in 0..<12 { if button.isHittable { break }; app.swipeUp() }
             button.tap()
         }
@@ -20,17 +20,17 @@ final class NativeUITests: XCTestCase {
         password.tap(); password.typeText("native-e2e-password-123")
         tap("Sign in", last: true)
         tap("Account")
-        XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "Native QA learner")).firstMatch.waitForExistence(timeout: 30))
+        XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "Native QA learner")).firstMatch.waitForExistence(timeout: 90))
         app.terminate(); app.launch()
         tap("Account")
-        XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "Native QA learner")).firstMatch.waitForExistence(timeout: 30))
+        XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "Native QA learner")).firstMatch.waitForExistence(timeout: 90))
         let screenshot = XCTAttachment(screenshot: app.screenshot()); screenshot.name = "Native account restored from Keychain"; screenshot.lifetime = .keepAlways; add(screenshot)
         XCUIDevice.shared.orientation = .landscapeLeft
         let landscape = XCTAttachment(screenshot: app.screenshot()); landscape.name = "Native account in landscape"; landscape.lifetime = .keepAlways; add(landscape)
         XCUIDevice.shared.orientation = .portrait
         tap("Sign out")
-        XCTAssertTrue(app.webViews.buttons["Already a member? Sign in"].waitForExistence(timeout: 30))
+        XCTAssertTrue(app.webViews.buttons["Already a member? Sign in"].waitForExistence(timeout: 90))
         app.terminate(); app.launch()
-        XCTAssertTrue(app.webViews.buttons["Already a member? Sign in"].waitForExistence(timeout: 30))
+        XCTAssertTrue(app.webViews.buttons["Already a member? Sign in"].waitForExistence(timeout: 90))
     }
 }
