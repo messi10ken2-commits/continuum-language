@@ -27,6 +27,8 @@ jobs:
       - name: Install browser QA runtime
         run: |
           npx playwright install --with-deps chromium webkit
+      - name: Rehearse account erasure with synthetic users in Chromium and WebKit
+        run: node scripts/qa-account-erasure.mjs
       - name: Verify Light motion, interactions and accessibility
         run: node scripts/qa-light-motion.mjs
       - name: Verify audio recovery in Chromium and WebKit

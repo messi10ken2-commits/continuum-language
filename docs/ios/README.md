@@ -1,85 +1,33 @@
-# Continuum iOS implementation handoff
+# Continuum iOS handoff
 
-Prepared 18 November 2026 (Malaysia). Development branch: `codex/ios-integration`; draft PR: https://github.com/messi10ken2-commits/continuum-language/pull/117. Baseline production source: `3f18a51c335ee88daaadb867b9eb126f75554a27`.
+Updated 18 November 2026, Malaysia. Foundation PR #117 is merged and deployed at 99d6a22. Readiness follow-up: PR #118, codex/ios-release-readiness. This is a development app, not an App Store release candidate.
 
-**Status: an implemented native development project, not an App Store release candidate.** The project builds an unsigned simulator application. Shared-backend tests pass; the full native login/persistence/logout test has not yet passed. Production has not been changed by this PR. Use the readiness table below rather than treating Apple enrollment as the only remaining work.
+## Architecture
 
-## A. Delivered architecture and scope
+The app bundles React/Vite in Capacitor 8.6.2 with SwiftPM and shares the production Node/PostgreSQL backend, accounts, learning records, classes and all three presentation modes. All ten learning languages retain the shared curriculum. Application JavaScript is bundled, not loaded from an arbitrary remote WebView URL. The target is iPhone, iOS 17.4+, light appearance. iPad/dark-mode support is not claimed. Bundle identifier com.continuum.language.dev, custom scheme continuum-dev and subscription IDs are provisional.
 
-The iPhone app packages the existing React/Vite application with Capacitor 8.6.2 and SwiftPM. It shares the server, account IDs, sessions, learning progress, class records and curriculum with the web application. Photo, Illustration and Light remain the shared implementations; all ten learning languages and existing display languages are retained. This avoids a separately maintained native curriculum.
+Native sessions are scoped by API origin and stored in Keychain with WhenUnlockedThisDeviceOnly. Tokens are not persisted in localStorage/UserDefaults. Bearer transport attaches credentials only to the approved HTTPS API and refuses redirects; writes are never automatically retried. Exact-origin CORS and existing web cookie/CSRF handling coexist. Logout revokes the native session. Backgrounding pauses media, 3D work, animations and study tracking. Safe areas, keyboard, offline status, external links, sharing, haptics, local reminders, optional AI consent and class report/block are implemented. Native ads expose Close/Report. Physical performance, acoustic quality and OS permission behavior need device validation.
 
-`capacitor.config.json` packages `dist-native`; there is no remote WebView `server.url`, arbitrary cleartext access or wildcard CORS. The provisional bundle identifier is `com.continuum.language.dev`, custom scheme `continuum-dev`. Final identifiers and store product registration are not approved or provisioned.
+## Readiness additions
 
-The app targets **iPhone, iOS 17.4+**, in light appearance. Capacitor's SDK supports earlier iOS versions, but this application deliberately requires WebKit APIs available in 17.4. iPad support and an independently designed dark theme are not claimed.
+Recovery mail now has TLS SMTP/authenticated HTTPS transport, encrypted transactional outbox, retry/expiry and redaction. Account deletion has a guarded, password-confirmed owner fulfilment process that removes the original account/private content, cancels future pending classes and queues completion mail. Approved minimal shared-class/financial structure may remain under a new non-login record. Policy periods, provider-held records, backup procedures and user notice require actual operator decisions. Retention expiry is a manual review, not automatic purge.
 
-Entry: `native-entry.mjs` initializes native services before React. `vite.config.mjs` produces the native bundle; `scripts/prepare-native-assets.mjs` copies required fonts/flags, checks native security invariants, and keeps large authored media on the HTTPS backend. Application JavaScript is bundled. Measured uncompressed web assets are approximately 11.22 MB across 49 native files, rather than packaging the roughly 172 MB web output. This is a package-size measurement, not a device latency or FPS result.
+Apple verification now uses Apple's official server library and pinned root. Signed transaction/renewal ownership, grace, refund/revocation, idempotent notifications and reconciliation are implemented with synthetic cryptographic tests. Real Apple credentials/end-to-end validation remain pending. Live native purchasing stays disabled. No real charge, mail delivery or account erasure was performed.
 
-## B. Native behavior and security
+Read [OPERATIONS.md](OPERATIONS.md) before configuration. Run node docs/ios/check-deployment-readiness.mjs for a read-only report. Default-off gates prevent deployment from activating mail, erasure or live verification.
 
-- Keychain stores the session using `WhenUnlockedThisDeviceOnly`, scoped by API origin. The token is removed from login JSON before application code receives it and is never persisted in localStorage/UserDefaults. Capacitor bridge logging is disabled.
-- API transport attaches bearer credentials only to the configured API, omits cookies and disallows credential-bearing redirects. Requests time out; writes are not automatically retried. Authentication expiry clears the secure session. Existing web cookie/CSRF behavior remains.
-- Exact native-origin handling is implemented server-side. Native and web accounts use the same existing identity and sessions table. Native logout revokes its own session.
-- Safe-area, keyboard, offline status, external link handling, sharing, haptics and opt-in local reminders are included. Privacy settings open inside the authenticated app.
-- App inactivity pauses media, 3D work, CSS animation and study tracking. Microphone/audio-session preparation is explicit; interruption and route changes stop the active conversation. Detached sentence audio also stops on pagehide.
-- Existing companion rigs retain their rendering limits, lazy loading, disposal and reduced-motion behavior. Real iPhone memory, heat, battery and smoothness measurements remain required.
-- Optional provider-bound AI submissions require explicit, revocable per-account/device consent. Regular lessons remain available without that consent.
-- Native promotional ads expose Close and Report immediately; the web's existing mandatory 15-second behavior remains separate.
-- Class chat gains in-app reporting and bilateral blocking. Blocking prevents messages, not access to existing class/learning records. Race handling is covered by synthetic API tests.
+## Mac and StoreKit development
 
-Principal files: `native-policy.mjs`, `native-transport.mjs`, `native-runtime.mjs`, `native-ios.css`, `NativeAccountTools.jsx`, `NativeChatSafety.jsx`, `ios/App/App/AppDelegate.swift`, `ios/App/App/SceneDelegate.swift`.
+Follow [MAC_SETUP.md](MAC_SETUP.md). Production already supports native sessions; destructive/payment tests belong to isolated staging or the synthetic fixture. Simulator CI uses synthetic accounts, temporary TLS certificates and local signing. Paid distribution identity is not configured. See [TEST_RESULTS.md](TEST_RESULTS.md) for observed results rather than treating compiled code as a passing native login test.
 
-## C. Account recovery, deletion and payments
+After npm run ios:sync, run node docs/ios/prepare-local-storekit.mjs. Open the printed disposable project on a Mac and choose App-Local-StoreKit. Only the copy enables the local debug flag, adds the StoreKit fixture and removes archiving. Shipping settings remain unchanged. Prices 0.99/9.99 are test placeholders, with no family sharing or introductory offer. Exercise product lookup, purchase/cancel/pending/restore in Xcode. Local transactions cannot grant server Premium. Fixture generation is tested; actual StoreKit interaction is not yet verified.
 
-Password recovery uses expiring, hashed, single-use tokens and revokes sessions on reset. Responses avoid account enumeration. Delivery is an adapter requiring an approved `AUTH_MAILER_WEBHOOK_URL` and token. Without configuration the feature cannot deliver recovery mail. No mail provider was activated.
+Remote APNs push and Universal Links remain unimplemented/unprovisioned. Existing on-device reminders and the development custom scheme require physical-device checks. See [RELEASE_REQUIREMENTS.md](RELEASE_REQUIREMENTS.md).
 
-Account deletion can be initiated in-app after password confirmation. The current implementation creates an idempotent Support request; **it does not erase personal data automatically**. An operator fulfilment process, retention decision, disclosed processing period and completion notification must be established and exercised before release. See [RELEASE_REQUIREMENTS.md](RELEASE_REQUIREMENTS.md). This is an operational and implementation gap, not an Apple-enrollment restriction.
+## Distribution and policy
 
-StoreKit 2 code supports product lookup, native subscription management, restore and a deliberately gated local purchase path. Product identifiers are provisional `com.continuum.premium.monthly` and `.yearly`. Live purchasing remains disabled in release builds. Debug purchase additionally requires an explicit plist flag and verified Xcode StoreKit environment. No prices or introductory trial were configured or charged.
+Microphone/camera descriptions, localized permission copy, privacy manifest, AI consent and brand assets are present. Reconcile actual SDK/provider collection, retention and aggregate Xcode privacy reports with published policy and store answers. Do not activate dormant services until published descriptions match operations. No App Store Connect products, final prices, trial terms, questionnaires, review account or screenshots are approved. No distribution archive, TestFlight upload or App Store submission was made.
 
-Restore sends transaction IDs to the existing **sandbox-only** backend verifier. The production verifier, App Store Server Notifications V2, renewal/refund/revocation handling and production entitlement reconciliation still require implementation and validation. A local StoreKit purchase does not grant Premium because the server does not trust a local transaction. This is an intentional security boundary, not a completed purchase test.
+Keep the follow-up unmerged until required tests pass. Observe Railway deployment health. Rollback application code without dropping additive tables or losing the mail encryption key. See OPERATIONS.md for irreversible-operation safeguards and manual dependencies.
 
-Digital Premium must use the approved in-app purchase implementation. Qualifying live individual teacher classes remain separate from digital entitlement purchases. The native membership presentation does not bundle class-ticket marketing into a digital plan. Final product eligibility, prices, trial terms, cancellation wording and review evidence need owner decisions.
-
-APNs remote push is not implemented or provisioned. Opt-in on-device reminders are implemented. Universal Links are not provisioned; the custom development scheme is implemented with allowlisted destinations/reset tokens.
-
-## D. Validation and limits
-
-The CI workflow `.github/workflows/ios-integration.yml` builds with Xcode on macOS, launches a simulator, then runs XCTest against an isolated PGlite-backed HTTPS fixture. Synthetic test identities and a test-only root certificate are used; no production learner is modified. The fixture exercises the real server login, Keychain persistence across process restarts and logout.
-
-Earlier unsigned simulator compilation succeeded. A later native test exposed a genuine startup failure: the scene used the default Capacitor controller, skipping custom native plugin registration. The scene now instantiates `ContinuumViewController`, and the structural check asserts that. Its next Mac run was cancelled before a runner was assigned; it did not validate the fix.
-
-At the initial handoff-writing checkpoint, local web/native builds, native project checks and all **11 native tests** pass. The previous shared-backend CI passed **612 tests**. The current full suite includes an additional lifecycle test; results will be recorded in [TEST_RESULTS.md](TEST_RESULTS.md). Browser CI exposed readiness races after navigation for the asynchronous companion canvas and passport stamp; assertions now wait for visible content before counting it, without removing the count checks.
-
-Do not infer acoustic voice quality, physical microphone routing, OS permission behavior, notifications, StoreKit purchases, device FPS, every localized native flow or App Review acceptance from Node tests or Playwright. See the explicit device matrix in [MAC_SETUP.md](MAC_SETUP.md).
-
-## E. Privacy and store preparation
-
-The app has microphone/camera usage descriptions, localized permission descriptions, an app privacy manifest, a branded icon and launch assets. The manifest includes account identity, user content, audio, product interaction and purchase history for functionality; tracking is disabled. These declarations must be reconciled with actual deployment/provider retention and Xcode's aggregate privacy report before submission.
-
-Existing email/password login is retained. No third-party social login was added. Any future social provider changes require a fresh Sign in with Apple applicability review.
-
-Policy/support endpoints: `/privacy`, `/terms`, `/help` on https://continuum-language-production.up.railway.app. Confirm these describe actual native behavior, deletion fulfilment, AI processors and retention. No App Store Connect privacy questionnaire, age-rating questionnaire, screenshots, review account, product metadata or submission was created.
-
-## F. What Ken can do before paid enrollment
-
-Follow [MAC_SETUP.md](MAC_SETUP.md) to run the simulator with Xcode, then use a Personal Team for a connected iPhone where supported. A simulator does not need paid enrollment. Use a staging backend running this branch for functional native authentication: production does not yet contain this PR's native session endpoints.
-
-Without paid enrollment, development can still cover login/logout, lessons, class chat, safe areas, permissions, audio, 3D, offline/reconnect and local reminders. Final App Store/TestFlight distribution, registered identifiers, production StoreKit configuration and APNs provisioning remain separate enrollment-dependent work.
-
-## G. Release, rollout and rollback
-
-Keep PR #117 in draft until native authentication and required browser checks pass and the unresolved launch requirements are assessed. Merge/deployment is not implied by a successful unsigned build. Before deployment, take the normal database backup, review migrations and confirm mail/payment gates. No production secrets, real payment settings or learner records were changed during implementation.
-
-New database tables support recovery, blocking and deletion requests; a source rollback does not erase these records. For rollback, redeploy baseline `3f18a51` or the last known-good web/backend deployment; retain the new tables until their data is reviewed. Native API clients must remain compatible with deployed backend authentication. Do not distribute a build pointing at a backend that lacks native session support.
-
-No native archive was signed, no app was submitted, no real store purchase was attempted and no production deployment was performed. The exact remaining requirements are listed alongside their owner in [RELEASE_REQUIREMENTS.md](RELEASE_REQUIREMENTS.md).
-
-### Official references
-
-- Capacitor iOS setup: https://capacitorjs.com/docs/ios
-- Apple review guidelines: https://developer.apple.com/app-store/review/guidelines/
-- Account deletion: https://developer.apple.com/help/app-review/guideline-reference/5-1-1-account-deletion
-- Local StoreKit testing: https://developer.apple.com/documentation/Xcode/setting-up-storekit-testing-in-xcode
-- Safari 17.4 APIs: https://webkit.org/blog/15063/webkit-features-in-safari-17-4/
-
-Recheck submission rules and Xcode requirements at release time; this document does not constitute App Review approval.
+Official references: [Capacitor](https://capacitorjs.com/docs/ios), [Apple account deletion](https://developer.apple.com/help/app-review/guideline-reference/5-1-1-account-deletion), [StoreKit testing](https://developer.apple.com/documentation/Xcode/setting-up-storekit-testing-in-xcode), [Apple server library](https://github.com/apple/app-store-server-library-node).

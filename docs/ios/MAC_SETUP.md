@@ -17,7 +17,7 @@ npm run ios:open
 
 This opens `ios/App/App.xcodeproj`. Let Swift package dependencies finish resolving. Select the **App** scheme and an iPhone simulator, then Run. Simulator builds need no signing team. If Xcode asks for a team, confirm an iPhone simulator is selected rather than “Any iOS Device”.
 
-The default API is production. Native account functionality requires this branch's backend changes, which have not been deployed to production. For functional development, use an approved HTTPS staging backend running this branch:
+The default API is production, where native session support was deployed in PR #117 (99d6a22). Use an approved HTTPS staging backend for synthetic development and destructive/payment testing:
 
 ```sh
 CONTINUUM_API_ORIGIN=https://YOUR-STAGING-HOST npm run ios:sync
