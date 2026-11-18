@@ -98,6 +98,9 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         var item: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &item)
         if status == errSecItemNotFound { call.resolve([:]); return }
+        #if DEBUG
+        if status != errSecSuccess { print("Continuum Keychain read OSStatus", status) }
+        #endif
         guard status == errSecSuccess, let data = item as? Data, let token = String(data: data, encoding: .utf8) else { call.reject("Secure session storage is unavailable"); return }
         call.resolve(["token": token])
     }

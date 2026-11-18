@@ -2,7 +2,8 @@ import nodemailer from 'nodemailer';
 import {createCipheriv,createDecipheriv,randomBytes,randomUUID} from 'node:crypto';
 export function mailSettings(env=process.env){
  const provider=env.AUTH_MAIL_PROVIDER||(env.AUTH_MAILER_WEBHOOK_URL?'webhook':'smtp');
- const configured=provider==='webhook'?!!(env.AUTH_MAILER_WEBHOOK_URL&&env.AUTH_MAILER_WEBHOOK_TOKEN):provider==='smtp'&&!!(env.AUTH_SMTP_HOST&&env.AUTH_SMTP_USER&&env.AUTH_SMTP_PASSWORD&&env.AUTH_MAIL_FROM);
+ let webhook=false;try{const u=new URL(env.AUTH_MAILER_WEBHOOK_URL);webhook=u.protocol==='https:'&&!u.username&&!u.password&&!u.hash&&!!env.AUTH_MAILER_WEBHOOK_TOKEN}catch{}
+ const configured=provider==='webhook'?webhook:provider==='smtp'&&!!(env.AUTH_SMTP_HOST&&/^[A-Za-z0-9.-]+$/.test(env.AUTH_SMTP_HOST)&&env.AUTH_SMTP_USER&&env.AUTH_SMTP_PASSWORD&&address(env.AUTH_MAIL_FROM)&&[465,587].includes(Number(env.AUTH_SMTP_PORT||465)));
  return {provider,configured};
 }
 const address=value=>typeof value==='string'&&value.length<=254&&/^[^\s@<>\r\n,;]+@[^\s@<>\r\n,;]+$/.test(value);

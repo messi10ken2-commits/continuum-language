@@ -19,6 +19,8 @@ final class NativeUITests: XCTestCase {
         let password = app.webViews.secureTextFields.firstMatch
         password.tap(); password.typeText("native-e2e-password-123")
         tap("Sign in", last: true)
+        let signedIn = XCTAttachment(screenshot: app.screenshot()); signedIn.name = "After sign-in attempt"; signedIn.lifetime = .keepAlways; add(signedIn)
+        print("NATIVE_SIGNIN_ACCESSIBILITY", app.debugDescription)
         tap("Account")
         XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "Native QA learner")).firstMatch.waitForExistence(timeout: 90))
         app.terminate(); app.launch()

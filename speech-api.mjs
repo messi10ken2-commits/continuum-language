@@ -69,7 +69,7 @@ export async function serveStudioSpeech({req,res,pool,text,locale,send,fail,limi
  if(voiceProfile==='default'&&(pronounced===bundledText||existingClip?.kind==='human'||existingClip?.modelText===pronounced)
   &&serveBundledRecording({res,text:bundledText,locale,privateAudio}))return true;
  if(ownerId&&!/^[a-f0-9-]{36}$/i.test(ownerId))fail(400,'Invalid audio owner');
- const key=speechKey(text,locale,ownerId?voiceProfile+':account:'+ownerId:voiceProfile);const existing=await pool.query('SELECT audio,provider,model FROM speech_cache WHERE cache_key=$1',[key]);
+ const key=speechKey(text,locale,voiceProfile,ownerId);const existing=await pool.query('SELECT audio,provider,model FROM speech_cache WHERE cache_key=$1',[key]);
  let result=existing.rows[0];if(result&&validateAudio&&!wavHasSpeechSignal(Buffer.from(result.audio)))result=null;const cached=!!result;
  if(!result){
   limited(req,'studio-speech',180);

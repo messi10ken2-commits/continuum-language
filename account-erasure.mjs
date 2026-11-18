@@ -9,30 +9,33 @@ const digest=value=>createHash('sha256').update(JSON.stringify(value)).digest('h
 const safe=value=>{if(!/^[a-z_]+$/.test(value))throw Error('Unexpected database identifier');return '"'+value+'"'};
 export function erasurePolicy(env=process.env){
  const days=Number(env.ACCOUNT_DELETION_PROCESSING_DAYS),retentionDays=Number(env.ACCOUNT_DELETION_RETENTION_DAYS),backupDays=Number(env.ACCOUNT_DELETION_BACKUP_DAYS),version=env.ACCOUNT_DELETION_POLICY_VERSION;
- const configured=!!(version&&/^[A-Za-z0-9._-]{1,80}$/.test(version)&&Number.isInteger(days)&&days>=1&&days<=90&&Number.isInteger(retentionDays)&&retentionDays>=1&&retentionDays<=3650&&Number.isInteger(backupDays)&&backupDays>=1&&backupDays<=365);
+ const configured=!!(env.ACCOUNT_DELETION_POLICY_PUBLISHED==='true'&&version&&/^[A-Za-z0-9._-]{1,80}$/.test(version)&&Number.isInteger(days)&&days>=1&&days<=90&&Number.isInteger(retentionDays)&&retentionDays>=1&&retentionDays<=3650&&Number.isInteger(backupDays)&&backupDays>=1&&backupDays<=365);
  return {configured,enabled:configured&&env.ACCOUNT_DELETION_ENABLED==='true'&&outboxReady(env)&&env.READINESS_MAINTENANCE_ENABLED==='true',version,days:configured?days:null,retentionDays,backupDays};
 }
 export async function migrateAccountErasure(pool){await pool.query(`
  CREATE TABLE IF NOT EXISTS account_deletion_requests(id uuid PRIMARY KEY DEFAULT gen_random_uuid(),user_id uuid UNIQUE REFERENCES users(id) ON DELETE SET NULL,ticket_id uuid REFERENCES support_tickets(id) ON DELETE SET NULL,status text NOT NULL DEFAULT 'requested',policy_version text,processing_days integer,requested_at timestamptz NOT NULL DEFAULT now(),completed_at timestamptz,receipt_id uuid);
  CREATE TABLE IF NOT EXISTS account_erasure_receipts(id uuid PRIMARY KEY,request_id uuid NOT NULL UNIQUE,actor_id uuid REFERENCES users(id) ON DELETE SET NULL,policy_version text NOT NULL,completed_at timestamptz NOT NULL DEFAULT now(),retained_until timestamptz NOT NULL,backup_expiry timestamptz NOT NULL,placeholder_id uuid,counts jsonb NOT NULL,notification_id text NOT NULL);
+ INSERT INTO account_deletion_requests(user_id,ticket_id,requested_at) SELECT user_id,id,created_at FROM support_tickets WHERE category='account' AND client_key='account-deletion-'||user_id::text ON CONFLICT(user_id) DO NOTHING;
  `)}
 const schemaSQL=`SELECT tc.table_name,kcu.column_name,rc.delete_rule FROM information_schema.table_constraints tc JOIN information_schema.key_column_usage kcu ON tc.constraint_name=kcu.constraint_name AND tc.constraint_schema=kcu.constraint_schema JOIN information_schema.constraint_column_usage ccu ON ccu.constraint_name=tc.constraint_name AND ccu.constraint_schema=tc.constraint_schema JOIN information_schema.referential_constraints rc ON rc.constraint_name=tc.constraint_name AND rc.constraint_schema=tc.constraint_schema WHERE tc.constraint_type='FOREIGN KEY' AND ccu.table_name='users' AND tc.table_schema='public' ORDER BY tc.table_name,kcu.column_name`;
 export async function erasurePreview(c,requestId,{env=process.env}={}){
  const request=(await c.query('SELECT r.*,u.email,u.name,u.role,u.system_actor FROM account_deletion_requests r LEFT JOIN users u ON u.id=r.user_id WHERE r.id=$1',[requestId])).rows[0];if(!request)failure(404,'Deletion request not found.');
  if(request.status==='completed')return {completed:true,receiptId:request.receipt_id};
- if(!request.user_id||request.system_actor||isPlatformOwner({id:request.user_id}))failure(409,'This account cannot be erased through this workflow.');
+ if(!request.user_id||request.system_actor||isPlatformOwner({id:request.user_id,role:request.role}))failure(409,'This account cannot be erased through this workflow.');
  const schema=(await c.query(schemaSQL)).rows,expected=new Map(manifest.map(row=>[row.table_name+'.'+row.column_name,row]));
- const unknown=schema.filter(row=>!expected.has(row.table_name+'.'+row.column_name)||expected.get(row.table_name+'.'+row.column_name).delete_rule!==row.delete_rule).map(row=>row.table_name+'.'+row.column_name);
+ const actual=new Set(schema.map(row=>row.table_name+'.'+row.column_name));
+ const missing=manifest.filter(row=>!actual.has(row.table_name+'.'+row.column_name)).map(row=>'missing:'+row.table_name+'.'+row.column_name);
+ const unknown=schema.filter(row=>!expected.has(row.table_name+'.'+row.column_name)||expected.get(row.table_name+'.'+row.column_name).delete_rule!==row.delete_rule).map(row=>row.table_name+'.'+row.column_name).concat(missing);
  const counts={};for(const row of schema){const result=await c.query(`SELECT count(*)::int AS n FROM ${safe(row.table_name)} WHERE ${safe(row.column_name)}=$1`,[request.user_id]);counts[row.table_name+'.'+row.column_name]=result.rows[0].n;}
  const legacyAudio=(await c.query('SELECT count(*)::int AS n FROM speech_cache WHERE owner_id IS NULL')).rows[0].n;
- const policy=erasurePolicy(env),fingerprint=digest({requestId,userId:request.user_id,schema,counts,legacyAudio,policy});
+ const policy=erasurePolicy(env),fingerprint=digest({requestId,userId:request.user_id,identity:digest([request.email,request.name,request.role]),schema,counts,legacyAudio,policy});
  return {requestId,userId:request.user_id,name:request.name,email:request.email,role:request.role,counts,legacyAudio,unknownSchema:unknown,policy:{configured:policy.configured,enabled:policy.enabled,version:policy.version,processingDays:policy.days,retentionDays:policy.retentionDays,backupDays:policy.backupDays},fingerprint};
 }
 async function transaction(pool,work){const c=await pool.connect();try{await c.query('BEGIN');const value=await work(c);await c.query('COMMIT');return value}catch(error){await c.query('ROLLBACK');throw error}finally{c.release()}}
 export async function fulfilAccountErasure(pool,requestId,actor,input,{env=process.env}={}){
  if(!isPlatformOwner(actor))failure(403,'Platform owner only.');
  const policy=erasurePolicy(env);if(!policy.enabled)failure(503,'Erasure policy and encrypted completion delivery must be configured first.');
- if(input.confirm!==requestId||!['externalDataHandled','backupsPolicyApplied','retentionApproved','sharedHistoryApproved','notificationAddressVerified'].every(key=>input[key]===true))failure(400,'Confirm the request and all fulfilment checks.');
+ if(input.confirm!==requestId||!['externalDataHandled','backupsPolicyApplied','retentionApproved','sharedHistoryApproved','notificationAddressVerified','userNotifiedOfPolicy'].every(key=>input[key]===true))failure(400,'Confirm the request and all fulfilment checks.');
  return transaction(pool,async c=>{
   const request=(await c.query('SELECT * FROM account_deletion_requests WHERE id=$1 FOR UPDATE',[requestId])).rows[0];if(!request)failure(404,'Deletion request not found.');
   if(request.status==='completed')return {completed:true,receiptId:request.receipt_id};
@@ -69,13 +72,14 @@ export async function fulfilAccountErasure(pool,requestId,actor,input,{env=proce
   await c.query('INSERT INTO account_erasure_receipts(id,request_id,actor_id,policy_version,retained_until,backup_expiry,placeholder_id,counts,notification_id) VALUES($1,$2,$3,$4,$5,$6,$7,$8::jsonb,$9)',[receiptId,requestId,actor.id,policy.version,retainedUntil,backupExpiry,needsPlaceholder?placeholder:null,JSON.stringify(preview.counts),notificationId]);
   await c.query("UPDATE account_deletion_requests SET status='completed',completed_at=now(),receipt_id=$2 WHERE id=$1",[requestId,receiptId]);
   await c.query('DELETE FROM users WHERE id=$1',[id]);
+  await c.query("INSERT INTO owner_events(actor_id,kind,target,detail) VALUES($1,'account_erased',$2,$3::jsonb)",[actor.id,receiptId,JSON.stringify({receiptId,policyVersion:policy.version})]);
   return {completed:true,receiptId,notification:'queued',retainedUntil,backupExpiry};
  });
 }
 export async function handleErasureOwner({route,req,res,pool,required,json,send,fail,limited}){
  if(!route.startsWith('/api/owner/deletion-requests'))return false;
  const actor=await required(req);if(!isPlatformOwner(actor))fail(403,'Platform owner only.');
- if(route==='/api/owner/deletion-requests'&&req.method==='GET'){const rows=(await pool.query('SELECT r.id,r.status,r.requested_at AS "requestedAt",r.completed_at AS "completedAt",r.receipt_id AS "receiptId",u.name,u.email FROM account_deletion_requests r LEFT JOIN users u ON u.id=r.user_id ORDER BY r.requested_at DESC LIMIT 100')).rows;send(res,200,{requests:rows,policy:erasurePolicy()});return true;}
+ if(route==='/api/owner/deletion-requests'&&req.method==='GET'){const rows=(await pool.query('SELECT r.id,r.status,r.requested_at AS "requestedAt",r.completed_at AS "completedAt",r.receipt_id AS "receiptId",u.name,u.email,m.status AS "notificationStatus",m.attempts AS "notificationAttempts",e.retained_until AS "retentionReviewAt",e.backup_expiry AS "backupExpiry" FROM account_deletion_requests r LEFT JOIN users u ON u.id=r.user_id LEFT JOIN account_erasure_receipts e ON e.id=r.receipt_id LEFT JOIN transactional_mail_outbox m ON m.id=e.notification_id ORDER BY r.requested_at DESC LIMIT 100')).rows;send(res,200,{requests:rows,policy:erasurePolicy()});return true;}
  const match=route.match(/^\/api\/owner\/deletion-requests\/([a-f0-9-]{36})\/(preview|fulfil)$/);if(!match)fail(404,'Deletion endpoint not found.');
  if(match[2]==='preview'&&req.method==='GET'){send(res,200,await erasurePreview(pool,match[1]));return true;}
  if(match[2]!=='fulfil'||req.method!=='POST')fail(405,'Use GET for preview or POST for fulfilment.');

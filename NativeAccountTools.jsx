@@ -1,8 +1,10 @@
-import React,{useState} from 'react';
+import React,{useEffect,useState} from 'react';
 import {LocalNotifications} from '@capacitor/local-notifications';import {Share} from '@capacitor/share';
 import {Native} from './native-runtime.mjs';import {t} from './interface-runtime.mjs';
 export default function NativeAccountTools({user}){
  const [time,setTime]=useState('20:00'),[password,setPassword]=useState(''),[confirm,setConfirm]=useState(false),[busy,setBusy]=useState(false),[notice,setNotice]=useState('');
+ const [deletionStatus,setDeletionStatus]=useState(null);
+ useEffect(()=>{let live=true;fetch('/api/account/deletion-request').then(r=>r.ok?r.json():null).then(d=>{if(live)setDeletionStatus(d)}).catch(()=>{});return()=>{live=false}},[user.id]);
  const [ai,setAI]=useState(()=>localStorage.getItem('continuumNativeAIConsent:v1:'+user.id)==='yes');
  const run=async action=>{if(busy)return;setBusy(true);setNotice('');try{await action()}catch(e){setNotice(e.message)}finally{setBusy(false)}};
  const remind=()=>run(async()=>{
@@ -28,7 +30,7 @@ export default function NativeAccountTools({user}){
    for(const id of result.transactionIds){const r=await fetch(configuration.enabled?'/api/billing/apple':'/api/billing/store-sandbox',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(configuration.enabled?{transactionId:id}:{provider:'apple',purchase:id})});if(!r.ok)throw Error(t('Store verification is not configured for this environment.'));if(configuration.enabled)await Native.finishTransaction({transactionId:id});}
    window.dispatchEvent(new Event('continuum-membership-changed'));setNotice(t('Purchases restored.'));
   })}>{t('Restore purchases')}</button></>}
-  <h3>{t('Account deletion')}</h3><p>{t('Request deletion of your account and personal learning data. Subscription cancellation is separate. The team will confirm the processing time and completion in Support.')}</p>
+  <h3>{t('Account deletion')}</h3><p>{t('Deletion removes your account, learning records, private class content and saved audio. Required payment records and minimal shared class history may remain under the published retention policy. Future classes are cancelled when deletion is completed.')}</p>{deletionStatus?.processingDays&&<p>{t('Processing time (days)')}: {deletionStatus.processingDays}</p>}{deletionStatus?.retentionDays&&<p>{t('Retention review (days)')}: {deletionStatus.retentionDays}</p>}<p>{t('Request deletion of your account and personal learning data. Subscription cancellation is separate. The team will confirm the processing time and completion in Support.')}</p>
   {!confirm?<button className="text-button native-danger" onClick={()=>setConfirm(true)}>{t('Request account deletion')}</button>:<form onSubmit={e=>{e.preventDefault();deletion()}}><label>{t('Confirm your password')}<input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)}/></label><button className="outline-button native-danger" disabled={busy}>{t('Confirm deletion request')}</button><button type="button" className="text-button" onClick={()=>{setConfirm(false);setPassword('')}}>{t('Cancel')}</button></form>}
  </section>;
 }

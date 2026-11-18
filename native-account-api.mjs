@@ -5,7 +5,7 @@ import {passwordMatches} from './password-security.mjs';import {billingTransacti
 export async function handleNativeAccount({route,req,res,pool,required,json,send,fail,limited}){
  if(await handleErasureOwner({route,req,res,pool,required,json,send,fail,limited}))return true;
  if(route!=='/api/account/deletion-request')return false;
- if(req.method==='GET'){const user=await required(req);const request=(await pool.query('SELECT id,status,requested_at AS \"requestedAt\",processing_days AS \"processingDays\" FROM account_deletion_requests WHERE user_id=$1',[user.id])).rows[0];send(res,200,{request:request||null,processingDays:erasurePolicy().days});return true;}
+ if(req.method==='GET'){const user=await required(req);const request=(await pool.query('SELECT id,status,requested_at AS \"requestedAt\",processing_days AS \"processingDays\" FROM account_deletion_requests WHERE user_id=$1',[user.id])).rows[0];send(res,200,{request:request||null,processingDays:erasurePolicy().days,retentionDays:erasurePolicy().configured?erasurePolicy().retentionDays:null});return true;}
  if(req.method!=='POST')fail(405,'Use GET or POST.');
  const user=await required(req);limited(req,'account-delete',4);const data=await json(req);
  if(data.confirm!==true||typeof data.password!=='string'||data.password.length>128)fail(400,'Confirm deletion and enter your password');

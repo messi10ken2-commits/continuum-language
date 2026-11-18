@@ -8,7 +8,7 @@ if(!registered.ok)throw Error('Could not seed native test account');
 const cookie=registered.headers.get('set-cookie').split(';')[0];
 const profile=await fetch(base+'/api/profile',{method:'PUT',headers:{'Content-Type':'application/json',cookie},body:JSON.stringify({profile:{name:'Native QA learner',languages:['en'],primaryLanguage:'en',level:'A1',startMode:'manual',goal:'Everyday communication'}})});
 if(!profile.ok)throw Error('Could not seed native test profile');
-const tls=https.createServer({key:await readFile('/tmp/continuum-test.key'),cert:await readFile('/tmp/continuum-test.crt')},(req,res)=>testServer.emit('request',req,res));
+const tls=https.createServer({key:await readFile('/tmp/continuum-test.key'),cert:await readFile('/tmp/continuum-test.crt')},(req,res)=>{if(req.url.startsWith('/api/'))res.on('finish',()=>console.log('Fixture API',req.method,new URL(req.url,'https://127.0.0.1').pathname,res.statusCode));testServer.emit('request',req,res)});
 await new Promise(r=>tls.listen(9443,'127.0.0.1',r));await writeFile('/tmp/continuum-ios-backend-ready','ready');
 console.log('Synthetic native HTTPS backend ready on loopback port 9443');
 process.on('SIGTERM',async()=>{tls.closeAllConnections();await new Promise(r=>tls.close(r));testServer.closeAllConnections();await new Promise(r=>testServer.close(r));await db.close();process.exit(0)});
