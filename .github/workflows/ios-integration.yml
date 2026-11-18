@@ -22,8 +22,8 @@ jobs:
       - run: npm ci
       - run: npm run ios:sync
       - run: npm run ios:check
-      - name: Build unsigned simulator application
-        run: xcodebuild -project ios/App/App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath /tmp/continuum-ios CODE_SIGNING_ALLOWED=NO build
+      - name: Build locally signed simulator application
+        run: xcodebuild -project ios/App/App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath /tmp/continuum-ios CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- build
       - name: Preserve development simulator build
         run: tar -czf /tmp/continuum-ios-development.tar.gz -C /tmp/continuum-ios/Build/Products/Debug-iphonesimulator App.app
       - name: Boot iPhone simulator
