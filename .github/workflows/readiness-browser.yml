@@ -1,19 +1,30 @@
-name: Native transport browser verification
+name: Native readiness production smoke
 on:
   push:
     branches: ['qa/ios-readiness-ui']
 permissions:
   contents: read
 jobs:
-  transport:
+  smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version-file: '.node-version'
-          cache: npm
-      - run: npm ci
-      - run: npx playwright install --with-deps chromium webkit
-      - run: node scripts/qa-native-transport.mjs
+          node-version: '24.22.1'
+      - name: Read-only production health and native boundary checks
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          const base='https://continuum-language-production.up.railway.app';
+          const native={Origin:'capacitor://localhost','X-Continuum-Client':'ios'};
+          const request=(path,options={})=>fetch(base+path,{...options,redirect:'error',signal:AbortSignal.timeout(15000)});
+          const health=await request('/api/health');assert.equal(health.status,200);assert.equal((await health.json()).ok,true);console.log('PASS database health');
+          const root=await request('/');assert.equal(root.status,200);assert.match(root.headers.get('content-type'),/text\/html/);await root.arrayBuffer();console.log('PASS application document');
+          const me=await request('/api/auth/me',{headers:native});assert.equal(me.status,200);assert.equal(me.headers.get('access-control-allow-origin'),'capacitor://localhost');assert.equal((await me.json()).user,null);console.log('PASS native unauthenticated identity and exact CORS');
+          const preflight=await request('/api/auth/login',{method:'OPTIONS',headers:{Origin:'capacitor://localhost','Access-Control-Request-Method':'POST','Access-Control-Request-Headers':'authorization,content-type,x-continuum-client'}});assert.equal(preflight.status,204);assert.equal(preflight.headers.get('access-control-allow-origin'),'capacitor://localhost');console.log('PASS native preflight');
+          const foreign=await request('/api/auth/login',{method:'OPTIONS',headers:{Origin:'https://foreign.example.test','Access-Control-Request-Method':'POST'}});assert.equal(foreign.status,403);assert.equal(foreign.headers.get('access-control-allow-origin'),null);console.log('PASS foreign-origin rejection');
+          for(const path of ['/api/billing/apple','/api/account/deletion-request']){
+            const response=await request(path,{headers:native});assert.equal(response.status,401,path);await response.arrayBuffer();console.log('PASS new account endpoint authentication '+path);
+          }
+          JS
