@@ -1,3 +1,7 @@
+import {startReadinessMaintenance} from './readiness-maintenance.mjs';
+import {migrateAccountErasure} from './account-erasure.mjs';
+import {migrateMailOutbox,drainMailOutbox} from './transactional-mail.mjs';
+import {handleAppleNotifications,reconcileAppleDue} from './apple-store-api.mjs';
 import {handleImmersiveAudio,handleImmersiveContent} from './immersive-api.mjs';
 import {migrateAIMetering,withAIUsage,identifyAIUser} from './ai-metering.mjs';
 import {migrateAIOperations} from './ai-operations.mjs';
@@ -62,6 +66,7 @@ async function migrate(){
  await migrateAuthLimits(pool);
  await pool.query(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), email text UNIQUE NOT NULL, name text NOT NULL, role text NOT NULL CHECK(role IN ('learner','teacher')), password_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
  ALTER TABLE users ADD COLUMN IF NOT EXISTS share_self_learning boolean NOT NULL DEFAULT true;
+ ALTER TABLE users ADD COLUMN IF NOT EXISTS system_actor boolean NOT NULL DEFAULT false;
  CREATE TABLE IF NOT EXISTS sessions (token_hash text PRIMARY KEY, user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL);
  CREATE TABLE IF NOT EXISTS practice_attempts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, score integer NOT NULL CHECK(score BETWEEN 0 AND 100), total integer NOT NULL CHECK(total BETWEEN 1 AND 100), source text NOT NULL CHECK(source IN ('exercise','imported')), created_at timestamptz NOT NULL DEFAULT now());
  ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS submission_key text;
@@ -97,6 +102,7 @@ async function migrate(){
  await migrateAnswerReviews(pool);
  await migrateOwner(pool);
  await migrateSupport(pool);await migrateAdventure(pool);
+ await migrateMailOutbox(pool);await migrateAccountErasure(pool);
 }
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
@@ -150,7 +156,7 @@ function currentUser(req){
 async function readCurrentUser(req){
  const token=requestSessionToken(req);
  if(!token)return null;
- const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now()',[hash(token)]);
+ const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now() AND NOT u.system_actor',[hash(token)]);
  const user=result.rows[0]||null;
  if(user)req[rateLimitUser]=user.id;
  return user;
@@ -168,6 +174,7 @@ async function handle(req,res){
  if(handleLessonMedia(req,res,route))return;
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(handleNativeOrigin(req,res,route,fail))return;
+ if(await handleAppleNotifications({route,req,res,pool,json,send,fail}))return;
  if(await handleBillingWebhook({route,req,res,pool,send,fail}))return;
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&!nativeOrigins.has(origin)){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
  if(await handleNativeAccount({route,req,res,pool,required,json,send,fail,limited}))return;
@@ -376,6 +383,7 @@ async function trackedRequest(req,res){
   return handle(req,res);
  },{getTier:async id=>(await membership(pool,id)).premium?'premium':'free'});
 }
+startReadinessMaintenance(pool);
 http.createServer((req,res)=>trackedRequest(req,res).catch(err=>{
  if(res.headersSent||res.destroyed){res.destroy();return;}
  if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));

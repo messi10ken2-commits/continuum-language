@@ -26,6 +26,11 @@ export async function initializeNative(){
   else{window.dispatchEvent(new Event('focus'));window.dispatchEvent(new Event('continuum-native-resume'));}
  });
  await Keyboard.addListener('keyboardWillShow',()=>document.documentElement.classList.add('native-keyboard-open'));
+ await Keyboard.addListener('keyboardDidShow',()=>{
+  const form=document.activeElement?.closest?.('.account-box form');
+  const submit=form?.querySelector('button.primary');
+  if(submit)requestAnimationFrame(()=>submit.scrollIntoView({block:'nearest',inline:'nearest',behavior:'auto'}));
+ });
  await Keyboard.addListener('keyboardWillHide',()=>document.documentElement.classList.remove('native-keyboard-open'));
  await LocalNotifications.addListener('localNotificationActionPerformed',event=>{const section=event.notification.extra?.section;if(section==='learn')window.dispatchEvent(new CustomEvent('continuum-native-navigation',{detail:section}));});
  await App.addListener('appUrlOpen',({url})=>{

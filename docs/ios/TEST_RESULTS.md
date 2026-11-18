@@ -1,25 +1,37 @@
 # iOS validation evidence
 
-Prepared 18 November 2026, Malaysia. Baseline: `3f18a51`. Native integration PR: #117.
+Updated 18 November 2026, Malaysia. Foundation PR #117 deployed native sessions at 99d6a22. Follow-up PR #118 contains the readiness services and native fixes. This is not an App Store release.
 
-## Verified locally during finalization
+## Completed native and API evidence
 
-- `npm run build`: pass, web production bundle.
-- `npm run ios:sync`: pass, bundled native web build and Capacitor/SwiftPM synchronization.
-- `npm run ios:check`: pass, configuration/HTTPS/Keychain/plugin registration and actual scene controller checks.
-- `npm run test:native`: **11 tests passed, zero failed**. Includes transport scoping, Keychain origin arguments, consent, expiry/no write retries, native lifecycle semantics, localization and synthetic native account/safety APIs. The glob also includes pre-existing native recording-quality checks.
-- `npm audit --omit=dev`: **zero reported production dependency vulnerabilities**, after moving Vite and its React build plugin into devDependencies. They are build/test tools; the production Node server serves built assets and does not import them. Docker builds before pruning devDependencies.
+At application-code commit e9fa4ac7, [Mac and shared-backend CI](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44251194134) completed successfully.
 
-The full development dependency audit still reports the Picomatch ReDoS advisory `GHSA-fc5q-39xc-vjpf` through build tooling. At verification the upstream advisory listed no patched version, and the registry's newest Picomatch was 4.0.7. No major-version downgrade or suppression was applied. Keep development servers local and do not accept untrusted glob input. Recheck upstream before release. Reference: https://github.com/advisories/GHSA-fc5q-39xc-vjpf.
+- Actual XCTest on the iOS simulator passed login, navigation to the named synthetic account, process termination/relaunch with Keychain restoration, logout, and another relaunch returning to the unauthenticated welcome screen. One end-to-end test, zero failures, 102.510 seconds.
+- The test also requires the tapped control to be unobstructed by the keyboard. Normal local simulator signing enables Keychain; native keyboard resizing, readable input fonts and auth layout wrapping prevent covered controls/focus zoom.
+- Shared regression suite: 619 tests, 618 passed, zero failures, one explicit skip for absent generated native assets before ios:sync. After synchronization, all 12 native tests passed with no skips, including the local StoreKit fixture-copy check.
+- Web/native builds and native configuration checks passed. The simulator artifact is locally signed, defaults to the production API origin and has live purchases disabled. It is not an iPhone IPA or distribution archive. The separately rebuilt test application uses only the isolated loopback fixture.
+- The final documentation/test-wiring commit adds no further application behavior beyond this tested code.
 
-## Remote evidence and explicit limits
+## Browser and production-image evidence
 
-- Previous shared-backend CI at `035420a8`: **612 tests passed**. This is not the result of a later commit.
-- Unsigned Xcode simulator builds have succeeded. A startup test on `7656df7c` failed; scene/plugin registration was corrected in `035420a8`.
-- Mac job for `035420a8` was cancelled before a runner was assigned, with no test steps. It supplies no evidence that the startup fix worked.
-- Code-validation head `8df12e802cbf8f3e5cb3a545ebb9adcdeeb19ede` includes backend-scoped Keychain, background media/3D pause and asynchronous passport readiness. Its CI is tracked here: https://github.com/messi10ken2-commits/continuum-language/actions?query=branch%3Acodex%2Fios-integration.
-- Physical iPhone, real microphone/route behavior, reminders, StoreKit purchases, App Store review and real-device performance are **not verified**. No real payment, production data mutation or signed distribution was performed.
+[Full application validation at 8df5c1f2](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44245937513) passed regression, companion/immersion, Light interactions, audio recovery, language/layout/records, content audit, production dependency audit, Docker build and unprivileged runtime checks. Its backend and ordinary web application code are unchanged by the later native-only fixes.
 
-CI outcomes are recorded below only after completion. A green structural/build test alone is not a passing native authentication test.
+[Account-erasure browser rehearsal](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44245086636) passed Chromium and WebKit: default-off gate, preview/confirmations, wrong-password preservation, actual synthetic erasure, encrypted notice queued, and desktop/390px layouts.
 
-The final workflow also selects the newest installed iOS simulator runtime and bounds its startup to eight minutes. The complete CI rerun for this source is pending at the time this file is committed; consult PR checks and the final PR validation note for its outcome.
+[Real loopback HTTPS transport test](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44250152383) passed Chromium and WebKit with the final transport implementation: actual JSON and multipart audio bytes received, bearer continuity, session-token stripping and blocked cross-origin redirects. This receiver observes real network bodies, not mocked request inspection. Its ephemeral certificate trust bypass is confined to this browser test; the shipping app has no TLS exception.
+
+The native transport now uses standard WebKit Fetch. Retargeted request bodies are materialized once as encoded blobs, retaining multipart boundaries rather than introducing an unsupported streaming upload. Existing credential scoping, abort and redirect:error policies remain enforced. Technical background: [Chrome request-stream restrictions](https://developer.chrome.com/docs/capabilities/web-apis/fetch-streaming-requests) and [upstream Capacitor 8.6.2 bridge](https://github.com/ionic-team/capacitor/blob/8.6.2/core/native-bridge.ts).
+
+## Readiness service checks
+
+- Apple tests verify actual synthetic certificate/JWS signatures, ownership, grace, cancellation, refunds/revocation, duplicate/out-of-order notifications and stale-state protection. Actual services trust only pinned Apple G3 with online checks; synthetic roots are injected only by tests.
+- Erasure tests cover owner protection, reauthentication, stale plans, unknown/missing user foreign keys, actual learner/teacher account/content erasure, unrelated-user preservation and encrypted completion notices.
+- Mail tests cover TLS settings, safe headers, retry, expiry and delivered-payload redaction. No real provider was contacted.
+- Production dependency audit: zero reported vulnerabilities. Development tooling retains the existing unpatched Picomatch advisory GHSA-fc5q-39xc-vjpf; no suppression or downgrade was applied.
+- Before rollout, Railway variable-name inspection confirmed all four new activation switches were absent: maintenance, erasure, Apple verification and Apple live approval. They therefore remain disabled by default. No secrets were exposed or configuration changed.
+
+## Limits and rollout evidence
+
+Physical iPhone behavior, microphone routes, reminder delivery, StoreKit purchase/cancel/pending interaction, real Apple Sandbox transactions/refunds, SMTP delivery, real account erasure, distribution signing, TestFlight and App Store submission are not verified. Retention dates require operator review; no automatic external/backups purge is claimed.
+
+The local execution environment disconnected during finalization. Code and evidence were preserved through GitHub and validation continued there. Deployment ID, source SHA, terminal Railway status and read-only production smoke outcomes are recorded in [PR #118](https://github.com/messi10ken2-commits/continuum-language/pull/118) after rollout; do not infer a completed rollout from the tests alone.

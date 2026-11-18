@@ -52,7 +52,7 @@ export function pcmWav(pcm,sampleRate=24000){
  const header=Buffer.alloc(44);header.write('RIFF');header.writeUInt32LE(data.length+36,4);header.write('WAVEfmt ',8);header.writeUInt32LE(16,16);header.writeUInt16LE(1,20);header.writeUInt16LE(1,22);header.writeUInt32LE(sampleRate,24);header.writeUInt32LE(sampleRate*2,28);header.writeUInt16LE(2,32);header.writeUInt16LE(16,34);header.write('data',36);header.writeUInt32LE(data.length,40);return Buffer.concat([header,data]);
 }
 const partnerVoices={mira:{openai:'marin',gemini:'Kore'},hana:{openai:'coral',gemini:'Aoede'},rafael:{openai:'cedar',gemini:'Puck'},lucia:{openai:'shimmer',gemini:'Leda'},theo:{openai:'onyx',gemini:'Charon'}};
-export function speechKey(text,locale,voiceProfile='default'){
+export function speechKey(text,locale,voiceProfile='default',ownerId=null){
  const value=text.normalize('NFC').trim(),clock=speechPronunciation(value,locale)!==value;
  let identity;
  if(voiceProfile!=='default'){
@@ -62,6 +62,7 @@ export function speechKey(text,locale,voiceProfile='default'){
   const revision=clock?'-ja-clock-v2':locale==='pt-BR'&&/\b(foi|fui)\b/i.test(value)?'-pt-contrast-v3':isIsolatedWord(value)?'-word-v2':'';
   identity=[speechVersion+revision,locale,value];
  }
+ if(ownerId)identity.push('account',ownerId);
  return crypto.createHash('sha256').update(JSON.stringify(identity)).digest('hex');
 }
 export async function synthesizeSpeech(text,locale,options={}){

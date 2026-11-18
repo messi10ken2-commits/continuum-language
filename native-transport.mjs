@@ -10,8 +10,16 @@ export function createNativeFetch({origin,fetchImpl,vault,onExpired=()=>{},timeo
   if(!['GET','HEAD'].includes(request.method)&&/^\/api\/(speaking|skills|patterns|speech)(?:\/|$)/.test(url.pathname)&&!url.pathname.endsWith('/activity')&&!allowsAI(account))return Response.json({error:'Allow AI services in Account > App settings before sending text or audio to OpenAI or Google Gemini.'},{status:403});
   const {token}=await vault.readSession({origin:apiOrigin});if(token)headers.set('Authorization','Bearer '+token);else headers.delete('Authorization');
   const target=apiOrigin+url.pathname+url.search;
-  const response=await fetchImpl(new Request(target,request),{headers,credentials:'omit',redirect:'error',signal:AbortSignal.any([request.signal,AbortSignal.timeout(timeout)])});
-  if(response.status===401&&!['/api/auth/login','/api/account/deletion-request'].includes(url.pathname)){await vault.clearSession({origin:apiOrigin});onExpired();}
+  const signal=AbortSignal.any([request.signal,AbortSignal.timeout(timeout)]);
+  signal.throwIfAborted();
+  // Retargeting a Request using its ReadableStream body can turn ordinary JSON
+  // and FormData into a streaming upload (unsupported by HTTP/1.1 and some WebViews).
+  // Materialize the already encoded body once; preserve its exact multipart boundary.
+  const body=request.body===null?undefined:await request.blob();
+  signal.throwIfAborted();
+  const forwarded=new Request(target,{method:request.method,headers,body,cache:request.cache,referrerPolicy:request.referrerPolicy,integrity:request.integrity,keepalive:request.keepalive,signal});
+  const response=await fetchImpl(forwarded,{headers,credentials:'omit',redirect:'error',signal});
+  if(response.status===401&&!['/api/auth/login','/api/account/deletion-request'].includes(url.pathname)&&!/^\/api\/owner\/deletion-requests\/[a-f0-9-]{36}\/fulfil$/.test(url.pathname)){await vault.clearSession({origin:apiOrigin});onExpired();}
   if(response.ok&&url.pathname==='/api/auth/logout')await vault.clearSession({origin:apiOrigin});
   if(response.headers.get('content-type')?.includes('application/json')){
    let data=await response.json();

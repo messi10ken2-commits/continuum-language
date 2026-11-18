@@ -45,6 +45,7 @@
     "test:native": "node --test native-*.test.mjs"
   },
   "dependencies": {
+    "@apple/app-store-server-library": "3.1.0",
     "@capacitor/app": "8.1.2",
     "@capacitor/browser": "8.0.5",
     "@capacitor/core": "8.6.2",
@@ -57,6 +58,7 @@
     "@capacitor/splash-screen": "8.0.2",
     "@capacitor/status-bar": "8.0.4",
     "lucide-react": "1.46.0",
+    "nodemailer": "10.6.0",
     "pg": "^8.16.3",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -67,10 +69,10 @@
     "@babel/parser": "^8.0.7",
     "@capacitor/cli": "8.6.2",
     "@electric-sql/pglite": "0.5.8",
+    "@vitejs/plugin-react": "6.1.1",
     "ffmpeg-static": "5.2.0",
     "playwright": "1.62.1",
-    "vite": "8.3.4",
-    "@vitejs/plugin-react": "6.1.1"
+    "vite": "8.3.4"
   },
   "engines": {
     "node": ">=24.22.1 <25"

@@ -5,7 +5,7 @@ This development project uses Capacitor 8.6.2, SwiftPM and Xcode 26 or later on 
 ## Simulator
 
 1. Install Xcode, open it, accept its license and install an iOS simulator runtime through Xcode Settings → Components. Select Xcode as the command-line tools installation in Settings → Locations.
-2. Clone the repository and select `codex/ios-integration`. Keep production and development checkouts separate.
+2. Clone the repository and select `codex/ios-release-readiness` (or `main` after PR #118 is merged). Keep production and development checkouts separate.
 3. In Terminal, at the repository root:
 
 ```sh
@@ -15,9 +15,9 @@ npm run ios:check
 npm run ios:open
 ```
 
-This opens `ios/App/App.xcodeproj`. Let Swift package dependencies finish resolving. Select the **App** scheme and an iPhone simulator, then Run. Simulator builds need no signing team. If Xcode asks for a team, confirm an iPhone simulator is selected rather than “Any iOS Device”.
+This opens `ios/App/App.xcodeproj`. Let Swift package dependencies finish resolving. Select the **App** scheme and an iPhone simulator, then Run. Simulator builds need no paid signing team, but keep normal local signing enabled: Keychain access failed in the unsigned CI build. CI now preserves a locally signed simulator build using the default production API origin. It is a simulator app, not an installable iPhone distribution archive. The isolated XCTest rebuild uses loopback HTTPS and synthetic credentials. If Xcode asks for a team, confirm an iPhone simulator is selected rather than “Any iOS Device”.
 
-The default API is production. Native account functionality requires this branch's backend changes, which have not been deployed to production. For functional development, use an approved HTTPS staging backend running this branch:
+The default API is production, where native session support was deployed in PR #117 (99d6a22). Use an approved HTTPS staging backend for synthetic development and destructive/payment testing:
 
 ```sh
 CONTINUUM_API_ORIGIN=https://YOUR-STAGING-HOST npm run ios:sync
@@ -68,7 +68,7 @@ npm run build:native
 npm run ios:check
 npm run test:native
 npm run test:qa
-xcodebuild -project ios/App/App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+xcodebuild -project ios/App/App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- build
 ```
 
 The native XCTest requires the isolated HTTPS backend/certificate and synthetic account established by `.github/workflows/ios-integration.yml`; running it against the production API is not supported. Follow that workflow for reproducible fixture setup rather than creating a real learner account with its hard-coded test identity.
