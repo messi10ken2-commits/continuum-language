@@ -7,3 +7,5 @@ audio-rebuild/
 .env.*
 !.env.example
 !.env.sample
+
+dist-native/

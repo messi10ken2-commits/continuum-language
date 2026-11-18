@@ -1,0 +1,14 @@
+{
+  "appId": "com.continuum.language.dev",
+  "appName": "Continuum",
+  "loggingBehavior": "none",
+  "webDir": "dist-native",
+  "server": {"iosScheme": "capacitor", "hostname": "localhost"},
+  "ios": {"contentInset": "never", "preferredContentMode": "mobile", "backgroundColor": "#fffdfb", "scrollEnabled": true},
+  "plugins": {
+    "CapacitorHttp": {"enabled": true},
+    "Keyboard": {"resize": "body", "style": "LIGHT"},
+    "SplashScreen": {"launchAutoHide": false, "backgroundColor": "#fffdfb", "showSpinner": false},
+    "StatusBar": {"style": "LIGHT", "backgroundColor": "#fffdfb"}
+  }
+}

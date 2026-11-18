@@ -9,6 +9,8 @@ import {Clock3,Flame} from 'lucide-react';
 import {billingRequest} from './Membership.jsx';
 import {useInterfaceLanguage} from './InterfaceLanguage.jsx';
 import {useJourneyLayout,illustratedScene} from './JourneyLayout.jsx';
+import {isNative} from './native-platform.mjs';
+const NativeAccountTools=React.lazy(()=>import('./NativeAccountTools.jsx'));
 function Setting({title,Icon,children,open=false}){return <details className="setting-row" open={open||undefined}><summary><Icon size={20}/><span>{t(title)}</span><ChevronRight size={18}/></summary><div className="setting-content">{children}</div></details>}
 export default function AccountSettings({user,language,layoutPicker,goal,awards,support,displayLanguage,membership,profile,account,focusOffer,onLogout,assessment,learnerProfile,onProfile}){
  const {data:activity}=useContext(ActivityContext)||{};
@@ -36,6 +38,7 @@ export default function AccountSettings({user,language,layoutPicker,goal,awards,
  {user.role==='learner'&&<CompanionAvatarSettings user={user}/>}<h3>{t('Your learning')}</h3><div className="settings-group"><Setting title={user.role==='teacher'?'Edit teaching profile':'Edit learning profile'} Icon={BookOpen}>{profile}</Setting>{layoutPicker&&<Setting title="World style" Icon={Palette}>{layoutPicker}</Setting>}{goal&&<Setting title="Your daily study goal" Icon={Target}>{goal}</Setting>}<Setting title="Display language" Icon={Globe}>{displayLanguage}</Setting>{awards&&layout!=='illustrated'&&<Setting title="Your activity" Icon={Target}>{awards}</Setting>}</div>
  {membership&&<><h3>{t('Membership')}</h3><details className="setting-row" ref={plan} open={focusOffer||undefined}><summary><Crown size={20}/><span>{t('View subscription options')}</span><ChevronRight size={18}/></summary><div className="setting-content">{membership}</div></details></>}
  <h3>{t('Sharing & privacy')}</h3><div className="settings-group"><Setting title="Sharing & privacy" Icon={Shield}>{account}<a className="settings-link" href="/privacy-settings" target="_blank" rel="noopener noreferrer">{t('Privacy Settings')}<ChevronRight size={18}/></a></Setting><Setting title="Help & contact" Icon={HelpCircle}>{support}</Setting><a className="settings-link" href="/terms" target="_blank" rel="noopener noreferrer">{t('Terms of Service')}<ChevronRight size={18}/></a><a className="settings-link" href="/privacy" target="_blank" rel="noopener noreferrer">{t('Privacy Policy')}<ChevronRight size={18}/></a></div>
+ {isNative()&&<React.Suspense fallback={null}><NativeAccountTools user={user}/></React.Suspense>}
  <button className="settings-signout outline-button" onClick={onLogout}>{t('Sign out')}</button>
  </section>;
 }

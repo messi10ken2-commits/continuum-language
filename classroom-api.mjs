@@ -1,6 +1,7 @@
 import {syncClassTickets} from './billing-api.mjs';
 import {migrateTeacherSchedule,handleTeacherSchedule} from './teacher-schedule-api.mjs';
 import crypto from 'node:crypto';
+import {messagesBlocked} from './class-safety.mjs';
 import {validSharedLanguages} from './teacher-access.mjs';
 import {isPlatformOwner} from './profiles-api.mjs';
 import {getLesson} from './course.mjs';
@@ -89,11 +90,12 @@ export async function handleClassroom({route,req,res,pool,required,json,send,fai
  const messages=route.match(/^\/api\/classroom\/threads\/([a-f0-9-]{36})\/(messages|read)$/);
  if(messages){const t=await threadAccess(pool,user,messages[1],fail,{write:req.method==='POST'});
   if(messages[2]==='messages'&&req.method==='GET'){
-   const before=url.searchParams.get('before');if(before&&!/^\d{1,15}$/.test(before))fail(400,'Invalid message page');const r=await pool.query('SELECT id,seq,author_id AS "authorId",kind,body,created_at AS at FROM class_messages WHERE thread_id=$1 AND ($2::bigint IS NULL OR seq<$2) ORDER BY seq DESC LIMIT 50',[t.id,before||null]);send(res,200,{messages:r.rows.reverse(),nextBefore:r.rows.length===50?r.rows[0].seq:null,active:t.active});return true;
+   const before=url.searchParams.get('before');if(before&&!/^\d{1,15}$/.test(before))fail(400,'Invalid message page');const r=await pool.query('SELECT id,seq,author_id AS "authorId",kind,body,created_at AS at FROM class_messages WHERE thread_id=$1 AND ($2::bigint IS NULL OR seq<$2) ORDER BY seq DESC LIMIT 50',[t.id,before||null]);send(res,200,{messages:r.rows.reverse(),nextBefore:r.rows.length===50?r.rows[0].seq:null,active:t.active,blocked:await messagesBlocked(pool,t.teacher_id,t.learner_id)});return true;
   }
   if(messages[2]==='messages'&&req.method==='POST'){
+   
    limited(req,'class-message',120);const d=await json(req),body=text(d.body,4000);if(!body||!key(d.clientKey))fail(400,'Write a message of 1–4000 characters');
-   await transaction(pool,async c=>{await lockPeople(c,t);await lockLanguage(c,t,fail);const r=await c.query('INSERT INTO class_messages(thread_id,author_id,body,client_key) VALUES($1,$2,$3,$4) ON CONFLICT(author_id,client_key) DO NOTHING RETURNING id',[t.id,user.id,body,d.clientKey]);if(!r.rows.length){const old=(await c.query('SELECT thread_id,body FROM class_messages WHERE author_id=$1 AND client_key=$2',[user.id,d.clientKey])).rows[0];if(old.thread_id!==t.id||old.body!==body)fail(409,'This submission was already sent with different content');}});send(res,200,{ok:true});return true;
+   await transaction(pool,async c=>{await lockPeople(c,t);if(await messagesBlocked(c,t.teacher_id,t.learner_id))fail(403,'Messages are blocked.');await lockLanguage(c,t,fail);const r=await c.query('INSERT INTO class_messages(thread_id,author_id,body,client_key) VALUES($1,$2,$3,$4) ON CONFLICT(author_id,client_key) DO NOTHING RETURNING id',[t.id,user.id,body,d.clientKey]);if(!r.rows.length){const old=(await c.query('SELECT thread_id,body FROM class_messages WHERE author_id=$1 AND client_key=$2',[user.id,d.clientKey])).rows[0];if(old.thread_id!==t.id||old.body!==body)fail(409,'This submission was already sent with different content');}});send(res,200,{ok:true});return true;
   }
   if(messages[2]==='read'&&req.method==='POST'){await pool.query('INSERT INTO class_reads(thread_id,user_id,last_seq) SELECT $1,$2,COALESCE(max(seq),0) FROM class_messages WHERE thread_id=$1 ON CONFLICT(thread_id,user_id) DO UPDATE SET last_seq=GREATEST(class_reads.last_seq,EXCLUDED.last_seq)',[t.id,user.id]);send(res,200,{ok:true});return true;}
  }

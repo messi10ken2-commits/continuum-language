@@ -1,3 +1,4 @@
+import {isAppHidden} from './native-platform.mjs';
 import ImmersiveConversationRoom from './ImmersiveConversationRoom.jsx';
 import {townArt} from './light-town-art.mjs';
 import {TownCompanion} from './LightTown.jsx';
@@ -43,10 +44,10 @@ export default function AISpeaking({language,user,onBack,initialScenario,initial
  useEffect(()=>{mounted.current=true;controller.current=new AbortController();request('?language='+language,undefined,controller.current.signal).then(d=>{if(mounted.current){setHistory(initialScenario?d.sessions.filter(s=>s.scenario===initialScenario):d.sessions);setAvailable(d.available);setPremium(d.premium)}}).catch(e=>{if(mounted.current&&e.name!=='AbortError')setError(e.message)});return()=>{mounted.current=false;voice.current?.stop();controller.current?.abort()}},[language,user?.id]);
  useEffect(()=>{if(!session?.id||session.review)return;const id=session.id;
   const pulse=createConversationPulse({send:(active,final)=>final?fetch('/api/speaking/'+id+'/activity',{method:'POST',credentials:'same-origin',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({active})}):request('/'+id+'/activity',{active}),onBudget:d=>{setSession(s=>s?.id===id?{...s,budget:d.budget}:s);if(sessionRef.current?.id===id)sessionRef.current={...sessionRef.current,budget:d.budget};}});
-  activityPulse.current=pulse;const ping=()=>{void pulse.update(!document.hidden&&practiceActiveRef.current)};ping();document.addEventListener('visibilitychange',ping);
-  return()=>{activityPulse.current=null;document.removeEventListener('visibilitychange',ping);void pulse.stop();};
+  activityPulse.current=pulse;const ping=()=>{void pulse.update(!isAppHidden()&&practiceActiveRef.current)};ping();document.addEventListener('visibilitychange',ping);window.addEventListener('continuum-native-visibility',ping);
+  return()=>{activityPulse.current=null;document.removeEventListener('visibilitychange',ping);window.removeEventListener('continuum-native-visibility',ping);void pulse.stop();};
  },[session?.id,!!session?.review]);
- useEffect(()=>{void activityPulse.current?.update(!document.hidden&&practiceActive)},[practiceActive]);
+ useEffect(()=>{void activityPulse.current?.update(!isAppHidden()&&practiceActive)},[practiceActive]);
  useEffect(()=>{const thread=last.current?.parentElement;if(thread)thread.scrollTop=thread.scrollHeight},[session?.messages.length]);
  useEffect(()=>{if(!session?.id)return;const scroller=embedded?container.current?.closest('dialog'):window;scroller?.scrollTo({top:0,behavior:'instant'})},[session?.id,embedded]);
  useEffect(()=>{if(session?.review)container.current?.querySelector('.conversation-review')?.scrollIntoView({block:'start',behavior:'smooth'})},[session?.id,!!session?.review]);
@@ -54,7 +55,7 @@ export default function AISpeaking({language,user,onBack,initialScenario,initial
  const accept=s=>{if(!mounted.current)return;sessionRef.current=s;setSession(s);setHistory(h=>[s,...h.filter(x=>x.id!==s.id)]);};
  const pauseVoice=()=>{voice.current?.stop();setVoiceState('paused');setVoiceLevel(0)};
  const resetVoice=()=>{voice.current?.stop();voice.current=null;setVoiceState('idle');setVoiceLevel(0);setReviewFailed(false)};
- useEffect(()=>{const pause=()=>{if(voice.current?.active){voice.current.stop();setVoiceState('paused');setVoiceLevel(0)}};const visibility=()=>{if(document.hidden)pause()};document.addEventListener('visibilitychange',visibility);window.addEventListener('pagehide',pause);return()=>{document.removeEventListener('visibilitychange',visibility);window.removeEventListener('pagehide',pause)}},[]);
+ useEffect(()=>{const pause=()=>{if(voice.current?.active){voice.current.stop();setVoiceState('paused');setVoiceLevel(0)}};const visibility=()=>{if(isAppHidden())pause()};document.addEventListener('visibilitychange',visibility);window.addEventListener('continuum-native-visibility',visibility);window.addEventListener('pagehide',pause);return()=>{document.removeEventListener('visibilitychange',visibility);window.removeEventListener('continuum-native-visibility',visibility);window.removeEventListener('pagehide',pause)}},[]);
 
  const start=()=>run(async()=>{resetVoice();const storageKey=['continuum-speaking-start',user?.id,language,level,scenario].join(':');const d=await request('',{startKey:aiRequestKey(storageKey),language,level,scenario,displayLanguage:interfaceLanguage(),aiConsent:consent,prefetchAudio:mode==='voice'&&!deviceVoice},controller.current.signal);clearAIRequestKey(storageKey);accept(d.session);setText('');key.current=crypto.randomUUID();});
  const open=s=>run(async()=>{resetVoice();const d=await request('/'+s.id,undefined,controller.current.signal);accept(d.session);setText('');key.current=crypto.randomUUID();});
