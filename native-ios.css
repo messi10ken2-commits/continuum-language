@@ -18,3 +18,15 @@
 body:has(.native-privacy-sheet[open]){overflow:hidden}
 
 .native-inactive *,.native-inactive *::before,.native-inactive *::after{animation-play-state:paused!important}
+
+/* Keep authentication inside the actual resized WebView, including keyboard use. */
+.continuum-native .entry-shell,
+.continuum-native .entry-shell :is(.entry-content,.account-page,.account-box,.entry-controls){width:100%;min-width:0;max-width:100%;box-sizing:border-box}
+.continuum-native .entry-shell>header{width:100%;min-width:0;max-width:100%;flex-wrap:wrap}
+.continuum-native .entry-shell .entry-controls{flex-wrap:wrap;gap:12px}
+.continuum-native .entry-shell .entry-controls label{display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-width:0;max-width:100%}
+.continuum-native .entry-shell .entry-controls select{min-width:0;max-width:100%}
+.continuum-native .entry-shell :is(h1,h2,p,.policy-links){overflow-wrap:anywhere}
+.continuum-native .entry-shell .policy-links{display:flex;flex-wrap:wrap;gap:12px}
+.continuum-native .entry-shell .account-box :is(input,select,button){min-width:0;max-width:100%;scroll-margin-block:16px}
+@media(max-width:600px){.continuum-native .entry-shell .entry-content{padding:20px 16px}.continuum-native .entry-shell>header{padding:16px}}

@@ -18,7 +18,7 @@
       "enabled": false
     },
     "Keyboard": {
-      "resize": "body",
+      "resize": "native",
       "style": "LIGHT"
     },
     "SplashScreen": {
