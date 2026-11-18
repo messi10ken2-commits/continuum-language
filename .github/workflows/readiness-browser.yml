@@ -1,0 +1,26 @@
+name: Readiness browser rehearsal
+on:
+  push:
+    branches: ['qa/ios-readiness-ui']
+permissions:
+  contents: read
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/qa-account-erasure.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: account-erasure-browser-evidence
+          path: .media-build/account-erasure/*.png
+          if-no-files-found: ignore
