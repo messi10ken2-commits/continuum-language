@@ -4,7 +4,7 @@ Updated 18 November 2026. Implemented code does not establish activated service 
 
 | Area | Implemented | Remaining |
 | --- | --- | --- |
-| Native app | Bundled project, Keychain, lifecycle, safe areas, consent | Passing native login/restart/logout evidence and physical iPhone matrix |
+| Native app | Bundled project, Keychain, lifecycle, safe areas, consent; simulator login/restart/logout passed | Physical iPhone matrix and distribution signing |
 | Backend | Native sessions deployed in PR #117 | Follow-up deployment after green checks |
 | Recovery | TLS SMTP/webhook and encrypted outbox | Approved provider, sender/domain configuration, secrets and real delivery test |
 | Account deletion | In-app request, guarded owner fulfilment, synthetic relational erasure tests | Published timing/retention policy; provider/backup evidence; operator rehearsal; explicit activation |
