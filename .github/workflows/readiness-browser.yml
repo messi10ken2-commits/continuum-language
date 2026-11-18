@@ -1,26 +1,22 @@
-name: Readiness browser rehearsal
+name: Native fixture diagnostics
 on:
   push:
     branches: ['qa/ios-readiness-ui']
 permissions:
   contents: read
+  actions: read
 jobs:
-  browser:
+  diagnostics:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/download-artifact@v4
         with:
-          node-version-file: '.node-version'
-          cache: npm
-      - run: npm ci
-      - run: npm run build
-      - run: npx playwright install --with-deps chromium webkit
-      - run: node scripts/qa-account-erasure.mjs
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: account-erasure-browser-evidence
-          path: .media-build/account-erasure/*.png
-          if-no-files-found: ignore
+          name: continuum-ios-launch
+          run-id: 44244073905
+          github-token: ${{ github.token }}
+          path: /tmp/prior-native
+      - name: Read synthetic backend trace
+        run: |
+          find /tmp/prior-native -name continuum-ios-backend.log -exec cat {} \;
+          find /tmp/prior-native -name continuum-ios-test-summary.json -exec cat {} \;
