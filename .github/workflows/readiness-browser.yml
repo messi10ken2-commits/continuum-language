@@ -1,22 +1,19 @@
-name: Native fixture diagnostics
+name: Native transport browser verification
 on:
   push:
     branches: ['qa/ios-readiness-ui']
 permissions:
   contents: read
-  actions: read
 jobs:
-  diagnostics:
+  transport:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          name: continuum-ios-launch
-          run-id: 44244073905
-          github-token: ${{ github.token }}
-          path: /tmp/prior-native
-      - name: Read synthetic backend trace
-        run: |
-          find /tmp/prior-native -name continuum-ios-backend.log -exec cat {} \;
-          find /tmp/prior-native -name continuum-ios-test-summary.json -exec cat {} \;
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/qa-native-transport.mjs

@@ -9,7 +9,15 @@ final class NativeUITests: XCTestCase {
             let buttons = app.webViews.buttons.matching(NSPredicate(format: "label == %@", title))
             let button = last ? buttons.element(boundBy: max(0, buttons.count - 1)) : buttons.firstMatch
             XCTAssertTrue(button.waitForExistence(timeout: 90), title)
-            for _ in 0..<12 { if button.isHittable { break }; app.swipeUp() }
+            let keyboard = app.keyboards.firstMatch
+            func unobstructed() -> Bool {
+                button.isHittable && (!keyboard.exists || !button.frame.intersects(keyboard.frame))
+            }
+            for _ in 0..<12 {
+                if unobstructed() { break }
+                app.webViews.firstMatch.swipeUp()
+            }
+            XCTAssertTrue(unobstructed(), "\(title) must be visible above the keyboard")
             button.tap()
         }
         tap("Already a member? Sign in")
