@@ -1,0 +1,71 @@
+name: Export native store screenshots
+on:
+  workflow_dispatch:
+  push:
+    branches: ['codex/store-export-44462095093']
+    paths: ['.github/workflows/export-native-store.yml']
+permissions:
+  contents: write
+  actions: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: continuum-ios-launch
+          run-id: 44462095093
+          github-token: ${{ github.token }}
+          path: /tmp/continuum-native-captures
+      - name: Export only verified store captures, retaining exact original pixels
+        run: |
+          python3 - <<'PY'
+          import json,re,struct,shutil,zipfile
+          from pathlib import Path
+          source=Path('/tmp/continuum-native-captures')
+          target=Path('docs/ios/store-screenshots-en-2026-11-19')
+          target.mkdir(parents=True,exist_ok=True)
+          captures={}
+          for manifest in source.rglob('manifest.json'):
+              data=json.loads(manifest.read_text())
+              if not isinstance(data,list): continue
+              for item in data:
+                  for attachment in item.get('attachments',[]):
+                      name=attachment.get('suggestedHumanReadableName','')
+                      match=re.match(r'^(Store-EN-0[1-4]-(?:Overview|Learn|Practice|Classes))_',name)
+                      if not match: continue
+                      label=match.group(1)
+                      if label in captures: raise RuntimeError('Duplicate store capture')
+                      path=(manifest.parent/attachment['exportedFileName']).resolve()
+                      if not path.is_relative_to(manifest.parent.resolve()): raise RuntimeError('Invalid attachment path')
+                      raw=path.read_bytes()
+                      if raw[:8]!=b'\x89PNG\r\n\x1a\n': raise RuntimeError('PNG required')
+                      width,height=struct.unpack('>II',raw[16:24])
+                      if (width,height)!=(1206,2622) or raw[24]!=8 or raw[25]!=2: raise RuntimeError('Expected original 1206x2622 RGB PNG without alpha')
+                      filename=label+'.png'
+                      shutil.copy2(path,target/filename)
+                      captures[label]={'file':filename,'width':width,'height':height,'format':'PNG','color':'RGB','alpha':False}
+          expected={'Store-EN-01-Overview','Store-EN-02-Learn','Store-EN-03-Practice','Store-EN-04-Classes'}
+          if set(captures)!=expected: raise RuntimeError('All four successful captures are required')
+          metadata={'sourceRun':44462095093,'sourceCommit':'db730ddcf91ac565b9bf91e5ea1e99ad1c2d7633','device':'iPhone 17 Pro simulator','interfaceLanguage':'English','data':'Synthetic learner Alex; no real learner records','captures':[captures[k] for k in sorted(captures)]}
+          (target/'capture-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
+          (target/'README.md').write_text('# Continuum — English native screenshot draft\n\nFour original screenshots from the successful native simulator run on 19 November 2026. Synthetic learner Alex; no real learner data. Overview, Learn, Practice and Classes. Each PNG is 1206 x 2622, 8-bit RGB without alpha. Files are copied byte-for-byte; no UI was fabricated or retouched.\n\nSource: https://github.com/messi10ken2-commits/continuum-language/actions/runs/44462095093\n\nThese show the development build with remote push/native purchases still disabled. Review the images visually and reconcile the final enabled release before App Store upload. Apple signing, real-device checks, final legal/pricing/review-account information and Google mail authorization remain separate requirements.\n')
+          with zipfile.ZipFile('/tmp/Continuum_Store_Screens_EN_2026-11-19.zip','w',zipfile.ZIP_DEFLATED) as archive:
+              for path in sorted(target.iterdir()): archive.write(path,path.name)
+          print(json.dumps(metadata))
+          PY
+      - name: Preserve the source PNGs in the repository
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/ios/store-screenshots-en-2026-11-19
+          if ! git diff --cached --quiet; then
+            git commit -m "Preserve actual English native store screenshot drafts"
+            git push origin HEAD:codex/store-export-44462095093
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: continuum-store-screenshots-en
+          path: /tmp/Continuum_Store_Screens_EN_2026-11-19.zip
