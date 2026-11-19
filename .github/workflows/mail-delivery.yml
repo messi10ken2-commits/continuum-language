@@ -1,0 +1,27 @@
+name: Transactional mail checks
+on:
+  workflow_dispatch:
+  push:
+    branches: ['codex/mail-*']
+permissions:
+  contents: read
+concurrency:
+  group: mail-delivery-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify-mail:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npm run check:runtime
+      - run: npm run build
+      - name: Verify mail, recovery, erasure and native credential isolation
+        run: node --test --test-concurrency=2 transactional-mail.test.mjs mail-operations.test.mjs account-recovery.test.mjs account-erasure.test.mjs native-transport.test.mjs
+      - name: Check dormant readiness settings without provider traffic
+        run: node docs/ios/check-deployment-readiness.mjs --strict

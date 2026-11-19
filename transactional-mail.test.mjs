@@ -18,3 +18,18 @@ test('encrypted outbox retries without erasing failures, redacts delivered paylo
   await queueTransactionalMail(db,{...message,id:'expired'},{env:smtp});await drainMailOutbox(db,{env:smtp,now:new Date(Date.now()+8*86400000),deliver:()=>assert.fail('expired mail must not be sent')});assert.equal((await db.query("SELECT payload FROM transactional_mail_outbox WHERE id='expired'")).rows[0].payload,null);
  }finally{await db.close()}
 });
+
+test('Gmail HTTPS uses server-only OAuth credentials and valid Unicode MIME without SMTP or redirects',async()=>{
+ const env={AUTH_MAIL_PROVIDER:'gmail-api',AUTH_MAIL_FROM:'operator@example.test',AUTH_GMAIL_CLIENT_ID:'synthetic-client',AUTH_GMAIL_CLIENT_SECRET:'synthetic-client-secret',AUTH_GMAIL_REFRESH_TOKEN:'synthetic-refresh-token'};
+ assert.equal(mailSettings(env).configured,true);assert.equal(mailSettings({...env,AUTH_GMAIL_REFRESH_TOKEN:''}).configured,false);const requests=[];
+ await sendTransactionalMail({id:'receipt\r\nBcc:bad@example.test',to:'learner@example.test',subject:'Continuum ご確認',text:'日本語の確認です。\nProof: 0123456789'},{env,fetchImpl:async(url,options)=>{requests.push({url,...options});return Response.json(url.includes('oauth2.')?{access_token:'synthetic-access-token'}:{id:'synthetic-provider-id'})}});
+ assert.deepEqual(requests.map(r=>r.url),['https://oauth2.googleapis.com/token','https://gmail.googleapis.com/gmail/v1/users/me/messages/send']);assert.ok(requests.every(r=>r.redirect==='error'&&r.signal));const form=new URLSearchParams(requests[0].body);assert.equal(form.get('grant_type'),'refresh_token');assert.equal(form.get('refresh_token'),env.AUTH_GMAIL_REFRESH_TOKEN);assert.equal(requests[1].headers.Authorization,'Bearer synthetic-access-token');
+ const raw=Buffer.from(JSON.parse(requests[1].body).raw,'base64url').toString('utf8');assert.ok(raw.includes('To: learner@example.test\r\n'));assert.ok(raw.includes('\r\nDate: '));assert.ok(!raw.includes('Bcc:'));assert.ok(!raw.includes(env.AUTH_GMAIL_REFRESH_TOKEN));assert.equal(Buffer.from(/Subject: =\?UTF-8\?B\?(.+)\?=/.exec(raw)[1],'base64').toString(),'Continuum ご確認');assert.equal(Buffer.from(raw.split('\r\n\r\n')[1].replace(/\s/g,''),'base64').toString(),'日本語の確認です。\nProof: 0123456789');
+});
+test('Gmail HTTPS errors fail closed without leaking provider bodies or accepting malformed headers',async()=>{
+ const env={AUTH_MAIL_PROVIDER:'gmail-api',AUTH_MAIL_FROM:'operator@example.test',AUTH_GMAIL_CLIENT_ID:'synthetic-client',AUTH_GMAIL_CLIENT_SECRET:'synthetic-secret',AUTH_GMAIL_REFRESH_TOKEN:'synthetic-refresh'};const message={to:'learner@example.test',subject:'Test',text:'Synthetic'};
+ let calls=0;await assert.rejects(sendTransactionalMail(message,{env,fetchImpl:async()=>{calls++;return Response.json({error:'synthetic-private-error'},{status:401})}}),/Gmail authorization unavailable/);assert.equal(calls,1);
+ await assert.rejects(sendTransactionalMail(message,{env,fetchImpl:async url=>Response.json(url.includes('oauth2.')?{access_token:'invalid\r\nheader'}:{})}),/Invalid Gmail authorization response/);
+ await assert.rejects(sendTransactionalMail(message,{env,fetchImpl:async url=>Response.json(url.includes('oauth2.')?{access_token:'synthetic-access-token'}:{error:'synthetic-private-error'},{status:url.includes('oauth2.')?200:429})}),/Gmail delivery unavailable/);
+ await assert.rejects(sendTransactionalMail({...message,to:'bad\u0000@example.test'},{env,fetchImpl:async()=>assert.fail('Invalid address must not reach Google')}));
+});

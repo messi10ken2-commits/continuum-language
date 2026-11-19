@@ -1,14 +1,24 @@
 import nodemailer from 'nodemailer';
-import {createCipheriv,createDecipheriv,randomBytes,randomUUID} from 'node:crypto';
+import {createCipheriv,createDecipheriv,randomBytes,randomUUID,createHash} from 'node:crypto';
 export function mailSettings(env=process.env){
  const provider=env.AUTH_MAIL_PROVIDER||(env.AUTH_MAILER_WEBHOOK_URL?'webhook':'smtp');
  let webhook=false;try{const u=new URL(env.AUTH_MAILER_WEBHOOK_URL);webhook=u.protocol==='https:'&&!u.username&&!u.password&&!u.hash&&!!env.AUTH_MAILER_WEBHOOK_TOKEN}catch{}
- const configured=provider==='webhook'?webhook:provider==='smtp'&&!!(env.AUTH_SMTP_HOST&&/^[A-Za-z0-9.-]+$/.test(env.AUTH_SMTP_HOST)&&env.AUTH_SMTP_USER&&env.AUTH_SMTP_PASSWORD&&address(env.AUTH_MAIL_FROM)&&[465,587].includes(Number(env.AUTH_SMTP_PORT||465)));
+ const gmail=provider==='gmail-api'&&address(env.AUTH_MAIL_FROM)&&!!(env.AUTH_GMAIL_CLIENT_ID&&env.AUTH_GMAIL_CLIENT_SECRET&&env.AUTH_GMAIL_REFRESH_TOKEN);
+ const configured=provider==='gmail-api'?gmail:provider==='webhook'?webhook:provider==='smtp'&&!!(env.AUTH_SMTP_HOST&&/^[A-Za-z0-9.-]+$/.test(env.AUTH_SMTP_HOST)&&env.AUTH_SMTP_USER&&env.AUTH_SMTP_PASSWORD&&address(env.AUTH_MAIL_FROM)&&[465,587].includes(Number(env.AUTH_SMTP_PORT||465)));
  return {provider,configured};
 }
-const address=value=>typeof value==='string'&&value.length<=254&&/^[^\s@<>\r\n,;]+@[^\s@<>\r\n,;]+$/.test(value);
+const address=value=>typeof value==='string'&&value.length<=254&&/^[^\s@<>\x00-\x1f\x7f,;]+@[^\s@<>\x00-\x1f\x7f,;]+$/.test(value);
 export async function sendTransactionalMail(message,{env=process.env,createTransport=nodemailer.createTransport,fetchImpl=fetch}={}){
  const settings=mailSettings(env);if(!settings.configured||!address(message.to)||/[\r\n]/.test(message.subject||''))throw Error('Mail delivery is not configured or message is invalid');
+ if(settings.provider==='gmail-api'){
+  const auth=await fetchImpl('https://oauth2.googleapis.com/token',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({client_id:env.AUTH_GMAIL_CLIENT_ID,client_secret:env.AUTH_GMAIL_CLIENT_SECRET,refresh_token:env.AUTH_GMAIL_REFRESH_TOKEN,grant_type:'refresh_token'}).toString(),redirect:'error',signal:AbortSignal.timeout(10000)});
+  if(!auth.ok)throw Error('Gmail authorization unavailable');const credentials=await auth.json();
+  if(typeof credentials.access_token!=='string'||credentials.access_token.length>4096||! /^[A-Za-z0-9._~+\/-]+=*$/.test(credentials.access_token))throw Error('Invalid Gmail authorization response');
+  const id=createHash('sha256').update(message.id||randomUUID()).digest('hex'),subject=Buffer.from(String(message.subject||'Continuum'),'utf8').toString('base64'),body=Buffer.from(String(message.text||''),'utf8').toString('base64').match(/.{1,76}/g)?.join('\r\n')||'';
+  const mime=['From: Continuum <'+env.AUTH_MAIL_FROM+'>','To: '+message.to,'Date: '+new Date().toUTCString(),'Subject: =?UTF-8?B?'+subject+'?=','Message-ID: <'+id+'@continuum.invalid>','MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',''+body,''].join('\r\n');
+  const sent=await fetchImpl('https://gmail.googleapis.com/gmail/v1/users/me/messages/send',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+credentials.access_token},body:JSON.stringify({raw:Buffer.from(mime,'utf8').toString('base64url')}),redirect:'error',signal:AbortSignal.timeout(10000)});
+  if(!sent.ok)throw Error('Gmail delivery unavailable');return;
+ }
  if(settings.provider==='webhook'){
   const url=new URL(env.AUTH_MAILER_WEBHOOK_URL);if(url.protocol!=='https:'||url.username||url.password||url.hash)throw Error('Mail delivery requires HTTPS');
   const response=await fetchImpl(url,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+env.AUTH_MAILER_WEBHOOK_TOKEN,'Idempotency-Key':message.id||randomUUID()},body:JSON.stringify(message),redirect:'error',signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error('Mail delivery unavailable');return;
