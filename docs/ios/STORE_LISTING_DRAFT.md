@@ -1,6 +1,6 @@
 # Store listing draft — not submitted
 
-Draft only, 18 November 2026. Product registration, review configuration and release claims require validation against the final build. Do not submit while release requirements remain open.
+Draft only, 19 November 2026. Contact/test inbox: continuum.language@gmail.com. Operating country supplied: Japan; legal identity remains unconfirmed. See SUBMISSION_PACK_DRAFT.md for the privacy/review/price worksheet. Product registration, review configuration and release claims require validation against the final build. Do not submit while release requirements remain open.
 
 ## English
 

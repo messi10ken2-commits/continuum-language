@@ -43,4 +43,37 @@ final class NativeUITests: XCTestCase {
         app.terminate(); app.launch()
         XCTAssertTrue(app.webViews.buttons["Already a member? Sign in"].waitForExistence(timeout: 90))
     }
+    func testStoreScreenshotsUseSyntheticAccount() throws {
+        continueAfterFailure = false
+        XCUIDevice.shared.orientation = .portrait
+        let app = XCUIApplication(bundleIdentifier: "com.continuum.language.dev")
+        app.launch()
+        func tapVisible(_ title: String) {
+            let matches = app.webViews.buttons.matching(NSPredicate(format: "label == %@", title))
+            XCTAssertTrue(matches.firstMatch.waitForExistence(timeout: 90), title)
+            for _ in 0..<12 {
+                if let button = matches.allElementsBoundByIndex.first(where: { $0.isHittable && (!app.keyboards.firstMatch.exists || !$0.frame.intersects(app.keyboards.firstMatch.frame)) }) { button.tap(); return }
+                app.webViews.firstMatch.swipeUp()
+            }
+            XCTFail("No accessible button: \(title)")
+        }
+        tapVisible("Already a member? Sign in")
+        let email = app.webViews.textFields["Email"]
+        XCTAssertTrue(email.waitForExistence(timeout: 20))
+        email.tap(); email.typeText("store-demo@example.test")
+        let password = app.webViews.secureTextFields.firstMatch
+        password.tap(); password.typeText("store-demo-fixture-123")
+        tapVisible("Sign in")
+        for (index, screen, heading) in [(1, "Overview", "Alex"), (2, "Learn", "Your next chapter awaits"), (3, "Practice", "Practice Studio"), (4, "Classes", "Your journey, with a human guide")] {
+            tapVisible(screen)
+            XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", heading)).firstMatch.waitForExistence(timeout: 90), heading)
+            let image = XCTAttachment(screenshot: app.screenshot())
+            image.name = "Store-EN-0\(index)-\(screen)"
+            image.lifetime = .keepAlways
+            add(image)
+        }
+        tapVisible("Account")
+        tapVisible("Sign out")
+    }
+
 }

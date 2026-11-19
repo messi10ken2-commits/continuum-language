@@ -282,6 +282,12 @@
     "strategy": "cascade"
   },
   {
+    "table_name": "mail_delivery_checks",
+    "column_name": "owner_id",
+    "delete_rule": "SET NULL",
+    "strategy": "detach"
+  },
+  {
     "table_name": "owner_events",
     "column_name": "actor_id",
     "delete_rule": "NO ACTION",
@@ -361,6 +367,18 @@
   },
   {
     "table_name": "pronunciation_attempts",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "push_devices",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "push_outbox",
     "column_name": "user_id",
     "delete_rule": "CASCADE",
     "strategy": "cascade"

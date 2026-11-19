@@ -72,6 +72,10 @@
 	<string>Use your camera when you choose to join a live class.</string>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>ContinuumRemotePushEnabled</key>
+	<false/>
+	<key>ContinuumAPNSEnvironment</key>
+	<string>Sandbox</string>
 	<key>ContinuumLocalStoreKitTesting</key>
 	<false/>
 	<key>CFBundleURLTypes</key>

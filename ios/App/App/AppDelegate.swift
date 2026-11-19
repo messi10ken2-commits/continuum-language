@@ -14,6 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        NotificationCenter.default.post(name: .capacitorDidRegisterForRemoteNotifications, object: deviceToken)
+    }
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
+    }
+
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
@@ -58,6 +65,7 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "ContinuumNativePlugin"
     public let jsName = "ContinuumNative"
     public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "remoteCapabilities", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "readSession", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "saveSession", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "clearSession", returnType: CAPPluginReturnPromise),
@@ -92,6 +100,11 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         })
     }
     deinit { observers.forEach { NotificationCenter.default.removeObserver($0) } }
+    @objc func remoteCapabilities(_ call: CAPPluginCall) {
+        call.resolve(["push": Bundle.main.object(forInfoDictionaryKey: "ContinuumRemotePushEnabled") as? Bool ?? false,
+                      "bundle": Bundle.main.bundleIdentifier ?? "",
+                      "environment": Bundle.main.object(forInfoDictionaryKey: "ContinuumAPNSEnvironment") as? String ?? "Sandbox"])
+    }
     @objc func readSession(_ call: CAPPluginCall) {
         guard let keychain = sessionKeychain(call) else { call.reject("Invalid session origin"); return }
         var query = keychain; query[kSecReturnData as String] = true; query[kSecMatchLimit as String] = kSecMatchLimitOne

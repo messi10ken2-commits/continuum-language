@@ -33,6 +33,7 @@ jobs:
           IOS_SIMULATOR_ID=$(python3 -c 'import json; d=json.load(open("/tmp/continuum-simulators.json")); runtimes=sorted(d["devices"],key=lambda key: tuple(int(n) for n in key.rsplit("iOS-",1)[-1].split("-") if n.isdigit()),reverse=True); print(next(x["udid"] for key in runtimes for x in d["devices"][key] if x["name"].startswith("iPhone")))')
           xcrun simctl boot "$IOS_SIMULATOR_ID"
           xcrun simctl bootstatus "$IOS_SIMULATOR_ID" -b
+          xcrun simctl status_bar "$IOS_SIMULATOR_ID" override --time "9:41" --dataNetwork wifi --wifiMode active --wifiBars 3 --batteryState charged --batteryLevel 100
           printf 'IOS_SIMULATOR_ID=%s\n' "$IOS_SIMULATOR_ID" >> "$GITHUB_ENV"
       - name: Start isolated HTTPS backend and trust test certificate
         run: |
@@ -50,12 +51,19 @@ jobs:
             sleep 1
           done
           curl --fail --cacert /tmp/continuum-root.crt https://127.0.0.1:9443/api/health
-      - name: Verify native login, Keychain persistence and logout
+      - name: Verify native account lifecycle and capture store screens
         env:
           CONTINUUM_API_ORIGIN: https://127.0.0.1:9443
         run: |
           npm run ios:sync
           xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" -derivedDataPath /tmp/continuum-ios-e2e -resultBundlePath /tmp/continuum-ios-e2e.xcresult CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- test
+      - name: Export actual native screenshots and result summary
+        if: always()
+        run: |
+          if test -d /tmp/continuum-ios-e2e.xcresult; then
+            xcrun xcresulttool get test-results summary --path /tmp/continuum-ios-e2e.xcresult > /tmp/continuum-ios-test-summary.json || true
+            xcrun xcresulttool export attachments --path /tmp/continuum-ios-e2e.xcresult --output-path /tmp/continuum-ios-attachments || true
+          fi
       - name: Capture native failure screenshot and result summary
         if: failure()
         run: |
@@ -96,3 +104,7 @@ jobs:
       - run: npm run test:qa
       - run: npm run ios:sync
       - run: npm run test:native
+      - name: Install browsers for HTTPS app-link checks
+        run: npx playwright install --with-deps chromium webkit
+      - name: Verify sign-in continuation and unauthorized app links
+        run: node scripts/qa-app-destinations.mjs

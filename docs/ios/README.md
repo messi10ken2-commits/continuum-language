@@ -1,6 +1,6 @@
 # Continuum iOS handoff
 
-Updated 18 November 2026, Malaysia. Foundation PR #117 is merged and deployed at 99d6a22. Readiness follow-up: PR #118, codex/ios-release-readiness. This is a development app, not an App Store release candidate.
+Updated 19 November 2026. Foundation PR #117 and readiness PR #118 are merged; production baseline is 5444e0c. The owner supplied Japan as the operating country and continuum.language@gmail.com as the contact/test inbox. Legal operator details remain unconfirmed. This is a development app, not an App Store release candidate.
 
 ## Architecture
 
@@ -22,7 +22,7 @@ Follow [MAC_SETUP.md](MAC_SETUP.md). Production already supports native sessions
 
 After npm run ios:sync, run node docs/ios/prepare-local-storekit.mjs. Open the printed disposable project on a Mac and choose App-Local-StoreKit. Only the copy enables the local debug flag, adds the StoreKit fixture and omits the local test scheme's Archive action. Shipping settings remain unchanged. Prices 0.99/9.99 are test placeholders, with no family sharing or introductory offer. Exercise product lookup, purchase/cancel/pending/restore in Xcode. Local transactions cannot grant server Premium. Fixture generation is tested; actual StoreKit interaction is not yet verified.
 
-Remote APNs push and Universal Links remain unimplemented/unprovisioned. Existing on-device reminders and the development custom scheme require physical-device checks. See [RELEASE_REQUIREMENTS.md](RELEASE_REQUIREMENTS.md).
+Remote APNs registration/delivery and strict Universal Links routing/AASA are implemented behind default-off gates. Actual Apple identifiers, signing/provisioning and real-device validation remain pending. See PUSH_AND_LINKS.md and SUBMISSION_PACK_DRAFT.md. Existing on-device reminders and the development custom scheme require physical-device checks. See [RELEASE_REQUIREMENTS.md](RELEASE_REQUIREMENTS.md).
 
 ## Distribution and policy
 
