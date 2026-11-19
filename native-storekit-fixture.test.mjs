@@ -7,6 +7,8 @@ test('local StoreKit copy isolates test flags, preserves shipping configuration 
   prepared=await prepareLocalStoreKit();assert.equal(await readFile(shipping,'utf8'),before);
   const copied=await readFile(prepared.directory+'/ios/App/App/Info.plist','utf8');assert.match(copied,/<key>ContinuumLocalStoreKitTesting<\/key><true\/>/);
   const scheme=await readFile(prepared.directory+'/ios/App/App.xcodeproj/xcshareddata/xcschemes/App-Local-StoreKit.xcscheme','utf8');assert.ok(scheme.includes('StoreKitConfigurationFileReference'));assert.ok(!scheme.includes('buildForArchiving="YES"'));
+  const project=await readFile(prepared.directory+'/ios/App/App.xcodeproj/project.pbxproj','utf8');assert.match(project,/files = \(C01171000000000000000201,C01171000000000000000301,\);/);assert.match(project,/files = \(C01171000000000000000303,\);/);
+  assert.ok((await readFile(prepared.directory+'/ios/App/NativeUITests/LocalStoreKitUITests.swift','utf8')).includes('import StoreKitTest'));
   const config=JSON.parse(await readFile(prepared.directory+'/ios/App/App/ContinuumLocalTesting.storekit','utf8'));assert.deepEqual(config.subscriptionGroups[0].subscriptions.map(s=>s.productID),['com.continuum.premium.monthly','com.continuum.premium.yearly']);assert.ok(config.subscriptionGroups[0].subscriptions.every(s=>s.familyShareable===false));
  }finally{if(prepared)await rm(prepared.directory,{recursive:true,force:true})}
 });

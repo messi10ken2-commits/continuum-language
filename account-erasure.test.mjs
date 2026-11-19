@@ -39,6 +39,7 @@ test('owner preview/reauthentication, schema drift and stale-plan guards; actual
   await db.exec('DROP TABLE synthetic_erasure_drift');
   await db.exec('ALTER TABLE learner_profiles DROP CONSTRAINT learner_profiles_user_id_fkey');preview=await erasurePreview(pool,requestId);assert.ok(preview.unknownSchema.includes('missing:learner_profiles.user_id'));await assert.rejects(fulfilAccountErasure(pool,requestId,owner,input()),e=>e.status===409);await db.exec('ALTER TABLE learner_profiles ADD CONSTRAINT learner_profiles_user_id_fkey FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
   preview=await erasurePreview(pool,requestId);
+  const beforeErasureBackup=await db.dumpDataDir(); // Actual synthetic PostgreSQL data-directory export.
   const result=await api('/owner/deletion-requests/'+requestId+'/fulfil','POST',input(),owner);assert.equal(result.status,200,JSON.stringify(result.data));assert.equal(result.data.completed,true);
   assert.equal((await api('/owner/deletion-requests/'+requestId+'/fulfil','POST',input(),owner)).data.receiptId,result.data.receiptId,'repeat fulfilment is idempotent');
   for(const table of ['users','practice_attempts','learner_profiles','sessions','account_recovery_tokens','speaking_sessions','speech_cache']){const column=table==='users'?'id':table==='speech_cache'?'owner_id':'user_id';assert.equal((await db.query('SELECT count(*)::int AS n FROM '+table+' WHERE '+column+'=$1',[learner.id])).rows[0].n,0,table);}
@@ -51,6 +52,21 @@ test('owner preview/reauthentication, schema drift and stale-plan guards; actual
   assert.equal((await(await api('/auth/me','GET',null,learner)).data.user),null);
   const outbox=(await db.query('SELECT payload FROM transactional_mail_outbox')).rows[0];assert.ok(outbox.payload&&!outbox.payload.includes(learner.email));let sent;
   const delivered=await drainMailOutbox(pool,{deliver:async message=>sent=message,now:new Date(Date.now()+1000)});assert.equal(delivered.delivered,1);assert.equal(sent.to,learner.email);assert.ok(sent.text.includes(result.data.receiptId));
+  // A pre-erasure backup really contains the deleted identity. Reapply the separately
+  // retained deletion request before a restored environment is exposed to any traffic.
+  const {PGlite}=await import('@electric-sql/pglite');
+  const restored=await PGlite.create({loadDataDir:beforeErasureBackup});
+  try{
+   const restoredQuery=async(sql,args)=>{const r=await restored.query(sql,args);return {...r,rowCount:r.affectedRows||r.rows.length||0}};
+   const restoredPool={query:restoredQuery,connect:async()=>({query:restoredQuery,release(){}})};
+   assert.equal((await restored.query('SELECT id FROM users WHERE id=$1',[learner.id])).rows.length,1,'restoring an old backup resurrects the old identity until replay');
+   assert.ok((await restored.query('SELECT id FROM sessions WHERE user_id=$1',[learner.id])).rows.length>0,'old sessions also require cleanup');
+   const restoredPreview=await erasurePreview(restoredPool,requestId);
+   await fulfilAccountErasure(restoredPool,requestId,owner,{...acknowledgements,policyVersion:restoredPreview.policy.version,fingerprint:restoredPreview.fingerprint});
+   for(const table of ['users','sessions','learner_profiles'])assert.equal((await restored.query('SELECT count(*)::int AS n FROM '+table+' WHERE '+(table==='users'?'id':'user_id')+'=$1',[learner.id])).rows[0].n,0);
+   assert.equal((await restored.query('SELECT id FROM users WHERE id=$1',[other.id])).rows.length,1);
+   const replay=await drainMailOutbox(restoredPool,{deliver:async()=>{},now:new Date(Date.now()+1000)});assert.equal(replay.delivered,1);
+  }finally{await restored.close()}
   const requestTeacher=await api('/account/deletion-request','POST',{password,confirm:true},teacher);assert.equal(requestTeacher.status,200);const teacherId=(await api('/account/deletion-request','GET',null,teacher)).data.request.id;const teacherPreview=await erasurePreview(pool,teacherId);
   await fulfilAccountErasure(pool,teacherId,owner,{...acknowledgements,confirm:teacherId,policyVersion:teacherPreview.policy.version,fingerprint:teacherPreview.fingerprint});assert.equal((await db.query('SELECT id FROM users WHERE id=$1',[teacher.id])).rows.length,0);
   assert.equal((await db.query('SELECT id FROM users WHERE id=$1',[other.id])).rows.length,1);

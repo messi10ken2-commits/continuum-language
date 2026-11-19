@@ -1,3 +1,4 @@
+import LocalStoreKitTools from './LocalStoreKitTools.jsx';
 import NativeNotificationSettings from './NativeNotificationSettings.jsx';
 import React,{useEffect,useState} from 'react';
 import {LocalNotifications} from '@capacitor/local-notifications';import {Share} from '@capacitor/share';
@@ -26,6 +27,7 @@ export default function NativeAccountTools({user}){
   <label>{t('Learning reminder')}<input type="time" value={time} onChange={e=>setTime(e.target.value)}/></label>
   <button disabled={busy} className="outline-button" onClick={remind}>{t('Save reminder')}</button> <button disabled={busy} className="text-button" onClick={removeReminder}>{t('Turn off reminders')}</button>
   <p><button className="text-button" onClick={()=>void Share.share({title:'Continuum',text:t('One continuous record—across self-study and every class.'),url:'https://continuum-language-production.up.railway.app'})}>{t('Share Continuum')}</button></p>
+  {user.role==='learner'&&<LocalStoreKitTools user={user}/>}
   {user.role==='learner'&&<><h3>{t('App Store')}</h3><p>{t('Store purchases are in preparation. The app will show local prices, eligible trials and renewal terms before purchase.')}</p><button className="text-button" disabled={busy} onClick={()=>run(()=>Native.manageSubscriptions())}>{t('Manage subscription')}</button><button className="outline-button" disabled={busy} onClick={()=>run(async()=>{
    const result=await Native.restore();if(!result.transactionIds.length){setNotice(t('No purchases to restore.'));return;}
    const configuration=await fetch('/api/billing/apple').then(r=>r.ok?r.json():({enabled:false}));

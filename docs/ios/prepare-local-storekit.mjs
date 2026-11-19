@@ -11,6 +11,20 @@ export async function prepareLocalStoreKit(root=fileURLToPath(new URL('../../',i
  if(!flag.test(plist))throw Error('Shipping StoreKit flag must be false before creating a local test copy');
  plist=plist.replace(flag,'<key>ContinuumLocalStoreKitTesting</key><true/>');await writeFile(info,plist);
  await cp(new URL('./ContinuumLocalTesting.storekit',import.meta.url),join(output,'ios/App/App/ContinuumLocalTesting.storekit'));
+ // Only the disposable project bundles the test session and its product fixture.
+ await cp(new URL('./LocalStoreKitUITests.swift',import.meta.url),join(output,'ios/App/NativeUITests/LocalStoreKitUITests.swift'));
+ const pbx=join(output,'ios/App/App.xcodeproj/project.pbxproj');let project=await readFile(pbx,'utf8');
+ project=project.replace('/* End PBXBuildFile section */',`C01171000000000000000301 = {isa = PBXBuildFile; fileRef = C01171000000000000000302; };
+ C01171000000000000000303 = {isa = PBXBuildFile; fileRef = C01171000000000000000304; };
+ C01171000000000000000305 = {isa = PBXBuildFile; fileRef = C01171000000000000000304; };
+ /* End PBXBuildFile section */`);
+ project=project.replace('/* End PBXFileReference section */',`C01171000000000000000302 = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeUITests/LocalStoreKitUITests.swift; sourceTree = SOURCE_ROOT; };
+ C01171000000000000000304 = {isa = PBXFileReference; lastKnownFileType = text; path = App/ContinuumLocalTesting.storekit; sourceTree = SOURCE_ROOT; };
+ /* End PBXFileReference section */`);
+ project=project.replace('files = (C01171000000000000000201,);','files = (C01171000000000000000201,C01171000000000000000301,);');
+ project=project.replace('C01171000000000000000207 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = ();','C01171000000000000000207 = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (C01171000000000000000303,);');
+ project=project.replace('504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */,','C01171000000000000000305,\n                504EC3121FED79650016851F /* LaunchScreen.storyboard in Resources */,');
+ await writeFile(pbx,project);
  const schemes=join(output,'ios/App/App.xcodeproj/xcshareddata/xcschemes');let scheme=await readFile(join(schemes,'App.xcscheme'),'utf8');
  scheme=scheme.replace(/buildForArchiving="YES"/g,'buildForArchiving="NO"').replace(/<ArchiveAction\b[^>]*\/>/g,'').replace('</LaunchAction>','<StoreKitConfigurationFileReference identifier="../../App/ContinuumLocalTesting.storekit"/></LaunchAction>');
  await writeFile(join(schemes,'App-Local-StoreKit.xcscheme'),scheme);
