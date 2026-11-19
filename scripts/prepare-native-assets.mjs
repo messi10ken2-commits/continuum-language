@@ -10,3 +10,9 @@ assert.ok(scripts.some(s=>/\.pathname\.startsWith\(([`"'])\/api\/\1\)/.test(s)),
 assert.ok(!scripts.some(s=>/\.pathname\.startsWith\(([`"'])https:/.test(s)),'Media transform corrupted API routing');
 const config=JSON.parse(await readFile(new URL('capacitor.config.json',root)));assert.ok(!config.server?.url,'Native shell must use bundled frontend assets');
 console.log(JSON.stringify({bundledFiles:assets.length,bundledBytes:bytes,remoteMedia:'HTTPS on demand; no remote executable code',bundleId:config.appId}));
+
+// On high-density iPhones, an unrewritten second srcSet candidate resolves to a missing
+// bundled path and replaces the intended photograph with its fallback gradient.
+const mediaRoots=(await readdir(new URL('public/',root),{withFileTypes:true})).filter(e=>e.isDirectory()&&!e.name.includes('.')&&!['fonts','flags'].includes(e.name)).map(e=>e.name);
+const relativeMediaList=new RegExp(',\\s*/(?:'+mediaRoots.join('|')+')/');
+assert.ok(!scripts.some(source=>relativeMediaList.test(source)),'Native bundle contains a relative media-list candidate');
