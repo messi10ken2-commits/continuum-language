@@ -1,0 +1,38 @@
+name: Verify deployed readiness
+on:
+  workflow_dispatch:
+  push:
+    branches: ['codex/store-export-44462095093']
+    paths: ['.github/workflows/verify-deployed-readiness.yml']
+permissions:
+  contents: read
+jobs:
+  read-only-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.1'
+      - name: Verify database, web fallback, native CORS and gated endpoints
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          const base='https://continuum-language-production.up.railway.app';
+          async function check(path,{status=200,method='GET',headers={},inspect}={}){
+            const r=await fetch(base+path,{method,headers,redirect:'manual',signal:AbortSignal.timeout(15000)});
+            assert.equal(r.status,status,method+' '+path);
+            if(inspect)await inspect(r);
+            console.log('PASS',method,path,status);
+          }
+          await check('/api/health',{inspect:async r=>assert.equal((await r.json()).ok,true)});
+          await check('/',{inspect:async r=>assert.match(await r.text(),/Continuum/)});
+          await check('/app/classes',{inspect:async r=>assert.match(await r.text(),/Continuum/)});
+          await check('/api/auth/me',{headers:{Origin:'capacitor://localhost','X-Continuum-Client':'ios'},inspect:async r=>{assert.equal(r.headers.get('access-control-allow-origin'),'capacitor://localhost');assert.equal((await r.json()).user,null)}});
+          await check('/api/auth/me',{method:'OPTIONS',status:204,headers:{Origin:'capacitor://localhost','Access-Control-Request-Method':'GET','Access-Control-Request-Headers':'authorization,content-type,x-continuum-client'}});
+          await check('/api/auth/me',{method:'OPTIONS',status:403,headers:{Origin:'https://outside.invalid','Access-Control-Request-Method':'GET'}});
+          await check('/api/push/config',{status:401});
+          await check('/api/owner/mail',{status:401});
+          await check('/.well-known/apple-app-site-association',{status:404});
+          console.log('PASS: nine read-only production checks; no session, message, deletion, payment or provider operation performed.');
+          JS
