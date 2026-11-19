@@ -67,6 +67,8 @@ final class NativeUITests: XCTestCase {
         for (index, screen, heading) in [(1, "Overview", "Your course progress"), (2, "Learn", "Chapters"), (3, "Practice", "Practice Studio"), (4, "Classes", "Your classes and practice")] {
             tapVisible(screen)
             XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", heading)).firstMatch.waitForExistence(timeout: 90), heading)
+            // Allow the native keyboard/viewport transition and local media decode to settle.
+            Thread.sleep(forTimeInterval: 3)
             let image = XCTAttachment(screenshot: app.screenshot())
             image.name = "Store-EN-0\(index)-\(screen)"
             image.lifetime = .keepAlways
