@@ -6,7 +6,7 @@ Updated 19 November 2026. Implemented code does not establish activated service 
 | --- | --- | --- |
 | Native app | Bundled project, Keychain, lifecycle, safe areas, consent; simulator login/restart/logout passed | Physical iPhone matrix and distribution signing |
 | Backend | Native sessions deployed in PR #117 | Follow-up deployment after green checks |
-| Recovery | TLS SMTP/webhook and encrypted outbox | Gmail SMTP selected; supplied sender/test inbox recorded. Secure credential, worker activation and actual inbox-code confirmation pending |
+| Recovery | TLS SMTP/webhook and encrypted outbox | Gmail HTTPS API transport selected; supplied sender/test inbox recorded. Secure Google authorization, worker activation and actual inbox-code confirmation pending |
 | Account deletion | In-app request, guarded owner fulfilment, synthetic relational erasure tests | Published timing/retention policy; provider/backup evidence; operator rehearsal; explicit activation |
 | Apple billing | Official signed verification, ownership, notifications, restore and reconciliation | Real credentials/products, Sandbox end-to-end tests, approved prices/terms, separately reviewed live purchase UI |
 | Local StoreKit | Disposable test configuration and generation check | Xcode product/purchase/cancel/pending/restore interaction |
