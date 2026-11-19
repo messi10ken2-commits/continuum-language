@@ -64,7 +64,7 @@ final class NativeUITests: XCTestCase {
         let password = app.webViews.secureTextFields.firstMatch
         password.tap(); password.typeText("store-demo-fixture-123")
         tapVisible("Sign in")
-        for (index, screen, heading) in [(1, "Overview", "Alex"), (2, "Learn", "Your next chapter awaits"), (3, "Practice", "Practice Studio"), (4, "Classes", "Your journey, with a human guide")] {
+        for (index, screen, heading) in [(1, "Overview", "Your course progress"), (2, "Learn", "Chapters"), (3, "Practice", "Practice Studio"), (4, "Classes", "Your classes and practice")] {
             tapVisible(screen)
             XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", heading)).firstMatch.waitForExistence(timeout: 90), heading)
             let image = XCTAttachment(screenshot: app.screenshot())
