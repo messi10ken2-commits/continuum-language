@@ -1,5 +1,5 @@
 import {validatedAPIOrigin} from './native-policy.mjs';
-export function createNativeFetch({origin,fetchImpl,vault,onExpired=()=>{},timeout=45000,assetRoots=[],allowsAI=()=>false}){
+export function createNativeFetch({origin,fetchImpl,vault,onExpired=()=>{},onAccount=()=>{},timeout=45000,assetRoots=[],allowsAI=()=>false}){
  const apiOrigin=validatedAPIOrigin(origin);
  let account;
  return async(input,options)=>{
@@ -19,17 +19,18 @@ export function createNativeFetch({origin,fetchImpl,vault,onExpired=()=>{},timeo
   signal.throwIfAborted();
   const forwarded=new Request(target,{method:request.method,headers,body,cache:request.cache,referrerPolicy:request.referrerPolicy,integrity:request.integrity,keepalive:request.keepalive,signal});
   const response=await fetchImpl(forwarded,{headers,credentials:'omit',redirect:'error',signal});
-  if(response.status===401&&!['/api/auth/login','/api/account/deletion-request'].includes(url.pathname)&&!/^\/api\/owner\/deletion-requests\/[a-f0-9-]{36}\/fulfil$/.test(url.pathname)){await vault.clearSession({origin:apiOrigin});onExpired();}
+  if(response.status===401&&!['/api/auth/login','/api/account/deletion-request','/api/owner/mail/test'].includes(url.pathname)&&!/^\/api\/owner\/deletion-requests\/[a-f0-9-]{36}\/fulfil$/.test(url.pathname)){await vault.clearSession({origin:apiOrigin});onExpired();onAccount(undefined);}
   if(response.ok&&url.pathname==='/api/auth/logout')await vault.clearSession({origin:apiOrigin});
   if(response.headers.get('content-type')?.includes('application/json')){
    let data=await response.json();
    if(url.pathname==='/api/auth/me'||['/api/auth/login','/api/auth/register'].includes(url.pathname))account=data.user?.id;
-   if(url.pathname==='/api/auth/me'&&response.ok&&!data.user&&token){await vault.clearSession({origin:apiOrigin});onExpired();}
+   if(url.pathname==='/api/auth/me'&&response.ok&&!data.user&&token){await vault.clearSession({origin:apiOrigin});onExpired();onAccount(undefined);}
    if(url.pathname==='/api/auth/logout'&&response.ok)account=undefined;
    if(response.ok&&['/api/auth/login','/api/auth/register'].includes(url.pathname)){
     if(!data.sessionToken)throw Error('Native session support is not available on this backend yet');
     await vault.saveSession({token:data.sessionToken,origin:apiOrigin});delete data.sessionToken;
    }
+   if(response.ok&&['/api/auth/me','/api/auth/login','/api/auth/register','/api/auth/logout'].includes(url.pathname))onAccount(account);
    const mediaKey=/^(?:src|poster|url|images?|imageUrl|photo|thumbnail|audio|audioUrl|video|videoUrl|asset|modelUrl|background)$/i;
    const rewrite=(value,key='')=>typeof value==='string'&&mediaKey.test(key)&&(assetRoots.some(root=>value.startsWith('/'+root+'/'))||value.startsWith('/api/lesson-video/'))?apiOrigin+value:Array.isArray(value)?value.map(v=>rewrite(v,key)):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).map(([k,v])=>[k,rewrite(v,k)])):value;
    const responseHeaders=new Headers(response.headers);responseHeaders.delete('content-length');responseHeaders.delete('content-encoding');

@@ -1,3 +1,6 @@
+import {migrateMailOperations,handleMailOperations} from './mail-operations.mjs';
+import {migratePush,handlePush} from './push-api.mjs';
+import {handleAppAssociation} from './app-links-api.mjs';
 import {startReadinessMaintenance} from './readiness-maintenance.mjs';
 import {migrateAccountErasure} from './account-erasure.mjs';
 import {migrateMailOutbox,drainMailOutbox} from './transactional-mail.mjs';
@@ -102,7 +105,7 @@ async function migrate(){
  await migrateAnswerReviews(pool);
  await migrateOwner(pool);
  await migrateSupport(pool);await migrateAdventure(pool);
- await migrateMailOutbox(pool);await migrateAccountErasure(pool);
+ await migrateMailOutbox(pool);await migrateAccountErasure(pool);await migratePush(pool);await migrateMailOperations(pool);
 }
 function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
 function fail(status,message){const e=new Error(message);e.status=status;throw e}
@@ -172,11 +175,14 @@ async function handle(req,res){
  if(process.env.NODE_ENV==='production')res.setHeader('Strict-Transport-Security','max-age=31536000');
  const url=new URL(req.url,'http://localhost');const route=url.pathname;
  if(handleLessonMedia(req,res,route))return;
+ if(handleAppAssociation(req,res,route))return;
  if(!route.startsWith('/api/'))return serve(req,res,route);
  if(handleNativeOrigin(req,res,route,fail))return;
  if(await handleAppleNotifications({route,req,res,pool,json,send,fail}))return;
  if(await handleBillingWebhook({route,req,res,pool,send,fail}))return;
  if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&!nativeOrigins.has(origin)){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
+ if(await handleMailOperations({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handlePush({route,req,res,pool,required,json,send,limited}))return;
  if(await handleNativeAccount({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleClassSafety({route,req,res,pool,required,json,send,fail}))return;
  if(await handleAccountRecovery({route,req,res,pool,json,send,fail,authLimited,clientAddress:authClientAddress}))return;

@@ -30,3 +30,6 @@ body:has(.native-privacy-sheet[open]){overflow:hidden}
 .continuum-native .entry-shell .policy-links{display:flex;flex-wrap:wrap;gap:12px}
 .continuum-native .entry-shell .account-box :is(input,select,button){min-width:0;max-width:100%;scroll-margin-block:16px}
 @media(max-width:600px){.continuum-native .entry-shell .entry-content{padding:20px 16px}.continuum-native .entry-shell>header{padding:16px}}
+
+/* Sticky headers must retain the status-bar inset after the page scrolls. */
+.continuum-native .app.continuum-ui>main>header{top:env(safe-area-inset-top)}

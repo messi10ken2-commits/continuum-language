@@ -1,3 +1,4 @@
+import {queueThreadPush} from './push-api.mjs';
 import {syncClassTickets} from './billing-api.mjs';
 import {migrateTeacherSchedule,handleTeacherSchedule} from './teacher-schedule-api.mjs';
 import crypto from 'node:crypto';
@@ -34,7 +35,7 @@ const fingerprint=d=>crypto.createHash('sha256').update(JSON.stringify(d)).diges
 const bookingPublic=b=>({id:b.id,lessonType:b.lesson_type||'regular',threadId:b.thread_id,teacherId:b.teacher_id,learnerId:b.learner_id,teacher:b.teacher,learner:b.learner,language:b.language,startsAt:b.starts_at,endsAt:b.ends_at,proposedTimezone:b.proposed_timezone,proposedBy:b.proposed_by,status:b.status,meetingUrl:b.meeting_url,topic:b.topic,revision:b.revision,replacesId:b.replaces_id,priceMinor:0,premiumTicket:!!b.premium_ticket_id,changeReason:b.change_reason,slotId:b.slot_id,rulesVersion:b.rules_version});
 export function meetingLink(value){if(!value)return '';try{const u=new URL(value);const allowed=['meet.google.com','zoom.us','teams.microsoft.com','teams.live.com','meet.jit.si','whereby.com'];if(u.protocol!=='https:'||u.username||u.password||value.length>1500||!allowed.some(h=>u.hostname===h||h==='zoom.us'&&u.hostname.endsWith('.zoom.us')))return null;return u.href}catch{return null}}
 async function transaction(pool,fn){const c=await pool.connect();try{await c.query('BEGIN');const result=await fn(c);await c.query('COMMIT');return result}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}}
-async function event(c,actor,thread,kind,{booking=null,assignment=null,detail={}}={}){await c.query('INSERT INTO class_events(thread_id,booking_id,assignment_id,actor_id,kind,detail) VALUES($1,$2,$3,$4,$5,$6::jsonb)',[thread,booking,assignment,actor,kind,JSON.stringify(detail)]);}
+async function event(c,actor,thread,kind,{booking=null,assignment=null,detail={}}={}){const result=await c.query('INSERT INTO class_events(thread_id,booking_id,assignment_id,actor_id,kind,detail) VALUES($1,$2,$3,$4,$5,$6::jsonb) RETURNING id',[thread,booking,assignment,actor,kind,JSON.stringify(detail)]);await queueThreadPush(c,thread,actor,kind,result.rows[0].id);}
 async function updateMessage(c,actor,thread,body){await c.query("INSERT INTO class_messages(thread_id,author_id,kind,body) VALUES($1,$2,'update',$3)",[thread,actor,body]);}
 async function threadAccess(c,user,id,fail,{write=false}={}){
  if(!uuid.test(id||''))fail(404,'Conversation not found');
@@ -95,7 +96,7 @@ export async function handleClassroom({route,req,res,pool,required,json,send,fai
   if(messages[2]==='messages'&&req.method==='POST'){
    
    limited(req,'class-message',120);const d=await json(req),body=text(d.body,4000);if(!body||!key(d.clientKey))fail(400,'Write a message of 1–4000 characters');
-   await transaction(pool,async c=>{await lockPeople(c,t);if(await messagesBlocked(c,t.teacher_id,t.learner_id))fail(403,'Messages are blocked.');await lockLanguage(c,t,fail);const r=await c.query('INSERT INTO class_messages(thread_id,author_id,body,client_key) VALUES($1,$2,$3,$4) ON CONFLICT(author_id,client_key) DO NOTHING RETURNING id',[t.id,user.id,body,d.clientKey]);if(!r.rows.length){const old=(await c.query('SELECT thread_id,body FROM class_messages WHERE author_id=$1 AND client_key=$2',[user.id,d.clientKey])).rows[0];if(old.thread_id!==t.id||old.body!==body)fail(409,'This submission was already sent with different content');}});send(res,200,{ok:true});return true;
+   await transaction(pool,async c=>{await lockPeople(c,t);if(await messagesBlocked(c,t.teacher_id,t.learner_id))fail(403,'Messages are blocked.');await lockLanguage(c,t,fail);const r=await c.query('INSERT INTO class_messages(thread_id,author_id,body,client_key) VALUES($1,$2,$3,$4) ON CONFLICT(author_id,client_key) DO NOTHING RETURNING id',[t.id,user.id,body,d.clientKey]);if(r.rows.length)await queueThreadPush(c,t.id,user.id,'message',r.rows[0].id);if(!r.rows.length){const old=(await c.query('SELECT thread_id,body FROM class_messages WHERE author_id=$1 AND client_key=$2',[user.id,d.clientKey])).rows[0];if(old.thread_id!==t.id||old.body!==body)fail(409,'This submission was already sent with different content');}});send(res,200,{ok:true});return true;
   }
   if(messages[2]==='read'&&req.method==='POST'){await pool.query('INSERT INTO class_reads(thread_id,user_id,last_seq) SELECT $1,$2,COALESCE(max(seq),0) FROM class_messages WHERE thread_id=$1 ON CONFLICT(thread_id,user_id) DO UPDATE SET last_seq=GREATEST(class_reads.last_seq,EXCLUDED.last_seq)',[t.id,user.id]);send(res,200,{ok:true});return true;}
  }

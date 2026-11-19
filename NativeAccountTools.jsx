@@ -1,3 +1,4 @@
+import NativeNotificationSettings from './NativeNotificationSettings.jsx';
 import React,{useEffect,useState} from 'react';
 import {LocalNotifications} from '@capacitor/local-notifications';import {Share} from '@capacitor/share';
 import {Native} from './native-runtime.mjs';import {t} from './interface-runtime.mjs';
@@ -21,6 +22,7 @@ export default function NativeAccountTools({user}){
  return <section className="native-tools" aria-label={t('App settings')}>
   <h3>{t('App settings')}</h3>{notice&&<p role="status">{t(notice)}</p>}
   <label><span>{t('Optional AI services')}</span><input type="checkbox" checked={ai} onChange={e=>{const allowed=e.target.checked;setAI(allowed);localStorage.setItem('continuumNativeAIConsent:v1:'+user.id,allowed?'yes':'no');if(!allowed)window.dispatchEvent(new Event('pagehide'));}}/>{t('Allow Continuum to send my submitted text, recorded speech and learning context to OpenAI or Google Gemini for AI conversation and feedback. I can turn this off here. Regular lessons remain available.')}</label>
+  <NativeNotificationSettings/>
   <label>{t('Learning reminder')}<input type="time" value={time} onChange={e=>setTime(e.target.value)}/></label>
   <button disabled={busy} className="outline-button" onClick={remind}>{t('Save reminder')}</button> <button disabled={busy} className="text-button" onClick={removeReminder}>{t('Turn off reminders')}</button>
   <p><button className="text-button" onClick={()=>void Share.share({title:'Continuum',text:t('One continuous record—across self-study and every class.'),url:'https://continuum-language-production.up.railway.app'})}>{t('Share Continuum')}</button></p>

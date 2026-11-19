@@ -1,3 +1,5 @@
+import {initializeRemotePush} from './native-push.mjs';
+import {destinationFromURL,queueAppDestination} from './app-destinations.mjs';
 import {Capacitor,registerPlugin} from '@capacitor/core';
 import {App} from '@capacitor/app';import {Browser} from '@capacitor/browser';
 import {Network} from '@capacitor/network';import {Keyboard} from '@capacitor/keyboard';
@@ -11,8 +13,10 @@ export const isNative=()=>Capacitor.isNativePlatform();
 export async function initializeNative(){
  if(!isNative())return;
  document.documentElement.classList.add('continuum-native');
+ let remotePush;
  const origin=__CONTINUUM_API_ORIGIN__;
- window.fetch=createNativeFetch({origin,fetchImpl:window.fetch.bind(window),vault:Native,assetRoots:__CONTINUUM_REMOTE_ROOTS__,allowsAI:id=>!!id&&localStorage.getItem('continuumNativeAIConsent:v1:'+id)==='yes',onExpired:()=>window.dispatchEvent(new Event('continuum-session-expired'))});
+ window.fetch=createNativeFetch({origin,fetchImpl:window.fetch.bind(window),vault:Native,assetRoots:__CONTINUUM_REMOTE_ROOTS__,onAccount:id=>{remotePush?.accountChanged(id)},allowsAI:id=>!!id&&localStorage.getItem('continuumNativeAIConsent:v1:'+id)==='yes',onExpired:()=>window.dispatchEvent(new Event('continuum-session-expired'))});
+ remotePush=await initializeRemotePush({Native,api:window.fetch.bind(window)});
  if(navigator.mediaDevices?.getUserMedia){const capture=navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);navigator.mediaDevices.getUserMedia=async constraints=>{if(constraints.audio)await Native.prepareAudio();return capture(constraints);};}
  await Native.addListener('audioInterrupted',()=>{window.dispatchEvent(new Event('pagehide'));void Native.releaseAudio().catch(()=>{});});
  // Beacon's cookie-only transport is inappropriate for Keychain bearer sessions.
@@ -32,13 +36,10 @@ export async function initializeNative(){
   if(submit)requestAnimationFrame(()=>submit.scrollIntoView({block:'nearest',inline:'nearest',behavior:'auto'}));
  });
  await Keyboard.addListener('keyboardWillHide',()=>document.documentElement.classList.remove('native-keyboard-open'));
- await LocalNotifications.addListener('localNotificationActionPerformed',event=>{const section=event.notification.extra?.section;if(section==='learn')window.dispatchEvent(new CustomEvent('continuum-native-navigation',{detail:section}));});
- await App.addListener('appUrlOpen',({url})=>{
-  const value=new URL(url);if(value.protocol!=='continuum-dev:')return;
-  if(value.hostname==='reset'){const token=value.searchParams.get('token');if(/^[A-Za-z0-9_-]{43}$/.test(token||''))location.href='/?reset_token='+encodeURIComponent(token);return;}
-  if(value.hostname!=='open')return;
-  const section=value.searchParams.get('section');if(['account','support','classes','learn'].includes(section))window.dispatchEvent(new CustomEvent('continuum-native-navigation',{detail:section}));
- });
+ await LocalNotifications.addListener('localNotificationActionPerformed',event=>{const section=event.notification.extra?.section;if(section==='learn')queueAppDestination({section:'learn'});});
+ const openURL=url=>{try{const value=new URL(url);if(value.protocol==='continuum-dev:'&&value.hostname==='reset'&&['','/'].includes(value.pathname)&&value.searchParams.getAll('token').length===1&&[...value.searchParams.keys()].every(k=>k==='token')){const token=value.searchParams.get('token');if(/^[A-Za-z0-9_-]{43}$/.test(token||''))location.href='/?reset_token='+encodeURIComponent(token);return;}const destination=destinationFromURL(url,{origin,development:true});if(destination)queueAppDestination(destination);}catch{}};
+ await App.addListener('appUrlOpen',({url})=>openURL(url));
+ const launch=await App.getLaunchUrl().catch(()=>null);if(launch?.url)openURL(launch.url);
  document.addEventListener('click',event=>{
   const link=event.target.closest?.('a[href]');if(!link)return;const url=new URL(link.href,location.href);
   if(url.protocol==='capacitor:'&&url.pathname==='/privacy-settings'){event.preventDefault();window.dispatchEvent(new Event('continuum-native-privacy'));return;}

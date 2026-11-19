@@ -2,6 +2,8 @@
 
 All activation gates default off. No real mail, account deletion or Apple charge was performed. Run `node docs/ios/check-deployment-readiness.mjs --strict` for a read-only configuration check; it prints missing setting names and booleans, never secrets. Configured does not mean delivered or provider-verified.
 
+See MAIL_JAPAN_OPERATIONS_DRAFT.md for the supplied Gmail identity and Japan operating-country draft, and PUSH_AND_LINKS.md for implemented default-off remote capabilities.
+
 ## Mail and recovery
 
 Use AUTH_MAIL_PROVIDER=smtp with AUTH_SMTP_HOST, AUTH_SMTP_PORT (465 TLS or 587 STARTTLS), AUTH_SMTP_USER, AUTH_SMTP_PASSWORD and a verified single sender address in AUTH_MAIL_FROM. Alternatively choose webhook with an approved HTTPS AUTH_MAILER_WEBHOOK_URL and AUTH_MAILER_WEBHOOK_TOKEN; the provider must honor Idempotency-Key. Redirects are rejected. Configure sender/domain authentication and approve provider retention before real delivery validation.
