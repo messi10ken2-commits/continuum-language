@@ -1,0 +1,41 @@
+{
+  "sourceRun": 44462095093,
+  "sourceCommit": "db730ddcf91ac565b9bf91e5ea1e99ad1c2d7633",
+  "device": "iPhone 17 Pro simulator",
+  "interfaceLanguage": "English",
+  "data": "Synthetic learner Alex; no real learner records",
+  "captures": [
+    {
+      "file": "Store-EN-01-Overview.png",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG",
+      "color": "RGB",
+      "alpha": false
+    },
+    {
+      "file": "Store-EN-02-Learn.png",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG",
+      "color": "RGB",
+      "alpha": false
+    },
+    {
+      "file": "Store-EN-03-Practice.png",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG",
+      "color": "RGB",
+      "alpha": false
+    },
+    {
+      "file": "Store-EN-04-Classes.png",
+      "width": 1206,
+      "height": 2622,
+      "format": "PNG",
+      "color": "RGB",
+      "alpha": false
+    }
+  ]
+}
