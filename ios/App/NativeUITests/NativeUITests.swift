@@ -52,7 +52,7 @@ final class NativeUITests: XCTestCase {
             let matches = app.webViews.buttons.matching(NSPredicate(format: "label == %@", title))
             XCTAssertTrue(matches.firstMatch.waitForExistence(timeout: 90), title)
             for _ in 0..<12 {
-                if let button = matches.allElementsBoundByIndex.first(where: { $0.isHittable && (!app.keyboards.firstMatch.exists || !$0.frame.intersects(app.keyboards.firstMatch.frame)) }) { button.tap(); return }
+                if let button = matches.allElementsBoundByIndex.reversed().first(where: { $0.isHittable && (!app.keyboards.firstMatch.exists || !$0.frame.intersects(app.keyboards.firstMatch.frame)) }) { button.tap(); return }
                 app.webViews.firstMatch.swipeUp()
             }
             XCTFail("No accessible button: \(title)")

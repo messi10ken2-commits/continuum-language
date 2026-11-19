@@ -73,7 +73,7 @@ jobs:
           if test -f /tmp/continuum-ios-backend.log; then cat /tmp/continuum-ios-backend.log; fi
           if test -d /tmp/continuum-ios-e2e/Build/Products/Debug-iphonesimulator/App.app; then codesign -d --entitlements :- /tmp/continuum-ios-e2e/Build/Products/Debug-iphonesimulator/App.app || true; fi
           if test -n "$IOS_SIMULATOR_ID"; then xcrun simctl io "$IOS_SIMULATOR_ID" screenshot /tmp/continuum-ios-failure.png || true; fi
-          if test -d /tmp/continuum-ios-e2e.xcresult; then xcrun xcresulttool get test-results summary --path /tmp/continuum-ios-e2e.xcresult > /tmp/continuum-ios-test-summary.json || true; xcrun xcresulttool export attachments --path /tmp/continuum-ios-e2e.xcresult --output-path /tmp/continuum-ios-attachments || true; fi
+          if test -d /tmp/continuum-ios-e2e.xcresult; then xcrun xcresulttool get test-results summary --path /tmp/continuum-ios-e2e.xcresult > /tmp/continuum-ios-test-summary.json || true; fi
       - name: Stop isolated backend
         if: always()
         run: if test -f /tmp/continuum-ios-backend.pid; then kill "$(cat /tmp/continuum-ios-backend.pid)" || true; fi
