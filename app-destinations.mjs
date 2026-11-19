@@ -23,7 +23,7 @@ export function destinationFromURL(value,{origin,development=false}={}){
   return appDestination({section,...Object.fromEntries([...url.searchParams].filter(([k])=>k!=='section'))});
  }catch{return null;}
 }
-export function destinationURL(value,origin){const d=appDestination(value);if(!d)throw Error('Invalid app destination');const u=new URL('/app/'+d.section,origin);if(u.protocol!=='https:')throw Error('App links require HTTPS');for(const [k,v]of Object.entries(d))if(k!=='section')u.searchParams.set(k,v);return u.href;}
+export function destinationURL(value,origin){const d=appDestination(value);if(!d)throw Error('Invalid app destination');const host=new URL(origin);if(host.protocol!=='https:'||host.username||host.password||host.pathname!=='/'||host.search||host.hash)throw Error('App links require an approved HTTPS origin');const u=new URL('/app/'+d.section,host);for(const [k,v]of Object.entries(d))if(k!=='section')u.searchParams.set(k,v);return u.href;}
 let pending=null;
 export function queueAppDestination(value){const d=appDestination(value);if(!d)return false;pending=d;if(typeof window!=='undefined')window.dispatchEvent(new Event('continuum-destination-pending'));return true;}
 export function pendingAppDestination(){return pending;}

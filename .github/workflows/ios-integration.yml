@@ -26,6 +26,23 @@ jobs:
         run: xcodebuild -project ios/App/App.xcodeproj -scheme App -sdk iphonesimulator -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath /tmp/continuum-ios CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- build
       - name: Preserve development simulator build
         run: tar -czf /tmp/continuum-ios-development.tar.gz -C /tmp/continuum-ios/Build/Products/Debug-iphonesimulator App.app
+      - name: Start isolated HTTPS backend and trust test certificate
+        run: |
+          npm run build
+          IOS_OPENSSL_BIN="$(brew --prefix openssl@3)/bin/openssl"
+          "$IOS_OPENSSL_BIN" req -x509 -newkey rsa:2048 -nodes -keyout /tmp/continuum-root.key -out /tmp/continuum-root.crt -days 1 -subj '/CN=Continuum CI Root' -addext 'basicConstraints=critical,CA:TRUE'
+          "$IOS_OPENSSL_BIN" req -newkey rsa:2048 -nodes -keyout /tmp/continuum-test.key -out /tmp/continuum-test.csr -subj '/CN=127.0.0.1'
+          printf 'subjectAltName=IP:127.0.0.1,DNS:localhost\nextendedKeyUsage=serverAuth\nbasicConstraints=CA:FALSE\n' > /tmp/continuum-test.ext
+          "$IOS_OPENSSL_BIN" x509 -req -in /tmp/continuum-test.csr -CA /tmp/continuum-root.crt -CAkey /tmp/continuum-root.key -CAcreateserial -out /tmp/continuum-test.crt -days 1 -extfile /tmp/continuum-test.ext
+          rm -f /tmp/continuum-ios-backend-ready
+          node scripts/ios-test-backend.mjs > /tmp/continuum-ios-backend.log 2>&1 &
+          printf '%s' "$!" > /tmp/continuum-ios-backend.pid
+          for attempt in $(seq 1 180); do
+            if test -f /tmp/continuum-ios-backend-ready; then break; fi
+            if ! kill -0 "$(cat /tmp/continuum-ios-backend.pid)" 2>/dev/null; then cat /tmp/continuum-ios-backend.log; exit 1; fi
+            sleep 1
+          done
+          curl --fail --cacert /tmp/continuum-root.crt https://127.0.0.1:9443/api/health
       - name: Boot iPhone simulator
         timeout-minutes: 12
         run: |
@@ -35,22 +52,8 @@ jobs:
           xcrun simctl bootstatus "$IOS_SIMULATOR_ID" -b
           xcrun simctl status_bar "$IOS_SIMULATOR_ID" override --time "9:41" --dataNetwork wifi --wifiMode active --wifiBars 3 --batteryState charged --batteryLevel 100
           printf 'IOS_SIMULATOR_ID=%s\n' "$IOS_SIMULATOR_ID" >> "$GITHUB_ENV"
-      - name: Start isolated HTTPS backend and trust test certificate
-        run: |
-          npm run build
-          IOS_OPENSSL_BIN="$(brew --prefix openssl@3)/bin/openssl"
-          "$IOS_OPENSSL_BIN" req -x509 -newkey rsa:2048 -nodes -keyout /tmp/continuum-root.key -out /tmp/continuum-root.crt -days 1 -subj '/CN=Continuum CI Root' -addext 'basicConstraints=critical,CA:TRUE'
-          "$IOS_OPENSSL_BIN" req -newkey rsa:2048 -nodes -keyout /tmp/continuum-test.key -out /tmp/continuum-test.csr -subj '/CN=127.0.0.1'
-          printf 'subjectAltName=IP:127.0.0.1,DNS:localhost\nextendedKeyUsage=serverAuth\nbasicConstraints=CA:FALSE\n' > /tmp/continuum-test.ext
-          "$IOS_OPENSSL_BIN" x509 -req -in /tmp/continuum-test.csr -CA /tmp/continuum-root.crt -CAkey /tmp/continuum-root.key -CAcreateserial -out /tmp/continuum-test.crt -days 1 -extfile /tmp/continuum-test.ext
-          xcrun simctl keychain "$IOS_SIMULATOR_ID" add-root-cert /tmp/continuum-root.crt
-          node scripts/ios-test-backend.mjs > /tmp/continuum-ios-backend.log 2>&1 &
-          printf '%s' "$!" > /tmp/continuum-ios-backend.pid
-          for attempt in $(seq 1 60); do
-            if test -f /tmp/continuum-ios-backend-ready; then break; fi
-            sleep 1
-          done
-          curl --fail --cacert /tmp/continuum-root.crt https://127.0.0.1:9443/api/health
+      - name: Trust the isolated fixture certificate
+        run: xcrun simctl keychain "$IOS_SIMULATOR_ID" add-root-cert /tmp/continuum-root.crt
       - name: Verify native account lifecycle and capture store screens
         env:
           CONTINUUM_API_ORIGIN: https://127.0.0.1:9443

@@ -4,6 +4,7 @@ import {reconcileAppleDue} from './apple-store-api.mjs';
 export async function runReadinessMaintenance(pool){
  const [mail,apple,push]=await Promise.allSettled([drainMailOutbox(pool),reconcileAppleDue(pool),(async()=>{await queueClassReminders(pool);return drainPushOutbox(pool)})()]);
  await pool.query('DELETE FROM account_recovery_tokens WHERE expires_at<now()');
+ await pool.query("DELETE FROM mail_delivery_checks WHERE expires_at<now()-interval '30 days'");
  return {push:push.status==='fulfilled'?push.value:{failed:true},mail:mail.status==='fulfilled'?mail.value:{failed:true},apple:apple.status==='fulfilled'?apple.value:{failed:true}};
 }
 export function startReadinessMaintenance(pool,{intervalMs=60000}={}){

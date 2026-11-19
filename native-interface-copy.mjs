@@ -2,7 +2,7 @@ const locales=['ja','es','pt','zh','fr','ko','id','ru','ar'];
 const rows=`
 Remote notifications|プッシュ通知|Notificaciones push|Notificações push|推送通知|Notifications push|푸시 알림|Notifikasi push|Push-уведомления|الإشعارات الفورية
 Class updates|クラスの更新|Actualizaciones de clases|Atualizações das aulas|课程更新|Mises à jour des cours|수업 업데이트|Pembaruan kelas|Обновления занятий|تحديثات الدروس
-Class messages|クラスのメッセージ|Mensajes de clase|Mensagens das aulas|课程消息|Messages de cours|수업 메시지|Pesan kelas|Сообщения о занятиях|رسائل الدروس
+Class messages|クラスのメッセージ|Mensajes de clase|Mensagens das aulas|课程消息|Messages de cours|수업 메시지|Pesan kelas|Сообщения класса|رسائل الصف
 Practice updates|練習課題の更新|Actualizaciones de práctica|Atualizações de prática|练习更新|Mises à jour des exercices|연습 업데이트|Pembaruan latihan|Обновления заданий|تحديثات التدريبات
 Enable notifications|通知を有効にする|Activar notificaciones|Ativar notificações|启用通知|Activer les notifications|알림 켜기|Aktifkan notifikasi|Включить уведомления|تفعيل الإشعارات
 Turn off notifications|通知を無効にする|Desactivar notificaciones|Desativar notificações|关闭通知|Désactiver les notifications|알림 끄기|Nonaktifkan notifikasi|Отключить уведомления|إيقاف الإشعارات

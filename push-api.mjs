@@ -58,7 +58,7 @@ export async function queueThreadPush(c,threadId,actorId,kind,eventId,{env=proce
 }
 let jwtCache;
 export function apnsProviderToken(env=process.env,now=Date.now()){
- const fingerprint=createHash('sha256').update([env.APNS_TEAM_ID,env.APNS_KEY_ID,env.APNS_PRIVATE_KEY].join('|')).digest('hex');if(jwtCache?.fingerprint===fingerprint&&now-jwtCache.at<50*60000)return jwtCache.value;
+ const fingerprint=createHash('sha256').update([env.APNS_TEAM_ID,env.APNS_KEY_ID,env.APNS_PRIVATE_KEY].join('|')).digest('hex');if(jwtCache?.fingerprint===fingerprint&&now>=jwtCache.at&&now-jwtCache.at<50*60000)return jwtCache.value;
  const privateKey=createPrivateKey(env.APNS_PRIVATE_KEY);if(privateKey.asymmetricKeyType!=='ec'||privateKey.asymmetricKeyDetails?.namedCurve!=='prime256v1')throw Error('APNs requires a P-256 signing key');
  const enc=x=>Buffer.from(JSON.stringify(x)).toString('base64url'),header=enc({alg:'ES256',kid:env.APNS_KEY_ID}),body=enc({iss:env.APNS_TEAM_ID,iat:Math.floor(now/1000)}),part=header+'.'+body;
  const value=part+'.'+sign('sha256',Buffer.from(part),{key:privateKey,dsaEncoding:'ieee-p1363'}).toString('base64url');jwtCache={fingerprint,at:now,value};return value;
@@ -76,10 +76,10 @@ export async function sendAPNs(token,payload,{id,expiresAt,env=process.env}={}){
  });
 }
 export async function drainPushOutbox(pool,{env=process.env,deliver=sendAPNs,now=new Date(),limit=10}={}){
- if(!pushSettings(env).deliveryEnabled)return {delivered:0,failed:0};
  await pool.query('DELETE FROM push_devices WHERE session_hash IN (SELECT token_hash FROM sessions WHERE expires_at<=$1)',[now]);
  await pool.query("DELETE FROM push_outbox WHERE status<>'pending' AND created_at<$1::timestamptz-interval '7 days'",[now]);
  await pool.query("UPDATE push_outbox SET status='expired',destination='{}',lease_until=NULL WHERE status='pending' AND expires_at<=$1",[now]);
+ if(!pushSettings(env).deliveryEnabled)return {delivered:0,failed:0};
  const due=(await pool.query("UPDATE push_outbox SET lease_until=$1::timestamptz+interval '5 minutes' WHERE id IN (SELECT id FROM push_outbox WHERE status='pending' AND expires_at>$1 AND next_attempt_at<=$1 AND (lease_until IS NULL OR lease_until<$1) ORDER BY created_at LIMIT $2 FOR UPDATE SKIP LOCKED) RETURNING *",[now,Math.min(10,Math.max(1,limit))])).rows;
  let delivered=0,failed=0;
  for(const job of due){try{const device=(await pool.query('SELECT d.* FROM push_devices d JOIN sessions s ON s.token_hash=d.session_hash WHERE d.id=$1 AND d.user_id=$2 AND s.expires_at>$3',[job.device_id,job.user_id,now])).rows[0];if(!device)continue;

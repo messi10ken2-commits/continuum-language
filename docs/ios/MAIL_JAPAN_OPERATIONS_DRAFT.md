@@ -30,6 +30,8 @@ Generate `MAIL_OUTBOX_KEY` as 32 random bytes encoded as 64 hex characters in a 
 4. Record the server confirmation time. The `delivered` outbox status means SMTP acceptance; only the entered inbox code sets `inboxConfirmed`.
 5. Rehearse password reset using a synthetic account whose inbox the operator controls. Verify the real link is single-use, expires, resets the password and revokes prior sessions. Do not test with another person’s account.
 
+The active maintenance worker removes inbox-check metadata 30 days after its code expires; the email payload is removed on delivery/expiry. This technical log limit is separate from financial record retention.
+
 The automated suite substitutes the delivery function and verifies authorization, encryption, fixed destination, wrong-code rejection and one-use proof. It does not contact Gmail. Gmail credentials are still missing, so actual delivery remains pending.
 
 ## Account deletion proposal, not activated policy
