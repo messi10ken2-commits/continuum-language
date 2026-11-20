@@ -34,39 +34,44 @@ final class LocalStoreKitUITests: XCTestCase {
         // Apply automation overrides after that configuration has been loaded.
         session.disableDialogs = true
         XCTAssertTrue(session.disableDialogs)
+        func reveal(_ element: XCUIElement, bottomNavigation: Bool = false) -> Bool {
+            let bottom: CGFloat = bottomNavigation ? 20 : 100
+            let safeFrame = CGRect(x: app.frame.minX + 12, y: app.frame.minY + 100, width: app.frame.width - 24, height: app.frame.height - 100 - bottom)
+            for attempt in 0..<32 {
+                let frame = element.frame
+                let keyboard = app.keyboards.firstMatch
+                if frame.width > 0 && frame.height > 0 && element.isHittable &&
+                    safeFrame.contains(CGPoint(x: frame.midX, y: frame.midY)) &&
+                    (!keyboard.exists || !frame.intersects(keyboard.frame)) { return true }
+                // Short window gestures can correct either overscroll direction.
+                // Offscreen WebKit zero frames use a bounded bidirectional scan.
+                let down = frame.height > 0 ? frame.midY < safeFrame.minY : attempt >= 16
+                let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: down ? 0.38 : 0.62))
+                let end = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: down ? 0.56 : 0.44))
+                start.press(forDuration: 0.05, thenDragTo: end)
+            }
+            return false
+        }
         func tap(_ title: String) {
             let matches = app.webViews.buttons.matching(NSPredicate(format: "label == %@", title))
             XCTAssertTrue(matches.firstMatch.waitForExistence(timeout: 90), title)
             let button = matches.element(boundBy: max(0, matches.count - 1))
-            for attempt in 0..<24 {
-                let frame = button.frame
-                // WebKit can report controls under the status bar as hittable.
-                // Keep the tap center clear of native top chrome and the bottom tab bar.
-                let bottomClearance: CGFloat = title == "Account" ? 20 : 100
-                let safeFrame = CGRect(x: app.frame.minX + 12, y: app.frame.minY + 100, width: app.frame.width - 24, height: app.frame.height - 100 - bottomClearance)
-                let keyboard = app.keyboards.firstMatch
-                if button.isHittable && frame.width > 0 && frame.height > 0 && safeFrame.contains(CGPoint(x: frame.midX, y: frame.midY)) && (!keyboard.exists || !frame.intersects(keyboard.frame)) { button.tap(); return }
-                // Offscreen WebKit accessibility frames can be zero: never infer a
-                // direction from them. Use bounded scans in both directions on the
-                // actual window, not the potentially content-sized WebView frame.
-                let down = frame.height > 0 ? frame.midY < safeFrame.minY : attempt >= 12
-                let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: down ? 0.35 : 0.65))
-                let end = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: down ? 0.60 : 0.40))
-                start.press(forDuration: 0.05, thenDragTo: end)
+            let enabled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: button)
+            XCTAssertEqual(XCTWaiter.wait(for: [enabled], timeout: 20), .completed, "Button must be ready: " + title)
+            guard reveal(button, bottomNavigation: title == "Account") else {
+                let failure = XCTAttachment(screenshot: app.screenshot()); failure.name = "StoreKit-obstructed-" + title; failure.lifetime = .keepAlways; add(failure)
+                print("STOREKIT_ACCESSIBILITY", app.debugDescription)
+                XCTFail("Button obstructed: " + title); return
             }
-            let failure = XCTAttachment(screenshot: app.screenshot()); failure.name = "StoreKit-obstructed-" + title; failure.lifetime = .keepAlways; add(failure)
-            print("STOREKIT_ACCESSIBILITY", app.debugDescription)
-            XCTFail("Button obstructed: \(title)")
+            button.tap()
         }
         func status(_ text: String, capture: String) {
             let label = app.webViews.staticTexts[text]
-            if !label.waitForExistence(timeout: 40) {
+            guard label.waitForExistence(timeout: 40), reveal(label) else {
                 let failure = XCTAttachment(screenshot: app.screenshot()); failure.name = "StoreKit-missing-" + capture; failure.lifetime = .keepAlways; add(failure)
                 print("STOREKIT_FAILED_STATUS_ACCESSIBILITY", app.debugDescription)
-                XCTFail(text); return
+                XCTFail("Result must exist and be visible: " + text); return
             }
-            for _ in 0..<12 { if label.isHittable { break }; app.swipeUp(velocity: .fast) }
-            XCTAssertTrue(label.isHittable, "Result must be visible: \(text)")
             let image = XCTAttachment(screenshot: app.screenshot()); image.name = capture; image.lifetime = .keepAlways; add(image)
         }
         tap("Already a member? Sign in")

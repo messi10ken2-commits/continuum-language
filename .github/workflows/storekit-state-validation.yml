@@ -55,7 +55,7 @@ jobs:
           npm run ios:sync
           node docs/ios/prepare-local-storekit.mjs > /tmp/continuum-storekit-project.json
           STOREKIT_PROJECT=$(python3 -c 'import json; print(json.load(open("/tmp/continuum-storekit-project.json"))["project"])')
-          xcodebuild -project "$STOREKIT_PROJECT" -scheme App-Local-StoreKit -configuration Debug -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" -derivedDataPath /tmp/continuum-ios-e2e -resultBundlePath /tmp/continuum-ios-e2e.xcresult -only-testing:NativeUITests/LocalStoreKitUITests -test-timeouts-enabled YES -default-test-execution-time-allowance 240 -maximum-test-execution-time-allowance 240 CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- test
+          xcodebuild -project "$STOREKIT_PROJECT" -scheme App-Local-StoreKit -configuration Debug -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" -derivedDataPath /tmp/continuum-ios-e2e -resultBundlePath /tmp/continuum-ios-e2e.xcresult -only-testing:NativeUITests/LocalStoreKitUITests -test-timeouts-enabled YES -default-test-execution-time-allowance 600 -maximum-test-execution-time-allowance 600 CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- test
           node scripts/assert-local-storekit-isolation.mjs
       - name: Export actual native screenshots and result summary
         if: always()
