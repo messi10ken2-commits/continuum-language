@@ -180,13 +180,14 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         #if DEBUG
         guard Bundle.main.object(forInfoDictionaryKey: "ContinuumLocalStoreKitTesting") as? Bool == true else { call.reject("StoreKit purchases are not enabled"); return }
         guard let id = call.getString("productId"), productIDs.contains(id), let account = UUID(uuidString: call.getString("accountToken") ?? "") else { call.reject("Invalid store purchase"); return }
-        Task {
+        Task { @MainActor in
             do {
-                guard #available(iOS 16.0, *) else { call.reject("Local StoreKit testing requires iOS 16 or later"); return }
+                guard #available(iOS 17.0, *) else { call.reject("Local StoreKit testing requires iOS 17 or later"); return }
                 let app = try await AppTransaction.shared
                 guard case .verified(let appTransaction) = app, appTransaction.environment == .xcode else { call.reject("Only the local Xcode StoreKit environment is allowed"); return }
                 guard let product = try await Product.products(for: [id]).first else { call.reject("Product unavailable"); return }
-                switch try await product.purchase(options: [.appAccountToken(account)]) {
+                guard let scene = self.bridge?.viewController?.view.window?.windowScene else { call.reject("App window unavailable"); return }
+                switch try await product.purchase(confirmIn: scene, options: [.appAccountToken(account)]) {
                 case .success(let result):
                     guard case .verified(let transaction) = result else { call.reject("Unverified store transaction"); return }
                     // Do not finish or grant access before the server verifies ownership.

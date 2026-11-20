@@ -70,13 +70,19 @@ final class LocalStoreKitUITests: XCTestCase {
         status("Local purchase pending. No access granted.", capture: "StoreKit-05-Pending")
         session.clearTransactions(); session.askToBuyEnabled = false
         session.disableDialogs = false
+        XCTAssertFalse(session.disableDialogs)
         tap("Buy local monthly")
         // Cancel the real local StoreKit confirmation sheet, rather than synthesizing a JS result.
         let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
         let appCancel = app.buttons["Cancel"]
         let systemCancel = springboard.buttons["Cancel"]
         if appCancel.waitForExistence(timeout: 15) { appCancel.tap() }
-        else { XCTAssertTrue(systemCancel.waitForExistence(timeout: 15)); systemCancel.tap() }
+        else if systemCancel.waitForExistence(timeout: 15) { systemCancel.tap() }
+        else {
+            let failure = XCTAttachment(screenshot: app.screenshot()); failure.name = "StoreKit-Cancel-Sheet-Missing"; failure.lifetime = .keepAlways; add(failure)
+            print("STOREKIT_CANCEL_ACCESSIBILITY", app.debugDescription)
+            XCTFail("Local StoreKit purchase confirmation must expose a cancel control"); return
+        }
         status("Local purchase cancelled. No access granted.", capture: "StoreKit-06-Cancel")
         session.disableDialogs = true
         tap("Restore local purchases")
