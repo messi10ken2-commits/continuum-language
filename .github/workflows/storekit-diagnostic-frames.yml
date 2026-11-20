@@ -16,6 +16,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
           gh run download 44694401549 --repo messi10ken2-commits/continuum-language --name continuum-local-storekit --dir /tmp/storekit-result
           python3 - <<'PY'
           import json,pathlib,shutil
