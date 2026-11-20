@@ -1,0 +1,16 @@
+name: Inspect StoreKit simulator runtimes
+on:
+  push:
+    branches: ['codex/storekit-runtime-inventory']
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: macos-26
+    timeout-minutes: 8
+    steps:
+      - name: Inspect installed Apple toolchains and simulator runtimes
+        run: |
+          xcodebuild -version
+          xcrun simctl list runtimes -j
+          find /Applications -maxdepth 1 -name 'Xcode*.app' -print
