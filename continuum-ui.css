@@ -841,15 +841,16 @@
 }
 
 /* Keep card copy in normal flow, including WebKit's narrow layouts. */
-.app.continuum-ui .studio-menu>.studio-choice {display:flex;flex-direction:column;align-items:stretch;gap:0}
-.app.continuum-ui .studio-choice-copy {position:relative;z-index:1;display:flex;flex-direction:column;gap:6px;min-width:0;margin-bottom:9px}
+.app.continuum-ui .studio-menu>.studio-choice {display:block}
+.app.continuum-ui .studio-choice-copy {position:relative;z-index:1;display:block;min-width:0}
 .app.continuum-ui .studio-choice-heading {display:flex;align-items:flex-start;gap:8px;min-width:0}
 .app.continuum-ui .studio-choice-heading>svg {flex:0 0 29px;width:29px;height:29px;padding:5px;background:#e0f2ef;border-radius:50%;color:#299d8e}
 .app.continuum-ui .studio-choice-heading>strong {flex:1;min-width:0;overflow-wrap:anywhere}
 .app.continuum-ui .studio-choice-description,.app.continuum-ui .studio-choice-premium {font-size:12px;line-height:1.45;color:var(--ui-muted);min-width:0;overflow-wrap:anywhere;padding-inline-start:37px}
-.app.continuum-ui .studio-choice-premium {display:flex;align-items:center;gap:5px}
+.app.continuum-ui .studio-choice-description {display:block;margin-top:6px}
+.app.continuum-ui .studio-choice-premium {display:flex;align-items:center;gap:5px;margin-top:6px}
 .app.continuum-ui .studio-choice-premium>svg {flex-shrink:0}
-.app.continuum-ui .studio-choice>.illustrated-card-action {margin-top:auto;flex-shrink:0}
+.app.continuum-ui .studio-choice>.illustrated-card-action {position:relative;display:flex;margin-top:9px}
 .app.continuum-ui .studio-pronunciation .studio-choice-heading>svg {background:#ffe4de;color:#e67b6f}
 .app.continuum-ui .studio-focus .studio-choice-heading>svg {background:#e6e8fd;color:#7962c7}
 .app.continuum-ui.ui-illustrated .studio-choice-copy {width:62%}

@@ -19,7 +19,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install chromium webkit
-      - run: QA_WEBKIT_ONLY=1 node scripts/qa-light-opening-studio.mjs
+      - run: node scripts/qa-light-opening-studio.mjs
       - run: node --test light-challenge-render.test.mjs
       - run: npm run ios:sync && npm run ios:check
       - run: node --test native-storekit-fixture.test.mjs native-transport.test.mjs
