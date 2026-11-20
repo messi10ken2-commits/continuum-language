@@ -51,7 +51,10 @@ try{
   await page.waitForFunction(()=>{const v=document.querySelector('.town-opening video');return v&&!v.paused&&v.currentTime>0});
   assert.ok(await video.evaluate(v=>v.muted&&v.playsInline&&v.videoWidth>0));
   await page.screenshot({path:new URL(engine.name()+'-opening.png',directory).pathname});
-  await page.locator('.town-opening').waitFor({state:'detached'});
+  await page.locator('.town-opening').waitFor({state:'detached'}).catch(async error=>{
+   console.log('OPENING_MEDIA_STATE',await video.evaluate(v=>({time:v.currentTime,duration:v.duration,paused:v.paused,ended:v.ended,ready:v.readyState,network:v.networkState,error:v.error?.message,visibility:document.visibilityState,buffered:Array.from({length:v.buffered.length},(_,i)=>[v.buffered.start(i),v.buffered.end(i)])})));
+   throw error;
+  });
   // Returning from a lesson does not repeat the opening; an explicit mode switch does.
   await page.locator('.town-mission .town-cta').click();
   await page.locator('.light-game').waitFor();
