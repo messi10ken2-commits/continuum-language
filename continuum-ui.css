@@ -840,12 +840,28 @@
  box-shadow:inset 0 1px 0 #ffffff50,0 1px 0 var(--ui-raised-edge);
 }
 
-/* Description and membership status must occupy separate rows in every card. */
-.app.continuum-ui .studio-choice>.studio-choice-description {grid-row:3;overflow-wrap:anywhere;min-width:0}
-.app.continuum-ui .studio-choice>.studio-choice-premium {grid-row:4;display:flex;align-items:center;gap:5px;min-width:0;overflow-wrap:anywhere}
-.app.continuum-ui .studio-choice>.studio-choice-premium>svg {flex-shrink:0}
-.app.continuum-ui .studio-choice>.illustrated-card-action {grid-row:5}
-.app.continuum-ui.ui-illustrated .studio-choice>.studio-choice-description {grid-row:2}
-.app.continuum-ui.ui-illustrated .studio-choice>.studio-choice-premium {grid-row:3}
-.app.continuum-ui.ui-illustrated .studio-choice>.illustrated-card-action {grid-row:4}
-.app.continuum-ui .studio-choice>strong {min-width:0;overflow-wrap:anywhere}
+/* Keep card copy in normal flow, including WebKit's narrow layouts. */
+.app.continuum-ui .studio-menu>.studio-choice {display:flex;flex-direction:column;align-items:stretch;gap:0}
+.app.continuum-ui .studio-choice-copy {position:relative;z-index:1;display:flex;flex-direction:column;gap:6px;min-width:0;margin-bottom:9px}
+.app.continuum-ui .studio-choice-heading {display:flex;align-items:flex-start;gap:8px;min-width:0}
+.app.continuum-ui .studio-choice-heading>svg {flex:0 0 29px;width:29px;height:29px;padding:5px;background:#e0f2ef;border-radius:50%;color:#299d8e}
+.app.continuum-ui .studio-choice-heading>strong {flex:1;min-width:0;overflow-wrap:anywhere}
+.app.continuum-ui .studio-choice-description,.app.continuum-ui .studio-choice-premium {font-size:12px;line-height:1.45;color:var(--ui-muted);min-width:0;overflow-wrap:anywhere;padding-inline-start:37px}
+.app.continuum-ui .studio-choice-premium {display:flex;align-items:center;gap:5px}
+.app.continuum-ui .studio-choice-premium>svg {flex-shrink:0}
+.app.continuum-ui .studio-choice>.illustrated-card-action {margin-top:auto;flex-shrink:0}
+.app.continuum-ui .studio-pronunciation .studio-choice-heading>svg {background:#ffe4de;color:#e67b6f}
+.app.continuum-ui .studio-focus .studio-choice-heading>svg {background:#e6e8fd;color:#7962c7}
+.app.continuum-ui.ui-illustrated .studio-choice-copy {width:62%}
+.app.continuum-ui.ui-illustrated .studio-choice-heading>svg {flex-basis:35px;width:35px;height:35px;background:#e9dcf9;color:#734ca9}
+.app.continuum-ui.ui-illustrated .studio-choice-heading>strong {font-size:20px}
+.app.continuum-ui.ui-illustrated .studio-choice-description,.app.continuum-ui.ui-illustrated .studio-choice-premium {padding-inline-start:43px}
+@media(max-width:760px){
+ .app.continuum-ui .studio-choice-heading>svg {flex-basis:24px;width:24px;height:24px;padding:4px}
+ .app.continuum-ui .studio-choice-description,.app.continuum-ui .studio-choice-premium {font-size:11px;padding-inline-start:0}
+ .app.continuum-ui.ui-illustrated .studio-choice-copy {width:70%}
+ .app.continuum-ui.ui-illustrated .studio-choice-heading {gap:10px}
+ .app.continuum-ui.ui-illustrated .studio-choice-heading>svg {flex-basis:34px;width:34px;height:34px}
+ .app.continuum-ui.ui-illustrated .studio-choice-heading>strong {font-size:19px}
+ .app.continuum-ui.ui-illustrated .studio-choice-description,.app.continuum-ui.ui-illustrated .studio-choice-premium {padding-inline-start:44px}
+}

@@ -99,7 +99,7 @@ try{
     await page.waitForFunction(w=>innerWidth===w,width);
     await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
     const failures=await page.locator('.studio-choice').evaluateAll(cards=>cards.flatMap(card=>{
-     const elements=[...card.querySelectorAll(':scope>strong,:scope>.studio-choice-description,:scope>.studio-choice-premium,:scope>.illustrated-card-action')];
+     const elements=[...card.querySelectorAll('.studio-choice-heading>strong,.studio-choice-description,.studio-choice-premium,:scope>.illustrated-card-action')];
      const bounds=card.getBoundingClientRect(),issues=[];
      for(let i=0;i<elements.length;i++){
       const a=elements[i].getBoundingClientRect();
