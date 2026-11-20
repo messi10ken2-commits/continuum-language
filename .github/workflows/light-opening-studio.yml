@@ -1,0 +1,31 @@
+name: Light entry and studio layout
+on:
+  push:
+    branches: ['codex/light-opening-studio-layout']
+permissions:
+  contents: read
+concurrency:
+  group: light-opening-studio-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/qa-light-opening-studio.mjs
+      - run: node --test light-challenge-render.test.mjs
+      - run: npm run ios:sync && npm run ios:check
+      - run: node --test native-storekit-fixture.test.mjs native-transport.test.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: light-opening-studio-evidence
+          path: .media-build/light-opening-studio
+          if-no-files-found: ignore

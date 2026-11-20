@@ -10,7 +10,7 @@ import {materialsPerRound,townCollection,townConstruction,townCoursePlacements,t
 import {townArt} from './light-town-art.mjs';
 import {lightActivities,lightLessonVersion} from './light-learning-model.mjs';
 import {languageInfo} from './languages.mjs';
-export default function LightPath({language,user,onStart,onMode,level,setLevel}){
+export default function LightPath({language,user,onStart,onMode,level,setLevel,openingPending=true,onOpeningComplete}){
  const [{completed,placements},setProgress]=useState({completed:[],placements:[]}),[ready,setReady]=useState(false),[failed,setFailed]=useState(false),[reload,setReload]=useState(0);
  useEffect(()=>{let live=true;setReady(false);setFailed(false);lightTownProgress(user).then(progress=>{if(live){setProgress(progress);setReady(true)}}).catch(()=>{if(live)setFailed(true)});return()=>{live=false}},[user?.id,language,reload]);
  const kind=useLightCompanion(user,language),[selected,setSelected]=useState(null);
@@ -67,7 +67,7 @@ export default function LightPath({language,user,onStart,onMode,level,setLevel})
   <div className="town-construction-status">
    <b>{tf('Buildings {0}/{1}',[construction.built,construction.total])}</b>
   </div>
-  <TownOpening><TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements} built={buildings.length}/></TownOpening>
+  <TownOpening enabled={openingPending} onComplete={onOpeningComplete}><TownScene language={language} kind={kind} places={places} collection={collection} placements={coursePlacements} built={buildings.length}/></TownOpening>
   <div className="town-paper town-mission">
    {mission?<><h2><Feather aria-hidden="true"/><LessonText text={mission.lesson.title} language={language}/></h2>
    <div className="town-mission-meta"><Clock size={16}/>{tf(mission.lesson.immersive?'{0} questions · short source windows':'{0} questions · about 2 min',[lightActivities(mission.lesson,0,lightLessonVersion).length])}</div>

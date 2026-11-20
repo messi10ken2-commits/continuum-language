@@ -1,4 +1,5 @@
-import React,{useEffect,useState} from 'react';
+import React,{useEffect,useRef,useState} from 'react';
+import townOpeningVideo from './public/light-town/word-town-opening.mp4?url';
 import {Check,LockKeyhole,Star,Gem,Sparkles} from 'lucide-react';
 import {companions,companionNames} from './adventure-model.mjs';
 import {t,tf} from './interface-runtime.mjs';
@@ -102,30 +103,36 @@ export function TownScene({language,kind,places=[],collection=[],placements=[],h
  </div>;
 }
 
-const townOpeningKey='continuumWordTownOpeningSeen';
-let openingSeen=false;
-export function TownOpening({children}){
+export function TownOpening({children,enabled=true,onComplete}){
  const [playing,setPlaying]=useState(false);
+ const [playAction,setPlayAction]=useState(null);
+ const video=useRef(null),complete=useRef(onComplete);
+ complete.current=onComplete;
  useEffect(()=>{
-  if(openingSeen||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  try{
-   if(sessionStorage.getItem(townOpeningKey))return;
-   sessionStorage.setItem(townOpeningKey,'1');
-  }catch{}
-  openingSeen=true;
-  setPlaying(true);
- },[]);
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  setPlaying(enabled&&!reduced);
+  setPlayAction(null);
+  if(enabled&&reduced)complete.current?.();
+ },[enabled]);
  useEffect(()=>{
   if(!playing)return;
-  const timeout=window.setTimeout(()=>setPlaying(false),6500);
-  return()=>window.clearTimeout(timeout);
+  let live=true;
+  video.current?.play()?.catch(()=>{if(live)setPlayAction(action=>action==='retry'?action:'play')});
+  return()=>{live=false};
  },[playing]);
- const finish=()=>setPlaying(false);
+ const finish=()=>{video.current?.pause();setPlaying(false);complete.current?.()};
+ const play=()=>{
+  const player=video.current;if(!player)return;
+  if(playAction==='retry')player.load();
+  setPlayAction(null);
+  player.play()?.catch(()=>setPlayAction(action=>action==='retry'?action:'play'));
+ };
  return <div className="town-opening-frame">
   <div inert={playing||undefined}>{children}</div>
   {playing&&<div className="town-opening">
-   <video src="/light-town/word-town-opening.mp4" autoPlay muted playsInline aria-hidden="true" onEnded={finish} onError={finish}/>
-   <button type="button" onClick={finish}>{t('Continue')}</button>
+   <video ref={video} src={townOpeningVideo} autoPlay muted playsInline aria-hidden="true" onPlaying={()=>setPlayAction(null)} onPause={e=>{if(!e.currentTarget.ended)setPlayAction(action=>action==='retry'?action:'play')}} onEnded={finish} onError={()=>setPlayAction('retry')}/>
+   {playAction&&<button className="town-opening-play" type="button" onClick={play}>{t(playAction==='retry'?'Try again':'Play')}</button>}
+   <button className="town-opening-continue" type="button" onClick={finish}>{t('Continue')}</button>
   </div>}
  </div>;
 }
