@@ -841,7 +841,7 @@
 }
 
 /* Keep card copy in normal flow, including WebKit's narrow layouts. */
-.app.continuum-ui .studio-menu>.studio-choice {display:block}
+.app.continuum-ui .studio-menu>.studio-choice {display:block;align-self:start;height:auto}
 .app.continuum-ui .studio-choice-copy {position:relative;z-index:1;display:block;min-width:0}
 .app.continuum-ui .studio-choice-heading {display:flex;align-items:flex-start;gap:8px;min-width:0}
 .app.continuum-ui .studio-choice-heading>svg {flex:0 0 29px;width:29px;height:29px;padding:5px;background:#e0f2ef;border-radius:50%;color:#299d8e}
