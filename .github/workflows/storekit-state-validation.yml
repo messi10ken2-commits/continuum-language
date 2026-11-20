@@ -10,6 +10,8 @@ permissions:
 jobs:
   local-storekit:
     runs-on: macos-26
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_26.2.app/Contents/Developer
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -53,6 +55,7 @@ jobs:
           CONTINUUM_API_ORIGIN: https://127.0.0.1:9443
         run: |
           npm run ios:sync
+          curl --fail --cacert /tmp/continuum-root.crt https://127.0.0.1:9443/api/health
           node docs/ios/prepare-local-storekit.mjs > /tmp/continuum-storekit-project.json
           STOREKIT_PROJECT=$(python3 -c 'import json; print(json.load(open("/tmp/continuum-storekit-project.json"))["project"])')
           xcodebuild -project "$STOREKIT_PROJECT" -scheme App-Local-StoreKit -configuration Debug -destination "platform=iOS Simulator,id=$IOS_SIMULATOR_ID" -derivedDataPath /tmp/continuum-ios-e2e -resultBundlePath /tmp/continuum-ios-e2e.xcresult -only-testing:NativeUITests/LocalStoreKitUITests -test-timeouts-enabled YES -default-test-execution-time-allowance 600 -maximum-test-execution-time-allowance 600 CODE_SIGNING_ALLOWED=YES CODE_SIGN_IDENTITY=- test
@@ -67,6 +70,7 @@ jobs:
       - name: Capture native failure screenshot and result summary
         if: failure()
         run: |
+          curl --fail --max-time 15 --cacert /tmp/continuum-root.crt https://127.0.0.1:9443/api/health || true
           if test -f /tmp/continuum-ios-backend.log; then cat /tmp/continuum-ios-backend.log; fi
           if test -d /tmp/continuum-ios-e2e/Build/Products/Debug-iphonesimulator/App.app; then codesign -d --entitlements :- /tmp/continuum-ios-e2e/Build/Products/Debug-iphonesimulator/App.app || true; fi
           if test -n "$IOS_SIMULATOR_ID"; then xcrun simctl io "$IOS_SIMULATOR_ID" screenshot /tmp/continuum-ios-failure.png || true; fi

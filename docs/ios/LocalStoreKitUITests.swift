@@ -1,5 +1,6 @@
 // Copied into a disposable test target by prepare-local-storekit.mjs only.
 import XCTest
+import Foundation
 import StoreKitTest
 import StoreKit
 
@@ -28,6 +29,28 @@ final class LocalStoreKitUITests: XCTestCase {
             }
             if let error = result.read() { throw error }
         }
+        // Fail before UI interaction if the simulator cannot reach the strictly
+        // verified HTTPS fixture. Never bypass TLS to make this probe pass.
+        let healthDone = XCTestExpectation(description: "Simulator HTTPS fixture")
+        let healthResult = StoreKitOverrideResult()
+        let healthRequest = URLRequest(url: URL(string: "https://127.0.0.1:9443/api/health")!, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
+        let healthTask = URLSession.shared.dataTask(with: healthRequest) { data, response, error in
+            if let error = error {
+                let value = error as NSError
+                print("STOREKIT_FIXTURE_HTTPS_ERROR", value.domain, value.code, value.localizedDescription)
+                healthResult.set(error)
+            } else if (response as? HTTPURLResponse)?.statusCode != 200 ||
+                ((try? JSONSerialization.jsonObject(with: data ?? Data())) as? [String: Any])?["ok"] as? Bool != true {
+                healthResult.set(NSError(domain: "ContinuumStoreKitUITest", code: 2, userInfo: [NSLocalizedDescriptionKey: "Simulator fixture health response was invalid"]))
+            } else { print("STOREKIT_FIXTURE_HTTPS_OK") }
+            healthDone.fulfill()
+        }
+        healthTask.resume()
+        guard XCTWaiter.wait(for: [healthDone], timeout: 20) == .completed else {
+            healthTask.cancel()
+            throw NSError(domain: "ContinuumStoreKitUITest", code: 3, userInfo: [NSLocalizedDescriptionKey: "Simulator fixture HTTPS probe timed out"])
+        }
+        if let error = healthResult.read() { throw error }
         let app = XCUIApplication(bundleIdentifier: "com.continuum.language.dev")
         app.launch()
         // The scheme loads its StoreKit configuration during app launch.
