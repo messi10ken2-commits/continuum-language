@@ -1,37 +1,39 @@
 # iOS validation evidence
 
-Updated 18 November 2026, Malaysia. Foundation PR #117 deployed native sessions at 99d6a22. Follow-up PR #118 contains the readiness services and native fixes. This is not an App Store release.
+Updated 20 November 2026 (Japan). This document distinguishes tested source from deployed code and from an installed iPhone release. The latest validation below covers PR #122; deployment is not established by successful CI.
 
-## Completed native and API evidence
+## Current application evidence
 
-At application-code commit e9fa4ac7, [Mac and shared-backend CI](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44251194134) completed successfully.
+Application source `568e38f1e03bf68e90ae0849ef6a18e70f352985`:
 
-- Actual XCTest on the iOS simulator passed login, navigation to the named synthetic account, process termination/relaunch with Keychain restoration, logout, and another relaunch returning to the unauthenticated welcome screen. One end-to-end test, zero failures, 102.510 seconds.
-- The test also requires the tapped control to be unobstructed by the keyboard. Normal local simulator signing enables Keychain; native keyboard resizing, readable input fonts and auth layout wrapping prevent covered controls/focus zoom.
-- Shared regression suite: 619 tests, 618 passed, zero failures, one explicit skip for absent generated native assets before ios:sync. After synchronization, all 12 native tests passed with no skips, including the local StoreKit fixture-copy check.
-- Web/native builds and native configuration checks passed. The simulator artifact is locally signed, defaults to the production API origin and has live purchases disabled. It is not an iPhone IPA or distribution archive. The separately rebuilt test application uses only the isolated loopback fixture.
-- The final documentation/test-wiring commit adds no further application behavior beyond this tested code.
+- [Native and shared-backend run 44691976266](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44691976266): actual iOS 26.5 simulator login, Keychain restoration across process restart and logout passed (88.923 seconds); actual four-screen capture passed (58.516 seconds). Two tests, zero failures.
+- The native test uses the isolated HTTPS fixture and actual WebKit network requests. It received POST /api/auth/login 200. This verifies the custom-scheme write fix that ordinary HTTPS browser pages alone did not reproduce.
+- Shared regression: 634 tests, 632 passed, zero failures, two reported skips before native synchronization. After ios:sync, all 18 native tests passed with no skips.
+- Chromium and WebKit passed typed link continuation through login, class navigation and inaccessible-booking rejection. Both also passed real HTTPS JSON/FormData delivery, scoped bearer continuity, token stripping and redirect rejection.
+- [Full application run 44691982452](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44691982452) passed regression, companion/immersion, synthetic erasure in Chromium and WebKit, Light motion/accessibility, audio recovery, six-language layouts, language audit, production dependency audit, Docker build and unprivileged runtime checks.
 
-## Browser and production-image evidence
+Native transport constructs ordinary string/URL API requests directly at the approved HTTPS origin before encoding their body. Caller-supplied Request objects retain the one-time encoded-body retargeting fallback. The regression test reproduces a custom-scheme blob abort and checks Unicode JSON, multipart bytes, abort propagation and credential-bearing URL rejection. API scoping, credentials:omit and redirect:error remain enforced.
 
-[Full application validation at 8df5c1f2](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44245937513) passed regression, companion/immersion, Light interactions, audio recovery, language/layout/records, content audit, production dependency audit, Docker build and unprivileged runtime checks. Its backend and ordinary web application code are unchanged by the later native-only fixes.
+## Deletion and restore rehearsal
 
-[Account-erasure browser rehearsal](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44245086636) passed Chromium and WebKit: default-off gate, preview/confirmations, wrong-password preservation, actual synthetic erasure, encrypted notice queued, and desktop/390px layouts.
+The synthetic erasure test exports an actual PGlite data directory before deletion, restores it into a separate database, observes the original user and sessions return, creates a fresh preview and reapplies erasure. Original user, sessions and learner profile are removed; the unrelated user remains. The encrypted completion notice is drained through a local test adapter.
 
-[Real loopback HTTPS transport test](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44250152383) passed Chromium and WebKit with the final transport implementation: actual JSON and multipart audio bytes received, bearer continuity, session-token stripping and blocked cross-origin redirects. This receiver observes real network bodies, not mocked request inspection. Its ephemeral certificate trust bypass is confined to this browser test; the shipping app has no TLS exception.
+This covers a snapshot that contains the deletion-request row. An older snapshot without that row needs an independent encrypted deletion journal and a separately implemented/rehearsed reconstruction path. Neither actual Railway snapshot restoration nor provider erasure nor Gmail inbox receipt is established by this test. See [the operations runbook](ACCOUNT_DELETION_RUNBOOK_JA.md).
 
-The native transport now uses standard WebKit Fetch. Retargeted request bodies are materialized once as encoded blobs, retaining multipart boundaries rather than introducing an unsupported streaming upload. Existing credential scoping, abort and redirect:error policies remain enforced. Technical background: [Chrome request-stream restrictions](https://developer.chrome.com/docs/capabilities/web-apis/fetch-streaming-requests) and [upstream Capacitor 8.6.2 bridge](https://github.com/ionic-team/capacitor/blob/8.6.2/core/native-bridge.ts).
+## Local StoreKit: partial verification, not complete
 
-## Readiness service checks
+The disposable DEBUG lab requires its copied Info.plist opt-in and a verified AppTransaction environment of .xcode. It does not submit purchases to the backend, finish transactions before verification or grant Premium. Shipping opt-in and live billing remain disabled.
 
-- Apple tests verify actual synthetic certificate/JWS signatures, ownership, grace, cancellation, refunds/revocation, duplicate/out-of-order notifications and stale-state protection. Actual services trust only pinned Apple G3 with online checks; synthetic roots are injected only by tests.
-- Erasure tests cover owner protection, reauthentication, stale plans, unknown/missing user foreign keys, actual learner/teacher account/content erasure, unrelated-user preservation and encrypted completion notices.
-- Mail tests cover TLS settings, safe headers, retry, expiry and delivered-payload redaction. No real provider was contacted.
-- Production dependency audit: zero reported vulnerabilities. Development tooling retains the existing unpatched Picomatch advisory GHSA-fc5q-39xc-vjpf; no suppression or downgrade was applied.
-- Before rollout, Railway variable-name inspection confirmed all four new activation switches were absent: maintenance, erasure, Apple verification and Apple live approval. They therefore remain disabled by default. No secrets were exposed or configuration changed.
+The newest iOS 26.5 command-line test environment failed StoreKitTest configuration overrides with SKInternalErrorDomain Code 3. Apple DTS identifies the corresponding command-line StoreKit configuration problem as FB22237318 in [Apple's forum](https://developer.apple.com/forums/thread/826971).
 
-## Limits and rollout evidence
+[Compatibility run 44694401549](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44694401549), using installed iOS 26.2 with Xcode 26.6, activated the guarded lab and passed product loading (two fixtures) and an empty restore. It failed while awaiting purchase success. Recording inspection showed a purchase control underneath the native status bar. A bounded safe tap/scroll correction is being checked in [run 44699062305](https://github.com/messi10ken2-commits/continuum-language/actions/runs/44699062305).
 
-Physical iPhone behavior, microphone routes, reminder delivery, StoreKit purchase/cancel/pending interaction, real Apple Sandbox transactions/refunds, SMTP delivery, real account erasure, distribution signing, TestFlight and App Store submission are not verified. Retention dates require operator review; no automatic external/backups purge is claimed.
+Purchase success, purchase-sheet cancellation, pending and restore-after-purchase must not be marked complete until that actual interaction test passes. The server-free isolation assertion runs only after successful UI interaction and has not yet passed that full sequence. Synthetic JWS/notification unit tests do not substitute for StoreKit interaction.
 
-The local execution environment disconnected during finalization. Code and evidence were preserved through GitHub and validation continued there. Deployment ID, source SHA, terminal Railway status and read-only production smoke outcomes are recorded in [PR #118](https://github.com/messi10ken2-commits/continuum-language/pull/118) after rollout; do not infer a completed rollout from the tests alone.
+## Service and release limits
+
+- No real email, account erasure, charge, Apple Sandbox transaction, TestFlight or App Store submission occurred.
+- Ken confirmed individual operation under the public name Ken Ishizawa, acknowledgement within two business days and normal deletion within seven calendar days. Backup direction is daily/weekly/monthly with approximately 90-day maximum; actual schedules, expiry and external copies still require evidence.
+- Tax/record classification is explicitly unresolved; no financial retention period is inferred.
+- Real erasure, live Apple billing and mail maintenance remain gated. Secure Google authorization, actual inbox verification, independent deletion-journal storage, physical iPhone testing and distribution signing remain outstanding.
+- Native source/backend deployment does not automatically update an installed iPhone binary.
