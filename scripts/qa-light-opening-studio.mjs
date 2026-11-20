@@ -20,7 +20,7 @@ const p=new URLSearchParams(location.search),layout=p.get('layout')||'illustrate
 setInterfaceLanguage(p.get('locale')||'en');
 function Harness(){
  const [activeLesson,setLesson]=useState(null);
- return <JourneyLayoutContext.Provider value={{layout}}><div className={'app continuum-ui ui-'+layout}><main style={{gridColumn:'1/-1'}}><div className="content">
+ return <JourneyLayoutContext.Provider value={{layout}}><div className={'app journey-app learner-journey continuum-ui ui-'+layout+(layout==='illustrated'?' illustrated-world approved-illustrated':'')} data-page={p.has('studio')?'Practice Studio':'Learn'}><main><div className="content">
  {p.has('studio')?<PracticeStudio language="es" user={null} onSpeaking={()=>{}} onAccount={()=>{}}/>:
  <SelfStudy language="es" user={null} attempts={[]} activeLesson={activeLesson} onStart={setLesson} onExit={()=>setLesson(null)} onComplete={()=>{}}/>}
  </div></main></div></JourneyLayoutContext.Provider>;
