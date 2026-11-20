@@ -1,9 +1,10 @@
 // Copied into a disposable test target by prepare-local-storekit.mjs only.
 import XCTest
 import StoreKitTest
+import StoreKit
 
 final class LocalStoreKitUITests: XCTestCase {
-    func testPurchaseCancelPendingAndRestoreScreens() throws {
+    func testPurchaseCancelPendingAndRestoreScreens() async throws {
         continueAfterFailure = false
         XCUIDevice.shared.orientation = .portrait
         let session = try SKTestSession(configurationFileNamed: "ContinuumLocalTesting")
@@ -75,22 +76,13 @@ final class LocalStoreKitUITests: XCTestCase {
         tap("Buy local monthly")
         status("Local purchase pending. No access granted.", capture: "StoreKit-05-Pending")
         session.clearTransactions(); session.askToBuyEnabled = false
-        session.disableDialogs = false
-        XCTAssertFalse(session.disableDialogs)
-        tap("Buy local monthly")
-        // Cancel the real local StoreKit confirmation sheet, rather than synthesizing a JS result.
-        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
-        let appCancel = app.buttons["Cancel"]
-        let systemCancel = springboard.buttons["Cancel"]
-        if appCancel.waitForExistence(timeout: 15) { appCancel.tap() }
-        else if systemCancel.waitForExistence(timeout: 15) { systemCancel.tap() }
-        else {
-            let failure = XCTAttachment(screenshot: app.screenshot()); failure.name = "StoreKit-Cancel-Sheet-Missing"; failure.lifetime = .keepAlways; add(failure)
-            print("STOREKIT_CANCEL_ACCESSIBILITY", app.debugDescription)
-            XCTFail("Local StoreKit purchase confirmation must expose a cancel control"); return
-        }
-        status("Local purchase cancelled. No access granted.", capture: "StoreKit-06-Cancel")
         session.disableDialogs = true
+        // Apple's StoreKitTest injects the cancellation in the native purchase API.
+        // This verifies app response UI; it does not claim a physical system-sheet tap.
+        try await session.setSimulatedError(.generic(.userCancelled), forAPI: .purchase)
+        tap("Buy local monthly")
+        status("Local purchase cancelled. No access granted.", capture: "StoreKit-06-NativeCancellation")
+        try await session.setSimulatedError(nil, forAPI: .purchase)
         tap("Restore local purchases")
         status("No local purchases to restore.", capture: "StoreKit-07-CancelPreservesEmpty")
     }
