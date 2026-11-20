@@ -71,6 +71,7 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "clearSession", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "prepareAudio", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "releaseAudio", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "localStoreKitStatus", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "products", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "purchase", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "restore", returnType: CAPPluginReturnPromise),
@@ -149,6 +150,20 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
             try session.setCategory(.playback)
             call.resolve()
         } catch { call.reject("Could not release microphone audio", nil, error) }
+    }
+    @objc func localStoreKitStatus(_ call: CAPPluginCall) {
+        #if DEBUG
+        guard Bundle.main.object(forInfoDictionaryKey: "ContinuumLocalStoreKitTesting") as? Bool == true else { call.resolve(["enabled": false]); return }
+        Task {
+            do {
+                let result = try await AppTransaction.shared
+                if case .verified(let app) = result, app.environment == .xcode { call.resolve(["enabled": true]) }
+                else { call.resolve(["enabled": false]) }
+            } catch { call.resolve(["enabled": false]) }
+        }
+        #else
+        call.resolve(["enabled": false])
+        #endif
     }
     private let productIDs = ["com.continuum.premium.monthly", "com.continuum.premium.yearly"]
     @objc func products(_ call: CAPPluginCall) {

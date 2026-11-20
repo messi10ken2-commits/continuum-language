@@ -5,7 +5,7 @@ This development project uses Capacitor 8.6.2, SwiftPM and Xcode 26 or later on 
 ## Simulator
 
 1. Install Xcode, open it, accept its license and install an iOS simulator runtime through Xcode Settings → Components. Select Xcode as the command-line tools installation in Settings → Locations.
-2. Clone the repository and select `codex/ios-release-readiness` (or `main` after PR #118 is merged). Keep production and development checkouts separate.
+2. Clone the repository and select `main` after the approved readiness changes are merged. Keep production and development checkouts separate.
 3. In Terminal, at the repository root:
 
 ```sh
@@ -72,3 +72,15 @@ xcodebuild -project ios/App/App.xcodeproj -scheme App -sdk iphonesimulator -conf
 ```
 
 The native XCTest requires the isolated HTTPS backend/certificate and synthetic account established by `.github/workflows/ios-integration.yml`; running it against the production API is not supported. Follow that workflow for reproducible fixture setup rather than creating a real learner account with its hard-coded test identity.
+
+## Local StoreKit interaction lab
+
+After `npm run ios:sync`, run `node docs/ios/prepare-local-storekit.mjs` and open the returned project path with scheme **App-Local-StoreKit**, Debug configuration. The script creates a temporary project copy; do not archive or distribute it. Use the isolated fixture backend for the scripted test, or an explicitly approved staging backend and synthetic learner for manual interaction.
+
+The native bridge enables **Account → App settings → Local StoreKit test** only in DEBUG when both the copied plist flag and a verified Xcode AppTransaction allow it. A normal shipping project never displays this panel. Load products and use the local monthly/yearly buttons. Fixture prices are not approved commercial prices. Successful, cancelled, pending, restored and empty-restore states are shown without changing server membership or finishing a transaction before server verification. This lab does not implement a production paywall.
+
+The disposable test target bundles `LocalStoreKitUITests.swift` plus the StoreKit configuration and uses Apple's StoreKitTest session. Run its `LocalStoreKitUITests/testPurchaseCancelPendingAndRestoreScreens` test to drive the actual app's native bridge and UI. It clears fixture transactions, loads both products, tests empty restore, purchase, restore, Ask to Buy pending and cancellation of the local system purchase sheet. The iOS integration workflow's **local-storekit** job runs this against the isolated HTTPS backend, exports result screenshots and checks the server remains free. Never use fixture credentials or this loopback backend for review/distribution.
+
+This local pending scenario uses Ask to Buy as a test mechanism; it does not change Continuum's adult-only audience policy. An Xcode transaction is not real App Store Sandbox verification, a paid subscription, or authorization to grant production Premium.
+
+Command-line StoreKitTest on iOS 26.5 is affected by Apple's reported FB22237318 configuration issue. The local StoreKit CI job selects installed iOS 26.2; the ordinary native lifecycle job continues on the newest runtime. If the exact runtime is unavailable, install it or use the Xcode IDE and record that separately. Never weaken the verified `.xcode` environment guard to bypass a runner problem. Test coverage and actual outcomes are recorded separately in TEST_RESULTS.md.

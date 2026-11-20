@@ -1,6 +1,6 @@
 # Continuum iOS handoff
 
-Updated 19 November 2026. Foundation PR #117 and readiness PR #118 are merged; production baseline is 5444e0c. The owner supplied Japan as the operating country and continuum.language@gmail.com as the contact/test inbox. Legal operator details remain unconfirmed. This is a development app, not an App Store release candidate.
+Updated 20 November 2026. PRs #117–#121 are merged; production baseline before the StoreKit operations follow-up is 91d88a9. The owner supplied Japan as the operating country and continuum.language@gmail.com as the contact/test inbox. Individual operation and public operator name Ken Ishizawa are confirmed. Public address/tax details and actual backup configuration/evidence remain pending; Ken selected daily/weekly/monthly backups with an approximately 90-day maximum retention direction. The chosen normal deletion target is seven calendar days, with acknowledgement within two business days. This is a development app, not an App Store release candidate.
 
 ## Architecture
 

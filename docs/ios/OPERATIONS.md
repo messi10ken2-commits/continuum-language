@@ -14,6 +14,9 @@ MAIL_OUTBOX_KEY must be a secret 32-byte key encoded as 64 hexadecimal character
 
 ## Account erasure
 
+The internal Japanese runbook is [ACCOUNT_DELETION_RUNBOOK_JA.md](ACCOUNT_DELETION_RUNBOOK_JA.md). A restored pre-erasure backup can resurrect users and sessions: keep restores isolated and workers stopped, then replay independently held deletion records before accepting traffic. The external deletion journal and real Railway backup schedules still require operator setup/evidence.
+
+
 Publish the actual policy and processing/retention/subscription handling, then set ACCOUNT_DELETION_POLICY_PUBLISHED=true, ACCOUNT_DELETION_POLICY_VERSION and approved ACCOUNT_DELETION_PROCESSING_DAYS (1-90), ACCOUNT_DELETION_RETENTION_DAYS (1-3650), ACCOUNT_DELETION_BACKUP_DAYS (1-365). These are technical limits, not recommended legal periods. Configure the encrypted mail worker before explicitly setting ACCOUNT_DELETION_ENABLED=true. Do not invent periods to make readiness green.
 
 The user submits a password-confirmed in-app request. The owner opens Administration > Account deletion, previews identity/schema/counts and checks provider-held data, backup procedures, retention, shared history, future-class cancellations and notice to the user. Execution requires all acknowledgements, typing DELETE and the owner's password. Changed identity/counts/policy/schema invalidates a preview; unknown or missing expected user foreign keys fail closed. Owner accounts are protected.

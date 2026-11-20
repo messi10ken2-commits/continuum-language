@@ -3,21 +3,29 @@ export function createNativeFetch({origin,fetchImpl,vault,onExpired=()=>{},onAcc
  const apiOrigin=validatedAPIOrigin(origin);
  let account;
  return async(input,options)=>{
-  const request=new Request(typeof input==='string'?new URL(input,globalThis.location?.href||'capacitor://localhost/'):input,options);
-  const url=new URL(request.url),local=url.origin==='null'||url.protocol==='capacitor:';
+  const url=new URL(typeof input==='string'?input:input.url||input,globalThis.location?.href||'capacitor://localhost/'),local=url.origin==='null'||url.protocol==='capacitor:';
   if(!(local&&url.pathname.startsWith('/api/'))&&!(url.origin===apiOrigin&&url.pathname.startsWith('/api/')))return fetchImpl(input,options);
+  if(url.username||url.password)throw new TypeError('Request URL must not contain credentials');
+  const target=apiOrigin+url.pathname+url.search;
+  // Encode ordinary JSON/FormData directly for HTTPS. Materializing a body from
+  // a capacitor-scheme Request can abort inside newer iOS WebKit before any bytes
+  // reach the server. A same-URL Request clone preserves native body encoding.
+  const direct=typeof input==='string'||input instanceof URL;
+  const request=new Request(direct?target:input,options);
   const headers=new Headers(request.headers);headers.set('X-Continuum-Client','ios');
   if(!['GET','HEAD'].includes(request.method)&&/^\/api\/(speaking|skills|patterns|speech)(?:\/|$)/.test(url.pathname)&&!url.pathname.endsWith('/activity')&&!allowsAI(account))return Response.json({error:'Allow AI services in Account > App settings before sending text or audio to OpenAI or Google Gemini.'},{status:403});
   const {token}=await vault.readSession({origin:apiOrigin});if(token)headers.set('Authorization','Bearer '+token);else headers.delete('Authorization');
-  const target=apiOrigin+url.pathname+url.search;
   const signal=AbortSignal.any([request.signal,AbortSignal.timeout(timeout)]);
   signal.throwIfAborted();
-  // Retargeting a Request using its ReadableStream body can turn ordinary JSON
-  // and FormData into a streaming upload (unsupported by HTTP/1.1 and some WebViews).
-  // Materialize the already encoded body once; preserve its exact multipart boundary.
-  const body=request.body===null?undefined:await request.blob();
-  signal.throwIfAborted();
-  const forwarded=new Request(target,{method:request.method,headers,body,cache:request.cache,referrerPolicy:request.referrerPolicy,integrity:request.integrity,keepalive:request.keepalive,signal});
+  let forwarded;
+  if(direct||request.url===target)forwarded=new Request(request,{headers,signal});
+  else{
+   // A caller-supplied Request still needs retargeting. Consume its encoded body
+   // once, retaining multipart boundaries and rejecting caller cancellation.
+   const body=request.body===null?undefined:await request.blob();
+   signal.throwIfAborted();
+   forwarded=new Request(target,{method:request.method,headers,body,cache:request.cache,referrerPolicy:request.referrerPolicy,integrity:request.integrity,keepalive:request.keepalive,signal});
+  }
   const response=await fetchImpl(forwarded,{headers,credentials:'omit',redirect:'error',signal});
   if(response.status===401&&!['/api/auth/login','/api/account/deletion-request','/api/owner/mail/test'].includes(url.pathname)&&!/^\/api\/owner\/deletion-requests\/[a-f0-9-]{36}\/fulfil$/.test(url.pathname)){await vault.clearSession({origin:apiOrigin});onExpired();onAccount(undefined);}
   if(response.ok&&url.pathname==='/api/auth/logout')await vault.clearSession({origin:apiOrigin});

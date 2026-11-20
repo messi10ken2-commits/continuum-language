@@ -1,6 +1,6 @@
 # Mail and Japan operations — working draft
 
-Updated 19 November 2026. The owner supplied continuum.language@gmail.com and Japan as the operating country. Legal operator identity, tax status and backup retention remain unconfirmed. No real account has been erased and no inbox receipt has been verified.
+Updated 19 November 2026. The owner supplied continuum.language@gmail.com and Japan as the operating country. Ken confirmed individual operation and a two-business-day acknowledgement / seven-calendar-day normal deletion target on 19 November. Ken confirmed the public individual operator name as Ken Ishizawa on 20 November. Ken selected daily/weekly/monthly backups with an approximately 90-day maximum retention direction on 20 November. Public address, tax status and actual backup settings/expiry evidence remain unconfirmed. No real account has been erased and no inbox receipt has been verified.
 
 ## Selected first-stage mail setup
 
@@ -42,7 +42,7 @@ Active maintenance removes inbox-check metadata 30 days after its proof expires.
 
 ## Account deletion proposal, not activated policy
 
-Proposed operational target: acknowledge verified requests and aim to complete active-account deletion within **7 days**, after resolving paid classes, credits, subscription cancellation/refunds and required provider processing. This is a proposed service target, not a published legal promise or automatic erasure timer.
+Owner-selected operational target: acknowledge verified requests within **2 business days** and aim to complete active-account deletion within **7 calendar days**, after resolving paid classes, credits, subscription cancellation/refunds and required provider processing. This is an owner-selected service target, not yet a published legal promise or automatic erasure timer.
 
 Proposed review cadence: review retained shared/financial records every **30 days**. This is a review cadence, not permission to delete required accounting records after 30 days. The current retention-deadline setting controls an operator review date; it does not automatically purge financial records. Backup expiry must be taken from the actual configured backup service/plan and restore procedures; no number is assumed.
 
@@ -63,3 +63,7 @@ Additional checked sources:
 - Gmail MIME/send API: https://developers.google.com/workspace/gmail/api/guides/sending
 - Google refresh grants: https://developers.google.com/identity/protocols/oauth2/web-server
 - Google token lifetime and publishing: https://developers.google.com/identity/protocols/oauth2
+
+## Detailed operational review
+
+See [ACCOUNT_DELETION_RUNBOOK_JA.md](ACCOUNT_DELETION_RUNBOOK_JA.md) for the per-record handling, proposed service targets, backup evidence checklist and isolated restore/re-erasure procedure. Public address/tax classification, actual backup configuration and final policy publication remain pending.
