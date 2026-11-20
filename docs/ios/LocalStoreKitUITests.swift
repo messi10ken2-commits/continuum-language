@@ -13,6 +13,10 @@ final class LocalStoreKitUITests: XCTestCase {
         defer { session.clearTransactions(); session.resetToDefaultState() }
         let app = XCUIApplication(bundleIdentifier: "com.continuum.language.dev")
         app.launch()
+        // The scheme loads its StoreKit configuration during app launch.
+        // Apply automation overrides after that configuration has been loaded.
+        session.disableDialogs = true
+        XCTAssertTrue(session.disableDialogs)
         func tap(_ title: String) {
             let matches = app.webViews.buttons.matching(NSPredicate(format: "label == %@", title))
             XCTAssertTrue(matches.firstMatch.waitForExistence(timeout: 90), title)
@@ -59,6 +63,8 @@ final class LocalStoreKitUITests: XCTestCase {
         status("Local products loaded: 2", capture: "StoreKit-01-Products")
         tap("Restore local purchases")
         status("No local purchases to restore.", capture: "StoreKit-02-EmptyRestore")
+        session.disableDialogs = true
+        XCTAssertTrue(session.disableDialogs)
         tap("Buy local monthly")
         status("Local purchase succeeded. No access granted.", capture: "StoreKit-03-Purchase")
         XCTAssertFalse(session.allTransactions().isEmpty)
