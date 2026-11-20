@@ -60,8 +60,8 @@ try{
   else{
    // Linux WebKit's fully buffered H264 fixture stalls at ~0.167s in CI.
    // Assert a recoverable UI here; macOS WebKit must pass natural completion.
-   await page.getByRole('button',{name:'Try again',exact:true}).waitFor();
-   await page.locator('.town-opening-continue').click();
+   await Promise.race([page.locator('.town-opening').waitFor({state:'detached'}),page.getByRole('button',{name:'Try again',exact:true}).waitFor()]);
+   if(await page.locator('.town-opening').count())await page.locator('.town-opening-continue').click();
   }
   // Returning from a lesson does not repeat the opening; an explicit mode switch does.
   await page.locator('.town-mission .town-cta').click();
