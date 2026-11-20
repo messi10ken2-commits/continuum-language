@@ -72,8 +72,9 @@ export default function SelfStudy({language='es',user,attempts,notes=[],courseSu
  const changeLightLevel=value=>{setLightLevel(value);try{localStorage.setItem(lightLevelKey,value)}catch{}};
  const learningPreference='continuumLearningMode:'+(user?.id||'guest')+':'+language;
  const [learningMode,setLearningMode]=useState(()=>{try{return localStorage.getItem(learningPreference)==='light'?'light':'standard'}catch{return 'standard'}}),[lightAutoStart,setLightAutoStart]=useState(false);
- useEffect(()=>{try{setLearningMode(localStorage.getItem(learningPreference)==='light'?'light':'standard')}catch{setLearningMode('standard')}setLightLevel(readLightLevel())},[learningPreference]);
- const changeLearningMode=value=>{setLearningMode(value);try{localStorage.setItem(learningPreference,value)}catch{}};
+ const [openingPending,setOpeningPending]=useState(true);
+ useEffect(()=>{try{setLearningMode(localStorage.getItem(learningPreference)==='light'?'light':'standard')}catch{setLearningMode('standard')}setLightLevel(readLightLevel());setOpeningPending(true)},[learningPreference]);
+ const changeLearningMode=value=>{if(value==='light'&&learningMode!=='light')setOpeningPending(true);setLearningMode(value);try{localStorage.setItem(learningPreference,value)}catch{}};
  const roadmapPosition=useRef(null),lastLesson=useRef(null);
  const onStart=(id,autoStart=false)=>{setLightAutoStart(autoStart);if(learningMode==='light'&&getLesson(id)?.level)changeLightLevel(getLesson(id).level);roadmapPosition.current=window.scrollY;openLesson(id);};
  const lessonList=allLessons.filter(l=>(l.language||'es')===language),chapters=allChapters.filter(c=>(c.language||'es')===language&&!c.legacy),lang=languageInfo(language);
@@ -107,7 +108,7 @@ export default function SelfStudy({language='es',user,attempts,notes=[],courseSu
  const rows=Object.fromEntries(progress.map(x=>[x.lesson,x])),passed=id=>rows[id]?.best>=(getLesson(id)?.passScore||80);
  if(!ready)return <section className="panel"><h2>{uiText("Loading your learning path…")}</h2>{error&&<><p role="alert">{uiText(error)}</p><button className="primary" onClick={load}>{uiText("Try again")}</button></>}</section>;
  if(activeLesson){const lesson=getLesson(activeLesson);return lesson?<LessonPlayer key={activeLesson} lesson={lesson} language={language} user={user} lightAutoStart={lightAutoStart} onModeChange={changeLearningMode} onLightNext={id=>onStart(id,true)} initialAnswers={drafts[activeLesson]} initialSeed={draftSeeds[activeLesson]} onDraft={(answers,seed)=>saveDraft(activeLesson,answers,seed)} onComplete={complete} onExit={onExit}/>:<section className="panel"><h2>{uiText("Lesson not found")}</h2><button className="primary" onClick={onExit}>{uiText("Back to learning path")}</button></section>}
- if(learningMode==='light')return <LightPath {...{language,user}} level={lightLevel} setLevel={changeLightLevel} onMode={changeLearningMode} onStart={id=>onStart(id,true)}/>;
+ if(learningMode==='light')return <LightPath {...{language,user,openingPending}} onOpeningComplete={()=>setOpeningPending(false)} level={lightLevel} setLevel={changeLightLevel} onMode={changeLearningMode} onStart={id=>onStart(id,true)}/>;
  const selected={...levels.find(x=>x.id===level),description:language==='es'?uiText(levels.find(x=>x.id===level).description):uiTemplate('Build your {0} communication skills at {1}.',[uiText(lang.name),level])},all=layout==='illustrated'?finalSummaryLast(lessonList.filter(l=>l.level===level),l=>l.summaryTest):lessonList.filter(l=>l.level===level),done=all.filter(l=>passed(l.id)).length,totalDone=lessonList.filter(l=>passed(l.id)).length;
  const currentDraft=all.find(l=>Array.isArray(drafts[l.id]));
  const nextLesson=currentDraft||all.find(l=>!passed(l.id))||all[0];

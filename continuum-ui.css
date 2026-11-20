@@ -74,7 +74,7 @@
 .app.continuum-ui .practice-studio>h1 {margin:8px 0 10px}
 .app.continuum-ui .practice-studio>p {margin:0 0 20px;font-size:14px;max-width:520px}
 .app.continuum-ui .studio-menu {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:16px 0 22px}
-.app.continuum-ui .studio-menu>.studio-choice {position:relative;display:grid;grid-template-columns:30px minmax(0,1fr);grid-template-rows:auto auto auto auto;gap:5px 8px;align-content:start;align-items:center;min-width:0;padding:0 16px 16px;border:1px solid var(--ui-border);border-radius:18px;background:var(--ui-card);text-align:start;overflow:hidden;box-shadow:var(--ui-shadow);color:var(--ui-ink)}
+.app.continuum-ui .studio-menu>.studio-choice {position:relative;display:grid;grid-template-columns:30px minmax(0,1fr);grid-template-rows:auto auto auto auto auto;gap:5px 8px;align-content:start;align-items:center;min-width:0;padding:0 16px 16px;border:1px solid var(--ui-border);border-radius:18px;background:var(--ui-card);text-align:start;overflow:hidden;box-shadow:var(--ui-shadow);color:var(--ui-ink)}
 .app.continuum-ui .studio-menu .studio-card-photo {grid-column:1/-1;grid-row:1;width:calc(100% + 32px);max-width:none;height:160px;object-fit:cover;margin:0 -16px 10px;border-radius:0}
 .app.continuum-ui .studio-choice>svg {grid-column:1;grid-row:2;width:29px;height:29px;padding:5px;background:#e0f2ef;border-radius:50%;color:#299d8e}
 .app.continuum-ui .studio-menu strong {grid-row:2;grid-column:2;font-family:Georgia,serif;font-size:20px;letter-spacing:-.025em;line-height:1.2}
@@ -87,12 +87,12 @@
 .app.continuum-ui .studio-focus>svg {background:#e6e8fd;color:#7962c7}
 .app.continuum-ui.ui-illustrated .practice-studio[data-view=home]>:is(.eyebrow,h1,p) {display:none}
 .app.continuum-ui.ui-illustrated .studio-menu {grid-template-columns:1fr 1fr}
-.app.continuum-ui.ui-illustrated .studio-menu>.studio-choice {grid-template-columns:40px minmax(0,1fr) 38%;grid-template-rows:auto auto auto;min-height:145px;padding:18px;background:linear-gradient(110deg,#fff9eb,#faf3e6);border-color:#eee1ce}
+.app.continuum-ui.ui-illustrated .studio-menu>.studio-choice {grid-template-columns:40px minmax(0,1fr) 38%;grid-template-rows:auto auto auto auto;min-height:145px;padding:18px;background:linear-gradient(110deg,#fff9eb,#faf3e6);border-color:#eee1ce}
 .app.continuum-ui.ui-illustrated .studio-card-photo {position:absolute;inset:0 0 0 auto;width:46%;height:100%;max-width:46%;margin:0;object-fit:cover;mask-image:linear-gradient(90deg,transparent,#000 30%);opacity:.95;grid-row:auto;grid-column:auto}
 .app.continuum-ui.ui-illustrated .studio-choice>svg {grid-column:1;grid-row:1;background:#e9dcf9;color:#734ca9;z-index:1;width:35px;height:35px}
 .app.continuum-ui.ui-illustrated .studio-choice>strong {grid-column:2;grid-row:1;z-index:1;font-size:20px}
-.app.continuum-ui.ui-illustrated .studio-choice>span:not(.illustrated-card-action) {grid-column:2;grid-row:2;z-index:1;font-size:12px}
-.app.continuum-ui.ui-illustrated .studio-choice>.illustrated-card-action {grid-column:1/3;grid-row:3;background:#644095;color:#fff;z-index:1;width:max-content;min-width:125px;max-width:100%}
+.app.continuum-ui.ui-illustrated .studio-choice>span:not(.illustrated-card-action) {grid-column:2;z-index:1;font-size:12px}
+.app.continuum-ui.ui-illustrated .studio-choice>.illustrated-card-action {grid-column:1/3;grid-row:4;background:#644095;color:#fff;z-index:1;width:max-content;min-width:125px;max-width:100%}
 .app.continuum-ui.ui-illustrated .studio-menu>.studio-conversation {grid-column:1/-1;min-height:170px;background:#f1eafa}
 .app.continuum-ui.ui-illustrated .studio-menu>.studio-pronunciation {background:#f0edff}
 .app.continuum-ui :is(.illustrated-studio-resume,.course-class-focus) {display:flex;align-items:center;gap:12px;padding:16px;background:#f2ecfb;border:1px solid #e7ddf2;border-radius:17px;margin:16px 0}
@@ -838,4 +838,31 @@
 .app.continuum-ui .outline-button:not(:disabled):active {
  transform:translateY(2px);
  box-shadow:inset 0 1px 0 #ffffff50,0 1px 0 var(--ui-raised-edge);
+}
+
+/* Keep card copy in normal flow, including WebKit's narrow layouts. */
+.app.continuum-ui .studio-menu>.studio-choice {display:block;align-self:start;height:auto}
+.app.continuum-ui .studio-choice-copy {position:relative;z-index:1;display:block;min-width:0}
+.app.continuum-ui .studio-choice-heading {display:flex;align-items:flex-start;gap:8px;min-width:0}
+.app.continuum-ui .studio-choice-heading>svg {flex:0 0 29px;width:29px;height:29px;padding:5px;background:#e0f2ef;border-radius:50%;color:#299d8e}
+.app.continuum-ui .studio-choice-heading>strong {flex:1;min-width:0;overflow-wrap:anywhere}
+.app.continuum-ui .studio-choice-description,.app.continuum-ui .studio-choice-premium {font-size:12px;line-height:1.45;color:var(--ui-muted);min-width:0;overflow-wrap:anywhere;padding-inline-start:37px}
+.app.continuum-ui .studio-choice-description {display:block;margin-top:6px}
+.app.continuum-ui .studio-choice-premium {display:flex;align-items:center;gap:5px;margin-top:6px}
+.app.continuum-ui .studio-choice-premium>svg {flex-shrink:0}
+.app.continuum-ui .studio-choice>.illustrated-card-action {position:relative;display:flex;margin-top:9px}
+.app.continuum-ui .studio-pronunciation .studio-choice-heading>svg {background:#ffe4de;color:#e67b6f}
+.app.continuum-ui .studio-focus .studio-choice-heading>svg {background:#e6e8fd;color:#7962c7}
+.app.continuum-ui.ui-illustrated .studio-choice-copy {width:62%}
+.app.continuum-ui.ui-illustrated .studio-choice-heading>svg {flex-basis:35px;width:35px;height:35px;background:#e9dcf9;color:#734ca9}
+.app.continuum-ui.ui-illustrated .studio-choice-heading>strong {font-size:20px}
+.app.continuum-ui.ui-illustrated .studio-choice-description,.app.continuum-ui.ui-illustrated .studio-choice-premium {padding-inline-start:43px}
+@media(max-width:760px){
+ .app.continuum-ui .studio-choice-heading>svg {flex-basis:24px;width:24px;height:24px;padding:4px}
+ .app.continuum-ui .studio-choice-description,.app.continuum-ui .studio-choice-premium {font-size:11px;padding-inline-start:0}
+ .app.continuum-ui.ui-illustrated .studio-choice-copy {width:70%}
+ .app.continuum-ui.ui-illustrated .studio-choice-heading {gap:10px}
+ .app.continuum-ui.ui-illustrated .studio-choice-heading>svg {flex-basis:34px;width:34px;height:34px}
+ .app.continuum-ui.ui-illustrated .studio-choice-heading>strong {font-size:19px}
+ .app.continuum-ui.ui-illustrated .studio-choice-description,.app.continuum-ui.ui-illustrated .studio-choice-premium {padding-inline-start:44px}
 }

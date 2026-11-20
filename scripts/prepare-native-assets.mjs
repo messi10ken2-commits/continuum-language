@@ -9,6 +9,7 @@ for(const path of assets){bytes+=(await stat(path)).size;if(/\.(js|html|css)$/.t
 assert.ok(scripts.some(s=>/\.pathname\.startsWith\(([`"'])\/api\/\1\)/.test(s)),'Compiled native transport lost its relative API path check');
 assert.ok(!scripts.some(s=>/\.pathname\.startsWith\(([`"'])https:/.test(s)),'Media transform corrupted API routing');
 const config=JSON.parse(await readFile(new URL('capacitor.config.json',root)));assert.ok(!config.server?.url,'Native shell must use bundled frontend assets');
+assert.ok(assets.some(path=>/\/assets\/word-town-opening-[^/]+\.mp4$/.test(path.pathname)),'Light opening video must be bundled for native playback');
 console.log(JSON.stringify({bundledFiles:assets.length,bundledBytes:bytes,remoteMedia:'HTTPS on demand; no remote executable code',bundleId:config.appId}));
 
 // On high-density iPhones, an unrewritten second srcSet candidate resolves to a missing

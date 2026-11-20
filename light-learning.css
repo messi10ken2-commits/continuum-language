@@ -327,6 +327,7 @@
  border:1px solid #e2bd89;border-radius:2rem;background:#fff4e1;color:#43253b;font:inherit;font-weight:750;cursor:pointer;
 }
 .town-opening button:focus-visible {outline:3px solid #713b64;outline-offset:2px}
+.town-opening .town-opening-play {inset:50% auto auto 50%;transform:translate(-50%,-50%);max-width:90%}
 
 .lesson-milestone .milestone-art:has(>.town-reward-scene) {height:auto;background:#281a34}
 .town-reward-scene {position:relative;width:100%;isolation:isolate}
