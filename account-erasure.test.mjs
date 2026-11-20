@@ -60,7 +60,7 @@ test('owner preview/reauthentication, schema drift and stale-plan guards; actual
    const restoredQuery=async(sql,args)=>{const r=await restored.query(sql,args);return {...r,rowCount:r.affectedRows||r.rows.length||0}};
    const restoredPool={query:restoredQuery,connect:async()=>({query:restoredQuery,release(){}})};
    assert.equal((await restored.query('SELECT id FROM users WHERE id=$1',[learner.id])).rows.length,1,'restoring an old backup resurrects the old identity until replay');
-   assert.ok((await restored.query('SELECT id FROM sessions WHERE user_id=$1',[learner.id])).rows.length>0,'old sessions also require cleanup');
+   assert.ok((await restored.query('SELECT user_id FROM sessions WHERE user_id=$1',[learner.id])).rows.length>0,'old sessions also require cleanup');
    const restoredPreview=await erasurePreview(restoredPool,requestId);
    await fulfilAccountErasure(restoredPool,requestId,owner,{...acknowledgements,policyVersion:restoredPreview.policy.version,fingerprint:restoredPreview.fingerprint});
    for(const table of ['users','sessions','learner_profiles'])assert.equal((await restored.query('SELECT count(*)::int AS n FROM '+table+' WHERE '+(table==='users'?'id':'user_id')+'=$1',[learner.id])).rows[0].n,0);

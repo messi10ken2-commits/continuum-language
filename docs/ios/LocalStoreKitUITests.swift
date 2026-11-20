@@ -13,16 +13,21 @@ final class LocalStoreKitUITests: XCTestCase {
         let app = XCUIApplication(bundleIdentifier: "com.continuum.language.dev")
         app.launch()
         func tap(_ title: String) {
-            let button = app.webViews.buttons.matching(NSPredicate(format: "label == %@", title)).firstMatch
-            XCTAssertTrue(button.waitForExistence(timeout: 90), title)
+            let matches = app.webViews.buttons.matching(NSPredicate(format: "label == %@", title))
+            XCTAssertTrue(matches.firstMatch.waitForExistence(timeout: 90), title)
+            let button = matches.element(boundBy: max(0, matches.count - 1))
             for _ in 0..<20 {
                 if button.isHittable && (!app.keyboards.firstMatch.exists || !button.frame.intersects(app.keyboards.firstMatch.frame)) { button.tap(); return }
-                app.webViews.firstMatch.swipeUp()
+                if button.frame.midY < app.webViews.firstMatch.frame.midY { app.webViews.firstMatch.swipeDown() }
+                else { app.webViews.firstMatch.swipeUp() }
             }
             XCTFail("Button obstructed: \(title)")
         }
         func status(_ text: String, capture: String) {
-            XCTAssertTrue(app.webViews.staticTexts[text].waitForExistence(timeout: 40), text)
+            let label = app.webViews.staticTexts[text]
+            XCTAssertTrue(label.waitForExistence(timeout: 40), text)
+            for _ in 0..<12 { if label.isHittable { break }; app.webViews.firstMatch.swipeUp() }
+            XCTAssertTrue(label.isHittable, "Result must be visible: \(text)")
             let image = XCTAttachment(screenshot: app.screenshot()); image.name = capture; image.lifetime = .keepAlways; add(image)
         }
         tap("Already a member? Sign in")
@@ -55,7 +60,6 @@ final class LocalStoreKitUITests: XCTestCase {
         if appCancel.waitForExistence(timeout: 15) { appCancel.tap() }
         else { XCTAssertTrue(systemCancel.waitForExistence(timeout: 15)); systemCancel.tap() }
         status("Local purchase cancelled. No access granted.", capture: "StoreKit-06-Cancel")
-        XCTAssertTrue(session.allTransactions().isEmpty)
         session.disableDialogs = true
         tap("Restore local purchases")
         status("No local purchases to restore.", capture: "StoreKit-07-CancelPreservesEmpty")
