@@ -80,9 +80,11 @@ try{
   await page.waitForFunction(()=>document.querySelector('.town-opening video')?.currentTime>0);
   await page.locator('.town-opening-continue').click();
   // Failed media stays recoverable instead of being silently marked seen.
-  await page.route('**/*word-town-opening*',r=>r.request().resourceType()==='media'?r.abort():r.continue());await page.reload();
+  await page.reload();await video.waitFor();
+  const source=await video.getAttribute('src');
+  await video.evaluate(v=>{v.src='/__opening_missing.mp4';v.load()});
   await page.getByRole('button',{name:'Try again',exact:true}).waitFor();
-  await page.unroute('**/*word-town-opening*');await page.evaluate(()=>{window.__manualAllowed=true});
+  await video.evaluate((v,src)=>{v.src=src},source);await page.evaluate(()=>{window.__manualAllowed=true});
   await page.getByRole('button',{name:'Try again',exact:true}).click();
   await page.waitForFunction(()=>document.querySelector('.town-opening video')?.currentTime>0);
   await page.locator('.town-opening-continue').click();
