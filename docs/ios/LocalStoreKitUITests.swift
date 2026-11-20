@@ -4,8 +4,7 @@ import StoreKitTest
 import StoreKit
 
 final class LocalStoreKitUITests: XCTestCase {
-    @MainActor
-    func testPurchaseCancelPendingAndRestoreScreens() async throws {
+    func testPurchaseCancelPendingAndRestoreScreens() throws {
         continueAfterFailure = false
         XCUIDevice.shared.orientation = .portrait
         let session = try SKTestSession(configurationFileNamed: "ContinuumLocalTesting")
@@ -13,6 +12,22 @@ final class LocalStoreKitUITests: XCTestCase {
         session.clearTransactions()
         session.disableDialogs = true
         defer { session.clearTransactions(); session.resetToDefaultState() }
+        // Keep the UI driver synchronous on XCTest's main thread. Only the
+        // StoreKitTest control API runs asynchronously, with an explicit deadline.
+        func simulatedPurchaseError(_ failure: SKTestFailures.Purchase?) throws {
+            let done = XCTestExpectation(description: "StoreKitTest purchase override")
+            let result = StoreKitOverrideResult()
+            let task = Task.detached {
+                do { try await session.setSimulatedError(failure, forAPI: .purchase) }
+                catch { result.set(error) }
+                done.fulfill()
+            }
+            defer { task.cancel() }
+            guard XCTWaiter.wait(for: [done], timeout: 20) == .completed else {
+                throw NSError(domain: "ContinuumStoreKitUITest", code: 1, userInfo: [NSLocalizedDescriptionKey: "StoreKitTest purchase override timed out"])
+            }
+            if let error = result.read() { throw error }
+        }
         let app = XCUIApplication(bundleIdentifier: "com.continuum.language.dev")
         app.launch()
         // The scheme loads its StoreKit configuration during app launch.
@@ -80,11 +95,18 @@ final class LocalStoreKitUITests: XCTestCase {
         session.disableDialogs = true
         // Apple's StoreKitTest injects the cancellation in the native purchase API.
         // This verifies app response UI; it does not claim a physical system-sheet tap.
-        try await session.setSimulatedError(.generic(.userCancelled), forAPI: .purchase)
+        try simulatedPurchaseError(.generic(.userCancelled))
         tap("Buy local monthly")
         status("Local purchase cancelled. No access granted.", capture: "StoreKit-06-NativeCancellation")
-        try await session.setSimulatedError(nil, forAPI: .purchase)
+        try simulatedPurchaseError(nil)
         tap("Restore local purchases")
         status("No local purchases to restore.", capture: "StoreKit-07-CancelPreservesEmpty")
     }
+}
+
+private final class StoreKitOverrideResult: @unchecked Sendable {
+    private let lock = NSLock()
+    private var error: Error?
+    func set(_ value: Error) { lock.lock(); defer { lock.unlock() }; error = value }
+    func read() -> Error? { lock.lock(); defer { lock.unlock() }; return error }
 }
