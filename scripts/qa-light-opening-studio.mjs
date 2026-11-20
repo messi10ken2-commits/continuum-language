@@ -96,6 +96,8 @@ try{
    await page.evaluate(()=>document.fonts.ready);
    for(const width of [320,390,768,1440]){
     await page.setViewportSize({width,height:900});
+    await page.waitForFunction(w=>innerWidth===w,width);
+    await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
     const failures=await page.locator('.studio-choice').evaluateAll(cards=>cards.flatMap(card=>{
      const elements=[...card.querySelectorAll(':scope>strong,:scope>.studio-choice-description,:scope>.studio-choice-premium,:scope>.illustrated-card-action')];
      const bounds=card.getBoundingClientRect(),issues=[];
