@@ -154,11 +154,13 @@ jobs:
             sleep 1
           done
           curl --fail --cacert /tmp/continuum-root.crt https://127.0.0.1:9443/api/health
+      # iOS 26.5 CLI StoreKitTest configuration is affected by Apple FB22237318.
+      # Keep ordinary native smoke tests on the newest runtime above.
       - name: Boot iPhone simulator
         timeout-minutes: 12
         run: |
           xcrun simctl list devices available -j > /tmp/continuum-simulators.json
-          IOS_SIMULATOR_ID=$(python3 -c 'import json; d=json.load(open("/tmp/continuum-simulators.json")); runtimes=sorted(d["devices"],key=lambda key: tuple(int(n) for n in key.rsplit("iOS-",1)[-1].split("-") if n.isdigit()),reverse=True); print(next(x["udid"] for key in runtimes for x in d["devices"][key] if x["name"].startswith("iPhone")))')
+          IOS_SIMULATOR_ID=$(python3 -c 'import json; d=json.load(open("/tmp/continuum-simulators.json")); runtimes=[key for key in d["devices"] if key.endswith("iOS-26-2")]; print(next(x["udid"] for key in runtimes for x in d["devices"][key] if x["name"].startswith("iPhone")))')
           xcrun simctl boot "$IOS_SIMULATOR_ID"
           xcrun simctl bootstatus "$IOS_SIMULATOR_ID" -b
           xcrun simctl status_bar "$IOS_SIMULATOR_ID" override --time "9:41" --dataNetwork wifi --wifiMode active --wifiBars 3 --batteryState charged --batteryLevel 100

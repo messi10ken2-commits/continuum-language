@@ -19,13 +19,19 @@ final class LocalStoreKitUITests: XCTestCase {
             let button = matches.element(boundBy: max(0, matches.count - 1))
             for attempt in 0..<24 {
                 let frame = button.frame
+                // WebKit can report controls under the status bar as hittable.
+                // Keep the tap center clear of native top chrome and the bottom tab bar.
+                let bottomClearance: CGFloat = title == "Account" ? 20 : 100
+                let safeFrame = CGRect(x: app.frame.minX + 12, y: app.frame.minY + 100, width: app.frame.width - 24, height: app.frame.height - 100 - bottomClearance)
                 let keyboard = app.keyboards.firstMatch
-                if button.isHittable && frame.width > 0 && frame.height > 0 && app.frame.contains(CGPoint(x: frame.midX, y: frame.midY)) && (!keyboard.exists || !frame.intersects(keyboard.frame)) { button.tap(); return }
+                if button.isHittable && frame.width > 0 && frame.height > 0 && safeFrame.contains(CGPoint(x: frame.midX, y: frame.midY)) && (!keyboard.exists || !frame.intersects(keyboard.frame)) { button.tap(); return }
                 // Offscreen WebKit accessibility frames can be zero: never infer a
                 // direction from them. Use bounded scans in both directions on the
                 // actual window, not the potentially content-sized WebView frame.
-                if attempt < 12 { app.swipeUp(velocity: .fast) }
-                else { app.swipeDown(velocity: .fast) }
+                let down = frame.height > 0 ? frame.midY < safeFrame.minY : attempt >= 12
+                let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: down ? 0.35 : 0.65))
+                let end = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: down ? 0.60 : 0.40))
+                start.press(forDuration: 0.05, thenDragTo: end)
             }
             let failure = XCTAttachment(screenshot: app.screenshot()); failure.name = "StoreKit-obstructed-" + title; failure.lifetime = .keepAlways; add(failure)
             print("STOREKIT_ACCESSIBILITY", app.debugDescription)
@@ -33,7 +39,11 @@ final class LocalStoreKitUITests: XCTestCase {
         }
         func status(_ text: String, capture: String) {
             let label = app.webViews.staticTexts[text]
-            XCTAssertTrue(label.waitForExistence(timeout: 40), text)
+            if !label.waitForExistence(timeout: 40) {
+                let failure = XCTAttachment(screenshot: app.screenshot()); failure.name = "StoreKit-missing-" + capture; failure.lifetime = .keepAlways; add(failure)
+                print("STOREKIT_FAILED_STATUS_ACCESSIBILITY", app.debugDescription)
+                XCTFail(text); return
+            }
             for _ in 0..<12 { if label.isHittable { break }; app.swipeUp(velocity: .fast) }
             XCTAssertTrue(label.isHittable, "Result must be visible: \(text)")
             let image = XCTAttachment(screenshot: app.screenshot()); image.name = capture; image.lifetime = .keepAlways; add(image)
