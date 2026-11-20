@@ -50,7 +50,9 @@ try{
   const video=page.locator('.town-opening video');await video.waitFor();
   await page.waitForFunction(()=>{const v=document.querySelector('.town-opening video');return v&&!v.paused&&v.currentTime>0});
   assert.ok(await video.evaluate(v=>v.muted&&v.playsInline&&v.videoWidth>0));
-  await page.screenshot({path:new URL(engine.name()+'-opening.png',directory).pathname});
+  // WebKit screenshots can change the media pipeline: observe natural playback
+  // without taking a snapshot in the middle of its completion check.
+  if(engine===chromium)await page.screenshot({path:new URL(engine.name()+'-opening.png',directory).pathname});
   await page.locator('.town-opening').waitFor({state:'detached'}).catch(async error=>{
    console.log('OPENING_MEDIA_STATE',await video.evaluate(v=>({time:v.currentTime,duration:v.duration,paused:v.paused,ended:v.ended,ready:v.readyState,network:v.networkState,error:v.error?.message,visibility:document.visibilityState,buffered:Array.from({length:v.buffered.length},(_,i)=>[v.buffered.start(i),v.buffered.end(i)])})));
    throw error;
