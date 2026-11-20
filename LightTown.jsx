@@ -131,7 +131,7 @@ export function TownOpening({children,enabled=true,onComplete}){
   <div inert={playing||undefined}>{children}</div>
   {playing&&<div className="town-opening">
    <video ref={video} src={townOpeningVideo} autoPlay muted playsInline aria-hidden="true" onPlaying={()=>setPlayAction(null)} onPause={e=>{if(!e.currentTarget.ended)setPlayAction(action=>action==='retry'?action:'play')}} onEnded={finish} onError={()=>setPlayAction('retry')}/>
-   {playAction&&<button className="town-opening-play" type="button" onClick={play}>{t(playAction==='retry'?'Try again':'Play')}</button>}
+   {playAction&&<button className="town-opening-play" type="button" onClick={play}>{t(playAction==='retry'?'Try again':'Play video')}</button>}
    <button className="town-opening-continue" type="button" onClick={finish}>{t('Continue')}</button>
   </div>}
  </div>;

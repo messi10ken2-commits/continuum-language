@@ -63,7 +63,7 @@ try{
   assert.equal(await page.locator('.town-opening').count(),0);
   assert.equal(await page.locator('.town-opening-frame>[inert]').count(),0);
   // Browser/OS autoplay rejection leaves a working manual playback action.
-  await page.addInitScript(()=>{const play=HTMLMediaElement.prototype.play;HTMLMediaElement.prototype.play=function(){if(!window.__manualAllowed)return Promise.reject(new DOMException('Autoplay blocked','NotAllowedError'));return play.call(this)}});
+  await page.addInitScript(()=>{const play=HTMLMediaElement.prototype.play;HTMLMediaElement.prototype.play=function(){if(!window.__manualAllowed){this.autoplay=false;this.pause();return Promise.reject(new DOMException('Autoplay blocked','NotAllowedError'));}return play.call(this)}});
   await page.reload();await page.locator('.town-opening-play').waitFor();
   await page.evaluate(()=>{window.__manualAllowed=true});await page.locator('.town-opening-play').click();
   await page.waitForFunction(()=>document.querySelector('.town-opening video')?.currentTime>0);
