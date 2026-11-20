@@ -100,11 +100,14 @@ try{
     await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
     const failures=await page.locator('.studio-choice').evaluateAll(cards=>cards.flatMap(card=>{
      const elements=[...card.querySelectorAll('.studio-choice-heading>strong,.studio-choice-description,.studio-choice-premium,:scope>.illustrated-card-action')];
+     // Resolve descendant intrinsic sizes before taking one geometry snapshot.
+     for(const element of elements)void element.offsetHeight;
+     const rectangles=elements.map(element=>element.getBoundingClientRect());
      const bounds=card.getBoundingClientRect(),issues=[];
      for(let i=0;i<elements.length;i++){
-      const a=elements[i].getBoundingClientRect();
-      if(a.left<bounds.left-1||a.right>bounds.right+1||a.bottom>bounds.bottom+1)issues.push(JSON.stringify({issue:'outside',card:card.className,element:elements[i].className,rect:a.toJSON(),bounds:bounds.toJSON(),display:getComputedStyle(elements[i]).display}));
-      for(let j=i+1;j<elements.length;j++){const b=elements[j].getBoundingClientRect();if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>1&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>1)issues.push('overlap '+elements[i].className+' / '+elements[j].className)}
+      const a=rectangles[i];
+      if(a.left<bounds.left-1||a.right>bounds.right+1||a.bottom>bounds.bottom+1)issues.push(JSON.stringify({issue:'outside',card:card.className,element:elements[i].className,rect:a.toJSON(),bounds:bounds.toJSON(),display:getComputedStyle(elements[i]).display,cardDisplay:getComputedStyle(card).display,cardHeight:getComputedStyle(card).height,alignSelf:getComputedStyle(card).alignSelf,position:getComputedStyle(elements[i]).position,top:getComputedStyle(elements[i]).top,transform:getComputedStyle(elements[i]).transform}));
+      for(let j=i+1;j<elements.length;j++){const b=rectangles[j];if(Math.min(a.right,b.right)-Math.max(a.left,b.left)>1&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>1)issues.push('overlap '+elements[i].className+' / '+elements[j].className)}
      }
      return issues;
     }));
