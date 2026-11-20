@@ -4,6 +4,7 @@ import StoreKitTest
 import StoreKit
 
 final class LocalStoreKitUITests: XCTestCase {
+    @MainActor
     func testPurchaseCancelPendingAndRestoreScreens() async throws {
         continueAfterFailure = false
         XCUIDevice.shared.orientation = .portrait
