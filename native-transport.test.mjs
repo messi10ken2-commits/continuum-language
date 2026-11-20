@@ -18,3 +18,15 @@ test('session expiration clears Keychain; writes are never retried automatically
  let requests=0,cleared=0,expired=0;const fetch=createNativeFetch({origin,vault:{readSession:async()=>({token}),clearSession:async()=>cleared++},onExpired:()=>expired++,fetchImpl:async()=>{requests++;return Response.json({error:'expired'},{status:401});}});
  await fetch('capacitor://localhost/api/practice',{method:'POST',body:'{}'});assert.equal(requests,1);assert.equal(cleared,1);assert.equal(expired,1);
 });
+
+test('custom-scheme writes encode directly for HTTPS, preserve bytes and caller cancellation',async()=>{
+ const originalBlob=Request.prototype.blob;let calls=0;
+ Request.prototype.blob=function(){if(this.url.startsWith('capacitor:'))throw new DOMException('Fetch is aborted','AbortError');return originalBlob.call(this)};
+ try{
+  const native=createNativeFetch({origin,vault:{readSession:async()=>({})},allowsAI:()=>true,fetchImpl:async(request,options)=>{calls++;assert.equal(new URL(request.url).origin,origin);assert.equal(options.credentials,'omit');assert.equal(options.redirect,'error');const text=await request.text();if(request.headers.get('content-type')?.includes('multipart')){assert.match(text,/boundary|Content-Disposition/);assert.ok(text.includes('synthetic-audio'));}else assert.deepEqual(JSON.parse(text),{text:'日本語 – Olá'});return Response.json({ok:true})}});
+  await native('capacitor://localhost/api/practice',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:'日本語 – Olá'})});
+  const form=new FormData();form.append('audio',new Blob(['synthetic-audio']),'voice.webm');await native('capacitor://localhost/api/speaking',{method:'POST',body:form});
+  const stopped=new AbortController();stopped.abort();await assert.rejects(native('capacitor://localhost/api/practice',{method:'POST',body:'{}',signal:stopped.signal}),e=>e.name==='AbortError');
+  await assert.rejects(native('https://user:password@api.example.test/api/practice',{method:'POST',body:'{}'}),/credentials/);assert.equal(calls,2);
+ }finally{Request.prototype.blob=originalBlob}
+});

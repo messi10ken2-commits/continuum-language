@@ -121,7 +121,9 @@ jobs:
       - run: npm run build
       - run: npx playwright install --with-deps chromium webkit
       - name: Verify sign-in continuation and unauthorized app links
-        run: node scripts/qa-app-destinations.mjs
+        run: |
+          node scripts/qa-app-destinations.mjs
+          node scripts/qa-native-transport.mjs
 
   local-storekit:
     runs-on: macos-26
