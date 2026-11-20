@@ -1,5 +1,5 @@
 import React,{useEffect,useRef,useState} from 'react';
-import townOpeningVideo from './public/light-town/word-town-opening.mp4?url';
+import townOpeningVideo from './public/light-town/word-town-opening-compatible.mp4?url';
 import {Check,LockKeyhole,Star,Gem,Sparkles} from 'lucide-react';
 import {companions,companionNames} from './adventure-model.mjs';
 import {t,tf} from './interface-runtime.mjs';
