@@ -12,6 +12,14 @@ SMTP is an alternative only on Railway Pro or higher; Free, Trial and Hobby bloc
 
 MAIL_OUTBOX_KEY must be a secret 32-byte key encoded as 64 hexadecimal characters. Enable READINESS_MAINTENANCE_ENABLED only after approving transport. AUTH_RECOVERY_PUBLIC_ORIGIN must be the approved HTTPS origin. Reset payloads expire after 30 minutes and completion mail after seven days; the active worker erases delivered/expired payloads. Failed messages retain ciphertext for bounded retries. SMTP can duplicate after a process crash; exactly-once delivery is not promised. Keep the same encryption key until queued messages are drained or deliberately expired; multi-key rotation is not implemented. Do not log plaintext or credentials. The worker runs every minute with a single-flight guard. A queued notice is not delivered mail.
 
+### Mail delivery diagnostics
+
+Administration → Email distinguishes configuration presence, Google token renewal, provider acceptance and inbox-code verification. A true configuration flag is not delivery proof. When the existing maintenance gate is enabled, startup checks Gmail token renewal once without sending a message or reading the inbox. Only fixed diagnostic codes, HTTP status and timestamps are logged; OAuth credentials and provider error descriptions are never retained in diagnostics.
+
+The encrypted outbox records a safe last error, attempt count, next retry and optional Gmail message reference. The owner-only view refreshes pending checks every ten seconds while visible. Legacy attempts have no retrospective error details. GMAIL_OAUTH_INVALID_GRANT requires reviewing/reissuing the refresh token with the same OAuth client; GMAIL_OAUTH_INVALID_CLIENT points to the client ID/secret pair; GMAIL_API_DISABLED and GMAIL_INSUFFICIENT_SCOPE identify separate API and permission problems. Never replace the mail encryption key to resolve OAuth errors.
+
+After authorization is repaired, send one fresh owner test and allow the minute-based worker to process it. Repeated submissions can hit the existing rate limit. A provider-accepted result is not an inbox receipt: enter only the code received in the actual email. Test checks and recovery links expire after thirty minutes; successful recovery invalidates prior reset links and sessions.
+
 ## Account erasure
 
 The internal Japanese runbook is [ACCOUNT_DELETION_RUNBOOK_JA.md](ACCOUNT_DELETION_RUNBOOK_JA.md). A restored pre-erasure backup can resurrect users and sessions: keep restores isolated and workers stopped, then replay independently held deletion records before accepting traffic. The external deletion journal and real Railway backup schedules still require operator setup/evidence.
