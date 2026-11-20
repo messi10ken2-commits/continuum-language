@@ -1,0 +1,126 @@
+import {immersiveScenarios} from './immersive-course.mjs';
+import {isInstructionalExample} from './lesson-copy-roles.mjs';
+import supplementalLessonSources from './supplemental-lesson-sources.json' with {type:'json'};
+import {localizationLessons} from './lesson-localization-catalog.mjs';
+import planningSources from './planning-interface-sources.json' with {type:'json'};
+import {topics as planningTopics} from './class-practice.mjs';
+import {exerciseContextSources,contextProtectedValues} from './exercise-context.mjs';
+import expandedExclusiveSources from './expanded-exclusive-display-sources.json' with {type:'json'};
+import expandedAssessmentSources from './expanded-assessment-display-sources.json' with {type:'json'};
+import expandedFocusedSources from './expanded-focused-display-sources.json' with {type:'json'};
+import {questionPromptSource} from './question-presentation.mjs';
+import {journeyInterfaceSources} from './journey-copy.mjs';
+import {growthInterfaceSources} from './growth-copy.mjs';
+import {privacyInterfaceSources} from './privacy-copy.mjs';
+import {ownerInterfaceSources} from './owner-copy.mjs';
+import premiumDisplaySources from './premium-display-sources.json' with {type:'json'};
+import assessmentDisplaySources from './assessment-display-sources.json' with {type:'json'};
+import {speakingScenarios} from './speaking-content.mjs';
+import {qualityQuestionBank} from './question-quality.mjs';
+import {displayLanguageOptions} from './answer-language.mjs';
+import {descriptionColumn,tableAnnotation} from './table-audio.mjs';
+import {skillTasks} from './skills-content.mjs';
+import {visualFrames} from './lesson-media.mjs';
+import {appliedQuestionBank} from './applied-exercises.mjs';
+import {questionLearningText} from './learning-text-protection.mjs';
+import {reviewedInterfaceCopy} from './reviewed-interface-copy.mjs';
+import interfaceContexts from './interface-contexts.json' with {type:'json'};
+import {feedbackTemplates} from './localized-feedback.mjs';
+import {mistakeFeedback} from './mistake-feedback.mjs';
+import {lessonList,chapters,levels,getLessonVariant,authoredTransferQuestions} from './course.mjs';
+import {hasExpandedExercises} from './exercise-variants.mjs';
+import {languageOf} from './languages.mjs';
+import {interfaceCopy} from './interface-copy.mjs';
+import uiSources from './interface-sources.json' with {type:'json'};
+export const translationKey=(text,language='')=>JSON.stringify([language,text]);
+const corpus=new Map();
+let lessonContext='';
+function add(text,language='',protectedValues=[]){if(typeof text!=='string'||!/[A-Za-z]|\{\d+\}/.test(text)||!text.trim())return;const key=translationKey(text,language),old=corpus.get(key);corpus.set(key,{text,language,context:language?(lessonContext||'Language lesson: explanations, instructions and feedback'):(interfaceContexts[text]||['General interface']).join(', '),protectedValues:[...new Set([...(old?.protectedValues||[]),...protectedValues.filter(v=>typeof v==='string'&&(v.length>1||/^[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]$/u.test(v)))])]});}
+for(const text of [...uiSources,...Object.keys(interfaceCopy),...Object.values(reviewedInterfaceCopy).flatMap(Object.keys)])add(text);
+for(const text of premiumDisplaySources)add(text);
+for(const text of planningSources)add(text);
+for(const [id,topic] of Object.entries(planningTopics)){const lesson=lessonList.find(l=>l.id===id),language=lesson?.language||'es';for(const key of ['prompt','check'])add(topic[key],language,lesson?[lesson.example,...(lesson.vocabulary||[]).flatMap(w=>[w.term,w.phrase,w.example]),...(lesson.breakdown?.examples||[]).map(x=>x[0])]:[]);}
+for(const text of exerciseContextSources)add(text,'',contextProtectedValues(text));
+for(const text of ownerInterfaceSources)add(text);
+for(const text of privacyInterfaceSources)add(text);
+for(const text of growthInterfaceSources)add(text);
+for(const text of journeyInterfaceSources)add(text);
+for(const text of ['View lesson history','Learning tools','Review your learning history and recurring patterns.','Check your level and see your skill report.','Contact the Continuum team and check your replies.','Open Support'])add(text);
+for(const source of assessmentDisplaySources)add(source.text,source.language,source.protectedValues);
+for(const text of feedbackTemplates)add(text.trim());
+for(const level of levels){add(level.name);add(level.description);}
+for(const s of [...speakingScenarios,...immersiveScenarios]){add(s.title);for(const goal of s.goals)add(goal);}
+for(const l of localizationLessons){
+ lessonContext=l.level+' '+l.language+' lesson: '+l.title;
+ add(l.title);
+ const language=l.language||languageOf(l.id),terms=[...(l.vocabulary||[]),...(l.expressions||[])].flatMap(w=>[w.term,w.phrase,w.example]),forms=(l.breakdown?.tables||[]).flatMap(t=>t.rows.flatMap(r=>r.filter((s,i)=>!t.descriptionColumns?.includes(i)&&!descriptionColumn(t.headers[i])&&!tableAnnotation(s))));
+ const targetHeader=h=>!/^(Subject|Viewpoint|Example|Meaning|Form|Statement|Negative|Question|Base|Type|Pattern|Positive|Past|Ending sound|Short answer|Purpose|Focus|Interpretation|Participle|Function|Time order|Reason|Condition|Result|Simple perfect|Continuous perfect|Difference|Time|Wording|Strength|Appropriate interpretation|Reference|Gerund|Construction|Verb|Auxiliary|Infinitive|Expression|Limit|Role|Particle \/ form|Group|Dictionary|Stem|Polite|Past negative|Nonpast|Ending|Change|Plain predicate|With possibility|Full form|Conversational form|Conditional|Passive|Causative|Status)$/i.test(h);
+ const headers=(l.breakdown?.tables||[]).flatMap(t=>t.headers.filter(targetHeader));
+ const preserve=[...headers,...terms,...forms,...(isInstructionalExample(l)?[]:[l.example]),...(l.breakdown?.examples||[]).map(x=>x[0]),...(l.soundGuide?.pairs||[]).flatMap(([a,b])=>[a,...(/^[\p{L}\p{M}ー-]+$/u.test(b)?[b]:[])]),...(l.characters||[]).flatMap(x=>[x.glyph,x.reading])];
+ for(const frame of visualFrames(l,{all:true}))for(const key of ['label','meaning','note'])add(frame[key],language,[...preserve,frame.text]);
+ for(const k of ['title','explanation','priority','speak','characterGuidance'])add(l[k],language,preserve);
+ for(const w of [...(l.vocabulary||[]),...(l.expressions||[])])for(const k of ['meaning','translation','use','pitfall','type','register','region'])add(w[k],language,preserve);
+ for(const s of l.breakdown?.steps||[])add(s,language,preserve);add(l.breakdown?.pitfall,language,preserve);
+ for(const [,en] of l.breakdown?.examples||[])add(en,language,preserve);
+ for(const table of l.breakdown?.tables||[]){add(table.caption,language,preserve);for(const h of table.headers)add(h,language,preserve);for(const row of table.rows)row.forEach((s,i)=>{if(table.descriptionColumns?.includes(i)||descriptionColumn(table.headers[i])||tableAnnotation(s))add(s,language,preserve)})}
+ for(const [,hint] of l.soundGuide?.pairs||[])add(hint,language,preserve);
+ for(const x of l.characters||[])add(x.meaning,language,preserve);
+ for(const s of l.conversation?.watchTasks||[])add(s,language,preserve);
+ for(const k of ['levelNote','hint'])add(l.conversation?.[k],language,preserve);
+ const transfer=authoredTransferQuestions(l.id);
+ const variants=[l];if(transfer.length&&!l.exerciseVersion)variants.push(getLessonVariant(l.id,'v1-localization-source-123456789'));if(hasExpandedExercises(l.id))for(const v of [2,3,4,5,6,7,8])variants.push(getLessonVariant(l.id,`v${v}-localization-source-123456789`));
+ for(const variant of variants)for(const key of ['title','explanation','priority','speak'])add(variant[key],language,preserve);
+ for(const variant of variants)if(isInstructionalExample(variant))add(variant.example,language);
+ for(const q of [...variants.flatMap(v=>v.questions||[]),...transfer,...appliedQuestionBank.filter(q=>q.sourceLesson===l.id),...qualityQuestionBank(l)]){
+  const meaningOptions=displayLanguageOptions(q,l);
+  const targetOptions=!meaningOptions&&(!q.optionsLang||q.optionsLang.split('-')[0]===language)?q.options||[]:[];
+  const protectedQ=[...preserve,...questionLearningText(q,language),...targetOptions];
+  const parts=questionPromptSource(q);if(parts){add(parts.instruction);add(parts.hint);add(parts.context,language,protectedQ);if(!parts.learningText){add(parts.body,language,protectedQ);for(const line of parts.body.split('\n').filter(Boolean))add(line,language,protectedQ);}}
+  add(q.prompt,language,q.instructionOnly?[]:protectedQ);add(q.note,language,protectedQ);
+  for(const value of Object.values(q.mistakeFeedback||{}))add(value,language,protectedQ);
+  if(q.prompt?.includes('Complete with tocar:'))for(const answer of ['ligou','tocava','tocar','toquei','tocaram'])add(mistakeFeedback(q,answer),language,protectedQ);
+  if(meaningOptions)for(const o of q.options||[])add(o);
+ }
+}
+
+lessonContext='Placement and focused practice';
+for(const source of [...expandedAssessmentSources,...expandedFocusedSources,...expandedExclusiveSources])add(source.text,source.language,source.protectedValues);
+lessonContext='Course roadmap';
+for(const c of chapters)for(const k of ['title','mapTitle','goal']){add(c[k],c.language||languageOf(c.id));add(c[k]);}
+for(const task of skillTasks){
+ lessonContext=task.level+' '+(task.language||'es')+' workshop: '+task.title;
+ const language=task.language||'es',preserve=[task.model,task.audio,...(task.questions||[]).flatMap(q=>[q.audio,...(q.options||[])])];
+ for(const key of ['title','topic','prompt'])add(task[key],language,preserve);
+ for(const tip of task.tips||[])add(tip,language,preserve);
+ for(const q of task.questions||[]){const protectedQ=[...preserve,...questionLearningText(q,language)];add(q.prompt,language,protectedQ);add(q.note,language,protectedQ);}
+}
+// Display headings translate; native passages, dialogue and answer models stay verbatim.
+function registerImmersiveHeading(text,language){
+ if(typeof text!=='string'||!text.trim())return;
+ for(const scope of ['',language])corpus.set(translationKey(text,scope),{text,language:scope,context:'Immersion display heading or learning goal',protectedValues:[]});
+}
+for(const lesson of lessonList.filter(l=>l.immersive))for(const key of ['title','explanation'])registerImmersiveHeading(lesson[key],lesson.language);
+for(const chapter of chapters.filter(c=>c.immersive))for(const key of ['title','goal'])registerImmersiveHeading(chapter[key],chapter.language);
+for(const scenario of immersiveScenarios){registerImmersiveHeading(scenario.title,scenario.language);for(const goal of scenario.goals)registerImmersiveHeading(goal,scenario.language);}
+const baselineEntries=new Map();
+for(const source of supplementalLessonSources){const key=translationKey(source.text,source.language);if(!baselineEntries.has(key))baselineEntries.set(key,corpus.get(key)||null);add(source.text,source.language,source.protectedValues);}
+// Build-time audits can regenerate supplements without accidentally retaining stale protections.
+export const baselineTranslationSource=(text,language='')=>{const get=key=>baselineEntries.has(key)?baselineEntries.get(key):corpus.get(key);return get(translationKey(text,language))||get(translationKey(text,''));};
+export const translationSource=(text,language='')=>corpus.get(translationKey(text,language))||corpus.get(translationKey(text,''));
+// Replace exact target-language content with opaque tokens. Translation output
+// must preserve every token; restore it only after validation, never as HTML.
+export function protectSource(source){
+ let text=source.text;const values=[];
+ const candidates=[...source.protectedValues,...(source.text.match(/\{\d+\}/g)||[]),...(source.text.match(/\/[^\s/]+\//gu)||[])];
+ if(source.language==='en'){
+  for(const match of text.matchAll(/[“"]([^”"\n]+)[”"]/g))candidates.push(match[1]);
+  if(/_{2,}/.test(text)&&text.includes(':')&&(!text.includes('\n')||text.indexOf(':')<text.indexOf('\n')))candidates.push(text.slice(text.indexOf(':')+1).trim().split(/\s+(?:Write (?:only|the|a|both)|Use |Begin |Add |Give |Subject:)/)[0].trim());
+ }
+ // Longest first; word boundaries prevent protecting 'ir' inside 'first'.
+ for(const value of [...new Set(candidates)].sort((a,b)=>b.length-a.length)){
+  if(!value||!text.includes(value))continue;
+  const escaped=value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  text=text.replace(new RegExp(`(?<![\\p{L}\\p{N}])${escaped}(?![\\p{L}\\p{N}])`,'gu'),()=>{const id=values.push(value)-1;return `⟦KEEP_${id}⟧`;});
+ }
+ return {text,values,restore(translated){if(typeof translated!=='string'||!translated.trim()||translated.length>Math.max(1000,source.text.length*8))throw Error('Invalid translation');for(let i=0;i<values.length;i++){const token=`⟦KEEP_${i}⟧`;if(translated.split(token).length!==2)throw Error('Translation changed learning content');translated=translated.replace(token,values[i]);}if(/⟦KEEP_\d+⟧/.test(translated))throw Error('Unknown translation token');return translated;}};
+}

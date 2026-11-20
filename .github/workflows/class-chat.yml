@@ -1,0 +1,31 @@
+name: Class chat readability
+on:
+  push:
+    branches: ['codex/class-chat-metadata']
+permissions:
+  contents: read
+jobs:
+  chat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/qa-class-chat-metadata.mjs
+        env:
+          QA_BROWSER: ${{ matrix.browser }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: class-chat-${{ matrix.browser }}
+          path: .media-build/class-chat

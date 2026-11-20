@@ -1,0 +1,614 @@
+[
+  {
+    "youtubeId": "nDCVXdenDII",
+    "analysisId": "3433bbb7-cac2-4676-9910-04bc9b5d28f3",
+    "questions": [
+      {
+        "prompt": "What have the hosts arranged with Manuel?",
+        "options": [
+          "Lunch together in a park.",
+          "A formal interview at an office.",
+          "An evening meal at a restaurant."
+        ],
+        "note": "The selected passage supports this answer: Lunch together in a park.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 22,
+          "end": 32,
+          "label": "What have the hosts arranged with Manuel?",
+          "evidence": "Higgsfield scene analysis 3433bbb7-cac2-4676-9910-04bc9b5d28f3, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What has Manuel been asked to buy?",
+        "options": [
+          "A baguette.",
+          "A bottle of wine.",
+          "A box of pastries."
+        ],
+        "note": "The selected passage supports this answer: A baguette.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 28,
+          "end": 39,
+          "label": "What has Manuel been asked to buy?",
+          "evidence": "Higgsfield scene analysis 3433bbb7-cac2-4676-9910-04bc9b5d28f3, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What social step is emphasised before starting a shop conversation?",
+        "options": [
+          "Saying bonjour.",
+          "Asking for a discount.",
+          "Explaining your nationality."
+        ],
+        "note": "The selected passage supports this answer: Saying bonjour.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 46,
+          "end": 68,
+          "label": "What social step is emphasised before starting a shop conversation?",
+          "evidence": "Higgsfield scene analysis 3433bbb7-cac2-4676-9910-04bc9b5d28f3, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does Manuel initially want to pay?",
+        "options": [
+          "By card.",
+          "With a bank transfer.",
+          "With a gift voucher."
+        ],
+        "note": "The selected passage supports this answer: By card.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 83,
+          "end": 93,
+          "label": "How does Manuel initially want to pay?",
+          "evidence": "Higgsfield scene analysis 3433bbb7-cac2-4676-9910-04bc9b5d28f3, scene 15, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What limitation on card payments is described?",
+        "options": [
+          "Some shops still require a minimum purchase amount.",
+          "Every shop refuses card payments.",
+          "Card payments are prohibited for bread."
+        ],
+        "note": "The selected passage supports this answer: Some shops still require a minimum purchase amount.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 89,
+          "end": 104,
+          "label": "What limitation on card payments is described?",
+          "evidence": "Higgsfield scene analysis 3433bbb7-cac2-4676-9910-04bc9b5d28f3, scene 16, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why are the hosts surprised by Manuel’s arrival?",
+        "options": [
+          "He has arrived before they have set up the picnic.",
+          "He has come to the wrong park.",
+          "He has arrived after everyone has left."
+        ],
+        "note": "The selected passage supports this answer: He has arrived before they have set up the picnic.. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 212,
+          "end": 220,
+          "label": "Why are the hosts surprised by Manuel’s arrival?",
+          "evidence": "Higgsfield scene analysis 3433bbb7-cac2-4676-9910-04bc9b5d28f3, scene 24, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "vY7WCRyG-n8",
+    "analysisId": "351e651d-0915-40cb-ab9b-549d92cafd98",
+    "questions": [
+      {
+        "prompt": "What had the earlier politeness video focused on?",
+        "options": [
+          "Using the subjunctive in requests",
+          "Writing formal complaints",
+          "Pronouncing place names"
+        ],
+        "note": "The selected passage supports this answer: Using the subjunctive in requests. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 7,
+          "end": 23,
+          "label": "What had the earlier politeness video focused on?",
+          "evidence": "Higgsfield scene analysis 351e651d-0915-40cb-ab9b-549d92cafd98, scene 2, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is this video's main politeness topic?",
+        "options": [
+          "Formulating questions",
+          "Introducing family members",
+          "Ordering food"
+        ],
+        "note": "The selected passage supports this answer: Formulating questions. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 19,
+          "end": 33,
+          "label": "What is this video's main politeness topic?",
+          "evidence": "Higgsfield scene analysis 351e651d-0915-40cb-ab9b-549d92cafd98, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How is the direct bus question made indirect?",
+        "options": [
+          "By asking whether someone can say when the bus comes",
+          "By removing the question word completely",
+          "By repeating the question more loudly"
+        ],
+        "note": "The selected passage supports this answer: By asking whether someone can say when the bus comes. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 29,
+          "end": 49,
+          "label": "How is the direct bus question made indirect?",
+          "evidence": "Higgsfield scene analysis 351e651d-0915-40cb-ab9b-549d92cafd98, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does the caller ask abruptly?",
+        "options": [
+          "Where his parcel is",
+          "Whether the shop is hiring",
+          "How to cancel a subscription"
+        ],
+        "note": "The selected passage supports this answer: Where his parcel is. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 67,
+          "end": 73,
+          "label": "What does the caller ask abruptly?",
+          "evidence": "Higgsfield scene analysis 351e651d-0915-40cb-ab9b-549d92cafd98, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Where should the caller find the delivery number?",
+        "options": [
+          "On the order confirmation",
+          "On his passport",
+          "On a bus ticket"
+        ],
+        "note": "The selected passage supports this answer: On the order confirmation. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 77,
+          "end": 84,
+          "label": "Where should the caller find the delivery number?",
+          "evidence": "Higgsfield scene analysis 351e651d-0915-40cb-ab9b-549d92cafd98, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What limitation does the customer-service agent express?",
+        "options": [
+          "She cannot give a very precise arrival time",
+          "She cannot find any record of the parcel",
+          "She says the parcel has already arrived"
+        ],
+        "note": "The selected passage supports this answer: She cannot give a very precise arrival time. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 100,
+          "end": 107,
+          "label": "What limitation does the customer-service agent express?",
+          "evidence": "Higgsfield scene analysis 351e651d-0915-40cb-ab9b-549d92cafd98, scene 15, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "vJPWo4CEv_Q",
+    "analysisId": "2dd90d2d-e1dd-4192-aece-c26e13d63748",
+    "questions": [
+      {
+        "prompt": "What learning difficulty is introduced?",
+        "options": [
+          "Knowing many words but struggling to speak",
+          "Speaking easily without knowing any words",
+          "Being unable to recognise any written Italian"
+        ],
+        "note": "The selected passage supports this answer: Knowing many words but struggling to speak. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 29,
+          "end": 47,
+          "label": "What learning difficulty is introduced?",
+          "evidence": "Higgsfield scene analysis 2dd90d2d-e1dd-4192-aece-c26e13d63748, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What alternative to isolated vocabulary lists is suggested?",
+        "options": [
+          "Learn sentences commonly used in conversation",
+          "Memorise only animal names",
+          "Avoid practising conversational phrases"
+        ],
+        "note": "The selected passage supports this answer: Learn sentences commonly used in conversation. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 43,
+          "end": 71,
+          "label": "What alternative to isolated vocabulary lists is suggested?",
+          "evidence": "Higgsfield scene analysis 2dd90d2d-e1dd-4192-aece-c26e13d63748, scene 12, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is the aim of practising short familiar phrases?",
+        "options": [
+          "Use them comfortably without having to think hard",
+          "Say them only after translating each word",
+          "Replace every conversation with a vocabulary test"
+        ],
+        "note": "The selected passage supports this answer: Use them comfortably without having to think hard. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 67,
+          "end": 98,
+          "label": "What is the aim of practising short familiar phrases?",
+          "evidence": "Higgsfield scene analysis 2dd90d2d-e1dd-4192-aece-c26e13d63748, scene 13, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which response to a question about origin is highlighted?",
+        "options": [
+          "Giving one's nationality",
+          "Giving only one's age",
+          "Giving a detailed employment history"
+        ],
+        "note": "The selected passage supports this answer: Giving one's nationality. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 97,
+          "end": 126,
+          "label": "Which response to a question about origin is highlighted?",
+          "evidence": "Higgsfield scene analysis 2dd90d2d-e1dd-4192-aece-c26e13d63748, scene 15, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why anticipate questions and prepare answers?",
+        "options": [
+          "So a question is less likely to catch you by surprise",
+          "So nobody can ask you anything new",
+          "So you never need to listen to another speaker"
+        ],
+        "note": "The selected passage supports this answer: So a question is less likely to catch you by surprise. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 132,
+          "end": 156,
+          "label": "Why anticipate questions and prepare answers?",
+          "evidence": "Higgsfield scene analysis 2dd90d2d-e1dd-4192-aece-c26e13d63748, scene 17, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which common conversation topic is suggested for visitors?",
+        "options": [
+          "Their trip",
+          "Their private bank balance",
+          "Their medical test results"
+        ],
+        "note": "The selected passage supports this answer: Their trip. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 207,
+          "end": 238,
+          "label": "Which common conversation topic is suggested for visitors?",
+          "evidence": "Higgsfield scene analysis 2dd90d2d-e1dd-4192-aece-c26e13d63748, scene 19, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "ZQoiIKzAKug",
+    "analysisId": "d4e06ba7-436c-41d3-bbc4-0b58a972c8e7",
+    "questions": [
+      {
+        "prompt": "What must the visitor do to reach the apartment?",
+        "options": [
+          "Climb stairs",
+          "Take a ferry",
+          "Walk through a hotel"
+        ],
+        "note": "The selected passage supports this answer: Climb stairs. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 37,
+          "end": 52,
+          "label": "What must the visitor do to reach the apartment?",
+          "evidence": "Higgsfield scene analysis d4e06ba7-436c-41d3-bbc4-0b58a972c8e7, scene 5, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What example is given of a neighbouring tenant?",
+        "options": [
+          "A junior high school teacher",
+          "A film director",
+          "A restaurant owner"
+        ],
+        "note": "The selected passage supports this answer: A junior high school teacher. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 48,
+          "end": 65,
+          "label": "What example is given of a neighbouring tenant?",
+          "evidence": "Higgsfield scene analysis d4e06ba7-436c-41d3-bbc4-0b58a972c8e7, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How does the agent distinguish this unit from the one above?",
+        "options": [
+          "This is a regular floor; the rooftop addition is above it",
+          "This unit is itself the sheet-metal rooftop addition",
+          "There is no floor above this unit"
+        ],
+        "note": "The selected passage supports this answer: This is a regular floor; the rooftop addition is above it. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 71,
+          "end": 93,
+          "label": "How does the agent distinguish this unit from the one above?",
+          "evidence": "Higgsfield scene analysis d4e06ba7-436c-41d3-bbc4-0b58a972c8e7, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What layout does the agent describe?",
+        "options": [
+          "Two bedrooms and one living room",
+          "One bedroom without a kitchen",
+          "Four bedrooms and two living rooms"
+        ],
+        "note": "The selected passage supports this answer: Two bedrooms and one living room. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 71,
+          "end": 93,
+          "label": "What layout does the agent describe?",
+          "evidence": "Higgsfield scene analysis d4e06ba7-436c-41d3-bbc4-0b58a972c8e7, scene 8, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What does the agent say about the visible furniture?",
+        "options": [
+          "It is included",
+          "It must all be removed immediately",
+          "Only the sofa is included"
+        ],
+        "note": "The selected passage supports this answer: It is included. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 97,
+          "end": 108,
+          "label": "What does the agent say about the visible furniture?",
+          "evidence": "Higgsfield scene analysis d4e06ba7-436c-41d3-bbc4-0b58a972c8e7, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What practical limitation does the kitchen have?",
+        "options": [
+          "No piped gas; replacement gas canisters must be ordered",
+          "No usable cooking equipment",
+          "No water supply"
+        ],
+        "note": "The selected passage supports this answer: No piped gas; replacement gas canisters must be ordered. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 111,
+          "end": 124,
+          "label": "What practical limitation does the kitchen have?",
+          "evidence": "Higgsfield scene analysis d4e06ba7-436c-41d3-bbc4-0b58a972c8e7, scene 14, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "kcbLFsEOniw",
+    "analysisId": "1550907d-77e8-48c3-9280-aadfdc905338",
+    "questions": [
+      {
+        "prompt": "What pet has the first interviewee had before?",
+        "options": [
+          "A goldfish",
+          "A rabbit",
+          "A parrot"
+        ],
+        "note": "The selected passage supports this answer: A goldfish. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 23,
+          "end": 37,
+          "label": "What pet has the first interviewee had before?",
+          "evidence": "Higgsfield scene analysis 1550907d-77e8-48c3-9280-aadfdc905338, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What is the boy's dog called?",
+        "options": [
+          "Byeol",
+          "Nahee",
+          "Guppy"
+        ],
+        "note": "The selected passage supports this answer: Byeol. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 33,
+          "end": 44,
+          "label": "What is the boy's dog called?",
+          "evidence": "Higgsfield scene analysis 1550907d-77e8-48c3-9280-aadfdc905338, scene 4, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Who changes the guppies' water and feeds them?",
+        "options": [
+          "The boy's brother",
+          "The interviewer",
+          "A neighbour"
+        ],
+        "note": "The selected passage supports this answer: The boy's brother. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 57,
+          "end": 73,
+          "label": "Who changes the guppies' water and feeds them?",
+          "evidence": "Higgsfield scene analysis 1550907d-77e8-48c3-9280-aadfdc905338, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why did the woman give up keeping goldfish?",
+        "options": [
+          "She was the only person caring for them",
+          "Her child disliked looking at them",
+          "The family moved abroad immediately"
+        ],
+        "note": "The selected passage supports this answer: She was the only person caring for them. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 96,
+          "end": 112,
+          "label": "Why did the woman give up keeping goldfish?",
+          "evidence": "Higgsfield scene analysis 1550907d-77e8-48c3-9280-aadfdc905338, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "How did a temporary cat-care arrangement turn into adoption?",
+        "options": [
+          "The children bonded with the cat",
+          "The cat won a competition",
+          "The family had never met the cat"
+        ],
+        "note": "The selected passage supports this answer: The children bonded with the cat. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 108,
+          "end": 127,
+          "label": "How did a temporary cat-care arrangement turn into adoption?",
+          "evidence": "Higgsfield scene analysis 1550907d-77e8-48c3-9280-aadfdc905338, scene 11, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which distinction does the woman make about fish care?",
+        "options": [
+          "Feeding was enjoyable but washing the large tank was annoying",
+          "Feeding and tank cleaning were both impossible",
+          "The tank never needed cleaning"
+        ],
+        "note": "The selected passage supports this answer: Feeding was enjoyable but washing the large tank was annoying. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 158,
+          "end": 182,
+          "label": "Which distinction does the woman make about fish care?",
+          "evidence": "Higgsfield scene analysis 1550907d-77e8-48c3-9280-aadfdc905338, scene 15, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  },
+  {
+    "youtubeId": "qDk1kS1iWAM",
+    "analysisId": "cdf562df-873c-4187-ac10-2bcb7c7de7be",
+    "questions": [
+      {
+        "prompt": "What practical interaction is this episode introducing?",
+        "options": [
+          "Ordering in an Egyptian café",
+          "Renting an apartment",
+          "Buying a train ticket"
+        ],
+        "note": "The selected passage supports this answer: Ordering in an Egyptian café. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 0,
+          "end": 16,
+          "label": "What practical interaction is this episode introducing?",
+          "evidence": "Higgsfield scene analysis cdf562df-873c-4187-ac10-2bcb7c7de7be, scene 1, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why does the waiting friend call Menna?",
+        "options": [
+          "Menna is late",
+          "Menna has left the country",
+          "Menna has already paid the bill"
+        ],
+        "note": "The selected passage supports this answer: Menna is late. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 23,
+          "end": 54,
+          "label": "Why does the waiting friend call Menna?",
+          "evidence": "Higgsfield scene analysis cdf562df-873c-4187-ac10-2bcb7c7de7be, scene 3, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Which flavour is chosen for the iced latte?",
+        "options": [
+          "Caramel",
+          "Vanilla",
+          "Hazelnut"
+        ],
+        "note": "The selected passage supports this answer: Caramel. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 93,
+          "end": 154,
+          "label": "Which flavour is chosen for the iced latte?",
+          "evidence": "Higgsfield scene analysis cdf562df-873c-4187-ac10-2bcb7c7de7be, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What special request accompanies the strawberry juice?",
+        "options": [
+          "No ice",
+          "Extra milk",
+          "Double sugar"
+        ],
+        "note": "The selected passage supports this answer: No ice. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 93,
+          "end": 154,
+          "label": "What special request accompanies the strawberry juice?",
+          "evidence": "Higgsfield scene analysis cdf562df-873c-4187-ac10-2bcb7c7de7be, scene 6, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "What can a customer ask for before ordering?",
+        "options": [
+          "The menu",
+          "A passport",
+          "A luggage receipt"
+        ],
+        "note": "The selected passage supports this answer: The menu. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 150,
+          "end": 195,
+          "label": "What can a customer ask for before ordering?",
+          "evidence": "Higgsfield scene analysis cdf562df-873c-4187-ac10-2bcb7c7de7be, scene 7, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      },
+      {
+        "prompt": "Why could Menna not finish the whole exam?",
+        "options": [
+          "She arrived late after transport and alarm problems",
+          "The examiner cancelled it before it began",
+          "She had not been allowed to enter at all"
+        ],
+        "note": "The selected passage supports this answer: She arrived late after transport and alarm problems. Attribute this account to the speaker and keep its context.",
+        "videoCue": {
+          "start": 257,
+          "end": 344,
+          "label": "Why could Menna not finish the whole exam?",
+          "evidence": "Higgsfield scene analysis cdf562df-873c-4187-ac10-2bcb7c7de7be, scene 10, reviewed for topic consistency on 2026-10-31. AI-assisted approximate section boundaries; not independently verified against playback.",
+          "precision": "analysis-assisted"
+        }
+      }
+    ]
+  }
+]

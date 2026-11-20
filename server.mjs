@@ -1,0 +1,401 @@
+import {migrateMailOperations,handleMailOperations} from './mail-operations.mjs';
+import {migratePush,handlePush} from './push-api.mjs';
+import {handleAppAssociation} from './app-links-api.mjs';
+import {startReadinessMaintenance} from './readiness-maintenance.mjs';
+import {migrateAccountErasure} from './account-erasure.mjs';
+import {migrateMailOutbox,drainMailOutbox} from './transactional-mail.mjs';
+import {handleAppleNotifications,reconcileAppleDue} from './apple-store-api.mjs';
+import {handleImmersiveAudio,handleImmersiveContent} from './immersive-api.mjs';
+import {migrateAIMetering,withAIUsage,identifyAIUser} from './ai-metering.mjs';
+import {migrateAIOperations} from './ai-operations.mjs';
+import {migrateLightLearning,handleLightLearning} from './light-learning-api.mjs';
+import {migrateAdventure,handleAdventure} from './adventure-api.mjs';
+import {migrateTeacherRanking} from './teacher-ranking.mjs';
+import {migrateAnswerReviews,withVerifiedAnswers} from './verified-answers.mjs';
+import {handleAnswerReview} from './answer-review-api.mjs';
+import {gradeResolvedLesson} from './course.mjs';
+import {migrateActivity,handleActivity} from './activity-api.mjs';
+import {renderPublicDocument} from './public-documents.mjs';
+import {handlePrivacySettings} from './privacy-api.mjs';
+import {handleNativeAccount} from './native-account-api.mjs';
+import {handleAccountRecovery,migrateAccountRecovery} from './account-recovery.mjs';
+import {migrateClassSafety,handleClassSafety} from './class-safety.mjs';
+import {requestSessionToken,nativeSessionRequest,nativeOrigins,handleNativeOrigin} from './native-policy.mjs';
+import {migrateOwner,handleOwner,enforcePlatformControls} from './owner-api.mjs';
+import {migrateSupport,handleSupport} from './support-api.mjs';
+import {assertSecureRuntime} from './runtime-policy.mjs';
+import {passwordHash,passwordMatches} from './password-security.mjs';
+import {migrateAuthLimits,createAuthLimiter,authClientAddress} from './auth-rate-limit.mjs';
+import {visiblePlacement} from './premium-policy.mjs';
+import {migrateBilling,handleBilling,handleBillingWebhook,membership} from './billing-api.mjs';
+import {migrateClassroom,handleClassroom,cancelUnsharedClasses} from './classroom-api.mjs';
+import {migrateSpeaking,handleSpeaking} from './speaking-api.mjs';
+import {migrateLocalization,handleLocalization,warmLocalization} from './localization-api.mjs';
+import {migrateReview,missedReviewItems,ingestReview,reviewRun} from './review-pool.mjs';
+import {handleReview} from './review-api.mjs';
+import {migrateProfiles,handleProfiles} from './profiles-api.mjs';
+import {teacherScope,requestedScope,validSharedLanguages} from './teacher-access.mjs';
+import {handleLessonMedia,videoRange} from './lesson-media-api.mjs';
+import {migrateSpeech,handleSpeech} from './speech-api.mjs';
+import http from 'node:http';
+import fs from 'node:fs/promises';
+import {pipeline} from 'node:stream/promises';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {fileURLToPath} from 'node:url';
+import pg from 'pg';
+import {getLesson,getLessonVariant,gradeLesson,validAnswer,isCurrentLessonDraft,isCurrentLessonRevision} from './course.mjs';
+import {migratePatterns,handlePatterns} from './patterns-api.mjs';
+import {questionEvidence} from './learning-patterns.mjs';
+import {assessSkill} from './ai-assessment.mjs';
+import {migrateSkills,handleSkills} from './skills-api.mjs';
+import {migrateAssessments,handleAssessment,assessmentHistory} from './assessment-api.mjs';
+
+assertSecureRuntime();
+const root=path.dirname(fileURLToPath(import.meta.url));
+const dist=path.join(root,'dist');
+const pool=new pg.Pool({connectionString:process.env.DATABASE_URL,max:6,connectionTimeoutMillis:8000});
+const sessionDays=30;
+const authLimited=createAuthLimiter(pool);
+
+const attempts=new Map();
+const mime={'.glb':'model/gltf-binary','.html':'text/html; charset=utf-8','.js':'application/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.mp4':'video/mp4','.m4a':'audio/mp4','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.ico':'image/x-icon','.woff2':'font/woff2'};
+const hash=text=>crypto.createHash('sha256').update(text).digest('hex');
+const random=()=>crypto.randomBytes(32).toString('base64url');
+const cookieName='continuum_session';
+const cookieAttrs=`HttpOnly; SameSite=Lax; Path=/; Max-Age=${sessionDays*86400}${process.env.NODE_ENV==='production'?' ; Secure':''}`;
+
+async function migrate(){
+ await migrateAuthLimits(pool);
+ await pool.query(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), email text UNIQUE NOT NULL, name text NOT NULL, role text NOT NULL CHECK(role IN ('learner','teacher')), password_hash text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());
+ ALTER TABLE users ADD COLUMN IF NOT EXISTS share_self_learning boolean NOT NULL DEFAULT true;
+ ALTER TABLE users ADD COLUMN IF NOT EXISTS system_actor boolean NOT NULL DEFAULT false;
+ CREATE TABLE IF NOT EXISTS sessions (token_hash text PRIMARY KEY, user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL);
+ CREATE TABLE IF NOT EXISTS practice_attempts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, score integer NOT NULL CHECK(score BETWEEN 0 AND 100), total integer NOT NULL CHECK(total BETWEEN 1 AND 100), source text NOT NULL CHECK(source IN ('exercise','imported')), created_at timestamptz NOT NULL DEFAULT now());
+ ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS submission_key text;
+ CREATE UNIQUE INDEX IF NOT EXISTS practice_submission ON practice_attempts(user_id,submission_key);
+ CREATE TABLE IF NOT EXISTS lesson_drafts (user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, answers jsonb NOT NULL DEFAULT '[]', updated_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(user_id,lesson_id));
+ ALTER TABLE lesson_drafts ADD COLUMN IF NOT EXISTS variant_seed text;
+ ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS variant_seed text;
+ CREATE TABLE IF NOT EXISTS pronunciation_attempts (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, lesson_id text NOT NULL, target_version text NOT NULL, score integer NOT NULL CHECK(score BETWEEN 0 AND 100), duration_ms integer NOT NULL CHECK(duration_ms BETWEEN 250 AND 120000), method text NOT NULL DEFAULT 'browser-speech-match-v1', submission_key text NOT NULL, created_at timestamptz NOT NULL DEFAULT now(), UNIQUE(user_id,submission_key));
+ CREATE INDEX IF NOT EXISTS pronunciation_user_time ON pronunciation_attempts(user_id,created_at DESC);
+ CREATE INDEX IF NOT EXISTS practice_user_time ON practice_attempts(user_id,created_at DESC);
+ CREATE TABLE IF NOT EXISTS share_codes (code_hash text PRIMARY KEY, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, expires_at timestamptz NOT NULL, redeemed_at timestamptz);
+ CREATE TABLE IF NOT EXISTS teacher_links (teacher_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY(teacher_id,learner_id));
+ CREATE TABLE IF NOT EXISTS class_notes (id uuid PRIMARY KEY DEFAULT gen_random_uuid(), learner_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, teacher_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE, focus text NOT NULL, note text NOT NULL, created_at timestamptz NOT NULL DEFAULT now());`);
+ await pool.query(`ALTER TABLE teacher_links ADD COLUMN IF NOT EXISTS languages text[] NOT NULL DEFAULT '{}';`);
+ await pool.query(`ALTER TABLE share_codes ADD COLUMN IF NOT EXISTS language text;`);
+ await pool.query(`ALTER TABLE practice_attempts ADD COLUMN IF NOT EXISTS evidence jsonb;`);
+ await pool.query(`ALTER TABLE class_notes ADD COLUMN IF NOT EXISTS language text NOT NULL DEFAULT 'es';`);
+ await migrateProfiles(pool);await migrateLightLearning(pool);
+ await migrateAccountRecovery(pool);
+ await migratePatterns(pool);
+ await migrateAssessments(pool);
+ await migrateSkills(pool);
+ await migrateAIOperations(pool);
+ await migrateAIMetering(pool);
+ await migrateSpeech(pool);
+ await migrateReview(pool);
+ await migrateLocalization(pool);
+ await migrateSpeaking(pool);
+ await migrateClassroom(pool);await migrateTeacherRanking(pool);
+ await migrateClassSafety(pool);
+ await migrateBilling(pool);
+ await migrateActivity(pool);
+ await migrateAnswerReviews(pool);
+ await migrateOwner(pool);
+ await migrateSupport(pool);await migrateAdventure(pool);
+ await migrateMailOutbox(pool);await migrateAccountErasure(pool);await migratePush(pool);await migrateMailOperations(pool);
+}
+function send(res,status,body,headers={}){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store',...headers});res.end(JSON.stringify(body))}
+function fail(status,message){const e=new Error(message);e.status=status;throw e}
+const rateLimitUser=Symbol('verified rate-limit principal');
+let nextLimitCleanup=0;
+function limited(req,key,limit=12){
+ const now=Date.now(),id=(req[rateLimitUser]?'user:'+req[rateLimitUser]:'ip:'+authClientAddress(req))+':'+key;
+ if(now>=nextLimitCleanup){
+  for(const [entry,record] of attempts)if(record.until<=now)attempts.delete(entry);
+  nextLimitCleanup=now+60_000;
+ }
+ let record=attempts.get(id);
+ if(!record||record.until<=now){
+  if(!record&&attempts.size>=10_000)fail(429,'Too many attempts. Please try again later.');
+  record={count:0,until:now+15*60_000};
+  attempts.set(id,record);
+ }
+ if(record.count>=limit){
+  const error=new Error('Too many attempts. Please try again later.');
+  error.status=429;
+  error.retryAfter=Math.ceil((record.until-now)/1000);
+  throw error;
+ }
+ record.count++;
+}
+const parsedBody=Symbol('validated request JSON');
+async function json(req){
+ if(req[parsedBody])return req[parsedBody];
+ const route=new URL(req.url,'http://localhost').pathname;
+ const maxBytes=route==='/api/skills'||/^\/api\/speaking\/[a-f0-9-]+\/turn$/.test(route)?1_500_000:300_000;
+ if(Number(req.headers['content-length'])>maxBytes)fail(413,'Request too large');
+ let size=0;
+ const chunks=[];
+ for await(const chunk of req.iterator({destroyOnReturn:false})){
+  size+=chunk.length;
+  if(size>maxBytes)fail(413,'Request too large');
+  chunks.push(chunk);
+ }
+ try{
+  const value=JSON.parse(Buffer.concat(chunks,size).toString('utf8')||'{}');
+  if(!value||typeof value!=='object'||Array.isArray(value))fail(400,'Expected a JSON object');
+  req[parsedBody]=value;
+  return value;
+ }catch{fail(400,'Invalid JSON object')}
+}
+const authenticatedUser=Symbol('request session lookup');
+function currentUser(req){
+ req[authenticatedUser]??=readCurrentUser(req);
+ return req[authenticatedUser];
+}
+async function readCurrentUser(req){
+ const token=requestSessionToken(req);
+ if(!token)return null;
+ const result=await pool.query('SELECT u.id,u.email,u.name,u.role FROM sessions s JOIN users u ON u.id=s.user_id WHERE s.token_hash=$1 AND s.expires_at>now() AND NOT u.system_actor',[hash(token)]);
+ const user=result.rows[0]||null;
+ if(user)req[rateLimitUser]=user.id;
+ return user;
+}
+async function required(req,role){const user=await currentUser(req);if(!user)fail(401,'Sign in to continue');if(role&&user.role!==role)fail(403,'Not allowed for this account');identifyAIUser(user.id);return user}
+async function linked(teacherId,learnerId){const r=await pool.query('SELECT 1 FROM teacher_links WHERE teacher_id=$1 AND learner_id=$2',[teacherId,learnerId]);if(!r.rowCount)fail(403,'This learner has not shared access with you')}
+async function startSession(res,user,req){const token=random();await pool.query("INSERT INTO sessions(token_hash,user_id,expires_at) VALUES($1,$2,now()+interval '30 days')",[hash(token),user.id]);send(res,200,{user,...(req&&nativeSessionRequest(req)?{sessionToken:token}:{})},{'Set-Cookie':`${cookieName}=${token}; ${cookieAttrs}`})}
+function safeEmail(email){return String(email||'').trim().toLowerCase()}
+async function handle(req,res){
+ res.setHeader('X-Content-Type-Options','nosniff');
+ res.setHeader('X-Frame-Options','DENY');
+ res.setHeader('Referrer-Policy','strict-origin-when-cross-origin');
+ if(process.env.NODE_ENV==='production')res.setHeader('Strict-Transport-Security','max-age=31536000');
+ const url=new URL(req.url,'http://localhost');const route=url.pathname;
+ if(handleLessonMedia(req,res,route))return;
+ if(handleAppAssociation(req,res,route))return;
+ if(!route.startsWith('/api/'))return serve(req,res,route);
+ if(handleNativeOrigin(req,res,route,fail))return;
+ if(await handleAppleNotifications({route,req,res,pool,json,send,fail}))return;
+ if(await handleBillingWebhook({route,req,res,pool,send,fail}))return;
+ if(req.method!=='GET'&&req.method!=='HEAD'){const origin=req.headers.origin;if(origin&&!nativeOrigins.has(origin)){let host;try{host=new URL(origin).host}catch{fail(403,'Invalid request origin')}if(host!==req.headers.host)fail(403,'Invalid request origin')}}
+ if(await handleMailOperations({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handlePush({route,req,res,pool,required,json,send,limited}))return;
+ if(await handleNativeAccount({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleClassSafety({route,req,res,pool,required,json,send,fail}))return;
+ if(await handleAccountRecovery({route,req,res,pool,json,send,fail,authLimited,clientAddress:authClientAddress}))return;
+ if(await handleAnswerReview({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleActivity({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handlePrivacySettings({route,req,res,pool,required,json,send,fail}))return;
+ if(await handleOwner({route,req,res,pool,required,currentUser,json,send,fail,limited}))return;
+ if(await handleSupport({route,req,res,pool,required,json,send,fail,limited}))return;
+ await enforcePlatformControls({route,req,pool,currentUser,json,fail});
+ if(await handleLightLearning({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleImmersiveContent({route,req,res,send,fail,limited}))return;
+ if(await handleImmersiveAudio({route,req,res,pool,send,fail,limited}))return;
+ if(await handleBilling({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleLocalization({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleClassroom({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleSpeaking({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleReview({route,req,res,pool,required,json,send,fail}))return;
+ if(await handleAdventure({route,req,res,pool,required,json,send,fail}))return;
+ if(await handleProfiles({route,req,res,pool,required,json,send,fail}))return;
+ if(await handleSpeech({route,req,res,pool,json,send,fail,limited}))return;
+ if(await handlePatterns({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}))return;
+ if(await handleAssessment({route,req,res,pool,required,json,send,fail}))return;
+ if(route==='/api/health'&&req.method==='GET'){await pool.query('SELECT 1');return send(res,200,{ok:true})}
+ if(route==='/api/auth/me'&&req.method==='GET')return send(res,200,{user:await currentUser(req)});
+ if(route==='/api/auth/register'&&req.method==='POST'){
+  await authLimited('register-ip',authClientAddress(req),6);const data=await json(req);const email=safeEmail(data.email),name=String(data.name||'').trim(),password=String(data.password||'');
+  if(!data.adult||!/^\S+@\S+\.\S+$/.test(email)||email.length>254||name.length<2||name.length>80||password.length<12||password.length>128||!['learner','teacher'].includes(data.role))fail(400,'Enter a valid name, email, 12+ character password, and confirm you are 18 or older');
+  try{const result=await pool.query('INSERT INTO users(email,name,role,password_hash) VALUES($1,$2,$3,$4) RETURNING id,email,name,role',[email,name,data.role,await passwordHash(password)]);return startSession(res,result.rows[0],req)}catch(e){if(e.code==='23505')fail(409,'An account already uses this email');throw e}
+ }
+ if(route==='/api/auth/login'&&req.method==='POST'){
+  await authLimited('login-ip',authClientAddress(req),12);const data=await json(req);const email=safeEmail(data.email);
+  if(email.length>254||typeof data.password!=='string'||data.password.length<1||data.password.length>128)fail(401,'Email or password is incorrect');
+  await authLimited('login-account',email,30);
+  const r=await pool.query('SELECT * FROM users WHERE email=$1',[email]);if(!await passwordMatches(data.password,r.rows[0]?.password_hash))fail(401,'Email or password is incorrect');const {id,name,role}=r.rows[0];return startSession(res,{id,email,name,role},req);
+ }
+ if(route==='/api/auth/logout'&&req.method==='POST'){
+  const token=requestSessionToken(req);if(token)await pool.query('DELETE FROM sessions WHERE token_hash=$1',[hash(token)]);return send(res,200,{ok:true},{'Set-Cookie':`${cookieName}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0${process.env.NODE_ENV==='production'?'; Secure':''}`});
+ }
+ if(route==='/api/privacy'&&req.method==='GET'){
+  const user=await required(req,'learner');const r=await pool.query('SELECT share_self_learning FROM users WHERE id=$1',[user.id]);return send(res,200,{shareSelfLearning:r.rows[0].share_self_learning});
+ }
+ if(route==='/api/privacy'&&req.method==='PUT'){
+  const user=await required(req,'learner'),data=await json(req);if(typeof data.shareSelfLearning!=='boolean')fail(400,'Choose whether to share self-study activity');
+  await pool.query('UPDATE users SET share_self_learning=$2 WHERE id=$1',[user.id,data.shareSelfLearning]);return send(res,200,{shareSelfLearning:data.shareSelfLearning});
+ }
+ if(route==='/api/practice'&&req.method==='GET'){
+  const user=await required(req,'learner');const r=await pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[user.id]);return send(res,200,{attempts:r.rows});
+ }
+ if(route==='/api/pronunciation'&&req.method==='GET'){
+  const user=await required(req,'learner');const r=await pool.query('SELECT id,lesson_id AS lesson,target_version AS "targetVersion",score,duration_ms AS "durationMs",method,created_at AS at FROM pronunciation_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC LIMIT 50',[user.id]);return send(res,200,{attempts:r.rows});
+ }
+ if(route==='/api/pronunciation'&&req.method==='POST'){
+  const user=await required(req,'learner'),data=await json(req),lesson=getLesson(data.lesson),expected=data.lesson+'-model-v1';limited(req,'pronunciation',60);
+  if(!lesson?.pronunciationTarget||data.targetVersion!==expected||!Number.isInteger(data.score)||data.score<0||data.score>100||!Number.isInteger(data.durationMs)||data.durationMs<250||data.durationMs>120000||typeof data.submissionKey!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(data.submissionKey))fail(400,'Invalid pronunciation result');
+  const r=await pool.query("INSERT INTO pronunciation_attempts(user_id,lesson_id,target_version,score,duration_ms,method,submission_key) VALUES($1,$2,$3,$4,$5,'browser-speech-match-v1',$6) ON CONFLICT(user_id,submission_key) DO UPDATE SET submission_key=EXCLUDED.submission_key RETURNING id,lesson_id AS lesson,target_version AS \"targetVersion\",score,duration_ms AS \"durationMs\",method,created_at AS at",[user.id,lesson.id,expected,data.score,data.durationMs,data.submissionKey]);
+  if(r.rows[0].lesson!==lesson.id)fail(409,'Submission key already used');return send(res,201,{attempt:r.rows[0]});
+ }
+ if(route==='/api/learning'&&req.method==='GET'){
+  const user=await required(req,'learner');
+  const [progress,drafts]=await Promise.all([pool.query("SELECT lesson_id AS lesson,MAX(score)::int AS best,COUNT(*)::int AS count,(ARRAY_AGG(score ORDER BY created_at DESC,id DESC))[1] AS latest FROM practice_attempts WHERE user_id=$1 GROUP BY lesson_id",[user.id]),pool.query('SELECT lesson_id AS lesson,answers,variant_seed AS seed,updated_at AS at FROM lesson_drafts WHERE user_id=$1',[user.id])]);
+  return send(res,200,{progress:progress.rows,drafts:drafts.rows.filter(d=>isCurrentLessonDraft(d.lesson,d.answers,d.seed))});
+ }
+ const draftMatch=route.match(/^\/api\/learning\/([a-z0-9-]+)$/);
+ if(draftMatch&&req.method==='PUT'){
+  const user=await required(req,'learner'),data=await json(req);let lesson;try{lesson=getLessonVariant(draftMatch[1],data.seed)}catch{fail(400,'Invalid test version')}
+  if(!isCurrentLessonDraft(draftMatch[1],data.answers,data.seed))fail(400,'Invalid lesson progress');
+  const c=await pool.connect();try{await c.query('BEGIN');
+  await c.query('INSERT INTO lesson_drafts(user_id,lesson_id,answers,variant_seed) VALUES($1,$2,$3::jsonb,$4) ON CONFLICT(user_id,lesson_id) DO UPDATE SET answers=EXCLUDED.answers,variant_seed=EXCLUDED.variant_seed,updated_at=now()',[user.id,lesson.id,JSON.stringify(data.answers),data.seed||null]);
+  await ingestReview(c,user.id,missedReviewItems(lesson.id,data.answers,data.seed,await withVerifiedAnswers(c,user.id,lesson)),reviewRun(lesson.id,data.seed,'draft:'+lesson.id));
+  await c.query('COMMIT');}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
+  return send(res,200,{ok:true});
+ }
+ if(route==='/api/practice'&&req.method==='POST'){
+  const user=await required(req,'learner'),data=await json(req);let result,resolved;
+  try{const current=getLesson(data.lesson);if(!isCurrentLessonRevision(current,data.seed))throw Error('Updated exercise: reload this lesson');resolved=await withVerifiedAnswers(pool,user.id,getLessonVariant(data.lesson,data.seed));result=gradeResolvedLesson(resolved,data.answers)}catch{fail(400,'Invalid completed exercise')}
+  const key=data.submissionKey||null;if(key!==null&&(typeof key!=='string'||!/^[-a-zA-Z0-9]{10,100}$/.test(key)))fail(400,'Invalid submission key');
+  const c=await pool.connect();try{
+   await c.query('BEGIN');
+   let r=await c.query("INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,submission_key,variant_seed,evidence) VALUES($1,$2,$3,$4,'exercise',$5,$6,$7::jsonb) ON CONFLICT(user_id,submission_key) DO NOTHING RETURNING id,lesson_id AS lesson,score,total,source,created_at AS at",[user.id,data.lesson,result.score,result.total,key,data.seed||null,JSON.stringify(questionEvidence(data.lesson,data.answers,data.seed,resolved))]);
+   const created=r.rowCount>0;
+   if(!created)r=await c.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 AND submission_key=$2',[user.id,key]);
+   if(r.rows[0].lesson!==data.lesson)fail(409,'Submission key already used');
+   if(created)await ingestReview(c,user.id,missedReviewItems(data.lesson,data.answers,data.seed,resolved),reviewRun(data.lesson,data.seed,r.rows[0].id));
+   if(created)await c.query('DELETE FROM lesson_drafts WHERE user_id=$1 AND lesson_id=$2',[user.id,data.lesson]);await c.query('COMMIT');return send(res,201,{attempt:r.rows[0]});
+  }catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
+ }
+ if(route==='/api/practice/import'&&req.method==='POST'){
+  const user=await required(req,'learner'),data=await json(req);if(!Array.isArray(data.attempts)||data.attempts.length>2000)fail(400,'Invalid import');
+  for(const attempt of data.attempts){if(!attempt||!Number.isInteger(attempt.score)||attempt.score<0||attempt.score>100||!Number.isInteger(attempt.total)||attempt.total<1||attempt.total>100||!getLesson(attempt.lesson||'subjunctive'))fail(400,'Invalid score')}
+  const c=await pool.connect();try{await c.query('BEGIN');await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[user.id]);
+  const existing=await c.query('SELECT 1 FROM practice_attempts WHERE user_id=$1 LIMIT 1',[user.id]);if(existing.rowCount)fail(409,'This account already has saved practice');
+  if(data.attempts.length){
+   const records=[...data.attempts].reverse().map(attempt=>({
+    lesson:attempt.lesson||'subjunctive',score:attempt.score,total:attempt.total,
+    at:attempt.at&&Number.isFinite(Date.parse(attempt.at))?new Date(attempt.at):new Date()
+   }));
+   await c.query(`INSERT INTO practice_attempts(user_id,lesson_id,score,total,source,created_at)
+    SELECT $1,lesson,score,total,'imported',at
+    FROM jsonb_to_recordset($2::jsonb) AS row(lesson text,score integer,total integer,at timestamptz)`,[user.id,JSON.stringify(records)]);
+  }
+  await c.query('COMMIT')}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}
+  return send(res,200,{imported:data.attempts.length});
+ }
+ if(route==='/api/share-code'&&req.method==='POST'){
+  const user=await required(req,'learner'),data=await json(req);if(!validSharedLanguages([data.language]))fail(400,'Choose the language you study with this teacher');limited(req,'share',8);const code=crypto.randomBytes(6).toString('hex').toUpperCase();await pool.query("INSERT INTO share_codes(code_hash,learner_id,expires_at,language) VALUES($1,$2,now()+interval '24 hours',$3)",[hash(code),user.id,data.language]);return send(res,201,{code,expiresInHours:24});
+ }
+ if(route==='/api/learner/teachers'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT u.id,u.name,l.languages FROM teacher_links l JOIN users u ON u.id=l.teacher_id WHERE l.learner_id=$1 ORDER BY u.name',[user.id]);return send(res,200,{teachers:r.rows})}
+ const removeTeacher=route.match(/^\/api\/learner\/teachers\/([a-f0-9-]{36})$/);
+ if(removeTeacher&&req.method==='PUT'){const user=await required(req,'learner'),data=await json(req);if(!validSharedLanguages(data.languages))fail(400,'Choose valid shared languages');const c=await pool.connect();try{await c.query('BEGIN');const r=await c.query('UPDATE teacher_links SET languages=$3 WHERE learner_id=$1 AND teacher_id=$2 RETURNING languages',[user.id,removeTeacher[1],data.languages]);if(!r.rows.length)fail(404,'Teacher connection not found');await cancelUnsharedClasses(c,removeTeacher[1],user.id,data.languages,user.id);await c.query('COMMIT');return send(res,200,{languages:r.rows[0].languages})}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}}
+ if(removeTeacher&&req.method==='DELETE'){const user=await required(req,'learner'),c=await pool.connect();try{await c.query('BEGIN');await c.query('DELETE FROM teacher_links WHERE learner_id=$1 AND teacher_id=$2',[user.id,removeTeacher[1]]);await cancelUnsharedClasses(c,removeTeacher[1],user.id,[],user.id);await c.query('COMMIT');return send(res,200,{ok:true})}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}}
+ if(route==='/api/teacher/connect'&&req.method==='POST'){
+  const teacher=await required(req,'teacher'),data=await json(req);limited(req,'connect',15);const code=String(data.code||'').replace(/\s/g,'').toUpperCase();if(!/^[A-F0-9]{12}$/.test(code))fail(400,'Enter a 12-character sharing code');
+  const c=await pool.connect();try{await c.query('BEGIN');const r=await c.query('UPDATE share_codes SET redeemed_at=now() WHERE code_hash=$1 AND expires_at>now() AND redeemed_at IS NULL AND language IS NOT NULL RETURNING learner_id,language',[hash(code)]);if(!r.rowCount)fail(400,'Code expired or already used');await c.query('INSERT INTO teacher_links(teacher_id,learner_id,languages) VALUES($1,$2,$3) ON CONFLICT(teacher_id,learner_id) DO UPDATE SET languages=ARRAY(SELECT DISTINCT unnest(teacher_links.languages || EXCLUDED.languages))',[teacher.id,r.rows[0].learner_id,[r.rows[0].language]]);await c.query('COMMIT')}catch(e){await c.query('ROLLBACK');throw e}finally{c.release()}return send(res,200,{ok:true});
+ }
+ if(route==='/api/teacher/learners'&&req.method==='GET'){
+  const teacher=await required(req,'teacher');const r=await pool.query('SELECT u.id,u.name,l.languages FROM teacher_links l JOIN users u ON u.id=l.learner_id WHERE l.teacher_id=$1 ORDER BY u.name',[teacher.id]);return send(res,200,{learners:await Promise.all(r.rows.map(async learner=>({...learner,membership:{tier:(await membership(pool,learner.id,{actual:true})).tier}})))});
+ }
+ const match=route.match(/^\/api\/teacher\/learners\/([a-f0-9-]{36})(?:\/(notes))?$/);
+ if(match){const teacher=await required(req,'teacher'),learnerId=match[1],scope=await teacherScope(pool,teacher.id,learnerId,fail),allowed=requestedScope(req,scope,fail);
+  if(!match[2]&&req.method==='GET'){
+   const learner=await pool.query('SELECT id,name FROM users WHERE id=$1',[learnerId]);
+   const inScope=row=>{const lesson=getLesson(row.lesson);return lesson&&allowed.includes(lesson.language||'es')};
+   const [r,assessments,pronunciation]=scope.selfLearning&&allowed.length?await Promise.all([
+    pool.query('SELECT id,lesson_id AS lesson,score,total,source,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC',[learnerId]),
+    Promise.all(allowed.map(async language=>(await assessmentHistory(pool,learnerId,language)).map(a=>({...a,language})))),
+    pool.query('SELECT id,lesson_id AS lesson,target_version AS "targetVersion",score,duration_ms AS "durationMs",method,created_at AS at FROM pronunciation_attempts WHERE user_id=$1 ORDER BY created_at DESC,id DESC',[learnerId])
+   ]):[{rows:[]},[],{rows:[]}];
+   const learnerMembership=await membership(pool,learnerId,{actual:true});
+   const history=assessments.flat().map(a=>({...a,result:visiblePlacement(a.result,learnerMembership.premium)})).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));
+   return send(res,200,{learner:learner.rows[0],membership:{tier:learnerMembership.tier},attempts:r.rows.filter(inScope).slice(0,50),assessment:history[0]||null,pronunciation:pronunciation.rows.filter(inScope).slice(0,20),sharing:{selfLearning:scope.selfLearning,languages:scope.languages},language:allowed.length===1?allowed[0]:null});
+  }
+  if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.revision,n.suggested_lesson_id AS "lessonId",(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 AND n.language=ANY($2::text[]) ORDER BY n.created_at DESC LIMIT 50',[learnerId,allowed]);return send(res,200,{notes:r.rows})}
+  if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim(),language=data.language;if(!scope.languages.includes(language))fail(403,'This language is not shared with you');if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note,language) VALUES($1,$2,$3,$4,$5) RETURNING id,teacher_id AS "teacherId",revision,language,focus,note,created_at AS at',[learnerId,teacher.id,focus,note,language]);return send(res,201,{note:r.rows[0]})}
+ }
+ if(route==='/api/notes'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.revision,n.suggested_lesson_id AS "lessonId",(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[user.id]);return send(res,200,{notes:r.rows})}
+ fail(404,'Not found');
+}
+function acceptsGzip(header=''){
+ const encodings=new Map(header.toLowerCase().split(',').map(value=>{
+  const [name,...parameters]=value.trim().split(';');
+  const quality=parameters.find(part=>part.trim().startsWith('q='));
+  return [name.trim(),quality?Number(quality.trim().slice(2)):1];
+ }));
+ return (encodings.get('gzip')??encodings.get('*')??0)>0;
+}
+const publicPages=new Map([['/terms','terms'],['/privacy','privacy'],['/help','help']]);
+async function serve(req,res,route){
+ if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});
+ const page=publicPages.get(route);
+ if(page){
+  const query=new URL(req.url,'http://localhost').searchParams.get('q')?.slice(0,120)||'';
+  const html=renderPublicDocument(page,query);
+  res.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache','Content-Security-Policy':"default-src 'self'; style-src 'self'; font-src 'self'; img-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"});
+  res.end(req.method==='HEAD'?undefined:html);
+  return;
+ }
+ let filename=path.resolve(dist,'.'+route);
+ if(!filename.startsWith(dist+path.sep)&&filename!==dist)return send(res,404,{error:'Not found'});
+ if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');
+ const type=mime[path.extname(filename)]||'application/octet-stream';
+ const media=type==='audio/mp4'||type==='video/mp4';
+ const compressible=filename.startsWith(path.join(dist,'assets')+path.sep)&&['.js','.css'].includes(path.extname(filename));
+ let file,gzip=false;
+ try{
+  if(compressible&&acceptsGzip(req.headers['accept-encoding'])){
+   file=await fs.open(filename+'.gz','r').catch(error=>{if(error.code!=='ENOENT')throw error;});
+   gzip=!!file;
+  }
+  file??=await fs.open(filename,'r');
+  const info=await file.stat();
+  if(!info.isFile())return send(res,404,{error:'Not found'});
+  const headers={'Content-Type':type,'Cache-Control':filename.endsWith('index.html')||route==='/legal.css'?'no-cache':'public, max-age=31536000, immutable'};
+  if(compressible)headers.Vary='Accept-Encoding';
+  if(gzip)headers['Content-Encoding']='gzip';
+  if(media)headers['Accept-Ranges']='bytes';
+  const range=media&&req.headers.range&&!req.headers['if-range']?videoRange(req.headers.range,info.size):undefined;
+  if(range===null){
+   res.writeHead(416,{...headers,'Content-Range':`bytes */${info.size}`});
+   res.end();
+   return;
+  }
+  if(range)headers['Content-Range']=`bytes ${range.start}-${range.end}/${info.size}`;
+  headers['Content-Length']=range?range.end-range.start+1:info.size;
+  res.writeHead(range?206:200,headers);
+  if(req.method==='HEAD'){res.end();return;}
+  await pipeline(file.createReadStream(range),res);
+ }catch(error){
+  if(res.headersSent||res.destroyed){res.destroy();return;}
+  if(error.code==='ENOENT'||error.code==='ENOTDIR')return send(res,404,{error:'Not found'});
+  throw error;
+ }finally{await file?.close();}
+}
+if(!process.env.DATABASE_URL)throw Error('DATABASE_URL is required');
+await migrate();
+if(process.env.NODE_ENV==='production')void withAIUsage(pool,'translation-warmup',()=>warmLocalization(pool));
+async function trackedRequest(req,res){
+ let path;
+ try{path=new URL(req.url,'http://localhost').pathname;}
+ catch{fail(400,'Invalid request URL');}
+ const feature=path.startsWith('/api/speaking')?'conversation':path.startsWith('/api/skills')?'skill-assessment':path.startsWith('/api/patterns')?'recurring-patterns':path==='/api/localization'?'translation':(path==='/api/speech'||path.startsWith('/api/immersive/audio/'))?'studio-speech':'other-ai';
+ return withAIUsage(pool,feature,async()=>{
+  if(feature==='studio-speech')identifyAIUser((await currentUser(req))?.id??null);
+  return handle(req,res);
+ },{getTier:async id=>(await membership(pool,id)).premium?'premium':'free'});
+}
+startReadinessMaintenance(pool);
+http.createServer((req,res)=>trackedRequest(req,res).catch(err=>{
+ if(res.headersSent||res.destroyed){res.destroy();return;}
+ if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));
+ if(err.status===413)res.setHeader('Connection','close');
+ if(err.status<500||err.status===503)return send(res,err.status,{error:err.message});
+ const code=typeof err.code==='string'&&/^[A-Z0-9_]{1,36}$/.test(err.code)?err.code:'UNKNOWN';
+ console.error('Request failed',{code});
+ send(res,500,{error:'Server error'});
+})).listen(Number(process.env.PORT)||3000,'0.0.0.0',()=>console.log('Continuum API ready'));

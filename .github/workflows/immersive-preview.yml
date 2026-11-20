@@ -1,0 +1,32 @@
+name: Immersive companion preview
+on:
+  push:
+    branches: ['codex/immersive-polish', 'codex/companion-rigs']
+permissions:
+  contents: read
+concurrency:
+  group: immersive-preview-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  companion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/qa-conversation-rigs.mjs && node scripts/qa-companion-3d.mjs && node scripts/qa-immersive.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: companion-3d-previews
+          path: |
+            .media-build/conversation-rigs/*.png
+            .media-build/immersive/*.png
+            .media-build/immersive-ui/*.png
+            .media-build/immersive-ui/*.txt
+          if-no-files-found: ignore

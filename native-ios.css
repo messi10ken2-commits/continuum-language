@@ -1,0 +1,33 @@
+.continuum-native{color-scheme:light;background:#fffdfb}
+.continuum-native body{padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);-webkit-tap-highlight-color:transparent}
+.continuum-native .app.continuum-ui .mobile-nav{padding-bottom:max(12px,env(safe-area-inset-bottom));min-height:calc(64px + env(safe-area-inset-bottom))}
+.continuum-native .app.continuum-ui .content{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
+.continuum-native .lesson-milestone{max-height:calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px)}
+.continuum-native.native-keyboard-open .app.continuum-ui .mobile-nav{display:none}
+.continuum-native.native-keyboard-open .app.continuum-ui .content{padding-bottom:12px}
+.continuum-native :is(input,textarea,select){font-size:max(16px,1em)!important}
+.native-connection-status{position:sticky;top:0;z-index:50;padding:10px;background:#fff1cf;color:#493a15;text-align:center}
+.native-tools{padding:18px;border:1px solid var(--ui-border);border-radius:18px;margin-top:18px}
+.native-tools :is(button,input){min-height:44px}
+.native-tools label{display:grid;gap:6px;margin:12px 0}
+.native-tools .native-danger{color:#9e2536}
+@media(prefers-reduced-motion:reduce){.continuum-native *, .continuum-native *::before,.continuum-native *::after{scroll-behavior:auto!important}}
+
+.native-privacy-sheet{position:fixed;inset:0;margin:0;max-width:100vw;max-height:100dvh;width:100vw;height:100dvh;border:0;border-radius:0;padding:env(safe-area-inset-top) max(12px,env(safe-area-inset-left)) env(safe-area-inset-bottom);background:#fffdfb;box-sizing:border-box;overflow:auto}
+.native-privacy-sheet>button{min-height:44px;padding:12px}
+body:has(.native-privacy-sheet[open]){overflow:hidden}
+
+.native-inactive *,.native-inactive *::before,.native-inactive *::after{animation-play-state:paused!important}
+
+/* Keep authentication inside the actual resized WebView, including keyboard use. */
+.continuum-native .entry-shell,
+.continuum-native .entry-shell :is(.entry-content,.account-page,.account-box,.entry-controls){width:100%;min-width:0;max-width:100%;box-sizing:border-box}
+.continuum-native .entry-shell>header{width:100%;min-width:0;max-width:100%;flex-wrap:wrap}
+.continuum-native .entry-shell .entry-controls{flex-wrap:wrap;gap:12px}
+.continuum-native .entry-shell .entry-controls label{display:flex;align-items:center;flex-wrap:wrap;gap:8px;min-width:0;max-width:100%}
+.continuum-native .entry-shell .entry-controls select{min-width:0;max-width:100%}
+.continuum-native .entry-shell :is(h1,h2,p,.policy-links){overflow-wrap:anywhere}
+.continuum-native .entry-shell .policy-links{display:flex;flex-wrap:wrap;gap:12px}
+.continuum-native .entry-shell .account-box :is(input,select,button){min-width:0;max-width:100%;scroll-margin-block:16px}
+@media(max-width:600px){.continuum-native .entry-shell .entry-content{padding:20px 16px}.continuum-native .entry-shell>header{padding:16px}}
+

@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import {createServer} from 'vite';
+const engines=await import(process.env.PLAYWRIGHT_MODULE||'playwright');
+const vite=await createServer({server:{host:'127.0.0.1',port:0},appType:'custom'});
+vite.middlewares.use('/__speaking-feedback',async(req,res)=>{res.setHeader('Content-Type','text/html');res.end(await vite.transformIndexHtml('/__speaking-feedback','<html><body><div id="root"></div><script type="module" src="/scripts/communication-review-fixture.jsx"></script></body></html>'));});
+await vite.listen();const origin='http://127.0.0.1:'+vite.httpServer.address().port;
+const review={summary:'Saved review.',strengths:[],goals:[{goal:'Order a drink and something to eat.',achieved:true,evidence:'A coffee, please.'},{goal:'Ask about an ingredient or an alternative.',achieved:true,evidence:'Do you have oat milk?'},{goal:'Confirm the order and ask for the bill.',achieved:true,evidence:'The bill, please.'}],corrections:[],partial:true,communicationScore:75,nextStep:'Review your saved transcript with the lesson material or a teacher.',pronunciation:{assessable:true,score:75,ratings:[3,3,3,3],evidence:['Clear.'],feedback:'Clear.'}};
+const saved={id:'00000000-0000-4000-8000-000000000111',language:'en',level:'B1',scenario:'cafe',status:'completed',revision:4,at:'2026-11-01T00:00:00.000Z',messages:[{role:'user',text:'A coffee, please.'},{role:'assistant',text:'Anything else?'},{role:'user',text:'Do you have oat milk?'}],review};
+try{for(const name of (process.env.QA_AUDIO_ENGINES||'chromium,webkit').split(',')){
+ const browser=await engines[name].launch({headless:true,args:name==='chromium'?['--no-sandbox']:[]});
+ try{
+  const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[];let pending=null,calls=0;
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.route('**/api/speaking**',async route=>{
+   const url=new URL(route.request().url());
+   if(route.request().method()==='POST'&&url.pathname.endsWith('/review')){calls++;const data=route.request().postDataJSON();assert.equal(data.refreshFeedback,true);assert.equal(data.refreshScores,false);pending=route;return;}
+   await route.fulfill({status:200,contentType:'application/json',body:JSON.stringify(url.pathname==='/api/speaking'?{available:true,premium:true,sessions:[saved]}:{session:saved})});
+  });
+  const open=async()=>{pending=null;await page.goto(origin+'/__speaking-feedback');await page.locator('details.learning-log-group > summary').click();await page.locator('.speaking-history').click();await page.locator('.speaking-coaching').waitFor();assert.match(await page.locator('.next-speaking-goal').innerText(),/Order a drink/);assert.match(await page.locator('.speaking-coaching').innerText(),/different choice/);assert.doesNotMatch(await page.locator('.speaking-coaching').innerText(),/lesson material or a teacher/);await page.locator('.speaking-consent input').click();};
+  const begin=async()=>{await page.locator('.feedback-refresh').click();await page.locator('.speaking-coaching [role="status"]').waitFor();assert.equal(await page.locator('.conversation-thinking').count(),0);assert.equal(await page.locator('.feedback-refresh').isDisabled(),true);assert.match(await page.locator('.conversation-review').innerText(),/Communication score: 75%/);assert.match(await page.locator('.skill-acoustic').innerText(),/75%/);for(let i=0;i<100&&!pending;i++)await new Promise(r=>setTimeout(r,20));assert.ok(pending);};
+  const complete=async()=>{await pending.fulfill({status:200,contentType:'application/json',body:JSON.stringify({session:{...saved,revision:5,review:{...review,feedbackStatus:'ready',feedbackIntegrity:'verified-speaking-coaching-v1',naturalAlternatives:[{original:'A coffee, please.',improved:'Could I have a coffee, please?',explanation:'An optional polite alternative.',kind:'alternative',verification:'verified-speaking-coaching-v1'}]}}})});pending=null;await page.locator('.conversation-correction').waitFor();assert.match(await page.locator('.conversation-correction').innerText(),/Optional natural alternative/);assert.equal(await page.locator('.feedback-refresh').count(),0);assert.equal(await page.locator('.speaking-coaching [role="status"]').count(),0);assert.match(await page.locator('.skill-acoustic').innerText(),/75%/);};
+  await open();await begin();await complete();assert.equal(calls,1);
+  await open();await begin();await pending.fulfill({status:503,contentType:'application/json',body:JSON.stringify({error:'Your conversation is saved, but the review could not be created. Please try creating the review again.'})});pending=null;await page.locator('.auth-error').waitFor();assert.equal(await page.locator('.feedback-refresh').isEnabled(),true);await page.locator('.auth-error button').click();await page.locator('.speaking-coaching [role="status"]').waitFor();for(let i=0;i<100&&!pending;i++)await new Promise(r=>setTimeout(r,20));await complete();assert.equal(calls,3);
+  await open();await page.clock.install();await begin();await page.clock.runFor(40050);await page.locator('.auth-error').waitFor();assert.equal(await page.locator('.feedback-refresh').isEnabled(),true);assert.equal(await page.locator('.speaking-coaching [role="status"]').count(),0);assert.deepEqual(errors,[]);
+  console.log('PASS '+name+': saved-review feedback regeneration, optional alternative label, concrete next goal, retained scores/audio and recoverable failure/timeout.');
+ }finally{await browser.close();}
+}}finally{await vite.close();}

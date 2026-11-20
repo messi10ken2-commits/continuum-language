@@ -1,0 +1,267 @@
+[
+  {
+    "place": "Dolomites, Italy",
+    "sheet": "europe",
+    "position": "0% 0%"
+  },
+  {
+    "place": "Hallstatt, Austria",
+    "sheet": "europe",
+    "position": "50% 0%"
+  },
+  {
+    "place": "Santorini, Greece",
+    "sheet": "europe",
+    "position": "100% 0%"
+  },
+  {
+    "place": "Norwegian fjord",
+    "sheet": "europe",
+    "position": "0% 50%"
+  },
+  {
+    "place": "Scottish Highlands",
+    "sheet": "europe",
+    "position": "50% 50%"
+  },
+  {
+    "place": "Swiss Alps",
+    "sheet": "europe",
+    "position": "100% 50%"
+  },
+  {
+    "place": "Iceland waterfall",
+    "sheet": "europe",
+    "position": "0% 100%"
+  },
+  {
+    "place": "Provence, France",
+    "sheet": "europe",
+    "position": "50% 100%"
+  },
+  {
+    "place": "Lake Bled, Slovenia",
+    "sheet": "europe",
+    "position": "100% 100%"
+  },
+  {
+    "place": "Mount Fuji, Japan",
+    "sheet": "asia",
+    "position": "0% 0%"
+  },
+  {
+    "place": "Ha Long Bay, Vietnam",
+    "sheet": "asia",
+    "position": "50% 0%"
+  },
+  {
+    "place": "Bali, Indonesia",
+    "sheet": "asia",
+    "position": "100% 0%"
+  },
+  {
+    "place": "Zhangjiajie, China",
+    "sheet": "asia",
+    "position": "0% 50%"
+  },
+  {
+    "place": "Himalayas, Nepal",
+    "sheet": "asia",
+    "position": "50% 50%"
+  },
+  {
+    "place": "Cappadocia, Türkiye",
+    "sheet": "asia",
+    "position": "100% 50%"
+  },
+  {
+    "place": "Petra, Jordan",
+    "sheet": "asia",
+    "position": "0% 100%"
+  },
+  {
+    "place": "Langkawi, Malaysia",
+    "sheet": "asia",
+    "position": "50% 100%"
+  },
+  {
+    "place": "Gobi, Mongolia",
+    "sheet": "asia",
+    "position": "100% 100%"
+  },
+  {
+    "place": "Grand Canyon, USA",
+    "sheet": "americas",
+    "position": "0% 0%"
+  },
+  {
+    "place": "Banff, Canada",
+    "sheet": "americas",
+    "position": "50% 0%"
+  },
+  {
+    "place": "Patagonia, Argentina",
+    "sheet": "americas",
+    "position": "100% 0%"
+  },
+  {
+    "place": "Machu Picchu, Peru",
+    "sheet": "americas",
+    "position": "0% 50%"
+  },
+  {
+    "place": "Iguazu Falls, Brazil",
+    "sheet": "americas",
+    "position": "50% 50%"
+  },
+  {
+    "place": "Atacama, Chile",
+    "sheet": "americas",
+    "position": "100% 50%"
+  },
+  {
+    "place": "Costa Rica rainforest",
+    "sheet": "americas",
+    "position": "0% 100%"
+  },
+  {
+    "place": "Yucatán, Mexico",
+    "sheet": "americas",
+    "position": "50% 100%"
+  },
+  {
+    "place": "Torres del Paine, Chile",
+    "sheet": "americas",
+    "position": "100% 100%"
+  },
+  {
+    "place": "Namib, Namibia",
+    "sheet": "africa",
+    "position": "0% 0%"
+  },
+  {
+    "place": "Victoria Falls, Zambia",
+    "sheet": "africa",
+    "position": "50% 0%"
+  },
+  {
+    "place": "Serengeti, Tanzania",
+    "sheet": "africa",
+    "position": "100% 0%"
+  },
+  {
+    "place": "Table Mountain, South Africa",
+    "sheet": "africa",
+    "position": "0% 50%"
+  },
+  {
+    "place": "Sahara, Morocco",
+    "sheet": "africa",
+    "position": "50% 50%"
+  },
+  {
+    "place": "Seychelles",
+    "sheet": "africa",
+    "position": "100% 50%"
+  },
+  {
+    "place": "Madagascar baobabs",
+    "sheet": "africa",
+    "position": "0% 100%"
+  },
+  {
+    "place": "Aswan, Egypt",
+    "sheet": "africa",
+    "position": "50% 100%"
+  },
+  {
+    "place": "Rwanda mountains",
+    "sheet": "africa",
+    "position": "100% 100%"
+  },
+  {
+    "place": "Milford Sound, New Zealand",
+    "sheet": "oceania",
+    "position": "0% 0%"
+  },
+  {
+    "place": "Uluru, Australia",
+    "sheet": "oceania",
+    "position": "50% 0%"
+  },
+  {
+    "place": "Great Barrier Reef, Australia",
+    "sheet": "oceania",
+    "position": "100% 0%"
+  },
+  {
+    "place": "Bora Bora, French Polynesia",
+    "sheet": "oceania",
+    "position": "0% 50%"
+  },
+  {
+    "place": "Tasmania, Australia",
+    "sheet": "oceania",
+    "position": "50% 50%"
+  },
+  {
+    "place": "Fiji",
+    "sheet": "oceania",
+    "position": "100% 50%"
+  },
+  {
+    "place": "Lake Tekapo, New Zealand",
+    "sheet": "oceania",
+    "position": "0% 100%"
+  },
+  {
+    "place": "Palau",
+    "sheet": "oceania",
+    "position": "50% 100%"
+  },
+  {
+    "place": "Great Ocean Road, Australia",
+    "sheet": "oceania",
+    "position": "100% 100%"
+  },
+  {
+    "place": "Antarctica",
+    "sheet": "world",
+    "position": "0% 0%"
+  },
+  {
+    "place": "Greenland",
+    "sheet": "world",
+    "position": "50% 0%"
+  },
+  {
+    "place": "Svalbard",
+    "sheet": "world",
+    "position": "100% 0%"
+  },
+  {
+    "place": "Faroe Islands",
+    "sheet": "world",
+    "position": "0% 50%"
+  },
+  {
+    "place": "Azores, Portugal",
+    "sheet": "world",
+    "position": "50% 50%"
+  },
+  {
+    "place": "Madeira, Portugal",
+    "sheet": "world",
+    "position": "100% 50%"
+  },
+  {
+    "place": "Galápagos, Ecuador",
+    "sheet": "world",
+    "position": "0% 100%"
+  },
+  {
+    "place": "Socotra, Yemen",
+    "sheet": "world",
+    "position": "50% 100%"
+  }
+]

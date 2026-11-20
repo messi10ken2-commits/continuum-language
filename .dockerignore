@@ -1,0 +1,10 @@
+.git
+node_modules
+dist
+.env
+.env.*
+*.log
+.media-build
+audio-rebuild
+*.tar
+*.tar.gz

@@ -1,0 +1,50 @@
+name: Platform audit
+on:
+  push:
+    branches: ['codex/platform-audit']
+permissions:
+  contents: read
+concurrency:
+  group: platform-audit-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run test:qa
+      - run: node scripts/qa-performance.mjs
+  interface:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+        locales: ['ja,es,pt', 'zh,fr,ko', 'id,ru,ar']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/qa-interface-coverage.mjs
+        env:
+          QA_BROWSER: ${{ matrix.browser }}
+          QA_DISPLAY_LOCALES: ${{ matrix.locales }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: interface-${{ matrix.browser }}-${{ matrix.locales }}
+          path: .media-build/interface-coverage
+          include-hidden-files: true

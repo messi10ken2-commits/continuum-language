@@ -1,0 +1,512 @@
+[
+  {
+    "table_name": "account_deletion_requests",
+    "column_name": "user_id",
+    "delete_rule": "SET NULL",
+    "strategy": "detach"
+  },
+  {
+    "table_name": "account_erasure_receipts",
+    "column_name": "actor_id",
+    "delete_rule": "SET NULL",
+    "strategy": "detach"
+  },
+  {
+    "table_name": "account_recovery_tokens",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "ai_alert_resolutions",
+    "column_name": "resolved_by",
+    "delete_rule": "SET NULL",
+    "strategy": "detach"
+  },
+  {
+    "table_name": "ai_operations",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "ai_provider_calls",
+    "column_name": "user_id",
+    "delete_rule": "SET NULL",
+    "strategy": "detach"
+  },
+  {
+    "table_name": "ai_quota_denials",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "apple_store_subscriptions",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "assessments",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "billing_blocks",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "billing_checkout_requests",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "billing_invoices",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "billing_memberships",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "class_assignments",
+    "column_name": "learner_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "class_assignments",
+    "column_name": "teacher_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "class_availability",
+    "column_name": "teacher_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "class_bookings",
+    "column_name": "learner_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "class_bookings",
+    "column_name": "proposed_by",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "class_bookings",
+    "column_name": "teacher_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "class_events",
+    "column_name": "actor_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "class_messages",
+    "column_name": "author_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "class_notes",
+    "column_name": "learner_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "class_notes",
+    "column_name": "teacher_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "class_reads",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "class_threads",
+    "column_name": "learner_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "class_threads",
+    "column_name": "teacher_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "class_time_off",
+    "column_name": "teacher_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "class_user_blocks",
+    "column_name": "blocked_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "class_user_blocks",
+    "column_name": "blocker_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "class_weekly_schedule",
+    "column_name": "teacher_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "companion_avatar_choice",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "companion_avatar_unlocks",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "companion_backfill",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "companion_bond_credit",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "companion_chapter_seen",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "companion_entitlements",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "companion_kind_backfill",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "interface_preferences",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "learner_activity_days",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "learner_adventure",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "learner_daily_quests",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "learner_presence",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "learner_profiles",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "learning_pattern_reports",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "lesson_drafts",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "light_learning_sessions",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "light_town_placements",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "mail_delivery_checks",
+    "column_name": "owner_id",
+    "delete_rule": "SET NULL",
+    "strategy": "detach"
+  },
+  {
+    "table_name": "owner_events",
+    "column_name": "actor_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "owner_membership_preview",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "platform_controls",
+    "column_name": "updated_by",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "platform_reviewers",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "practice_attempts",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "premium_access_events",
+    "column_name": "actor_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "premium_class_teachers",
+    "column_name": "teacher_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "premium_class_tickets",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "premium_course_attempts",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "premium_invitations",
+    "column_name": "created_by",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "premium_invitations",
+    "column_name": "redeemed_by",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "premium_ticket_grants",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "premium_trials",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "pronunciation_attempts",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "push_devices",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "push_outbox",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "review_answers",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "review_ingested",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "review_items",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "sessions",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "share_codes",
+    "column_name": "learner_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "skill_submissions",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "speaking_daily_allowance",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "speaking_sessions",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "speech_cache",
+    "column_name": "owner_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "store_sandbox_subscriptions",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "support_messages",
+    "column_name": "author_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "support_reads",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "support_tickets",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  },
+  {
+    "table_name": "teacher_bookmarks",
+    "column_name": "learner_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "teacher_bookmarks",
+    "column_name": "teacher_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "teacher_links",
+    "column_name": "learner_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "teacher_links",
+    "column_name": "teacher_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "teacher_profile_reviews",
+    "column_name": "reviewer_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "retain"
+  },
+  {
+    "table_name": "teacher_profile_reviews",
+    "column_name": "teacher_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "teacher_profiles",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "verified_answer_variants",
+    "column_name": "user_id",
+    "delete_rule": "NO ACTION",
+    "strategy": "delete"
+  }
+]

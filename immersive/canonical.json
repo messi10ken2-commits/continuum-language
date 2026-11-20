@@ -1,0 +1,3413 @@
+{
+ "tourism": {
+  "title": "Visitors and the people who live here",
+  "goal": "Compare an article with an interview, distinguish benefits from costs and negotiate a fair visitor plan.",
+  "role": "a representative chairing a fictional neighbourhood meeting about a tourist walking route",
+  "goals": [
+   "Attribute two different interests accurately.",
+   "Use the interview to qualify an interpretation of the article.",
+   "Propose a feasible compromise and explain how to evaluate it."
+  ],
+  "opening": "Our walking route brings visitors into the neighbourhood, but residents have raised concerns. What would a fair trial look like?",
+  "questions": {
+   "reading": [
+    {
+     "prompt": "What distinction is central to the proposal?",
+     "options": [
+      "Charging every resident to leave home.",
+      "Closing all small shops to tourists.",
+      "Managing organised groups rather than banning all visitors."
+     ],
+     "answer": 2,
+     "note": "The booking proposal applies to large guided groups, not independent visitors.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why does Elena question a single visitor-count measure?",
+     "options": [
+      "Local customers never use the area.",
+      "Passing foot traffic does not show how benefits are distributed.",
+      "Every business has already reported equal sales."
+     ],
+     "answer": 1,
+     "note": "She distinguishes movement through the area from purchases and access.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Which response addresses both concerns?",
+     "options": [
+      "Move explanations to a suitable space and provide accessible listening options.",
+      "Require Malik to change his working hours.",
+      "Remove all information for visitors who have difficulty hearing."
+     ],
+     "answer": 0,
+     "note": "The conflict concerns both location and access to information.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "What limitation should accompany the survey result?",
+     "options": [
+      "It proves that exactly fifty residents live in the area.",
+      "It shows that everyone favours a complete ban.",
+      "Its timing and method may have excluded relevant groups."
+     ],
+     "answer": 2,
+     "note": "An accessible sample can still leave important perspectives unrepresented.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What would paying the fee allow an operator to do?",
+     "options": [
+      "Ignore stopping-place rules whenever a guide prefers.",
+      "Use the booking system subject to the shared-space rules.",
+      "Prevent residents from using a public street."
+     ],
+     "answer": 1,
+     "note": "A fee does not purchase exclusive control of the street.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Which evaluation best matches the article?",
+     "options": [
+      "Combine access, resident, business and visitor evidence.",
+      "Count only how many tour tickets were sold.",
+      "Treat silence from residents as proof that no problems exist."
+     ],
+     "answer": 0,
+     "note": "The proposed evaluation considers several groups and reporting conditions.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    }
+   ],
+   "listening": [
+    {
+     "prompt": "Which rule applies even below the booking threshold?",
+     "options": [
+      "Every independent visitor must pay a fee.",
+      "Small groups can reserve a doorway for their guide.",
+      "Groups must not stop at private entrances."
+     ],
+     "answer": 2,
+     "note": "The threshold affects booking, not the shared-space rule.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "How should the garden proposal be described?",
+     "options": [
+      "Rejected by Malik because he opposes all visitors.",
+      "Supported as a possibility, with access and scheduling checks outstanding.",
+      "Confirmed for every tour throughout the year."
+     ],
+     "answer": 1,
+     "note": "Support for a trial location is not a completed booking.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Why test the receivers with different visitors?",
+     "options": [
+      "One device may not meet every hearing need.",
+      "The purchase has already been completed.",
+      "Receivers would give guides private ownership of the garden."
+     ],
+     "answer": 0,
+     "note": "The equipment is a possible tool, not a universal solution.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "How will the new survey responses be used?",
+     "options": [
+      "As a replacement that makes all earlier responses invalid.",
+      "As proof that only night workers live in the neighbourhood.",
+      "Alongside the earlier responses, with collection methods explained."
+     ],
+     "answer": 2,
+     "note": "Different samples can add perspectives without automatically cancelling each other.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What should operators tell customers about arriving late?",
+     "options": [
+      "Late groups can always enter together with the next booking.",
+      "A later slot may be unavailable, so an alternative route may be necessary.",
+      "A later slot is guaranteed without contacting anyone."
+     ],
+     "answer": 1,
+     "note": "Retain the conditional nature of the booking desk’s offer.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What concern should the final report check?",
+     "options": [
+      "Whether the plan displaced problems onto other people or places.",
+      "Whether every business sold exactly the same products.",
+      "Whether visitor totals can replace all other evidence."
+     ],
+     "answer": 0,
+     "note": "A local improvement may conceal a new problem elsewhere.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ],
+   "roleplay": [
+    {
+     "prompt": "The tour company says that more visitors must benefit every shop. How would you respond?",
+     "options": [
+      "More visitors prove every shop earns the same amount.",
+      "The repair shop cannot have any relevant experience.",
+      "We should compare purchases and access across different businesses, not just total foot traffic."
+     ],
+     "answer": 2,
+     "note": "Use Elena’s distinction between passing people and distributed benefits.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 0
+     },
+     "sceneLine": "The tour company says that more visitors must benefit every shop. How would you respond?"
+    },
+    {
+     "prompt": "Malik wants quiet, and a visitor needs help hearing. What compromise would you explore?",
+     "options": [
+      "Tell Malik that earning money removes his right to complain.",
+      "An accessible stopping place with tested listening equipment.",
+      "Tell the visitor to attend without understanding the guide."
+     ],
+     "answer": 1,
+     "note": "A compromise considers both needs rather than dismissing one.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 1
+     },
+     "sceneLine": "Malik wants quiet, and a visitor needs help hearing. What compromise would you explore?"
+    },
+    {
+     "prompt": "Can we tell guides that the garden is confirmed?",
+     "options": [
+      "Not yet; access and existing bookings still need checking.",
+      "Yes, because one resident supports trying it.",
+      "No public garden can ever be used by a tour."
+     ],
+     "answer": 0,
+     "note": "Do not turn provisional support into permission.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 2
+     },
+     "sceneLine": "Can we tell guides that the garden is confirmed?"
+    },
+    {
+     "prompt": "A group of twelve wants to explain the route at a private doorway. What do you say?",
+     "options": [
+      "Groups below fifteen have no responsibilities.",
+      "Only the residents need to book a time slot.",
+      "The booking threshold does not remove the rule against blocking entrances."
+     ],
+     "answer": 2,
+     "note": "Separate the size threshold from the access rule.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 3
+     },
+     "sceneLine": "A group of twelve wants to explain the route at a private doorway. What do you say?"
+    },
+    {
+     "prompt": "Our late group asks for a guaranteed later slot. How would you answer?",
+     "options": [
+      "We should join another group without telling the guide.",
+      "We can ask the desk, but may need another route if no slot is available.",
+      "I guarantee a space before checking with staff."
+     ],
+     "answer": 1,
+     "note": "Be helpful while retaining the actual limit.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 4
+     },
+     "sceneLine": "Our late group asks for a guaranteed later slot. How would you answer?"
+    },
+    {
+     "prompt": "The main street is quieter, but a side street now has queues. What should the meeting recommend?",
+     "options": [
+      "Review the route and include the people affected by the new queues.",
+      "Declare success because the main street improved.",
+      "Remove the side-street comments from the report."
+     ],
+     "answer": 0,
+     "note": "Check displacement rather than selecting only favourable evidence.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 5
+     },
+     "sceneLine": "The main street is quieter, but a side street now has queues. What should the meeting recommend?"
+    }
+   ],
+   "checkpoint": [
+    {
+     "prompt": "Which interpretation of the proposed fee is justified?",
+     "options": [
+      "It allows operators to exclude residents.",
+      "It guarantees that every business will profit.",
+      "It funds administration; it does not grant control over public streets."
+     ],
+     "answer": 2,
+     "note": "The article explicitly limits what payment means.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "A guide says a group of fifteen must book. Which correction follows the interview?",
+     "options": [
+      "Exactly fifteen people may block an entrance.",
+      "The proposed threshold is more than fifteen, while entrance rules still apply.",
+      "All groups of any size require a booking."
+     ],
+     "answer": 1,
+     "note": "Retain both the threshold and the general access condition.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why would a lower complaint count need cautious interpretation?",
+     "options": [
+      "Some affected people may not know how to report a problem.",
+      "Complaints are the same as sales receipts.",
+      "Fewer complaints prove every visitor heard the guide."
+     ],
+     "answer": 0,
+     "note": "The reporting process affects what a complaint count can show.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    },
+    {
+     "prompt": "What additional evidence would support a garden stopping place?",
+     "options": [
+      "Only a guide’s preference for the scenery.",
+      "A promise that equipment will suit every visitor without testing.",
+      "A completed access check and confirmation that the space is available."
+     ],
+     "answer": 2,
+     "note": "Both availability and access remain unresolved.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Which finding would challenge the claim that benefits are shared evenly?",
+     "options": [
+      "A resident submitting a paper survey.",
+      "Strong sales at one stop but reduced local access elsewhere.",
+      "A guide using an agreed stopping place."
+     ],
+     "answer": 1,
+     "note": "Look at distribution rather than the total number passing through.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Which final recommendation best reflects both sources?",
+     "options": [
+      "Try clear booking rules, consult affected groups and check whether problems move elsewhere.",
+      "Confirm every proposed detail before checking it.",
+      "Use only tour-ticket sales to decide success."
+     ],
+     "answer": 0,
+     "note": "Combine practical rules, source limitations and a review process.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ]
+  },
+  "readingPoints": [
+   "Managing organised groups rather than banning all visitors.",
+   "Passing foot traffic does not show how benefits are distributed.",
+   "Move explanations to a suitable space and provide accessible listening options.",
+   "Its timing and method may have excluded relevant groups.",
+   "Use the booking system subject to the shared-space rules.",
+   "Combine access, resident, business and visitor evidence."
+  ],
+  "listeningPoints": [
+   "Groups must not stop at private entrances.",
+   "Supported as a possibility, with access and scheduling checks outstanding.",
+   "One device may not meet every hearing need.",
+   "Alongside the earlier responses, with collection methods explained.",
+   "A later slot may be unavailable, so an alternative route may be necessary.",
+   "Whether the plan displaced problems onto other people or places."
+  ]
+ },
+ "work": {
+  "title": "A fair experiment with flexible work",
+  "goal": "Interpret a workplace trial, separate outcomes from assumptions and negotiate workable team arrangements.",
+  "role": "a fictional team coordinator discussing a hybrid-work trial with an employee",
+  "goals": [
+   "Explain both a benefit and an operational constraint.",
+   "Distinguish the recorded figures from a causal claim.",
+   "Agree on a fair arrangement and a review measure."
+  ],
+  "opening": "Our team is considering a flexible-work trial. Which parts could improve your work, and which responsibilities need a shared plan?",
+  "questions": {
+   "reading": [
+    {
+     "prompt": "What would the trial change?",
+     "options": [
+      "The service would close on two weekdays.",
+      "Everyone would have to give up the office.",
+      "Where some work happens, rather than the total working hours."
+     ],
+     "answer": 2,
+     "note": "The proposal changes location while preserving working hours and service coverage.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why does Dana want continued office access?",
+     "options": [
+      "The trial would require a longer commute every day.",
+      "Home is not always a suitable place for focused work.",
+      "She wants to stop writing customer responses."
+     ],
+     "answer": 1,
+     "note": "Her support for flexibility includes a realistic fallback.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "What is Tomas’s main concern?",
+     "options": [
+      "Maintaining reliable support for new starters.",
+      "Proving that every remote employee works less.",
+      "Removing all online contact between colleagues."
+     ],
+     "answer": 0,
+     "note": "He is discussing training arrangements, not making a general accusation.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Why is the pilot insufficient to establish a causal effect?",
+     "options": [
+      "No one completed any requests during the pilot.",
+      "A four-week observation automatically proves a permanent improvement.",
+      "Participants selected themselves and the requests may differ in difficulty."
+     ],
+     "answer": 2,
+     "note": "Selection and task differences offer alternative explanations.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Which arrangement supports both flexibility and coordination?",
+     "options": [
+      "Allowing availability to remain unknown until someone asks.",
+      "A shared availability plan with a named contact and a change process.",
+      "Publicly sharing customer details to explain every delay."
+     ],
+     "answer": 1,
+     "note": "The agreement makes contact and changes predictable without exposing private information.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What would a balanced review consider?",
+     "options": [
+      "Quality, support and different working conditions alongside case totals.",
+      "Only the largest individual output figure.",
+      "Only the views of people with ideal home offices."
+     ],
+     "answer": 0,
+     "note": "The proposed review combines output with quality and fairness.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    }
+   ],
+   "listening": [
+    {
+     "prompt": "What does “up to two days” mean here?",
+     "options": [
+      "Every employee must work remotely for exactly two days.",
+      "The office will close for two days.",
+      "Employees may choose fewer remote days or none."
+     ],
+     "answer": 2,
+     "note": "The adjustment preserves a choice rather than imposing a fixed pattern.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why publish a shared training day?",
+     "options": [
+      "To remove the named online contact.",
+      "So new starters know when mentors will be available together.",
+      "To make every team use identical days permanently."
+     ],
+     "answer": 1,
+     "note": "The arrangement makes support predictable while allowing changes.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Which expectation does the coordinator reject?",
+     "options": [
+      "That remote staff must remain available all evening.",
+      "That the existing service schedule still matters.",
+      "That urgent issues need an agreed procedure."
+     ],
+     "answer": 0,
+     "note": "Working remotely does not create unlimited availability.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Why record support given to colleagues?",
+     "options": [
+      "Training colleagues proves that no customer work was done.",
+      "Only people with the highest raw total may train others.",
+      "Case totals alone can miss an employee’s training contribution."
+     ],
+     "answer": 2,
+     "note": "The comparison must account for different kinds of work.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What is the first step after a connection problem?",
+     "options": [
+      "Post customer account details on a public page.",
+      "Inform the named contact and discuss a practical response.",
+      "Pretend to be available until the working day ends."
+     ],
+     "answer": 1,
+     "note": "The priority is timely communication followed by a suitable arrangement.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What distinction matters when interpreting problems?",
+     "options": [
+      "Failure of a particular arrangement is not automatically failure of every flexible model.",
+      "Any positive comment proves the trial works for everyone.",
+      "Any delay means remote work can never work anywhere."
+     ],
+     "answer": 0,
+     "note": "The coordinator avoids overgeneralising in either direction.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ],
+   "roleplay": [
+    {
+     "prompt": "I support remote work, but home is noisy on some days. What could we agree?",
+     "options": [
+      "Require everyone to stay home regardless of conditions.",
+      "Treat access needs as evidence of poor motivation.",
+      "Keep office access available and discuss changes in advance."
+     ],
+     "answer": 2,
+     "note": "A flexible arrangement should include a workable alternative.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 0
+     },
+     "sceneLine": "I support remote work, but home is noisy on some days. What could we agree?"
+    },
+    {
+     "prompt": "New starters cannot find anyone to help. What would you propose?",
+     "options": [
+      "Assume that lower case totals prove mentors are not working.",
+      "Publish shared training days and name an online contact.",
+      "Tell new starters to guess who might answer."
+     ],
+     "answer": 1,
+     "note": "Make the support responsibility explicit.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 1
+     },
+     "sceneLine": "New starters cannot find anyone to help. What would you propose?"
+    },
+    {
+     "prompt": "The pilot group completed more cases. Can we say remote work caused it?",
+     "options": [
+      "We need to consider experience and case complexity before making that claim.",
+      "Yes, a higher average rules out every other explanation.",
+      "No observation from a pilot can ever be useful."
+     ],
+     "answer": 0,
+     "note": "Useful evidence can still be insufficient for a causal conclusion.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 2
+     },
+     "sceneLine": "The pilot group completed more cases. Can we say remote work caused it?"
+    },
+    {
+     "prompt": "A colleague wants to measure commitment by evening message replies. How do you respond?",
+     "options": [
+      "Everyone must stay online until the last customer sleeps.",
+      "Remote days remove all service responsibilities.",
+      "Let us use agreed hours and work evidence, not constant online visibility."
+     ],
+     "answer": 2,
+     "note": "Keep work obligations within the agreed schedule.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 3
+     },
+     "sceneLine": "A colleague wants to measure commitment by evening message replies. How do you respond?"
+    },
+    {
+     "prompt": "My connection is failing and another team is waiting. What should I say?",
+     "options": [
+      "I can promise uninterrupted access without checking.",
+      "I am having a connection problem; can we agree on an alternative for today?",
+      "I will say nothing until the team complains."
+     ],
+     "answer": 1,
+     "note": "A specific update helps others plan.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 4
+     },
+     "sceneLine": "My connection is failing and another team is waiting. What should I say?"
+    },
+    {
+     "prompt": "Output increased but mentors report heavier workloads. What should the review do?",
+     "options": [
+      "Examine training and support distribution alongside output and quality.",
+      "Ignore mentors because total cases increased.",
+      "Assume every employee has exactly the same tasks."
+     ],
+     "answer": 0,
+     "note": "Fair evaluation includes contributions and costs beyond one number.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 5
+     },
+     "sceneLine": "Output increased but mentors report heavier workloads. What should the review do?"
+    }
+   ],
+   "checkpoint": [
+    {
+     "prompt": "What do both accounts preserve despite changing the work location?",
+     "options": [
+      "A requirement for evening replies from everyone.",
+      "A guarantee of exactly two remote days for every employee.",
+      "Existing working hours and reliable service coverage."
+     ],
+     "answer": 2,
+     "note": "Location and working-time obligations are separate.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What should an employee do when home conditions are unsuitable?",
+     "options": [
+      "Claim that the trial permanently closes the office.",
+      "Discuss using the office rather than assuming it is unavailable.",
+      "Leave the team without an availability update."
+     ],
+     "answer": 1,
+     "note": "The revised plan retains office access.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Which evidence would make the pilot comparison more informative?",
+     "options": [
+      "Case difficulty, response quality and support contributions.",
+      "Online status alone.",
+      "Only the most enthusiastic participant’s opinion."
+     ],
+     "answer": 0,
+     "note": "The article identifies important missing variables.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Why might a mentor complete fewer customer cases?",
+     "options": [
+      "The total proves that the mentor did no useful work.",
+      "The policy forbids mentors from answering customers.",
+      "Some working time may be spent supporting new colleagues."
+     ],
+     "answer": 2,
+     "note": "Different responsibilities can produce different raw counts.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Which conclusion goes beyond the evidence?",
+     "options": [
+      "Different home conditions should be considered.",
+      "The volunteers’ positive experience proves that every employee benefits.",
+      "The pilot offers observations worth examining."
+     ],
+     "answer": 1,
+     "note": "Self-selected experiences do not represent everyone.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    },
+    {
+     "prompt": "A shared schedule causes repeated support gaps. What is a proportionate response?",
+     "options": [
+      "Check the arrangement and test a revision before generalising to every model.",
+      "Hide the support gaps because the trial is popular.",
+      "Declare all flexible working impossible without examining the cause."
+     ],
+     "answer": 0,
+     "note": "Evaluate implementation and outcome separately.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ]
+  },
+  "readingPoints": [
+   "Where some work happens, rather than the total working hours.",
+   "Home is not always a suitable place for focused work.",
+   "Maintaining reliable support for new starters.",
+   "Participants selected themselves and the requests may differ in difficulty.",
+   "A shared availability plan with a named contact and a change process.",
+   "Quality, support and different working conditions alongside case totals."
+  ],
+  "listeningPoints": [
+   "Employees may choose fewer remote days or none.",
+   "So new starters know when mentors will be available together.",
+   "That remote staff must remain available all evening.",
+   "Case totals alone can miss an employee’s training contribution.",
+   "Inform the named contact and discuss a practical response.",
+   "Failure of a particular arrangement is not automatically failure of every flexible model."
+  ]
+ },
+ "food": {
+  "title": "Good food, fewer leftovers",
+  "goal": "Follow a food-surplus project, interpret quantities carefully and negotiate a reliable collection plan.",
+  "role": "a coordinator of a fictional community food-sharing project discussing a collection pilot",
+  "goals": [
+   "Explain a practical benefit and a safety constraint.",
+   "Interpret the interview’s changes to collection arrangements.",
+   "Propose a reliable plan without overstating the evidence."
+  ],
+  "opening": "We want to reduce good food going to waste, but the collection plan must be reliable. Which part should we organise first?",
+  "questions": {
+   "reading": [
+    {
+     "prompt": "What is the pilot designed to use?",
+     "options": [
+      "A guaranteed number of extra meals cooked for the project.",
+      "Every item regardless of its condition.",
+      "Suitable food that remains unsold, in variable quantities."
+     ],
+     "answer": 2,
+     "note": "The project uses surplus rather than guaranteeing new production.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why is a box count insufficient?",
+     "options": [
+      "The number of collections can never be recorded.",
+      "Boxes may contain different amounts and types of food.",
+      "Every box contains exactly one complete meal."
+     ],
+     "answer": 1,
+     "note": "A container count does not establish a standard quantity of meals.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Who would decide which café items are suitable to share?",
+     "options": [
+      "Café staff following the relevant handling procedures.",
+      "A passer-by choosing items without information.",
+      "Any volunteer guessing from the appearance alone."
+     ],
+     "answer": 0,
+     "note": "The plan assigns the suitability decision to staff rather than improvisation.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which arrangement protects recipients’ privacy?",
+     "options": [
+      "Ask everyone to explain their finances publicly.",
+      "Publish a named list alongside collection photographs.",
+      "Record distribution totals without publishing recipients’ names."
+     ],
+     "answer": 2,
+     "note": "The proposed data collection concerns the service rather than public personal details.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "How should the five-collection figure be interpreted?",
+     "options": [
+      "As a guarantee of identical food supplies every evening.",
+      "As a plan depending on volunteer availability.",
+      "As a record of five completed collections."
+     ],
+     "answer": 1,
+     "note": "An estimate of capacity is not an observed outcome.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Why might fewer donated items be a positive result?",
+     "options": [
+      "Better preparation planning may have prevented surplus.",
+      "It necessarily means volunteers stopped attending.",
+      "It proves the community no longer needs support."
+     ],
+     "answer": 0,
+     "note": "Donation volume alone cannot show whether waste increased or decreased.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    }
+   ],
+   "listening": [
+    {
+     "prompt": "How will the third café be handled?",
+     "options": [
+      "It is already confirmed for all four weeks.",
+      "Its totals will be counted as if it joined on the first day.",
+      "It may join later, and the report will show its actual participation period."
+     ],
+     "answer": 2,
+     "note": "A possible later start must remain distinct from confirmed participation.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What should a delayed volunteer do first?",
+     "options": [
+      "Assume the food can wait indefinitely.",
+      "Contact the café and backup promptly.",
+      "Collect whenever convenient without telling anyone."
+     ],
+     "answer": 1,
+     "note": "Timely communication allows the agreed procedure to operate.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "What can the centre reasonably promise?",
+     "options": [
+      "Information about expected distribution, with updates if it changes.",
+      "A complete reserved meal for everyone who asks.",
+      "The same food selection every evening."
+     ],
+     "answer": 0,
+     "note": "The service can communicate reliably even when supply varies.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "What qualification should accompany the portion count?",
+     "options": [
+      "Every counted portion is a verified complete meal.",
+      "It establishes exactly how much each person ate.",
+      "It is an estimate using a stated counting method."
+     ],
+     "answer": 2,
+     "note": "A defined estimate remains different from direct measurement of consumption.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Which distinction does the coordinator make?",
+     "options": [
+      "No organising team may know how to contact its volunteers.",
+      "Private volunteer contact details and public distribution reporting serve different purposes.",
+      "All personal details should be published together."
+     ],
+     "answer": 1,
+     "note": "Collect and disclose information according to its specific purpose.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What is needed before interpreting a lower donation total?",
+     "options": [
+      "Evidence about collections, leftovers and preparation changes.",
+      "An immediate conclusion that the project failed.",
+      "An assumption that every recipient stopped coming."
+     ],
+     "answer": 0,
+     "note": "Several processes can produce the same donation figure.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ],
+   "roleplay": [
+    {
+     "prompt": "A poster says everyone can reserve a complete meal. How should we revise it?",
+     "options": [
+      "Keep the guarantee because it will attract more people.",
+      "Promise identical meals from every café.",
+      "Describe the expected distribution time and explain that items and quantities vary."
+     ],
+     "answer": 2,
+     "note": "Reliable communication should match the actual service.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 0
+     },
+     "sceneLine": "A poster says everyone can reserve a complete meal. How should we revise it?"
+    },
+    {
+     "prompt": "The third café wants to join in week two. What should the rota show?",
+     "options": [
+      "No difference between a possible start and a confirmed one.",
+      "The confirmed start date and the collections it can actually support.",
+      "Four weeks of completed collections before they happen."
+     ],
+     "answer": 1,
+     "note": "Record actual participation rather than assumed coverage.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 1
+     },
+     "sceneLine": "The third café wants to join in week two. What should the rota show?"
+    },
+    {
+     "prompt": "I am running late for tonight’s collection. What should I do?",
+     "options": [
+      "Contact the café and backup now and follow the agreed collection window.",
+      "Arrive whenever possible without an update.",
+      "Ask café staff to leave unlabelled food outside overnight."
+     ],
+     "answer": 0,
+     "note": "A safe plan requires communication and limits.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 2
+     },
+     "sceneLine": "I am running late for tonight’s collection. What should I do?"
+    },
+    {
+     "prompt": "Can we publish recipients’ names to show the project’s success?",
+     "options": [
+      "Yes, public names are necessary to count every item.",
+      "Only volunteers can decide to disclose another person’s finances.",
+      "We can report distribution totals without identifying recipients."
+     ],
+     "answer": 2,
+     "note": "Service evidence does not require a public recipient list.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 3
+     },
+     "sceneLine": "Can we publish recipients’ names to show the project’s success?"
+    },
+    {
+     "prompt": "The final week has fewer donated portions. What should we investigate?",
+     "options": [
+      "Whether we can hide that week from the report.",
+      "Whether preparation, surplus or collection reliability changed.",
+      "Whether one smaller number proves every aim failed."
+     ],
+     "answer": 1,
+     "note": "Investigate alternative explanations and report the method.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 4
+     },
+     "sceneLine": "The final week has fewer donated portions. What should we investigate?"
+    },
+    {
+     "prompt": "How would you sum up the trial’s aim at the meeting?",
+     "options": [
+      "Share suitable surplus reliably and learn how to prevent avoidable waste.",
+      "Keep donation boxes full by asking cafés to cook extra.",
+      "Measure success only by the number of photographs posted."
+     ],
+     "answer": 0,
+     "note": "Redistribution and prevention can support the wider purpose in different ways.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 5
+     },
+     "sceneLine": "How would you sum up the trial’s aim at the meeting?"
+    }
+   ],
+   "checkpoint": [
+    {
+     "prompt": "Which result could indicate successful waste prevention?",
+     "options": [
+      "More extra food cooked only to fill donation boxes.",
+      "A higher box count without any information about contents.",
+      "Lower surplus after cafés improve preparation planning."
+     ],
+     "answer": 2,
+     "note": "The article distinguishes preventing surplus from redistributing it.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    },
+    {
+     "prompt": "Why should the cafés’ totals include participation dates?",
+     "options": [
+      "Dates prove that every container holds an identical meal.",
+      "A café joining later has had fewer collection opportunities.",
+      "All three cafés have already joined for the same period."
+     ],
+     "answer": 1,
+     "note": "Compare exposure periods as well as totals.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What should a volunteer do with an unlabelled item?",
+     "options": [
+      "Ask the responsible café staff rather than guess suitability.",
+      "Distribute it because good intentions remove the need for checks.",
+      "Ask a recipient to decide without any information."
+     ],
+     "answer": 0,
+     "note": "Responsibility and handling instructions matter.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "What does the portion estimate not establish?",
+     "options": [
+      "That the team used a described counting method.",
+      "That quantities can vary between collections.",
+      "Exactly how much each individual consumed."
+     ],
+     "answer": 2,
+     "note": "A distribution estimate is not a direct consumption measure.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Which reporting choice follows the privacy plan?",
+     "options": [
+      "Replace distribution records with identifiable photographs.",
+      "Publish useful totals while keeping recipients’ identities private.",
+      "Link every recipient’s name to their personal finances."
+     ],
+     "answer": 1,
+     "note": "Separate operational records from public reporting.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "A collection is missed. Which response is justified?",
+     "options": [
+      "Record it and investigate its cause alongside the other results.",
+      "Treat the missing food as proof that no café produced surplus.",
+      "Erase the missed collection to improve the published total."
+     ],
+     "answer": 0,
+     "note": "Preserve the record and avoid inventing a cause.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ]
+  },
+  "readingPoints": [
+   "Suitable food that remains unsold, in variable quantities.",
+   "Boxes may contain different amounts and types of food.",
+   "Café staff following the relevant handling procedures.",
+   "Record distribution totals without publishing recipients’ names.",
+   "As a plan depending on volunteer availability.",
+   "Better preparation planning may have prevented surplus."
+  ],
+  "listeningPoints": [
+   "It may join later, and the report will show its actual participation period.",
+   "Contact the café and backup promptly.",
+   "Information about expected distribution, with updates if it changes.",
+   "It is an estimate using a stated counting method.",
+   "Private volunteer contact details and public distribution reporting serve different purposes.",
+   "Evidence about collections, leftovers and preparation changes."
+  ]
+ },
+ "heat": {
+  "title": "Cooling a city without hiding the trade-offs",
+  "goal": "Synthesize a policy article and an interview, distinguish measurements from lived exposure and negotiate an equitable pilot.",
+  "role": "a chair of a fictional city working group considering a heat-reduction pilot",
+  "goals": [
+   "Distinguish the study’s measured outcome from a wider policy claim.",
+   "Represent competing access and maintenance needs without dismissing either.",
+   "Propose an equitable pilot with explicit evidence limits and review criteria."
+  ],
+  "opening": "We have a promising cooling proposal, but the evidence and the distribution of benefits need scrutiny. What would you want the pilot to establish?",
+  "questions": {
+   "reading": [
+    {
+     "prompt": "Which revision would make the announcement more defensible?",
+     "options": [
+      "Describe the measured surface difference as the long-term exposure benefit expected across the city.",
+      "Describe the nearby untreated section as evidence that every alternative intervention is unnecessary.",
+      "Describe the measured surface difference without claiming a proven reduction in personal exposure."
+     ],
+     "answer": 2,
+     "note": "The demonstration measured a particular outcome; a wider human-exposure claim needs additional evidence.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What does the reviewer’s recommendation seek to improve?",
+     "options": [
+      "The assumption that weather and existing shade have identical effects everywhere.",
+      "The basis for attributing an observed difference to the intervention.",
+      "The wording used to treat all existing observations as automatically invalid."
+     ],
+     "answer": 1,
+     "note": "Better comparisons address plausible alternative explanations without erasing useful observations.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Why might pedestrian totals distort the priority ranking?",
+     "options": [
+      "They can overlook prolonged exposure among fewer people at waiting places.",
+      "They directly measure how long every pedestrian spends waiting without shade.",
+      "They establish that all shopping journeys carry a greater individual heat burden."
+     ],
+     "answer": 0,
+     "note": "Counts of movement do not necessarily capture duration, vulnerability or waiting conditions.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which comparison is most consistent with the article?",
+     "options": [
+      "Compare options only on the amount of shade visible at the installation ceremony.",
+      "Compare new trees with mature structures while treating maintenance as an identical fixed cost.",
+      "Compare options over time, including their maintenance and changing shade coverage."
+     ],
+     "answer": 2,
+     "note": "A fair comparison needs consistent time horizons and explicit operational assumptions.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What would the proposed reporting method make clearer?",
+     "options": [
+      "Which reported preference must be treated as a direct sensor reading.",
+      "Which claims come from measurements, reported experiences or interpretation.",
+      "Which individual residents follow a particular daily route to each monitored stop."
+     ],
+     "answer": 1,
+     "note": "Transparent categories preserve the different evidential status of different observations.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Which final recommendation preserves the article’s reasoning?",
+     "options": [
+      "Run a proportionate pilot that reports distributions, drawbacks and grounds for revision.",
+      "Roll out the intervention city-wide once the average surface reading shows any improvement.",
+      "Postpone all practical testing until every possible individual outcome is known in advance."
+     ],
+     "answer": 0,
+     "note": "The article supports a bounded, informative decision under uncertainty rather than either extreme.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    }
+   ],
+   "listening": [
+    {
+     "prompt": "What distinction is the reviewer insisting on?",
+     "options": [
+      "A lower surface reading establishes the same benefit for every journey.",
+      "A policy ambition becomes a measurement once it appears in a summary.",
+      "A desired journey-level benefit is not yet the demonstrated outcome."
+     ],
+     "answer": 2,
+     "note": "The speaker separates the intended benefit from the outcome actually observed.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "How will the original comparison be treated?",
+     "options": [
+      "Given the same evidential weight as every new point regardless of conditions.",
+      "Retained with its limitations, while other comparisons help address specific questions.",
+      "Discarded because adding a comparison makes earlier observations inherently false."
+     ],
+     "answer": 1,
+     "note": "Retention and evidential weight are separate decisions.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Which qualification must accompany the clinic-stop plan?",
+     "options": [
+      "Its temporary structure still requires permission despite the decision to include the stop.",
+      "Its selection proves that it has the highest pedestrian count in the city.",
+      "Its access consultation removes the need for any remaining site permission."
+     ],
+     "answer": 0,
+     "note": "A selected priority is not the same as secured installation permission.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "What response to conflicting evidence does the reviewer favour?",
+     "options": [
+      "Replace all sensor records with interview comments whenever the two differ.",
+      "Treat every resident report as mistaken because it is not a temperature reading.",
+      "Investigate what each measure captures and retain the discrepancy in reporting."
+     ],
+     "answer": 2,
+     "note": "Different measures can concern different aspects of the experience.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What remains unresolved in the funding plan?",
+     "options": [
+      "Whether removing a structure automatically funds its maintenance beforehand.",
+      "Maintenance funding and responsibility, separate from fitting and removal.",
+      "The entire installation budget, which the coordinator says does not exist."
+     ],
+     "answer": 1,
+     "note": "A capital or installation allocation does not establish ongoing operational provision.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What evaluation practice does the reviewer reject?",
+     "options": [
+      "Choosing a favourable outcome afterwards and presenting it as the original success criterion.",
+      "Publishing review criteria before the intervention begins.",
+      "Recommending a revised intervention after examining mixed results."
+     ],
+     "answer": 0,
+     "note": "Pre-specified criteria reduce selective interpretation of mixed findings.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ],
+   "roleplay": [
+    {
+     "prompt": "A draft headline says that our treatment has solved residents’ heat exposure. How would you revise it?",
+     "options": [
+      "The demonstration proves long-term exposure benefits across all comparable neighbourhoods.",
+      "The surface comparison establishes that no additional exposure measurements are relevant.",
+      "The demonstration found lower surface readings; journey-level exposure still needs assessment."
+     ],
+     "answer": 2,
+     "note": "Match the claim to the measured outcome.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 0
+     },
+     "sceneLine": "A draft headline says that our treatment has solved residents’ heat exposure. How would you revise it?"
+    },
+    {
+     "prompt": "The busiest shopping street wins under our pedestrian-count rule. What might that rule miss?",
+     "options": [
+      "A journey count already includes each person’s waiting duration and access needs.",
+      "Fewer people may face longer exposure while waiting at an unshaded stop.",
+      "Every quieter location must have a lower individual exposure burden."
+     ],
+     "answer": 1,
+     "note": "A distributional argument can change what should be counted.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 1
+     },
+     "sceneLine": "The busiest shopping street wins under our pedestrian-count rule. What might that rule miss?"
+    },
+    {
+     "prompt": "The clinic stop is a priority. Can we announce that installation is confirmed?",
+     "options": [
+      "We should explain the outstanding permission and maintenance arrangements.",
+      "Priority status means that site permission and operational funding are complete.",
+      "Consultation replaces the need to identify anyone responsible for maintenance."
+     ],
+     "answer": 0,
+     "note": "Separate a policy priority from delivery conditions.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 2
+     },
+     "sceneLine": "The clinic stop is a priority. Can we announce that installation is confirmed?"
+    },
+    {
+     "prompt": "Residents’ reports and sensors disagree. Which next step would you defend?",
+     "options": [
+      "Discard resident reports so that the report contains only one consistent story.",
+      "Substitute reported comfort for every sensor measure without further examination.",
+      "Check timing and what each measure captures, then report both accounts with their limits."
+     ],
+     "answer": 2,
+     "note": "Preserve discrepant evidence and investigate the reason for it.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 3
+     },
+     "sceneLine": "Residents’ reports and sensors disagree. Which next step would you defend?"
+    },
+    {
+     "prompt": "Someone argues that no action is justified until uncertainty disappears. How would you respond?",
+     "options": [
+      "An appealing average justifies city-wide installation without monitoring alternatives.",
+      "A bounded pilot can be justified if it is proportionate and designed to resolve relevant uncertainty.",
+      "Any uncertainty makes all temporary experiments as unjustifiable as a permanent rollout."
+     ],
+     "answer": 1,
+     "note": "Distinguish a proportionate test from an irreversible commitment.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 4
+     },
+     "sceneLine": "Someone argues that no action is justified until uncertainty disappears. How would you respond?"
+    },
+    {
+     "prompt": "Please propose one condition for continuing the pilot.",
+     "options": [
+      "Continue only with clear maintenance responsibility and a review that includes disadvantaged routes.",
+      "Continue automatically if one selected temperature measure improves at any point.",
+      "Continue while withholding difficult findings until the permanent contract is signed."
+     ],
+     "answer": 0,
+     "note": "A defensible condition combines delivery and evidence rather than publicity.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 5
+     },
+     "sceneLine": "Please propose one condition for continuing the pilot."
+    }
+   ],
+   "checkpoint": [
+    {
+     "prompt": "Which finding would most directly address the article’s exposure gap?",
+     "options": [
+      "Additional installation photographs from the same favourable afternoon.",
+      "A larger total of pedestrians without information about their time in each place.",
+      "Measurements of actual journeys and waiting conditions alongside the surface readings."
+     ],
+     "answer": 2,
+     "note": "The missing outcome concerns lived exposure rather than surface temperature alone.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why are the extra comparison points useful without being perfect matches?",
+     "options": [
+      "They establish identical conditions merely by increasing the number of sensors.",
+      "They can examine particular alternative explanations while leaving residual uncertainty explicit.",
+      "They make every previous observation false by introducing new locations."
+     ],
+     "answer": 1,
+     "note": "Usefulness does not require pretending that all comparison conditions are identical.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Which budget claim would overstate the plan?",
+     "options": [
+      "Fitting and removal funding guarantees that maintenance is already funded.",
+      "Ongoing care needs a named arrangement as well as installation funding.",
+      "Different time horizons affect the comparison between shade options."
+     ],
+     "answer": 0,
+     "note": "The article and interview distinguish installation from ongoing provision.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "A resident supports the clinic site. What does that support not establish?",
+     "options": [
+      "That access needs may differ from the priorities shown by footfall counts.",
+      "That residents can contribute relevant observations to the discussion.",
+      "That the outstanding permission for the temporary structure has been granted."
+     ],
+     "answer": 2,
+     "note": "Support and permission are distinct forms of evidence.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Averages improve but one access route becomes worse. Which report is most defensible?",
+     "options": [
+      "Treat the average as false solely because one subgroup experiences a drawback.",
+      "Publish the average and the uneven effects, and consider revising the intervention.",
+      "Publish the average alone because subgroup findings must agree with it."
+     ],
+     "answer": 1,
+     "note": "Overall and distributional findings can both be valid.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    },
+    {
+     "prompt": "Why publish reasons to stop before the pilot begins?",
+     "options": [
+      "To limit selective interpretation when the results include both benefits and drawbacks.",
+      "To guarantee that every measure will move in the same direction.",
+      "To make it unnecessary to record any unexpected adverse outcome."
+     ],
+     "answer": 0,
+     "note": "Prior criteria help make the pilot a genuine test rather than a retrospective justification.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ]
+  },
+  "readingPoints": [
+   "Describe the measured surface difference without claiming a proven reduction in personal exposure.",
+   "The basis for attributing an observed difference to the intervention.",
+   "They can overlook prolonged exposure among fewer people at waiting places.",
+   "Compare options over time, including their maintenance and changing shade coverage.",
+   "Which claims come from measurements, reported experiences or interpretation.",
+   "Run a proportionate pilot that reports distributions, drawbacks and grounds for revision."
+  ],
+  "listeningPoints": [
+   "A desired journey-level benefit is not yet the demonstrated outcome.",
+   "Retained with its limitations, while other comparisons help address specific questions.",
+   "Its temporary structure still requires permission despite the decision to include the stop.",
+   "Investigate what each measure captures and retain the discrepancy in reporting.",
+   "Maintenance funding and responsibility, separate from fitting and removal.",
+   "Choosing a favourable outcome afterwards and presenting it as the original success criterion."
+  ]
+ },
+ "archives": {
+  "title": "Who becomes visible in a digital archive?",
+  "goal": "Interpret a digitisation proposal, distinguish searchability from completeness and negotiate responsible public access.",
+  "role": "a fictional archive curator consulting community representatives about a digitisation pilot",
+  "goals": [
+   "Distinguish preserved material, searchable descriptions and historical representativeness.",
+   "Explain a privacy or consent boundary using the source evidence.",
+   "Propose a reversible access arrangement with a transparent correction process."
+  ],
+  "opening": "We can make more of this archive searchable, but visibility brings responsibilities. Whose needs should shape the pilot, and what should remain limited?",
+  "questions": {
+   "reading": [
+    {
+     "prompt": "Which distinction should guide the access project?",
+     "options": [
+      "Improved searchability ensures that missing historical experiences are now represented.",
+      "A selection of surviving donations can be treated as a complete record once digitised.",
+      "Improved searchability does not establish that the collection represents everyone equally."
+     ],
+     "answer": 2,
+     "note": "Access to a collection and representativeness of that collection are different questions.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why preserve earlier catalogue versions when correcting an entry?",
+     "options": [
+      "Silent replacement is necessary to make the collection’s history more transparent.",
+      "Researchers need to trace what changed and which version supported their work.",
+      "Earlier versions prove that the first automated transcription must have been correct."
+     ],
+     "answer": 1,
+     "note": "A correction should improve access without concealing the record of interpretation.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "What is the proposed purpose of a contextual note?",
+     "options": [
+      "Distinguish historical wording from the archive’s present description without hiding its source.",
+      "Replace every historical document with language chosen by the current committee.",
+      "Present an older label as the archive’s unquestioned current description of a community."
+     ],
+     "answer": 0,
+     "note": "Context can preserve evidence while clarifying the institution’s descriptive choices.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which claim goes beyond the proposed access policy?",
+     "options": [
+      "A preserved item may have a public description without an unrestricted online image.",
+      "A consultation request can be reviewed separately from general online publication.",
+      "Ownership of a donated letter automatically authorises unrestricted publication of every personal detail."
+     ],
+     "answer": 2,
+     "note": "Ownership, preservation and public disclosure do not carry identical permissions.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Why examine unsuccessful searches?",
+     "options": [
+      "They show that every popular image has been used for educational research.",
+      "They may reveal catalogue barriers or collection gaps that download totals overlook.",
+      "They establish that no relevant historical material could ever have existed."
+     ],
+     "answer": 1,
+     "note": "An unsuccessful search is informative, but its cause must still be examined.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Which conclusion best preserves the proposal’s balance?",
+     "options": [
+      "Expand access while documenting selection, interpretation and unresolved responsibilities.",
+      "Expand access by treating each searchable description as a neutral and complete historical fact.",
+      "Expand access by transferring all review responsibility to whoever downloads a document."
+     ],
+     "answer": 0,
+     "note": "The proposal combines access with visible, reviewable institutional choices.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    }
+   ],
+   "listening": [
+    {
+     "prompt": "What must users know about the pilot’s scope?",
+     "options": [
+      "It includes every neighbourhood document from the entire archive.",
+      "It establishes that unlisted groups were historically inactive.",
+      "Its defined selection limits what an absent search result can imply."
+     ],
+     "answer": 2,
+     "note": "The selected search corpus is narrower than the town’s history.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Which statement preserves the review status accurately?",
+     "options": [
+      "A visible uncertainty notice means the archive has discarded the original image.",
+      "Review of key fields does not mean that every transcribed line has been checked.",
+      "A checked title guarantees that all handwriting recognition is accurate."
+     ],
+     "answer": 1,
+     "note": "Describe the extent of checking rather than giving a blanket assurance.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "What does a submitted correction trigger?",
+     "options": [
+      "A documented review rather than an immediate unexamined replacement.",
+      "An automatic public edit that cannot retain a previous version.",
+      "A guarantee that every disagreement will be settled within the target time."
+     ],
+     "answer": 0,
+     "note": "Participation and editorial responsibility are linked through the review process.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which inference should be avoided?",
+     "options": [
+      "That public disclosure and ownership may need separate consideration.",
+      "That a limited description can be published while an access request is reviewed.",
+      "That delaying an unrestricted image means the document is no longer preserved or consultable in any form."
+     ],
+     "answer": 2,
+     "note": "A restriction on one access route does not settle every preservation or consultation decision.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What risk does a download-only ranking create?",
+     "options": [
+      "It prevents any popular document from being used more than once.",
+      "It may reinforce the visibility of collections already easiest to find.",
+      "It necessarily measures the needs of communities absent from the catalogue."
+     ],
+     "answer": 1,
+     "note": "Recorded popularity depends partly on existing visibility and access.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Which response to a review-capacity problem is proposed?",
+     "options": [
+      "Pause expansion while preserving appropriate access to material already reviewed.",
+      "Close every preserved collection permanently regardless of its review status.",
+      "Ignore the queue because any delay proves hostility to public access."
+     ],
+     "answer": 0,
+     "note": "A targeted pause can address the process without reversing every access decision.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ],
+   "roleplay": [
+    {
+     "prompt": "Our search returns nothing about one community. What can we responsibly say?",
+     "options": [
+      "The absence of a result establishes that the community left no historical record anywhere.",
+      "The new search interface guarantees that all previously overlooked voices are represented.",
+      "The selected catalogue contains no result; we need to examine selection and description before inferring historical absence."
+     ],
+     "answer": 2,
+     "note": "Keep the search finding within the actual scope of the corpus.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 0
+     },
+     "sceneLine": "Our search returns nothing about one community. What can we responsibly say?"
+    },
+    {
+     "prompt": "A reviewer checked the document title. How should we label the transcription?",
+     "options": [
+      "Remove all original images so users cannot notice transcription uncertainty.",
+      "Specify that key fields were reviewed and mark unreviewed text clearly.",
+      "Describe the complete transcription as verified because its title was checked."
+     ],
+     "answer": 1,
+     "note": "Communicate the granularity of verification.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 1
+     },
+     "sceneLine": "A reviewer checked the document title. How should we label the transcription?"
+    },
+    {
+     "prompt": "Two users disagree about a historical label. What process would you propose?",
+     "options": [
+      "Retain the source wording with context and review reasoned challenges transparently.",
+      "Let the first user silently replace the catalogue and remove the previous wording.",
+      "Present the historical label as the institution’s current judgement without explanation."
+     ],
+     "answer": 0,
+     "note": "Separate preservation of wording from endorsement and record interpretive changes.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 2
+     },
+     "sceneLine": "Two users disagree about a historical label. What process would you propose?"
+    },
+    {
+     "prompt": "A donor wants immediate publication of a private letter. What should we clarify?",
+     "options": [
+      "Ownership eliminates every question concerning living people mentioned in a letter.",
+      "A delayed online image requires the physical letter to be destroyed.",
+      "Ownership and unrestricted disclosure require separate consideration, including other people’s circumstances."
+     ],
+     "answer": 2,
+     "note": "Distinguish the decisions instead of treating access as an all-or-nothing choice.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 3
+     },
+     "sceneLine": "A donor wants immediate publication of a private letter. What should we clarify?"
+    },
+    {
+     "prompt": "The most downloaded collection asks for all next year’s funding. What concern would you raise?",
+     "options": [
+      "A popular collection must have no educational value and should lose all access.",
+      "Existing visibility may shape downloads, so we should also examine unmet needs and collection gaps.",
+      "Download totals independently establish the complete historical importance of every collection."
+     ],
+     "answer": 1,
+     "note": "Question the ranking’s scope without dismissing all evidence of demand.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 4
+     },
+     "sceneLine": "The most downloaded collection asks for all next year’s funding. What concern would you raise?"
+    },
+    {
+     "prompt": "Correction requests exceed our capacity. What is a proportionate next step?",
+     "options": [
+      "Pause expansion, resource the review queue and keep appropriately reviewed material available.",
+      "Expand faster while treating every unresolved correction as automatically wrong.",
+      "Close all research access permanently to avoid explaining the review process."
+     ],
+     "answer": 0,
+     "note": "A bounded operational response can protect both access and trust.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 5
+     },
+     "sceneLine": "Correction requests exceed our capacity. What is a proportionate next step?"
+    }
+   ],
+   "checkpoint": [
+    {
+     "prompt": "Which difference is essential to evaluating the project’s reach?",
+     "options": [
+      "The difference between a document’s popularity and its automatically verified completeness.",
+      "The difference between identical collections displayed under two unrelated search buttons.",
+      "The difference between searchable surviving holdings and a representative history of the town."
+     ],
+     "answer": 2,
+     "note": "Searchable access cannot recreate experiences missing from the holdings.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Which assurance would the curator refuse to give?",
+     "options": [
+      "That an approved original image can help users inspect a difficult reading.",
+      "That checking a title verifies every line of the automated transcription.",
+      "That unreviewed text should have a visible notice."
+     ],
+     "answer": 1,
+     "note": "The described review has a limited scope.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Why retain a contextual note with an older term?",
+     "options": [
+      "To show the term’s source and distinguish historical wording from current description.",
+      "To establish that every older label remains the archive’s preferred modern description.",
+      "To remove the possibility of any future challenge to descriptive choices."
+     ],
+     "answer": 0,
+     "note": "Context can preserve evidence and make interpretive responsibility visible.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "What does the correction target time not guarantee?",
+     "options": [
+      "Entry of a submitted correction into a review process.",
+      "A revision date and explanation for an accepted change.",
+      "Resolution of every difficult disagreement within that period."
+     ],
+     "answer": 2,
+     "note": "A service target is not an unconditional outcome promise.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which evidence would challenge a claim based solely on high download totals?",
+     "options": [
+      "A published explanation of why one collection was selected for the pilot.",
+      "Repeated failed searches from communities whose material remains hard to discover.",
+      "The existence of an approved image available beside a transcription."
+     ],
+     "answer": 1,
+     "note": "Visibility and unmet need matter alongside recorded demand.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Which recommendation integrates access and responsible operation?",
+     "options": [
+      "Expand at a pace that supports sensitive-material review and traceable corrections.",
+      "Treat any pause in expansion as proof that every existing access decision was mistaken.",
+      "Publish all images first and make every affected person prove why review was needed later."
+     ],
+     "answer": 0,
+     "note": "The pilot aims for accountable access rather than expansion detached from review capacity.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ]
+  },
+  "readingPoints": [
+   "Improved searchability does not establish that the collection represents everyone equally.",
+   "Researchers need to trace what changed and which version supported their work.",
+   "Distinguish historical wording from the archive’s present description without hiding its source.",
+   "Ownership of a donated letter automatically authorises unrestricted publication of every personal detail.",
+   "They may reveal catalogue barriers or collection gaps that download totals overlook.",
+   "Expand access while documenting selection, interpretation and unresolved responsibilities."
+  ],
+  "listeningPoints": [
+   "Its defined selection limits what an absent search result can imply.",
+   "Review of key fields does not mean that every transcribed line has been checked.",
+   "A documented review rather than an immediate unexamined replacement.",
+   "That delaying an unrestricted image means the document is no longer preserved or consultable in any form.",
+   "It may reinforce the visibility of collections already easiest to find.",
+   "Pause expansion while preserving appropriate access to material already reviewed."
+  ]
+ },
+ "research": {
+  "title": "Evidence, funding and the claims we can make",
+  "goal": "Critically compare a research summary and an interview, identify alternative explanations and negotiate a proportionate next study.",
+  "role": "a fictional research-panel chair deciding how to evaluate a community transport pilot",
+  "goals": [
+   "Distinguish observed association from an identified causal effect.",
+   "Explain which uncertainty a proposed design change could address.",
+   "Recommend a proportionate funding decision with explicit limits."
+  ],
+  "opening": "The pilot results look encouraging, but our next funding decision should depend on what they actually establish. Which claim needs the most careful qualification?",
+  "questions": {
+   "reading": [
+    {
+     "prompt": "Which wording best matches the reported evidence?",
+     "options": [
+      "Registered users had higher attendance, which identifies the shuttle’s independent effect for all learners.",
+      "Registered users had higher attendance, so their earlier attendance is irrelevant to any interpretation.",
+      "Registered users had higher attendance, but the comparison alone does not identify the shuttle’s effect."
+     ],
+     "answer": 2,
+     "note": "Selection and missing baseline information leave alternative explanations open.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What distinction should the panel preserve?",
+     "options": [
+      "A larger passenger total removes the need to understand differences between the groups.",
+      "Operational reliability data and evidence of an attendance effect answer different questions.",
+      "Detailed departure records directly reveal every non-user’s reason for not registering."
+     ],
+     "answer": 1,
+     "note": "More data are useful only when their relationship to the question is made explicit.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Which inference would the article reject?",
+     "options": [
+      "An uncertain effect estimate establishes that the shuttle provides no benefit.",
+      "Interrupting the service may impose a burden not captured by the initial comparison.",
+      "The funding decision can involve practical consequences as well as research quality."
+     ],
+     "answer": 0,
+     "note": "Failure to identify an effect is different from evidence of no effect.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "How should the proposed evaluation options be compared?",
+     "options": [
+      "By assuming that any baseline measure eliminates all possible alternative explanations.",
+      "By treating a transparent allocation rule as automatically appropriate in every setting.",
+      "By the uncertainties each addresses and the practical or ethical constraints each introduces."
+     ],
+     "answer": 2,
+     "note": "A stronger design still needs a question-specific and proportionate justification.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Why might the panel prefer a higher weekly price?",
+     "options": [
+      "A discount proves that the operational and evaluation objectives have already been agreed.",
+      "A shorter commitment could preserve options while the evaluation question is clarified.",
+      "A higher weekly price necessarily makes the total annual commitment smaller in every scenario."
+     ],
+     "answer": 1,
+     "note": "Unit price should be considered alongside commitment and the ability to adapt.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Which conclusion best reflects the proposed recommendation?",
+     "options": [
+      "Continue temporarily for stated practical reasons while evaluating the effect without overstating it.",
+      "Commit for a full year because the initial group difference has already settled causation.",
+      "End the service because uncertainty removes any legitimate practical reason to continue it."
+     ],
+     "answer": 0,
+     "note": "A provisional policy decision can be explicit about both its rationale and evidential limits.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    }
+   ],
+   "listening": [
+    {
+     "prompt": "What exactly is the panel questioning?",
+     "options": [
+      "The existence of every passenger record, rather than the interpretation of the attendance figures.",
+      "The possibility that practical access could matter to any learner attending evening classes.",
+      "The causal inference drawn from the group comparison, rather than the existence of the records."
+     ],
+     "answer": 2,
+     "note": "A criticism of inference should not be expanded into an allegation about data fabrication.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What condition matters when using earlier records?",
+     "options": [
+      "A requirement to discard all earlier records whenever one definition differs.",
+      "Comparability of the attendance definitions as well as the conditions for using the records.",
+      "The assumption that every historical attendance figure uses an identical definition."
+     ],
+     "answer": 1,
+     "note": "The researcher proposes qualified use, not unquestioned pooling or blanket rejection.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "How should the extension currently be described?",
+     "options": [
+      "A proposed three-month arrangement with contract and access conditions still outstanding.",
+      "A signed full-year arrangement because the operator has agreed to discuss a shorter term.",
+      "An unconditional three-month guarantee that no longer requires accessible transport planning."
+     ],
+     "answer": 0,
+     "note": "Discussion and conditional approval are not the same as a completed commitment.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which limit applies to the allocation idea?",
+     "options": [
+      "It authorises removing all existing users before any further review is necessary.",
+      "It guarantees that a research comparison overrides every service entitlement.",
+      "It concerns possible excess new demand and remains subject to review of access and rights."
+     ],
+     "answer": 2,
+     "note": "The speaker restricts both the proposed population and its authorisation status.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What safeguard does the chair propose?",
+     "options": [
+      "Interpret every attendance change without checking whether the shuttle actually operated.",
+      "Specify relevant contextual records in advance rather than invent explanations only after the result.",
+      "Keep adding unplanned explanations until every possible unfavourable result can be dismissed."
+     ],
+     "answer": 1,
+     "note": "Pre-specification helps distinguish planned interpretation from selective excuse-making.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What basis for public confidence does the chair advocate?",
+     "options": [
+      "Clear reasons, limits and future decision criteria rather than an unqualified success claim.",
+      "An assurance that funding has removed all uncertainty from the effect estimate.",
+      "A commitment to expansion regardless of what the evaluation later finds."
+     ],
+     "answer": 0,
+     "note": "The chair locates confidence in accountable decision-making.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ],
+   "roleplay": [
+    {
+     "prompt": "The team wants the headline “The shuttle improved attendance.” What wording would you defend?",
+     "options": [
+      "The higher user attendance proves the same causal benefit for every future learner.",
+      "The absence of a baseline proves that the service did not affect any learner.",
+      "Users had higher attendance in this pilot, but the comparison does not isolate the service’s effect."
+     ],
+     "answer": 2,
+     "note": "Retain the finding while qualifying the inference.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 0
+     },
+     "sceneLine": "The team wants the headline “The shuttle improved attendance.” What wording would you defend?"
+    },
+    {
+     "prompt": "A colleague says that detailed journey logs settle the attendance question. How would you respond?",
+     "options": [
+      "Because the logs are useful, no information about registration can matter.",
+      "They show how the service ran; we still need to examine the comparison between learners.",
+      "The logs directly show what each learner would have done without the service."
+     ],
+     "answer": 1,
+     "note": "Match the evidence to the question being asked.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 1
+     },
+     "sceneLine": "A colleague says that detailed journey logs settle the attendance question. How would you respond?"
+    },
+    {
+     "prompt": "An immediate annual contract offers a lower weekly price. What else should the panel weigh?",
+     "options": [
+      "Total commitment, access conditions and the value of retaining options while evaluating.",
+      "Only the weekly price, because commitment length cannot affect the decision.",
+      "Only the operator’s enthusiasm, because a discount identifies the causal effect."
+     ],
+     "answer": 0,
+     "note": "A financial decision includes option value and delivery conditions.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 2
+     },
+     "sceneLine": "An immediate annual contract offers a lower weekly price. What else should the panel weigh?"
+    },
+    {
+     "prompt": "Can we allocate existing users away from the shuttle for a cleaner comparison?",
+     "options": [
+      "A more informative comparison automatically overrides every existing entitlement.",
+      "A research aim establishes that the service is unnecessary for current users.",
+      "That is not the current proposal; existing access and rights need separate consideration."
+     ],
+     "answer": 2,
+     "note": "Do not generalise a conditional proposal about new excess demand.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 3
+     },
+     "sceneLine": "Can we allocate existing users away from the shuttle for a cleaner comparison?"
+    },
+    {
+     "prompt": "Earlier attendance records use different definitions. What should the study do?",
+     "options": [
+      "Assume that all historical attendance records must be fabricated.",
+      "Explain and assess comparability before combining them with the new records.",
+      "Combine them silently because a larger dataset is always more valid."
+     ],
+     "answer": 1,
+     "note": "More observations do not remove measurement differences.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 4
+     },
+     "sceneLine": "Earlier attendance records use different definitions. What should the study do?"
+    },
+    {
+     "prompt": "Please state a defensible funding recommendation.",
+     "options": [
+      "Offer a bounded extension with clear access conditions and pre-specified evaluation milestones.",
+      "Guarantee a year of funding because the first report used a positive headline.",
+      "Reject any further service provision because no effect size has been isolated."
+     ],
+     "answer": 0,
+     "note": "A proportionate decision can acknowledge need and uncertainty together.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 5
+     },
+     "sceneLine": "Please state a defensible funding recommendation."
+    }
+   ],
+   "checkpoint": [
+    {
+     "prompt": "Which missing information could help examine selection into the shuttle group?",
+     "options": [
+      "The number of publicity photographs taken on the first operating evening.",
+      "The assumption that all non-users faced identical travel conditions.",
+      "Comparable prior attendance and reasons for registration or non-registration."
+     ],
+     "answer": 2,
+     "note": "Selection concerns the people being compared.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "What does revising the success headline not imply?",
+     "options": [
+      "That a causal inference requires more than the observed comparison alone.",
+      "That the panel has found the operational records were fabricated.",
+      "That a group difference can be reported with appropriate qualification."
+     ],
+     "answer": 1,
+     "note": "The interview explicitly separates inference from fabrication.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why can practical need justify considering a temporary extension?",
+     "options": [
+      "A policy decision can weigh interruption costs while remaining explicit about uncertain effects.",
+      "Practical need automatically converts an observational comparison into a causal experiment.",
+      "Temporary funding guarantees that every learner would otherwise miss all classes."
+     ],
+     "answer": 0,
+     "note": "Decision justification and effect identification are related but distinct.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which fact would be omitted by announcing a guaranteed extension now?",
+     "options": [
+      "The proposed term is shorter than the full-year contract initially requested.",
+      "The panel plans to review evidence before a further commitment.",
+      "The operator has only agreed to discuss the term, and accessible transport still needs confirmation."
+     ],
+     "answer": 2,
+     "note": "Material conditions are still outstanding.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which comparison best addresses the contract choice?",
+     "options": [
+      "The amount of publicity alone, treating it as a measure of service effectiveness.",
+      "Weekly cost together with total commitment and the ability to revise the plan.",
+      "Weekly cost alone, treating every contract duration as equivalent."
+     ],
+     "answer": 1,
+     "note": "The article makes commitment and flexibility relevant.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What would distinguish planned contextual analysis from an excuse after the event?",
+     "options": [
+      "Recording relevant factors and decision criteria before observing the outcome.",
+      "Adding explanations only when a result threatens the preferred decision.",
+      "Promising that contextual information can never change interpretation."
+     ],
+     "answer": 0,
+     "note": "The interview advocates advance specification.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    }
+   ]
+  },
+  "readingPoints": [
+   "Registered users had higher attendance, but the comparison alone does not identify the shuttle’s effect.",
+   "Operational reliability data and evidence of an attendance effect answer different questions.",
+   "An uncertain effect estimate establishes that the shuttle provides no benefit.",
+   "By the uncertainties each addresses and the practical or ethical constraints each introduces.",
+   "A shorter commitment could preserve options while the evaluation question is clarified.",
+   "Continue temporarily for stated practical reasons while evaluating the effect without overstating it."
+  ],
+  "listeningPoints": [
+   "The causal inference drawn from the group comparison, rather than the existence of the records.",
+   "Comparability of the attendance definitions as well as the conditions for using the records.",
+   "A proposed three-month arrangement with contract and access conditions still outstanding.",
+   "It concerns possible excess new demand and remains subject to review of access and rights.",
+   "Specify relevant contextual records in advance rather than invent explanations only after the result.",
+   "Clear reasons, limits and future decision criteria rather than an unqualified success claim."
+  ]
+ },
+ "heritage": {
+  "title": "Whose heritage, and who decides?",
+  "goal": "Compare accounts of a restoration project, distinguish physical preservation from cultural participation and negotiate a reviewable agreement.",
+  "role": "a fictional community facilitator discussing the future use of a restored waterfront hall",
+  "goals": [
+   "Represent the different meanings attached to the hall.",
+   "Distinguish consultation, permission and a continuing decision-making role.",
+   "Propose a workable agreement on access, funding and future review."
+  ],
+  "opening": "The waterfront hall can be restored, but agreement about the building is not agreement about its future use. Which commitments should be settled before work begins?",
+  "questions": {
+   "reading": [
+    {
+     "prompt": "What is the central distinction in the disagreement?",
+     "options": [
+      "Support for informal gatherings means every community group opposes repairing the building.",
+      "Agreement on the building’s condition automatically settles who should control its programme.",
+      "Agreement on physical repair does not establish agreement on the hall’s future cultural use."
+     ],
+     "answer": 2,
+     "note": "Different dimensions of heritage can be valued while repair itself is widely supported.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why might a large total of community-access hours be misleading?",
+     "options": [
+      "Working residents can always replace an evening visit with a weekday morning visit.",
+      "The available times may be unusable for many of the people meant to benefit.",
+      "A larger access-hour total necessarily gives residents control over every evening event."
+     ],
+     "answer": 1,
+     "note": "The distribution and conditions of access matter as well as its total duration.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Which approach does the historian support?",
+     "options": [
+      "Acknowledge different periods and contested memories without erasing the hall’s origins.",
+      "Select one period as authentic and exclude every later use from the account.",
+      "Treat all disagreement as evidence that the hall has no meaningful history."
+     ],
+     "answer": 0,
+     "note": "A layered history can recognise origins without fixing culture at one moment.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "What would make the consultation record more reliable?",
+     "options": [
+      "Treat attendance as approval of every later funding and management condition.",
+      "Remove objections so the public record presents a single apparently agreed position.",
+      "Specify what participants were asked and separate suggestions from approval of unpresented terms."
+     ],
+     "answer": 2,
+     "note": "The scope of participation constrains what consent can be inferred.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Why must the committee’s powers be specified?",
+     "options": [
+      "An advisory body cannot provide any useful knowledge under any circumstances.",
+      "Membership alone does not show which decisions participants can actually influence.",
+      "A committee seat automatically grants equal control over every budget and programme decision."
+     ],
+     "answer": 1,
+     "note": "Representation and formal decision-making authority should not be conflated.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Which conclusion best reflects the recommendation?",
+     "options": [
+      "Link restoration to a specified, reviewable arrangement for operation and meaningful access.",
+      "Treat ticketed attendance as a complete measure of every form of public benefit.",
+      "Require every future activity to reproduce exactly one earlier period of use."
+     ],
+     "answer": 0,
+     "note": "The recommendation combines viable operation with accountable cultural access.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    }
+   ],
+   "listening": [
+    {
+     "prompt": "What is the current approval status?",
+     "options": [
+      "Unconditional restoration funding and a final operating agreement approved together.",
+      "A refusal to permit any further design work until every future event is booked.",
+      "A conditional funding offer and permission for further design work, with the operating agreement unresolved."
+     ],
+     "answer": 2,
+     "note": "The interview separates different approvals and retains outstanding conditions.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What remains to be settled about the evening slots?",
+     "options": [
+      "Whether a numerical total automatically proves access is adequate.",
+      "Their usable scheduling pattern and fee arrangements.",
+      "Whether any evening slots appear in the revised draft at all."
+     ],
+     "answer": 1,
+     "note": "A reserved total still leaves important conditions unresolved.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "How will differing memories be handled?",
+     "options": [
+      "Attributed and compared with records, with uncertainty made visible.",
+      "Combined into one exact account with disagreements silently removed.",
+      "Excluded entirely because recollections cannot contribute useful evidence."
+     ],
+     "answer": 0,
+     "note": "The historian supports contextualised evidence rather than forced unanimity.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which authority does the current draft provide?",
+     "options": [
+      "Complete control of the foundation’s budget through an advisory committee seat.",
+      "A final decision on every contract merely because residents attend the meeting.",
+      "Programming advice and access to an annual access report, rather than budget control."
+     ],
+     "answer": 2,
+     "note": "Describe existing draft powers separately from powers people may seek.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What qualification applies to the reduced-fee route?",
+     "options": [
+      "It requires applicants to disclose private circumstances publicly before they can ask.",
+      "It is proposed, with the allocation and accessible application process still to be settled.",
+      "It guarantees unlimited free access to every group without further agreement."
+     ],
+     "answer": 1,
+     "note": "The support route is a commitment to develop, not an unlimited existing entitlement.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What cannot be established from attendance alone?",
+     "options": [
+      "Whether access, representation and maintenance arrangements meet the wider aims.",
+      "Whether any recorded visit or ticket count exists under the stated method.",
+      "Whether a busy building may provide some genuine opportunities for participation."
+     ],
+     "answer": 0,
+     "note": "Attendance is relevant evidence with a limited scope.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ],
+   "roleplay": [
+    {
+     "prompt": "The press says that funding and operation are fully approved. What correction would you recommend?",
+     "options": [
+      "Describe the design approval as authority for every future booking and management decision.",
+      "Treat the existence of an offer as proof that every funding condition has been satisfied.",
+      "Distinguish the conditional offer and design approval from the unresolved operating agreement."
+     ],
+     "answer": 2,
+     "note": "Separate stages of commitment and approval.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 0
+     },
+     "sceneLine": "The press says that funding and operation are fully approved. What correction would you recommend?"
+    },
+    {
+     "prompt": "Two community evenings a month look sufficient on paper. What would you ask next?",
+     "options": [
+      "Whether working residents can simply replace every evening activity with a morning one.",
+      "Which evenings, at what cost, and whether the intended groups can actually attend.",
+      "Whether a monthly total removes the need to examine time or affordability."
+     ],
+     "answer": 1,
+     "note": "Meaningful access depends on practical conditions as well as the count.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 1
+     },
+     "sceneLine": "Two community evenings a month look sufficient on paper. What would you ask next?"
+    },
+    {
+     "prompt": "Should we remove conflicting memories to make the exhibition easier to understand?",
+     "options": [
+      "We can attribute the accounts, compare sources and explain uncertainty without forcing agreement.",
+      "We should silently choose whichever account best supports the funding announcement.",
+      "We should exclude every recollection because records can never require interpretation."
+     ],
+     "answer": 0,
+     "note": "Clarity can come from explaining differences rather than suppressing them.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 2
+     },
+     "sceneLine": "Should we remove conflicting memories to make the exhibition easier to understand?"
+    },
+    {
+     "prompt": "A resident assumes their committee seat gives budget control. How would you clarify the draft?",
+     "options": [
+      "An advisory seat already gives each resident full control over the foundation’s finances.",
+      "The draft proves that no resident can ever seek a stronger decision-making role.",
+      "It currently provides advice and an access report; stronger powers would need to be negotiated."
+     ],
+     "answer": 2,
+     "note": "State present authority without closing legitimate negotiation.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 3
+     },
+     "sceneLine": "A resident assumes their committee seat gives budget control. How would you clarify the draft?"
+    },
+    {
+     "prompt": "Can we promise unlimited free use to groups that cannot pay?",
+     "options": [
+      "No, because asking for help automatically disqualifies a group from every booking.",
+      "Not on the current draft; we need a funded allocation and a fair application route.",
+      "Yes, proposing a reduced-fee route establishes unlimited free capacity."
+     ],
+     "answer": 1,
+     "note": "Keep the promise proportionate to the actual commitment.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 4
+     },
+     "sceneLine": "Can we promise unlimited free use to groups that cannot pay?"
+    },
+    {
+     "prompt": "What condition would you attach to the first-year review?",
+     "options": [
+      "Include groups unable to book and displaced activities alongside attendance and maintenance.",
+      "Treat high attendance as proof that every cultural-access aim has been met.",
+      "Review only events that received favourable publicity from the foundation."
+     ],
+     "answer": 0,
+     "note": "A review should examine excluded experiences as well as visible use.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 5
+     },
+     "sceneLine": "What condition would you attach to the first-year review?"
+    }
+   ],
+   "checkpoint": [
+    {
+     "prompt": "Which agreement cannot be inferred from shared support for repair?",
+     "options": [
+      "Agreement that the building has physical deterioration worth addressing.",
+      "Agreement that further discussion of the hall’s future is relevant.",
+      "Agreement on future use, access and the distribution of decision-making power."
+     ],
+     "answer": 2,
+     "note": "A shared repair aim does not settle the wider operating model.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Which detail qualifies the proposed evening-access promise?",
+     "options": [
+      "The revised draft grants unlimited free use on any evening residents choose.",
+      "The exact days and fees remain to be agreed despite the reserved monthly total.",
+      "No evening slots appear in any version of the proposal."
+     ],
+     "answer": 1,
+     "note": "The interview specifies both progress and unresolved practical conditions.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Why document the consultation questions?",
+     "options": [
+      "To limit claims of consent to what participants were actually invited to consider.",
+      "To convert every suggestion automatically into approval of later contractual terms.",
+      "To establish that attending a meeting removes the right to object afterwards."
+     ],
+     "answer": 0,
+     "note": "The scope of consultation determines the scope of defensible inferences.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Which statement accurately describes the current committee proposal?",
+     "options": [
+      "It already controls every financial decision because residents would hold seats.",
+      "It cannot receive any information because advisory bodies have no possible role.",
+      "It is advisory on programming and can receive an annual access report, without budget control."
+     ],
+     "answer": 2,
+     "note": "Representation, information rights and budget authority are distinct.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What would make an attendance-based success claim incomplete?",
+     "options": [
+      "It describes the method used to count recorded visits.",
+      "It omits people unable to book and activities displaced by the new programme.",
+      "It acknowledges that some real use of the hall has occurred."
+     ],
+     "answer": 1,
+     "note": "Visible attendance cannot capture every access and participation outcome.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    },
+    {
+     "prompt": "Which final recommendation best integrates the two accounts?",
+     "options": [
+      "Proceed with explicit operating, access and review commitments while retaining unresolved conditions honestly.",
+      "Treat a conditional funding offer as enough to settle every concern about use.",
+      "Delay explaining access conditions until groups have organised activities around a fixed opening date."
+     ],
+     "answer": 0,
+     "note": "A viable restoration depends on clear, reviewable arrangements beyond physical repair.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ]
+  },
+  "readingPoints": [
+   "Agreement on physical repair does not establish agreement on the hall’s future cultural use.",
+   "The available times may be unusable for many of the people meant to benefit.",
+   "Acknowledge different periods and contested memories without erasing the hall’s origins.",
+   "Specify what participants were asked and separate suggestions from approval of unpresented terms.",
+   "Membership alone does not show which decisions participants can actually influence.",
+   "Link restoration to a specified, reviewable arrangement for operation and meaningful access."
+  ],
+  "listeningPoints": [
+   "A conditional funding offer and permission for further design work, with the operating agreement unresolved.",
+   "Their usable scheduling pattern and fee arrangements.",
+   "Attributed and compared with records, with uncertainty made visible.",
+   "Programming advice and access to an annual access report, rather than budget control.",
+   "It is proposed, with the allocation and accessible application process still to be settled.",
+   "Whether access, representation and maintenance arrangements meet the wider aims."
+  ]
+ },
+ "market": {
+  "title": "A market that works for everyone",
+  "goal": "Follow a neighbourhood proposal, compare practical needs and agree on a small trial.",
+  "role": "the organiser of a fictional neighbourhood market discussing a six-week trial with a resident",
+  "goals": [
+   "Explain a resident’s concern using a detail from the article.",
+   "Compare the organiser’s update with the original plan.",
+   "Agree on a practical trial and a way to review it."
+  ],
+  "opening": "Thanks for coming. We want the Saturday market to work for neighbours as well as visitors. What should we change first?",
+  "questions": {
+   "reading": [
+    {
+     "prompt": "What is the purpose of the proposal?",
+     "options": [
+      "To move all twelve stalls into the park.",
+      "To make the market a permanent evening event.",
+      "To test a later closing time for six weeks."
+     ],
+     "answer": 2,
+     "note": "The later closing time is a temporary proposal; it has not been made permanent.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What does Leila support?",
+     "options": [
+      "An earlier start for the bakery.",
+      "More time to shop after work.",
+      "Live music throughout the afternoon."
+     ],
+     "answer": 1,
+     "note": "Leila separates longer shopping hours from continuous music.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Why does Arun ask for a clear path?",
+     "options": [
+      "His mother needs enough space to walk safely.",
+      "He wants to park delivery vans there all day.",
+      "He believes the market should close completely."
+     ],
+     "answer": 0,
+     "note": "The requested space concerns access, not a demand to remove the market.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "What limit would visitors need to understand?",
+     "options": [
+      "Every seller must remain until six.",
+      "No stalls would open in the morning.",
+      "Only some stalls may stay open later."
+     ],
+     "answer": 2,
+     "note": "Optional extra hours mean the afternoon selection may be smaller.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Why ask people who do not shop at the market?",
+     "options": [
+      "They have already agreed to the new schedule.",
+      "They may be affected even if they are not customers.",
+      "Their answers can replace all access checks."
+     ],
+     "answer": 1,
+     "note": "The people affected include neighbours outside the customer group.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Which conclusion best matches the plan?",
+     "options": [
+      "Review several kinds of evidence before keeping the change.",
+      "Keep the change automatically if customer numbers rise.",
+      "Return to the old hours without asking anyone."
+     ],
+     "answer": 0,
+     "note": "The final decision considers benefits and practical costs together.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    }
+   ],
+   "listening": [
+    {
+     "prompt": "Has the later opening already begun?",
+     "options": [
+      "Yes; it has already become permanent.",
+      "Yes; it finished six weeks ago.",
+      "No; the group still has to decide whether to start the trial."
+     ],
+     "answer": 2,
+     "note": "The organiser describes planning, not a completed trial.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What should visitors check on Friday?",
+     "options": [
+      "The price of every item in the bakery.",
+      "The final list of sellers offering extra hours.",
+      "A promise that all twelve sellers will stay."
+     ],
+     "answer": 1,
+     "note": "Seven expressions of interest do not establish the final list.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "What is the revised delivery proposal?",
+     "options": [
+      "One possible earlier bread delivery through the rear entrance.",
+      "All vans can use the front pavement before seven.",
+      "Every delivery has been moved to seven thirty."
+     ],
+     "answer": 0,
+     "note": "The exception is limited and still needs consultation.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "How would volunteers handle a heavy box on the route?",
+     "options": [
+      "Carry every heavy box without help.",
+      "Leave the route blocked until six.",
+      "Ask the responsible stallholder to move it."
+     ],
+     "answer": 2,
+     "note": "The plan assigns responsibility without requiring unsafe lifting.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What does the rule after four concern?",
+     "options": [
+      "A requirement for every seller to play music.",
+      "Amplified music, rather than ordinary conversation.",
+      "A complete ban on speaking."
+     ],
+     "answer": 1,
+     "note": "The organiser distinguishes a sound system from normal conversation.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What can a volunteer offer?",
+     "options": [
+      "One afternoon, with clear availability.",
+      "A promise to attend all six weeks whether possible or not.",
+      "Only money; no practical help is accepted."
+     ],
+     "answer": 0,
+     "note": "The organiser explicitly accepts a limited but realistic commitment.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ],
+   "roleplay": [
+    {
+     "prompt": "A neighbour says that opposing loud music means opposing the market. How do you respond?",
+     "options": [
+      "Then everyone who dislikes music must stay home.",
+      "There is no need to hear any other concern.",
+      "We can support the market while asking for quieter activities."
+     ],
+     "answer": 2,
+     "note": "Distinguish the market’s purpose from one type of activity.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 0
+     },
+     "sceneLine": "A neighbour says that opposing loud music means opposing the market. How do you respond?"
+    },
+    {
+     "prompt": "I work alone at my stall and cannot stay every Saturday. What would you suggest?",
+     "options": [
+      "Your morning stall must close because of that.",
+      "Could you choose the afternoons you can manage and publish them?",
+      "You should promise to stay even when you cannot."
+     ],
+     "answer": 1,
+     "note": "A feasible option respects optional extra hours.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 1
+     },
+     "sceneLine": "I work alone at my stall and cannot stay every Saturday. What would you suggest?"
+    },
+    {
+     "prompt": "We have seven interested sellers. Can we advertise that all twelve will stay?",
+     "options": [
+      "Let us wait for Friday’s final list before making that claim.",
+      "Yes, interest from seven proves all twelve have agreed.",
+      "We should say that no one is interested."
+     ],
+     "answer": 0,
+     "note": "Keep expressions of interest separate from confirmed participation.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 2
+     },
+     "sceneLine": "We have seven interested sellers. Can we advertise that all twelve will stay?"
+    },
+    {
+     "prompt": "The earlier bread delivery might help the bakery. What should we check?",
+     "options": [
+      "Whether every delivery can ignore the proposed hours.",
+      "Whether we can avoid telling the residents.",
+      "How the rear delivery would affect the nearby residents."
+     ],
+     "answer": 2,
+     "note": "Consult the people affected by the exception.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 3
+     },
+     "sceneLine": "The earlier bread delivery might help the bakery. What should we check?"
+    },
+    {
+     "prompt": "Customer numbers went up. Is that enough to keep the new hours?",
+     "options": [
+      "No, more customers must mean the trial failed.",
+      "We should also review noise, access and the workload.",
+      "Yes, customer numbers answer every question."
+     ],
+     "answer": 1,
+     "note": "Combine evidence about benefits and costs.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 4
+     },
+     "sceneLine": "Customer numbers went up. Is that enough to keep the new hours?"
+    },
+    {
+     "prompt": "Can you help with the trial? Please make a realistic offer.",
+     "options": [
+      "I can check the route next Saturday afternoon; who should I contact?",
+      "I will attend every day, although I know I am unavailable.",
+      "I will decide what everyone else must do without asking."
+     ],
+     "answer": 0,
+     "note": "A specific offer and a follow-up question help the plan move forward.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 5
+     },
+     "sceneLine": "Can you help with the trial? Please make a realistic offer."
+    }
+   ],
+   "checkpoint": [
+    {
+     "prompt": "Which response respects both Leila’s and Arun’s needs?",
+     "options": [
+      "Cancel the market because they have different priorities.",
+      "Extend shopping and remove every delivery restriction.",
+      "Offer later shopping while protecting quiet and clear access."
+     ],
+     "answer": 2,
+     "note": "Their concerns can be addressed together.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Which detail in the interview changes the article’s delivery plan?",
+     "options": [
+      "A decision to stop selling bread altogether.",
+      "A possible bread delivery at seven thirty through the rear entrance.",
+      "A confirmed move of every delivery to seven thirty."
+     ],
+     "answer": 1,
+     "note": "The interview proposes one limited exception.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Why would a seller’s name be missing from the afternoon list?",
+     "options": [
+      "Extra hours are optional, and availability may differ.",
+      "The morning market has been cancelled.",
+      "Every seller has agreed to remain until six."
+     ],
+     "answer": 0,
+     "note": "The smaller afternoon selection follows from optional participation.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "A post says that people cannot talk after four. Which correction is accurate?",
+     "options": [
+      "Every sound is forbidden after four.",
+      "Only customers can speak after four.",
+      "The proposed restriction concerns amplified music."
+     ],
+     "answer": 2,
+     "note": "Do not expand a music restriction into a ban on conversation.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What would make the final report incomplete?",
+     "options": [
+      "Recording the workload of volunteers.",
+      "Reporting customer numbers without access or noise evidence.",
+      "Including feedback from people who do not shop there."
+     ],
+     "answer": 1,
+     "note": "The plan needs several kinds of evidence.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    },
+    {
+     "prompt": "You cannot attend Monday’s meeting. What can you still do?",
+     "options": [
+      "Leave a written comment at the library.",
+      "Assume that silence counts as a vote for permanent hours.",
+      "Ask a seller to invent your opinion."
+     ],
+     "answer": 0,
+     "note": "The interview gives an alternative way to contribute.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    }
+   ]
+  },
+  "readingPoints": [
+   "To test a later closing time for six weeks.",
+   "More time to shop after work.",
+   "His mother needs enough space to walk safely.",
+   "Only some stalls may stay open later.",
+   "They may be affected even if they are not customers.",
+   "Review several kinds of evidence before keeping the change."
+  ],
+  "listeningPoints": [
+   "No; the group still has to decide whether to start the trial.",
+   "The final list of sellers offering extra hours.",
+   "One possible earlier bread delivery through the rear entrance.",
+   "Ask the responsible stallholder to move it.",
+   "Amplified music, rather than ordinary conversation.",
+   "One afternoon, with clear availability."
+  ]
+ },
+ "library": {
+  "title": "An evening library for the neighbourhood",
+  "goal": "Follow a service change, interpret an updated announcement and agree on an accessible plan.",
+  "role": "a fictional librarian arranging a limited evening opening with a local resident",
+  "goals": [
+   "Explain who could benefit from evening access.",
+   "Clarify the updated booking and staffing arrangements.",
+   "Agree on a useful next step without promising an unavailable service."
+  ],
+  "opening": "We are planning a small evening library trial. Who do you think would use it, and what would they need?",
+  "questions": {
+   "reading": [
+    {
+     "prompt": "What is being proposed?",
+     "options": [
+      "A permanent change to every weekday evening.",
+      "A requirement that staff work without pay.",
+      "One later opening each week for a two-month trial."
+     ],
+     "answer": 2,
+     "note": "The proposal is limited in both frequency and duration.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why might the two activities need separate areas?",
+     "options": [
+      "Language learners are not allowed in libraries.",
+      "A conversation group could disturb quiet study.",
+      "Nora has asked for a new computer in every room."
+     ],
+     "answer": 1,
+     "note": "Both uses are welcome, but their sound needs differ.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "What would a conversation group need to do?",
+     "options": [
+      "Book the smaller room and name an organiser.",
+      "Use any space without telling the library.",
+      "Ask all quiet readers to leave the building."
+     ],
+     "answer": 0,
+     "note": "The booking creates a defined space and responsibility.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "Which service would remain unavailable during the trial evening?",
+     "options": [
+      "The lift and step-free entrance.",
+      "Borrowing ordinary books.",
+      "Access to the upstairs archive."
+     ],
+     "answer": 2,
+     "note": "The limitation concerns specialist archive access, not the entrance.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What is the proposed role of volunteers?",
+     "options": [
+      "Keep the library open alone if staff cannot attend.",
+      "Help with directions while paid staff handle protected records.",
+      "Replace absent staff and access everyone’s borrowing history."
+     ],
+     "answer": 1,
+     "note": "The proposal sets a clear boundary around volunteer duties.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "Why ask how visitors heard about the trial?",
+     "options": [
+      "Low attendance might partly reflect limited awareness.",
+      "It would prove that all residents use social media.",
+      "It would replace every other measure of the service."
+     ],
+     "answer": 0,
+     "note": "The same attendance figure can have more than one explanation.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    }
+   ],
+   "listening": [
+    {
+     "prompt": "Which date should residents use?",
+     "options": [
+      "The first Wednesday shown on the old poster.",
+      "Every evening from the start of the month.",
+      "The second Wednesday of next month."
+     ],
+     "answer": 2,
+     "note": "The new announcement replaces the earlier date.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "What must be settled before the group booking is confirmed?",
+     "options": [
+      "Whether three groups can all use the room separately at once.",
+      "Who will be the main contact for a single booking.",
+      "Which group can take over the quiet room as well."
+     ],
+     "answer": 1,
+     "note": "Interest is not the same as a confirmed room booking.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 1
+     }
+    },
+    {
+     "prompt": "Who is asked to contact the library beforehand?",
+     "options": [
+      "Someone who needs a particular accessible arrangement.",
+      "Every visitor who wants to read any book.",
+      "Only people who already organise the language exchange."
+     ],
+     "answer": 0,
+     "note": "Ordinary tables are unreserved; specific access needs can be discussed.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "When might a computer session be extended?",
+     "options": [
+      "Whenever a visitor asks, even with a queue.",
+      "Only if the visitor becomes a volunteer.",
+      "When no one is waiting and staff agree."
+     ],
+     "answer": 2,
+     "note": "The extension is conditional, not an automatic entitlement.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Who should answer a question about a borrowing account?",
+     "options": [
+      "Another reader who knows the borrower.",
+      "A member of library staff.",
+      "Any volunteer who happens to be near the entrance."
+     ],
+     "answer": 1,
+     "note": "Account information stays with authorised staff.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 4
+     }
+    },
+    {
+     "prompt": "What should the feedback-form total represent?",
+     "options": [
+      "The number of submitted forms, not every library visitor.",
+      "A complete count of everyone in the building.",
+      "A list of named borrowing accounts."
+     ],
+     "answer": 0,
+     "note": "Optional feedback does not cover all visitors.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ],
+   "roleplay": [
+    {
+     "prompt": "A visitor wants to practise speaking beside Nora’s study table. What could you suggest?",
+     "options": [
+      "Everyone studying quietly should leave immediately.",
+      "Talking loudly is the only way to use an evening library.",
+      "Let us check whether the smaller room has been booked for conversation."
+     ],
+     "answer": 2,
+     "note": "Look for a space that respects both activities.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 0
+     },
+     "sceneLine": "A visitor wants to practise speaking beside Nora’s study table. What could you suggest?"
+    },
+    {
+     "prompt": "Three people each think they have organised the same exchange. How do you clarify it?",
+     "options": [
+      "No one needs to tell the library who is responsible.",
+      "Could we agree on one main contact and confirm a single booking?",
+      "Let us promise the room to all three independently."
+     ],
+     "answer": 1,
+     "note": "A shared plan needs one clear booking.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 1
+     },
+     "sceneLine": "Three people each think they have organised the same exchange. How do you clarify it?"
+    },
+    {
+     "prompt": "I saw a poster saying the trial starts on the first Wednesday. Is that right?",
+     "options": [
+      "The updated announcement says the second Wednesday.",
+      "Yes, the old poster is more reliable than the correction.",
+      "The trial has already ended."
+     ],
+     "answer": 0,
+     "note": "Use the corrected date rather than repeating the earlier notice.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 2
+     },
+     "sceneLine": "I saw a poster saying the trial starts on the first Wednesday. Is that right?"
+    },
+    {
+     "prompt": "May I use a computer for an hour?",
+     "options": [
+      "An hour is guaranteed because the library is open later.",
+      "I will take over two computers for thirty minutes each.",
+      "Could we ask staff whether an extension is possible if no one is waiting?"
+     ],
+     "answer": 2,
+     "note": "A request should retain the stated condition.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 3
+     },
+     "sceneLine": "May I use a computer for an hour?"
+    },
+    {
+     "prompt": "A volunteer offers to check a friend’s borrowing history for me. What should I do?",
+     "options": [
+      "Post the account details where other visitors can see them.",
+      "Ask an authorised staff member about the correct process instead.",
+      "Accept because all volunteers can access private records."
+     ],
+     "answer": 1,
+     "note": "Welcoming duties do not grant access to private records.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 4
+     },
+     "sceneLine": "A volunteer offers to check a friend’s borrowing history for me. What should I do?"
+    },
+    {
+     "prompt": "Only six feedback forms were returned. What should we say in the report?",
+     "options": [
+      "Six forms were returned; that does not tell us the total attendance.",
+      "Exactly six people used the library.",
+      "Everyone who did not complete a form disliked the trial."
+     ],
+     "answer": 0,
+     "note": "State what the measure actually records.",
+     "immersiveSource": {
+      "stage": "roleplay",
+      "part": 5
+     },
+     "sceneLine": "Only six feedback forms were returned. What should we say in the report?"
+    }
+   ],
+   "checkpoint": [
+    {
+     "prompt": "Which plan could support both quiet reading and a language exchange?",
+     "options": [
+      "Require everyone in the reading room to join the exchange.",
+      "Treat the same table as a quiet and noisy space at once.",
+      "Keep the conversation group in the booked smaller room."
+     ],
+     "answer": 2,
+     "note": "The rooms can meet different needs.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 2
+     }
+    },
+    {
+     "prompt": "A friend plans to arrive on the first Wednesday. What information should you pass on?",
+     "options": [
+      "The building will be open every night.",
+      "The start has been corrected to the second Wednesday.",
+      "The first date is unchanged because it appeared on a poster."
+     ],
+     "answer": 1,
+     "note": "The updated announcement takes precedence.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 0
+     }
+    },
+    {
+     "prompt": "Why does a later opening not guarantee archive access?",
+     "options": [
+      "The evening service does not include an archive specialist.",
+      "The step-free entrance is being removed.",
+      "All books must stay upstairs after five."
+     ],
+     "answer": 0,
+     "note": "A general opening time does not establish every specialist service.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "Which description of computer access preserves the announcement’s meaning?",
+     "options": [
+      "One hour for every visitor without exceptions.",
+      "No computer access is possible in the evening.",
+      "Thirty minutes normally; a longer session may be agreed if no one waits."
+     ],
+     "answer": 2,
+     "note": "Preserve both the normal limit and the conditional extension.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 3
+     }
+    },
+    {
+     "prompt": "What would help interpret low attendance fairly?",
+     "options": [
+      "Ignore comments from people who could not attend.",
+      "Check whether the intended users knew about the trial.",
+      "Assume the service was widely advertised without checking."
+     ],
+     "answer": 1,
+     "note": "Awareness is one possible explanation to investigate.",
+     "immersiveSource": {
+      "stage": "reading",
+      "part": 5
+     }
+    },
+    {
+     "prompt": "Which statement about the feedback form is accurate?",
+     "options": [
+      "It is optional and can be anonymous unless a reply is requested.",
+      "Every visitor must provide a name.",
+      "It gives volunteers access to borrowing histories."
+     ],
+     "answer": 0,
+     "note": "The interview describes optional feedback and a paper alternative.",
+     "immersiveSource": {
+      "stage": "listening",
+      "part": 5
+     }
+    }
+   ]
+  },
+  "readingPoints": [
+   "One later opening each week for a two-month trial.",
+   "A conversation group could disturb quiet study.",
+   "Book the smaller room and name an organiser.",
+   "Access to the upstairs archive.",
+   "Help with directions while paid staff handle protected records.",
+   "Low attendance might partly reflect limited awareness."
+  ],
+  "listeningPoints": [
+   "The second Wednesday of next month.",
+   "Who will be the main contact for a single booking.",
+   "Someone who needs a particular accessible arrangement.",
+   "When no one is waiting and staff agree.",
+   "A member of library staff.",
+   "The number of submitted forms, not every library visitor."
+  ]
+ }
+}

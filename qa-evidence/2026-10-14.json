@@ -1,0 +1,424 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Asia/Kuala_Lumpur",
+  "baseline": "f7ee92c",
+  "environment": {
+    "node": "v24.19.0",
+    "chromium": "154.0.8037.57",
+    "os": "Debian 13",
+    "cpu": "AMD EPYC 9V74",
+    "availableParallelism": 4
+  },
+  "automatedTests": {
+    "tests": 176,
+    "pass": 176,
+    "fail": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "environment": {
+      "browser": "local headless Chromium",
+      "database": "disposable PGlite",
+      "providers": "disabled"
+    },
+    "navigationMs": [
+      70.73993399999927,
+      72.55487799999992,
+      64.54188999999951,
+      20.778792000000067,
+      47.124493999999686,
+      46.11169299999983,
+      26.58648599999924,
+      22.661611999999877,
+      36.252306999999746,
+      73.73787999999968,
+      72.67975800000022,
+      24.54491699999926,
+      40.103783999999905,
+      66.35334499999954,
+      18.870913999999175,
+      65.35334299999977,
+      45.82440099999985,
+      60.33872499999961,
+      18.578058999999485,
+      17.99833099999978,
+      27.70850700000028,
+      65.7594710000003,
+      62.14391100000012,
+      61.64272400000027
+    ],
+    "combinations": [
+      {
+        "base": "en",
+        "target": "es"
+      },
+      {
+        "base": "en",
+        "target": "ja"
+      },
+      {
+        "base": "en",
+        "target": "pt"
+      },
+      {
+        "base": "en",
+        "target": "en"
+      },
+      {
+        "base": "ja",
+        "target": "es"
+      },
+      {
+        "base": "ja",
+        "target": "ja"
+      },
+      {
+        "base": "ja",
+        "target": "pt"
+      },
+      {
+        "base": "ja",
+        "target": "en"
+      },
+      {
+        "base": "es",
+        "target": "es"
+      },
+      {
+        "base": "es",
+        "target": "ja"
+      },
+      {
+        "base": "es",
+        "target": "pt"
+      },
+      {
+        "base": "es",
+        "target": "en"
+      },
+      {
+        "base": "pt",
+        "target": "es"
+      },
+      {
+        "base": "pt",
+        "target": "ja"
+      },
+      {
+        "base": "pt",
+        "target": "pt"
+      },
+      {
+        "base": "pt",
+        "target": "en"
+      },
+      {
+        "base": "zh",
+        "target": "es"
+      },
+      {
+        "base": "zh",
+        "target": "ja"
+      },
+      {
+        "base": "zh",
+        "target": "pt"
+      },
+      {
+        "base": "zh",
+        "target": "en"
+      },
+      {
+        "base": "fr",
+        "target": "es"
+      },
+      {
+        "base": "fr",
+        "target": "ja"
+      },
+      {
+        "base": "fr",
+        "target": "pt"
+      },
+      {
+        "base": "fr",
+        "target": "en"
+      }
+    ],
+    "screens": [
+      {
+        "tab": 0,
+        "width": 1440,
+        "scroll": 1425,
+        "text": 2564,
+        "alerts": []
+      },
+      {
+        "tab": 1,
+        "width": 1440,
+        "scroll": 1425,
+        "text": 5385,
+        "alerts": []
+      },
+      {
+        "tab": 2,
+        "width": 1440,
+        "scroll": 1425,
+        "text": 1520,
+        "alerts": []
+      },
+      {
+        "tab": 3,
+        "width": 1440,
+        "scroll": 1440,
+        "text": 657,
+        "alerts": []
+      },
+      {
+        "tab": 4,
+        "width": 1440,
+        "scroll": 1425,
+        "text": 1964,
+        "alerts": []
+      },
+      {
+        "tab": 5,
+        "width": 1440,
+        "scroll": 1425,
+        "text": 1065,
+        "alerts": []
+      },
+      {
+        "tab": 0,
+        "width": 390,
+        "scroll": 390,
+        "text": 2540,
+        "alerts": []
+      },
+      {
+        "tab": 1,
+        "width": 390,
+        "scroll": 390,
+        "text": 5338,
+        "alerts": []
+      },
+      {
+        "tab": 2,
+        "width": 390,
+        "scroll": 390,
+        "text": 1520,
+        "alerts": []
+      },
+      {
+        "tab": 3,
+        "width": 390,
+        "scroll": 390,
+        "text": 657,
+        "alerts": []
+      },
+      {
+        "tab": 4,
+        "width": 390,
+        "scroll": 390,
+        "text": 1964,
+        "alerts": []
+      },
+      {
+        "tab": 5,
+        "width": 390,
+        "scroll": 390,
+        "text": 1065,
+        "alerts": []
+      },
+      {
+        "tab": 0,
+        "width": 320,
+        "scroll": 320,
+        "text": 2540,
+        "alerts": []
+      },
+      {
+        "tab": 1,
+        "width": 320,
+        "scroll": 320,
+        "text": 5338,
+        "alerts": []
+      },
+      {
+        "tab": 2,
+        "width": 320,
+        "scroll": 320,
+        "text": 1520,
+        "alerts": []
+      },
+      {
+        "tab": 3,
+        "width": 320,
+        "scroll": 320,
+        "text": 657,
+        "alerts": []
+      },
+      {
+        "tab": 4,
+        "width": 320,
+        "scroll": 320,
+        "text": 1964,
+        "alerts": []
+      },
+      {
+        "tab": 5,
+        "width": 320,
+        "scroll": 320,
+        "text": 1065,
+        "alerts": []
+      }
+    ],
+    "exceptions": [],
+    "logoutRace": "pass",
+    "spanishAnswerAudio": "pass",
+    "completedLessons": [
+      {
+        "language": "es",
+        "lesson": "introductions",
+        "questions": 8,
+        "score": 100
+      },
+      {
+        "language": "ja",
+        "lesson": "ja-a1-v2-lesson-2",
+        "questions": 12,
+        "score": 100
+      },
+      {
+        "language": "pt",
+        "lesson": "pt-a1-v2-lesson-2",
+        "questions": 12,
+        "score": 100
+      },
+      {
+        "language": "en",
+        "lesson": "en-a1-v2-lesson-2",
+        "questions": 10,
+        "score": 100
+      }
+    ],
+    "japaneseLesson": "pass",
+    "imageModalKeyboard": "pass",
+    "audioMetadata": [
+      {
+        "text": "あ",
+        "locale": "ja-JP",
+        "duration": 2.210042,
+        "metadataMs": 14.400000005960464,
+        "source": "Human recording"
+      },
+      {
+        "text": "ちゃ",
+        "locale": "ja-JP",
+        "duration": 2.266,
+        "metadataMs": 5.299999982118607,
+        "source": "Human recording"
+      },
+      {
+        "text": "カ",
+        "locale": "ja-JP",
+        "duration": 2.346,
+        "metadataMs": 4.700000017881393,
+        "source": "Human recording"
+      },
+      {
+        "text": "pão",
+        "locale": "pt-BR",
+        "duration": 1.36,
+        "metadataMs": 4.5,
+        "source": "Human recording"
+      },
+      {
+        "text": "mão",
+        "locale": "pt-BR",
+        "duration": 1.6,
+        "metadataMs": 4.0999999940395355,
+        "source": "Human recording"
+      },
+      {
+        "text": "perro",
+        "locale": "es-ES",
+        "duration": 1.382667,
+        "metadataMs": 5.4000000059604645,
+        "source": "Human recording"
+      },
+      {
+        "text": "rojo",
+        "locale": "es-ES",
+        "duration": 1.553333,
+        "metadataMs": 4.5,
+        "source": "Human recording"
+      },
+      {
+        "text": "papá",
+        "locale": "es-ES",
+        "duration": 1.721667,
+        "metadataMs": 3.9000000059604645,
+        "source": "Human recording"
+      },
+      {
+        "text": "papa",
+        "locale": "es-ES",
+        "duration": 1.382667,
+        "metadataMs": 4.600000023841858,
+        "source": "Human recording"
+      }
+    ],
+    "teacherScreens": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "navigationKeyboard": "pass",
+    "navigationStats": {
+      "n": 24,
+      "min": 17.99833099999978,
+      "median": 47.124493999999686,
+      "p95": 72.67975800000022,
+      "max": 73.73787999999968
+    }
+  },
+  "apiPerformance": {
+    "environment": {
+      "node": "v24.19.0",
+      "database": "PGlite 0.5.8, synthetic records",
+      "network": "loopback",
+      "providers": "disabled"
+    },
+    "measurements": {
+      "health": {
+        "n": 30,
+        "min": 1.6343019999999342,
+        "median": 3.1236119999998664,
+        "p95": 5.9352460000000065,
+        "max": 8.165805000000091
+      },
+      "cachedTranslation16": {
+        "n": 30,
+        "min": 1.8559789999999339,
+        "median": 3.997356000000309,
+        "p95": 7.339214000000084,
+        "max": 8.262152000000242
+      },
+      "humanAudio": {
+        "n": 30,
+        "min": 0.8640099999997801,
+        "median": 1.8798539999997956,
+        "p95": 2.659048999999868,
+        "max": 2.741309999999885
+      }
+    }
+  },
+  "realPostgreSQL": "pass, isolated randomly named database, restart persistence",
+  "npmAudit": {
+    "total": 0
+  },
+  "providerAndDeviceLimits": "No production/provider timing, human listening or physical mobile validation"
+}

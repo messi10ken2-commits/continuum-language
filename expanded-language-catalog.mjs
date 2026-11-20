@@ -1,0 +1,13 @@
+import {buildExpandedLanguage} from './expanded-learning-course.mjs';
+import {frUnits} from './curriculum/fr.mjs';
+import {deUnits} from './curriculum/de.mjs';
+import {itUnits} from './curriculum/it.mjs';
+import {zhUnits} from './curriculum/zh.mjs';
+import {koUnits} from './curriculum/ko.mjs';
+import {arUnits} from './curriculum/ar.mjs';
+export const expandedCoursePacks=Object.fromEntries(Object.entries({fr:frUnits,de:deUnits,it:itUnits,zh:zhUnits,ko:koUnits,ar:arUnits}).map(([id,units])=>[id,buildExpandedLanguage(id,units)]));
+export const expandedChapters=Object.values(expandedCoursePacks).flatMap(p=>p.chapters);
+export const expandedLessons=Object.values(expandedCoursePacks).flatMap(p=>p.lessons);
+export const expandedTransfer=Object.assign({},...Object.values(expandedCoursePacks).map(p=>p.transfer));
+export const expandedExerciseBank=Object.assign({},...Object.values(expandedCoursePacks).map(p=>p.exercises));
+export const expandedProductionTasks=Object.values(expandedCoursePacks).flatMap(p=>p.production);

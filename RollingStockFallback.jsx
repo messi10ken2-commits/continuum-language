@@ -1,0 +1,5 @@
+import React from 'react';
+import {buildRollingStock} from './rolling-stock.mjs';
+const shade=(hex,k=1)=>/^#[\da-f]{6}$/i.test(hex)?'#'+[1,3,5].map(i=>Math.max(0,Math.min(255,Math.round(parseInt(hex.slice(i,i+2),16)*k))).toString(16).padStart(2,'0')).join(''):hex;
+// When WebGL is unavailable, project the same mesh rather than a different mini-train design.
+export default function RollingStockFallback({language}){const m=buildRollingStock(language,0),b=m.bounds;return <svg data-renderer="rolling-stock-fallback" viewBox={`${b.left} ${b.top} ${b.width} ${b.height}`} style={{position:'absolute',left:b.left/19.2+'%',top:b.top/8.96+'%',width:b.width/19.2+'%',height:b.height/8.96+'%'}} aria-hidden="true">{m.primitives.map((p,i)=>p.kind==='line'?<polyline key={i} points={p.points.map(q=>q.join(',')).join(' ')} fill="none" stroke={p.color} strokeWidth={p.width||.6} opacity={p.alpha??1}/>:<polygon key={i} points={p.points.map(q=>q.join(',')).join(' ')} fill={shade(p.color,p.light)} opacity={p.alpha??1}/>)}</svg>}

@@ -1,0 +1,139 @@
+.lesson-milestone {
+ position: fixed;
+ inset: 0;
+ width: 100%;
+ max-width: none;
+ height: 100%;
+ height: 100dvh;
+ max-height: none;
+ margin: 0;
+ padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+ box-sizing: border-box;
+ border: 0;
+ color: #fff;
+ overflow: auto;
+ overscroll-behavior: contain;
+ background: radial-gradient(ellipse at 50% 25%, #7356a6, #301c54 70%);
+}
+.lesson-milestone::backdrop { background: #241541; }
+.milestone-content {
+ display: grid;
+ justify-items: center;
+ align-content: center;
+ gap: clamp(.65rem, 2dvh, 1.25rem);
+ min-height: 100%;
+ max-width: 38rem;
+ margin: auto;
+ text-align: center;
+}
+.milestone-content h2 { color: inherit; font-size: clamp(1.8rem, 5vw, 3.25rem); line-height: 1.08; margin: 0; }
+.milestone-content p { color: #f3eafd; max-width: 32rem; margin: 0; }
+.milestone-label { display: inline-flex; align-items: center; gap: .5rem; color: #ffdfa3; font-weight: 750; }
+.milestone-art {
+ position: relative;
+ display: grid;
+ place-items: center;
+ isolation: isolate;
+ overflow: hidden;
+ width: 100%;
+ height: clamp(8rem, 37dvh, 21rem);
+ border: 1px solid #ffffff55;
+ border-radius: 1.75rem;
+ background: radial-gradient(circle at 50% 58%, #fce2a7, #a075cf 55%, #5f3a8d);
+}
+.milestone-art > img { width: 100%; height: 100%; object-fit: cover; }
+.milestone-art > .town-reward-art {
+ width: min(72%, 16rem);
+ height: min(90%, 16rem);
+ object-fit: contain;
+}
+.lesson-milestone .milestone-primary, .lesson-milestone .milestone-skip {
+ display: inline-flex;
+ gap: .65rem;
+ align-items: center;
+ justify-content: center;
+ width: min(100%, 23rem);
+ min-height: 46px;
+ padding: .6rem 1rem;
+ border-radius: 1rem;
+ font: inherit;
+ font-weight: 750;
+ cursor: pointer;
+}
+.lesson-milestone .milestone-primary { border: 0; background: #fff2d7; color: #331f55; }
+.lesson-milestone .milestone-skip { border: 1px solid #ffffff80; background: #ffffff15; color: #fff; }
+.lesson-milestone button:focus-visible { outline: 3px solid #ffe29d; outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+ .milestone-content { animation: milestone-arrive 340ms ease-out both; }
+ .milestone-reward .milestone-art > img { animation: milestone-reveal 780ms cubic-bezier(.18,.7,.25,1) both; }
+}
+@keyframes milestone-arrive {
+ from { opacity: 0; transform: translateY(1rem); }
+ to { opacity: 1; transform: translateY(0); }
+}
+@keyframes milestone-reveal {
+ from { opacity: .2; scale: .74; translate: 0 1rem; }
+ to { opacity: 1; scale: 1; translate: 0 0; }
+}
+.milestone-timer {
+ width: min(100%, 23rem);
+ height: .5rem;
+ accent-color: #ffe29d;
+}
+.lesson-milestone button:disabled {
+ cursor: default;
+ opacity: .65;
+}
+
+.lesson-milestone-premium {
+ padding: 0;
+ overflow: hidden;
+ background: #120d20;
+}
+.lesson-milestone-premium .milestone-content {
+ position: relative;
+ isolation: isolate;
+ height: 100%;
+ max-width: none;
+ animation: none;
+}
+.lesson-milestone-premium .milestone-art {
+ position: absolute;
+ z-index: -1;
+ inset: 0;
+ height: 100%;
+ border: 0;
+ border-radius: 0;
+}
+.lesson-milestone-premium .milestone-label,
+.lesson-milestone-premium h2 {
+ position: absolute;
+ width: 1px;
+ height: 1px;
+ overflow: hidden;
+ clip-path: inset(50%);
+}
+.milestone-ad-footer {
+ position: absolute;
+ inset: auto 0 0;
+ display: grid;
+ justify-items: center;
+ gap: .55rem;
+ padding: 1.5rem max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+ background: linear-gradient(transparent, #120d20ed 70%);
+}
+.milestone-ad-footer .milestone-skip { background: #241541; }
+.milestone-sound {
+ position: absolute;
+ top: max(1rem, env(safe-area-inset-top));
+ right: max(1rem, env(safe-area-inset-right));
+ display: grid;
+ place-items: center;
+ width: 44px;
+ height: 44px;
+ border: 1px solid #ffffff80;
+ border-radius: 50%;
+ background: #120d20d9;
+ color: #fff;
+ cursor: pointer;
+}

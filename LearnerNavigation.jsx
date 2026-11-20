@@ -1,0 +1,7 @@
+import React from 'react';
+import {NotebookPen,Award,ChevronRight} from 'lucide-react';
+import {t} from './interface-runtime.mjs';
+export const learnerNavigation=['Overview','Learn','Practice Studio','My classes','Account'];
+export function learnerPrimaryTab(tab){if(['Learning memory','Level test','Full report'].includes(tab))return 'Overview';if(['Support','Profile','Admin','Review teachers'].includes(tab))return 'Account';if(tab==='AI conversation')return 'Practice Studio';return tab;}
+export function LearningShortcuts({onNavigate}){return <section className="learner-shortcuts" aria-label={t('Learning tools')}><button className="panel" onClick={()=>onNavigate('Learning memory')}><NotebookPen size={24}/><span><b>{t('Learning memory')}</b><small>{t('Review your learning history and recurring patterns.')}</small></span><ChevronRight size={18}/></button><button className="panel" onClick={()=>onNavigate('Level test')}><Award size={24}/><span><b>{t('Level test')}</b><small>{t('Check your level and see your skill report.')}</small></span><ChevronRight size={18}/></button></section>}
+export function AccountSupport({onOpen,unread=0}){return <section className="panel account-support"><div><h2>{t('Support')}</h2><p>{t('Contact the Continuum team and check your replies.')}</p></div><button className="outline-button" onClick={onOpen}>{t('Open Support')}{unread>0&&<span className="support-unread">{unread}</span>}</button></section>}

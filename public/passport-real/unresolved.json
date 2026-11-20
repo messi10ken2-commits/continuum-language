@@ -1,0 +1,198 @@
+[
+  {
+    "id": "en-gh",
+    "language": "en",
+    "country": "GH",
+    "place": "Cape Coast Castle",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "en-gd",
+    "language": "en",
+    "country": "GD",
+    "place": "St Georges Grenada",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "en-mh",
+    "language": "en",
+    "country": "MH",
+    "place": "Majuro atoll",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "en-nu",
+    "language": "en",
+    "country": "NU",
+    "place": "Niue coast",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "en-vu",
+    "language": "en",
+    "country": "VU",
+    "place": "Mount Yasur",
+    "reason": "Photo integrity or attribution check failed"
+  },
+  {
+    "id": "es-cu",
+    "language": "es",
+    "country": "CU",
+    "place": "Havana Cuba",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "es-py",
+    "language": "es",
+    "country": "PY",
+    "place": "Jesuit ruins Trinidad Paraguay",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "pt-mo",
+    "language": "pt",
+    "country": "MO",
+    "place": "Ruins of Saint Paul Macau",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "es-madrid",
+    "language": "es",
+    "country": "ES",
+    "place": "Madrid Gran Via",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "ja-sapporo",
+    "language": "ja",
+    "country": "JP",
+    "place": "Sapporo Snow Festival",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "ja-shiretoko",
+    "language": "ja",
+    "country": "JP",
+    "place": "Shiretoko coast",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "ja-fuji",
+    "language": "ja",
+    "country": "JP",
+    "place": "Mount Fuji Lake Kawaguchi",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "ja-nara",
+    "language": "ja",
+    "country": "JP",
+    "place": "Nara deer park",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "ja-koya",
+    "language": "ja",
+    "country": "JP",
+    "place": "Mount Koya temple",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "ja-kagoshima",
+    "language": "ja",
+    "country": "JP",
+    "place": "Sakurajima",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "es-extra-06",
+    "language": "es",
+    "country": "MX",
+    "place": "Teotihuacan",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "es-extra-07",
+    "language": "es",
+    "country": "MX",
+    "place": "Oaxaca Mexico",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "es-extra-09",
+    "language": "es",
+    "country": "AR",
+    "place": "Iguazu Falls Argentina",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "pt-extra-16",
+    "language": "pt",
+    "country": "PT",
+    "place": "Madeira Pico Ruivo",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "pt-extra-21",
+    "language": "pt",
+    "country": "ST",
+    "place": "Principe island beach",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "pt-extra-24",
+    "language": "pt",
+    "country": "GW",
+    "place": "Bubaque island",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "pt-extra-30",
+    "language": "pt",
+    "country": "TL",
+    "place": "Mount Ramelau",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "ja-extra-10",
+    "language": "ja",
+    "country": "JP",
+    "place": "Tottori sand dunes",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "ja-extra-11",
+    "language": "ja",
+    "country": "JP",
+    "place": "Amanohashidate",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  },
+  {
+    "id": "ja-extra-13",
+    "language": "ja",
+    "country": "JP",
+    "place": "Hirosaki Castle cherry blossoms",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "ja-extra-18",
+    "language": "ja",
+    "country": "JP",
+    "place": "Shakotan coast",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "ja-extra-27",
+    "language": "ja",
+    "country": "JP",
+    "place": "Kumano Nachi waterfall",
+    "reason": "No usable licensed photograph acquired"
+  },
+  {
+    "id": "ja-extra-29",
+    "language": "ja",
+    "country": "JP",
+    "place": "Enoshima",
+    "reason": "Initial source rejected in visual review; replacement unavailable"
+  }
+]

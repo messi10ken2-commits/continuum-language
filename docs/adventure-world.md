@@ -1,0 +1,9 @@
+# Living illustrated world
+
+The illustrated Overview contains a small journey hub: account-saved bird/fox/cat companions, four daily quest choices, and an expandable passport. Completed chapters add illuminated building or garden vignettes to the map. A companion follows the selected chapter; brief stamp celebrations respect reduced motion. No sound, modal interruption, lost streak, ranking, or CEFR claim is attached to rewards.
+
+Evidence comes from authenticated server records. Imported attempts do not earn progress. Chapter stamps require all current chapter activities at their authored pass marks. A return stamp records retrying a previously difficult lesson; consistency counts actual days with at least a minute of tracked study across languages. Daily quests count only activity after selection, use the account's recorded activity timezone, and reset without penalty. Five-word review counts distinct review items, not repeated submissions. Class/assignment quests are offered only when eligible work exists. Historical review answers retain null timestamps; the migration does not pretend they happened today.
+
+Companion preferences and daily choices persist across devices in learner-owned tables. All writes validate allowlisted values, and teacher/other-account access is excluded. Passport and restoration derive from saved records, so deleting an account deletes adventure preferences too. Current rewards reflect the current authored curriculum rather than independently certified proficiency.
+
+Verification: unit/model and authenticated API isolation checks; full existing QA suite; interface/content audits; production build; Chromium navigation/overflow at 320/390/768/1440 in both layouts; companion selection and daily quest persistence after reload. Physical Safari and external class/AI providers were not exercised. Browser script: scripts/qa-adventure.mjs.

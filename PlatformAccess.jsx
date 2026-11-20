@@ -1,0 +1,5 @@
+import React,{useEffect,useState} from 'react';
+import {opsRequest} from './ops-client.mjs';
+import {t} from './interface-runtime.mjs';
+export function usePlatformState(user){const [features,setFeatures]=useState({});useEffect(()=>{setFeatures({});if(!user)return;let live=true;const load=()=>{if(document.hidden)return;opsRequest('/api/platform').then(d=>{if(live)setFeatures(d.features)}).catch(()=>{})};load();const timer=setInterval(load,30000);window.addEventListener('continuum-platform-changed',load);document.addEventListener('visibilitychange',load);return()=>{live=false;clearInterval(timer);window.removeEventListener('continuum-platform-changed',load);document.removeEventListener('visibilitychange',load)}},[user?.id]);return features;}
+export function FeaturePaused({onSupport}){return <section className="panel"><h2>{t('Service temporarily paused')}</h2><p>{t('This service is temporarily paused by the administrator. Your saved records are unchanged.')}</p>{onSupport&&<button className="outline-button" onClick={onSupport}>{t('Contact support')}</button>}</section>;}

@@ -1,0 +1,5564 @@
+{
+  "./languages.mjs": [
+    "Assessment",
+    "LanguageOverview",
+    "LevelProfile",
+    "Profiles",
+    "SelfStudy",
+    "SentenceAudio",
+    "SkillsWorkshop",
+    "TeacherLanguageAccess",
+    "main"
+  ],
+  "./SentenceAudio.jsx": [
+    "Assessment",
+    "LessonMedia",
+    "LessonReference",
+    "ReviewPool",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "SoundScriptReference"
+  ],
+  "react": [
+    "Assessment",
+    "ConversationVideo",
+    "InterfaceLanguage",
+    "LanguageContext",
+    "LanguageOverview",
+    "LessonMedia",
+    "LessonReference",
+    "LessonSuggestion",
+    "LevelProfile",
+    "Profiles",
+    "RecurringPatterns",
+    "ReviewPool",
+    "SelfStudy",
+    "SentenceAudio",
+    "SkillsWorkshop",
+    "SoundScriptReference",
+    "TeacherLanguageAccess",
+    "main"
+  ],
+  "lucide-react": [
+    "Assessment",
+    "LanguageOverview",
+    "LessonMedia",
+    "LessonSuggestion",
+    "LevelProfile",
+    "Profiles",
+    "RecurringPatterns",
+    "SelfStudy",
+    "SentenceAudio",
+    "main"
+  ],
+  "./assessment.css": [
+    "Assessment"
+  ],
+  "./LevelProfile.jsx": [
+    "Assessment"
+  ],
+  "./SkillsWorkshop.jsx": [
+    "Assessment",
+    "LanguageOverview",
+    "SelfStudy",
+    "main"
+  ],
+  "GET": [
+    "Assessment",
+    "Profiles",
+    "RecurringPatterns",
+    "SkillsWorkshop"
+  ],
+  "/api/assessments": [
+    "Assessment"
+  ],
+  "same-origin": [
+    "Assessment",
+    "Profiles",
+    "ReviewPool",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "Content-Type": [
+    "Assessment",
+    "Profiles",
+    "RecurringPatterns",
+    "ReviewPool",
+    "SelfStudy",
+    "SentenceAudio",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "application/json": [
+    "Assessment",
+    "Profiles",
+    "RecurringPatterns",
+    "ReviewPool",
+    "SelfStudy",
+    "SentenceAudio",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "Unable to save your test": [
+    "Assessment"
+  ],
+  "es": [
+    "Assessment",
+    "ConversationVideo",
+    "LanguageContext",
+    "LanguageOverview",
+    "LessonMedia",
+    "LessonReference",
+    "Profiles",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "SoundScriptReference",
+    "main"
+  ],
+  "panel assessment-profile-panel": [
+    "Assessment"
+  ],
+  "panel assessment-summary": [
+    "Assessment"
+  ],
+  "eyebrow": [
+    "Assessment",
+    "ConversationVideo",
+    "LanguageOverview",
+    "LessonMedia",
+    "LessonReference",
+    "LessonSuggestion",
+    "LevelProfile",
+    "Profiles",
+    "RecurringPatterns",
+    "ReviewPool",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "SoundScriptReference",
+    "main"
+  ],
+  "Assessment is private": [
+    "Assessment"
+  ],
+  "{0} · provisional placement": [
+    "Assessment"
+  ],
+  "Find your starting point": [
+    "Assessment"
+  ],
+  "The learner controls sharing in Account.": [
+    "Assessment"
+  ],
+  "{0}/{1} · {2} · {3} Not an overall CEFR rating.": [
+    "Assessment"
+  ],
+  "Listening included; writing/speaking reviewed separately.": [
+    "Assessment"
+  ],
+  "Reading and language use only.": [
+    "Assessment"
+  ],
+  "Take a separate diagnostic test. Completing lessons does not set or raise your assessed level.": [
+    "Assessment"
+  ],
+  "primary": [
+    "Assessment",
+    "LanguageOverview",
+    "Profiles",
+    "RecurringPatterns",
+    "ReviewPool",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "Results & reassessment": [
+    "Assessment"
+  ],
+  "Take placement test": [
+    "Assessment"
+  ],
+  "panel assessment-result": [
+    "Assessment"
+  ],
+  "How this result is calculated": [
+    "Assessment"
+  ],
+  "Each band has 3 reading and 3 language-use questions. New tests also include 3 listening questions per band and a writing and speaking submission at the recommended course band. Placement is the highest consecutive band with at least 2/3 in each area (4/6 overall), starting at A1. Listening has a separate 2/3 consecutive-band threshold. Writing and speaking can receive AI or teacher task scores; these do not automatically establish CEFR levels. These are provisional product thresholds, not official CEFR cut scores. “Below A1” means the A1 threshold was not met on this sample, not a confirmed Pre-A1 rating. Skipped questions count as incorrect.": [
+    "Assessment"
+  ],
+  "assessment-table": [
+    "Assessment"
+  ],
+  "Evidence by task difficulty": [
+    "Assessment"
+  ],
+  "Band": [
+    "Assessment"
+  ],
+  "Reading": [
+    "Assessment",
+    "LevelProfile",
+    "main"
+  ],
+  "Language use": [
+    "Assessment",
+    "LevelProfile"
+  ],
+  "Listening": [
+    "Assessment",
+    "LevelProfile",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "Total": [
+    "Assessment"
+  ],
+  ". A small question sample has uncertainty; use a teacher-led four-skill assessment or a validated exam for higher-stakes decisions.": [
+    "Assessment"
+  ],
+  "https://www.coe.int/en/web/common-european-framework-reference-languages/relating-examinations-to-the-cefr": [
+    "Assessment"
+  ],
+  "_blank": [
+    "Assessment",
+    "ConversationVideo",
+    "LessonMedia",
+    "LessonReference",
+    "Profiles",
+    "SentenceAudio",
+    "SoundScriptReference"
+  ],
+  "noreferrer": [
+    "Assessment",
+    "ConversationVideo",
+    "LessonMedia",
+    "SentenceAudio",
+    "SoundScriptReference"
+  ],
+  "About relating tests to CEFR": [
+    "Assessment"
+  ],
+  "?language=": [
+    "Assessment",
+    "Profiles",
+    "ReviewPool",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "instant": [
+    "Assessment",
+    "SelfStudy",
+    "SkillsWorkshop"
+  ],
+  "learner": [
+    "Assessment",
+    "Profiles",
+    "main"
+  ],
+  "POST": [
+    "Assessment",
+    "RecurringPatterns",
+    "ReviewPool",
+    "SelfStudy",
+    "SentenceAudio",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "PUT": [
+    "Assessment",
+    "Profiles",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "auth-error": [
+    "Assessment",
+    "Profiles",
+    "RecurringPatterns",
+    "SelfStudy",
+    "main"
+  ],
+  "alert": [
+    "Assessment",
+    "InterfaceLanguage",
+    "Profiles",
+    "RecurringPatterns",
+    "ReviewPool",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "TeacherLanguageAccess",
+    "main"
+  ],
+  "outline-button": [
+    "Assessment",
+    "LanguageOverview",
+    "LessonSuggestion",
+    "LevelProfile",
+    "Profiles",
+    "RecurringPatterns",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "Reload saved test": [
+    "Assessment"
+  ],
+  "panel assessment-intro": [
+    "Assessment"
+  ],
+  "Know where to begin.": [
+    "Assessment"
+  ],
+  "Sign in as a learner to take a diagnostic test and keep your results across devices.": [
+    "Assessment"
+  ],
+  "Sign in to take the test": [
+    "Assessment"
+  ],
+  "panel": [
+    "Assessment",
+    "Profiles",
+    "ReviewPool",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "Loading your assessments…": [
+    "Assessment"
+  ],
+  "assessment-page": [
+    "Assessment"
+  ],
+  "back": [
+    "Assessment",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "← Pause test": [
+    "Assessment"
+  ],
+  "Work independently. Submitted work is saved separately and can receive AI assessment or teacher feedback. If you cannot submit now, skip; this skill will remain unassessed.": [
+    "Assessment"
+  ],
+  "Skip this skill": [
+    "Assessment"
+  ],
+  "Skip selected. No score will be assigned.": [
+    "Assessment"
+  ],
+  "primary wide": [
+    "Assessment",
+    "SelfStudy",
+    "main"
+  ],
+  "Saving…": [
+    "Assessment",
+    "InterfaceLanguage",
+    "Profiles",
+    "ReviewPool",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "Finish assessment": [
+    "Assessment"
+  ],
+  "Save & continue": [
+    "Assessment"
+  ],
+  "assessment-test-top": [
+    "Assessment"
+  ],
+  "Pause test": [
+    "Assessment"
+  ],
+  "Test progress": [
+    "Assessment"
+  ],
+  "panel assessment-question": [
+    "Assessment"
+  ],
+  "Choose one answer": [
+    "Assessment"
+  ],
+  "chosen": [
+    "Assessment"
+  ],
+  "radio": [
+    "Assessment",
+    "Profiles",
+    "SkillsWorkshop"
+  ],
+  "assessment-option-audio": [
+    "Assessment"
+  ],
+  "I don’t know / skip": [
+    "Assessment"
+  ],
+  "Finish test & update placement": [
+    "Assessment"
+  ],
+  "Save answer & continue": [
+    "Assessment"
+  ],
+  "assessment-small": [
+    "Assessment"
+  ],
+  "Each continued answer is saved and cannot be changed. There is no answer feedback during the test. Pause keeps saved answers; the current unsaved choice will be repeated.": [
+    "Assessment"
+  ],
+  "assessment-hero": [
+    "Assessment"
+  ],
+  "A CLEARER STARTING POINT": [
+    "Assessment"
+  ],
+  "Your level, tested.": [
+    "Assessment"
+  ],
+  "Learning progress shows what you have completed. An assessment gives separate evidence for where to begin next.": [
+    "Assessment"
+  ],
+  "assessment-chips": [
+    "Assessment"
+  ],
+  "45 scored questions + 2 response tasks": [
+    "Assessment"
+  ],
+  "About 35–50 minutes · untimed": [
+    "Assessment"
+  ],
+  "assessment-comparison": [
+    "Assessment"
+  ],
+  "). The latest complete test replaces your placement, even if lower. Small changes can reflect sampling or familiarity.": [
+    "Assessment"
+  ],
+  "READY WHEN YOU ARE": [
+    "Assessment"
+  ],
+  "CHECK YOUR PROGRESS": [
+    "Assessment"
+  ],
+  "FIRST-TIME PLACEMENT": [
+    "Assessment"
+  ],
+  "Resume your saved test": [
+    "Assessment"
+  ],
+  "Take a reassessment": [
+    "Assessment"
+  ],
+  "Take your placement test": [
+    "Assessment"
+  ],
+  "Reading, language use and listening questions, followed by a writing task and a recorded speaking task. Listening is scored automatically. Writing and speaking are saved for AI assessment or teacher feedback. Their task scores appear alongside your diagnostic results.": [
+    "Assessment"
+  ],
+  "Work independently, without a dictionary, translator or outside help.": [
+    "Assessment"
+  ],
+  "Choose “I don’t know” instead of guessing when possible.": [
+    "Assessment"
+  ],
+  "Your first completed test sets your placement; later completed tests update it. An unfinished test never changes your previous result.": [
+    "Assessment"
+  ],
+  "Three forms reduce immediate repetition, but questions recur.": [
+    "Assessment"
+  ],
+  "The initial question bank rotates choices and samples language-use items. Reading and listening items recur.": [
+    "Assessment"
+  ],
+  "assessment-privacy": [
+    "Assessment"
+  ],
+  "Results follow “Share self-study activity” in Account. Turning it off hides test results from connected teachers too.": [
+    "Assessment"
+  ],
+  "assessment-consent": [
+    "Assessment"
+  ],
+  "checkbox": [
+    "Assessment",
+    "Profiles",
+    "RecurringPatterns",
+    "SkillsWorkshop",
+    "TeacherLanguageAccess",
+    "main"
+  ],
+  "I understand this is a provisional diagnostic with separate skill evidence, not an overall CEFR certification.": [
+    "Assessment"
+  ],
+  "Opening…": [
+    "Assessment"
+  ],
+  "Resume test": [
+    "Assessment"
+  ],
+  "Start reassessment": [
+    "Assessment"
+  ],
+  "Start placement test": [
+    "Assessment"
+  ],
+  "none": [
+    "Assessment",
+    "ConversationVideo",
+    "LessonMedia",
+    "Profiles",
+    "SoundScriptReference"
+  ],
+  "panel assessment-history": [
+    "Assessment"
+  ],
+  "YOUR ASSESSMENT RECORD": [
+    "Assessment"
+  ],
+  "Test history": [
+    "Assessment"
+  ],
+  "Most recent 20 results. Lesson scores do not change these results.": [
+    "Assessment"
+  ],
+  "placement": [
+    "Assessment"
+  ],
+  "Placement": [
+    "Assessment"
+  ],
+  "Reassessment": [
+    "Assessment"
+  ],
+  "Current": [
+    "Assessment"
+  ],
+  "Previous": [
+    "Assessment"
+  ],
+  "./conversation-cues.mjs": [
+    "ConversationVideo"
+  ],
+  "youtube": [
+    "ConversationVideo"
+  ],
+  "conversation-video": [
+    "ConversationVideo"
+  ],
+  "Conversation with human voices": [
+    "ConversationVideo"
+  ],
+  "visual-section-title": [
+    "ConversationVideo",
+    "LessonMedia"
+  ],
+  "REAL PEOPLE · ORIGINAL SPOKEN AUDIO": [
+    "ConversationVideo"
+  ],
+  "Watch and listen again": [
+    "ConversationVideo"
+  ],
+  "Watch the conversation": [
+    "ConversationVideo"
+  ],
+  "conversation-embed": [
+    "ConversationVideo"
+  ],
+  "&autoplay=1": [
+    "ConversationVideo"
+  ],
+  "lazy": [
+    "ConversationVideo",
+    "LessonMedia"
+  ],
+  "strict-origin-when-cross-origin": [
+    "ConversationVideo"
+  ],
+  "accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen; autoplay": [
+    "ConversationVideo"
+  ],
+  "conversation-tools": [
+    "ConversationVideo"
+  ],
+  "button": [
+    "ConversationVideo",
+    "LessonMedia",
+    "LessonSuggestion",
+    "LevelProfile",
+    "Profiles",
+    "SelfStudy",
+    "SentenceAudio",
+    "SkillsWorkshop",
+    "SoundScriptReference",
+    "TeacherLanguageAccess",
+    "main"
+  ],
+  "Watch full video (optional)": [
+    "ConversationVideo"
+  ],
+  "Conversation playback speed": [
+    "ConversationVideo"
+  ],
+  "Back 10 seconds": [
+    "ConversationVideo"
+  ],
+  "conversation-source-title": [
+    "ConversationVideo"
+  ],
+  "conversation-guide": [
+    "ConversationVideo"
+  ],
+  "Replay with a purpose": [
+    "ConversationVideo"
+  ],
+  "Your listening guide": [
+    "ConversationVideo"
+  ],
+  "conversation-hint": [
+    "ConversationVideo"
+  ],
+  "Listen for the situation first, then replay for details. This five-minute teaching video includes repetition and on-screen captions.": [
+    "ConversationVideo"
+  ],
+  "status": [
+    "ConversationVideo",
+    "InterfaceLanguage",
+    "LessonMedia",
+    "Profiles",
+    "RecurringPatterns",
+    "ReviewPool",
+    "SelfStudy",
+    "SentenceAudio",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "The video could not load here. Open the original lesson below to watch, or use the dialogue transcript.": [
+    "ConversationVideo"
+  ],
+  "Read the dialogue transcript": [
+    "ConversationVideo"
+  ],
+  "The main conversation; teaching repetitions are omitted.": [
+    "ConversationVideo"
+  ],
+  "If playback is unavailable here, use “Open original video” below. YouTube may show ads or restrict playback in some regions.": [
+    "ConversationVideo"
+  ],
+  "conversation-credit": [
+    "ConversationVideo"
+  ],
+  ". Questions by Continuum.": [
+    "ConversationVideo"
+  ],
+  "conversation-question": [
+    "ConversationVideo"
+  ],
+  "question-video-reference": [
+    "ConversationVideo"
+  ],
+  "Answer from this section. The question paraphrases the video; the window includes context around the relevant statement.": [
+    "ConversationVideo"
+  ],
+  "official episode transcript": [
+    "ConversationVideo"
+  ],
+  ". Its playback times may differ from this video.": [
+    "ConversationVideo"
+  ],
+  "Use the dialogue transcript below for this question. A precise video time has not yet been verified.": [
+    "ConversationVideo"
+  ],
+  "undefined": [
+    "InterfaceLanguage",
+    "SelfStudy",
+    "main"
+  ],
+  "Could not save. Please try again.": [
+    "InterfaceLanguage",
+    "SelfStudy"
+  ],
+  "text-button": [
+    "InterfaceLanguage",
+    "LanguageOverview",
+    "Profiles",
+    "RecurringPatterns",
+    "ReviewPool",
+    "SelfStudy",
+    "SentenceAudio",
+    "SkillsWorkshop",
+    "TeacherLanguageAccess",
+    "main"
+  ],
+  "Try again": [
+    "InterfaceLanguage",
+    "ReviewPool",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "reference-hint": [
+    "InterfaceLanguage",
+    "LessonReference",
+    "SelfStudy",
+    "SoundScriptReference"
+  ],
+  "./LessonMedia.jsx": [
+    "LanguageOverview",
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "./course.mjs": [
+    "LanguageOverview",
+    "LessonMedia",
+    "ReviewPool",
+    "SelfStudy",
+    "main"
+  ],
+  "./Assessment.jsx": [
+    "LanguageOverview",
+    "main"
+  ],
+  "./RecurringPatterns.jsx": [
+    "LanguageOverview"
+  ],
+  "./learning-memory.css": [
+    "LanguageOverview"
+  ],
+  "record-score-ring": [
+    "LanguageOverview"
+  ],
+  "--score": [
+    "LanguageOverview"
+  ],
+  "deg": [
+    "LanguageOverview"
+  ],
+  "practice-": [
+    "LanguageOverview"
+  ],
+  "Practice": [
+    "LanguageOverview",
+    "main"
+  ],
+  "note-": [
+    "LanguageOverview"
+  ],
+  "Class note": [
+    "LanguageOverview"
+  ],
+  "smooth": [
+    "LanguageOverview",
+    "LevelProfile",
+    "main"
+  ],
+  "start": [
+    "LanguageOverview",
+    "SkillsWorkshop"
+  ],
+  "unified-learning-record": [
+    "LanguageOverview"
+  ],
+  "Learning memory": [
+    "LanguageOverview",
+    "LessonSuggestion",
+    "main"
+  ],
+  "{0}: your next step": [
+    "LanguageOverview"
+  ],
+  "Your practice, feedback and class observations, connected in one place.": [
+    "LanguageOverview"
+  ],
+  "See where you are, what is improving, and what to practise next.": [
+    "LanguageOverview"
+  ],
+  "Level test": [
+    "LanguageOverview",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "memory-hero connected-memory-hero": [
+    "LanguageOverview",
+    "main"
+  ],
+  "assessment-ring small": [
+    "LanguageOverview",
+    "main"
+  ],
+  "recent records": [
+    "LanguageOverview",
+    "main"
+  ],
+  "Practice that stays with you": [
+    "LanguageOverview",
+    "main"
+  ],
+  "memory-source": [
+    "LanguageOverview",
+    "main"
+  ],
+  "panel record-recent": [
+    "LanguageOverview"
+  ],
+  "RECENT PRACTICE": [
+    "LanguageOverview",
+    "main"
+  ],
+  "Your next chapter starts here": [
+    "LanguageOverview"
+  ],
+  "{0} questions · {1}": [
+    "LanguageOverview"
+  ],
+  "Explore {0} course activities from A1 to C1.": [
+    "LanguageOverview"
+  ],
+  "Learn": [
+    "LanguageOverview",
+    "RecurringPatterns",
+    "main"
+  ],
+  "Practise again": [
+    "LanguageOverview"
+  ],
+  "Start learning": [
+    "LanguageOverview"
+  ],
+  "latest exercise": [
+    "LanguageOverview",
+    "main"
+  ],
+  "memory-layout record-evidence-layout": [
+    "LanguageOverview"
+  ],
+  "panel pattern-list": [
+    "LanguageOverview",
+    "main"
+  ],
+  "LESSON EVIDENCE": [
+    "LanguageOverview",
+    "main"
+  ],
+  "What you have practised": [
+    "LanguageOverview",
+    "main"
+  ],
+  "active": [
+    "LanguageOverview",
+    "SelfStudy",
+    "main"
+  ],
+  "selected-lesson-evidence": [
+    "LanguageOverview"
+  ],
+  "record-lesson-label": [
+    "LanguageOverview"
+  ],
+  "No completed lessons yet. Your results will appear here after practice.": [
+    "LanguageOverview"
+  ],
+  "panel pattern-detail record-detail": [
+    "LanguageOverview"
+  ],
+  "Selected lesson evidence": [
+    "LanguageOverview"
+  ],
+  "SAVED PRACTICE RESULTS": [
+    "LanguageOverview"
+  ],
+  "growth": [
+    "LanguageOverview",
+    "main"
+  ],
+  "Earliest saved": [
+    "LanguageOverview"
+  ],
+  "Latest saved": [
+    "LanguageOverview"
+  ],
+  "Practise this lesson": [
+    "LanguageOverview"
+  ],
+  "Score history": [
+    "LanguageOverview"
+  ],
+  "Your evidence, over time": [
+    "LanguageOverview"
+  ],
+  "Choose a completed lesson to explore your results.": [
+    "LanguageOverview"
+  ],
+  "panel activity": [
+    "LanguageOverview",
+    "main"
+  ],
+  "YOUR LEARNING TIMELINE": [
+    "LanguageOverview"
+  ],
+  "Lessons and classes, connected": [
+    "LanguageOverview"
+  ],
+  "record-timeline": [
+    "LanguageOverview"
+  ],
+  "record-event-icon": [
+    "LanguageOverview"
+  ],
+  "Your learning timeline will grow with your activity.": [
+    "LanguageOverview"
+  ],
+  "Showing up to 50 recent lesson attempts and class notes. Recurring patterns counts your complete saved history.": [
+    "LanguageOverview"
+  ],
+  "Explore your learning memory": [
+    "LanguageOverview"
+  ],
+  "record-privacy": [
+    "LanguageOverview"
+  ],
+  "Teacher visibility follows “Share self-study activity” in Account.": [
+    "LanguageOverview"
+  ],
+  "./ConversationVideo.jsx": [
+    "LessonMedia",
+    "SelfStudy"
+  ],
+  "./lesson-media.mjs": [
+    "LessonMedia",
+    "SelfStudy"
+  ],
+  "./lesson-media.css": [
+    "LessonMedia"
+  ],
+  "img": [
+    "LessonMedia",
+    "SoundScriptReference"
+  ],
+  "eager": [
+    "LessonMedia"
+  ],
+  "async": [
+    "LessonMedia"
+  ],
+  "visual-discovery": [
+    "LessonMedia"
+  ],
+  "SEE IT. UNDERSTAND IT. USE IT.": [
+    "LessonMedia"
+  ],
+  "Explore your world": [
+    "LessonMedia"
+  ],
+  "A1–C1": [
+    "LessonMedia"
+  ],
+  "visual-discovery-grid": [
+    "LessonMedia"
+  ],
+  "discovery-card": [
+    "LessonMedia"
+  ],
+  "discovery-photo": [
+    "LessonMedia"
+  ],
+  "discovery-level": [
+    "LessonMedia"
+  ],
+  "discovery-play": [
+    "LessonMedia"
+  ],
+  "discovery-copy": [
+    "LessonMedia"
+  ],
+  "REAL CONVERSATION · WITH AUDIO": [
+    "LessonMedia"
+  ],
+  "SCENE & COMPREHENSION": [
+    "LessonMedia"
+  ],
+  "explore": [
+    "LessonMedia"
+  ],
+  "es-ES": [
+    "LessonMedia",
+    "LessonReference",
+    "ReviewPool",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "SoundScriptReference"
+  ],
+  ":frame:": [
+    "LessonMedia"
+  ],
+  "lesson-media": [
+    "LessonMedia"
+  ],
+  "Visual lesson": [
+    "LessonMedia"
+  ],
+  "lesson-media-top": [
+    "LessonMedia"
+  ],
+  "A SCENE TO UNDERSTAND": [
+    "LessonMedia"
+  ],
+  "YOUR VISUAL RECAP": [
+    "LessonMedia"
+  ],
+  "media-tabs": [
+    "LessonMedia"
+  ],
+  "group": [
+    "LessonMedia",
+    "SelfStudy"
+  ],
+  "Visual learning format": [
+    "LessonMedia"
+  ],
+  "Explore": [
+    "LessonMedia"
+  ],
+  "watch": [
+    "LessonMedia"
+  ],
+  "Watch": [
+    "LessonMedia"
+  ],
+  "visual-stage": [
+    "LessonMedia"
+  ],
+  "visual-photo-button": [
+    "LessonMedia"
+  ],
+  "Enlarge lesson image": [
+    "LessonMedia"
+  ],
+  "Enlarge": [
+    "LessonMedia"
+  ],
+  "visual-focus": [
+    "LessonMedia"
+  ],
+  "--scene-color": [
+    "LessonMedia"
+  ],
+  "visual-step-label": [
+    "LessonMedia"
+  ],
+  "visual-target": [
+    "LessonMedia"
+  ],
+  "ja-JP": [
+    "LessonMedia",
+    "SoundScriptReference"
+  ],
+  "visual-reveal": [
+    "LessonMedia"
+  ],
+  "Hide meaning": [
+    "LessonMedia"
+  ],
+  "Think first · reveal meaning": [
+    "LessonMedia"
+  ],
+  "visual-meaning": [
+    "LessonMedia"
+  ],
+  "visual-steps": [
+    "LessonMedia"
+  ],
+  "Explore lesson examples": [
+    "LessonMedia"
+  ],
+  "visual-video": [
+    "LessonMedia"
+  ],
+  "Captioned visual recap · no spoken soundtrack · pause to read": [
+    "LessonMedia"
+  ],
+  "The video could not load. You can still use every example in Explore or read the transcript below.": [
+    "LessonMedia"
+  ],
+  "Read the complete video transcript": [
+    "LessonMedia"
+  ],
+  "media-caption": [
+    "LessonMedia"
+  ],
+  "https://unsplash.com/license": [
+    "LessonMedia"
+  ],
+  "Unsplash": [
+    "LessonMedia"
+  ],
+  ". Examples and recap by Continuum.": [
+    "LessonMedia"
+  ],
+  "lesson-image-dialog": [
+    "LessonMedia"
+  ],
+  "dialog-close": [
+    "LessonMedia"
+  ],
+  "Close enlarged image": [
+    "LessonMedia"
+  ],
+  "A visual setting for this lesson. Use the question and audio to choose your answer.": [
+    "LessonMedia"
+  ],
+  "page-scene": [
+    "LessonMedia"
+  ],
+  "page-scene-button": [
+    "LessonMedia"
+  ],
+  "Enlarge page image": [
+    "LessonMedia"
+  ],
+  "visual-practice-photo": [
+    "LessonMedia"
+  ],
+  "Close enlarged page image": [
+    "LessonMedia"
+  ],
+  "./lesson-reference.css": [
+    "LessonReference"
+  ],
+  "./curriculum-expressions.mjs": [
+    "LessonReference"
+  ],
+  "lesson-reference": [
+    "LessonReference"
+  ],
+  "expression-toolkit": [
+    "LessonReference"
+  ],
+  "CHUNKS → CONTEXT → YOUR OWN WORDS": [
+    "LessonReference"
+  ],
+  "Your expression toolkit": [
+    "LessonReference"
+  ],
+  "expression-priority": [
+    "LessonReference"
+  ],
+  "Learn each phrase as a unit. Notice its register, cover the translation, then use it in a new situation of your own.": [
+    "LessonReference"
+  ],
+  "expression-grid": [
+    "LessonReference"
+  ],
+  "expression-tags": [
+    "LessonReference"
+  ],
+  "When & how:": [
+    "LessonReference"
+  ],
+  "translated-example": [
+    "LessonReference"
+  ],
+  "rule-pitfall": [
+    "LessonReference"
+  ],
+  "Watch out:": [
+    "LessonReference"
+  ],
+  "expression-level-note": [
+    "LessonReference"
+  ],
+  "About levels and learning priority": [
+    "LessonReference"
+  ],
+  "These are teaching priorities, not official CEFR classifications of individual expressions. Practise each expression in context and choose the register that fits your audience.": [
+    "LessonReference"
+  ],
+  "A collocation is a natural word combination; an idiom has a meaning that is not simply literal. Expressions include useful conversational formulas. Categories can overlap.": [
+    "LessonReference"
+  ],
+  "noopener noreferrer": [
+    "LessonReference",
+    "Profiles"
+  ],
+  "BUILD THE RULE": [
+    "LessonReference"
+  ],
+  "How the form works": [
+    "LessonReference"
+  ],
+  "conjugation-scroll": [
+    "LessonReference"
+  ],
+  "region": [
+    "LessonReference"
+  ],
+  " — scroll horizontally if needed": [
+    "LessonReference"
+  ],
+  "col": [
+    "LessonReference"
+  ],
+  "row": [
+    "LessonReference"
+  ],
+  "Tables include vosotros (mainly Spain); ustedes takes the ellos/ellas form. Accent marks matter. Regional voseo forms are outside these tables.": [
+    "LessonReference"
+  ],
+  "Watch out for this": [
+    "LessonReference"
+  ],
+  "See the meaning in context": [
+    "LessonReference"
+  ],
+  "WORD → PHRASE → SENTENCE": [
+    "LessonReference"
+  ],
+  "Your vocabulary toolkit": [
+    "LessonReference"
+  ],
+  "Say the phrase, cover the translation, then make your own sentence.": [
+    "LessonReference"
+  ],
+  "vocabulary-grid": [
+    "LessonReference"
+  ],
+  "food-vocabulary": [
+    "LessonReference"
+  ],
+  "Agua is feminine. It takes el immediately before its stressed initial a: el agua fría. Adjectives stay feminine; the plural uses las aguas.": [
+    "LessonReference"
+  ],
+  "./lesson-suggestions.mjs": [
+    "LessonSuggestion"
+  ],
+  "ai-note-card lesson-suggestion": [
+    "LessonSuggestion"
+  ],
+  "Suggested next lesson": [
+    "LessonSuggestion"
+  ],
+  "NEXT LESSON · EVIDENCE-BASED PLAN": [
+    "LessonSuggestion"
+  ],
+  "suggestion-source": [
+    "LessonSuggestion"
+  ],
+  "Relevant learning progress": [
+    "LessonSuggestion"
+  ],
+  "Check at the end": [
+    "LessonSuggestion"
+  ],
+  "Use as class-plan draft": [
+    "LessonSuggestion"
+  ],
+  "Save or clear your current observation before inserting a plan.": [
+    "LessonSuggestion"
+  ],
+  "Inserts an editable draft above. Nothing is saved or assigned until you choose to save.": [
+    "LessonSuggestion"
+  ],
+  "Built from course activities and planning rules—not an AI assessment. Unsaved typing does not change this plan.": [
+    "LessonSuggestion"
+  ],
+  "reading": [
+    "LevelProfile"
+  ],
+  "#219d8d": [
+    "LevelProfile"
+  ],
+  "listening": [
+    "LevelProfile"
+  ],
+  "#6172ee": [
+    "LevelProfile"
+  ],
+  "Speaking": [
+    "LevelProfile",
+    "SelfStudy",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "speaking": [
+    "LevelProfile"
+  ],
+  "#9566da": [
+    "LevelProfile"
+  ],
+  "Writing": [
+    "LevelProfile",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "writing": [
+    "LevelProfile",
+    "SkillsWorkshop"
+  ],
+  "#dc9438": [
+    "LevelProfile"
+  ],
+  "languageUse": [
+    "LevelProfile"
+  ],
+  "#ea7957": [
+    "LevelProfile"
+  ],
+  "Understand written Spanish, from everyday messages to longer arguments.": [
+    "LevelProfile"
+  ],
+  "Follow spoken Spanish and identify the main message and relevant details.": [
+    "LevelProfile"
+  ],
+  "Express your ideas aloud with clear meaning, intelligible speech and appropriate language.": [
+    "LevelProfile"
+  ],
+  "Write a clear response with relevant detail, suitable vocabulary and organised ideas.": [
+    "LevelProfile"
+  ],
+  "Choose grammar and vocabulary that express the intended meaning.": [
+    "LevelProfile"
+  ],
+  "Below A1": [
+    "LevelProfile"
+  ],
+  "Provisional task band": [
+    "LevelProfile"
+  ],
+  "Diagnostic questions": [
+    "LevelProfile"
+  ],
+  "Your band reflects consecutive difficulty bands meeting the test threshold. The score below retains all your answers across A1–C1.": [
+    "LevelProfile"
+  ],
+  "reviewed": [
+    "LevelProfile",
+    "SkillsWorkshop"
+  ],
+  "Task difficulty · not a proficiency rating": [
+    "LevelProfile"
+  ],
+  "Not assessed": [
+    "LevelProfile"
+  ],
+  "Teacher assessment": [
+    "LevelProfile"
+  ],
+  "ai-reviewed": [
+    "LevelProfile"
+  ],
+  "AI assessment": [
+    "LevelProfile",
+    "SkillsWorkshop"
+  ],
+  "ai-unassessable": [
+    "LevelProfile"
+  ],
+  "Insufficient evidence": [
+    "LevelProfile"
+  ],
+  "Awaiting assessment": [
+    "LevelProfile"
+  ],
+  "No response yet": [
+    "LevelProfile"
+  ],
+  "Submit a response and request AI assessment or a teacher review to see your score here.": [
+    "LevelProfile"
+  ],
+  "main > header": [
+    "LevelProfile",
+    "main"
+  ],
+  "(prefers-reduced-motion: reduce)": [
+    "LevelProfile",
+    "main"
+  ],
+  "auto": [
+    "LevelProfile",
+    "SelfStudy",
+    "SentenceAudio",
+    "main"
+  ],
+  "level-profile": [
+    "LevelProfile"
+  ],
+  "level-profile-heading": [
+    "LevelProfile"
+  ],
+  "Current level profile": [
+    "LevelProfile",
+    "main"
+  ],
+  "level-profile-top": [
+    "LevelProfile"
+  ],
+  "level-profile-ring": [
+    "LevelProfile"
+  ],
+  "--accuracy": [
+    "LevelProfile"
+  ],
+  "course placement": [
+    "LevelProfile"
+  ],
+  "Recommended course band from your reading and language-use test.": [
+    "LevelProfile"
+  ],
+  "level-profile-score": [
+    "LevelProfile"
+  ],
+  "Skill scores stay separate, so you can see where to focus.": [
+    "LevelProfile"
+  ],
+  "level-profile-path": [
+    "LevelProfile"
+  ],
+  "Course placement from A1 to C1": [
+    "LevelProfile"
+  ],
+  "A1": [
+    "LevelProfile",
+    "Profiles",
+    "SelfStudy"
+  ],
+  "A2": [
+    "LevelProfile",
+    "Profiles"
+  ],
+  "B1": [
+    "LevelProfile",
+    "Profiles",
+    "SelfStudy",
+    "main"
+  ],
+  "B2": [
+    "LevelProfile",
+    "Profiles",
+    "main"
+  ],
+  "C1": [
+    "LevelProfile",
+    "Profiles"
+  ],
+  "current": [
+    "LevelProfile"
+  ],
+  "step": [
+    "LevelProfile"
+  ],
+  "Explore your skills": [
+    "LevelProfile",
+    "main"
+  ],
+  "level-profile-hint": [
+    "LevelProfile"
+  ],
+  "Tap a skill for its score, evidence and next step.": [
+    "LevelProfile"
+  ],
+  "level-profile-skills": [
+    "LevelProfile"
+  ],
+  "--skill-color": [
+    "LevelProfile",
+    "main"
+  ],
+  "selected": [
+    "LevelProfile",
+    "SelfStudy",
+    "main"
+  ],
+  "level-profile-bar": [
+    "LevelProfile"
+  ],
+  "level-profile-raw": [
+    "LevelProfile"
+  ],
+  "level-profile-detail": [
+    "LevelProfile"
+  ],
+  "level-profile-detail-title": [
+    "LevelProfile"
+  ],
+  "Spanish": [
+    "LevelProfile"
+  ],
+  "Evidence in your record": [
+    "LevelProfile"
+  ],
+  "Next focus": [
+    "LevelProfile",
+    "main"
+  ],
+  "level-profile-note": [
+    "LevelProfile"
+  ],
+  "Provisional learning guidance, not an official CEFR qualification. Speaking and writing percentages describe performance on the displayed task band.": [
+    "LevelProfile"
+  ],
+  "./profiles.css": [
+    "Profiles"
+  ],
+  "/api": [
+    "Profiles",
+    "SelfStudy",
+    "main"
+  ],
+  "Please try again": [
+    "Profiles"
+  ],
+  "welcome-page": [
+    "Profiles"
+  ],
+  "pill": [
+    "Profiles",
+    "SelfStudy",
+    "main"
+  ],
+  "WELCOME TO CONTINUUM": [
+    "Profiles"
+  ],
+  "One journey.": [
+    "Profiles"
+  ],
+  "Every way you learn.": [
+    "Profiles"
+  ],
+  "Connect independent practice with a teacher who understands your progress.": [
+    "Profiles"
+  ],
+  "welcome-choices": [
+    "Profiles"
+  ],
+  "I want to learn": [
+    "Profiles"
+  ],
+  "Choose a language, find your starting point and build your learning memory.": [
+    "Profiles"
+  ],
+  "teacher": [
+    "Profiles",
+    "main"
+  ],
+  "I want to teach": [
+    "Profiles"
+  ],
+  "Create your teaching profile and submit it for review before joining the directory.": [
+    "Profiles"
+  ],
+  "welcome-actions": [
+    "Profiles"
+  ],
+  "Already a member? Sign in": [
+    "Profiles"
+  ],
+  "profile-languages": [
+    "Profiles"
+  ],
+  "Languages": [
+    "Profiles"
+  ],
+  "UTC": [
+    "Profiles"
+  ],
+  "manual": [
+    "Profiles"
+  ],
+  "/profile": [
+    "Profiles",
+    "main"
+  ],
+  "Submitted for review. Your profile stays private until approved.": [
+    "Profiles"
+  ],
+  "Draft saved. Your profile is not published.": [
+    "Profiles"
+  ],
+  "image/jpeg": [
+    "Profiles"
+  ],
+  "image/png": [
+    "Profiles"
+  ],
+  "image/webp": [
+    "Profiles"
+  ],
+  "Choose a JPEG, PNG or WebP image under 10 MB.": [
+    "Profiles"
+  ],
+  "canvas": [
+    "Profiles"
+  ],
+  "2d": [
+    "Profiles"
+  ],
+  "Please choose a smaller photo": [
+    "Profiles"
+  ],
+  "photo": [
+    "Profiles"
+  ],
+  "Photo could not be loaded. ": [
+    "Profiles"
+  ],
+  "panel profile-editor": [
+    "Profiles"
+  ],
+  "YOUR TEACHING PROFILE": [
+    "Profiles"
+  ],
+  "YOUR STARTING POINT": [
+    "Profiles"
+  ],
+  "Help learners get to know you": [
+    "Profiles"
+  ],
+  "Make this journey yours": [
+    "Profiles"
+  ],
+  "Complete your public introduction and submit it for a human review. Saving changes hides your profile until it is submitted and approved again.": [
+    "Profiles"
+  ],
+  "A short setup, then you can start. You can switch learning languages at any time.": [
+    "Profiles"
+  ],
+  "profile-status": [
+    "Profiles"
+  ],
+  "profile-fields": [
+    "Profiles"
+  ],
+  "name": [
+    "Profiles",
+    "main"
+  ],
+  "Display name": [
+    "Profiles"
+  ],
+  "Start with": [
+    "Profiles"
+  ],
+  "primaryLanguage": [
+    "Profiles"
+  ],
+  "goal": [
+    "Profiles"
+  ],
+  "What would you like to achieve? (optional)": [
+    "Profiles"
+  ],
+  "profile-route": [
+    "Profiles"
+  ],
+  "Choose your starting point": [
+    "Profiles"
+  ],
+  "start-route": [
+    "Profiles"
+  ],
+  "startMode": [
+    "Profiles"
+  ],
+  "I’ll choose my level": [
+    "Profiles"
+  ],
+  "assessment": [
+    "Profiles",
+    "main"
+  ],
+  "Help me find my level with an assessment": [
+    "Profiles"
+  ],
+  "Starting course level": [
+    "Profiles"
+  ],
+  "level": [
+    "Profiles"
+  ],
+  "This is your choice, not an assessed CEFR result. You can change it in Learn.": [
+    "Profiles"
+  ],
+  ". You can pause and return later.": [
+    "Profiles"
+  ],
+  "Profile photo": [
+    "Profiles"
+  ],
+  "file": [
+    "Profiles"
+  ],
+  "image/jpeg,image/png,image/webp": [
+    "Profiles"
+  ],
+  "A clear photo of you, with your face visible.": [
+    "Profiles"
+  ],
+  "teacher-photo": [
+    "Profiles",
+    "main"
+  ],
+  "Your profile preview": [
+    "Profiles"
+  ],
+  "headline": [
+    "Profiles"
+  ],
+  "Profile headline": [
+    "Profiles"
+  ],
+  "bio": [
+    "Profiles"
+  ],
+  "Introduce yourself and your specialities": [
+    "Profiles"
+  ],
+  "experience": [
+    "Profiles"
+  ],
+  "Teaching experience": [
+    "Profiles"
+  ],
+  "approach": [
+    "Profiles"
+  ],
+  "Your lesson approach and who you teach": [
+    "Profiles"
+  ],
+  "qualifications": [
+    "Profiles"
+  ],
+  "Education and teaching qualifications": [
+    "Profiles"
+  ],
+  "If you do not hold a teaching certificate, say so. Do not claim credentials you do not have.": [
+    "Profiles"
+  ],
+  "spokenLanguages": [
+    "Profiles"
+  ],
+  "Languages you speak and your proficiency": [
+    "Profiles"
+  ],
+  "timezone": [
+    "Profiles"
+  ],
+  "Time zone (for example Asia/Kuala_Lumpur)": [
+    "Profiles"
+  ],
+  "video": [
+    "Profiles"
+  ],
+  "Introduction video — YouTube or Vimeo HTTPS link": [
+    "Profiles"
+  ],
+  "Introduce yourself and demonstrate the language(s) you teach. Use your own video and make it viewable by link.": [
+    "Profiles"
+  ],
+  "credentialNotes": [
+    "Profiles"
+  ],
+  "Private notes for the review team (optional)": [
+    "Profiles"
+  ],
+  "These notes are not shown to learners. You may include a credential verification link; do not upload identity documents or sensitive personal numbers.": [
+    "Profiles"
+  ],
+  "adult-check": [
+    "Profiles",
+    "main"
+  ],
+  "I confirm that these details are accurate, I have permission to use this photo and video, and I agree to publish the public fields after approval.": [
+    "Profiles"
+  ],
+  "profile-actions": [
+    "Profiles"
+  ],
+  "Submit for review": [
+    "Profiles"
+  ],
+  "Save & take placement test": [
+    "Profiles"
+  ],
+  "Save & start learning": [
+    "Profiles"
+  ],
+  "Save draft": [
+    "Profiles"
+  ],
+  "Back to account": [
+    "Profiles"
+  ],
+  "panel teacher-card": [
+    "Profiles"
+  ],
+  "teacher-card-heading": [
+    "Profiles"
+  ],
+  "About this teacher": [
+    "Profiles"
+  ],
+  "Lesson approach": [
+    "Profiles"
+  ],
+  "Education & qualifications": [
+    "Profiles"
+  ],
+  "Speaks:": [
+    "Profiles"
+  ],
+  "Time zone:": [
+    "Profiles"
+  ],
+  "Watch introduction video ↗": [
+    "Profiles"
+  ],
+  "currentColor": [
+    "Profiles"
+  ],
+  "Saved teacher": [
+    "Profiles"
+  ],
+  "Save teacher": [
+    "Profiles"
+  ],
+  "/teachers": [
+    "Profiles"
+  ],
+  "/bookmarks": [
+    "Profiles"
+  ],
+  "/bookmarks/": [
+    "Profiles"
+  ],
+  "DELETE": [
+    "Profiles",
+    "RecurringPatterns",
+    "main"
+  ],
+  "teacher-directory": [
+    "Profiles"
+  ],
+  "LEARN WITH A TEACHER": [
+    "Profiles"
+  ],
+  "Find your next learning partner": [
+    "Profiles"
+  ],
+  "Explore reviewed profiles and save teachers you’d like to learn with. Saving a teacher never shares your learning history.": [
+    "Profiles"
+  ],
+  "panel directory-filters": [
+    "Profiles"
+  ],
+  "Teaching language": [
+    "Profiles"
+  ],
+  "All languages": [
+    "Profiles"
+  ],
+  "Show all teachers": [
+    "Profiles"
+  ],
+  "Saved teachers": [
+    "Profiles"
+  ],
+  "Loading teachers…": [
+    "Profiles"
+  ],
+  "teacher-grid": [
+    "Profiles"
+  ],
+  "No saved teachers in this language yet": [
+    "Profiles"
+  ],
+  "Teachers are on their way": [
+    "Profiles"
+  ],
+  "Explore the directory and use Save teacher to build your shortlist.": [
+    "Profiles"
+  ],
+  "Approved profiles will appear here. Meanwhile, you can keep learning with the self-study courses.": [
+    "Profiles"
+  ],
+  "Bookings and payments are not available yet. Already working with a teacher? Connect privately using a sharing code in Account.": [
+    "Profiles"
+  ],
+  "Open account & sharing settings": [
+    "Profiles"
+  ],
+  "pending": [
+    "Profiles"
+  ],
+  "/admin/teacher-profiles": [
+    "Profiles"
+  ],
+  "/admin/teacher-profiles/summary": [
+    "Profiles"
+  ],
+  "admin-dashboard": [
+    "Profiles"
+  ],
+  "YOUR PRIVATE ADMIN SPACE": [
+    "Profiles"
+  ],
+  "PRIVATE REVIEW DESK": [
+    "Profiles"
+  ],
+  "Continuum administration": [
+    "Profiles"
+  ],
+  "Teacher applications": [
+    "Profiles"
+  ],
+  "Review applications, manage publication and keep a record of every decision. This area is available only to authorised accounts.": [
+    "Profiles"
+  ],
+  "admin-stats": [
+    "Profiles"
+  ],
+  "Learner accounts": [
+    "Profiles"
+  ],
+  "accounts": [
+    "Profiles"
+  ],
+  "Teacher accounts": [
+    "Profiles"
+  ],
+  "Awaiting review": [
+    "Profiles"
+  ],
+  "profiles": [
+    "Profiles"
+  ],
+  "Published": [
+    "Profiles"
+  ],
+  "approved": [
+    "Profiles"
+  ],
+  "Status": [
+    "Profiles"
+  ],
+  "All submitted profiles": [
+    "Profiles"
+  ],
+  "changes_requested": [
+    "Profiles"
+  ],
+  "Changes requested": [
+    "Profiles"
+  ],
+  "Language": [
+    "Profiles"
+  ],
+  "Find a teacher": [
+    "Profiles"
+  ],
+  "Name or headline": [
+    "Profiles"
+  ],
+  "Refresh": [
+    "Profiles"
+  ],
+  "Approval publishes a profile; it does not certify identity or qualifications. Drafts stay with their authors until submitted. Showing up to 100 recent submitted profiles.": [
+    "Profiles"
+  ],
+  "Loading applications…": [
+    "Profiles"
+  ],
+  "No profiles in this view": [
+    "Profiles"
+  ],
+  "New teacher submissions will appear under Awaiting review. Use the filters to inspect published profiles or revision requests.": [
+    "Profiles"
+  ],
+  "/admin/teacher-profiles/": [
+    "Profiles"
+  ],
+  "/editorial": [
+    "Profiles"
+  ],
+  "/history": [
+    "Profiles"
+  ],
+  "review-item": [
+    "Profiles"
+  ],
+  "Private reviewer notes:": [
+    "Profiles"
+  ],
+  "None": [
+    "Profiles"
+  ],
+  "Close editor": [
+    "Profiles"
+  ],
+  "Correct profile text": [
+    "Profiles"
+  ],
+  "Edits are recorded and remove the profile from the public directory until it is reviewed again. Language and qualification claims must be corrected by the teacher.": [
+    "Profiles"
+  ],
+  "Headline": [
+    "Profiles"
+  ],
+  "Introduction": [
+    "Profiles"
+  ],
+  "Reason for correction (visible to teacher)": [
+    "Profiles"
+  ],
+  "Feedback to teacher": [
+    "Profiles"
+  ],
+  "Save correction & return to review": [
+    "Profiles"
+  ],
+  "I reviewed the photo, video, language fit, experience and qualification claims.": [
+    "Profiles"
+  ],
+  "Approve & publish": [
+    "Profiles"
+  ],
+  "Unpublish & request changes": [
+    "Profiles"
+  ],
+  "Request changes": [
+    "Profiles"
+  ],
+  "View review history": [
+    "Profiles"
+  ],
+  "admin-history": [
+    "Profiles"
+  ],
+  "Review history": [
+    "Profiles"
+  ],
+  "No decisions recorded yet.": [
+    "Profiles"
+  ],
+  "/admin/teacher-profiles/accounts": [
+    "Profiles"
+  ],
+  "OWNER ONLY · READ ONLY": [
+    "Profiles"
+  ],
+  "Registered accounts": [
+    "Profiles"
+  ],
+  "Counts represent accounts, not unique people. Review names, registration dates and activity before identifying duplicate or test accounts. Nothing is deleted here.": [
+    "Profiles"
+  ],
+  "Loading…": [
+    "Profiles"
+  ],
+  "Refresh account list": [
+    "Profiles"
+  ],
+  "Inspect registered accounts": [
+    "Profiles"
+  ],
+  "admin-account-list": [
+    "Profiles"
+  ],
+  " · Your admin account": [
+    "Profiles"
+  ],
+  "set up": [
+    "Profiles"
+  ],
+  "not set up": [
+    "Profiles"
+  ],
+  "Example/test email domain — a clue, not proof of who created this account.": [
+    "Profiles"
+  ],
+  "Up to 100 most recently registered accounts. Emails are partially masked. No login identities are inferred from names or email domains.": [
+    "Profiles"
+  ],
+  "/api/patterns?language=": [
+    "RecurringPatterns"
+  ],
+  "Could not load learning patterns.": [
+    "RecurringPatterns"
+  ],
+  "panel recurring live-patterns": [
+    "RecurringPatterns"
+  ],
+  "section-title": [
+    "RecurringPatterns",
+    "SkillsWorkshop",
+    "main"
+  ],
+  "YOUR NEXT IMPROVEMENT": [
+    "RecurringPatterns"
+  ],
+  "pattern-badge": [
+    "RecurringPatterns"
+  ],
+  "AI + saved evidence": [
+    "RecurringPatterns"
+  ],
+  "Saved evidence": [
+    "RecurringPatterns"
+  ],
+  "Spot repeated difficulties, see the evidence, and choose what to practise next.": [
+    "RecurringPatterns"
+  ],
+  "Sign in to combine your saved lessons, skill assessments and class notes.": [
+    "RecurringPatterns"
+  ],
+  "pattern-coverage": [
+    "RecurringPatterns"
+  ],
+  "Loading your learning evidence…": [
+    "RecurringPatterns"
+  ],
+  "No evidence yet. Complete a lesson or add a class observation to start building your patterns.": [
+    "RecurringPatterns"
+  ],
+  "pattern-rows": [
+    "RecurringPatterns"
+  ],
+  "pattern-row": [
+    "RecurringPatterns"
+  ],
+  "pattern-row-heading": [
+    "RecurringPatterns"
+  ],
+  "pattern-status ": [
+    "RecurringPatterns"
+  ],
+  "needs-review": [
+    "RecurringPatterns"
+  ],
+  "{0}%": [
+    "RecurringPatterns"
+  ],
+  "pattern-meter": [
+    "RecurringPatterns"
+  ],
+  "meter": [
+    "RecurringPatterns"
+  ],
+  " recent score": [
+    "RecurringPatterns"
+  ],
+  " · previous five: {0}%": [
+    "RecurringPatterns"
+  ],
+  "Your teacher’s observation is saved below. AI can help interpret the next step.": [
+    "RecurringPatterns"
+  ],
+  "Recent results are strong. Use a new context to check that the skill transfers.": [
+    "RecurringPatterns"
+  ],
+  "One result is a starting point; more attempts will show whether this difficulty repeats.": [
+    "RecurringPatterns"
+  ],
+  "pattern-next": [
+    "RecurringPatterns"
+  ],
+  "Next practice": [
+    "RecurringPatterns"
+  ],
+  "pattern-evidence": [
+    "RecurringPatterns"
+  ],
+  " · {0}%": [
+    "RecurringPatterns"
+  ],
+  " · used in AI insight": [
+    "RecurringPatterns"
+  ],
+  "Practise this topic": [
+    "RecurringPatterns"
+  ],
+  "Explore lessons": [
+    "RecurringPatterns"
+  ],
+  "Show fewer patterns": [
+    "RecurringPatterns"
+  ],
+  "See all {0} topics": [
+    "RecurringPatterns"
+  ],
+  "pattern-ai-controls": [
+    "RecurringPatterns"
+  ],
+  "All saved records in this language are counted. AI receives topic summaries and up to five recent observations per topic, including class notes and assessment feedback. No audio is sent here.": [
+    "RecurringPatterns"
+  ],
+  "Analyzing your evidence…": [
+    "RecurringPatterns"
+  ],
+  "Refresh AI insights": [
+    "RecurringPatterns"
+  ],
+  "Analyze with AI": [
+    "RecurringPatterns"
+  ],
+  "AI is not connected yet. Your calculated patterns and saved evidence remain available.": [
+    "RecurringPatterns"
+  ],
+  "Scores are calculated from saved results, not generated by AI. The 80% review threshold is a practice signal, not a CEFR level.": [
+    "RecurringPatterns"
+  ],
+  "./mistake-feedback.mjs": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "./feedback-sound.mjs": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "./review-pool.css": [
+    "ReviewPool"
+  ],
+  "/api/review": [
+    "ReviewPool"
+  ],
+  "Could not load review": [
+    "ReviewPool"
+  ],
+  "Needs review": [
+    "ReviewPool"
+  ],
+  "Practising": [
+    "ReviewPool"
+  ],
+  "Strong": [
+    "ReviewPool"
+  ],
+  "all": [
+    "ReviewPool"
+  ],
+  "panel review-feature": [
+    "ReviewPool"
+  ],
+  "YOUR WORDS & EXPRESSIONS": [
+    "ReviewPool"
+  ],
+  "A little review, lasting progress.": [
+    "ReviewPool"
+  ],
+  "Review is temporarily unavailable. Open review to retry.": [
+    "ReviewPool"
+  ],
+  "Loading your review pool…": [
+    "ReviewPool"
+  ],
+  "{0} saved · {1} ready to review": [
+    "ReviewPool"
+  ],
+  "Sign in to automatically save vocabulary and expression mistakes.": [
+    "ReviewPool"
+  ],
+  "Mistakes are added when you continue after an answer. Review them here in context.": [
+    "ReviewPool"
+  ],
+  "Open review →": [
+    "ReviewPool"
+  ],
+  "weak": [
+    "ReviewPool"
+  ],
+  "practising": [
+    "ReviewPool"
+  ],
+  "strong": [
+    "ReviewPool"
+  ],
+  "/check": [
+    "ReviewPool"
+  ],
+  "review-page": [
+    "ReviewPool"
+  ],
+  "← Back to lessons": [
+    "ReviewPool"
+  ],
+  "VOCABULARY & EXPRESSIONS": [
+    "ReviewPool"
+  ],
+  "Your review": [
+    "ReviewPool"
+  ],
+  "Practise the words and expressions you missed, in context. Correct answers schedule the next review in 1, 3, then 7 days.": [
+    "ReviewPool"
+  ],
+  "Sign in to keep your personal review pool across devices.": [
+    "ReviewPool"
+  ],
+  "Loading your words…": [
+    "ReviewPool"
+  ],
+  "panel review-question": [
+    "ReviewPool"
+  ],
+  "review-progress": [
+    "ReviewPool"
+  ],
+  "Save & exit": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "text": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "review-answer": [
+    "ReviewPool"
+  ],
+  "Your answer": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "off": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "review-options": [
+    "ReviewPool"
+  ],
+  "review-feedback ": [
+    "ReviewPool"
+  ],
+  "correct": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "incorrect": [
+    "ReviewPool"
+  ],
+  "That’s right.": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "Let’s practise this again.": [
+    "ReviewPool"
+  ],
+  "Next review: ": [
+    "ReviewPool"
+  ],
+  "This item stays ready for review.": [
+    "ReviewPool"
+  ],
+  "Continue": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "Check answer": [
+    "ReviewPool",
+    "SelfStudy"
+  ],
+  "Review complete": [
+    "ReviewPool"
+  ],
+  "Back to your words": [
+    "ReviewPool"
+  ],
+  "review-stats": [
+    "ReviewPool"
+  ],
+  "review-tools": [
+    "ReviewPool"
+  ],
+  "Search words or expressions": [
+    "ReviewPool"
+  ],
+  "search": [
+    "ReviewPool",
+    "main"
+  ],
+  "Search your review pool": [
+    "ReviewPool"
+  ],
+  "Start review · up to 10": [
+    "ReviewPool"
+  ],
+  "Your pool is clear": [
+    "ReviewPool"
+  ],
+  "Vocabulary and expression mistakes will appear here automatically as you save lesson answers. Older mistakes are included where detailed answers were saved.": [
+    "ReviewPool"
+  ],
+  "No items match this filter.": [
+    "ReviewPool"
+  ],
+  "review-list": [
+    "ReviewPool"
+  ],
+  "review-word": [
+    "ReviewPool"
+  ],
+  "review-strength s": [
+    "ReviewPool"
+  ],
+  "review-word-detail": [
+    "ReviewPool"
+  ],
+  "Ready to review": [
+    "ReviewPool"
+  ],
+  "Next: ": [
+    "ReviewPool"
+  ],
+  "./ReviewPool.jsx": [
+    "SelfStudy"
+  ],
+  "./lesson-feedback.mjs": [
+    "SelfStudy"
+  ],
+  "./class-practice.mjs": [
+    "SelfStudy"
+  ],
+  "./SoundScriptReference.jsx": [
+    "SelfStudy"
+  ],
+  "./pronunciation-score.mjs": [
+    "SelfStudy"
+  ],
+  "./self-study.css": [
+    "SelfStudy"
+  ],
+  "./skills-content.mjs": [
+    "SelfStudy",
+    "SkillsWorkshop"
+  ],
+  "./LessonReference.jsx": [
+    "SelfStudy"
+  ],
+  "continuumTestSeeds": [
+    "SelfStudy"
+  ],
+  "continuumLessonDrafts": [
+    "SelfStudy"
+  ],
+  "continuumCourseLevel": [
+    "SelfStudy",
+    "main"
+  ],
+  "Pronunciation": [
+    "SelfStudy",
+    "main"
+  ],
+  "Checkpoint": [
+    "SelfStudy"
+  ],
+  "ja": [
+    "SelfStudy",
+    "SkillsWorkshop",
+    "SoundScriptReference"
+  ],
+  "recording": [
+    "SelfStudy",
+    "SkillsWorkshop"
+  ],
+  "No speech was recognized. Try again closer to the microphone.": [
+    "SelfStudy"
+  ],
+  "Automatic matching is unavailable in this browser. You can still replay your recording.": [
+    "SelfStudy"
+  ],
+  "/pronunciation": [
+    "SelfStudy"
+  ],
+  "-model-v1": [
+    "SelfStudy"
+  ],
+  "Your match was calculated, but could not be saved: ": [
+    "SelfStudy"
+  ],
+  "Recording is unavailable here. Repeat the model aloud instead.": [
+    "SelfStudy"
+  ],
+  "aborted": [
+    "SelfStudy"
+  ],
+  "no-speech": [
+    "SelfStudy"
+  ],
+  "Speech matching was interrupted. Your recording can still be replayed.": [
+    "SelfStudy"
+  ],
+  "Automatic matching is unavailable in this browser. You can still replay and compare your recording.": [
+    "SelfStudy"
+  ],
+  "Microphone access was unavailable. You can continue by practising aloud.": [
+    "SelfStudy"
+  ],
+  "speaking-practice": [
+    "SelfStudy"
+  ],
+  "SPEAK & CHECK": [
+    "SelfStudy"
+  ],
+  "Your turn to speak": [
+    "SelfStudy"
+  ],
+  "pronunciation-target": [
+    "SelfStudy"
+  ],
+  "Listen, record and compare this model": [
+    "SelfStudy"
+  ],
+  "Stop & assess": [
+    "SelfStudy"
+  ],
+  "Checking…": [
+    "SelfStudy"
+  ],
+  "Record & compare (optional)": [
+    "SelfStudy"
+  ],
+  "Record & assess (optional)": [
+    "SelfStudy"
+  ],
+  "Recording and listening… up to 30 seconds": [
+    "SelfStudy"
+  ],
+  "heard-words": [
+    "SelfStudy"
+  ],
+  "Browser heard:": [
+    "SelfStudy"
+  ],
+  "Session only — not saved": [
+    "SelfStudy"
+  ],
+  "pronunciation-result": [
+    "SelfStudy"
+  ],
+  "match-score": [
+    "SelfStudy"
+  ],
+  "speech match": [
+    "SelfStudy"
+  ],
+  "Every model word was recognized in sequence.": [
+    "SelfStudy"
+  ],
+  "Saved to your learning record.": [
+    "SelfStudy"
+  ],
+  "Available for this session.": [
+    "SelfStudy"
+  ],
+  "Saving result…": [
+    "SelfStudy"
+  ],
+  "Japanese uses playback comparison here. Automatic text-match scores are disabled because speech recognition can return different kanji and kana spellings for the same reading.": [
+    "SelfStudy"
+  ],
+  "Your audio stays in this browser session and is never uploaded to Continuum. Speech recognition may be processed by your browser or its provider. Only the match score, lesson and duration are saved when signed in; teacher visibility follows your Account sharing setting. This is a speech-recognition match—not a phoneme, accent or CEFR assessment.": [
+    "SelfStudy"
+  ],
+  "pronunciation-warning": [
+    "SelfStudy"
+  ],
+  "center": [
+    "SelfStudy"
+  ],
+  "/learning": [
+    "SelfStudy"
+  ],
+  "/learning/": [
+    "SelfStudy"
+  ],
+  "Loading your learning path…": [
+    "SelfStudy"
+  ],
+  "Lesson not found": [
+    "SelfStudy"
+  ],
+  "Back to learning path": [
+    "SelfStudy"
+  ],
+  "study-page": [
+    "SelfStudy"
+  ],
+  "study-intro": [
+    "SelfStudy"
+  ],
+  "A little practice. A bigger world.": [
+    "SelfStudy"
+  ],
+  "Explore the whole path, choose a chapter and keep moving.": [
+    "SelfStudy"
+  ],
+  "study-total": [
+    "SelfStudy"
+  ],
+  "lessons mastered": [
+    "SelfStudy"
+  ],
+  "panel class-practice-feature": [
+    "SelfStudy"
+  ],
+  "class-practice-heading": [
+    "SelfStudy"
+  ],
+  "FROM CLASS TO PRACTICE": [
+    "SelfStudy"
+  ],
+  "Keep your class momentum": [
+    "SelfStudy"
+  ],
+  "A focus for today": [
+    "SelfStudy"
+  ],
+  "Latest class focus: {0}.": [
+    "SelfStudy"
+  ],
+  "Choose a short lesson and practise using it in a new situation.": [
+    "SelfStudy"
+  ],
+  "Matched to your class focus · {0}": [
+    "SelfStudy"
+  ],
+  "Suggested practice": [
+    "SelfStudy"
+  ],
+  "No clear lesson match yet. Ask your teacher to name the specific grammar, expression or lesson to practise.": [
+    "SelfStudy"
+  ],
+  "study-hero": [
+    "SelfStudy"
+  ],
+  "PICK UP WHERE YOU LEFT OFF": [
+    "SelfStudy"
+  ],
+  "YOUR NEXT STEP": [
+    "SelfStudy"
+  ],
+  "study-meta": [
+    "SelfStudy"
+  ],
+  "Resume lesson": [
+    "SelfStudy"
+  ],
+  "Review lesson": [
+    "SelfStudy"
+  ],
+  "Start lesson": [
+    "SelfStudy"
+  ],
+  "journey-scene": [
+    "SelfStudy"
+  ],
+  "journey-ring": [
+    "SelfStudy"
+  ],
+  "--progress": [
+    "SelfStudy"
+  ],
+  "study-level-heading": [
+    "SelfStudy"
+  ],
+  "Your course roadmap": [
+    "SelfStudy"
+  ],
+  "Updated curriculum: previous scores remain in Memory. These revised lessons have separate progress because their content has changed.": [
+    "SelfStudy"
+  ],
+  "level-roadmap": [
+    "SelfStudy"
+  ],
+  "Choose course level": [
+    "SelfStudy"
+  ],
+  "level-number": [
+    "SelfStudy"
+  ],
+  "roadmap-note": [
+    "SelfStudy"
+  ],
+  "Explore grammar labs with conjugation tables and vocabulary labs alongside communication lessons, across A1–C1 course difficulty levels. Master a lesson with 80% or more. These course milestones do not certify a CEFR level. You can explore any level.": [
+    "SelfStudy"
+  ],
+  "SOUND & SCRIPT": [
+    "SelfStudy"
+  ],
+  "Build clear pronunciation": [
+    "SelfStudy"
+  ],
+  "Explore dedicated sound lessons at A1 and A2: listening contrasts, mouth-position guidance and recording practice.": [
+    "SelfStudy"
+  ],
+  "Open pronunciation studio": [
+    "SelfStudy"
+  ],
+  "ja-script-v1-hiragana-0": [
+    "SelfStudy"
+  ],
+  "Explore Japanese characters": [
+    "SelfStudy"
+  ],
+  "study-columns": [
+    "SelfStudy"
+  ],
+  "chapter-heading": [
+    "SelfStudy"
+  ],
+  "study-chapter": [
+    "SelfStudy"
+  ],
+  "chapter-top": [
+    "SelfStudy"
+  ],
+  "chapter-badge": [
+    "SelfStudy"
+  ],
+  " · {0}": [
+    "SelfStudy"
+  ],
+  "lesson-trail": [
+    "SelfStudy"
+  ],
+  "mastered": [
+    "SelfStudy"
+  ],
+  "perfect": [
+    "SelfStudy"
+  ],
+  "checkpoint": [
+    "SelfStudy"
+  ],
+  "trail-photo": [
+    "SelfStudy"
+  ],
+  "trail-node": [
+    "SelfStudy"
+  ],
+  "perfect-badge": [
+    "SelfStudy"
+  ],
+  "100% achieved": [
+    "SelfStudy"
+  ],
+  " · Mastered": [
+    "SelfStudy"
+  ],
+  " · Review recommended": [
+    "SelfStudy"
+  ],
+  "New situations · mixed questions": [
+    "SelfStudy"
+  ],
+  "Create & submit a response": [
+    "SelfStudy"
+  ],
+  "Listen & answer": [
+    "SelfStudy",
+    "SkillsWorkshop"
+  ],
+  "Listen, record & compare": [
+    "SelfStudy"
+  ],
+  "Explanation + guided practice": [
+    "SelfStudy"
+  ],
+  "trail-action": [
+    "SelfStudy"
+  ],
+  "Resume": [
+    "SelfStudy"
+  ],
+  "Review": [
+    "SelfStudy",
+    "main"
+  ],
+  "Start": [
+    "SelfStudy"
+  ],
+  "study-aside": [
+    "SelfStudy"
+  ],
+  "HOW YOUR PATH WORKS": [
+    "SelfStudy"
+  ],
+  "Learn. Try. Remember.": [
+    "SelfStudy"
+  ],
+  "Read a short explanation and example.": [
+    "SelfStudy"
+  ],
+  "Practise with immediate feedback.": [
+    "SelfStudy"
+  ],
+  "Review mistakes and revisit a checkpoint.": [
+    "SelfStudy"
+  ],
+  "Your scores and lesson position are saved to your account. Teacher visibility follows your sharing setting in Account.": [
+    "SelfStudy"
+  ],
+  "Preview progress is saved on this device. Sign in to keep future lessons across devices.": [
+    "SelfStudy"
+  ],
+  "v4-preview-123456789": [
+    "SelfStudy"
+  ],
+  "v1-preview-123456789": [
+    "SelfStudy"
+  ],
+  "exercise": [
+    "SelfStudy"
+  ],
+  "intro": [
+    "SelfStudy"
+  ],
+  "v1-": [
+    "SelfStudy"
+  ],
+  "v4-": [
+    "SelfStudy"
+  ],
+  "result": [
+    "SelfStudy"
+  ],
+  "study-lesson": [
+    "SelfStudy"
+  ],
+  "lesson-intro-card": [
+    "SelfStudy"
+  ],
+  "Apply what you learned in new situations. Questions and choices vary between attempts; your selected questions are saved when you start.": [
+    "SelfStudy"
+  ],
+  "lesson-example": [
+    "SelfStudy"
+  ],
+  "EXAMPLE": [
+    "SelfStudy"
+  ],
+  "lesson-begin": [
+    "SelfStudy"
+  ],
+  "Optional understanding check": [
+    "SelfStudy"
+  ],
+  "Start practice": [
+    "SelfStudy",
+    "main"
+  ],
+  "level-result": [
+    "SelfStudy"
+  ],
+  "Keep connecting what you learn with the world around you.": [
+    "SelfStudy"
+  ],
+  "result-icon": [
+    "SelfStudy"
+  ],
+  "LEVEL COMPLETED": [
+    "SelfStudy"
+  ],
+  "LEVEL REVIEW SAVED": [
+    "SelfStudy"
+  ],
+  "UNDERSTANDING CHECK SAVED": [
+    "SelfStudy"
+  ],
+  "LESSON MASTERED": [
+    "SelfStudy"
+  ],
+  "PRACTICE SAVED": [
+    "SelfStudy"
+  ],
+  "% accuracy": [
+    "SelfStudy"
+  ],
+  "You reached the {0}% pass mark. You are recommended to continue to the next level.": [
+    "SelfStudy"
+  ],
+  "You need {0}% to pass this level review. Revisit the roadmap and try again.": [
+    "SelfStudy"
+  ],
+  "This score checks listening knowledge; it is separate from your recording.": [
+    "SelfStudy"
+  ],
+  "Your exercise result is saved.": [
+    "SelfStudy"
+  ],
+  "Your course milestone is complete.": [
+    "SelfStudy"
+  ],
+  "Review the explanations, then try for 80%.": [
+    "SelfStudy"
+  ],
+  "level-certificate": [
+    "SelfStudy"
+  ],
+  "See updated learning path": [
+    "SelfStudy"
+  ],
+  "panel mistake-review": [
+    "SelfStudy"
+  ],
+  "A LITTLE REVIEW GOES A LONG WAY": [
+    "SelfStudy"
+  ],
+  "What to revisit": [
+    "SelfStudy"
+  ],
+  "practice-top": [
+    "SelfStudy"
+  ],
+  "practice-progress": [
+    "SelfStudy"
+  ],
+  "lesson-context": [
+    "SelfStudy"
+  ],
+  "Correct-answer sound effects": [
+    "SelfStudy"
+  ],
+  "Sound effects: on": [
+    "SelfStudy"
+  ],
+  "Sound effects: off": [
+    "SelfStudy"
+  ],
+  "panel exercise-update": [
+    "SelfStudy"
+  ],
+  "This saved exercise uses the earlier question set. You can finish it, or restart with the updated practice covering this lesson’s content.": [
+    "SelfStudy"
+  ],
+  "question-card": [
+    "SelfStudy"
+  ],
+  "retry-notice": [
+    "SelfStudy"
+  ],
+  "One more try · Recall the answer without the model. Your score keeps your first response.": [
+    "SelfStudy"
+  ],
+  "WATCH AND LISTEN": [
+    "SelfStudy"
+  ],
+  "LISTEN AND RESPOND": [
+    "SelfStudy"
+  ],
+  "order": [
+    "SelfStudy"
+  ],
+  "BUILD THE PHRASE": [
+    "SelfStudy"
+  ],
+  "application": [
+    "SelfStudy"
+  ],
+  "APPLY OR CORRECT": [
+    "SelfStudy"
+  ],
+  "WRITE YOUR ANSWER": [
+    "SelfStudy"
+  ],
+  "CHOOSE YOUR ANSWER": [
+    "SelfStudy"
+  ],
+  "audio-transcript": [
+    "SelfStudy"
+  ],
+  "Show transcript": [
+    "SelfStudy"
+  ],
+  "word-builder": [
+    "SelfStudy"
+  ],
+  "word-builder-answer": [
+    "SelfStudy"
+  ],
+  "polite": [
+    "SelfStudy",
+    "main"
+  ],
+  "Choose the words in order.": [
+    "SelfStudy"
+  ],
+  "word-builder-tiles": [
+    "SelfStudy"
+  ],
+  "Undo last word": [
+    "SelfStudy"
+  ],
+  "Clear": [
+    "SelfStudy"
+  ],
+  "written-answer": [
+    "SelfStudy"
+  ],
+  "answers": [
+    "SelfStudy"
+  ],
+  "answer-with-audio": [
+    "SelfStudy"
+  ],
+  "wrong": [
+    "SelfStudy"
+  ],
+  "answer-copy": [
+    "SelfStudy"
+  ],
+  "good": [
+    "SelfStudy"
+  ],
+  "retry": [
+    "SelfStudy"
+  ],
+  "Let’s take another look.": [
+    "SelfStudy"
+  ],
+  "Correct answer:": [
+    "SelfStudy"
+  ],
+  "Listen to the answer, then try this question once more.": [
+    "SelfStudy"
+  ],
+  "Try this question again": [
+    "SelfStudy"
+  ],
+  "Finish & save": [
+    "SelfStudy"
+  ],
+  "save-hint": [
+    "SelfStudy"
+  ],
+  "Progress saves after Continue. The current question can be repeated when you return.": [
+    "SelfStudy"
+  ],
+  "lesson-help": [
+    "SelfStudy"
+  ],
+  "Review the lesson explanation": [
+    "SelfStudy"
+  ],
+  "./native-word-map.mjs": [
+    "SentenceAudio"
+  ],
+  "./native-kana-map.mjs": [
+    "SentenceAudio"
+  ],
+  "./LanguageContext.jsx": [
+    "SentenceAudio",
+    "main"
+  ],
+  "./sentence-audio.mjs": [
+    "SentenceAudio"
+  ],
+  "./sentence-audio.css": [
+    "SentenceAudio"
+  ],
+  "/api/speech": [
+    "SentenceAudio"
+  ],
+  "Studio audio is unavailable. Please retry.": [
+    "SentenceAudio"
+  ],
+  "content-type": [
+    "SentenceAudio"
+  ],
+  "audio/": [
+    "SentenceAudio"
+  ],
+  "Studio audio is unavailable.": [
+    "SentenceAudio"
+  ],
+  "Audio is too large to play.": [
+    "SentenceAudio"
+  ],
+  "X-Audio-Source": [
+    "SentenceAudio"
+  ],
+  "Human recording": [
+    "SentenceAudio"
+  ],
+  "AI studio voice": [
+    "SentenceAudio"
+  ],
+  "src": [
+    "SentenceAudio"
+  ],
+  "Could not play the studio recording. Tap Listen to retry.": [
+    "SentenceAudio"
+  ],
+  "AbortError": [
+    "SentenceAudio"
+  ],
+  "pt-BR": [
+    "SentenceAudio"
+  ],
+  "NotAllowedError": [
+    "SentenceAudio"
+  ],
+  "Audio is ready. Tap Listen again to allow playback.": [
+    "SentenceAudio"
+  ],
+  "Device voice · quality varies": [
+    "SentenceAudio"
+  ],
+  "This device has no speech playback.": [
+    "SentenceAudio"
+  ],
+  "voiceschanged": [
+    "SentenceAudio"
+  ],
+  "Device speech could not start. Tap Listen again, or check that this language voice is installed on your device.": [
+    "SentenceAudio"
+  ],
+  "compact": [
+    "SentenceAudio"
+  ],
+  "sentence-play": [
+    "SentenceAudio"
+  ],
+  "Cancel loading audio": [
+    "SentenceAudio"
+  ],
+  "Stop audio": [
+    "SentenceAudio"
+  ],
+  "Listen to this text": [
+    "SentenceAudio"
+  ],
+  "Preparing…": [
+    "SentenceAudio"
+  ],
+  "Stop": [
+    "SentenceAudio"
+  ],
+  "Listen": [
+    "SentenceAudio"
+  ],
+  "sentence-speed": [
+    "SentenceAudio"
+  ],
+  "Use normal playback speed": [
+    "SentenceAudio"
+  ],
+  "Use slower playback speed": [
+    "SentenceAudio"
+  ],
+  "voice-source": [
+    "SentenceAudio"
+  ],
+  "sentence-audio-error": [
+    "SentenceAudio"
+  ],
+  "Use device voice instead": [
+    "SentenceAudio"
+  ],
+  "spoken-sentence": [
+    "SentenceAudio"
+  ],
+  "./skills-workshop.css": [
+    "SkillsWorkshop"
+  ],
+  "/api/skills": [
+    "SkillsWorkshop"
+  ],
+  "Unable to save your response": [
+    "SkillsWorkshop"
+  ],
+  "skills-audio": [
+    "SkillsWorkshop"
+  ],
+  "Transcript hidden during the test": [
+    "SkillsWorkshop"
+  ],
+  "Recording is unavailable in this browser. Open this lesson in Safari or Chrome and allow the microphone.": [
+    "SkillsWorkshop"
+  ],
+  "audio/webm;codecs=opus": [
+    "SkillsWorkshop"
+  ],
+  "audio/mp4": [
+    "SkillsWorkshop"
+  ],
+  "audio/ogg;codecs=opus": [
+    "SkillsWorkshop"
+  ],
+  "Recording stopped unexpectedly. Please record again.": [
+    "SkillsWorkshop"
+  ],
+  "The clip is empty or too large. Please record a shorter response (at least one second).": [
+    "SkillsWorkshop"
+  ],
+  "Could not prepare the recording. Please record again.": [
+    "SkillsWorkshop"
+  ],
+  "Microphone access was unavailable.": [
+    "SkillsWorkshop"
+  ],
+  "skills-recorder": [
+    "SkillsWorkshop"
+  ],
+  "Opening microphone…": [
+    "SkillsWorkshop"
+  ],
+  "Stop recording · {0}s": [
+    "SkillsWorkshop"
+  ],
+  "Record again": [
+    "SkillsWorkshop"
+  ],
+  "Start recording": [
+    "SkillsWorkshop"
+  ],
+  "Maximum 90 seconds. Replay before submitting. Recording stays on this page until you press Save response.": [
+    "SkillsWorkshop"
+  ],
+  "/ai-status": [
+    "SkillsWorkshop"
+  ],
+  "-rubric-v2": [
+    "SkillsWorkshop"
+  ],
+  "/assess": [
+    "SkillsWorkshop"
+  ],
+  "ai-feedback": [
+    "SkillsWorkshop"
+  ],
+  "Not enough evidence to score": [
+    "SkillsWorkshop"
+  ],
+  "{0}% · task score": [
+    "SkillsWorkshop"
+  ],
+  " · {0}/4": [
+    "SkillsWorkshop"
+  ],
+  "What worked well": [
+    "SkillsWorkshop"
+  ],
+  "Next practice:": [
+    "SkillsWorkshop"
+  ],
+  "Approximate transcript": [
+    "SkillsWorkshop"
+  ],
+  "AI feedback can make mistakes. This task score is not a certified CEFR level.": [
+    "SkillsWorkshop"
+  ],
+  "Checking AI availability…": [
+    "SkillsWorkshop"
+  ],
+  "Get feedback on your response, with specific corrections and a next practice step.": [
+    "SkillsWorkshop"
+  ],
+  "AI assessment is not connected yet. Your response is safely saved; you can return here once it is enabled.": [
+    "SkillsWorkshop"
+  ],
+  "skills-consent": [
+    "SkillsWorkshop"
+  ],
+  "and its recorded audio ": [
+    "SkillsWorkshop"
+  ],
+  "to the configured AI provider for assessment. This does not enable teacher sharing.": [
+    "SkillsWorkshop"
+  ],
+  "Assessing…": [
+    "SkillsWorkshop"
+  ],
+  "Get AI assessment": [
+    "SkillsWorkshop"
+  ],
+  "AI assessment unavailable": [
+    "SkillsWorkshop"
+  ],
+  "No AI assessment requested by the learner.": [
+    "SkillsWorkshop"
+  ],
+  "guest": [
+    "SkillsWorkshop",
+    "main"
+  ],
+  "lesson": [
+    "SkillsWorkshop"
+  ],
+  "skills-saved": [
+    "SkillsWorkshop"
+  ],
+  "Response saved": [
+    "SkillsWorkshop"
+  ],
+  "Your response is saved to your account.": [
+    "SkillsWorkshop"
+  ],
+  "Next step:": [
+    "SkillsWorkshop"
+  ],
+  "Make another attempt": [
+    "SkillsWorkshop"
+  ],
+  "skills-production": [
+    "SkillsWorkshop"
+  ],
+  "Aim for {0}–{1} {2}": [
+    "SkillsWorkshop"
+  ],
+  "characters": [
+    "SkillsWorkshop"
+  ],
+  "words": [
+    "SkillsWorkshop"
+  ],
+  "Aim for about {0} seconds": [
+    "SkillsWorkshop"
+  ],
+  "Recording ready to save.": [
+    "SkillsWorkshop"
+  ],
+  "Record your response and press Stop recording first.": [
+    "SkillsWorkshop"
+  ],
+  "What the reviewer will assess": [
+    "SkillsWorkshop"
+  ],
+  "Each criterion: 0 (no evidence) to 4 (consistently effective for this task). A rubric score is not a certified CEFR level.": [
+    "SkillsWorkshop"
+  ],
+  "recorded audio": [
+    "SkillsWorkshop"
+  ],
+  "Sign in from Account to submit and keep this response.": [
+    "SkillsWorkshop"
+  ],
+  "To save, select the permission checkbox above. Teacher sharing is controlled separately in Account.": [
+    "SkillsWorkshop"
+  ],
+  "Save speaking practice": [
+    "SkillsWorkshop"
+  ],
+  "Save response": [
+    "SkillsWorkshop"
+  ],
+  "Listen for the main idea, then replay for detail. Answer before opening the transcript.": [
+    "SkillsWorkshop"
+  ],
+  "Show transcript for practice": [
+    "SkillsWorkshop"
+  ],
+  "skills-options": [
+    "SkillsWorkshop"
+  ],
+  "Correct.": [
+    "SkillsWorkshop"
+  ],
+  "Review: ": [
+    "SkillsWorkshop"
+  ],
+  "Saved to your listening record.": [
+    "SkillsWorkshop"
+  ],
+  "Preview result. Sign in to save future attempts.": [
+    "SkillsWorkshop"
+  ],
+  "Check & save listening": [
+    "SkillsWorkshop"
+  ],
+  "/learner/": [
+    "SkillsWorkshop"
+  ],
+  "/review": [
+    "SkillsWorkshop"
+  ],
+  "panel skills-record": [
+    "SkillsWorkshop"
+  ],
+  "LISTENING · WRITING · SPEAKING": [
+    "SkillsWorkshop"
+  ],
+  "Review learner responses": [
+    "SkillsWorkshop"
+  ],
+  "Your skill submissions": [
+    "SkillsWorkshop"
+  ],
+  "Refresh record": [
+    "SkillsWorkshop"
+  ],
+  "No submissions yet. Complete a skill workshop or submit a test response.": [
+    "SkillsWorkshop"
+  ],
+  "skills-history": [
+    "SkillsWorkshop"
+  ],
+  "Lesson": [
+    "SkillsWorkshop"
+  ],
+  "Saved · unscored": [
+    "SkillsWorkshop"
+  ],
+  "skills-review": [
+    "SkillsWorkshop"
+  ],
+  "listening-answer-key": [
+    "SkillsWorkshop"
+  ],
+  "Listening score": [
+    "SkillsWorkshop"
+  ],
+  "Teacher score": [
+    "SkillsWorkshop"
+  ],
+  "AI estimate": [
+    "SkillsWorkshop"
+  ],
+  "string": [
+    "SkillsWorkshop"
+  ],
+  "Feedback": [
+    "SkillsWorkshop"
+  ],
+  "% · task evidence, not CEFR certification.": [
+    "SkillsWorkshop"
+  ],
+  "Rate the response against this task’s difficulty, then give a strength and a specific next step.": [
+    "SkillsWorkshop"
+  ],
+  "Select a rating": [
+    "SkillsWorkshop"
+  ],
+  "Save teacher evaluation": [
+    "SkillsWorkshop"
+  ],
+  "skills-workshop": [
+    "SkillsWorkshop"
+  ],
+  "Listen. Write. Speak.": [
+    "SkillsWorkshop"
+  ],
+  "Build real responses, beyond choosing an answer.": [
+    "SkillsWorkshop"
+  ],
+  "← All skill workshops": [
+    "SkillsWorkshop"
+  ],
+  "Study a model, then create your own response": [
+    "SkillsWorkshop"
+  ],
+  "Notice the organisation and linking words. The model is a short structure example, not the required response length. Use your own details.": [
+    "SkillsWorkshop"
+  ],
+  "skills-cards": [
+    "SkillsWorkshop"
+  ],
+  "Compose & submit": [
+    "SkillsWorkshop"
+  ],
+  "Record & submit": [
+    "SkillsWorkshop"
+  ],
+  "Hide": [
+    "SkillsWorkshop"
+  ],
+  "View": [
+    "SkillsWorkshop"
+  ],
+  "./drawing-pad.mjs": [
+    "SoundScriptReference"
+  ],
+  "./sound-script.css": [
+    "SoundScriptReference"
+  ],
+  "sound-script": [
+    "SoundScriptReference"
+  ],
+  "LOOK → LISTEN → RECALL": [
+    "SoundScriptReference"
+  ],
+  "LISTEN → SHAPE → REPEAT → COMPARE": [
+    "SoundScriptReference"
+  ],
+  "Character studio": [
+    "SoundScriptReference"
+  ],
+  "Your sound studio": [
+    "SoundScriptReference"
+  ],
+  "Listen to each word, repeat it slowly, then say the full model phrase below. Record yourself and compare one feature at a time.": [
+    "SoundScriptReference"
+  ],
+  "sound-pairs": [
+    "SoundScriptReference"
+  ],
+  "Tap and trill": [
+    "SoundScriptReference"
+  ],
+  "Word-initial r: begin with a trill, as in perro.": [
+    "SoundScriptReference"
+  ],
+  "rojo": [
+    "SoundScriptReference"
+  ],
+  "Notice tongue position, airflow or the timing described above.": [
+    "SoundScriptReference"
+  ],
+  "Repeat each word three times with a relaxed voice.": [
+    "SoundScriptReference"
+  ],
+  "Say the model phrase with natural pauses.": [
+    "SoundScriptReference"
+  ],
+  "Listen to your recording. Choose one feature to improve and try again.": [
+    "SoundScriptReference"
+  ],
+  "Human recordings are labelled with their speaker and source. Other model audio is AI-generated. Regional pronunciation varies. Speech recognition checks recognized words; it does not grade individual sounds or pitch accent.": [
+    "SoundScriptReference"
+  ],
+  "Select a character, then press Listen. Isolated kana are spoken twice with a pause. Use 0.85× to listen more slowly without changing pitch. Hide the readings to test recall.": [
+    "SoundScriptReference"
+  ],
+  "https://funjapaneselearning.com": [
+    "SoundScriptReference"
+  ],
+  "FUN Japanese Learning": [
+    "SoundScriptReference"
+  ],
+  "https://huggingface.co/datasets/arsalan-anwari/kana-sounds": [
+    "SoundScriptReference"
+  ],
+  "Kana Sounds by Arsalan Anwari": [
+    "SoundScriptReference"
+  ],
+  "https://creativecommons.org/licenses/by/4.0/": [
+    "SoundScriptReference"
+  ],
+  "CC BY 4.0": [
+    "SoundScriptReference"
+  ],
+  ". Pauses and repetition added. Other audio is labelled by source.": [
+    "SoundScriptReference"
+  ],
+  "Show readings": [
+    "SoundScriptReference"
+  ],
+  "Hide readings": [
+    "SoundScriptReference"
+  ],
+  "kana-grid": [
+    "SoundScriptReference"
+  ],
+  "copy-studio": [
+    "SoundScriptReference"
+  ],
+  "Trace or copy with a finger or pointer. This is an optional shape practice pad, without handwriting scoring or stroke-order guidance. The exercises also support typed answers.": [
+    "SoundScriptReference"
+  ],
+  "Clear drawing": [
+    "SoundScriptReference"
+  ],
+  "M150 0V300M0 150H300": [
+    "SoundScriptReference"
+  ],
+  "#d9d5e9": [
+    "SoundScriptReference"
+  ],
+  "middle": [
+    "SoundScriptReference"
+  ],
+  "#e0dced": [
+    "SoundScriptReference"
+  ],
+  "#6550b7": [
+    "SoundScriptReference"
+  ],
+  "round": [
+    "SoundScriptReference"
+  ],
+  "teacher-language-access": [
+    "TeacherLanguageAccess"
+  ],
+  "Share only languages you study with this teacher.": [
+    "TeacherLanguageAccess"
+  ],
+  "shared-language-options": [
+    "TeacherLanguageAccess"
+  ],
+  "No language selected — learning records and class notes are hidden.": [
+    "TeacherLanguageAccess"
+  ],
+  "Remove access": [
+    "TeacherLanguageAccess"
+  ],
+  "./Profiles.jsx": [
+    "main"
+  ],
+  "./TeacherLanguageAccess.jsx": [
+    "main"
+  ],
+  "./LanguageOverview.jsx": [
+    "main"
+  ],
+  "react-dom/client": [
+    "main"
+  ],
+  "./styles.css": [
+    "main"
+  ],
+  "./features.css": [
+    "main"
+  ],
+  "./SelfStudy.jsx": [
+    "main"
+  ],
+  "./LessonSuggestion.jsx": [
+    "main"
+  ],
+  "B2−": [
+    "main"
+  ],
+  "#5b72f2": [
+    "main"
+  ],
+  "Grammar": [
+    "main"
+  ],
+  "#f17c54": [
+    "main"
+  ],
+  "#21a77a": [
+    "main"
+  ],
+  "B1+": [
+    "main"
+  ],
+  "#9a67e8": [
+    "main"
+  ],
+  "Subjunctive": [
+    "main"
+  ],
+  "Improving": [
+    "main"
+  ],
+  "#ee6c4d": [
+    "main"
+  ],
+  "3 slips in spontaneous speech": [
+    "main"
+  ],
+  "Doubt and uncertainty phrases": [
+    "main"
+  ],
+  "Por vs. para": [
+    "main"
+  ],
+  "Needs practice": [
+    "main"
+  ],
+  "#e7a83a": [
+    "main"
+  ],
+  "4 corrections this month": [
+    "main"
+  ],
+  "Purpose vs. destination": [
+    "main"
+  ],
+  "Articles": [
+    "main"
+  ],
+  "#6178e9": [
+    "main"
+  ],
+  "Mostly accurate in exercises": [
+    "main"
+  ],
+  "Abstract nouns in conversation": [
+    "main"
+  ],
+  "subjunctive": [
+    "main"
+  ],
+  "Make the subjunctive automatic": [
+    "main"
+  ],
+  "Recommended from class": [
+    "main"
+  ],
+  "B1 → B1+": [
+    "main"
+  ],
+  "12 min": [
+    "main"
+  ],
+  "purple": [
+    "main"
+  ],
+  "Use the subjunctive naturally after doubt, possibility and uncertainty.": [
+    "main"
+  ],
+  "porpara": [
+    "main"
+  ],
+  "Por or para without pausing": [
+    "main"
+  ],
+  "Recurring pattern": [
+    "main"
+  ],
+  "9 min": [
+    "main"
+  ],
+  "orange": [
+    "main"
+  ],
+  "Choose the right preposition from meaning—not memorized translations.": [
+    "main"
+  ],
+  "airport": [
+    "main"
+  ],
+  "Airport conversations": [
+    "main"
+  ],
+  "14 min": [
+    "main"
+  ],
+  "blue": [
+    "main"
+  ],
+  "Follow natural announcements and solve realistic travel situations.": [
+    "main"
+  ],
+  "pronunciation": [
+    "main"
+  ],
+  "Spanish rhythm workout": [
+    "main"
+  ],
+  "8 min": [
+    "main"
+  ],
+  "green": [
+    "main"
+  ],
+  "Practice connected speech and sentence stress with short recordings.": [
+    "main"
+  ],
+  "Es posible que María ___ mañana.": [
+    "main"
+  ],
+  "viene": [
+    "main"
+  ],
+  "venga": [
+    "main"
+  ],
+  "vendrá": [
+    "main"
+  ],
+  "After “es posible que,” Spanish uses the present subjunctive: venga.": [
+    "main"
+  ],
+  "No creo que ellos ___ la respuesta.": [
+    "main"
+  ],
+  "saben": [
+    "main"
+  ],
+  "sepan": [
+    "main"
+  ],
+  "sabrán": [
+    "main"
+  ],
+  "“No creo que” expresses doubt, so saber becomes sepan.": [
+    "main"
+  ],
+  "Quizás ___ más tiempo esta tarde.": [
+    "main"
+  ],
+  "tenemos": [
+    "main"
+  ],
+  "tengamos": [
+    "main"
+  ],
+  "tuvimos": [
+    "main"
+  ],
+  "Quizás can trigger the subjunctive when the speaker treats it as uncertain.": [
+    "main"
+  ],
+  "Dudo que el vuelo ___ a tiempo.": [
+    "main"
+  ],
+  "sale": [
+    "main"
+  ],
+  "salga": [
+    "main"
+  ],
+  "salió": [
+    "main"
+  ],
+  "Dudar que is a classic subjunctive trigger: salga.": [
+    "main"
+  ],
+  "Puede que no ___ suficiente.": [
+    "main"
+  ],
+  "sea": [
+    "main"
+  ],
+  "será": [
+    "main"
+  ],
+  "Puede que is followed by the subjunctive: sea.": [
+    "main"
+  ],
+  "continuumPracticeHistory": [
+    "main"
+  ],
+  "Server response unavailable": [
+    "main"
+  ],
+  "continuumScore": [
+    "main"
+  ],
+  "ring": [
+    "main"
+  ],
+  "--p": [
+    "main"
+  ],
+  "metric": [
+    "main"
+  ],
+  "metric-top": [
+    "main"
+  ],
+  "bar": [
+    "main"
+  ],
+  "metric-foot": [
+    "main"
+  ],
+  "up": [
+    "main"
+  ],
+  "page-intro": [
+    "main"
+  ],
+  "panel-head": [
+    "main"
+  ],
+  "ONE CONTINUOUS TIMELINE": [
+    "main"
+  ],
+  "Recent learning": [
+    "main"
+  ],
+  "timeline": [
+    "main"
+  ],
+  "event-icon ai": [
+    "main"
+  ],
+  "Latest practice": [
+    "main"
+  ],
+  "AI practice": [
+    "main"
+  ],
+  "{0} questions · {1}% accuracy": [
+    "main"
+  ],
+  "18 questions · 81% accuracy": [
+    "main"
+  ],
+  "Previous practice": [
+    "main"
+  ],
+  "Today, 18:42": [
+    "main"
+  ],
+  "event-icon class": [
+    "main"
+  ],
+  "Class with María": [
+    "main"
+  ],
+  "Conversation: travel & authentic experiences": [
+    "main"
+  ],
+  "Yesterday, 19:00 · 4 insights captured": [
+    "main"
+  ],
+  "event-icon listen": [
+    "main"
+  ],
+  "Listening practice": [
+    "main"
+  ],
+  "Airport vlog · B2− comprehension": [
+    "main"
+  ],
+  "14 Sep · 92% complete": [
+    "main"
+  ],
+  "panel practice-log": [
+    "main"
+  ],
+  "SELF-STUDY RECORD": [
+    "main"
+  ],
+  "Subjunctive practice history": [
+    "main"
+  ],
+  "previous": [
+    "main"
+  ],
+  "Previous attempt": [
+    "main"
+  ],
+  "welcome": [
+    "main"
+  ],
+  "LEARNER / SPANISH": [
+    "main"
+  ],
+  "WEDNESDAY · 16 SEPTEMBER": [
+    "main"
+  ],
+  "Ken’s learning memory": [
+    "main"
+  ],
+  "Good evening, Ken": [
+    "main"
+  ],
+  "One continuous record—across self-study and every class.": [
+    "main"
+  ],
+  "Your Spanish is moving. Here’s the clearest next step.": [
+    "main"
+  ],
+  "secondary": [
+    "main"
+  ],
+  "Class notes": [
+    "main"
+  ],
+  "My classes": [
+    "main"
+  ],
+  "Open notes": [
+    "main"
+  ],
+  "View plan": [
+    "main"
+  ],
+  "hero-card": [
+    "main"
+  ],
+  "hero-copy": [
+    "main"
+  ],
+  "Your teacher noticed hesitation after expressions of doubt. This 12-minute practice targets exactly that pattern.": [
+    "main"
+  ],
+  "hero-meta": [
+    "main"
+  ],
+  "+30 XP": [
+    "main"
+  ],
+  "Start targeted practice": [
+    "main"
+  ],
+  "hero-art": [
+    "main"
+  ],
+  "bubble b1": [
+    "main"
+  ],
+  "Es posible que…": [
+    "main"
+  ],
+  "bubble b2": [
+    "main"
+  ],
+  "venga ✓": [
+    "main"
+  ],
+  "orb": [
+    "main"
+  ],
+  "teacher-alert": [
+    "main"
+  ],
+  "ai-icon": [
+    "main"
+  ],
+  "AI CLASS INSIGHT": [
+    "main"
+  ],
+  "Subjunctive accuracy improved, but spontaneous use still lags": [
+    "main"
+  ],
+  "{0}% in the latest exercise": [
+    "main"
+  ],
+  "81% in exercises": [
+    "main"
+  ],
+  ", yet used the indicative in 3 of 7 spontaneous speaking opportunities last class.": [
+    "main"
+  ],
+  "Assignments": [
+    "main"
+  ],
+  "Assigned": [
+    "main"
+  ],
+  "Assign practice": [
+    "main"
+  ],
+  "grid": [
+    "main"
+  ],
+  "panel progress": [
+    "main"
+  ],
+  "SHARED PROFICIENCY": [
+    "main"
+  ],
+  "Full report": [
+    "main"
+  ],
+  "profile-level": [
+    "main"
+  ],
+  "B1+ overall": [
+    "main"
+  ],
+  "skill-list": [
+    "main"
+  ],
+  "panel streak": [
+    "main"
+  ],
+  "MOMENTUM": [
+    "main"
+  ],
+  "Engagement": [
+    "main"
+  ],
+  "This week": [
+    "main"
+  ],
+  "streak-number": [
+    "main"
+  ],
+  "#ff8a4b": [
+    "main"
+  ],
+  "day streak": [
+    "main"
+  ],
+  "days": [
+    "main"
+  ],
+  "M": [
+    "main"
+  ],
+  "T": [
+    "main"
+  ],
+  "W": [
+    "main"
+  ],
+  "F": [
+    "main"
+  ],
+  "S": [
+    "main"
+  ],
+  "hit": [
+    "main"
+  ],
+  "today": [
+    "main"
+  ],
+  "completion": [
+    "main"
+  ],
+  "panel recurring": [
+    "main"
+  ],
+  "LEARNING MEMORY": [
+    "main"
+  ],
+  "Recurring patterns": [
+    "main"
+  ],
+  "issue": [
+    "main"
+  ],
+  "issue-name": [
+    "main"
+  ],
+  "issue-score": [
+    "main"
+  ],
+  "mini": [
+    "main"
+  ],
+  "class-cta": [
+    "main"
+  ],
+  "faces": [
+    "main"
+  ],
+  "MA": [
+    "main"
+  ],
+  "JL": [
+    "main"
+  ],
+  "AR": [
+    "main"
+  ],
+  "Ready to turn practice into real conversation?": [
+    "main"
+  ],
+  "Your teacher sees this full learning memory before class.": [
+    "main"
+  ],
+  "LIVE LEARNING": [
+    "main"
+  ],
+  "Your teacher enters every class already knowing what you practised and where you need help.": [
+    "main"
+  ],
+  "upcoming-class": [
+    "main"
+  ],
+  "class-main": [
+    "main"
+  ],
+  "NEXT CLASS · TOMORROW": [
+    "main"
+  ],
+  "Conversation coaching with María": [
+    "main"
+  ],
+  "class-focus": [
+    "main"
+  ],
+  "AI-prepared focus:": [
+    "main"
+  ],
+  "Classroom ready": [
+    "main"
+  ],
+  "Check classroom": [
+    "main"
+  ],
+  "success-banner": [
+    "main"
+  ],
+  "Camera and microphone preview passed. The Join button will unlock 10 minutes before class.": [
+    "main"
+  ],
+  "classes-grid": [
+    "main"
+  ],
+  "YOUR PACKAGE": [
+    "main"
+  ],
+  "3 classes remaining": [
+    "main"
+  ],
+  "package-badge": [
+    "main"
+  ],
+  "Active": [
+    "main"
+  ],
+  "credit-row": [
+    "main"
+  ],
+  "Used this month": [
+    "main"
+  ],
+  "1 of 4": [
+    "main"
+  ],
+  "#626ae4": [
+    "main"
+  ],
+  "Request sent": [
+    "main"
+  ],
+  "Book another class": [
+    "main"
+  ],
+  "PAST CLASSES": [
+    "main"
+  ],
+  "Recent sessions": [
+    "main"
+  ],
+  "session-list": [
+    "main"
+  ],
+  "15 SEP": [
+    "main"
+  ],
+  "Travel & authentic experiences": [
+    "main"
+  ],
+  "María · 4 learning insights": [
+    "main"
+  ],
+  "Notes": [
+    "main"
+  ],
+  "08 SEP": [
+    "main"
+  ],
+  "Expressing opinions naturally": [
+    "main"
+  ],
+  "María · 3 learning insights": [
+    "main"
+  ],
+  "teacher-match": [
+    "main"
+  ],
+  "TEACHER MATCH": [
+    "main"
+  ],
+  "Want a different perspective?": [
+    "main"
+  ],
+  "Your learning memory moves with you, so a new teacher can continue without making you start again.": [
+    "main"
+  ],
+  "teacher-row": [
+    "main"
+  ],
+  "SO": [
+    "main"
+  ],
+  "Grammar coach": [
+    "main"
+  ],
+  "Conversation": [
+    "main"
+  ],
+  "Practice evidence": [
+    "main"
+  ],
+  "Follow the main ideas in extended speech on familiar topics, even when the pace becomes more natural.": [
+    "main"
+  ],
+  "Understand the main points of a travel vlog and everyday conversation.": [
+    "main"
+  ],
+  "Pick out important details when context and topic are familiar.": [
+    "main"
+  ],
+  "Airport listening practice · B2− comprehension · 92% complete": [
+    "main"
+  ],
+  "Try an unfamiliar conversation without subtitles, then summarise its main points.": [
+    "main"
+  ],
+  "Class evidence": [
+    "main"
+  ],
+  "Keep a conversation going about familiar experiences, with occasional pauses to find the right form.": [
+    "main"
+  ],
+  "Describe travel and personal experiences with connected sentences.": [
+    "main"
+  ],
+  "Respond to follow-up questions and give reasons for an opinion.": [
+    "main"
+  ],
+  "Class with María · travel and authentic experiences · 4 insights captured": [
+    "main"
+  ],
+  "Use doubt and uncertainty phrases spontaneously; subjunctive accuracy is 81% in exercises but less consistent in live speech.": [
+    "main"
+  ],
+  "B1+*": [
+    "main"
+  ],
+  "#239b86": [
+    "main"
+  ],
+  "Provisional · needs a reading sample": [
+    "main"
+  ],
+  "A working estimate for reading. Complete a reading task to establish a supported CEFR level.": [
+    "main"
+  ],
+  "At B1+, identify the main argument in clear articles on familiar subjects.": [
+    "main"
+  ],
+  "At B1+, locate supporting detail and infer meaning from context.": [
+    "main"
+  ],
+  "No scored reading sample in this preview.": [
+    "main"
+  ],
+  "Read a short article, answer comprehension questions and record the result.": [
+    "main"
+  ],
+  "Complete a reading check": [
+    "main"
+  ],
+  "B1*": [
+    "main"
+  ],
+  "#e39c45": [
+    "main"
+  ],
+  "Provisional · needs a writing sample": [
+    "main"
+  ],
+  "A working estimate for writing. A reviewed writing sample is needed before confirming this CEFR level.": [
+    "main"
+  ],
+  "At B1, write connected text about familiar experiences and plans.": [
+    "main"
+  ],
+  "At B1, explain an opinion with simple reasons and examples.": [
+    "main"
+  ],
+  "No reviewed writing sample in this preview.": [
+    "main"
+  ],
+  "Write a short account of a trip and ask a teacher to review clarity, organisation and grammar.": [
+    "main"
+  ],
+  "Submit a writing sample": [
+    "main"
+  ],
+  "report-page": [
+    "main"
+  ],
+  "Back to overview": [
+    "main"
+  ],
+  "CEFR SKILL PROFILE": [
+    "main"
+  ],
+  "Ken’s full proficiency report": [
+    "main"
+  ],
+  "Your full proficiency report": [
+    "main"
+  ],
+  "Explore what each level means, the evidence behind it and the clearest next step for every skill.": [
+    "main"
+  ],
+  "report-summary": [
+    "main"
+  ],
+  "CURRENT PROFILE · SPANISH": [
+    "main"
+  ],
+  "Moving toward B2": [
+    "main"
+  ],
+  "Four communication skills, one record across self-study and classes.": [
+    "main"
+  ],
+  "overall": [
+    "main"
+  ],
+  "report-heading": [
+    "main"
+  ],
+  "Select a skill to see its CEFR description and supporting evidence.": [
+    "main"
+  ],
+  "* Provisional levels need a sample": [
+    "main"
+  ],
+  "report-cards": [
+    "main"
+  ],
+  "report-card-icon": [
+    "main"
+  ],
+  "report-card-name": [
+    "main"
+  ],
+  "report-meter": [
+    "main"
+  ],
+  "report-sample": [
+    "main"
+  ],
+  "Assessment needed": [
+    "main"
+  ],
+  "report-detail": [
+    "main"
+  ],
+  "report-detail-top": [
+    "main"
+  ],
+  "report-lead": [
+    "main"
+  ],
+  "report-detail-grid": [
+    "main"
+  ],
+  "What this level looks like": [
+    "main"
+  ],
+  "Evidence in this record": [
+    "main"
+  ],
+  "{0}. Latest subjunctive exercise: {1}% ({2} questions).": [
+    "main"
+  ],
+  "The latest exercise reached {0}%; continue checking spontaneous use in conversation.": [
+    "main"
+  ],
+  "report-actions": [
+    "main"
+  ],
+  "report-support": [
+    "main"
+  ],
+  "SUPPORTING SKILLS": [
+    "main"
+  ],
+  "Grammar and pronunciation": [
+    "main"
+  ],
+  "These shape communication across the four CEFR skills.": [
+    "main"
+  ],
+  "62/100 · subjunctive, por vs. para, articles": [
+    "main"
+  ],
+  "78/100 · rhythm and connected speech": [
+    "main"
+  ],
+  "report-note": [
+    "main"
+  ],
+  "CEFR levels here are an illustrative learning profile, not an official certification. Reading and writing estimates are provisional until a sample is assessed.": [
+    "main"
+  ],
+  "ONE CONTINUOUS RECORD": [
+    "main"
+  ],
+  "The evidence behind your level—shared across self-study, AI practice and human classes.": [
+    "main"
+  ],
+  "memory-hero": [
+    "main"
+  ],
+  "Updated today from 3 learning sources": [
+    "main"
+  ],
+  "self-study sessions": [
+    "main"
+  ],
+  "teacher classes": [
+    "main"
+  ],
+  "speaking samples": [
+    "main"
+  ],
+  "memory-layout": [
+    "main"
+  ],
+  "RECURRING PATTERNS": [
+    "main"
+  ],
+  "What to work on": [
+    "main"
+  ],
+  "panel pattern-detail": [
+    "main"
+  ],
+  "SELECTED PATTERN": [
+    "main"
+  ],
+  "First detected": [
+    "main"
+  ],
+  "Current accuracy": [
+    "main"
+  ],
+  "detail-block": [
+    "main"
+  ],
+  "Evidence from your memory": [
+    "main"
+  ],
+  "Latest exercise: {0}% across {1} questions. {2} from the most recent class.": [
+    "main"
+  ],
+  "{0}. Your most recent class and AI exercises both contributed to this score.": [
+    "main"
+  ],
+  "Best next action": [
+    "main"
+  ],
+  "How your level changed": [
+    "main"
+  ],
+  "Every source contributes to the same timeline.": [
+    "main"
+  ],
+  "full-timeline": [
+    "main"
+  ],
+  "SHARED LEARNER RECORD": [
+    "main"
+  ],
+  "Review the evidence from every class and self-study session before deciding what to teach next.": [
+    "main"
+  ],
+  "memory-hero teacher-memory-hero": [
+    "main"
+  ],
+  "Ready to move toward B2": [
+    "main"
+  ],
+  "Last updated today · AI practice and 8 classes": [
+    "main"
+  ],
+  "TEACHING PRIORITIES": [
+    "main"
+  ],
+  "CROSS-CONTEXT EVIDENCE": [
+    "main"
+  ],
+  "evidence-grid": [
+    "main"
+  ],
+  "In self-study": [
+    "main"
+  ],
+  "{0}% on the latest {1}-question exercise.": [
+    "main"
+  ],
+  "{0}% accuracy across the latest targeted exercises.": [
+    "main"
+  ],
+  "In live speech": [
+    "main"
+  ],
+  "; spontaneous control still needs support.": [
+    "main"
+  ],
+  "Recommended class move": [
+    "main"
+  ],
+  ", followed by a short unrehearsed conversation check.": [
+    "main"
+  ],
+  "Opening assignment": [
+    "main"
+  ],
+  "Evidence timeline": [
+    "main"
+  ],
+  "What happened before, during and after class.": [
+    "main"
+  ],
+  "Ken used the indicative after three expressions of doubt. Accuracy improved after a contrastive example.": [
+    "main"
+  ],
+  "AI CLASS COPILOT": [
+    "main"
+  ],
+  "Capture what happens in live speech. These observations become part of Ken’s learning memory and shape his next practice.": [
+    "main"
+  ],
+  "note-workspace": [
+    "main"
+  ],
+  "note-head": [
+    "main"
+  ],
+  "CURRENT SESSION · 18 SEP": [
+    "main"
+  ],
+  "Conversation coaching with Ken": [
+    "main"
+  ],
+  "Travel stories · B1+ speaking · 50 minutes": [
+    "main"
+  ],
+  "live-badge": [
+    "main"
+  ],
+  "● In progress": [
+    "main"
+  ],
+  "note-columns": [
+    "main"
+  ],
+  "Primary focus": [
+    "main"
+  ],
+  "choice-row": [
+    "main"
+  ],
+  "Vocabulary": [
+    "main"
+  ],
+  "What did you notice?": [
+    "main"
+  ],
+  "Quick tags": [
+    "main"
+  ],
+  "tag-picker": [
+    "main"
+  ],
+  "Fluency": [
+    "main"
+  ],
+  "on": [
+    "main"
+  ],
+  "ai-note-card": [
+    "main"
+  ],
+  "AI SUGGESTION": [
+    "main"
+  ],
+  "Turn this observation into practice": [
+    "main"
+  ],
+  "Ken recognises the rule in exercises, but needs retrieval practice while speaking without preparation.": [
+    "main"
+  ],
+  "Suggested follow-up": [
+    "main"
+  ],
+  "5 prompts · expressions of doubt · 10 minutes": [
+    "main"
+  ],
+  "note-actions": [
+    "main"
+  ],
+  "Saved to learning memory": [
+    "main"
+  ],
+  "Save class note": [
+    "main"
+  ],
+  "Previous class notes": [
+    "main"
+  ],
+  "Every teacher can continue from the same record.": [
+    "main"
+  ],
+  "panel note-history": [
+    "main"
+  ],
+  "4 insights · Subjunctive, por/para, fluency": [
+    "main"
+  ],
+  "Open": [
+    "main"
+  ],
+  "3 insights · Articles, connectors, pronunciation": [
+    "main"
+  ],
+  "10 min": [
+    "main"
+  ],
+  "TARGETED FOLLOW-UP": [
+    "main"
+  ],
+  "Send practice from class evidence, then see the result return to the same learner memory.": [
+    "main"
+  ],
+  "assignment-layout": [
+    "main"
+  ],
+  "panel assignment-builder": [
+    "main"
+  ],
+  "CREATE ASSIGNMENT": [
+    "main"
+  ],
+  "Recommended for Ken": [
+    "main"
+  ],
+  "Learning focus": [
+    "main"
+  ],
+  "assignment-options": [
+    "main"
+  ],
+  "Practice length": [
+    "main"
+  ],
+  "5 min": [
+    "main"
+  ],
+  "15 min": [
+    "main"
+  ],
+  "assignment-preview": [
+    "main"
+  ],
+  "lesson-icon purple": [
+    "main"
+  ],
+  "AI-GENERATED PREVIEW": [
+    "main"
+  ],
+  ": spontaneous control": [
+    "main"
+  ],
+  "Assignment sent to Ken": [
+    "main"
+  ],
+  "panel assignment-status": [
+    "main"
+  ],
+  "ACTIVE ASSIGNMENTS": [
+    "main"
+  ],
+  "Completion": [
+    "main"
+  ],
+  "2 active": [
+    "main"
+  ],
+  "assignment-item": [
+    "main"
+  ],
+  "Subjunctive after doubt": [
+    "main"
+  ],
+  "Due tomorrow · assigned from class": [
+    "main"
+  ],
+  "13 of 18 questions complete": [
+    "main"
+  ],
+  "Airport listening": [
+    "main"
+  ],
+  "Due 20 Sep · self-study plan": [
+    "main"
+  ],
+  "#28a17a": [
+    "main"
+  ],
+  "Completed · 92% comprehension": [
+    "main"
+  ],
+  "Ken can now see “": [
+    "main"
+  ],
+  ": spontaneous control” in Learn. Its result will automatically return to this teacher view.": [
+    "main"
+  ],
+  "login": [
+    "main"
+  ],
+  "/learner/teachers": [
+    "main"
+  ],
+  "/privacy": [
+    "main"
+  ],
+  "/auth/": [
+    "main"
+  ],
+  "register": [
+    "main"
+  ],
+  "/share-code": [
+    "main"
+  ],
+  "/learner/teachers/": [
+    "main"
+  ],
+  "Practice from this device was added to your account.": [
+    "main"
+  ],
+  "Connected teachers can now see self-study activity in their assigned languages.": [
+    "main"
+  ],
+  "Your self-study activity is now hidden from connected teachers.": [
+    "main"
+  ],
+  "account-page": [
+    "main"
+  ],
+  "ONE CONTINUOUS LEARNER RECORD": [
+    "main"
+  ],
+  "Your account": [
+    "main"
+  ],
+  "Keep your progress across devices": [
+    "main"
+  ],
+  "Your practice and class notes are saved to your account.": [
+    "main"
+  ],
+  "Create a free learner account or sign in to save your practice securely.": [
+    "main"
+  ],
+  "auth-success": [
+    "main"
+  ],
+  "panel account-box": [
+    "main"
+  ],
+  "auth-switch": [
+    "main"
+  ],
+  "Sign in": [
+    "main"
+  ],
+  "Create account": [
+    "main"
+  ],
+  "account-role": [
+    "main"
+  ],
+  "I’m signing up as": [
+    "main"
+  ],
+  "Learner": [
+    "main"
+  ],
+  "Teacher": [
+    "main"
+  ],
+  "account-name": [
+    "main"
+  ],
+  "Name": [
+    "main"
+  ],
+  "account-email": [
+    "main"
+  ],
+  "Email": [
+    "main"
+  ],
+  "email": [
+    "main"
+  ],
+  "account-password": [
+    "main"
+  ],
+  "(12 characters minimum)": [
+    "main"
+  ],
+  "password": [
+    "main"
+  ],
+  "current-password": [
+    "main"
+  ],
+  "new-password": [
+    "main"
+  ],
+  "I confirm I am 18 or older.": [
+    "main"
+  ],
+  "Please wait…": [
+    "main"
+  ],
+  "account-footnote": [
+    "main"
+  ],
+  "Passwords are stored as salted hashes. Email verification and password reset are not available in this early preview.": [
+    "main"
+  ],
+  "account-panels": [
+    "main"
+  ],
+  "SIGNED IN": [
+    "main"
+  ],
+  "Account identifier": [
+    "main"
+  ],
+  "anywhere": [
+    "main"
+  ],
+  "Sign out": [
+    "main"
+  ],
+  "TEACHER ACCESS": [
+    "main"
+  ],
+  "Choose what teachers can see": [
+    "main"
+  ],
+  "Choose the languages you study with each teacher. Only those languages’ class notes are shared. The switch below also controls access to self-study results in those languages.": [
+    "main"
+  ],
+  "privacy-control": [
+    "main"
+  ],
+  "Share self-study activity": [
+    "main"
+  ],
+  "Teachers can see lesson activity and assessment results only in their assigned languages.": [
+    "main"
+  ],
+  "Lesson activity and assessment results are hidden from teachers.": [
+    "main"
+  ],
+  "switch": [
+    "main"
+  ],
+  "Share self-study activity with connected teachers": [
+    "main"
+  ],
+  "privacy-note": [
+    "main"
+  ],
+  "This setting does not delete your progress and does not disconnect your teachers. You can change it at any time.": [
+    "main"
+  ],
+  "Language to share with a new teacher": [
+    "main"
+  ],
+  "Generate sharing code": [
+    "main"
+  ],
+  "share-code": [
+    "main"
+  ],
+  "Connected teachers": [
+    "main"
+  ],
+  "No teachers connected yet.": [
+    "main"
+  ],
+  "import-prompt": [
+    "main"
+  ],
+  "Practice saved on this device": [
+    "main"
+  ],
+  "s": [
+    "main"
+  ],
+  "Import device progress": [
+    "main"
+  ],
+  "YOUR LEARNERS": [
+    "main"
+  ],
+  "Connect with a learner": [
+    "main"
+  ],
+  "Ask the learner to generate a sharing code in their Account page.": [
+    "main"
+  ],
+  "Open learner dashboard": [
+    "main"
+  ],
+  "panel account-practice": [
+    "main"
+  ],
+  "SAVED PRACTICE": [
+    "main"
+  ],
+  "Practice attempts": [
+    "main"
+  ],
+  "saved-attempt": [
+    "main"
+  ],
+  "imported": [
+    "main"
+  ],
+  "Imported": [
+    "main"
+  ],
+  "Exercise": [
+    "main"
+  ],
+  "Your first result will appear here": [
+    "main"
+  ],
+  "Complete a lesson to start your learning record.": [
+    "main"
+  ],
+  "practice": [
+    "main"
+  ],
+  " · Imported": [
+    "main"
+  ],
+  "class": [
+    "main"
+  ],
+  "ai": [
+    "main"
+  ],
+  "Complete an activity or connect a teacher to start your learning timeline.": [
+    "main"
+  ],
+  "YOUR SPANISH · SHARED LEARNING RECORD": [
+    "main"
+  ],
+  "Your latest practice — {0}: {1}% across {2} questions.": [
+    "main"
+  ],
+  "Your journey starts with a short practice. Each result will stay in your account.": [
+    "main"
+  ],
+  "See your memory": [
+    "main"
+  ],
+  "From your class notes": [
+    "main"
+  ],
+  "Your next practice": [
+    "main"
+  ],
+  "Keep building on {0}": [
+    "main"
+  ],
+  "Your teacher recorded a focus on {0}. Review the note in your memory, then practise the subjunctive in context.": [
+    "main"
+  ],
+  "Start with five expressions of doubt and uncertainty. Your completed score will appear here and in your teacher’s shared view.": [
+    "main"
+  ],
+  "attempt": [
+    "main"
+  ],
+  "attempts": [
+    "main"
+  ],
+  "Practice again": [
+    "main"
+  ],
+  "grid connected-grid": [
+    "main"
+  ],
+  "Your latest lesson": [
+    "main"
+  ],
+  "live-score": [
+    "main"
+  ],
+  "No score yet. Finish a practice to fill this card.": [
+    "main"
+  ],
+  "CLASS CONNECTION": [
+    "main"
+  ],
+  "What your teacher noticed": [
+    "main"
+  ],
+  "connected-note": [
+    "main"
+  ],
+  "When a connected teacher saves a class note, it will show up here and in your learning memory.": [
+    "main"
+  ],
+  "CL": [
+    "main"
+  ],
+  "AI": [
+    "main"
+  ],
+  "One record for practice and class": [
+    "main"
+  ],
+  "You choose which teacher can see your saved results.": [
+    "main"
+  ],
+  "Account": [
+    "main"
+  ],
+  "’s learning memory": [
+    "main"
+  ],
+  "Your saved exercises and class observations, together in one record.": [
+    "main"
+  ],
+  "Choose a lesson to inspect its recorded results": [
+    "main"
+  ],
+  "recent attempts": [
+    "main"
+  ],
+  "class notes": [
+    "main"
+  ],
+  "lesson-evidence-detail": [
+    "main"
+  ],
+  "SAVED RESULTS": [
+    "main"
+  ],
+  "No shared lesson results yet": [
+    "main"
+  ],
+  "Earliest shown": [
+    "main"
+  ],
+  "Latest exercise": [
+    "main"
+  ],
+  "No saved exercise yet.": [
+    "main"
+  ],
+  "Add class observation": [
+    "main"
+  ],
+  "Your evidence timeline": [
+    "main"
+  ],
+  "The most recent saved practice and class notes.": [
+    "main"
+  ],
+  "Overview": [
+    "main"
+  ],
+  "TEST-BASED EVIDENCE": [
+    "main"
+  ],
+  "’s proficiency evidence": [
+    "main"
+  ],
+  "Course progress and test results are separate. A full CEFR profile requires evidence across communication skills.": [
+    "main"
+  ],
+  "No completed assessment yet": [
+    "main"
+  ],
+  "The learner can take a placement test from Level test. Listening, speaking and writing still need separate assessment.": [
+    "main"
+  ],
+  "Record a class observation": [
+    "main"
+  ],
+  "Class practice": [
+    "main"
+  ],
+  "Practise the expressions from your class in a short conversation. Note where you hesitate.": [
+    "main"
+  ],
+  "Practice plan: ": [
+    "main"
+  ],
+  "Prepare practice for ": [
+    "main"
+  ],
+  " and share it in their class notes.": [
+    "main"
+  ],
+  "CREATE PRACTICE PLAN": [
+    "main"
+  ],
+  "Lesson language": [
+    "main"
+  ],
+  "plan-focus": [
+    "main"
+  ],
+  "plan-instructions": [
+    "main"
+  ],
+  "Instructions": [
+    "main"
+  ],
+  "Save and share practice plan": [
+    "main"
+  ],
+  "Practice plan saved. The learner can read it in their class notes.": [
+    "main"
+  ],
+  "SHARED PRACTICE PLANS": [
+    "main"
+  ],
+  "Plans are shared through class notes. Completion tracking is not available yet.": [
+    "main"
+  ],
+  "One record across saved self-study and your class observations.": [
+    "main"
+  ],
+  "LATEST CLASS OBSERVATION": [
+    "main"
+  ],
+  ": what happened in class": [
+    "main"
+  ],
+  "Capture a learning insight from class": [
+    "main"
+  ],
+  "Record a specific learning challenge after a class to guide your next session.": [
+    "main"
+  ],
+  "PRACTICE RESULT": [
+    "main"
+  ],
+  "Latest shared exercise": [
+    "main"
+  ],
+  "Imported from device": [
+    "main"
+  ],
+  "Saved to account": [
+    "main"
+  ],
+  "{0} has chosen to keep self-study activity private.": [
+    "main"
+  ],
+  "No exercise result yet. Invite {0} to try a lesson in this language.": [
+    "main"
+  ],
+  "CLASS MEMORY": [
+    "main"
+  ],
+  "Teaching priorities": [
+    "main"
+  ],
+  "No observations yet. Save a class note to create the first priority.": [
+    "main"
+  ],
+  "CLASS COPILOT": [
+    "main"
+  ],
+  "Capture what happens in ": [
+    "main"
+  ],
+  "’s live speech. Saved observations join their learning memory.": [
+    "main"
+  ],
+  "CONNECTED LEARNER": [
+    "main"
+  ],
+  "note": [
+    "main"
+  ],
+  "notes": [
+    "main"
+  ],
+  "teacher-connected-badge": [
+    "main"
+  ],
+  "Connected": [
+    "main"
+  ],
+  "teacher-note-form": [
+    "main"
+  ],
+  "teacher-focus": [
+    "main"
+  ],
+  "Class focus": [
+    "main"
+  ],
+  "teacher-observation": [
+    "main"
+  ],
+  "Describe what the learner said and where they needed help.": [
+    "main"
+  ],
+  "Every saved observation stays with the learner.": [
+    "main"
+  ],
+  "No class notes saved yet.": [
+    "main"
+  ],
+  "/teacher/learners": [
+    "main"
+  ],
+  "/teacher/learners/": [
+    "main"
+  ],
+  "/notes?language=": [
+    "main"
+  ],
+  "/teacher/connect": [
+    "main"
+  ],
+  "Learner connected.": [
+    "main"
+  ],
+  "/notes": [
+    "main"
+  ],
+  "You": [
+    "main"
+  ],
+  "Class note saved to this learner’s account.": [
+    "main"
+  ],
+  "panel connect-code": [
+    "main"
+  ],
+  "Connect a learner": [
+    "main"
+  ],
+  "Ask the learner to generate a one-time code in Account.": [
+    "main"
+  ],
+  "Learner sharing code": [
+    "main"
+  ],
+  "12-character code": [
+    "main"
+  ],
+  "Connect": [
+    "main"
+  ],
+  "CONNECTED TEACHER VIEW": [
+    "main"
+  ],
+  "Your learners": [
+    "main"
+  ],
+  "Connect a learner to see their saved results and record class observations.": [
+    "main"
+  ],
+  "panel empty-learner": [
+    "main"
+  ],
+  "No learners connected yet": [
+    "main"
+  ],
+  "Enter a sharing code on Overview after your learner creates one in Account.": [
+    "main"
+  ],
+  "Go to Overview": [
+    "main"
+  ],
+  "learner-picker": [
+    "main"
+  ],
+  "choose-learner": [
+    "main"
+  ],
+  "Viewing learner": [
+    "main"
+  ],
+  "teacher-view-language": [
+    "main"
+  ],
+  "Shared lesson language": [
+    "main"
+  ],
+  "No language shared": [
+    "main"
+  ],
+  "Only this language’s learning records are shown.": [
+    "main"
+  ],
+  "privacy-banner": [
+    "main"
+  ],
+  "Self-study activity is private": [
+    "main"
+  ],
+  "This learner has hidden lesson activity, scores and assessment results. Class notes and your connection are still available.": [
+    "main"
+  ],
+  "Language access has not been set": [
+    "main"
+  ],
+  "Ask the learner to select the language they study with you in Account → Connected teachers. Learning records remain hidden until then.": [
+    "main"
+  ],
+  "panel account-loading": [
+    "main"
+  ],
+  "Shared record unavailable. Check the learner’s language sharing settings.": [
+    "main"
+  ],
+  "Loading learner record…": [
+    "main"
+  ],
+  "continuumLanguage": [
+    "main"
+  ],
+  "/assessments?language=": [
+    "main"
+  ],
+  "/auth/me": [
+    "main"
+  ],
+  "/practice": [
+    "main"
+  ],
+  "Account service unavailable: ": [
+    "main"
+  ],
+  "draft": [
+    "main"
+  ],
+  "Admin": [
+    "main"
+  ],
+  "Review teachers": [
+    "main"
+  ],
+  "/auth/logout": [
+    "main"
+  ],
+  "/practice/import": [
+    "main"
+  ],
+  "Imported practice": [
+    "main"
+  ],
+  "entry-shell": [
+    "main"
+  ],
+  "brand": [
+    "main"
+  ],
+  "logo": [
+    "main"
+  ],
+  "C": [
+    "main"
+  ],
+  "Continuum": [
+    "main"
+  ],
+  "Learn with Flow": [
+    "main"
+  ],
+  "entry-content": [
+    "main"
+  ],
+  "Connecting to your account…": [
+    "main"
+  ],
+  "← Back to welcome": [
+    "main"
+  ],
+  "Profile unavailable": [
+    "main"
+  ],
+  "Loading your profile…": [
+    "main"
+  ],
+  "Profile": [
+    "main"
+  ],
+  "onboarding-exit": [
+    "main"
+  ],
+  "profile-entry-actions": [
+    "main"
+  ],
+  "Open your admin dashboard": [
+    "main"
+  ],
+  "Edit teaching profile": [
+    "main"
+  ],
+  "Edit learning profile": [
+    "main"
+  ],
+  "app": [
+    "main"
+  ],
+  "side-card": [
+    "main"
+  ],
+  "Your record is saved": [
+    "main"
+  ],
+  "AI class copilot": [
+    "main"
+  ],
+  "Your memory travels": [
+    "main"
+  ],
+  "Practice follows your account. Share access only with teachers you choose.": [
+    "main"
+  ],
+  "Preview how class patterns turn into practice.": [
+    "main"
+  ],
+  "Preview the app, then create an account to keep your progress.": [
+    "main"
+  ],
+  "profile": [
+    "main"
+  ],
+  "Enter": [
+    "main"
+  ],
+  "avatar": [
+    "main"
+  ],
+  "KI": [
+    "main"
+  ],
+  "Welcome": [
+    "main"
+  ],
+  "Explore Continuum": [
+    "main"
+  ],
+  "mobile-brand": [
+    "main"
+  ],
+  "Your saved learning record": [
+    "main"
+  ],
+  "Preview lessons and skills": [
+    "main"
+  ],
+  "role": [
+    "main"
+  ],
+  "Teacher account": [
+    "main"
+  ],
+  "Learner account": [
+    "main"
+  ],
+  "content": [
+    "main"
+  ],
+  "language-picker": [
+    "main"
+  ],
+  "Learning language": [
+    "main"
+  ],
+  "mobile-nav": [
+    "main"
+  ],
+  "Memory": [
+    "main"
+  ],
+  "Classes": [
+    "main"
+  ],
+  "root": [
+    "main"
+  ]
+}

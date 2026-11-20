@@ -1,0 +1,9 @@
+# Speaking coaching and next-goal recovery
+
+The review distinguishes an independently verified error from an independently verified optional natural alternative. Correct regional, grammatical and register variants are not labelled errors. An optional alternative must be natural in the conversation, correct and preserve meaning with high confidence. Original text is grounded in saved learner speech. Unverified suggestions remain hidden; empty suggestions are valid when no useful change is warranted.
+
+New full reviews audit both kinds of coaching inside the existing shared deadline. Legacy or interrupted feedback can be regenerated separately with Update speaking feedback. This uses a focused proposal plus an independent audit under one 20-second provider deadline. A failed refresh retains saved feedback, scores and pronunciation and remains retryable. Successful refreshes are cached. Account ownership, Premium access, AI consent, completed-transcript revision handling and the server lease remain enforced. Optional-example audio is authorized from the saved verified alternative and cannot be requested for arbitrary text.
+
+The next speaking goal is independent of suggestion auditing. It selects the first unmet scenario goal. After all goals are achieved, it asks the learner to repeat the first goal with a different choice and an extra detail. Existing saved reviews receive this goal immediately when rendered; the generic teacher/transcript fallback is no longer displayed in this section.
+
+The new labels and recovery messages are registered in every display language. Tests cover optional-versus-error decisions, incorrect/uncertain changes, fabricated references, audit failure, completed and incomplete goals, retained scores/audio, authenticated cached refresh, private example audio, and mobile Chromium/WebKit success, retry and timeout recovery. Communication-score recovery remains separate.

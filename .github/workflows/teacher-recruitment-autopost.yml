@@ -1,0 +1,53 @@
+name: Continuum Ten-Language Teacher Recruitment
+
+on:
+  schedule:
+    # Recovery checks at 08:49, 11:49 and 14:49 Kuala Lumpur time.
+    - cron: '49 0,3,6 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/teacher-recruitment-autopost.yml'
+      - 'social_automation/teacher_recruitment.py'
+      - 'social_automation/test_teacher_recruitment.py'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview upcoming teacher recruitment posts without scheduling'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: continuum-teacher-recruitment
+  cancel-in-progress: false
+
+jobs:
+  recruit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify offline recruitment safety and languages
+        run: python -m unittest social_automation.test_teacher_recruitment -v
+      - name: Generate and schedule teacher-interest posts in Buffer
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+          SOCIAL_AUTOPUBLISH_ENABLED: ${{ vars.SOCIAL_AUTOPUBLISH_ENABLED }}
+          TEACHER_RECRUITMENT_ENABLED: ${{ vars.TEACHER_RECRUITMENT_ENABLED }}
+          CONTINUUM_TEACHER_URL: ${{ vars.CONTINUUM_TEACHER_URL }}
+          X_CHANNEL_ID: ${{ vars.X_CHANNEL_ID }}
+          THREADS_CHANNEL_ID: ${{ vars.THREADS_CHANNEL_ID }}
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.dry_run }}" == "true" ]]; then
+            python -m social_automation.teacher_recruitment --dry-run
+          else
+            python -m social_automation.teacher_recruitment
+          fi

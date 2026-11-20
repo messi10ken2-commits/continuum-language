@@ -1,0 +1,1 @@
+export async function classRequest(path='',method='GET',body){const r=await fetch('/api/classroom'+path,{method,credentials:'same-origin',headers:{'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});const d=await r.json();if(!r.ok)throw Object.assign(Error(d.error||'Please try again'),{status:r.status});return d;}

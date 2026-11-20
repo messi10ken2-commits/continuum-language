@@ -1,0 +1,11 @@
+# Lesson clarity and teacher timeline
+
+The generic visual recap previously manufactured three steps from one model: Notice and Use it repeated the same sentence, while Understand spoke the English lesson title. Galleries now show actual authored examples, deduplicated by model and meaning; different meanings of the same term remain distinct. No title is synthesized as target-language speech. A single example has no artificial step navigation, and its duplicate model beneath the gallery is omitted. Explanation and full grammar references remain available. Thirty-two prerecorded clips that no longer match the corrected gallery are not offered in Watch; 237 compatible recaps remain available, and all existing media files/endpoints are retained.
+
+New reviewed labels and short question instructions cover all six display languages. The existing protected translation pipeline now registers newly separated prompt bodies and scenario text. Target sentences, blanks, named forms, answer options and learner notes remain untouched. Illustrated media credits correctly identify Continuum artwork.
+
+Question presentation is separate from question generation and grading. Recognized recurring instructions get short headings with the scenario/model/cloze underneath the contextual image. Exact-wording constraints remain explicit. Unknown question styles retain their original complete instruction. This applies to the shared lesson player, including exclusive courses, and vocabulary review. Assessment and conversation logic are unchanged.
+
+Teacher Memory uses one full saved timeline instead of an eight-item preview followed by a duplicate attempts list. Events retain lesson IDs (for skill filters), score, question count, imported status and timestamp; class notes remain verbatim. Twelve entries render initially, with Show more and category filters. The server continues to enforce the learner's sharing permissions and language scope.
+
+Validation includes an all-452-lesson gallery audit, six-language render regressions, existing grading/draft tests, and a built-app Chromium script (`scripts/qa-lesson-clarity.mjs`) for both layouts and a teacher with 15 shared attempts, one class note and an unshared Japanese attempt. Physical Safari is not covered by Chromium.

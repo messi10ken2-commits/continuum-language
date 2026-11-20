@@ -1,0 +1,11 @@
+import {readFile} from 'node:fs/promises';import assert from 'node:assert/strict';
+const config=JSON.parse(await readFile('capacitor.config.json','utf8'));
+assert.equal(config.webDir,'dist-native');assert.ok(!config.server.url);assert.ok(!config.server.cleartext);
+assert.equal(config.plugins?.CapacitorHttp?.enabled,false,'Use standard WebKit Fetch so abort, credential and redirect policies are enforced');
+assert.equal(config.plugins?.Keyboard?.resize,'native','Resize the WebView so keyboard-visible forms retain usable controls');
+assert.equal(config.appId,'com.continuum.language.dev');
+const swift=await readFile('ios/App/App/AppDelegate.swift','utf8');assert.ok(swift.includes('kSecAttrAccessibleWhenUnlockedThisDeviceOnly'));assert.ok(swift.includes('registerPluginInstance(ContinuumNativePlugin())'));
+const plist=await readFile('ios/App/App/Info.plist','utf8');assert.ok(plist.includes('NSMicrophoneUsageDescription'));assert.ok(!plist.includes('NSAllowsArbitraryLoads'));
+const bridge=await readFile('ios/App/App/Base.lproj/Main.storyboard','utf8');assert.ok(bridge.includes('ContinuumViewController'));
+const scene=await readFile('ios/App/App/SceneDelegate.swift','utf8');assert.ok(scene.includes('rootViewController = ContinuumViewController()'),'Scene lifecycle must instantiate the controller that registers Keychain/audio plugins');
+console.log('PASS: bundled native configuration, Keychain registration, permissions and HTTPS policy. Xcode compilation requires macOS.');

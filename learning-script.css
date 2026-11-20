@@ -1,0 +1,6 @@
+/* Target text follows its script independently of the display-language direction. */
+[lang|="ar"]{direction:rtl;unicode-bidi:isolate;letter-spacing:normal;word-spacing:normal;font-family:"Noto Naskh Arabic","Geeza Pro","Traditional Arabic",serif;line-height:1.9}
+input[lang|="ar"],textarea[lang|="ar"]{text-align:start}
+[lang|="zh"]{font-family:"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;overflow-wrap:anywhere}
+[lang|="ko"]{font-family:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;word-break:keep-all;overflow-wrap:anywhere;line-height:1.7}
+.kana-grid [lang|="ar"],.copy-studio svg text[lang|="ar"]{unicode-bidi:isolate;letter-spacing:normal}

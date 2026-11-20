@@ -1,0 +1,60 @@
+import LessonText,{LessonOption} from './LessonText.jsx';
+import RegionalComparisons from './RegionalComparisons.jsx';
+import {academicChartCopy} from './academic-chart-copy.mjs';
+import React,{useEffect,useState} from 'react';
+import PremiumVisual,{PremiumGallery} from './PremiumVisual.jsx';
+import {exclusiveSession,exclusiveAnswer,exclusiveAnswers,premiumReferenceAudioEndpoint} from './premium-session.mjs';
+import ConversationVideo from './ConversationVideo.jsx';
+import {formatVideoTime} from './conversation-cues.mjs';
+import {languageInfo} from './languages.mjs';
+import {billingRequest} from './Membership.jsx';
+import {t} from './interface-runtime.mjs';
+import {LessonPlayer} from './SelfStudy.jsx';
+import LessonReference from './LessonReference.jsx';
+
+export function premiumLesson(course){
+ const locale=languageInfo(course.language).locale;
+ return {...course,locale,skill:course.scene==='varieties'?'Regional varieties':course.conversation?'Listening':'Practice',minutes:Math.ceil(course.questions.length*1.5),
+  explanation:course.explanation||course.description||'Listen, read the examples and practise using the expressions in context.',example:(course.examples||[]).join(' '),
+  // The shared player uses regular lesson question types; grading remains on the Premium API.
+  conversation:null,questions:course.questions.map(q=>({...q,type:['typing','cloze','reorder'].includes(q.type)?'text':'choice',mode:q.type==='reorder'?'order':undefined,joiner:q.separator??' ',optionsRole:q.optionsRole||(['video','listening','interpretation'].includes(q.type)?'comprehension':'utterance'),optionsLang:q.optionsLang||(['video','listening','interpretation'].includes(q.type)?'en-US':locale),answer:undefined,audioLocale:q.audioLocale||locale}))};
+}
+function NativeReferences({sources,language}){return sources?.length?<section className="rule-pitfall"><h3>{t('Listen to native speakers')}</h3><p>{t('Open the publisher’s original recording. These are pronunciation references, not recordings of the exercise sentences.')}</p>{sources.map(s=><p key={s.url}><a className="outline-button" href={s.url} target="_blank" rel="noopener noreferrer">{React.createElement(LessonText,{text:s.label,language:language,interactive:false})} ↗</a><small> · {s.credit}</small></p>)}</section>:null;}
+function CourseReference({course,lesson}){
+ const chart=academicChartCopy[course.language]||academicChartCopy.en;
+ return <><RegionalComparisons course={course}/><NativeReferences sources={course.nativeReferences} language={course.language}/><LessonReference lesson={{...lesson,vocabulary:undefined}} audioEnabled={course.scene!=='varieties'} audioEndpointForText={text=>premiumReferenceAudioEndpoint(course,text)}/>
+ {course.exampleNote&&<section className="rule-pitfall"><h3>{t('Usage note')}</h3><p>{React.createElement(LessonText,{text:course.exampleNote,language:course.language})}</p></section>}
+ {course.reading&&<section><h3>{t('Read the scenario')}</h3><p lang={course.language}>{course.reading}</p></section>}
+ {course.visualData&&<figure className="academic-chart" lang={course.language}><figcaption>{chart.title}</figcaption>{[[chart.daily,course.visualData.daily],[chart.weekly,course.visualData.weekly]].map(([label,value])=><div key={label}><span>{label}</span><div><i style={{width:value+'%'}}/></div><b>{value}/100</b></div>)}<small>{chart.note}</small></figure>}
+ {course.vocabulary&&<section className="lesson-reference"><h3>{t('Useful expressions for this situation')}</h3>{course.vocabulary.map(({phrase,meaning})=><div className="translated-example" key={phrase}><b lang={course.language}>{phrase}</b><p>{React.createElement(LessonText,{text:meaning,language:course.language})}</p></div>)}</section>}
+ {course.references&&<details><summary>{t('Further reading')}</summary><ul>{course.references.map(r=><li key={r.url}><a href={r.url} target="_blank" rel="noopener noreferrer">{r.title}</a></li>)}</ul></details>}</>;
+}
+export function ExclusiveCoursePlayer({course,user,onExit,onFinish,initialDraft}){
+ const storageKey=`continuum-exclusive:${user.id}:${course.id}:${course.contentVersion||1}`;
+ const [draft]=useState(()=>{try{const saved=initialDraft||JSON.parse(sessionStorage.getItem(storageKey)||'null');
+  if(saved?.shuffleSeed!=null&&(typeof saved.shuffleSeed!=='string'||!/^[a-zA-Z0-9-]{12,100}$/.test(saved.shuffleSeed)))return null;
+  if(!saved||!Array.isArray(saved.answers)||saved.answers.length>course.questions.length||typeof saved.key!=='string')return null;
+  if(!saved.answers.every((a,i)=>saved.checks?.[i]?.first?.value===a&&typeof saved.checks[i].first.correct==='boolean'&&typeof saved.checks[i].answer==='string'&&typeof saved.checks[i].note==='string'))return null;
+  return saved;
+ }catch{return null}});
+ const [shuffleSeed,setShuffleSeed]=useState(()=>draft?.shuffleSeed||null);
+ const session=exclusiveSession(course,shuffleSeed),lesson=premiumLesson(session);
+ const save=(answers,seed,checks,key)=>{const nextSeed=answers.length===0?key:shuffleSeed;sessionStorage.setItem(storageKey,JSON.stringify({answers,checks,key,shuffleSeed:nextSeed}));if(answers.length===0)setShuffleSeed(nextSeed);};
+ const [submissionKey]=useState(()=>draft?.key||crypto.randomUUID());
+ return <LessonPlayer lesson={lesson} language={course.language} user={user} initialAnswers={draft?.answers} onDraft={save} onExit={onExit}
+  external={{lesson,reviewLesson:course.id,initialChecks:draft?.checks,initialSubmission:submissionKey,backLabel:'Back to courses',regional:course.scene==='varieties',
+   media:<PremiumGallery course={course}/>,reference:<CourseReference course={course} lesson={lesson}/>,
+   audioEndpoint:index=>'/api/billing/courses/'+course.id+'/audio?question='+session.questions[index]._sourceIndex,
+   questionMedia:q=>(q.nativeReference||q.video)?<>{q.nativeReference&&<NativeReferences sources={[q.nativeReference]} language={course.language}/>} {q.video&&<>{q.videoCue?<p className="question-video-reference"><b>{t('Listen at ')}{formatVideoTime(q.videoCue.start)}–{formatVideoTime(q.videoCue.end)}</b> · {<LessonText text={q.videoCue.label} language={course.language}/>}{q.videoCue.precision==='analysis-assisted'&&<><br/>{t('AI-assisted approximate replay range. Use the full video if the passage is cut short.')}</>}</p>:<p className="question-video-reference">{t('Source section:')} {<LessonText text={q.sourceReference?.label} language={course.language}/>} · {t('Exact video timing has not been verified.')} {q.sourceReference?.url&&<a href={q.sourceReference.url} target="_blank" rel="noopener noreferrer">{t(q.sourceReference?.kind==='publisher-overview'?'Publisher’s original video':'Publisher’s lesson and transcript')}</a>}</p>}<ConversationVideo lesson={{...course,locale:lesson.locale}} practice cue={q.videoCue} autoPlay={!!q.videoCue}/></>}</>:<PremiumVisual course={course} index={q._sourceIndex} context={q.context||q.prompt}/>,
+   check:(question,answer)=>billingRequest('/courses/'+course.id+'/answer','POST',{question:session.questions[question]._sourceIndex,answer:exclusiveAnswer(session.questions[question],answer)})}}
+  onComplete={async({answers,submissionKey})=>{const result=await billingRequest('/courses/'+course.id+'/finish','POST',{answers:exclusiveAnswers(session,answers),key:submissionKey});sessionStorage.removeItem(storageKey);onFinish?.();return {...result,score:Math.round(result.correct/result.total*100)};}}/>;
+}
+export default function PremiumLessons({user,language,showLocked=false,onAccount}){
+ const [data,setData]=useState(null),[course,setCourse]=useState(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[videoPreview,setVideoPreview]=useState(null);
+ useEffect(()=>{let live=true;setCourse(null);setData(null);setError('');if(user)billingRequest().then(d=>{if(live)setData(d)}).catch(e=>{if(live)setError(e.message)});return()=>{live=false}},[user?.id,language]);
+ const run=async f=>{setBusy(true);setError('');try{await f()}catch(e){setError(e.message)}finally{setBusy(false)}};
+ if(!data)return error?<p role="alert">{t(error)}</p>:null;
+ if(!data.membership.premium&&!showLocked)return null;
+ if(course)return <ExclusiveCoursePlayer key={course.id} user={user} course={course} onExit={()=>setCourse(null)} onFinish={()=>{billingRequest().then(setData).catch(e=>setError(e.message));}}/>;
+ return <section className="panel premium-lessons"><span className="eyebrow">{t('Premium')}</span><h2>{t('Exclusive courses')}</h2>{error&&<p role="alert">{t(error)}</p>}{(data.archivedCourses||[]).filter(c=>c.language===language&&(data.progress.some(p=>p.id===c.id)||(()=>{try{return !!sessionStorage.getItem(`continuum-exclusive:${user.id}:${c.id}:${c.contentVersion}`)}catch{return false}})())).map(c=><details className="archived-course" key={c.id}><summary>{t('Previous lesson version')} · {t(c.title)}</summary><p>{t('Your earlier results and saved draft are retained for the original video.')}</p>{data.progress.find(p=>p.id===c.id)&&<p><b>{t('Best score')}: {data.progress.find(p=>p.id===c.id).best}/{data.progress.find(p=>p.id===c.id).total}</b></p>}<button className="outline-button" disabled={busy} onClick={()=>run(async()=>{if(!data.membership.premium){onAccount?.();return;}setCourse((await billingRequest('/courses/'+c.id)).course)})}>{t('Open previous lesson')}</button></details>)}<div className="membership-courses">{data.courses.filter(c=>c.language===language).map(c=><article key={c.id}><PremiumVisual course={c} compact/>{c.level&&<small>{c.level} · {t(c.scene==='academic'?'Academic practice':c.scene==='varieties'?'Regional varieties':'Practical situations')}</small>}<h3>{t(c.title)}</h3><p>{t(c.description)}</p>{data.progress.find(p=>p.id===c.id)&&<small>{t('Best score')}: {data.progress.find(p=>p.id===c.id).best}/{c.questions}</small>}{data.videoSources?.find(v=>v.id===c.id)&&<button className="text-button" onClick={()=>setVideoPreview(data.videoSources.find(v=>v.id===c.id))}>{t('Watch video · Free')}</button>}<button className="primary" disabled={busy} onClick={()=>run(async()=>{if(!data.membership.premium){onAccount?.();return;}setCourse((await billingRequest('/courses/'+c.id)).course);})}>{t(data.membership.premium?'Open course':'Explore Premium')}</button></article>)}</div>{videoPreview&&<div className="studio-video-preview"><button className="back" onClick={()=>setVideoPreview(null)}>{t('Close video')}</button><ConversationVideo lesson={{...videoPreview,locale:languageInfo(language).locale}} practice/></div>}</section>;
+}

@@ -1,0 +1,162 @@
+[
+  {
+    "file": "fox-head-happy.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "088fec8e0c71b4b338a2bf397308f7beb0384f5b2691e3d98876bf090199673b"
+  },
+  {
+    "file": "fox-body.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "24db05c9a865e5a398680e571c3dd278b7d281b49860a7c109451563e745feb2"
+  },
+  {
+    "file": "fox-tail.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "31ad2d3feaf5efeff1cb18039437d90c0048432d8af0dc69a64997de1647697a"
+  },
+  {
+    "file": "fox-arm-left.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "a286b7157689ce08dd4c378e058eb84884990b02603ad6fdf3f88dd6ca414ad0"
+  },
+  {
+    "file": "fox-arm-right.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "6d010a28a8f71175c90eefce2f36fd233955c74aa6c375ff0a3efe2723a5873c"
+  },
+  {
+    "file": "fox-head.webp",
+    "source": "exec-5e355516-4f22-4315-88ff-c994938ebb9d.png",
+    "sha256": "0afa13a53782780c3f59ae1d3c8a32b699f8f19b7018c1732d17c39ca468a6d7"
+  },
+  {
+    "file": "bird-head.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "423df3f731b3325d10fa76633b21119611e719c175e56419eb4016e83b39fb09"
+  },
+  {
+    "file": "bird-body.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "39fb9fb7b016d462fedd76eef12dce81d51acc677dfa99772c2e5db36aeddc97"
+  },
+  {
+    "file": "bird-wing.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "186442e9014c0da89c84bbf86cbacac797fc2b98570533fb3ff8e7bf18d9a2d2"
+  },
+  {
+    "file": "bird-tail.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "93394c8aad0b9959c10628cb985172613e9c4ebb2bd8f89c15f0836cac67307f"
+  },
+  {
+    "file": "cat-head.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "6131f1c8c8eccf5608c11c5cad7789bc7295d793cc122c851aa6827e298f87a2"
+  },
+  {
+    "file": "cat-body.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "3f13d5e06408bd99266c1e6f9fec567000bf5c84a5b242d72282b8b0dfd24a04"
+  },
+  {
+    "file": "cat-tail.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "11eefa4a13362dbfe6e6ad06eb292d4c7064b502e218c4f91e0d1948b80ca1f4"
+  },
+  {
+    "file": "cat-head-happy.webp",
+    "source": "exec-f3a50132-ed98-4065-96b5-1688613390e8.png",
+    "sha256": "32e727e086cd9bd6b70e048c827def4d406cf08acbdc9cd9a4a1bde3685b6a69"
+  },
+  {
+    "file": "dog-head.webp",
+    "source": "exec-82fde980-15eb-4b4b-810c-6415d302e2b8.png",
+    "sha256": "919179bee40599db42134be4194b194f30b19cd9fcd295a8090b84bf1ec574c0"
+  },
+  {
+    "file": "dog-head-happy.webp",
+    "source": "exec-82fde980-15eb-4b4b-810c-6415d302e2b8.png",
+    "sha256": "27abecb330874f61df92abe9061082a0b1d80f378b8d6da73a5365c009ef9ce1"
+  },
+  {
+    "file": "dog-body.webp",
+    "source": "exec-82fde980-15eb-4b4b-810c-6415d302e2b8.png",
+    "sha256": "f227e997269c986e3dd439eee3c223849874fe13ee58716aa2f325b9eb88f7d5"
+  },
+  {
+    "file": "dog-tail.webp",
+    "source": "exec-82fde980-15eb-4b4b-810c-6415d302e2b8.png",
+    "sha256": "48ffa30f82bb0ba1ab8ce4eccc895dee747558f1f2bcf86f1210c3ca85fdca01"
+  },
+  {
+    "file": "capybara-head.webp",
+    "source": "exec-d4aaaabe-5a8e-43c1-a215-df95d8e25690.png",
+    "sha256": "c72098680f21784986439f12b4864a11c4e5a13d97c758b4d209bcad80993eb6"
+  },
+  {
+    "file": "capybara-head-happy.webp",
+    "source": "exec-d4aaaabe-5a8e-43c1-a215-df95d8e25690.png",
+    "sha256": "b746939752cdb27916a930d4f0ebedb8959f7b88cd4fbbd38d7907dd1d540595"
+  },
+  {
+    "file": "capybara-body.webp",
+    "source": "exec-355501fc-ff82-4d85-b912-40576b91bdd0.png",
+    "sha256": "fbfe493095e82794c2cd0bf7c97d30bfbabf4edd047257a5fffd960e01f11792"
+  },
+  {
+    "file": "guinea-pig-head.webp",
+    "source": "exec-fa4b93b7-1ee7-4035-b332-4a7ecf646db8.png",
+    "sha256": "ad0f484855e75359a99b613921e2e65c5f11f3caa306de9689cfb8b407040ba0"
+  },
+  {
+    "file": "guinea-pig-head-happy.webp",
+    "source": "exec-fa4b93b7-1ee7-4035-b332-4a7ecf646db8.png",
+    "sha256": "499d9877ff8d5c1fca574bc6cf7ee64bcd9c6be6c94001e4ab9be0058c58297b"
+  },
+  {
+    "file": "guinea-pig-body.webp",
+    "source": "exec-fa4b93b7-1ee7-4035-b332-4a7ecf646db8.png",
+    "sha256": "c1f7f3704962faead136b8d663df1978a690ff173a657c31c6c6ee5be0fec048"
+  },
+  {
+    "file": "quokka-head.webp",
+    "source": "exec-87414139-8678-4e44-b966-47fa9e90219c.png",
+    "sha256": "5019fbdcac0136b990aa8521b41dab3b0a147158926e1beb0e722f68f6531bb6"
+  },
+  {
+    "file": "quokka-head-happy.webp",
+    "source": "exec-87414139-8678-4e44-b966-47fa9e90219c.png",
+    "sha256": "f5cf12808debf79fbb13f78f8473751b1dece025bb85c4eb9dfbfd2f3220ea7a"
+  },
+  {
+    "file": "quokka-body.webp",
+    "source": "exec-f32eba0d-2a94-420c-abc6-459d9b13ac7d.png",
+    "sha256": "99266d8b0c5df13a05639e68a1f4b40412db0ad4cb3192363fa9fd9429ff2f8a"
+  },
+  {
+    "file": "quokka-tail.webp",
+    "source": "exec-2a300ebe-a796-483d-b8cd-5515f0bb71c7.png",
+    "sha256": "2e6d349e5c57c18748a43405dd396a058c8d23da425325f88bad8e60c24cc1e1"
+  },
+  {
+    "file": "panda-head.webp",
+    "source": "exec-139bccc5-85e6-4169-a85c-265050c05201.png",
+    "sha256": "6f39f2e61121c93934989aeb8355931adf4b7e7496ccb7c916dc377726036f2c"
+  },
+  {
+    "file": "panda-head-happy.webp",
+    "source": "exec-139bccc5-85e6-4169-a85c-265050c05201.png",
+    "sha256": "8f87f7590d5cbe27bf3f9c3956f0dc473d03529443587a3dbd82908851240d32"
+  },
+  {
+    "file": "panda-body.webp",
+    "source": "exec-330a141d-38bf-4511-aa16-8145d0c5bee1.png",
+    "sha256": "55414b1d15fbafcec04361a1747c6d21dcfec951b04c09bfa15fe15b39c972ea"
+  },
+  {
+    "file": "panda-tail.webp",
+    "source": "exec-9c450303-0358-40de-bf3b-0e82f24844e2.png",
+    "sha256": "7fdc0ca791b4beabfa286c6e7d20ec982c131b429f74da1fbcf5a05a8030d99f"
+  }
+]

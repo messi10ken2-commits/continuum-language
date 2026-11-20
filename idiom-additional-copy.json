@@ -1,0 +1,1136 @@
+{
+  "Choose a careful statement about a colleague who has not yet decided.": {
+    "ko": "아직 결정하지 않은 동료에 관한 신중한 표현을 고르세요.",
+    "id": "Pilih pernyataan yang berhati-hati tentang rekan yang belum memutuskan.",
+    "ru": "Выберите корректное высказывание о коллеге, который ещё не определился.",
+    "ar": "اختر عبارة متأنية عن زميل لم يتخذ قراره بعد."
+  },
+  "Choose a clear instruction when an important deadline must be confirmed.": {
+    "ko": "중요한 마감일을 확인할 때 쓸 명확한 표현을 고르세요.",
+    "id": "Pilih ungkapan yang jelas untuk memastikan tenggat penting.",
+    "ru": "Выберите ясную формулировку для уточнения важного срока.",
+    "ar": "اختر صياغة واضحة لتأكيد موعد نهائي مهم."
+  },
+  "Choose a precise request for evidence of delivery rather than a dismissive proverb.": {
+    "ko": "무시하는 속담 대신 납품 근거를 구체적으로 요청하는 표현을 고르세요.",
+    "id": "Pilih permintaan bukti penyelesaian yang jelas, bukan peribahasa yang meremehkan.",
+    "ru": "Вместо пренебрежительной пословицы выберите точный запрос о подтверждении готовности.",
+    "ar": "اختر طلبًا دقيقًا لإثبات إمكانية التسليم بدلًا من مثل يحمل استخفافًا."
+  },
+  "Choose a professional invitation to resolve remaining differences.": {
+    "ko": "남은 의견 차이를 해결하자는 전문적인 제안을 고르세요.",
+    "id": "Pilih ajakan profesional untuk menyelesaikan perbedaan yang tersisa.",
+    "ru": "Выберите профессиональное предложение обсудить оставшиеся разногласия.",
+    "ar": "اختر دعوة مهنية لحل الخلافات المتبقية."
+  },
+  "Choose a supportive reply to someone stressed by a manageable problem.": {
+    "ko": "해결 가능한 문제로 스트레스를 받는 사람에게 지지하는 답변을 고르세요.",
+    "id": "Pilih tanggapan yang mendukung seseorang yang stres karena masalah yang dapat diatasi.",
+    "ru": "Выберите поддерживающий ответ человеку, переживающему из-за решаемой проблемы.",
+    "ar": "اختر ردًا داعمًا لشخص متوتر بسبب مشكلة قابلة للحل."
+  },
+  "Choose the clearest wording for a formal record of the warning.": {
+    "ko": "경고를 공식적으로 기록할 때 가장 명확한 표현을 고르세요.",
+    "id": "Pilih rumusan paling jelas untuk catatan resmi tentang peringatan tersebut.",
+    "ru": "Выберите наиболее ясную формулировку предупреждения для официальной записи.",
+    "ar": "اختر أوضح صياغة لتوثيق التحذير رسميًا."
+  },
+  "Choose the intended meaning in this situation.": {
+    "ko": "이 상황에서 의도된 의미를 고르세요.",
+    "id": "Pilih makna yang dimaksud dalam situasi ini.",
+    "ru": "Выберите подразумеваемое значение в этой ситуации.",
+    "ar": "اختر المعنى المقصود في هذا الموقف."
+  },
+  "Complete the missing part of the expression.": {
+    "ko": "표현에서 빠진 부분을 완성하세요.",
+    "id": "Lengkapi bagian ungkapan yang hilang.",
+    "ru": "Дополните пропущенную часть выражения.",
+    "ar": "أكمل الجزء الناقص من التعبير."
+  },
+  "Identify the speaker’s goal and the listener’s relationship to them.": {
+    "ko": "화자의 목적과 청자와의 관계를 파악하세요.",
+    "id": "Kenali tujuan pembicara dan hubungannya dengan pendengar.",
+    "ru": "Определите цель говорящего и его отношения со слушателем.",
+    "ar": "حدد هدف المتحدث وعلاقته بالمستمع."
+  },
+  "Interpret the figurative meaning, then explain it without the image.": {
+    "ko": "비유적 의미를 해석한 뒤 비유 없이 설명하세요.",
+    "id": "Tafsirkan makna kiasannya, lalu jelaskan tanpa menggunakan kiasan itu.",
+    "ru": "Определите переносное значение, затем объясните его без образного выражения.",
+    "ar": "فسر المعنى المجازي ثم اشرحه دون استخدام الصورة المجازية."
+  },
+  "Keep the full expression and the surrounding words in the sentence.": {
+    "ko": "문장의 전체 표현과 주변 단어를 유지하세요.",
+    "id": "Pertahankan ungkapan utuh beserta kata-kata di sekitarnya.",
+    "ru": "Сохраните выражение целиком и окружающие его слова.",
+    "ar": "حافظ على التعبير كاملًا والكلمات المحيطة به في الجملة."
+  },
+  "Keep the idiom intact and connect it to the situation in the model.": {
+    "ko": "관용 표현을 그대로 유지하고 예문의 상황에 연결하세요.",
+    "id": "Pertahankan idiom secara utuh dan kaitkan dengan situasi dalam contoh.",
+    "ru": "Сохраните идиому целиком и свяжите её с ситуацией в примере.",
+    "ar": "حافظ على التعبير الاصطلاحي كاملًا واربطه بموقف الجملة النموذجية."
+  },
+  "Models use Brazilian Portuguese; local preferences vary.": {
+    "ko": "예문은 브라질 포르투갈어를 사용합니다. 지역별 선호는 다를 수 있습니다.",
+    "id": "Contoh menggunakan bahasa Portugis Brasil; pilihan ungkapan setempat dapat berbeda.",
+    "ru": "В примерах используется бразильский португальский; местные предпочтения могут отличаться.",
+    "ar": "تستخدم الأمثلة البرتغالية البرازيلية؛ وقد تختلف التفضيلات المحلية."
+  },
+  "Notice whether the expression sounds supportive, critical or too casual for this audience.": {
+    "ko": "이 표현이 청자에게 지지, 비판 또는 지나치게 편한 말투로 들리는지 살펴보세요.",
+    "id": "Perhatikan apakah ungkapan terdengar mendukung, mengkritik, atau terlalu santai bagi pendengar.",
+    "ru": "Обратите внимание, звучит ли выражение поддерживающе, критично или слишком неформально для слушателя.",
+    "ar": "لاحظ ما إذا كان التعبير يبدو داعمًا أو ناقدًا أو غير رسمي أكثر مما يناسب المخاطب."
+  },
+  "Practise idioms through listening, recall and real decisions; choose wording that fits the relationship and setting.": {
+    "ko": "듣기, 회상, 실제 판단을 통해 관용 표현을 연습하고 관계와 상황에 맞는 표현을 고르세요.",
+    "id": "Latih idiom melalui menyimak, mengingat, dan mengambil keputusan nyata; pilih bahasa yang sesuai dengan hubungan dan situasi.",
+    "ru": "Практикуйте идиомы через аудирование, воспроизведение по памяти и реальные решения; выбирайте формулировки с учётом отношений и обстановки.",
+    "ar": "تدرب على التعبيرات بالاستماع والتذكر واتخاذ قرارات واقعية؛ واختر صياغة تناسب العلاقة والموقف."
+  },
+  "Read and listen to each original model. Work out the implied meaning, practise the whole phrase, then decide whether a clear neutral paraphrase suits the audience better.": {
+    "ko": "각 예문을 읽고 들으세요. 함축된 의미를 파악하고 표현 전체를 연습한 뒤 청자에게 더 명확하고 중립적인 표현이 적절한지 판단하세요.",
+    "id": "Baca dan dengarkan setiap contoh. Pahami makna tersiratnya, latih ungkapan utuh, lalu tentukan apakah penjelasan netral yang jelas lebih sesuai bagi pendengar.",
+    "ru": "Прочитайте и прослушайте каждый пример. Определите подразумеваемый смысл, отработайте выражение целиком и решите, не лучше ли подойдёт слушателю ясная нейтральная формулировка.",
+    "ar": "اقرأ كل مثال واستمع إليه. استنتج المعنى الضمني وتدرب على العبارة كاملة، ثم قرر إن كانت صياغة محايدة واضحة أنسب للمخاطب."
+  },
+  "Recall the whole expression and check that it fits the situation.": {
+    "ko": "표현 전체를 떠올리고 상황에 맞는지 확인하세요.",
+    "id": "Ingat ungkapan secara utuh dan pastikan sesuai dengan situasinya.",
+    "ru": "Вспомните выражение целиком и проверьте, подходит ли оно к ситуации.",
+    "ar": "تذكر التعبير كاملًا وتحقق من ملاءمته للموقف."
+  },
+  "The neutral wording states the practical concern without an accusation, pressure or an unsupported assumption.": {
+    "ko": "중립적인 표현은 비난, 압박, 근거 없는 가정 없이 실질적인 우려를 전달합니다.",
+    "id": "Rumusan netral menyampaikan persoalan praktis tanpa tuduhan, tekanan, atau asumsi tanpa dasar.",
+    "ru": "Нейтральная формулировка передаёт практическую проблему без обвинений, давления и необоснованных предположений.",
+    "ar": "تعرض الصياغة المحايدة المشكلة العملية دون اتهام أو ضغط أو افتراض بلا دليل."
+  },
+  "The setting and relationship affect how an idiom sounds. Proverbs are perspectives, not guarantees.": {
+    "ko": "상황과 관계에 따라 관용 표현의 느낌이 달라집니다. 속담은 하나의 관점이지 결과를 보장하지 않습니다.",
+    "id": "Situasi dan hubungan memengaruhi kesan suatu idiom. Peribahasa menawarkan sudut pandang, bukan jaminan.",
+    "ru": "Восприятие идиомы зависит от ситуации и отношений. Пословицы предлагают взгляд на ситуацию, а не гарантируют результат.",
+    "ar": "يتأثر وقع التعبير بالموقف والعلاقة. الأمثال تقدم وجهة نظر ولا تضمن النتائج."
+  },
+  "You are writing a neutral cost comparison for a client. Choose the most appropriate sentence.": {
+    "ko": "고객을 위한 중립적인 비용 비교를 작성합니다. 가장 적절한 문장을 고르세요.",
+    "id": "Anda menulis perbandingan biaya yang netral untuk klien. Pilih kalimat paling tepat.",
+    "ru": "Вы составляете для клиента нейтральное сравнение расходов. Выберите наиболее подходящее предложение.",
+    "ar": "تكتب مقارنة محايدة للتكاليف لعميل. اختر الجملة الأنسب."
+  },
+  "You need to record a concern about changed requirements without sounding accusatory.": {
+    "ko": "변경된 요구 사항에 대한 우려를 비난조가 되지 않게 기록해야 합니다.",
+    "id": "Anda perlu mencatat kekhawatiran tentang perubahan persyaratan tanpa terdengar menuduh.",
+    "ru": "Вам нужно зафиксировать сомнения по поводу изменения требований, не прибегая к обвинениям.",
+    "ar": "تحتاج إلى توثيق قلق بشأن تغير المتطلبات دون أن تبدو متهمًا للطرف الآخر."
+  },
+  "a conflict can lead to a stronger relationship after it is resolved": {
+    "ko": "갈등을 해결한 뒤 관계가 더 강해질 수 있음",
+    "id": "konflik dapat memperkuat hubungan setelah diselesaikan",
+    "ru": "после разрешения конфликта отношения могут укрепиться",
+    "ar": "قد تصبح العلاقة أقوى بعد حل الخلاف"
+  },
+  "a guarantee that all unspoken instructions are understood": {
+    "ko": "말하지 않은 지시가 모두 이해된다는 보장",
+    "id": "jaminan bahwa semua instruksi yang tidak diucapkan dipahami",
+    "ru": "гарантия понимания всех невысказанных указаний",
+    "ar": "ضمان فهم جميع التعليمات غير المنطوقة"
+  },
+  "a listener can never understand an indirect hint": {
+    "ko": "청자는 간접적인 암시를 절대 이해할 수 없음",
+    "id": "pendengar tidak pernah dapat memahami petunjuk tidak langsung",
+    "ru": "слушатель никогда не может понять косвенный намёк",
+    "ar": "لا يستطيع المستمع أبدًا فهم تلميح غير مباشر"
+  },
+  "a minor technical detail nobody has noticed": {
+    "ko": "아무도 알아차리지 못한 사소한 기술적 세부 사항",
+    "id": "detail teknis kecil yang belum disadari siapa pun",
+    "ru": "незначительная техническая деталь, которую никто не заметил",
+    "ar": "تفصيل تقني صغير لم يلاحظه أحد"
+  },
+  "a polished presentation guarantees a good agreement": {
+    "ko": "세련된 발표가 좋은 계약을 보장함",
+    "id": "presentasi yang rapi menjamin kesepakatan yang baik",
+    "ru": "безупречная презентация гарантирует выгодное соглашение",
+    "ar": "يضمن العرض المتقن اتفاقًا جيدًا"
+  },
+  "a relationship must end after any disagreement": {
+    "ko": "어떤 의견 충돌이든 관계가 끝나야 함",
+    "id": "hubungan harus berakhir setelah setiap perselisihan",
+    "ru": "после любого разногласия отношения должны закончиться",
+    "ar": "يجب أن تنتهي العلاقة بعد أي خلاف"
+  },
+  "accept the agreed price of a service": {
+    "ko": "서비스에 대해 합의된 가격을 받아들임",
+    "id": "menerima harga layanan yang telah disepakati",
+    "ru": "согласиться с оговорённой стоимостью услуги",
+    "ar": "قبول السعر المتفق عليه للخدمة"
+  },
+  "accept the claim as independently verified": {
+    "ko": "독립적으로 검증된 사실로 주장을 받아들임",
+    "id": "menerima klaim seolah sudah diverifikasi secara independen",
+    "ru": "принять утверждение как независимо проверенное",
+    "ar": "قبول الادعاء على أنه تحقق منه طرف مستقل"
+  },
+  "act or speak very cautiously to avoid upsetting someone": {
+    "ko": "상대를 불편하게 하지 않으려고 매우 조심스럽게 행동하거나 말함",
+    "id": "bertindak atau berbicara sangat hati-hati agar tidak menyinggung seseorang",
+    "ru": "действовать или говорить очень осторожно, чтобы никого не задеть",
+    "ar": "التصرف أو الكلام بحذر شديد لتجنب إزعاج شخص"
+  },
+  "admit being mistaken or accept a point after resisting it": {
+    "ko": "처음에는 저항했지만 틀렸음을 인정하거나 상대의 주장을 받아들임",
+    "id": "mengakui kekeliruan atau menerima pendapat setelah sempat menolaknya",
+    "ru": "признать ошибку или принять довод после первоначального сопротивления",
+    "ar": "الاعتراف بالخطأ أو قبول وجهة نظر بعد مقاومتها"
+  },
+  "agree immediately before hearing the other view": {
+    "ko": "상대의 의견을 듣기 전에 즉시 동의함",
+    "id": "langsung setuju sebelum mendengar pandangan lain",
+    "ru": "сразу согласиться, не выслушав другое мнение",
+    "ar": "الموافقة فورًا قبل سماع الرأي الآخر"
+  },
+  "agree on every detail without discussion": {
+    "ko": "논의 없이 모든 세부 사항에 동의함",
+    "id": "menyetujui setiap detail tanpa diskusi",
+    "ru": "согласиться со всеми деталями без обсуждения",
+    "ar": "الاتفاق على كل التفاصيل دون نقاش"
+  },
+  "agree that all personal boundaries must be abandoned": {
+    "ko": "모든 개인적 경계를 포기해야 한다고 동의함",
+    "id": "menyetujui bahwa semua batas pribadi harus ditinggalkan",
+    "ru": "согласиться отказаться от всех личных границ",
+    "ar": "الموافقة على التخلي عن جميع الحدود الشخصية"
+  },
+  "all promises are necessarily dishonest": {
+    "ko": "모든 약속은 반드시 거짓임",
+    "id": "semua janji pasti tidak jujur",
+    "ru": "все обещания обязательно лживы",
+    "ar": "جميع الوعود كاذبة بالضرورة"
+  },
+  "already committed to moving immediately": {
+    "ko": "이미 즉시 이사하기로 결정함",
+    "id": "sudah memutuskan untuk segera pindah",
+    "ru": "уже принято решение немедленно переехать",
+    "ar": "اتخذ بالفعل قرارًا بالانتقال فورًا"
+  },
+  "an attractive appearance does not guarantee real value": {
+    "ko": "매력적인 외관이 실제 가치를 보장하지 않음",
+    "id": "penampilan menarik tidak menjamin nilai sebenarnya",
+    "ru": "привлекательный вид не гарантирует реальной ценности",
+    "ar": "المظهر الجذاب لا يضمن قيمة حقيقية"
+  },
+  "an issue that has already been openly resolved": {
+    "ko": "이미 공개적으로 해결된 문제",
+    "id": "masalah yang sudah diselesaikan secara terbuka",
+    "ru": "проблема, которую уже открыто разрешили",
+    "ar": "مشكلة جرى حلها علنًا بالفعل"
+  },
+  "an obvious important issue that people avoid discussing": {
+    "ko": "사람들이 논의를 피하는 명백하고 중요한 문제",
+    "id": "masalah penting yang jelas tetapi dihindari dalam pembicaraan",
+    "ru": "очевидная важная проблема, обсуждения которой избегают",
+    "ar": "مشكلة واضحة ومهمة يتجنب الناس مناقشتها"
+  },
+  "any beginner is always as qualified as a trained specialist": {
+    "ko": "어떤 초보자든 항상 훈련된 전문가만큼 자격이 있음",
+    "id": "pemula mana pun selalu sama kompetennya dengan ahli terlatih",
+    "ru": "любой новичок всегда столь же квалифицирован, как обученный специалист",
+    "ar": "أي مبتدئ مؤهل دائمًا بقدر المتخصص المدرب"
+  },
+  "ask everyone to read the agenda aloud": {
+    "ko": "모두에게 안건을 소리 내어 읽어 달라고 요청함",
+    "id": "meminta semua orang membacakan agenda dengan lantang",
+    "ru": "попросить всех прочитать повестку вслух",
+    "ar": "طلب قراءة جدول الأعمال بصوت مسموع من الجميع"
+  },
+  "avoid helping any other team member": {
+    "ko": "다른 팀원을 돕지 않음",
+    "id": "menghindari membantu anggota tim lain",
+    "ru": "избегать помощи другим участникам команды",
+    "ar": "تجنب مساعدة أي عضو آخر في الفريق"
+  },
+  "avoid mentioning the main issue": {
+    "ko": "핵심 문제를 언급하지 않음",
+    "id": "menghindari menyebutkan persoalan utama",
+    "ru": "избегать упоминания главного вопроса",
+    "ar": "تجنب ذكر القضية الأساسية"
+  },
+  "avoid taking a side or committing to a position": {
+    "ko": "어느 편에 설지 또는 입장을 정하기를 피함",
+    "id": "menghindari memilih pihak atau menetapkan posisi",
+    "ru": "избегать выбора стороны или определённой позиции",
+    "ar": "تجنب الانحياز أو الالتزام بموقف"
+  },
+  "be caught between difficult alternatives": {
+    "ko": "선택하기 어려운 대안 사이에 놓임",
+    "id": "terjebak di antara pilihan-pilihan sulit",
+    "ru": "оказаться между трудными альтернативами",
+    "ar": "الوقوع بين بدائل صعبة"
+  },
+  "be expensive only because repairs are included": {
+    "ko": "수리 비용이 포함되어서만 비쌈",
+    "id": "mahal hanya karena biaya perbaikan termasuk",
+    "ru": "стоить дорого только из-за включённого ремонта",
+    "ar": "باهظ فقط لأن الإصلاحات مشمولة"
+  },
+  "be extremely expensive": {
+    "ko": "매우 비쌈",
+    "id": "sangat mahal",
+    "ru": "стоить чрезвычайно дорого",
+    "ar": "باهظ الثمن جدًا"
+  },
+  "be unusually inexpensive": {
+    "ko": "유난히 저렴함",
+    "id": "sangat murah dibanding biasanya",
+    "ru": "быть необычно дешёвым",
+    "ar": "رخيص على نحو غير معتاد"
+  },
+  "bear the blame or consequences for someone else’s actions": {
+    "ko": "다른 사람의 행동에 대한 비난이나 결과를 떠안음",
+    "id": "menanggung kesalahan atau akibat tindakan orang lain",
+    "ru": "нести вину или последствия чужих действий",
+    "ar": "تحمل اللوم أو عواقب أفعال الآخرين"
+  },
+  "certain that both options are unacceptable": {
+    "ko": "두 선택지 모두 받아들일 수 없다고 확신함",
+    "id": "yakin kedua pilihan tidak dapat diterima",
+    "ru": "быть уверенным в неприемлемости обоих вариантов",
+    "ar": "متأكد من أن كلا الخيارين غير مقبول"
+  },
+  "change the conditions for success after work has begun": {
+    "ko": "일이 시작된 뒤 성공 조건을 바꿈",
+    "id": "mengubah syarat keberhasilan setelah pekerjaan dimulai",
+    "ru": "изменить условия успеха после начала работы",
+    "ar": "تغيير شروط النجاح بعد بدء العمل"
+  },
+  "changing methods is always a sign of failure": {
+    "ko": "방법을 바꾸는 것은 항상 실패의 징후임",
+    "id": "mengubah metode selalu merupakan tanda kegagalan",
+    "ru": "смена метода всегда означает неудачу",
+    "ar": "تغيير الأساليب علامة فشل دائمًا"
+  },
+  "changing the order of two unrelated events": {
+    "ko": "서로 무관한 두 사건의 순서를 바꿈",
+    "id": "mengubah urutan dua peristiwa yang tidak berkaitan",
+    "ru": "поменять порядок двух несвязанных событий",
+    "ar": "تغيير ترتيب حدثين غير مترابطين"
+  },
+  "complete a task under the originally agreed criteria": {
+    "ko": "원래 합의한 기준에 따라 작업을 완료함",
+    "id": "menyelesaikan tugas berdasarkan kriteria awal yang disepakati",
+    "ru": "выполнить задачу по первоначально согласованным критериям",
+    "ar": "إكمال مهمة وفق المعايير المتفق عليها أصلًا"
+  },
+  "confirm the original criteria without changing them": {
+    "ko": "원래 기준을 바꾸지 않고 확인함",
+    "id": "menegaskan kriteria awal tanpa mengubahnya",
+    "ru": "подтвердить исходные критерии без изменений",
+    "ar": "تأكيد المعايير الأصلية دون تغييرها"
+  },
+  "continue rejecting evidence without reconsidering": {
+    "ko": "재고하지 않고 계속 근거를 거부함",
+    "id": "terus menolak bukti tanpa mempertimbangkannya kembali",
+    "ru": "продолжать отвергать доказательства без пересмотра позиции",
+    "ar": "الاستمرار في رفض الأدلة دون إعادة النظر"
+  },
+  "different people have different preferences or views": {
+    "ko": "사람마다 선호나 관점이 다름",
+    "id": "setiap orang memiliki preferensi atau pandangan berbeda",
+    "ru": "у разных людей разные предпочтения и взгляды",
+    "ar": "تختلف تفضيلات الناس وآراؤهم"
+  },
+  "discard the entire agreement and start again": {
+    "ko": "합의 전체를 버리고 처음부터 다시 시작함",
+    "id": "membuang seluruh kesepakatan dan memulai dari awal",
+    "ru": "отказаться от всего соглашения и начать заново",
+    "ar": "إلغاء الاتفاق كله والبدء من جديد"
+  },
+  "every attractive offer is certainly fraudulent": {
+    "ko": "매력적인 제안은 모두 분명히 사기임",
+    "id": "setiap tawaran menarik pasti penipuan",
+    "ru": "любое привлекательное предложение обязательно мошенническое",
+    "ar": "كل عرض جذاب احتيالي بالتأكيد"
+  },
+  "every instruction must remain unspoken": {
+    "ko": "모든 지시는 말하지 않은 상태여야 함",
+    "id": "setiap instruksi harus dibiarkan tidak terucap",
+    "ru": "любое указание должно оставаться невысказанным",
+    "ar": "يجب ألا تُنطق أي تعليمات"
+  },
+  "every unresolved argument strengthens trust automatically": {
+    "ko": "해결되지 않은 모든 다툼은 자동으로 신뢰를 강화함",
+    "id": "setiap pertengkaran yang belum selesai otomatis memperkuat kepercayaan",
+    "ru": "любой неразрешённый спор автоматически укрепляет доверие",
+    "ar": "كل خلاف غير محلول يعزز الثقة تلقائيًا"
+  },
+  "everyone has exactly the same reaction": {
+    "ko": "모두가 완전히 같은 반응을 보임",
+    "id": "semua orang memberikan reaksi yang persis sama",
+    "ru": "все реагируют совершенно одинаково",
+    "ar": "الجميع يتفاعلون بالطريقة نفسها تمامًا"
+  },
+  "explain a firm decision in detail": {
+    "ko": "확고한 결정을 자세히 설명함",
+    "id": "menjelaskan keputusan yang tegas secara rinci",
+    "ru": "подробно объяснить твёрдо принятое решение",
+    "ar": "شرح قرار حاسم بالتفصيل"
+  },
+  "face a problem that has no possible solution": {
+    "ko": "해결 방법이 전혀 없는 문제에 직면함",
+    "id": "menghadapi masalah yang sama sekali tidak memiliki solusi",
+    "ru": "столкнуться с проблемой без возможного решения",
+    "ar": "مواجهة مشكلة ليس لها أي حل ممكن"
+  },
+  "feel overwhelmed by a difficulty that seems small or manageable": {
+    "ko": "작거나 해결 가능해 보이는 어려움에 압도됨",
+    "id": "merasa kewalahan oleh kesulitan yang tampak kecil atau dapat diatasi",
+    "ru": "чувствовать себя подавленным из-за кажущейся небольшой или решаемой трудности",
+    "ar": "الشعور بالعجز أمام صعوبة تبدو صغيرة أو قابلة للحل"
+  },
+  "finding a solution through repeated attempts and adjustments": {
+    "ko": "시도와 수정을 반복하며 해결책을 찾음",
+    "id": "menemukan solusi melalui percobaan dan penyesuaian berulang",
+    "ru": "искать решение через повторные попытки и корректировки",
+    "ar": "إيجاد حل عبر محاولات وتعديلات متكررة"
+  },
+  "get directly to the main point": {
+    "ko": "곧바로 핵심으로 들어감",
+    "id": "langsung membahas pokok persoalan",
+    "ru": "сразу перейти к сути",
+    "ar": "الدخول مباشرة في صلب الموضوع"
+  },
+  "give every possible background detail before stating the point": {
+    "ko": "핵심을 말하기 전에 가능한 모든 배경 정보를 제공함",
+    "id": "menyampaikan semua detail latar sebelum menyebutkan pokoknya",
+    "ru": "изложить все возможные подробности предыстории, прежде чем перейти к сути",
+    "ar": "ذكر كل تفاصيل الخلفية الممكنة قبل طرح الفكرة الأساسية"
+  },
+  "give someone unquestioned authority over every decision": {
+    "ko": "누군가에게 모든 결정에 대한 무조건적인 권한을 부여함",
+    "id": "memberi seseorang wewenang yang tidak boleh dipertanyakan atas setiap keputusan",
+    "ru": "предоставить кому-то бесспорную власть над всеми решениями",
+    "ar": "منح شخص سلطة مطلقة على كل القرارات"
+  },
+  "give vague encouragement without specifying a concern": {
+    "ko": "우려를 구체적으로 말하지 않고 막연히 격려함",
+    "id": "memberi dorongan umum tanpa menyebutkan kekhawatiran secara jelas",
+    "ru": "дать расплывчатое ободрение, не уточняя проблему",
+    "ar": "تقديم تشجيع مبهم دون تحديد سبب القلق"
+  },
+  "guarantee that no future problem can occur": {
+    "ko": "앞으로 어떤 문제도 생기지 않는다고 보장함",
+    "id": "menjamin tidak akan ada masalah apa pun di masa depan",
+    "ru": "гарантировать отсутствие любых будущих проблем",
+    "ar": "ضمان عدم حدوث أي مشكلة مستقبلًا"
+  },
+  "have already made a decision without any pressure": {
+    "ko": "아무 압박 없이 이미 결정을 내림",
+    "id": "sudah mengambil keputusan tanpa tekanan apa pun",
+    "ru": "уже принять решение без какого-либо давления",
+    "ar": "اتخذ قرارًا بالفعل دون أي ضغط"
+  },
+  "have several equally easy and attractive choices": {
+    "ko": "똑같이 쉽고 매력적인 선택지가 여러 개 있음",
+    "id": "memiliki beberapa pilihan yang sama-sama mudah dan menarik",
+    "ru": "иметь несколько одинаково простых и привлекательных вариантов",
+    "ar": "وجود عدة خيارات سهلة وجذابة بالقدر نفسه"
+  },
+  "ignore the group’s reaction and continue unchanged": {
+    "ko": "집단의 반응을 무시하고 그대로 계속함",
+    "id": "mengabaikan reaksi kelompok dan terus bertindak seperti semula",
+    "ru": "игнорировать реакцию окружающих и продолжать без изменений",
+    "ar": "تجاهل رد فعل المجموعة والاستمرار دون تغيير"
+  },
+  "it is your turn or responsibility to act": {
+    "ko": "이제 자신이 행동할 차례이거나 책임이 있음",
+    "id": "kini giliran atau tanggung jawab Anda untuk bertindak",
+    "ru": "теперь ваша очередь или ответственность действовать",
+    "ar": "حان دورك أو تقع عليك مسؤولية التصرف"
+  },
+  "neither side needs to take another action": {
+    "ko": "어느 쪽도 추가 행동을 할 필요가 없음",
+    "id": "kedua pihak tidak perlu mengambil tindakan lagi",
+    "ru": "ни одной стороне не нужно больше ничего предпринимать",
+    "ar": "لا يحتاج أي من الطرفين إلى اتخاذ إجراء آخر"
+  },
+  "notice how people feel and adapt one’s behaviour": {
+    "ko": "사람들의 감정을 알아차리고 자신의 행동을 조절함",
+    "id": "memahami perasaan orang dan menyesuaikan perilaku",
+    "ru": "замечать настроение людей и подстраивать своё поведение",
+    "ar": "ملاحظة مشاعر الناس وتكييف السلوك معها"
+  },
+  "omit necessary care or steps to save time or money": {
+    "ko": "시간이나 비용을 줄이려고 필요한 주의나 절차를 생략함",
+    "id": "melewatkan kehati-hatian atau langkah yang diperlukan demi menghemat waktu atau uang",
+    "ru": "пренебрегать необходимой тщательностью или этапами ради экономии времени или денег",
+    "ar": "إهمال العناية أو الخطوات الضرورية لتوفير الوقت أو المال"
+  },
+  "one person is required to hold ten opinions": {
+    "ko": "한 사람이 열 가지 의견을 가져야 함",
+    "id": "satu orang diwajibkan memiliki sepuluh pendapat",
+    "ru": "один человек должен иметь десять мнений",
+    "ar": "يجب على شخص واحد أن يحمل عشرة آراء"
+  },
+  "persistence can eventually overcome a difficulty": {
+    "ko": "꾸준히 노력하면 결국 어려움을 극복할 수 있음",
+    "id": "ketekunan pada akhirnya dapat mengatasi kesulitan",
+    "ru": "настойчивость со временем может помочь преодолеть трудность",
+    "ar": "قد تساعد المثابرة في النهاية على تجاوز صعوبة"
+  },
+  "pretend the remaining differences do not exist": {
+    "ko": "남은 의견 차이가 없는 척함",
+    "id": "berpura-pura bahwa perbedaan yang tersisa tidak ada",
+    "ru": "притвориться, что оставшихся разногласий нет",
+    "ar": "التظاهر بعدم وجود الخلافات المتبقية"
+  },
+  "protect someone’s standing or dignity in a social situation": {
+    "ko": "사회적 상황에서 상대의 체면이나 위신을 지켜 줌",
+    "id": "menjaga kedudukan atau martabat seseorang dalam situasi sosial",
+    "ru": "сохранить чью-то репутацию или достоинство в общении",
+    "ar": "الحفاظ على مكانة شخص أو كرامته في موقف اجتماعي"
+  },
+  "publicly embarrass someone to prove a point": {
+    "ko": "자신의 주장을 입증하려고 누군가를 공개적으로 망신 줌",
+    "id": "mempermalukan seseorang di depan umum untuk membuktikan suatu pendapat",
+    "ru": "публично унизить человека ради доказательства своей правоты",
+    "ar": "إحراج شخص علنًا لإثبات وجهة نظر"
+  },
+  "publicly endorse one proposal without hesitation": {
+    "ko": "주저 없이 한 제안을 공개적으로 지지함",
+    "id": "secara terbuka mendukung satu usulan tanpa ragu",
+    "ru": "открыто поддержать одно предложение без колебаний",
+    "ar": "تأييد مقترح واحد علنًا دون تردد"
+  },
+  "putting a promise or idea into practice requires more than saying it": {
+    "ko": "약속이나 생각을 실천하려면 말하는 것 이상이 필요함",
+    "id": "mewujudkan janji atau gagasan membutuhkan lebih dari sekadar ucapan",
+    "ru": "воплощение обещания или идеи требует большего, чем слова",
+    "ar": "تنفيذ وعد أو فكرة يتطلب أكثر من مجرد الكلام"
+  },
+  "receive praise for another person’s work": {
+    "ko": "다른 사람의 일로 칭찬을 받음",
+    "id": "mendapat pujian atas pekerjaan orang lain",
+    "ru": "получить похвалу за чужую работу",
+    "ar": "تلقي الثناء على عمل شخص آخر"
+  },
+  "refuse to hear any further information": {
+    "ko": "추가 정보를 더 듣지 않으려 함",
+    "id": "menolak mendengar informasi tambahan",
+    "ru": "отказаться слушать дальнейшую информацию",
+    "ar": "رفض سماع أي معلومات إضافية"
+  },
+  "remain calm because no problem has occurred": {
+    "ko": "아무 문제도 생기지 않아 침착함을 유지함",
+    "id": "tetap tenang karena tidak ada masalah yang terjadi",
+    "ru": "сохранять спокойствие, потому что проблем не возникло",
+    "ar": "البقاء هادئًا لعدم حدوث مشكلة"
+  },
+  "remove only genuinely unnecessary steps without affecting quality": {
+    "ko": "품질에 영향 없이 정말 불필요한 단계만 제거함",
+    "id": "menghapus hanya langkah yang benar-benar tidak perlu tanpa memengaruhi kualitas",
+    "ru": "убрать только действительно ненужные этапы без ущерба для качества",
+    "ar": "حذف الخطوات غير الضرورية فعلًا فقط دون التأثير في الجودة"
+  },
+  "repair a problem only after it has caused damage": {
+    "ko": "피해가 생긴 뒤에야 문제를 해결함",
+    "id": "memperbaiki masalah hanya setelah menimbulkan kerusakan",
+    "ru": "устранить проблему лишь после причинённого ею ущерба",
+    "ar": "إصلاح المشكلة فقط بعد أن تسبب ضررًا"
+  },
+  "repeating a failed action without learning from it": {
+    "ko": "실패에서 배우지 않고 같은 행동을 반복함",
+    "id": "mengulangi tindakan gagal tanpa belajar darinya",
+    "ru": "повторять неудачное действие, ничему не учась",
+    "ar": "تكرار فعل فاشل دون التعلم منه"
+  },
+  "resolve all tension by refusing to listen": {
+    "ko": "듣기를 거부해서 모든 긴장을 해결함",
+    "id": "mengatasi semua ketegangan dengan menolak mendengarkan",
+    "ru": "снять всё напряжение отказом слушать",
+    "ar": "حل كل التوتر برفض الاستماع"
+  },
+  "resolve remaining differences or points of friction": {
+    "ko": "남은 의견 차이나 마찰을 해소함",
+    "id": "menyelesaikan perbedaan atau gesekan yang tersisa",
+    "ru": "устранить оставшиеся разногласия или трения",
+    "ar": "تسوية الخلافات أو نقاط الاحتكاك المتبقية"
+  },
+  "reversing priorities so that the means undermine the real purpose": {
+    "ko": "수단이 본래 목적을 해치도록 우선순위가 뒤바뀜",
+    "id": "membalik prioritas sehingga sarana justru merusak tujuan utama",
+    "ru": "перепутать приоритеты так, что средства мешают основной цели",
+    "ar": "قلب الأولويات بحيث تضر الوسيلة بالهدف الحقيقي"
+  },
+  "saying something guarantees its immediate completion": {
+    "ko": "말하는 것만으로 즉시 완성됨이 보장됨",
+    "id": "mengatakan sesuatu menjamin hal itu langsung terlaksana",
+    "ru": "одни слова гарантируют немедленное выполнение",
+    "ar": "مجرد قول الشيء يضمن إنجازه فورًا"
+  },
+  "show commitment to a team or organisation": {
+    "ko": "팀이나 조직에 헌신하는 태도를 보임",
+    "id": "menunjukkan komitmen kepada tim atau organisasi",
+    "ru": "проявлять преданность команде или организации",
+    "ar": "إظهار الالتزام بفريق أو مؤسسة"
+  },
+  "someone who understands the situation needs little explanation": {
+    "ko": "상황을 이해하는 사람에게는 설명이 많이 필요하지 않음",
+    "id": "orang yang memahami situasi tidak memerlukan banyak penjelasan",
+    "ru": "тому, кто понимает ситуацию, не нужны долгие объяснения",
+    "ar": "من يفهم الموقف لا يحتاج إلى شرح مطول"
+  },
+  "speak without any concern for the listener": {
+    "ko": "상대에 대한 배려 없이 말함",
+    "id": "berbicara tanpa memedulikan pendengar",
+    "ru": "говорить, совсем не считаясь со слушателем",
+    "ar": "الكلام دون أي مراعاة للمستمع"
+  },
+  "specialist work is best entrusted to a specialist": {
+    "ko": "전문적인 일은 해당 전문가에게 맡기는 것이 좋음",
+    "id": "pekerjaan khusus sebaiknya diserahkan kepada ahlinya",
+    "ru": "специальную работу лучше поручить специалисту",
+    "ar": "من الأفضل إسناد العمل التخصصي إلى متخصص"
+  },
+  "specialists should only be consulted after all damage has occurred": {
+    "ko": "모든 피해가 생긴 뒤에만 전문가에게 물어야 함",
+    "id": "ahli hanya perlu dimintai bantuan setelah semua kerusakan terjadi",
+    "ru": "обращаться к специалистам следует только после всего нанесённого ущерба",
+    "ar": "ينبغي استشارة المتخصصين فقط بعد وقوع كل الأضرار"
+  },
+  "spend extra time checking every requirement": {
+    "ko": "모든 요건을 확인하는 데 시간을 더 씀",
+    "id": "meluangkan waktu tambahan untuk memeriksa setiap persyaratan",
+    "ru": "потратить дополнительное время на проверку каждого требования",
+    "ar": "قضاء وقت إضافي في فحص كل متطلب"
+  },
+  "spending time on a means that clearly achieves its purpose": {
+    "ko": "목적 달성에 분명히 도움이 되는 수단에 시간을 씀",
+    "id": "menghabiskan waktu pada sarana yang jelas mencapai tujuannya",
+    "ru": "тратить время на средство, которое явно помогает достичь цели",
+    "ar": "قضاء الوقت في وسيلة تحقق هدفها بوضوح"
+  },
+  "start making an effort or become more active": {
+    "ko": "노력하기 시작하거나 더 적극적으로 행동함",
+    "id": "mulai berusaha atau menjadi lebih aktif",
+    "ru": "начать стараться или действовать активнее",
+    "ar": "بدء بذل الجهد أو زيادة النشاط"
+  },
+  "stop working because the deadline is distant": {
+    "ko": "마감일이 멀다는 이유로 일을 멈춤",
+    "id": "berhenti bekerja karena tenggat masih jauh",
+    "ru": "прекратить работу, потому что до срока ещё далеко",
+    "ar": "التوقف عن العمل لأن الموعد النهائي بعيد"
+  },
+  "succeeding immediately without any attempt": {
+    "ko": "아무 시도 없이 곧바로 성공함",
+    "id": "langsung berhasil tanpa mencoba",
+    "ru": "сразу добиться успеха без попыток",
+    "ar": "النجاح فورًا دون أي محاولة"
+  },
+  "success is guaranteed without practice": {
+    "ko": "연습 없이도 성공이 보장됨",
+    "id": "keberhasilan dijamin tanpa latihan",
+    "ru": "успех гарантирован без практики",
+    "ar": "النجاح مضمون دون تدريب"
+  },
+  "take a precaution against a possible future problem": {
+    "ko": "미래에 생길 수 있는 문제에 미리 대비함",
+    "id": "mengambil langkah pencegahan terhadap masalah yang mungkin timbul",
+    "ru": "принять меру предосторожности против возможной будущей проблемы",
+    "ar": "اتخاذ احتياط لمشكلة محتملة في المستقبل"
+  },
+  "thank someone after the problem has been solved": {
+    "ko": "문제가 해결된 뒤 누군가에게 감사함",
+    "id": "berterima kasih kepada seseorang setelah masalah selesai",
+    "ru": "поблагодарить человека после решения проблемы",
+    "ar": "شكر شخص بعد حل المشكلة"
+  },
+  "treat a claim with some scepticism": {
+    "ko": "주장을 어느 정도 의심하며 받아들임",
+    "id": "menanggapi klaim dengan sedikit keraguan",
+    "ru": "отнестись к утверждению с некоторой долей скепсиса",
+    "ar": "التعامل مع الادعاء بشيء من الشك"
+  },
+  "undecided between alternatives": {
+    "ko": "여러 대안 사이에서 아직 결정하지 못함",
+    "id": "belum memutuskan di antara beberapa pilihan",
+    "ru": "ещё не определиться между вариантами",
+    "ar": "عدم حسم الاختيار بين البدائل"
+  },
+  "understanding achieved only through a detailed written manual": {
+    "ko": "자세한 서면 설명을 통해서만 이해함",
+    "id": "pemahaman yang hanya dicapai melalui panduan tertulis terperinci",
+    "ru": "понимание, достигаемое только через подробное письменное руководство",
+    "ar": "فهم لا يتحقق إلا بدليل مكتوب مفصل"
+  },
+  "understanding one another without spelling everything out": {
+    "ko": "모든 것을 말로 설명하지 않아도 서로 이해함",
+    "id": "saling memahami tanpa menjelaskan semuanya secara eksplisit",
+    "ru": "понимать друг друга, не объясняя всё словами",
+    "ar": "فهم بعضهم بعضًا دون شرح كل شيء صراحة"
+  },
+  "wait for someone else to complete every task": {
+    "ko": "다른 사람이 모든 일을 끝내 주기를 기다림",
+    "id": "menunggu orang lain menyelesaikan semua tugas",
+    "ru": "ждать, пока кто-то другой выполнит все задачи",
+    "ar": "انتظار شخص آخر ليكمل كل المهام"
+  },
+  "warn clearly in advance to prevent an unwanted action": {
+    "ko": "원하지 않는 행동을 막기 위해 미리 분명하게 경고함",
+    "id": "memperingatkan secara jelas sebelumnya untuk mencegah tindakan yang tidak diinginkan",
+    "ru": "заранее чётко предупредить, чтобы предотвратить нежелательное действие",
+    "ar": "التحذير بوضوح مسبقًا لمنع فعل غير مرغوب"
+  },
+  "we still owe you the promised documents": {
+    "ko": "우리는 약속한 문서를 아직 보내야 함",
+    "id": "kami masih harus mengirim dokumen yang dijanjikan",
+    "ru": "мы ещё должны предоставить обещанные документы",
+    "ar": "ما زلنا مدينين لكم بالمستندات الموعودة"
+  },
+  "work on deliberately opposing goals": {
+    "ko": "의도적으로 서로 반대되는 목표를 향해 일함",
+    "id": "bekerja untuk tujuan yang sengaja saling bertentangan",
+    "ru": "работать ради заведомо противоположных целей",
+    "ar": "العمل لتحقيق أهداف متعارضة عمدًا"
+  },
+  "work towards a shared goal": {
+    "ko": "공통 목표를 향해 일함",
+    "id": "bekerja menuju tujuan bersama",
+    "ru": "работать ради общей цели",
+    "ar": "العمل نحو هدف مشترك"
+  },
+  "It means social awareness, not simply guessing everybody’s private thoughts.": {
+    "ko": "사회적 분위기를 파악한다는 뜻이지 모두의 속마음을 추측한다는 뜻은 아닙니다.",
+    "id": "Artinya peka terhadap suasana sosial, bukan sekadar menebak pikiran pribadi setiap orang.",
+    "ru": "Речь о понимании обстановки, а не об угадывании всех чужих мыслей.",
+    "ar": "المقصود فهم الأجواء الاجتماعية، لا مجرد تخمين الأفكار الخاصة للجميع."
+  },
+  "notice how people feel and adapt one’s behaviour. It means social awareness, not simply guessing everybody’s private thoughts.": {
+    "ko": "사람들의 감정을 알아차리고 자신의 행동을 조절함. 사회적 분위기를 파악한다는 뜻이지 모두의 속마음을 추측한다는 뜻은 아닙니다.",
+    "id": "memahami perasaan orang dan menyesuaikan perilaku. Artinya peka terhadap suasana sosial, bukan sekadar menebak pikiran pribadi setiap orang.",
+    "ru": "замечать настроение людей и подстраивать своё поведение. Речь о понимании обстановки, а не об угадывании всех чужих мыслей.",
+    "ar": "ملاحظة مشاعر الناس وتكييف السلوك معها. المقصود فهم الأجواء الاجتماعية، لا مجرد تخمين الأفكار الخاصة للجميع."
+  },
+  "It does not require rejecting everything the person says; grain of salt is another common version.": {
+    "ko": "상대의 말을 모두 거부하라는 뜻은 아닙니다. grain of salt도 흔히 쓰는 형태입니다.",
+    "id": "Tidak berarti harus menolak semua ucapan orang itu; grain of salt juga bentuk yang umum.",
+    "ru": "Это не требует отвергать всё сказанное; grain of salt — другой распространённый вариант.",
+    "ar": "لا يتطلب ذلك رفض كل ما يقوله الشخص؛ وgrain of salt صيغة شائعة أخرى."
+  },
+  "treat a claim with some scepticism. It does not require rejecting everything the person says; grain of salt is another common version.": {
+    "ko": "주장을 어느 정도 의심하며 받아들임. 상대의 말을 모두 거부하라는 뜻은 아닙니다. grain of salt도 흔히 쓰는 형태입니다.",
+    "id": "menanggapi klaim dengan sedikit keraguan. Tidak berarti harus menolak semua ucapan orang itu; grain of salt juga bentuk yang umum.",
+    "ru": "отнестись к утверждению с некоторой долей скепсиса. Это не требует отвергать всё сказанное; grain of salt — другой распространённый вариант.",
+    "ar": "التعامل مع الادعاء بشيء من الشك. لا يتطلب ذلك رفض كل ما يقوله الشخص؛ وgrain of salt صيغة شائعة أخرى."
+  },
+  "It signals indecision here, not a hidden decision against moving.": {
+    "ko": "여기서는 결정을 못 했다는 뜻이지 이미 이사를 반대하기로 했다는 뜻은 아닙니다.",
+    "id": "Di sini ungkapan ini menunjukkan keraguan, bukan keputusan tersembunyi untuk menolak pindah.",
+    "ru": "Здесь выражается нерешительность, а не скрытое решение отказаться от переезда.",
+    "ar": "يشير هنا إلى التردد، لا إلى قرار خفي برفض الانتقال."
+  },
+  "undecided between alternatives. It signals indecision here, not a hidden decision against moving.": {
+    "ko": "여러 대안 사이에서 아직 결정하지 못함. 여기서는 결정을 못 했다는 뜻이지 이미 이사를 반대하기로 했다는 뜻은 아닙니다.",
+    "id": "belum memutuskan di antara beberapa pilihan. Di sini ungkapan ini menunjukkan keraguan, bukan keputusan tersembunyi untuk menolak pindah.",
+    "ru": "ещё не определиться между вариантами. Здесь выражается нерешительность, а не скрытое решение отказаться от переезда.",
+    "ar": "عدم حسم الاختيار بين البدائل. يشير هنا إلى التردد، لا إلى قرار خفي برفض الانتقال."
+  },
+  "It is informal exaggeration; quote the actual price in a formal comparison.": {
+    "ko": "비격식적인 과장입니다. 공식적인 비교에서는 실제 가격을 제시하세요.",
+    "id": "Ini ungkapan berlebihan yang informal; dalam perbandingan resmi, cantumkan harga sebenarnya.",
+    "ru": "Это разговорное преувеличение; в официальном сравнении укажите точную цену.",
+    "ar": "إنها مبالغة غير رسمية؛ اذكر السعر الفعلي في المقارنة الرسمية."
+  },
+  "be extremely expensive. It is informal exaggeration; quote the actual price in a formal comparison.": {
+    "ko": "매우 비쌈. 비격식적인 과장입니다. 공식적인 비교에서는 실제 가격을 제시하세요.",
+    "id": "sangat mahal. Ini ungkapan berlebihan yang informal; dalam perbandingan resmi, cantumkan harga sebenarnya.",
+    "ru": "стоить чрезвычайно дорого. Это разговорное преувеличение; в официальном сравнении укажите точную цену.",
+    "ar": "باهظ الثمن جدًا. إنها مبالغة غير رسمية؛ اذكر السعر الفعلي في المقارنة الرسمية."
+  },
+  "It means social awareness, not simply guessing everybody’s private thoughts. It does not require rejecting everything the person says; grain of salt is another common version. It signals indecision here, not a hidden decision against moving. It is informal exaggeration; quote the actual price in a formal comparison.": {
+    "ko": "사회적 분위기를 파악한다는 뜻이지 모두의 속마음을 추측한다는 뜻은 아닙니다. 상대의 말을 모두 거부하라는 뜻은 아닙니다. grain of salt도 흔히 쓰는 형태입니다. 여기서는 결정을 못 했다는 뜻이지 이미 이사를 반대하기로 했다는 뜻은 아닙니다. 비격식적인 과장입니다. 공식적인 비교에서는 실제 가격을 제시하세요.",
+    "id": "Artinya peka terhadap suasana sosial, bukan sekadar menebak pikiran pribadi setiap orang. Tidak berarti harus menolak semua ucapan orang itu; grain of salt juga bentuk yang umum. Di sini ungkapan ini menunjukkan keraguan, bukan keputusan tersembunyi untuk menolak pindah. Ini ungkapan berlebihan yang informal; dalam perbandingan resmi, cantumkan harga sebenarnya.",
+    "ru": "Речь о понимании обстановки, а не об угадывании всех чужих мыслей. Это не требует отвергать всё сказанное; grain of salt — другой распространённый вариант. Здесь выражается нерешительность, а не скрытое решение отказаться от переезда. Это разговорное преувеличение; в официальном сравнении укажите точную цену.",
+    "ar": "المقصود فهم الأجواء الاجتماعية، لا مجرد تخمين الأفكار الخاصة للجميع. لا يتطلب ذلك رفض كل ما يقوله الشخص؛ وgrain of salt صيغة شائعة أخرى. يشير هنا إلى التردد، لا إلى قرار خفي برفض الانتقال. إنها مبالغة غير رسمية؛ اذكر السعر الفعلي في المقارنة الرسمية."
+  },
+  "It usually criticises unfairly changed criteria, not every openly agreed revision.": {
+    "ko": "보통 부당하게 바뀐 기준을 비판하며, 공개적으로 합의한 모든 수정에 해당하지는 않습니다.",
+    "id": "Biasanya mengkritik perubahan kriteria yang tidak adil, bukan setiap revisi yang disepakati secara terbuka.",
+    "ru": "Обычно критикуется несправедливая смена критериев, а не любое открыто согласованное изменение.",
+    "ar": "ينتقد عادة تغيير المعايير بصورة غير عادلة، وليس كل تعديل يتفق عليه علنًا."
+  },
+  "change the conditions for success after work has begun. It usually criticises unfairly changed criteria, not every openly agreed revision.": {
+    "ko": "일이 시작된 뒤 성공 조건을 바꿈. 보통 부당하게 바뀐 기준을 비판하며, 공개적으로 합의한 모든 수정에 해당하지는 않습니다.",
+    "id": "mengubah syarat keberhasilan setelah pekerjaan dimulai. Biasanya mengkritik perubahan kriteria yang tidak adil, bukan setiap revisi yang disepakati secara terbuka.",
+    "ru": "изменить условия успеха после начала работы. Обычно критикуется несправедливая смена критериев, а не любое открыто согласованное изменение.",
+    "ar": "تغيير شروط النجاح بعد بدء العمل. ينتقد عادة تغيير المعايير بصورة غير عادلة، وليس كل تعديل يتفق عليه علنًا."
+  },
+  "It implies compromised standards; legitimate efficiency improvements are different.": {
+    "ko": "기준이나 품질을 희생한다는 뜻입니다. 정당한 효율 개선과는 다릅니다.",
+    "id": "Ungkapan ini menyiratkan penurunan standar; peningkatan efisiensi yang sah berbeda.",
+    "ru": "Подразумевается снижение стандартов; обоснованное повышение эффективности — другое дело.",
+    "ar": "يوحي بالتنازل عن المعايير؛ أما تحسين الكفاءة المشروع فمختلف."
+  },
+  "omit necessary care or steps to save time or money. It implies compromised standards; legitimate efficiency improvements are different.": {
+    "ko": "시간이나 비용을 줄이려고 필요한 주의나 절차를 생략함. 기준이나 품질을 희생한다는 뜻입니다. 정당한 효율 개선과는 다릅니다.",
+    "id": "melewatkan kehati-hatian atau langkah yang diperlukan demi menghemat waktu atau uang. Ungkapan ini menyiratkan penurunan standar; peningkatan efisiensi yang sah berbeda.",
+    "ru": "пренебрегать необходимой тщательностью или этапами ради экономии времени или денег. Подразумевается снижение стандартов; обоснованное повышение эффективности — другое дело.",
+    "ar": "إهمال العناية أو الخطوات الضرورية لتوفير الوقت أو المال. يوحي بالتنازل عن المعايير؛ أما تحسين الكفاءة المشروع فمختلف."
+  },
+  "It concerns the next action, not authority over every later decision.": {
+    "ko": "다음 행동을 누가 해야 하는지에 관한 표현이지 이후 모든 결정을 누가 통제하는지에 관한 표현은 아닙니다.",
+    "id": "Ini berkaitan dengan tindakan berikutnya, bukan wewenang atas semua keputusan selanjutnya.",
+    "ru": "Речь о следующем действии, а не о власти над всеми дальнейшими решениями.",
+    "ar": "يتعلق بالإجراء التالي، لا بسلطة اتخاذ كل القرارات اللاحقة."
+  },
+  "it is your turn or responsibility to act. It concerns the next action, not authority over every later decision.": {
+    "ko": "이제 자신이 행동할 차례이거나 책임이 있음. 다음 행동을 누가 해야 하는지에 관한 표현이지 이후 모든 결정을 누가 통제하는지에 관한 표현은 아닙니다.",
+    "id": "kini giliran atau tanggung jawab Anda untuk bertindak. Ini berkaitan dengan tindakan berikutnya, bukan wewenang atas semua keputusan selanjutnya.",
+    "ru": "теперь ваша очередь или ответственность действовать. Речь о следующем действии, а не о власти над всеми дальнейшими решениями.",
+    "ar": "حان دورك أو تقع عليك مسؤولية التصرف. يتعلق بالإجراء التالي، لا بسلطة اتخاذ كل القرارات اللاحقة."
+  },
+  "It describes a shared avoided issue, not any small unknown detail.": {
+    "ko": "여럿이 알면서도 피하는 문제를 가리키며, 아무도 모르는 작은 세부 사항은 아닙니다.",
+    "id": "Ini masalah yang diketahui bersama tetapi dihindari, bukan detail kecil yang belum diketahui.",
+    "ru": "Это известная всем проблема, которой избегают, а не любая мелкая неизвестная деталь.",
+    "ar": "يصف قضية معروفة يتجنبها الجميع، لا أي تفصيل صغير مجهول."
+  },
+  "an obvious important issue that people avoid discussing. It describes a shared avoided issue, not any small unknown detail.": {
+    "ko": "사람들이 논의를 피하는 명백하고 중요한 문제. 여럿이 알면서도 피하는 문제를 가리키며, 아무도 모르는 작은 세부 사항은 아닙니다.",
+    "id": "masalah penting yang jelas tetapi dihindari dalam pembicaraan. Ini masalah yang diketahui bersama tetapi dihindari, bukan detail kecil yang belum diketahui.",
+    "ru": "очевидная важная проблема, обсуждения которой избегают. Это известная всем проблема, которой избегают, а не любая мелкая неизвестная деталь.",
+    "ar": "مشكلة واضحة ومهمة يتجنب الناس مناقشتها. يصف قضية معروفة يتجنبها الجميع، لا أي تفصيل صغير مجهول."
+  },
+  "It usually criticises unfairly changed criteria, not every openly agreed revision. It implies compromised standards; legitimate efficiency improvements are different. It concerns the next action, not authority over every later decision. It describes a shared avoided issue, not any small unknown detail.": {
+    "ko": "보통 부당하게 바뀐 기준을 비판하며, 공개적으로 합의한 모든 수정에 해당하지는 않습니다. 기준이나 품질을 희생한다는 뜻입니다. 정당한 효율 개선과는 다릅니다. 다음 행동을 누가 해야 하는지에 관한 표현이지 이후 모든 결정을 누가 통제하는지에 관한 표현은 아닙니다. 여럿이 알면서도 피하는 문제를 가리키며, 아무도 모르는 작은 세부 사항은 아닙니다.",
+    "id": "Biasanya mengkritik perubahan kriteria yang tidak adil, bukan setiap revisi yang disepakati secara terbuka. Ungkapan ini menyiratkan penurunan standar; peningkatan efisiensi yang sah berbeda. Ini berkaitan dengan tindakan berikutnya, bukan wewenang atas semua keputusan selanjutnya. Ini masalah yang diketahui bersama tetapi dihindari, bukan detail kecil yang belum diketahui.",
+    "ru": "Обычно критикуется несправедливая смена критериев, а не любое открыто согласованное изменение. Подразумевается снижение стандартов; обоснованное повышение эффективности — другое дело. Речь о следующем действии, а не о власти над всеми дальнейшими решениями. Это известная всем проблема, которой избегают, а не любая мелкая неизвестная деталь.",
+    "ar": "ينتقد عادة تغيير المعايير بصورة غير عادلة، وليس كل تعديل يتفق عليه علنًا. يوحي بالتنازل عن المعايير؛ أما تحسين الكفاءة المشروع فمختلف. يتعلق بالإجراء التالي، لا بسلطة اتخاذ كل القرارات اللاحقة. يصف قضية معروفة يتجنبها الجميع، لا أي تفصيل صغير مجهول."
+  },
+  "いしんでんしん。It is not a reliable substitute for confirming important work instructions.": {
+    "ko": "いしんでんしん。중요한 업무 지시를 확인하는 과정을 대신할 수는 없습니다.",
+    "id": "いしんでんしん。Ini bukan pengganti yang dapat diandalkan untuk memastikan instruksi kerja penting.",
+    "ru": "いしんでんしん。Это не заменяет надёжного подтверждения важных рабочих указаний.",
+    "ar": "いしんでんしん。لا يغني ذلك عن التأكد بوضوح من تعليمات العمل المهمة."
+  },
+  "understanding one another without spelling everything out. いしんでんしん。It is not a reliable substitute for confirming important work instructions.": {
+    "ko": "모든 것을 말로 설명하지 않아도 서로 이해함. いしんでんしん。중요한 업무 지시를 확인하는 과정을 대신할 수는 없습니다.",
+    "id": "saling memahami tanpa menjelaskan semuanya secara eksplisit. いしんでんしん。Ini bukan pengganti yang dapat diandalkan untuk memastikan instruksi kerja penting.",
+    "ru": "понимать друг друга, не объясняя всё словами. いしんでんしん。Это не заменяет надёжного подтверждения важных рабочих указаний.",
+    "ar": "فهم بعضهم بعضًا دون شرح كل شيء صراحة. いしんでんしん。لا يغني ذلك عن التأكد بوضوح من تعليمات العمل المهمة."
+  },
+  "じゅうにんといろ。Difference does not mean that every factual claim is equally accurate.": {
+    "ko": "じゅうにんといろ。생각이 다르다고 모든 사실 주장의 정확성이 같은 것은 아닙니다.",
+    "id": "じゅうにんといろ。Perbedaan tidak berarti semua klaim faktual sama akuratnya.",
+    "ru": "じゅうにんといろ。Различия во мнениях не означают, что все утверждения о фактах одинаково точны.",
+    "ar": "じゅうにんといろ。اختلاف الآراء لا يعني أن كل الادعاءات الواقعية متساوية في الدقة."
+  },
+  "different people have different preferences or views. じゅうにんといろ。Difference does not mean that every factual claim is equally accurate.": {
+    "ko": "사람마다 선호나 관점이 다름. じゅうにんといろ。생각이 다르다고 모든 사실 주장의 정확성이 같은 것은 아닙니다.",
+    "id": "setiap orang memiliki preferensi atau pandangan berbeda. じゅうにんといろ。Perbedaan tidak berarti semua klaim faktual sama akuratnya.",
+    "ru": "у разных людей разные предпочтения и взгляды. じゅうにんといろ。Различия во мнениях не означают, что все утверждения о фактах одинаково точны.",
+    "ar": "تختلف تفضيلات الناس وآراؤهم. じゅうにんといろ。اختلاف الآراء لا يعني أن كل الادعاءات الواقعية متساوية في الدقة."
+  },
+  "ほんまつてんとう。The criticism concerns purpose and priorities, not merely chronological order.": {
+    "ko": "ほんまつてんとう。단순히 시간 순서가 아니라 목적과 우선순위에 대한 비판입니다.",
+    "id": "ほんまつてんとう。Kritiknya menyangkut tujuan dan prioritas, bukan sekadar urutan waktu.",
+    "ru": "ほんまつてんとう。Критика касается цели и приоритетов, а не просто хронологического порядка.",
+    "ar": "ほんまつてんとう。يتعلق النقد بالهدف والأولويات، لا بمجرد الترتيب الزمني."
+  },
+  "reversing priorities so that the means undermine the real purpose. ほんまつてんとう。The criticism concerns purpose and priorities, not merely chronological order.": {
+    "ko": "수단이 본래 목적을 해치도록 우선순위가 뒤바뀜. ほんまつてんとう。단순히 시간 순서가 아니라 목적과 우선순위에 대한 비판입니다.",
+    "id": "membalik prioritas sehingga sarana justru merusak tujuan utama. ほんまつてんとう。Kritiknya menyangkut tujuan dan prioritas, bukan sekadar urutan waktu.",
+    "ru": "перепутать приоритеты так, что средства мешают основной цели. ほんまつてんとう。Критика касается цели и приоритетов, а не просто хронологического порядка.",
+    "ar": "قلب الأولويات بحيث تضر الوسيلة بالهدف الحقيقي. ほんまつてんとう。يتعلق النقد بالهدف والأولويات، لا بمجرد الترتيب الزمني."
+  },
+  "しこうさくご。Attempts include learning and revision, not repeating an identical mistake blindly.": {
+    "ko": "しこうさくご。시도에는 학습과 수정이 포함되며 같은 실수를 맹목적으로 반복하는 것은 아닙니다.",
+    "id": "しこうさくご。Percobaan mencakup pembelajaran dan revisi, bukan mengulang kesalahan yang sama secara membabi buta.",
+    "ru": "しこうさくご。Попытки предполагают обучение и корректировку, а не слепое повторение одной ошибки.",
+    "ar": "しこうさくご。تشمل المحاولات التعلم والتعديل، لا تكرار الخطأ نفسه دون تفكير."
+  },
+  "finding a solution through repeated attempts and adjustments. しこうさくご。Attempts include learning and revision, not repeating an identical mistake blindly.": {
+    "ko": "시도와 수정을 반복하며 해결책을 찾음. しこうさくご。시도에는 학습과 수정이 포함되며 같은 실수를 맹목적으로 반복하는 것은 아닙니다.",
+    "id": "menemukan solusi melalui percobaan dan penyesuaian berulang. しこうさくご。Percobaan mencakup pembelajaran dan revisi, bukan mengulang kesalahan yang sama secara membabi buta.",
+    "ru": "искать решение через повторные попытки и корректировки. しこうさくご。Попытки предполагают обучение и корректировку, а не слепое повторение одной ошибки.",
+    "ar": "إيجاد حل عبر محاولات وتعديلات متكررة. しこうさくご。تشمل المحاولات التعلم والتعديل، لا تكرار الخطأ نفسه دون تفكير."
+  },
+  "いしんでんしん。It is not a reliable substitute for confirming important work instructions. じゅうにんといろ。Difference does not mean that every factual claim is equally accurate. ほんまつてんとう。The criticism concerns purpose and priorities, not merely chronological order. しこうさくご。Attempts include learning and revision, not repeating an identical mistake blindly.": {
+    "ko": "いしんでんしん。중요한 업무 지시를 확인하는 과정을 대신할 수는 없습니다. じゅうにんといろ。생각이 다르다고 모든 사실 주장의 정확성이 같은 것은 아닙니다. ほんまつてんとう。단순히 시간 순서가 아니라 목적과 우선순위에 대한 비판입니다. しこうさくご。시도에는 학습과 수정이 포함되며 같은 실수를 맹목적으로 반복하는 것은 아닙니다.",
+    "id": "いしんでんしん。Ini bukan pengganti yang dapat diandalkan untuk memastikan instruksi kerja penting. じゅうにんといろ。Perbedaan tidak berarti semua klaim faktual sama akuratnya. ほんまつてんとう。Kritiknya menyangkut tujuan dan prioritas, bukan sekadar urutan waktu. しこうさくご。Percobaan mencakup pembelajaran dan revisi, bukan mengulang kesalahan yang sama secara membabi buta.",
+    "ru": "いしんでんしん。Это не заменяет надёжного подтверждения важных рабочих указаний. じゅうにんといろ。Различия во мнениях не означают, что все утверждения о фактах одинаково точны. ほんまつてんとう。Критика касается цели и приоритетов, а не просто хронологического порядка. しこうさくご。Попытки предполагают обучение и корректировку, а не слепое повторение одной ошибки.",
+    "ar": "いしんでんしん。لا يغني ذلك عن التأكد بوضوح من تعليمات العمل المهمة. じゅうにんといろ。اختلاف الآراء لا يعني أن كل الادعاءات الواقعية متساوية في الدقة. ほんまつてんとう。يتعلق النقد بالهدف والأولويات، لا بمجرد الترتيب الزمني. しこうさくご。تشمل المحاولات التعلم والتعديل، لا تكرار الخطأ نفسه دون تفكير."
+  },
+  "くぎをさす。It is a firm preventive warning; describe the action directly in formal records.": {
+    "ko": "くぎをさす。문제를 막기 위한 단호한 경고입니다. 공식 기록에는 실제로 한 행동을 직접 쓰세요.",
+    "id": "くぎをさす。Ini peringatan tegas untuk pencegahan; dalam catatan resmi, jelaskan tindakannya secara langsung.",
+    "ru": "くぎをさす。Это твёрдое предупредительное замечание; в официальной записи опишите действие прямо.",
+    "ar": "くぎをさす。إنه تحذير وقائي حازم؛ صف الإجراء مباشرة في السجلات الرسمية."
+  },
+  "warn clearly in advance to prevent an unwanted action. くぎをさす。It is a firm preventive warning; describe the action directly in formal records.": {
+    "ko": "원하지 않는 행동을 막기 위해 미리 분명하게 경고함. くぎをさす。문제를 막기 위한 단호한 경고입니다. 공식 기록에는 실제로 한 행동을 직접 쓰세요.",
+    "id": "memperingatkan secara jelas sebelumnya untuk mencegah tindakan yang tidak diinginkan. くぎをさす。Ini peringatan tegas untuk pencegahan; dalam catatan resmi, jelaskan tindakannya secara langsung.",
+    "ru": "заранее чётко предупредить, чтобы предотвратить нежелательное действие. くぎをさす。Это твёрдое предупредительное замечание; в официальной записи опишите действие прямо.",
+    "ar": "التحذير بوضوح مسبقًا لمنع فعل غير مرغوب. くぎをさす。إنه تحذير وقائي حازم؛ صف الإجراء مباشرة في السجلات الرسمية."
+  },
+  "かおをたてる。Respecting someone’s standing does not require falsifying results.": {
+    "ko": "かおをたてる。상대의 체면을 존중한다고 결과를 조작해야 하는 것은 아닙니다.",
+    "id": "かおをたてる。Menghormati kedudukan seseorang tidak mengharuskan pemalsuan hasil.",
+    "ru": "かおをたてる。Уважение к чьему-то положению не требует фальсификации результатов.",
+    "ar": "かおをたてる。احترام مكانة شخص لا يتطلب تزوير النتائج."
+  },
+  "protect someone’s standing or dignity in a social situation. かおをたてる。Respecting someone’s standing does not require falsifying results.": {
+    "ko": "사회적 상황에서 상대의 체면이나 위신을 지켜 줌. かおをたてる。상대의 체면을 존중한다고 결과를 조작해야 하는 것은 아닙니다.",
+    "id": "menjaga kedudukan atau martabat seseorang dalam situasi sosial. かおをたてる。Menghormati kedudukan seseorang tidak mengharuskan pemalsuan hasil.",
+    "ru": "сохранить чью-то репутацию или достоинство в общении. かおをたてる。Уважение к чьему-то положению не требует фальсификации результатов.",
+    "ar": "الحفاظ على مكانة شخص أو كرامته في موقف اجتماعي. かおをたてる。احترام مكانة شخص لا يتطلب تزوير النتائج."
+  },
+  "あめふってじかたまる。Use after actual repair; conflict does not automatically improve relationships.": {
+    "ko": "あめふってじかたまる。실제로 관계를 회복한 뒤 쓰세요. 갈등이 자동으로 관계를 좋게 만들지는 않습니다.",
+    "id": "あめふってじかたまる。Gunakan setelah hubungan benar-benar diperbaiki; konflik tidak otomatis memperbaiki hubungan.",
+    "ru": "あめふってじかたまる。Используйте после реального примирения: конфликт не улучшает отношения автоматически.",
+    "ar": "あめふってじかたまる。يستخدم بعد إصلاح العلاقة فعلًا؛ فالخلاف لا يحسن العلاقات تلقائيًا."
+  },
+  "a conflict can lead to a stronger relationship after it is resolved. あめふってじかたまる。Use after actual repair; conflict does not automatically improve relationships.": {
+    "ko": "갈등을 해결한 뒤 관계가 더 강해질 수 있음. あめふってじかたまる。실제로 관계를 회복한 뒤 쓰세요. 갈등이 자동으로 관계를 좋게 만들지는 않습니다.",
+    "id": "konflik dapat memperkuat hubungan setelah diselesaikan. あめふってじかたまる。Gunakan setelah hubungan benar-benar diperbaiki; konflik tidak otomatis memperbaiki hubungan.",
+    "ru": "после разрешения конфликта отношения могут укрепиться. あめふってじかたまる。Используйте после реального примирения: конфликт не улучшает отношения автоматически.",
+    "ar": "قد تصبح العلاقة أقوى بعد حل الخلاف. あめふってじかたまる。يستخدم بعد إصلاح العلاقة فعلًا؛ فالخلاف لا يحسن العلاقات تلقائيًا."
+  },
+  "もちはもちや。It supports relevant expertise, not blind trust in every claimed expert.": {
+    "ko": "もちはもちや。관련 전문성을 중시한다는 뜻이지 전문가라고 주장하는 모두를 맹신하라는 뜻은 아닙니다.",
+    "id": "もちはもちや。Ini menghargai keahlian yang relevan, bukan kepercayaan buta kepada setiap orang yang mengaku ahli.",
+    "ru": "もちはもちや。Речь о соответствующей компетенции, а не о слепом доверии любому, кто назвался экспертом.",
+    "ar": "もちはもちや。يدعم الاعتماد على الخبرة المناسبة، لا الثقة العمياء بكل من يدعي الخبرة."
+  },
+  "specialist work is best entrusted to a specialist. もちはもちや。It supports relevant expertise, not blind trust in every claimed expert.": {
+    "ko": "전문적인 일은 해당 전문가에게 맡기는 것이 좋음. もちはもちや。관련 전문성을 중시한다는 뜻이지 전문가라고 주장하는 모두를 맹신하라는 뜻은 아닙니다.",
+    "id": "pekerjaan khusus sebaiknya diserahkan kepada ahlinya. もちはもちや。Ini menghargai keahlian yang relevan, bukan kepercayaan buta kepada setiap orang yang mengaku ahli.",
+    "ru": "специальную работу лучше поручить специалисту. もちはもちや。Речь о соответствующей компетенции, а не о слепом доверии любому, кто назвался экспертом.",
+    "ar": "من الأفضل إسناد العمل التخصصي إلى متخصص. もちはもちや。يدعم الاعتماد على الخبرة المناسبة، لا الثقة العمياء بكل من يدعي الخبرة."
+  },
+  "くぎをさす。It is a firm preventive warning; describe the action directly in formal records. かおをたてる。Respecting someone’s standing does not require falsifying results. あめふってじかたまる。Use after actual repair; conflict does not automatically improve relationships. もちはもちや。It supports relevant expertise, not blind trust in every claimed expert.": {
+    "ko": "くぎをさす。문제를 막기 위한 단호한 경고입니다. 공식 기록에는 실제로 한 행동을 직접 쓰세요. かおをたてる。상대의 체면을 존중한다고 결과를 조작해야 하는 것은 아닙니다. あめふってじかたまる。실제로 관계를 회복한 뒤 쓰세요. 갈등이 자동으로 관계를 좋게 만들지는 않습니다. もちはもちや。관련 전문성을 중시한다는 뜻이지 전문가라고 주장하는 모두를 맹신하라는 뜻은 아닙니다.",
+    "id": "くぎをさす。Ini peringatan tegas untuk pencegahan; dalam catatan resmi, jelaskan tindakannya secara langsung. かおをたてる。Menghormati kedudukan seseorang tidak mengharuskan pemalsuan hasil. あめふってじかたまる。Gunakan setelah hubungan benar-benar diperbaiki; konflik tidak otomatis memperbaiki hubungan. もちはもちや。Ini menghargai keahlian yang relevan, bukan kepercayaan buta kepada setiap orang yang mengaku ahli.",
+    "ru": "くぎをさす。Это твёрдое предупредительное замечание; в официальной записи опишите действие прямо. かおをたてる。Уважение к чьему-то положению не требует фальсификации результатов. あめふってじかたまる。Используйте после реального примирения: конфликт не улучшает отношения автоматически. もちはもちや。Речь о соответствующей компетенции, а не о слепом доверии любому, кто назвался экспертом.",
+    "ar": "くぎをさす。إنه تحذير وقائي حازم؛ صف الإجراء مباشرة في السجلات الرسمية. かおをたてる。احترام مكانة شخص لا يتطلب تزوير النتائج. あめふってじかたまる。يستخدم بعد إصلاح العلاقة فعلًا؛ فالخلاف لا يحسن العلاقات تلقائيًا. もちはもちや。يدعم الاعتماد على الخبرة المناسبة، لا الثقة العمياء بكل من يدعي الخبرة."
+  },
+  "It can sound dismissive; acknowledge the concern and offer practical help.": {
+    "ko": "상대를 무시하는 말처럼 들릴 수 있으니 걱정을 인정하고 실제 도움을 제안하세요.",
+    "id": "Ungkapan ini dapat terdengar meremehkan; akui kekhawatirannya dan tawarkan bantuan praktis.",
+    "ru": "Может прозвучать пренебрежительно; признайте переживания человека и предложите практическую помощь.",
+    "ar": "قد يبدو استخفافًا؛ اعترف بقلق الشخص وقدم مساعدة عملية."
+  },
+  "feel overwhelmed by a difficulty that seems small or manageable. It can sound dismissive; acknowledge the concern and offer practical help.": {
+    "ko": "작거나 해결 가능해 보이는 어려움에 압도됨. 상대를 무시하는 말처럼 들릴 수 있으니 걱정을 인정하고 실제 도움을 제안하세요.",
+    "id": "merasa kewalahan oleh kesulitan yang tampak kecil atau dapat diatasi. Ungkapan ini dapat terdengar meremehkan; akui kekhawatirannya dan tawarkan bantuan praktis.",
+    "ru": "чувствовать себя подавленным из-за кажущейся небольшой или решаемой трудности. Может прозвучать пренебрежительно; признайте переживания человека и предложите практическую помощь.",
+    "ar": "الشعور بالعجز أمام صعوبة تبدو صغيرة أو قابلة للحل. قد يبدو استخفافًا؛ اعترف بقلق الشخص وقدم مساعدة عملية."
+  },
+  "It suggests pressure and limited good options, not ordinary leisurely choice.": {
+    "ko": "압박이 크고 좋은 선택지가 적다는 뜻이지 편하게 고르는 일반적인 상황은 아닙니다.",
+    "id": "Ini menyiratkan tekanan dan sedikit pilihan yang baik, bukan pilihan santai biasa.",
+    "ru": "Подразумеваются давление и нехватка хороших вариантов, а не обычный неспешный выбор.",
+    "ar": "يوحي بالضغط وقلة الخيارات الجيدة، لا بمجرد اختيار عادي على مهل."
+  },
+  "be caught between difficult alternatives. It suggests pressure and limited good options, not ordinary leisurely choice.": {
+    "ko": "선택하기 어려운 대안 사이에 놓임. 압박이 크고 좋은 선택지가 적다는 뜻이지 편하게 고르는 일반적인 상황은 아닙니다.",
+    "id": "terjebak di antara pilihan-pilihan sulit. Ini menyiratkan tekanan dan sedikit pilihan yang baik, bukan pilihan santai biasa.",
+    "ru": "оказаться между трудными альтернативами. Подразумеваются давление и нехватка хороших вариантов, а не обычный неспешный выбор.",
+    "ar": "الوقوع بين بدائل صعبة. يوحي بالضغط وقلة الخيارات الجيدة، لا بمجرد اختيار عادي على مهل."
+  },
+  "It can encourage peers but sound scolding in a delicate professional exchange.": {
+    "ko": "동료 사이에서는 격려가 될 수 있지만 민감한 업무 대화에서는 꾸짖는 말처럼 들릴 수 있습니다.",
+    "id": "Dapat menyemangati rekan, tetapi terdengar memarahi dalam percakapan profesional yang sensitif.",
+    "ru": "Может подбодрить коллег, но в деликатном рабочем разговоре прозвучать как выговор.",
+    "ar": "قد يشجع الزملاء، لكنه قد يبدو توبيخًا في حوار مهني حساس."
+  },
+  "start making an effort or become more active. It can encourage peers but sound scolding in a delicate professional exchange.": {
+    "ko": "노력하기 시작하거나 더 적극적으로 행동함. 동료 사이에서는 격려가 될 수 있지만 민감한 업무 대화에서는 꾸짖는 말처럼 들릴 수 있습니다.",
+    "id": "mulai berusaha atau menjadi lebih aktif. Dapat menyemangati rekan, tetapi terdengar memarahi dalam percakapan profesional yang sensitif.",
+    "ru": "начать стараться или действовать активнее. Может подбодрить коллег, но в деликатном рабочем разговоре прозвучать как выговор.",
+    "ar": "بدء بذل الجهد أو زيادة النشاط. قد يشجع الزملاء، لكنه قد يبدو توبيخًا في حوار مهني حساس."
+  },
+  "It can sound pointed; important instructions should still be explicit.": {
+    "ko": "날카로운 말처럼 들릴 수 있습니다. 중요한 지시는 여전히 명확히 전달해야 합니다.",
+    "id": "Dapat terdengar menyindir; instruksi penting tetap perlu disampaikan secara jelas.",
+    "ru": "Может прозвучать колко; важные указания всё равно нужно давать ясно.",
+    "ar": "قد يبدو تلميحًا لاذعًا؛ ويجب أن تبقى التعليمات المهمة واضحة وصريحة."
+  },
+  "someone who understands the situation needs little explanation. It can sound pointed; important instructions should still be explicit.": {
+    "ko": "상황을 이해하는 사람에게는 설명이 많이 필요하지 않음. 날카로운 말처럼 들릴 수 있습니다. 중요한 지시는 여전히 명확히 전달해야 합니다.",
+    "id": "orang yang memahami situasi tidak memerlukan banyak penjelasan. Dapat terdengar menyindir; instruksi penting tetap perlu disampaikan secara jelas.",
+    "ru": "тому, кто понимает ситуацию, не нужны долгие объяснения. Может прозвучать колко; важные указания всё равно нужно давать ясно.",
+    "ar": "من يفهم الموقف لا يحتاج إلى شرح مطول. قد يبدو تلميحًا لاذعًا؛ ويجب أن تبقى التعليمات المهمة واضحة وصريحة."
+  },
+  "It can sound dismissive; acknowledge the concern and offer practical help. It suggests pressure and limited good options, not ordinary leisurely choice. It can encourage peers but sound scolding in a delicate professional exchange. It can sound pointed; important instructions should still be explicit.": {
+    "ko": "상대를 무시하는 말처럼 들릴 수 있으니 걱정을 인정하고 실제 도움을 제안하세요. 압박이 크고 좋은 선택지가 적다는 뜻이지 편하게 고르는 일반적인 상황은 아닙니다. 동료 사이에서는 격려가 될 수 있지만 민감한 업무 대화에서는 꾸짖는 말처럼 들릴 수 있습니다. 날카로운 말처럼 들릴 수 있습니다. 중요한 지시는 여전히 명확히 전달해야 합니다.",
+    "id": "Ungkapan ini dapat terdengar meremehkan; akui kekhawatirannya dan tawarkan bantuan praktis. Ini menyiratkan tekanan dan sedikit pilihan yang baik, bukan pilihan santai biasa. Dapat menyemangati rekan, tetapi terdengar memarahi dalam percakapan profesional yang sensitif. Dapat terdengar menyindir; instruksi penting tetap perlu disampaikan secara jelas.",
+    "ru": "Может прозвучать пренебрежительно; признайте переживания человека и предложите практическую помощь. Подразумеваются давление и нехватка хороших вариантов, а не обычный неспешный выбор. Может подбодрить коллег, но в деликатном рабочем разговоре прозвучать как выговор. Может прозвучать колко; важные указания всё равно нужно давать ясно.",
+    "ar": "قد يبدو استخفافًا؛ اعترف بقلق الشخص وقدم مساعدة عملية. يوحي بالضغط وقلة الخيارات الجيدة، لا بمجرد اختيار عادي على مهل. قد يشجع الزملاء، لكنه قد يبدو توبيخًا في حوار مهني حساس. قد يبدو تلميحًا لاذعًا؛ ويجب أن تبقى التعليمات المهمة واضحة وصريحة."
+  },
+  "Shared purpose does not require agreeing on every detail.": {
+    "ko": "목표가 같다고 모든 세부 사항에 동의해야 하는 것은 아닙니다.",
+    "id": "Tujuan bersama tidak mengharuskan kesepakatan pada setiap detail.",
+    "ru": "Общая цель не требует согласия по каждой детали.",
+    "ar": "الهدف المشترك لا يتطلب الاتفاق على كل تفصيل."
+  },
+  "work towards a shared goal. Shared purpose does not require agreeing on every detail.": {
+    "ko": "공통 목표를 향해 일함. 목표가 같다고 모든 세부 사항에 동의해야 하는 것은 아닙니다.",
+    "id": "bekerja menuju tujuan bersama. Tujuan bersama tidak mengharuskan kesepakatan pada setiap detail.",
+    "ru": "работать ради общей цели. Общая цель не требует согласия по каждой детали.",
+    "ar": "العمل نحو هدف مشترك. الهدف المشترك لا يتطلب الاتفاق على كل تفصيل."
+  },
+  "It can be efficient, but a blunt command may sound impatient.": {
+    "ko": "효율적일 수 있지만 단도직입적인 명령은 조급하게 들릴 수 있습니다.",
+    "id": "Ini dapat efisien, tetapi perintah yang terlalu langsung bisa terdengar tidak sabar.",
+    "ru": "Это может быть эффективно, но резкая команда способна прозвучать нетерпеливо.",
+    "ar": "قد يكون فعالًا، لكن الأمر المباشر بحدة قد يبدو نافد الصبر."
+  },
+  "get directly to the main point. It can be efficient, but a blunt command may sound impatient.": {
+    "ko": "곧바로 핵심으로 들어감. 효율적일 수 있지만 단도직입적인 명령은 조급하게 들릴 수 있습니다.",
+    "id": "langsung membahas pokok persoalan. Ini dapat efisien, tetapi perintah yang terlalu langsung bisa terdengar tidak sabar.",
+    "ru": "сразу перейти к сути. Это может быть эффективно, но резкая команда способна прозвучать нетерпеливо.",
+    "ar": "الدخول مباشرة في صلب الموضوع. قد يكون فعالًا، لكن الأمر المباشر بحدة قد يبدو نافد الصبر."
+  },
+  "It is figurative prevention, not treatment of an existing illness.": {
+    "ko": "비유적인 예방을 뜻하며 이미 생긴 질병을 치료한다는 뜻은 아닙니다.",
+    "id": "Ini pencegahan secara kiasan, bukan pengobatan penyakit yang sudah ada.",
+    "ru": "Речь о переносном значении профилактики, а не о лечении имеющейся болезни.",
+    "ar": "المقصود وقاية مجازية، لا علاج مرض موجود بالفعل."
+  },
+  "take a precaution against a possible future problem. It is figurative prevention, not treatment of an existing illness.": {
+    "ko": "미래에 생길 수 있는 문제에 미리 대비함. 비유적인 예방을 뜻하며 이미 생긴 질병을 치료한다는 뜻은 아닙니다.",
+    "id": "mengambil langkah pencegahan terhadap masalah yang mungkin timbul. Ini pencegahan secara kiasan, bukan pengobatan penyakit yang sudah ada.",
+    "ru": "принять меру предосторожности против возможной будущей проблемы. Речь о переносном значении профилактики, а не о лечении имеющейся болезни.",
+    "ar": "اتخاذ احتياط لمشكلة محتملة في المستقبل. المقصود وقاية مجازية، لا علاج مرض موجود بالفعل."
+  },
+  "It questions the gap between words and action without proving deliberate dishonesty.": {
+    "ko": "말과 행동의 간극을 지적하지만 고의적인 거짓말을 입증하는 것은 아닙니다.",
+    "id": "Ini mempertanyakan jarak antara ucapan dan tindakan, bukan membuktikan ketidakjujuran yang disengaja.",
+    "ru": "Выражается сомнение в переходе от слов к делу, а не доказательство намеренной лжи.",
+    "ar": "يشكك في الفجوة بين القول والفعل دون إثبات تعمد الكذب."
+  },
+  "putting a promise or idea into practice requires more than saying it. It questions the gap between words and action without proving deliberate dishonesty.": {
+    "ko": "약속이나 생각을 실천하려면 말하는 것 이상이 필요함. 말과 행동의 간극을 지적하지만 고의적인 거짓말을 입증하는 것은 아닙니다.",
+    "id": "mewujudkan janji atau gagasan membutuhkan lebih dari sekadar ucapan. Ini mempertanyakan jarak antara ucapan dan tindakan, bukan membuktikan ketidakjujuran yang disengaja.",
+    "ru": "воплощение обещания или идеи требует большего, чем слова. Выражается сомнение в переходе от слов к делу, а не доказательство намеренной лжи.",
+    "ar": "تنفيذ وعد أو فكرة يتطلب أكثر من مجرد الكلام. يشكك في الفجوة بين القول والفعل دون إثبات تعمد الكذب."
+  },
+  "Shared purpose does not require agreeing on every detail. It can be efficient, but a blunt command may sound impatient. It is figurative prevention, not treatment of an existing illness. It questions the gap between words and action without proving deliberate dishonesty.": {
+    "ko": "목표가 같다고 모든 세부 사항에 동의해야 하는 것은 아닙니다. 효율적일 수 있지만 단도직입적인 명령은 조급하게 들릴 수 있습니다. 비유적인 예방을 뜻하며 이미 생긴 질병을 치료한다는 뜻은 아닙니다. 말과 행동의 간극을 지적하지만 고의적인 거짓말을 입증하는 것은 아닙니다.",
+    "id": "Tujuan bersama tidak mengharuskan kesepakatan pada setiap detail. Ini dapat efisien, tetapi perintah yang terlalu langsung bisa terdengar tidak sabar. Ini pencegahan secara kiasan, bukan pengobatan penyakit yang sudah ada. Ini mempertanyakan jarak antara ucapan dan tindakan, bukan membuktikan ketidakjujuran yang disengaja.",
+    "ru": "Общая цель не требует согласия по каждой детали. Это может быть эффективно, но резкая команда способна прозвучать нетерпеливо. Речь о переносном значении профилактики, а не о лечении имеющейся болезни. Выражается сомнение в переходе от слов к делу, а не доказательство намеренной лжи.",
+    "ar": "الهدف المشترك لا يتطلب الاتفاق على كل تفصيل. قد يكون فعالًا، لكن الأمر المباشر بحدة قد يبدو نافد الصبر. المقصود وقاية مجازية، لا علاج مرض موجود بالفعل. يشكك في الفجوة بين القول والفعل دون إثبات تعمد الكذب."
+  },
+  "It often implies unfair blame; it does not simply mean paying a bill.": {
+    "ko": "부당하게 비난받는다는 뜻인 경우가 많으며 단순히 요금을 지불한다는 뜻은 아닙니다.",
+    "id": "Sering menyiratkan kesalahan yang ditimpakan secara tidak adil, bukan sekadar membayar tagihan.",
+    "ru": "Часто подразумевается несправедливая вина, а не просто оплата счёта.",
+    "ar": "يوحي غالبًا بلوم غير عادل، ولا يعني مجرد دفع فاتورة."
+  },
+  "bear the blame or consequences for someone else’s actions. It often implies unfair blame; it does not simply mean paying a bill.": {
+    "ko": "다른 사람의 행동에 대한 비난이나 결과를 떠안음. 부당하게 비난받는다는 뜻인 경우가 많으며 단순히 요금을 지불한다는 뜻은 아닙니다.",
+    "id": "menanggung kesalahan atau akibat tindakan orang lain. Sering menyiratkan kesalahan yang ditimpakan secara tidak adil, bukan sekadar membayar tagihan.",
+    "ru": "нести вину или последствия чужих действий. Часто подразумевается несправедливая вина, а не просто оплата счёта.",
+    "ar": "تحمل اللوم أو عواقب أفعال الآخرين. يوحي غالبًا بلوم غير عادل، ولا يعني مجرد دفع فاتورة."
+  },
+  "It suggests sensitivity or tension, not ordinary politeness in every setting.": {
+    "ko": "민감함이나 긴장을 암시하며 모든 상황에서의 일반적인 예의를 뜻하지는 않습니다.",
+    "id": "Ini menyiratkan kepekaan atau ketegangan, bukan sekadar kesopanan biasa di semua situasi.",
+    "ru": "Подразумевается напряжённость или деликатность, а не обычная вежливость в любой ситуации.",
+    "ar": "يوحي بحساسية أو توتر، لا بمجرد التهذيب العادي في كل موقف."
+  },
+  "act or speak very cautiously to avoid upsetting someone. It suggests sensitivity or tension, not ordinary politeness in every setting.": {
+    "ko": "상대를 불편하게 하지 않으려고 매우 조심스럽게 행동하거나 말함. 민감함이나 긴장을 암시하며 모든 상황에서의 일반적인 예의를 뜻하지는 않습니다.",
+    "id": "bertindak atau berbicara sangat hati-hati agar tidak menyinggung seseorang. Ini menyiratkan kepekaan atau ketegangan, bukan sekadar kesopanan biasa di semua situasi.",
+    "ru": "действовать или говорить очень осторожно, чтобы никого не задеть. Подразумевается напряжённость или деликатность, а не обычная вежливость в любой ситуации.",
+    "ar": "التصرف أو الكلام بحذر شديد لتجنب إزعاج شخص. يوحي بحساسية أو توتر، لا بمجرد التهذيب العادي في كل موقف."
+  },
+  "It can be critical; distinguish avoiding a stance from openly requesting more evidence.": {
+    "ko": "비판적인 표현일 수 있습니다. 입장을 피하는 것과 근거를 더 요청하는 것을 구분하세요.",
+    "id": "Dapat bernada mengkritik; bedakan menghindari sikap dengan meminta bukti tambahan secara terbuka.",
+    "ru": "Может звучать критично; отличайте уклонение от позиции от открытой просьбы о дополнительных данных.",
+    "ar": "قد يكون نقديًا؛ ميز بين تجنب اتخاذ موقف وطلب مزيد من الأدلة بصراحة."
+  },
+  "avoid taking a side or committing to a position. It can be critical; distinguish avoiding a stance from openly requesting more evidence.": {
+    "ko": "어느 편에 설지 또는 입장을 정하기를 피함. 비판적인 표현일 수 있습니다. 입장을 피하는 것과 근거를 더 요청하는 것을 구분하세요.",
+    "id": "menghindari memilih pihak atau menetapkan posisi. Dapat bernada mengkritik; bedakan menghindari sikap dengan meminta bukti tambahan secara terbuka.",
+    "ru": "избегать выбора стороны или определённой позиции. Может звучать критично; отличайте уклонение от позиции от открытой просьбы о дополнительных данных.",
+    "ar": "تجنب الانحياز أو الالتزام بموقف. قد يكون نقديًا؛ ميز بين تجنب اتخاذ موقف وطلب مزيد من الأدلة بصراحة."
+  },
+  "A proverb values persistence; it does not make every method or goal sensible.": {
+    "ko": "끈기의 가치를 말하는 속담이지만 모든 방법이나 목표가 타당하다는 뜻은 아닙니다.",
+    "id": "Peribahasa ini menghargai ketekunan, tetapi tidak membuat setiap metode atau tujuan menjadi masuk akal.",
+    "ru": "Пословица ценит упорство, но не делает любой метод или любую цель разумными.",
+    "ar": "يمدح المثل المثابرة، لكنه لا يجعل كل أسلوب أو هدف معقولًا."
+  },
+  "persistence can eventually overcome a difficulty. A proverb values persistence; it does not make every method or goal sensible.": {
+    "ko": "꾸준히 노력하면 결국 어려움을 극복할 수 있음. 끈기의 가치를 말하는 속담이지만 모든 방법이나 목표가 타당하다는 뜻은 아닙니다.",
+    "id": "ketekunan pada akhirnya dapat mengatasi kesulitan. Peribahasa ini menghargai ketekunan, tetapi tidak membuat setiap metode atau tujuan menjadi masuk akal.",
+    "ru": "настойчивость со временем может помочь преодолеть трудность. Пословица ценит упорство, но не делает любой метод или любую цель разумными.",
+    "ar": "قد تساعد المثابرة في النهاية على تجاوز صعوبة. يمدح المثل المثابرة، لكنه لا يجعل كل أسلوب أو هدف معقولًا."
+  },
+  "It often implies unfair blame; it does not simply mean paying a bill. It suggests sensitivity or tension, not ordinary politeness in every setting. It can be critical; distinguish avoiding a stance from openly requesting more evidence. A proverb values persistence; it does not make every method or goal sensible.": {
+    "ko": "부당하게 비난받는다는 뜻인 경우가 많으며 단순히 요금을 지불한다는 뜻은 아닙니다. 민감함이나 긴장을 암시하며 모든 상황에서의 일반적인 예의를 뜻하지는 않습니다. 비판적인 표현일 수 있습니다. 입장을 피하는 것과 근거를 더 요청하는 것을 구분하세요. 끈기의 가치를 말하는 속담이지만 모든 방법이나 목표가 타당하다는 뜻은 아닙니다.",
+    "id": "Sering menyiratkan kesalahan yang ditimpakan secara tidak adil, bukan sekadar membayar tagihan. Ini menyiratkan kepekaan atau ketegangan, bukan sekadar kesopanan biasa di semua situasi. Dapat bernada mengkritik; bedakan menghindari sikap dengan meminta bukti tambahan secara terbuka. Peribahasa ini menghargai ketekunan, tetapi tidak membuat setiap metode atau tujuan menjadi masuk akal.",
+    "ru": "Часто подразумевается несправедливая вина, а не просто оплата счёта. Подразумевается напряжённость или деликатность, а не обычная вежливость в любой ситуации. Может звучать критично; отличайте уклонение от позиции от открытой просьбы о дополнительных данных. Пословица ценит упорство, но не делает любой метод или любую цель разумными.",
+    "ar": "يوحي غالبًا بلوم غير عادل، ولا يعني مجرد دفع فاتورة. يوحي بحساسية أو توتر، لا بمجرد التهذيب العادي في كل موقف. قد يكون نقديًا؛ ميز بين تجنب اتخاذ موقف وطلب مزيد من الأدلة بصراحة. يمدح المثل المثابرة، لكنه لا يجعل كل أسلوب أو هدف معقولًا."
+  },
+  "It concerns remaining adjustments, not necessarily abandoning the whole agreement.": {
+    "ko": "남은 부분을 조정한다는 뜻이지 합의 전체를 포기한다는 뜻은 아닐 수 있습니다.",
+    "id": "Ini menyangkut penyesuaian yang tersisa, bukan harus membatalkan seluruh kesepakatan.",
+    "ru": "Речь об оставшихся уточнениях, а не обязательно об отказе от всего соглашения.",
+    "ar": "يتعلق بالتعديلات المتبقية، وليس بالضرورة بالتخلي عن الاتفاق كله."
+  },
+  "resolve remaining differences or points of friction. It concerns remaining adjustments, not necessarily abandoning the whole agreement.": {
+    "ko": "남은 의견 차이나 마찰을 해소함. 남은 부분을 조정한다는 뜻이지 합의 전체를 포기한다는 뜻은 아닐 수 있습니다.",
+    "id": "menyelesaikan perbedaan atau gesekan yang tersisa. Ini menyangkut penyesuaian yang tersisa, bukan harus membatalkan seluruh kesepakatan.",
+    "ru": "устранить оставшиеся разногласия или трения. Речь об оставшихся уточнениях, а не обязательно об отказе от всего соглашения.",
+    "ar": "تسوية الخلافات أو نقاط الاحتكاك المتبقية. يتعلق بالتعديلات المتبقية، وليس بالضرورة بالتخلي عن الاتفاق كله."
+  },
+  "Commitment does not require unpaid overwork or accepting unsafe demands.": {
+    "ko": "헌신한다고 무급 과로를 하거나 위험한 요구를 받아들여야 하는 것은 아닙니다.",
+    "id": "Komitmen tidak mengharuskan kerja berlebihan tanpa upah atau menerima tuntutan yang tidak aman.",
+    "ru": "Преданность делу не требует неоплачиваемых переработок или принятия опасных требований.",
+    "ar": "الالتزام لا يتطلب العمل المفرط بلا أجر أو قبول مطالب غير آمنة."
+  },
+  "show commitment to a team or organisation. Commitment does not require unpaid overwork or accepting unsafe demands.": {
+    "ko": "팀이나 조직에 헌신하는 태도를 보임. 헌신한다고 무급 과로를 하거나 위험한 요구를 받아들여야 하는 것은 아닙니다.",
+    "id": "menunjukkan komitmen kepada tim atau organisasi. Komitmen tidak mengharuskan kerja berlebihan tanpa upah atau menerima tuntutan yang tidak aman.",
+    "ru": "проявлять преданность команде или организации. Преданность делу не требует неоплачиваемых переработок или принятия опасных требований.",
+    "ar": "إظهار الالتزام بفريق أو مؤسسة. الالتزام لا يتطلب العمل المفرط بلا أجر أو قبول مطالب غير آمنة."
+  },
+  "It concerns concession after resistance, not forced agreement with an unsupported claim.": {
+    "ko": "반대하다가 양보한다는 뜻이지 근거 없는 주장에 강제로 동의한다는 뜻은 아닙니다.",
+    "id": "Ini menerima pendapat setelah menolak, bukan dipaksa menyetujui klaim tanpa dasar.",
+    "ru": "Речь об уступке после сопротивления, а не о вынужденном согласии с бездоказательным утверждением.",
+    "ar": "يتعلق بالتنازل بعد المقاومة، لا بالإجبار على قبول ادعاء بلا سند."
+  },
+  "admit being mistaken or accept a point after resisting it. It concerns concession after resistance, not forced agreement with an unsupported claim.": {
+    "ko": "처음에는 저항했지만 틀렸음을 인정하거나 상대의 주장을 받아들임. 반대하다가 양보한다는 뜻이지 근거 없는 주장에 강제로 동의한다는 뜻은 아닙니다.",
+    "id": "mengakui kekeliruan atau menerima pendapat setelah sempat menolaknya. Ini menerima pendapat setelah menolak, bukan dipaksa menyetujui klaim tanpa dasar.",
+    "ru": "признать ошибку или принять довод после первоначального сопротивления. Речь об уступке после сопротивления, а не о вынужденном согласии с бездоказательным утверждением.",
+    "ar": "الاعتراف بالخطأ أو قبول وجهة نظر بعد مقاومتها. يتعلق بالتنازل بعد المقاومة، لا بالإجبار على قبول ادعاء بلا سند."
+  },
+  "It calls for scrutiny, not automatic rejection of every attractive offer.": {
+    "ko": "꼼꼼히 살펴보라는 뜻이지 매력적인 제안을 모두 거절하라는 뜻은 아닙니다.",
+    "id": "Ini mengajak memeriksa dengan cermat, bukan otomatis menolak setiap tawaran menarik.",
+    "ru": "Это призыв к проверке, а не к автоматическому отказу от любого привлекательного предложения.",
+    "ar": "يدعو إلى التدقيق، لا إلى رفض كل عرض جذاب تلقائيًا."
+  },
+  "an attractive appearance does not guarantee real value. It calls for scrutiny, not automatic rejection of every attractive offer.": {
+    "ko": "매력적인 외관이 실제 가치를 보장하지 않음. 꼼꼼히 살펴보라는 뜻이지 매력적인 제안을 모두 거절하라는 뜻은 아닙니다.",
+    "id": "penampilan menarik tidak menjamin nilai sebenarnya. Ini mengajak memeriksa dengan cermat, bukan otomatis menolak setiap tawaran menarik.",
+    "ru": "привлекательный вид не гарантирует реальной ценности. Это призыв к проверке, а не к автоматическому отказу от любого привлекательного предложения.",
+    "ar": "المظهر الجذاب لا يضمن قيمة حقيقية. يدعو إلى التدقيق، لا إلى رفض كل عرض جذاب تلقائيًا."
+  },
+  "It concerns remaining adjustments, not necessarily abandoning the whole agreement. Commitment does not require unpaid overwork or accepting unsafe demands. It concerns concession after resistance, not forced agreement with an unsupported claim. It calls for scrutiny, not automatic rejection of every attractive offer.": {
+    "ko": "남은 부분을 조정한다는 뜻이지 합의 전체를 포기한다는 뜻은 아닐 수 있습니다. 헌신한다고 무급 과로를 하거나 위험한 요구를 받아들여야 하는 것은 아닙니다. 반대하다가 양보한다는 뜻이지 근거 없는 주장에 강제로 동의한다는 뜻은 아닙니다. 꼼꼼히 살펴보라는 뜻이지 매력적인 제안을 모두 거절하라는 뜻은 아닙니다.",
+    "id": "Ini menyangkut penyesuaian yang tersisa, bukan harus membatalkan seluruh kesepakatan. Komitmen tidak mengharuskan kerja berlebihan tanpa upah atau menerima tuntutan yang tidak aman. Ini menerima pendapat setelah menolak, bukan dipaksa menyetujui klaim tanpa dasar. Ini mengajak memeriksa dengan cermat, bukan otomatis menolak setiap tawaran menarik.",
+    "ru": "Речь об оставшихся уточнениях, а не обязательно об отказе от всего соглашения. Преданность делу не требует неоплачиваемых переработок или принятия опасных требований. Речь об уступке после сопротивления, а не о вынужденном согласии с бездоказательным утверждением. Это призыв к проверке, а не к автоматическому отказу от любого привлекательного предложения.",
+    "ar": "يتعلق بالتعديلات المتبقية، وليس بالضرورة بالتخلي عن الاتفاق كله. الالتزام لا يتطلب العمل المفرط بلا أجر أو قبول مطالب غير آمنة. يتعلق بالتنازل بعد المقاومة، لا بالإجبار على قبول ادعاء بلا سند. يدعو إلى التدقيق، لا إلى رفض كل عرض جذاب تلقائيًا."
+  }
+}

@@ -1,0 +1,38 @@
+import {LightPracticeHistory} from './LightLesson.jsx';
+import PhotoOverview from './PhotoOverview.jsx';
+import IllustratedMemory from './IllustratedMemory.jsx';
+import PageIntro from './PageIntro.jsx';
+import {useJourneyLayout} from './JourneyLayout.jsx';
+import {LearningConsistency} from './LearningActivity.jsx';
+import {LearningShortcuts} from './LearnerNavigation.jsx';
+import {JourneyRibbon} from './JourneyProgress.jsx';
+import JourneyVisual from './JourneyVisual.jsx';
+import JourneyMap from './JourneyMap.jsx';
+import LearningLog from './LearningLog.jsx';
+import {t as uiText,tf as uiTemplate} from './interface-runtime.mjs';
+import {VisualDiscovery,LessonImage} from './LessonMedia.jsx';
+import React,{useState,useRef} from 'react';
+import {BookOpen,NotebookPen,ChevronRight,ArrowRight,Clock3} from 'lucide-react';
+import {languageInfo} from './languages.mjs';
+import {lessonList,lessonTitle,getLesson} from './course.mjs';
+import {AssessmentSummary} from './Assessment.jsx';
+import {SkillRecord} from './SkillsWorkshop.jsx';
+import RecurringPatterns from './RecurringPatterns.jsx';
+import './learning-memory.css';
+const date=x=>new Date(x).toLocaleDateString();
+function ScoreRing({score,label}){return <div className="record-score-ring" style={{'--score':(score||0)*3.6+'deg'}}><div><b>{uiText(score===null?'—':score+'%')}</b><small>{uiText(label)}</small></div></div>}
+export default function LanguageOverview({language,user,attempts=[],notes=[],assessment,onNavigate,onPractice,memory=false,dailyGoal=10,allAttempts=attempts}){
+ const {layout}=useJourneyLayout();
+ const name=uiText(languageInfo(language).name),ordered=[...attempts].sort((a,b)=>new Date(b.at)-new Date(a.at)),ids=[...new Set(ordered.map(a=>a.lesson))],lessons=lessonList.filter(l=>(l.language||'es')===language),done=new Set(attempts.filter(a=>a.score>=(getLesson(a.lesson)?.passScore||80)).map(a=>a.lesson)),[selected,setSelected]=useState(''),detail=useRef(null);
+ const active=ids.includes(selected)?selected:ids[0],history=ordered.filter(a=>a.lesson===active),latest=history[0],recent=ordered[0],first=history.at(-1),events=[...ordered.map((a,i)=>({...a,eventId:'practice-'+(a.id||i),title:lessonTitle(a.lesson),kind:'Practice'})),...notes.map(n=>({...n,eventId:'note-'+n.id,title:n.focus,kind:'Class note'}))].sort((a,b)=>new Date(b.at)-new Date(a.at));
+ function select(id){setSelected(id);requestAnimationFrame(()=>detail.current?.scrollIntoView({behavior:'smooth',block:'start'}));}
+ if(layout==='illustrated'&&memory)return <IllustratedMemory {...{user,language,attempts,notes,allAttempts,dailyGoal,onPractice,onNavigate}}/>;
+ return <div className={"unified-learning-record"+(layout==='illustrated'?' illustrated-record':'')}><JourneyVisual language={language} section={memory?'Learning memory':'Overview'} title={memory?'Your learning memory':'Your next chapter awaits'} description={memory?'Your practice, feedback and class observations, connected in one place.':'See where you are, what is improving, and what to practise next.'}/>{layout==='photo'&&(memory?<h1>{uiText('Your learning memory')}</h1>:<PhotoOverview user={user} language={language} done={done.size} total={lessons.length} onLearn={()=>onNavigate('Learn')}/>)}{!memory&&<><JourneyRibbon dailyGoal={dailyGoal} attempts={allAttempts}/><LearningShortcuts onNavigate={onNavigate}/></>}{memory&&user&&<><LearningConsistency user={user} compact={layout==='illustrated'}/><LightPracticeHistory user={user} language={language} onStart={onPractice}/></>}<span className="eyebrow">{name.toUpperCase()}{uiText(" · YOUR LEARNING RECORD")}</span>
+ {!memory&&layout==='illustrated'&&<aside className="illustrated-activity-rail"><h2>{uiText('Your activity')}</h2><LearningConsistency user={user}/><LearningLog initiallyOpen={layout==='illustrated'} events={events.slice(0,5).map(e=>({id:e.eventId,at:e.at,kind:e.kind,title:e.title,note:e.note,lesson:e.lesson,score:e.score}))} onSelect={id=>{setSelected(id);onNavigate('Learning memory')}}/></aside>}{!memory&&layout==='illustrated'&&<><JourneyMap language={language} attempts={attempts} initialLevel={(()=>{try{return localStorage.getItem('continuumCourseLevel'+(language==='es'?'':':'+language))||assessment?.result?.level||'A1'}catch{return assessment?.result?.level||'A1'}})()} onStart={onPractice}/><details className="journey-visual-lessons"><summary>{uiText('Explore visual lessons')}</summary><VisualDiscovery language={language} onStart={onPractice}/></details></>}
+ {!memory&&<AssessmentSummary language={language} assessment={assessment} profile onOpen={()=>onNavigate('Level test')}/>}
+ <section className="memory-hero connected-memory-hero"><div><div className="assessment-ring small"><NotebookPen/><b>{attempts.length+notes.length}</b><small>{uiText("recent records")}</small></div><span><b>{uiText("Practice that stays with you")}</b><small>{name}{uiText(" · your saved learning memory")}</small></span></div><div className="memory-source"><span><BookOpen size={18}/>{done.size}{uiText(" activities mastered")}</span><span><NotebookPen size={18}/>{notes.length}{uiText(" class notes")}</span></div></section>
+ {!memory&&<section className="panel record-recent"><div><span className="eyebrow">{uiText("RECENT PRACTICE")}</span><h2>{uiText(recent?lessonTitle(recent.lesson):'Your next chapter starts here')}</h2><p>{uiText(recent?uiTemplate("{0} questions · {1}",[recent.total,date(recent.at)]):uiTemplate("Explore {0} course activities from A1 to C1.",[lessons.length]))}</p><button className="primary" onClick={()=>recent?onPractice(recent.lesson):onNavigate('Learn')}>{uiText(recent?'Practise again':'Start learning')}<ArrowRight size={17}/></button></div><ScoreRing score={recent?.score??null} label="latest exercise"/></section>}
+ <RecurringPatterns key={language+'-'+user?.id+'-'+attempts.length} language={language} user={user} onPractice={onPractice} onNavigate={onNavigate}/>
+ {memory?<><div className="memory-layout record-evidence-layout"><LearningLog initiallyOpen={layout==='illustrated'} events={events.map(e=>({id:e.eventId,at:e.at,kind:e.kind,title:e.title,note:e.note,lesson:e.lesson,score:e.score}))} onSelect={select}/><section id="selected-lesson-evidence" className="panel pattern-detail record-detail" ref={detail} tabIndex={-1} aria-label={uiText("Selected lesson evidence")}>{latest?<><span className="eyebrow">{uiText("SAVED PRACTICE RESULTS")}</span><h2>{uiText(lessonTitle(active))}</h2><p className="record-category">{uiText(getLesson(active)?.skill||'Practice')} · {date(latest.at)}</p><ScoreRing score={latest.score} label="latest exercise"/><div className="growth"><span><small>{uiText("Earliest saved")}</small><b>{first.score}%</b></span><ArrowRight/><span><small>{uiText("Latest saved")}</small><b>{latest.score}%</b></span></div><p>{history.length}{uiText(" saved attempts · ")}{date(latest.at)}</p><button className="primary" onClick={()=>onPractice(active)}>{uiText("Practise this lesson")}<ChevronRight size={17}/></button><details><summary>{uiText("Score history")}</summary>{history.map((a,i)=><p key={a.id||i}>{date(a.at)} · {a.score}% · {a.total}{uiText(" questions")}</p>)}</details></>:<><h2>{uiText("Your evidence, over time")}</h2><p>{uiText("Choose a completed lesson to explore your results.")}</p></>}</section></div></>:<button className="outline-button" onClick={()=>onNavigate('Learning memory')}>{uiText("Explore your learning memory")}<ChevronRight size={17}/></button>}
+ {user&&<SkillRecord language={language} user={user}/>}<p className="record-privacy">{uiText("Teacher visibility follows “Share self-study activity” in Account.")}</p></div>;
+}
