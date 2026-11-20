@@ -1,0 +1,55 @@
+name: iPhone release build
+on:
+  workflow_dispatch:
+  push:
+    branches: ['codex/ios-device-validation']
+    paths: ['.github/workflows/ios-device-build.yml']
+permissions:
+  contents: read
+concurrency:
+  group: iphone-release-build-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  device-archive:
+    runs-on: macos-26
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - name: Bundle the production native application
+        env:
+          CONTINUUM_API_ORIGIN: https://continuum-language-production.up.railway.app
+        run: |
+          npm run ios:sync
+          npm run ios:check
+      - name: Compile the iPhone Release archive without distribution signing
+        run: |
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' -archivePath /tmp/Continuum-unsigned.xcarchive -derivedDataPath /tmp/continuum-device-build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO archive
+      - name: Verify architecture and shipping gates
+        run: |
+          APP=/tmp/Continuum-unsigned.xcarchive/Products/Applications/App.app
+          test "$(xcrun lipo -archs "$APP/App")" = arm64
+          test "$(/usr/libexec/PlistBuddy -c 'Print :ContinuumLocalStoreKitTesting' "$APP/Info.plist")" = false
+          test -z "$(find "$APP" -name '*.storekit' -print)"
+          python3 - <<'PY'
+          import json,os,pathlib
+          app=pathlib.Path('/tmp/Continuum-unsigned.xcarchive/Products/Applications/App.app')
+          config=json.loads((app/'capacitor.config.json').read_text())
+          assert not config.get('server',{}).get('url'), 'Web application must be bundled'
+          origin='https://continuum-language-production.up.railway.app'
+          scripts='\n'.join(p.read_text() for p in (app/'public/assets').glob('*.js'))
+          assert origin in scripts, 'Production API origin missing from bundled scripts'
+          assert 'https://127.0.0.1:9443' not in scripts, 'Fixture API must not ship'
+          report={'source':os.environ['GITHUB_SHA'],'configuration':'Release','architecture':'arm64','signed':False,'installable':False,'localStoreKitEnabled':False,'apiOrigin':origin,'nextStep':'Sign and run the main App scheme from Xcode with the owner Apple Account and connected iPhone. This archive is not an IPA or a TestFlight build.'}
+          pathlib.Path('/tmp/iphone-build-evidence.json').write_text(json.dumps(report,indent=2)+'\n')
+          PY
+          tar -czf /tmp/Continuum-iPhone-Release-UNSIGNED.tar.gz -C /tmp Continuum-unsigned.xcarchive iphone-build-evidence.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: continuum-iphone-release-unsigned
+          path: /tmp/Continuum-iPhone-Release-UNSIGNED.tar.gz
+          if-no-files-found: error
