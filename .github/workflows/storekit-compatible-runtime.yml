@@ -2,6 +2,9 @@ name: StoreKit compatible runtime
 on:
   push:
     branches: ['codex/storekit-compatible-runtime']
+concurrency:
+  group: storekit-compatible-runtime
+  cancel-in-progress: true
 permissions:
   contents: read
 jobs:

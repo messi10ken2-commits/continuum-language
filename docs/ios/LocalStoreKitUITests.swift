@@ -21,7 +21,8 @@ final class LocalStoreKitUITests: XCTestCase {
                 let frame = button.frame
                 // WebKit can report controls under the status bar as hittable.
                 // Keep the tap center clear of native top chrome and the bottom tab bar.
-                let safeFrame = app.frame.insetBy(dx: 12, dy: 100)
+                let bottomClearance: CGFloat = title == "Account" ? 20 : 100
+                let safeFrame = CGRect(x: app.frame.minX + 12, y: app.frame.minY + 100, width: app.frame.width - 24, height: app.frame.height - 100 - bottomClearance)
                 let keyboard = app.keyboards.firstMatch
                 if button.isHittable && frame.width > 0 && frame.height > 0 && safeFrame.contains(CGPoint(x: frame.midX, y: frame.midY)) && (!keyboard.exists || !frame.intersects(keyboard.frame)) { button.tap(); return }
                 // Offscreen WebKit accessibility frames can be zero: never infer a
