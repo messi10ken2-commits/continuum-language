@@ -1,6 +1,6 @@
 # App Store submission pack — draft, not submitted
 
-19 November 2026. Contact: continuum.language@gmail.com. Operating country supplied by Ken: Japan. Legal operator name/type/address and tax status are unconfirmed. App Store seller identity must match the actual approved enrollment; a country label here cannot change Apple eligibility.
+19 November 2026. Contact: continuum.language@gmail.com. Operating country supplied by Ken: Japan. Ken confirmed individual operation under the public name Ken Ishizawa. Address, tax status and final Apple seller identity remain unconfirmed. App Store seller identity must match the actual approved enrollment; a country label here cannot change Apple eligibility.
 
 ## Metadata
 

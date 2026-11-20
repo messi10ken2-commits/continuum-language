@@ -15,7 +15,7 @@ final class NativeUITests: XCTestCase {
             }
             for _ in 0..<12 {
                 if unobstructed() { break }
-                app.webViews.firstMatch.swipeUp()
+                app.swipeUp(velocity: .fast)
             }
             XCTAssertTrue(unobstructed(), "\(title) must be visible above the keyboard")
             button.tap()
@@ -53,7 +53,7 @@ final class NativeUITests: XCTestCase {
             XCTAssertTrue(matches.firstMatch.waitForExistence(timeout: 90), title)
             for _ in 0..<12 {
                 if let button = matches.allElementsBoundByIndex.reversed().first(where: { $0.isHittable && (!app.keyboards.firstMatch.exists || !$0.frame.intersects(app.keyboards.firstMatch.frame)) }) { button.tap(); return }
-                app.webViews.firstMatch.swipeUp()
+                app.swipeUp(velocity: .fast)
             }
             XCTFail("No accessible button: \(title)")
         }

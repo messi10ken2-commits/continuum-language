@@ -5,6 +5,7 @@ import StoreKitTest
 final class LocalStoreKitUITests: XCTestCase {
     func testPurchaseCancelPendingAndRestoreScreens() throws {
         continueAfterFailure = false
+        XCUIDevice.shared.orientation = .portrait
         let session = try SKTestSession(configurationFileNamed: "ContinuumLocalTesting")
         session.resetToDefaultState()
         session.clearTransactions()
@@ -16,17 +17,24 @@ final class LocalStoreKitUITests: XCTestCase {
             let matches = app.webViews.buttons.matching(NSPredicate(format: "label == %@", title))
             XCTAssertTrue(matches.firstMatch.waitForExistence(timeout: 90), title)
             let button = matches.element(boundBy: max(0, matches.count - 1))
-            for _ in 0..<20 {
-                if button.isHittable && (!app.keyboards.firstMatch.exists || !button.frame.intersects(app.keyboards.firstMatch.frame)) { button.tap(); return }
-                if button.frame.midY < app.webViews.firstMatch.frame.midY { app.webViews.firstMatch.swipeDown() }
-                else { app.webViews.firstMatch.swipeUp() }
+            for attempt in 0..<24 {
+                let frame = button.frame
+                let keyboard = app.keyboards.firstMatch
+                if button.isHittable && frame.width > 0 && frame.height > 0 && app.frame.contains(CGPoint(x: frame.midX, y: frame.midY)) && (!keyboard.exists || !frame.intersects(keyboard.frame)) { button.tap(); return }
+                // Offscreen WebKit accessibility frames can be zero: never infer a
+                // direction from them. Use bounded scans in both directions on the
+                // actual window, not the potentially content-sized WebView frame.
+                if attempt < 12 { app.swipeUp(velocity: .fast) }
+                else { app.swipeDown(velocity: .fast) }
             }
+            let failure = XCTAttachment(screenshot: app.screenshot()); failure.name = "StoreKit-obstructed-" + title; failure.lifetime = .keepAlways; add(failure)
+            print("STOREKIT_ACCESSIBILITY", app.debugDescription)
             XCTFail("Button obstructed: \(title)")
         }
         func status(_ text: String, capture: String) {
             let label = app.webViews.staticTexts[text]
             XCTAssertTrue(label.waitForExistence(timeout: 40), text)
-            for _ in 0..<12 { if label.isHittable { break }; app.webViews.firstMatch.swipeUp() }
+            for _ in 0..<12 { if label.isHittable { break }; app.swipeUp(velocity: .fast) }
             XCTAssertTrue(label.isHittable, "Result must be visible: \(text)")
             let image = XCTAttachment(screenshot: app.screenshot()); image.name = capture; image.lifetime = .keepAlways; add(image)
         }

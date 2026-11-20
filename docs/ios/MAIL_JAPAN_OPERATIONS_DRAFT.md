@@ -1,6 +1,6 @@
 # Mail and Japan operations — working draft
 
-Updated 19 November 2026. The owner supplied continuum.language@gmail.com and Japan as the operating country. Ken confirmed individual operation and a two-business-day acknowledgement / seven-calendar-day normal deletion target on 19 November. Formal public operator identity, tax status and backup retention remain unconfirmed. No real account has been erased and no inbox receipt has been verified.
+Updated 19 November 2026. The owner supplied continuum.language@gmail.com and Japan as the operating country. Ken confirmed individual operation and a two-business-day acknowledgement / seven-calendar-day normal deletion target on 19 November. Ken confirmed the public individual operator name as Ken Ishizawa on 20 November. Ken selected daily/weekly/monthly backups with an approximately 90-day maximum retention direction on 20 November. Public address, tax status and actual backup settings/expiry evidence remain unconfirmed. No real account has been erased and no inbox receipt has been verified.
 
 ## Selected first-stage mail setup
 
@@ -66,4 +66,4 @@ Additional checked sources:
 
 ## Detailed operational review
 
-See [ACCOUNT_DELETION_RUNBOOK_JA.md](ACCOUNT_DELETION_RUNBOOK_JA.md) for the per-record handling, proposed service targets, backup evidence checklist and isolated restore/re-erasure procedure. Operator identity, actual backup configuration and final approval remain pending.
+See [ACCOUNT_DELETION_RUNBOOK_JA.md](ACCOUNT_DELETION_RUNBOOK_JA.md) for the per-record handling, proposed service targets, backup evidence checklist and isolated restore/re-erasure procedure. Public address/tax classification, actual backup configuration and final policy publication remain pending.
