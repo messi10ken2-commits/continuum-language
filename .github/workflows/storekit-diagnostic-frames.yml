@@ -1,0 +1,35 @@
+name: Inspect actual StoreKit failure frames
+on:
+  push:
+    branches: ['codex/storekit-diagnostic-frames']
+    paths: ['.github/workflows/storekit-diagnostic-frames.yml']
+permissions:
+  contents: write
+  actions: read
+jobs:
+  frames:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract diagnostic video frames from the synthetic UI test
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 44694401549 --repo messi10ken2-commits/continuum-language --name continuum-local-storekit --dir /tmp/storekit-result
+          python3 - <<'PY'
+          import json,pathlib,shutil
+          root=pathlib.Path('/tmp/storekit-result')
+          manifest=next(root.rglob('manifest.json'))
+          data=json.loads(manifest.read_text())
+          video=next(manifest.parent/a['exportedFileName'] for t in data for a in t['attachments'] if a['exportedFileName'].endswith('.mp4'))
+          shutil.copyfile(video,'/tmp/storekit-recording.mp4')
+          PY
+          mkdir -p qa/storekit-diagnostics
+          ffmpeg -hide_banner -loglevel error -ss 160 -i /tmp/storekit-recording.mp4 -frames:v 1 qa/storekit-diagnostics/purchase-160.png
+          ffmpeg -hide_banner -loglevel error -ss 190 -i /tmp/storekit-recording.mp4 -frames:v 1 qa/storekit-diagnostics/purchase-190.png
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add qa/storekit-diagnostics
+          git commit -m "Preserve actual synthetic StoreKit failure frames for inspection"
+          git push origin HEAD:codex/storekit-diagnostic-frames
