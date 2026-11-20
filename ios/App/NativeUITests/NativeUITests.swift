@@ -64,6 +64,11 @@ final class NativeUITests: XCTestCase {
         let password = app.webViews.secureTextFields.firstMatch
         password.tap(); password.typeText("store-demo-fixture-123")
         tapVisible("Sign in")
+        // Navigation is present before authentication finishes. Wait for the
+        // signed-in Account render so its redirect cannot undo the first tab tap.
+        XCTAssertTrue(app.webViews.buttons["Sign out"].waitForExistence(timeout: 90))
+        let keyboardHidden = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: app.keyboards.firstMatch)
+        XCTAssertEqual(XCTWaiter.wait(for: [keyboardHidden], timeout: 15), .completed)
         for (index, screen, heading) in [(1, "Overview", "Your course progress"), (2, "Learn", "Chapters"), (3, "Practice", "Practice Studio"), (4, "Classes", "Your classes and practice")] {
             tapVisible(screen)
             XCTAssertTrue(app.webViews.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", heading)).firstMatch.waitForExistence(timeout: 90), heading)

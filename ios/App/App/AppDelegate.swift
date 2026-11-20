@@ -196,7 +196,8 @@ public class ContinuumNativePlugin: CAPPlugin, CAPBridgedPlugin {
                 case .userCancelled: call.resolve(["cancelled": true])
                 @unknown default: call.reject("Unknown store purchase state")
                 }
-            } catch { call.reject("Store purchase failed", nil, error) }
+            } catch StoreKitError.userCancelled { call.resolve(["cancelled": true]) }
+            catch { call.reject("Store purchase failed", nil, error) }
         }
         #else
         call.reject("Live purchases await approved StoreKit configuration")
