@@ -1,5 +1,5 @@
 import {queueClassReminders,drainPushOutbox} from './push-api.mjs';
-import {drainMailOutbox} from './transactional-mail.mjs';
+import {drainMailOutbox,mailSettings,checkGmailAuthorization} from './transactional-mail.mjs';
 import {reconcileAppleDue} from './apple-store-api.mjs';
 export async function runReadinessMaintenance(pool){
  const [mail,apple,push]=await Promise.allSettled([drainMailOutbox(pool),reconcileAppleDue(pool),(async()=>{await queueClassReminders(pool);return drainPushOutbox(pool)})()]);
@@ -9,6 +9,8 @@ export async function runReadinessMaintenance(pool){
 }
 export function startReadinessMaintenance(pool,{intervalMs=60000}={}){
  if(process.env.READINESS_MAINTENANCE_ENABLED!=='true')return ()=>{};
- let busy=false,stopped=false;const run=async()=>{if(busy||stopped)return;busy=true;try{const result=await runReadinessMaintenance(pool);if(result.mail.failed||result.apple.failed||result.push.failed)console.warn('Readiness maintenance has pending retries')}catch{console.warn('Readiness maintenance is temporarily unavailable')}finally{busy=false}};
+ // Validate token renewal without sending mail or reading the Gmail inbox.
+ if(mailSettings().provider==='gmail-api'&&mailSettings().configured)void checkGmailAuthorization().then(result=>console.info('Mail authorization check',JSON.stringify(result)));
+ let busy=false,stopped=false;const run=async()=>{if(busy||stopped)return;busy=true;try{const result=await runReadinessMaintenance(pool);if(result.mail.failed||result.apple.failed||result.push.failed)console.warn('Readiness maintenance has pending retries',JSON.stringify({mail:result.mail.failures||{},apple:!!result.apple.failed,push:!!result.push.failed}))}catch{console.warn('Readiness maintenance is temporarily unavailable')}finally{busy=false}};
  const timer=setInterval(()=>void run(),intervalMs);timer.unref();return()=>{stopped=true;clearInterval(timer)};
 }

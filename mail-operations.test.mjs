@@ -1,4 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {drainMailOutbox} from './transactional-mail.mjs';
+import {MailDeliveryError} from './mail-diagnostics.mjs';
 process.env.NODE_ENV='development';delete process.env.OPENAI_API_KEY;delete process.env.GEMINI_API_KEY;
 test('owner inbox check requires authentication, fresh password, encrypted worker and a code available only in the email',async()=>{
  const {testServer,db}=await import('./test-server.mjs'),base='http://127.0.0.1:'+testServer.address().port;
@@ -14,8 +15,11 @@ test('owner inbox check requires authentication, fresh password, encrypted worke
  const queued=await api('/owner/mail/test','POST',{password:'synthetic-mail-password',to:'unapproved@example.test'},owner);assert.equal(queued.status,200);assert.equal(queued.data.status,'queued');assert.equal(queued.data.code,undefined);
  const encrypted=(await db.query('SELECT * FROM transactional_mail_outbox')).rows[0];assert.ok(!encrypted.payload.includes('inbox@example.test'));
  const query=async(sql,args)=>{const r=await db.query(sql,args);return {...r,rowCount:r.affectedRows||r.rows.length||0}};let message;
- const sent=await drainMailOutbox({query},{deliver:async value=>{message=value;}});assert.equal(sent.delivered,1);assert.equal(message.to,'inbox@example.test');assert.equal((await db.query('SELECT payload FROM transactional_mail_outbox')).rows[0].payload,null);
+ await drainMailOutbox({query},{deliver:async()=>{throw new MailDeliveryError('GMAIL_OAUTH_INVALID_GRANT',400)}});
+ const diagnostic=await api('/owner/mail','GET',null,owner);assert.equal(diagnostic.data.checks[0].lastErrorCode,'GMAIL_OAUTH_INVALID_GRANT');assert.equal(diagnostic.data.checks[0].lastErrorStatus,400);assert.equal(diagnostic.data.checks[0].attempts,1);assert.ok(diagnostic.data.checks[0].nextAttemptAt);assert.ok(!JSON.stringify(diagnostic.data).includes('synthetic-not-a-secret'));
+ const sent=await drainMailOutbox({query},{now:new Date(Date.now()+180000),deliver:async value=>{message=value;return {providerMessageId:'19abc123'}}});assert.equal(sent.delivered,1);assert.equal(message.to,'inbox@example.test');assert.equal((await db.query('SELECT payload FROM transactional_mail_outbox')).rows[0].payload,null);
  const status=await api('/owner/mail','GET',null,owner);assert.equal(status.data.checks[0].providerStatus,'delivered');assert.equal(status.data.checks[0].confirmedAt,null,'SMTP success is not inbox proof');
+ assert.equal(status.data.checks[0].lastErrorCode,null);assert.equal(status.data.checks[0].providerMessageId,'19abc123');assert.ok(status.data.checks[0].providerAcceptedAt);
  const code=/Inbox verification code: ([A-F0-9]{10})/.exec(message.text)[1];assert.ok(!JSON.stringify(status.data).includes(code));
  assert.equal((await api('/owner/mail/confirm','POST',{id:queued.data.id,code:'0000000000'},owner)).status,400);
  assert.equal((await api('/owner/mail/confirm','POST',{id:queued.data.id,code},other)).status,403);
