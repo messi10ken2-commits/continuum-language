@@ -118,7 +118,13 @@ export function TownOpening({children,enabled=true,onComplete}){
   if(!playing)return;
   let live=true;
   video.current?.play()?.catch(()=>{if(live)setPlayAction(action=>action==='retry'?action:'play')});
-  return()=>{live=false};
+  let position=0,progressed=performance.now();
+  const stalled=window.setInterval(()=>{
+   const player=video.current;if(!player)return;
+   if(player.currentTime!==position){position=player.currentTime;progressed=performance.now()}
+   else if(!player.ended&&performance.now()-progressed>4000)setPlayAction(action=>action||'retry');
+  },500);
+  return()=>{live=false;window.clearInterval(stalled)};
  },[playing]);
  const finish=()=>{video.current?.pause();setPlaying(false);complete.current?.()};
  const play=()=>{
