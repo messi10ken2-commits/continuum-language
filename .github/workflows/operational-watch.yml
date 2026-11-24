@@ -1,0 +1,20 @@
+name: Continuum external health watch
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  push:
+    branches: [main]
+    paths: ['operations-health*', 'scripts/monitor-public-health.mjs', '.github/workflows/operational-watch.yml']
+permissions:
+  contents: read
+concurrency:
+  group: continuum-external-health
+  cancel-in-progress: false
+jobs:
+  public-health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - run: node scripts/monitor-public-health.mjs

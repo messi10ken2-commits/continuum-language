@@ -5,7 +5,10 @@
 - Web: `continuum-language`。本番DBに既存機能を提供。
 - Backup: `continuum-db-backup`。日次18:00 UTC（日本03:00、マレーシア02:00）、暗号化して非公開バケットに保存。通常6日保持。
 - Monitor/journal: `continuum-operations`。15分ごとにHTTPSヘルス、DB、メール認可、未処理メール、バックアップの成功日時/実行結果を検査。HTTPの削除記録受付はRailway内部ネットワークのみ。
-- 外部監視: ChatGPT「Continuum障害監視」。1時間ごと、異常/確認不能時だけ通知。RailwayとGmailが同時に停止した場合の別経路。実行環境・接続が使えなければ確認不能として扱う。
+- 外部監視: GitHub Actions `Continuum external health watch`。15分おきの予定で、公開HTTPSのDBヘルスと監視要約を検査。秘密情報不要。失敗はGitHub Actionsの失敗として残る。GitHubのメール通知は運営者の通知設定に依存し、配信確認とは区別する。スケジューラの遅延はあり得る。
+- ChatGPT「Continuum障害監視」も1時間ごとに公開HTTPSだけを確認する補助タスクとして設定。初回の旧プロンプトは失敗したため成功実績には含めず、接続/実行環境を不要とするプロンプトへ修正済み。新しいプロンプトでの実行確認は次回以降。
+
+公開 `/api/health/operations` は監視要約のok/checkedAtだけを返す。個人情報、件数、資格情報、プロバイダ応答は返さない。内部 `/status` は共有トークン必須。古い・異常・取得不能なら公開要約は503となる。
 
 メールの宛先は `continuum.language@gmail.com` に固定。初回テスト、異常の変化、同一異常6時間経過、復旧時に送信。Gmail自身の認可が壊れるとメール通知も送れないため、外部監視を併用する。`OPS_NOTICE_PROVIDER_ACCEPTED` はGoogle受付であり受信箱到着の証明ではない。
 

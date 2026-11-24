@@ -3,6 +3,8 @@ import {migratePush,handlePush} from './push-api.mjs';
 import {handleAppAssociation} from './app-links-api.mjs';
 import {startReadinessMaintenance} from './readiness-maintenance.mjs';
 import {migrateAccountErasure} from './account-erasure.mjs';
+import {createOperationsHealth} from './operations-health.mjs';
+const operationsHealth=createOperationsHealth();
 import {migrateMailOutbox,drainMailOutbox} from './transactional-mail.mjs';
 import {handleAppleNotifications,reconcileAppleDue} from './apple-store-api.mjs';
 import {handleImmersiveAudio,handleImmersiveContent} from './immersive-api.mjs';
@@ -207,6 +209,7 @@ async function handle(req,res){
  if(await handleSkills({route,req,res,pool,required,json,send,fail,limited,assessSkill}))return;
  if(await handleAssessment({route,req,res,pool,required,json,send,fail}))return;
  if(route==='/api/health'&&req.method==='GET'){await pool.query('SELECT 1');return send(res,200,{ok:true})}
+ if(route==='/api/health/operations'&&req.method==='GET'){const status=await operationsHealth();res.setHeader('Cache-Control','no-store');return send(res,status.ok?200:503,status)}
  if(route==='/api/auth/me'&&req.method==='GET')return send(res,200,{user:await currentUser(req)});
  if(route==='/api/auth/register'&&req.method==='POST'){
   await authLimited('register-ip',authClientAddress(req),6);const data=await json(req);const email=safeEmail(data.email),name=String(data.name||'').trim(),password=String(data.password||'');
