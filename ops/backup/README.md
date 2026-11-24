@@ -9,7 +9,12 @@ Deleting the whole project can lose both. Independent offsite storage remains fu
 
 ## Run and evidence
 
-Dockerfile: `ops/backup/Dockerfile` (build context is repository root).
+Dockerfile: `ops/backup/Dockerfile` (build context is `ops/backup`).
+The deployed `deploy/hobby-database-backup` branch contains only the files from this
+directory at its root. It is an intentional service projection, pinned by commit;
+it excludes the web app's root railway.json so the app config cannot override the job.
+Set Dockerfile path `Dockerfile` directly on the backup service. Do not merge that
+deployment branch into main; review the source changes under ops/backup instead.
 Entrypoint: `python3 /backup/backup.py`. One shot, restart policy NEVER.
 Cron: `0 18 * * *` UTC = 03:00 Japan / 02:00 Malaysia, daily.
 No subscription upgrade; execution, storage and service upload traffic incur usage charges.

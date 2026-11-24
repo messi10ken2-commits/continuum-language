@@ -71,7 +71,7 @@ def run(args, env=None, timeout=1200):
     result = subprocess.run(args, env=env, stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE, timeout=timeout)
     if result.returncode:
-        raise RuntimeError("COMMAND_FAILED:" + Path(args[0]).name)
+        raise RuntimeError("COMMAND_FAILED:" + Path(args[0]).name.upper())
     return result.stdout
 
 
