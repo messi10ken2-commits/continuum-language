@@ -1,18 +1,6 @@
-FROM node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205 AS build
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci --include=optional
-COPY . .
-RUN npm run check:runtime && npm run build && npm prune --omit=dev
-
-FROM node:24.22.1-bookworm-slim@sha256:55fb5f5a527ea2c5c4a95f963e48ef90aa38c7b346054fdc8ee9957a2b55d205 AS runtime
-ENV NODE_ENV=production
-RUN apt-get update \
- && apt-get install -y --no-install-recommends ffmpeg \
- && dpkg --compare-versions "$(dpkg-query -W -f='${Version}' ffmpeg)" ge '7:5.1.9-0+deb12u1' \
- && rm -rf /var/lib/apt/lists/*
-WORKDIR /app
-COPY --from=build --chown=node:node /app /app
-USER node
-RUN node --test ai-assessment.test.mjs
-CMD ["npm", "start"]
+FROM python:3.12-slim-bookworm
+RUN apt-get update && apt-get install -y --no-install-recommends python3-boto3 python3-psycopg2 python3-cryptography \
+    && rm -rf /var/lib/apt/lists/*
+WORKDIR /operations
+COPY monitor.py /operations/monitor.py
+ENTRYPOINT ["/usr/bin/python3", "/operations/monitor.py"]
