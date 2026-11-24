@@ -2,9 +2,10 @@
 const origin='https://continuum-language-production.up.railway.app';
 for(const path of ['/api/health','/api/health/operations']){
  let healthy=false;
- for(let i=0;i<3&&!healthy;i++){
+ // Allow a bounded rollout window when the workflow starts with a new deployment.
+ for(let i=0;i<18&&!healthy;i++){
   try{const r=await fetch(origin+path,{redirect:'error',signal:AbortSignal.timeout(15000),headers:{'Cache-Control':'no-cache'}});healthy=r.ok&&(await r.json()).ok===true}catch{}
-  if(!healthy&&i<2)await new Promise(resolve=>setTimeout(resolve,5000));
+  if(!healthy&&i<17)await new Promise(resolve=>setTimeout(resolve,10000));
  }
  if(!healthy){console.error('CONTINUUM_PUBLIC_HEALTH_FAILED '+path);process.exit(1)}
 }
