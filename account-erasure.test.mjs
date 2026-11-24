@@ -39,6 +39,8 @@ test('owner preview/reauthentication, schema drift and stale-plan guards; actual
   await db.exec('DROP TABLE synthetic_erasure_drift');
   await db.exec('ALTER TABLE learner_profiles DROP CONSTRAINT learner_profiles_user_id_fkey');preview=await erasurePreview(pool,requestId);assert.ok(preview.unknownSchema.includes('missing:learner_profiles.user_id'));await assert.rejects(fulfilAccountErasure(pool,requestId,owner,input()),e=>e.status===409);await db.exec('ALTER TABLE learner_profiles ADD CONSTRAINT learner_profiles_user_id_fkey FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE');
   preview=await erasurePreview(pool,requestId);
+  await assert.rejects(fulfilAccountErasure(pool,requestId,owner,input(),{journal:async()=>{throw Object.assign(Error('Journal unavailable'),{status:503})}}),e=>e.status===503);
+  assert.equal((await db.query('SELECT id FROM users WHERE id=$1',[learner.id])).rows.length,1,'failed independent journal cannot delete the account');
   const beforeErasureBackup=await db.dumpDataDir(); // Actual synthetic PostgreSQL data-directory export.
   const result=await api('/owner/deletion-requests/'+requestId+'/fulfil','POST',input(),owner);assert.equal(result.status,200,JSON.stringify(result.data));assert.equal(result.data.completed,true);
   assert.equal((await api('/owner/deletion-requests/'+requestId+'/fulfil','POST',input(),owner)).data.receiptId,result.data.receiptId,'repeat fulfilment is idempotent');
@@ -62,7 +64,9 @@ test('owner preview/reauthentication, schema drift and stale-plan guards; actual
    assert.equal((await restored.query('SELECT id FROM users WHERE id=$1',[learner.id])).rows.length,1,'restoring an old backup resurrects the old identity until replay');
    assert.ok((await restored.query('SELECT user_id FROM sessions WHERE user_id=$1',[learner.id])).rows.length>0,'old sessions also require cleanup');
    const restoredPreview=await erasurePreview(restoredPool,requestId);
-   await fulfilAccountErasure(restoredPool,requestId,owner,{...acknowledgements,policyVersion:restoredPreview.policy.version,fingerprint:restoredPreview.fingerprint});
+   const journalPhases=[];
+   await fulfilAccountErasure(restoredPool,requestId,owner,{...acknowledgements,policyVersion:restoredPreview.policy.version,fingerprint:restoredPreview.fingerprint},{journal:async record=>{journalPhases.push(record.phase);assert.equal(record.userId,learner.id);assert.equal('email' in record,false)}});
+   assert.deepEqual(journalPhases,['prepared','committed']);
    for(const table of ['users','sessions','learner_profiles'])assert.equal((await restored.query('SELECT count(*)::int AS n FROM '+table+' WHERE '+(table==='users'?'id':'user_id')+'=$1',[learner.id])).rows[0].n,0);
    assert.equal((await restored.query('SELECT id FROM users WHERE id=$1',[other.id])).rows.length,1);
    const replay=await drainMailOutbox(restoredPool,{deliver:async()=>{},now:new Date(Date.now()+1000)});assert.equal(replay.delivered,1);
