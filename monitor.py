@@ -12,6 +12,7 @@ import socket
 import threading
 import time
 import urllib.request
+import uuid
 
 JOURNAL_PREFIX = "erasure-journal/v1/"
 JOURNAL_MAGIC = b"CONTINUUM-ERASURE-1\n"
@@ -111,6 +112,33 @@ class Monitor:
         key = JOURNAL_PREFIX + record["requestId"] + "/" + record["phase"] + ".aes"
         self.s3.put_object(Bucket=self.bucket, Key=key, Body=envelope(record, self.key), ContentType="application/octet-stream")
 
+    def journal_self_test(self):
+        record = {"format": 1, "phase": "prepared", "requestId": str(uuid.uuid4()),
+                  "userId": str(uuid.uuid4()), "receiptId": str(uuid.uuid4()),
+                  "policyVersion": "operations-self-test", "createdAt": stamp()}
+        keys = []
+        try:
+            for phase in ("prepared", "committed"):
+                item = {**record, "phase": phase}
+                name = "operations-self-test/v1/" + item["requestId"] + "/" + phase + ".aes"
+                keys.append(name)
+                self.s3.put_object(Bucket=self.bucket, Key=name, Body=envelope(item, self.key), ContentType="application/octet-stream")
+                raw = self.s3.get_object(Bucket=self.bucket, Key=name)["Body"].read(8192)
+                if decode(raw, self.key) != item:
+                    raise ValueError("JOURNAL_SELF_TEST_FAILED")
+            print("ERASURE_JOURNAL_STORAGE_VERIFIED", flush=True)
+        finally:
+            for name in keys:
+                self.s3.delete_object(Bucket=self.bucket, Key=name)
+
+    def expire_backups(self):
+        pattern = re.compile(r"^continuum-postgres/v1/\d{8}T\d{6}Z-[0-9a-f]{32}\.tar\.aes$")
+        cutoff = datetime.now(timezone.utc) - timedelta(days=6)
+        for page in self.s3.get_paginator("list_objects_v2").paginate(Bucket=self.bucket, Prefix="continuum-postgres/v1/"):
+            for obj in page.get("Contents", []):
+                if pattern.fullmatch(obj["Key"]) and obj["LastModified"] < cutoff:
+                    self.s3.delete_object(Bucket=self.bucket, Key=obj["Key"])
+
     def read_json(self, key):
         return json.loads(self.s3.get_object(Bucket=self.bucket, Key=key)["Body"].read(65536))
 
@@ -161,6 +189,15 @@ class Monitor:
         except Exception:
             codes.append("BACKUP_MISSING_OR_STALE")
         try:
+            attempt = self.read_json("continuum-postgres/v1/last-attempt.json")
+            if attempt["status"] == "failed":
+                codes.append("BACKUP_LAST_ATTEMPT_FAILED")
+            elif attempt["status"] == "running" and datetime.fromisoformat(attempt["checkedAt"]) < datetime.now(timezone.utc) - timedelta(minutes=30):
+                codes.append("BACKUP_STALLED")
+        except Exception as error:
+            if getattr(error, "response", {}).get("Error", {}).get("Code") not in ("NoSuchKey", "404"):
+                codes.append("BACKUP_ATTEMPT_CHECK_FAILED")
+        try:
             import psycopg2
             with psycopg2.connect(host=os.environ["PGHOST"], port=os.environ["PGPORT"], user=os.environ["PGUSER"],
                     password=os.environ["PGPASSWORD"], dbname=os.environ["PGDATABASE"], connect_timeout=10,
@@ -180,6 +217,7 @@ class Monitor:
 
     def tick(self):
         codes = self.scan()
+        self.expire_backups()
         state = {}
         try:
             state = self.read_json(STATE_KEY)
@@ -211,6 +249,7 @@ def main():
     token = os.environ["ERASURE_JOURNAL_TOKEN"]
     if not re.fullmatch(r"[a-f0-9]{64}", token):
         raise ValueError("INVALID_INTERNAL_TOKEN")
+    monitor.journal_self_test()
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):
