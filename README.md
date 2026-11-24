@@ -1,5 +1,13 @@
 # Hobby PostgreSQL backup operations
 
+24 November follow-up: see `docs/ios/OPERATIONS_CLOSEOUT_JA.md` for the deployed
+15-minute monitor, independent hourly condition watch, encrypted erasure journal,
+isolated restore credential cleanup and optional Google Drive mirror. The Drive
+mirror requires separate `drive.file` authorization; it is not activated without
+DRIVE_BACKUP_ENABLED=true plus DRIVE_CLIENT_ID/SECRET/REFRESH_TOKEN.
+The monitor expires old primary archives even when the backup job fails. The source
+deployment now also needs `recovery.py` and `drive_mirror.py` from this directory.
+
 Dedicated Railway cron service, PostgreSQL 18 client and temporary local PostgreSQL 18
 cluster. No web server, public domain, persistent restore volume, application worker,
 mail credential or payment credential. The web service and production DB are not

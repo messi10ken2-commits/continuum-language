@@ -16,6 +16,15 @@ from datetime import datetime, timedelta, timezone
 MAGIC = b"CONTINUUM-BACKUP-1\n"
 PREFIX = "continuum-postgres/v1/"
 CHUNK = 1024 * 1024
+ATTEMPT = None
+
+
+def report_attempt(status, code=None):
+    if ATTEMPT:
+        s3, bucket = ATTEMPT
+        s3.put_object(Bucket=bucket, Key=PREFIX + "last-attempt.json",
+            Body=json.dumps({"status": status, "checkedAt": datetime.now(timezone.utc).isoformat(), "code": code}).encode(),
+            ContentType="application/json")
 
 
 def digest(path):
@@ -91,7 +100,7 @@ def counts(conn):
         return result
 
 
-def isolated_restore(dump, expected, root):
+def isolated_restore(dump, expected, root, review=None):
     import psycopg2
     # Always create a new local cluster; there is no restore-target URL input.
     cluster = root / "restore-cluster"
@@ -116,12 +125,14 @@ def isolated_restore(dump, expected, root):
         with psycopg2.connect(host=str(socket), port=55432, user="postgres", dbname="postgres") as conn:
             if counts(conn) != expected:
                 raise RuntimeError("RESTORE_ROW_COUNTS_MISMATCH")
+            return review(conn) if review else {}
     finally:
         if started:
             run(["gosu", "postgres", "pg_ctl", "-D", str(cluster), "-m", "immediate", "-w", "stop"], env=local)
 
 
 def main():
+    global ATTEMPT
     import boto3
     from botocore.config import Config
     import psycopg2
@@ -146,6 +157,8 @@ def main():
         config=Config(connect_timeout=15, read_timeout=120, retries={"max_attempts": 3},
                       s3={"addressing_style": os.environ.get("BACKUP_S3_STYLE", "virtual")}))
     bucket = os.environ["BACKUP_S3_BUCKET"]
+    ATTEMPT = (s3, bucket)
+    report_attempt("running")
     started = time.monotonic()
     now = datetime.now(timezone.utc)
     object_key = PREFIX + now.strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex + ".tar.aes"
@@ -205,13 +218,62 @@ def main():
                 shutil.copyfileobj(src, dst)
         if stored_manifest != manifest or digest(restored_dump) != manifest["dumpSha256"]:
             raise RuntimeError("DUMP_CHECKSUM_MISMATCH")
-        isolated_restore(restored_dump, expected, root)
+        from recovery import review_restored
+        recovery_review = isolated_restore(restored_dump, expected, root,
+            review=lambda conn: review_restored(conn, s3, bucket, key))
         receipt = {"status": "verified", "createdAt": now.isoformat(),
                    "verifiedAt": datetime.now(timezone.utc).isoformat(),
                    "objectKey": object_key, "sha256": digest(encrypted),
                    "bytes": encrypted.stat().st_size, "tableCount": len(expected),
                    "rowCount": sum(row[2] for row in expected), "retentionDays": retention,
-                   "durationSeconds": round(time.monotonic() - started, 2)}
+                   "durationSeconds": round(time.monotonic() - started, 2),
+                   "recoveryReview": recovery_review}
+        offsite_names = ["OFFSITE_S3_ENDPOINT", "OFFSITE_S3_BUCKET", "OFFSITE_ACCESS_KEY_ID", "OFFSITE_SECRET_ACCESS_KEY"]
+        configured = [bool(os.environ.get(name)) for name in offsite_names]
+        if any(configured) and not all(configured):
+            raise RuntimeError("OFFSITE_CONFIGURATION_INCOMPLETE")
+        receipt["offsite"] = "not_configured"
+        if all(configured):
+            if not os.environ["OFFSITE_S3_ENDPOINT"].startswith("https://") or os.environ["OFFSITE_S3_ENDPOINT"] == endpoint:
+                raise RuntimeError("OFFSITE_REQUIRES_INDEPENDENT_HTTPS_ENDPOINT")
+            secondary = boto3.client("s3", endpoint_url=os.environ["OFFSITE_S3_ENDPOINT"],
+                region_name=os.environ.get("OFFSITE_S3_REGION", "auto"),
+                aws_access_key_id=os.environ["OFFSITE_ACCESS_KEY_ID"],
+                aws_secret_access_key=os.environ["OFFSITE_SECRET_ACCESS_KEY"],
+                config=Config(connect_timeout=15, read_timeout=120, retries={"max_attempts": 3},
+                    s3={"addressing_style": os.environ.get("OFFSITE_S3_STYLE", "virtual")}))
+            offsite_bucket = os.environ["OFFSITE_S3_BUCKET"]
+            secondary.upload_file(str(encrypted), offsite_bucket, object_key)
+            check = root / "offsite.aes"
+            secondary.download_file(offsite_bucket, object_key, str(check))
+            if digest(check) != digest(encrypted):
+                raise RuntimeError("OFFSITE_CHECKSUM_MISMATCH")
+            # Mirror independently held erasure records as well as the DB archive.
+            for page in s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix="erasure-journal/v1/"):
+                for item in page.get("Contents", []):
+                    raw = s3.get_object(Bucket=bucket, Key=item["Key"])["Body"].read(8192)
+                    secondary.put_object(Bucket=offsite_bucket, Key=item["Key"], Body=raw)
+                    echoed = secondary.get_object(Bucket=offsite_bucket, Key=item["Key"])["Body"].read(8192)
+                    if raw != echoed:
+                        raise RuntimeError("OFFSITE_JOURNAL_CHECKSUM_MISMATCH")
+            for page in secondary.get_paginator("list_objects_v2").paginate(Bucket=offsite_bucket, Prefix=PREFIX):
+                for old_key in expired_keys(page.get("Contents", []), datetime.now(timezone.utc), retention):
+                    secondary.delete_object(Bucket=offsite_bucket, Key=old_key)
+            from recovery import read_journal
+            records = read_journal(secondary, offsite_bucket, key)
+            expired_requests = {r["requestId"] for r in records if r["phase"] == "committed"
+                and datetime.fromisoformat(r["createdAt"]) < datetime.now(timezone.utc) - timedelta(days=8)}
+            for record in records:
+                if record["requestId"] in expired_requests:
+                    secondary.delete_object(Bucket=offsite_bucket,
+                        Key="erasure-journal/v1/" + record["requestId"] + "/" + record["phase"] + ".aes")
+            receipt["offsite"] = "verified"
+        if os.environ.get("DRIVE_BACKUP_ENABLED") == "true":
+            if not all(os.environ.get(name) for name in ("DRIVE_CLIENT_ID", "DRIVE_CLIENT_SECRET", "DRIVE_REFRESH_TOKEN")):
+                raise RuntimeError("DRIVE_CONFIGURATION_INCOMPLETE")
+            from drive_mirror import mirror_to_drive
+            mirror_to_drive(encrypted, object_key, now.isoformat(), root, s3, bucket, key, retention)
+            receipt["offsite"] = "google-drive-verified"
         # Expiry runs even for an old unverified upload; never delete other prefixes.
         deleted = 0
         pages = s3.get_paginator("list_objects_v2").paginate(Bucket=bucket, Prefix=PREFIX)
@@ -223,6 +285,7 @@ def main():
         s3.put_object(Bucket=bucket, Key=PREFIX + "latest.json",
                       Body=json.dumps(receipt).encode(), ContentType="application/json")
         print("BACKUP_VERIFIED " + json.dumps(receipt), flush=True)
+        report_attempt("verified")
 
 
 if __name__ == "__main__":
@@ -232,4 +295,8 @@ if __name__ == "__main__":
         # Fixed category only: no secrets, SQL contents, identities or raw exceptions.
         category = str(error) if type(error) is RuntimeError and re.fullmatch(r"[A-Z_:]+", str(error)) else type(error).__name__
         print("BACKUP_FAILED " + category, file=sys.stderr, flush=True)
+        try:
+            report_attempt("failed", category)
+        except Exception:
+            pass
         sys.exit(1)
