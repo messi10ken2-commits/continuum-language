@@ -256,6 +256,23 @@ def main():
             pass
 
         def do_GET(self):
+            if self.path == "/status":
+                if not hmac.compare_digest(self.headers.get("Authorization", ""), "Bearer " + token):
+                    self.send_error(403)
+                    return
+                try:
+                    state = monitor.read_json(STATE_KEY)
+                    checked = datetime.fromisoformat(state["checkedAt"])
+                    ok = not state["codes"] and checked > datetime.now(timezone.utc) - timedelta(minutes=45)
+                    body = json.dumps({"ok": ok, "checkedAt": state["checkedAt"]}).encode()
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/json")
+                    self.send_header("Content-Length", str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+                except Exception:
+                    self.send_error(503)
+                return
             self.send_response(200 if self.path == "/health" else 404)
             self.end_headers()
 
