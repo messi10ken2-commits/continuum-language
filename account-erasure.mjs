@@ -4,6 +4,7 @@ import {isPlatformOwner} from './profiles-api.mjs';
 import {passwordMatches} from './password-security.mjs';
 import {outboxReady,queueTransactionalMail} from './transactional-mail.mjs';
 import manifest from './account-erasure-schema.json' with {type:'json'};
+import {recordErasureJournal} from './erasure-journal.mjs';
 const failure=(status,message)=>{throw Object.assign(Error(message),{status})};
 const digest=value=>createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const safe=value=>{if(!/^[a-z_]+$/.test(value))throw Error('Unexpected database identifier');return '"'+value+'"'};
@@ -32,11 +33,12 @@ export async function erasurePreview(c,requestId,{env=process.env}={}){
  return {requestId,userId:request.user_id,name:request.name,email:request.email,role:request.role,counts,legacyAudio,unknownSchema:unknown,policy:{configured:policy.configured,enabled:policy.enabled,version:policy.version,processingDays:policy.days,retentionDays:policy.retentionDays,backupDays:policy.backupDays},fingerprint};
 }
 async function transaction(pool,work){const c=await pool.connect();try{await c.query('BEGIN');const value=await work(c);await c.query('COMMIT');return value}catch(error){await c.query('ROLLBACK');throw error}finally{c.release()}}
-export async function fulfilAccountErasure(pool,requestId,actor,input,{env=process.env}={}){
+export async function fulfilAccountErasure(pool,requestId,actor,input,{env=process.env,journal=recordErasureJournal}={}){
  if(!isPlatformOwner(actor))failure(403,'Platform owner only.');
  const policy=erasurePolicy(env);if(!policy.enabled)failure(503,'Erasure policy and encrypted completion delivery must be configured first.');
  if(input.confirm!==requestId||!['externalDataHandled','backupsPolicyApplied','retentionApproved','sharedHistoryApproved','notificationAddressVerified','userNotifiedOfPolicy'].every(key=>input[key]===true))failure(400,'Confirm the request and all fulfilment checks.');
- return transaction(pool,async c=>{
+ let journalRecord;
+ const result=await transaction(pool,async c=>{
   const request=(await c.query('SELECT * FROM account_deletion_requests WHERE id=$1 FOR UPDATE',[requestId])).rows[0];if(!request)failure(404,'Deletion request not found.');
   if(request.status==='completed')return {completed:true,receiptId:request.receipt_id};
   await c.query('SELECT id FROM users WHERE id=$1 FOR UPDATE',[request.user_id]);
@@ -44,6 +46,8 @@ export async function fulfilAccountErasure(pool,requestId,actor,input,{env=proce
   if(preview.fingerprint!==input.fingerprint||policy.version!==input.policyVersion)failure(409,'The deletion preview changed. Refresh it before confirming.');
   if(preview.legacyAudio&&input.clearLegacySharedAudioCache!==true)failure(409,'Legacy unowned audio requires an explicitly approved shared cache purge.');
   const id=request.user_id,placeholder=randomUUID(),receiptId=randomUUID();
+  journalRecord={format:1,phase:'prepared',requestId,userId:id,receiptId,policyVersion:policy.version,createdAt:new Date().toISOString()};
+  await journal(journalRecord,{env});
   // A new non-login service actor preserves only approved shared-class/financial structure.
   // The original account ID, identity, password and owned data are actually deleted.
   const needsPlaceholder=manifest.some(row=>row.strategy==='retain'&&preview.counts[row.table_name+'.'+row.column_name]>0);
@@ -75,6 +79,8 @@ export async function fulfilAccountErasure(pool,requestId,actor,input,{env=proce
   await c.query("INSERT INTO owner_events(actor_id,kind,target,detail) VALUES($1,'account_erased',$2,$3::jsonb)",[actor.id,receiptId,JSON.stringify({receiptId,policyVersion:policy.version})]);
   return {completed:true,receiptId,notification:'queued',retainedUntil,backupExpiry};
  });
+ if(journalRecord){try{await journal({...journalRecord,phase:'committed'},{env})}catch{console.warn('ERASURE_JOURNAL_COMMIT_PENDING');return {...result,journal:'pending'}}}
+ return result;
 }
 export async function handleErasureOwner({route,req,res,pool,required,json,send,fail,limited}){
  if(!route.startsWith('/api/owner/deletion-requests'))return false;

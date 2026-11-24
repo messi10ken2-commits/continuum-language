@@ -1,0 +1,26 @@
+name: Operations recovery safety
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ['ops/**', 'account-erasure*', 'erasure-journal*', '.github/workflows/operations-recovery.yml']
+  push:
+    branches: [main]
+    paths: ['ops/**', 'account-erasure*', 'erasure-journal*', '.github/workflows/operations-recovery.yml']
+permissions:
+  contents: read
+jobs:
+  backup-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install cryptography==50.0.0
+      - run: python -m unittest discover -s ops/backup -p 'test_*.py'
+      - run: python -m unittest discover -s ops/operations -p 'test_*.py'
+      - name: Validate backup runtime dependencies without credentials
+        run: |
+          docker build -t continuum-backup-check ops/backup
+          docker run --rm --entrypoint /usr/bin/python3 continuum-backup-check -c 'import boto3, psycopg2, cryptography, googleapiclient, google_auth_httplib2'

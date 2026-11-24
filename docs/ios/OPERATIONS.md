@@ -1,3 +1,5 @@
+See [OPERATIONS_CLOSEOUT_JA.md](OPERATIONS_CLOSEOUT_JA.md) for the 24 November deployed backup/monitor/journal update and Drive connection steps. Earlier dormant-state notes below describe the original implementation, not current activation evidence.
+
 # Readiness operations
 
 All activation gates default off. No real mail, account deletion or Apple charge was performed. Run `node docs/ios/check-deployment-readiness.mjs --strict` for a read-only configuration check; it prints missing setting names and booleans, never secrets. Configured does not mean delivered or provider-verified.
