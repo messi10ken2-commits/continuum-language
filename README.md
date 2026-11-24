@@ -1,59 +1,85 @@
-# Continuum Language
+# Hobby PostgreSQL backup operations
 
-Continuum connects language self-study, assessments and teacher notes in one
-learner account. The audited implementation contains four target languages
-(Spanish, Japanese, Brazilian Portuguese and English), A1–C1 materials and six
-independent display languages. See [QA_REPORT.md](QA_REPORT.md) for exact tested
-scope, confirmed defects and limitations; this is not a complete localization or
-real-device certification claim.
+Dedicated Railway cron service, PostgreSQL 18 client and temporary local PostgreSQL 18
+cluster. No web server, public domain, persistent restore volume, application worker,
+mail credential or payment credential. The web service and production DB are not
+redeployed by this service. A private Railway bucket is the initial storage destination;
+this is a separate copy from the DB volume, **not an independent provider/account**.
+Deleting the whole project can lose both. Independent offsite storage remains future work.
 
-## Implemented
+## Run and evidence
 
-- PostgreSQL-backed learner/teacher accounts, profiles, teacher review and bookmarks
-- Server-graded exercises, saved lesson drafts, checkpoints and assessment history
-- Listening/writing/speaking tasks, consent-based AI feedback and pronunciation matching
-- Language-scoped teacher sharing, privacy controls, class notes and learning evidence
-- Recurring patterns, review pool, visual recaps, conversation embeds and character writing
-- Reviewed/interface translation caches and native, AI studio and device audio
+Dockerfile: `ops/backup/Dockerfile` (build context is `ops/backup`).
+The deployed `deploy/hobby-database-backup` branch contains only the files from this
+directory at its root. It is an intentional service projection, pinned by commit;
+it excludes the web app's root railway.json so the app config cannot override the job.
+Set Dockerfile path `Dockerfile` directly on the backup service. Do not merge that
+deployment branch into main; review the source changes under ops/backup instead.
+Entrypoint: `python3 /backup/backup.py`. One shot, restart policy NEVER.
+Cron: `0 18 * * *` UTC = 03:00 Japan / 02:00 Malaysia, daily.
+No subscription upgrade; execution, storage and service upload traffic incur usage charges.
 
-Scheduling, live chats/meetings, paid bookings/payments, email verification and
-password reset are not implemented. Do not mistake legacy prototype components
-for working account features.
+Required variables on the **backup service only**:
 
-## Local development
+| Variable | Value source |
+| --- | --- |
+| PGHOST, PGPORT, PGUSER, PGPASSWORD, PGDATABASE | Matching `${{Postgres.PGHOST}}` etc. |
+| BACKUP_S3_ENDPOINT | `${{continuum-db-backups.ENDPOINT}}` |
+| BACKUP_S3_BUCKET | `${{continuum-db-backups.BUCKET}}` |
+| AWS_DEFAULT_REGION | `${{continuum-db-backups.REGION}}` |
+| AWS_ACCESS_KEY_ID | `${{continuum-db-backups.ACCESS_KEY_ID}}` |
+| AWS_SECRET_ACCESS_KEY | `${{continuum-db-backups.SECRET_ACCESS_KEY}}` |
+| BACKUP_ENCRYPTION_KEY | Dedicated random 32-byte key, 64 hexadecimal characters |
+| BACKUP_RETENTION_DAYS | `6` initially (daily tier; no weekly/monthly tier yet) |
 
-Use a development PostgreSQL database and set `DATABASE_URL`. Keep credentials
-out of Git. For local HTTP leave `NODE_ENV` unset; production cookies require HTTPS.
+Keep an independent secure copy of the encryption key and bucket recovery information
+in the operator's password manager. Do not post these in chat, commit them or rotate
+the key while existing backups still need it. This key is separate from MAIL_OUTBOX_KEY.
+Application secrets (especially MAIL_OUTBOX_KEY) also need secure independent recovery:
+the DB dump does not include Railway variables, roles/passwords or repository files.
 
-```bash
-npm ci
-npm run build
-npm start
-```
+Each run:
 
-`GET /api/health` verifies database connectivity. Tables are created at startup.
-`npm run dev` serves only the frontend. Preserve existing production connections
-and read [DEPLOYMENT.md](DEPLOYMENT.md) before any release.
+1. Open a read-only repeatable-read source transaction and export its snapshot.
+2. Count user tables/materialized views and run pg_dump using that same snapshot.
+3. Bundle dump and internal manifest; encrypt with AES-256-GCM, upload privately.
+4. Download stored object; compare checksum, authenticate/decrypt, validate manifest.
+5. Restore **only into a freshly initialized local Unix-socket PostgreSQL cluster**.
+   Source PG variables are not passed to restore commands. No configurable target URL.
+6. Require pg_restore success and all table row counts to match the original snapshot.
+7. Remove expired archives under the dedicated managed prefix, update latest.json,
+   log `BACKUP_VERIFIED` with timestamps/count totals/checksum and exit 0.
 
-## QA
+`BACKUP_FAILED` and nonzero exit indicate failure. No raw exceptions, SQL errors,
+credentials, personal records or dump content are logged. Retention cleanup happens
+on successful runs: persistent failures require incident response so old archives do
+not exceed the published retention policy. `latest.json` is evidence for its timestamp,
+not proof that subsequent scheduled runs completed. Check the Railway cron execution
+history and require latest verified age under 26 hours. Proactive alert delivery is
+not set up by this change; configure Railway's deployment/cron notifications separately.
 
-```bash
-npm run test:qa
-npm run build
-npm audit --omit=dev
-npm run test:qa:browser
-node scripts/qa-performance.mjs
-```
+## Recovery drill and incident recovery
 
-The complete test suite uses PGlite. Browser QA requires Chromium and a built
-frontend; it starts its own disposable test server/database and removes AI keys
-inside the test process. It creates only synthetic accounts and closes its own
-services. No production URL, Railway token or payment credentials are required.
-Performance results are written to `/tmp/continuum-qa-performance-results.json`;
-browser results to `/tmp/continuum-qa-browser-results.json`. Human listening and
-physical-device checks are still required.
+Every successful daily run already tests restoring the **downloaded** stored object.
+It verifies archive integrity, schema/constraints accepted by pg_restore and all table
+row counts, not every UI workflow, individual cell hash or cross-system transaction.
+There is no automatic production promotion or restore-over-production command.
 
-`node scripts/qa-postgres.mjs` additionally requires the isolated local PostgreSQL
-service at 127.0.0.1:55432 (continuum_dev). It creates and deletes only a randomly
-named QA database and verifies real server restart persistence. Never point these
-scripts at production.
+For an incident, recover the encrypted `.tar.aes` and independent key in an isolated
+trusted environment. `crypt_file(..., decrypt=True)` authenticates the envelope; extract
+only database.dump and manifest.json, verify dumpSha256, and restore with PostgreSQL 18
+into a newly created isolated database. Restore application code and secrets separately.
+Review independent account-erasure records and apply deletions before opening traffic.
+Invalidate restored sessions/reset links and expire old queued mail before enabling any
+worker. The app must remain disconnected during this review. Only then prepare an
+explicit production connection switch and rollback plan. Do not use production as the
+target of an experimental restore.
+
+Deletion requests fulfilled after the selected backup can be resurrected by recovery.
+The independent deletion journal remains an operator responsibility; a receipt stored
+inside the same historical backup cannot prove later deletions. Uploaded/media files
+outside PostgreSQL are not included. Normal RPO is up to 24 hours plus job duration;
+RTO is not promised until application-level recovery is rehearsed.
+
+Local unit checks: `python3 -m unittest discover -s ops/backup -p 'test_*.py'`.
+Live evidence is `BACKUP_VERIFIED` from the deployed cron run, not a unit test pass.

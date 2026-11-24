@@ -1,2 +1,0 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {isAppHidden} from './native-platform.mjs';
-test('native inactive state pauses work even before document visibility changes',()=>{const previous=globalThis.document;try{globalThis.document={hidden:false,documentElement:{classList:{contains:()=>true}}};assert.equal(isAppHidden(),true);globalThis.document.documentElement.classList.contains=()=>false;assert.equal(isAppHidden(),false);globalThis.document.hidden=true;assert.equal(isAppHidden(),true)}finally{globalThis.document=previous}});
