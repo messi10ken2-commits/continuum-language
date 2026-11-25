@@ -13,8 +13,8 @@ export function makeWorldInterior(id, meshes) {
   shape(root, "box", 0xdccdb3, [0, 2.5, -6], [14, 5, 0.2]);
   for (const x of [-4, 4])
     shape(root, "box", 0xdccdb3, [x, 2.5, 6], [6, 5, 0.2]);
-  shape(root, "box", 0x805f49, [0, 1, -3.6], [8, 2, 1.4]);
-  shape(root, "box", 0xefe1bf, [0, 2.05, -3.6], [8.2, 0.15, 1.6]);
+  shape(root, "box", 0x805f49, [0, 0.55, -3.6], [8, 1.1, 1.4]);
+  shape(root, "box", 0xefe1bf, [0, 1.16, -3.6], [8.2, 0.15, 1.6]);
   sign(root, location.sign, [0, 3.5, -5.8], 7, cafe ? "#675541" : "#316b63");
   sign(root, "出口", [0, 3.3, 5.85], 1.6, "#276d55");
   root.children.at(-1).rotation.y = Math.PI;
@@ -63,6 +63,6 @@ export function makeWorldInterior(id, meshes) {
   }
   for (const x of [-3, 3])
     shape(root, "sphere", 0xffe1ad, [x, 4.5, -1], [0.45, 0.15, 0.45], true);
-  shape(root, "box", 0x394c4a, [1.9, 2.25, -3.65], [0.7, 0.45, 0.3]);
+  shape(root, "box", 0x394c4a, [1.9, 1.45, -3.65], [0.7, 0.45, 0.3]);
   return root;
 }

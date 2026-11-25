@@ -2,12 +2,13 @@ import assert from "node:assert/strict";
 import { mkdir, writeFile, rm } from "node:fs/promises";
 import { build, preview } from "vite";
 import { chromium, webkit } from "playwright";
+import { continuumWorldCopy } from "../continuum-world-copy.mjs";
 const directory = new URL("../.media-build/continuum-world/", import.meta.url);
 await mkdir(directory, { recursive: true });
 await writeFile(
   new URL("entry.jsx", directory),
   `
-import React from 'react';import {createRoot} from 'react-dom/client';
+import React,{useState,useEffect} from 'react';import {createRoot} from 'react-dom/client';
 import PracticeStudio from '../../PracticeStudio.jsx';
 import {JourneyLayoutContext} from '../../JourneyLayout.jsx';
 import {setInterfaceLanguage} from '../../interface-runtime.mjs';
@@ -15,7 +16,8 @@ import '../../styles.css';import '../../features.css';import '../../journey.css'
 const params=new URLSearchParams(location.search),layout=params.get('layout')||'illustrated';
 setInterfaceLanguage(params.get('locale')||'en');
 const user={id:params.get('user')||'world-qa',role:params.get('role')||'learner'};
-createRoot(document.getElementById('root')).render(<JourneyLayoutContext.Provider value={{layout}}><div className="app continuum-ui"><main><PracticeStudio user={user} language={params.get('language')||'ja'} features={{continuumWorldTokyoBeta:params.get('flag')==='off'?false:undefined}}/></main></div></JourneyLayoutContext.Provider>);
+function Harness(){const [enabled,setEnabled]=useState(params.get('flag')!=='off');useEffect(()=>{const disable=()=>setEnabled(false);window.addEventListener('qa-world-disable',disable);return()=>window.removeEventListener('qa-world-disable',disable)},[]);return <JourneyLayoutContext.Provider value={{layout}}><div className="app continuum-ui"><main><PracticeStudio user={user} language={params.get('language')||'ja'} features={{continuumWorldTokyoBeta:enabled?undefined:false}}/></main></div></JourneyLayoutContext.Provider>;}
+createRoot(document.getElementById('root')).render(<Harness/>);
 `,
 );
 await writeFile(
@@ -70,6 +72,11 @@ try {
         route.fulfill({
           status: 200,
           contentType: "application/json",
+          headers: {
+            "access-control-allow-origin": new URL(route.request().url())
+              .origin,
+            "access-control-allow-credentials": "true",
+          },
           body: JSON.stringify(
             route.request().url().includes("/billing")
               ? { membership: { premium: false } }
@@ -81,16 +88,25 @@ try {
       page.setDefaultTimeout(20000);
       page.setDefaultNavigationTimeout(30000);
       const errors = [],
-        requests = [];
+        requests = [],
+        writes = [];
       page.on("pageerror", (error) => errors.push(error.message));
-      page.on("request", (request) => requests.push(request.url()));
+      page.on("request", (request) => {
+        requests.push(request.url());
+        if (request.method() !== "GET") writes.push(request.url());
+      });
+      const go = async (url) => {
+        await page.waitForLoadState("networkidle");
+        await page.goto(url);
+        await page.waitForLoadState("networkidle");
+      };
       for (const query of [
         "flag=off",
         "layout=photo",
         "language=en",
         "role=teacher",
       ]) {
-        await page.goto(base + "?" + query);
+        await go(base + "?" + query);
         await page.locator(".studio-menu").waitFor();
         assert.equal(
           await page
@@ -106,7 +122,7 @@ try {
         ),
         "off-mode must not load 3D",
       );
-      await page.goto(base);
+      await go(base);
       const openedAt = performance.now();
       await page
         .getByRole("button", { name: "Continuum World", exact: true })
@@ -118,8 +134,11 @@ try {
           document.querySelector(".cw-renderer")?.dataset.worldFrames ||
           document.querySelector(".cw-failure"),
       );
-      const webgl = (await page.locator(".cw-canvas").count()) > 0 && !(await page.locator(".cw-failure").count());
-      if(name === 'chromium') assert.ok(webgl, 'Chromium must exercise the real 3D renderer');
+      const webgl =
+        (await page.locator(".cw-canvas").count()) > 0 &&
+        !(await page.locator(".cw-failure").count());
+      if (name === "chromium")
+        assert.ok(webgl, "Chromium must exercise the real 3D renderer");
       if (webgl) {
         await page.waitForFunction(
           () =>
@@ -134,16 +153,35 @@ try {
         });
         await host.focus();
         const before = JSON.parse(await host.getAttribute("data-position"));
-        if(width === 390 && name === 'chromium') {
-          const session = await context.newCDPSession(page), stick = await page.locator('.cw-stick').boundingBox();
-          const point = {x:stick.x+stick.width/2,y:stick.y+stick.height/2,id:1};
-          await session.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[point]});
-          await session.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{...point,y:point.y-32}]});
+        if (width === 390 && name === "chromium") {
+          const session = await context.newCDPSession(page),
+            stick = await page.locator(".cw-stick").boundingBox();
+          const point = {
+            x: stick.x + stick.width / 2,
+            y: stick.y + stick.height / 2,
+            id: 1,
+          };
+          await session.send("Input.dispatchTouchEvent", {
+            type: "touchStart",
+            touchPoints: [point],
+          });
+          await session.send("Input.dispatchTouchEvent", {
+            type: "touchMove",
+            touchPoints: [{ ...point, y: point.y - 32 }],
+          });
           await page.waitForTimeout(600);
-          await session.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+          await session.send("Input.dispatchTouchEvent", {
+            type: "touchEnd",
+            touchPoints: [],
+          });
           await page.waitForTimeout(200);
-          assert.ok(JSON.parse(await host.getAttribute('data-position')).z < before.z-.2, 'real touch stick moves the player');
-          await session.detach();await host.focus();
+          assert.ok(
+            JSON.parse(await host.getAttribute("data-position")).z <
+              before.z - 0.2,
+            "real touch stick moves the player",
+          );
+          await session.detach();
+          await host.focus();
         }
         await page.keyboard.down("KeyW");
         await page.waitForTimeout(900);
@@ -191,9 +229,15 @@ try {
               { coordinate, value },
               { timeout: 45000 },
             );
-          } catch(error) {
-            console.error("Movement diagnostics", await host.evaluate(element=>({...element.dataset})));
-            await page.screenshot({path:new URL(name+"-"+width+"-failure.png",directory).pathname});
+          } catch (error) {
+            console.error(
+              "Movement diagnostics",
+              await host.evaluate((element) => ({ ...element.dataset })),
+            );
+            await page.screenshot({
+              path: new URL(name + "-" + width + "-failure.png", directory)
+                .pathname,
+            });
             throw error;
           } finally {
             await page.keyboard.up(key);
@@ -202,8 +246,15 @@ try {
         };
         await walkUntil("KeyW", "z", -4.3);
         await walkUntil("KeyA", "x", -16.8);
-        await host.focus();await page.keyboard.down('KeyW');await page.waitForTimeout(1600);await page.keyboard.up('KeyW');await page.waitForTimeout(200);
-        assert.ok(JSON.parse(await host.getAttribute('data-position')).z >= -6.11, 'building collision stops walking through its facade');
+        await host.focus();
+        await page.keyboard.down("KeyW");
+        await page.waitForTimeout(1600);
+        await page.keyboard.up("KeyW");
+        await page.waitForTimeout(200);
+        assert.ok(
+          JSON.parse(await host.getAttribute("data-position")).z >= -6.11,
+          "building collision stops walking through its facade",
+        );
         // A real keyboard walk reaches the café entrance from the outdoor spawn.
         await page.getByRole("button", { name: "Enter", exact: true }).click();
         await page.waitForFunction(
@@ -214,7 +265,7 @@ try {
           () =>
             document.querySelector(".cw-renderer")?.dataset.active === "true",
         );
-        await walkUntil("KeyW", "z", -0.3);
+        await walkUntil("KeyW", "z", -2);
         await page.getByRole("button", { name: "Talk", exact: true }).click();
         await page.getByRole("dialog").waitFor();
         assert.ok(
@@ -290,22 +341,34 @@ try {
           () =>
             document.querySelector(".cw-world")?.dataset.scene === "outdoors",
         );
-        await page.waitForFunction(()=>document.querySelector('.cw-renderer')?.dataset.active === 'true');
-        await page.evaluate(()=>document.querySelector('.cw-canvas').getContext('webgl2').getExtension('WEBGL_lose_context').loseContext());
-        await page.locator('.cw-failure').waitFor();
-        await page.getByRole('button',{name:'Retry 3D',exact:true}).click();
-        await page.waitForFunction(()=>document.querySelector('.cw-renderer')?.dataset.active === 'true');
+        await page.waitForFunction(
+          () =>
+            document.querySelector(".cw-renderer")?.dataset.active === "true",
+        );
+        await page.evaluate(() =>
+          document
+            .querySelector(".cw-canvas")
+            .getContext("webgl2")
+            .getExtension("WEBGL_lose_context")
+            .loseContext(),
+        );
+        await page.locator(".cw-failure").waitFor();
+        await page
+          .getByRole("button", { name: "Retry 3D", exact: true })
+          .click();
+        await page.waitForFunction(
+          () =>
+            document.querySelector(".cw-renderer")?.dataset.active === "true",
+        );
       } else results.push({ engine: name, width, webgl: false });
       await page
         .getByRole("button", { name: "List view", exact: true })
         .last()
         .click();
       for (const title of ["Komorebi Café", "Hoshi Market"]) {
-        const place = page
-          .locator(".cw-place-list article")
-          .filter({
-            has: page.getByRole("heading", { name: title, exact: true }),
-          });
+        const place = page.locator(".cw-place-list article").filter({
+          has: page.getByRole("heading", { name: title, exact: true }),
+        });
         await place.getByRole("button", { name: "Enter", exact: true }).click();
         await place.getByRole("button", { name: /Talk/ }).click();
         await page.getByRole("dialog").waitFor();
@@ -336,6 +399,75 @@ try {
         );
       }
       await page.getByRole("button", { name: "Close", exact: true }).click();
+      await page
+        .getByRole("button", { name: "Back to Practice Studio", exact: true })
+        .click();
+      for (const locale of ["ja", "ar"]) {
+        await go(base + "?locale=" + locale);
+        await page
+          .getByRole("button", { name: "Continuum World", exact: true })
+          .click();
+        await page
+          .getByRole("button", {
+            name: continuumWorldCopy["List view"][locale],
+            exact: true,
+          })
+          .last()
+          .click();
+        await page
+          .getByRole("heading", {
+            name: continuumWorldCopy["Places"][locale],
+            exact: true,
+          })
+          .waitFor();
+        assert.equal(
+          await page.evaluate(
+            () => document.documentElement.scrollWidth <= innerWidth,
+          ),
+          true,
+          locale + " overflow",
+        );
+        await page.screenshot({
+          path: new URL(
+            name + "-" + width + "-" + locale + "-places.png",
+            directory,
+          ).pathname,
+        });
+      }
+      await go(base + "?user=another-world-learner");
+      await page
+        .getByRole("button", { name: "Continuum World", exact: true })
+        .click();
+      await page
+        .getByRole("button", { name: "World settings", exact: true })
+        .click();
+      assert.equal(
+        await page.getByLabel("Graphics", { exact: true }).inputValue(),
+        "auto",
+        "device saves must be isolated by account",
+      );
+      await page.getByRole("button", { name: "Close", exact: true }).click();
+      await page.evaluate(() =>
+        window.dispatchEvent(new Event("qa-world-disable")),
+      );
+      await page.locator(".studio-menu").waitFor();
+      assert.equal(
+        await page.locator(".cw-canvas").count(),
+        0,
+        "flag OFF disposes an open world",
+      );
+      assert.equal(
+        await page
+          .getByRole("button", { name: "Continuum World", exact: true })
+          .count(),
+        0,
+      );
+      assert.ok(
+        !writes.some((url) =>
+          /\/api\/(world|speaking|speech|learning)(?:\/|$)/.test(url),
+        ),
+        "exploration must not invoke paid conversation or learning writes",
+      );
       assert.deepEqual(errors, []);
       await context.close();
       console.log(

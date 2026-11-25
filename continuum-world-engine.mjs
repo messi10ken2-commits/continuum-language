@@ -103,6 +103,8 @@ export async function createWorldEngine(
   if (!isWorldWalkable(initial.scene, companionPosition))
     companionPosition = { ...position };
   let companionModel = null,
+    companionSprite = null,
+    companionPortrait = null,
     applyFace = null,
     disposed = false,
     active = false,
@@ -144,6 +146,45 @@ export async function createWorldEngine(
         scale = 1.25 / height;
       companionModel.scale.setScalar(scale);
       companionModel.position.y = -bounds.min.y * scale;
+      // Bake the existing model once for the low-detail companion LOD.
+      const portraitScene = new THREE.Scene();
+      portraitScene.add(companionModel);
+      portraitScene.add(new THREE.HemisphereLight(0xffeacf, 0x6c7c82, 2.4));
+      const portraitLight = new THREE.DirectionalLight(0xffd7ad, 3);
+      portraitLight.position.set(-3, 5, 4);
+      portraitScene.add(portraitLight);
+      const portraitCamera = new THREE.OrthographicCamera(
+        -0.8,
+        0.8,
+        0.8,
+        -0.8,
+        0.1,
+        10,
+      );
+      portraitCamera.position.set(0, 0.7, 4);
+      portraitCamera.lookAt(0, 0.7, 0);
+      companionPortrait = new THREE.WebGLRenderTarget(384, 384);
+      companionPortrait.texture.colorSpace = THREE.SRGBColorSpace;
+      const target = renderer.getRenderTarget(),
+        clearColor = renderer.getClearColor(new THREE.Color()),
+        alpha = renderer.getClearAlpha();
+      renderer.setRenderTarget(companionPortrait);
+      renderer.setClearColor(0, 0);
+      renderer.clear();
+      renderer.render(portraitScene, portraitCamera);
+      renderer.setRenderTarget(target);
+      renderer.setClearColor(clearColor, alpha);
+      portraitScene.remove(companionModel);
+      companionSprite = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: companionPortrait.texture,
+          transparent: true,
+          toneMapped: false,
+        }),
+      );
+      companionSprite.scale.set(1.6, 1.6, 1);
+      companionSprite.position.y = 0.7;
+      companion.add(companionSprite);
       companion.add(companionModel);
       host.dataset.companion = companionKind;
     })
@@ -335,7 +376,12 @@ export async function createWorldEngine(
           z: (dz / Math.max(0.001, length)) * step,
         });
         if (length < 0.3) path.shift();
-        companion.rotation.y = Math.atan2(dx, dz);
+        const targetAngle = Math.atan2(dx, dz),
+          turn = Math.atan2(
+            Math.sin(targetAngle - companion.rotation.y),
+            Math.cos(targetAngle - companion.rotation.y),
+          );
+        companion.rotation.y += turn * Math.min(1, dt * 8);
       }
     }
     companion.position.set(
@@ -347,7 +393,15 @@ export async function createWorldEngine(
           : 0,
       companionPosition.z,
     );
-    if (applyFace)
+    if (companionSprite && companionModel) {
+      const simplified =
+        settings.quality === "low" ||
+        (settings.quality === "auto" && host.clientWidth < 700);
+      companionSprite.visible = simplified;
+      companionModel.visible = !simplified;
+      host.dataset.companionLod = simplified ? "portrait" : "model";
+    }
+    if (applyFace && companionModel.visible)
       applyFace(
         faceMotion.update({
           dt,
@@ -428,7 +482,7 @@ export async function createWorldEngine(
     if (now - lastPaint >= interval) {
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
-      lastPaint = now;
+      lastPaint = now - ((now - lastPaint) % interval);
       update(dt, now);
     }
     frame = requestAnimationFrame(tick);
@@ -469,6 +523,8 @@ export async function createWorldEngine(
       canvas.removeEventListener("webglcontextlost", lost);
       canvas.removeEventListener("webglcontextrestored", restored);
       if (companionModel) disposeObject(companionModel);
+      companionSprite?.material.dispose();
+      companionPortrait?.dispose();
       meshes.dispose();
       marker.geometry.dispose();
       marker.material.dispose();

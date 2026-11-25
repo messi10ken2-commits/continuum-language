@@ -6,7 +6,6 @@ import {LessonImage} from './LessonMedia.jsx';
 import {FeaturePaused} from './PlatformAccess.jsx';
 import React,{lazy,Suspense,useState,useEffect,useLayoutEffect,useRef} from 'react';
 import {worldAvailable} from './continuum-world-model.mjs';
-const ContinuumWorld=lazy(()=>import('./ContinuumWorld.jsx'));
 import {revealPracticeSection} from './lesson-scroll.mjs';
 import {MessageCircle,RotateCcw,Sparkles,Headphones,Mic,Users,LockKeyhole} from 'lucide-react';
 import {t} from './interface-runtime.mjs';
@@ -15,12 +14,14 @@ import SkillsWorkshop from './SkillsWorkshop.jsx';
 import ReviewPool from './ReviewPool.jsx';
 import {billingRequest} from './Membership.jsx';
 import PremiumGuide from './PremiumGuide.jsx';
+const ContinuumWorld=lazy(()=>import('./ContinuumWorld.jsx'));
 export default function PracticeStudio({user,attempts=[],language,onSpeaking,onAccount,features={},onSupport,onPractice,onClasses}){
  const {layout}=useJourneyLayout();
  const worldEnabled=worldAvailable({user,language,layout,enabled:features.continuumWorldTokyoBeta===false?false:import.meta.env?.VITE_CONTINUUM_WORLD_TOKYO_BETA});
  const screen=useRef(null),opened=useRef(false);
 
- const [view,setView]=useState(()=>{try{const key='continuumPracticeDestination:'+user?.id,value=sessionStorage.getItem(key);sessionStorage.removeItem(key);return value==='review'?'review':'home'}catch{return 'home'}}),[level,setLevel]=useState(()=>{try{return localStorage.getItem('continuumCourseLevel'+(language==='es'?'':':'+language))||'A1'}catch{return 'A1'}});
+ const [selectedView,setView]=useState(()=>{try{const key='continuumPracticeDestination:'+user?.id,value=sessionStorage.getItem(key);sessionStorage.removeItem(key);return value==='review'?'review':'home'}catch{return 'home'}}),[level,setLevel]=useState(()=>{try{return localStorage.getItem('continuumCourseLevel'+(language==='es'?'':':'+language))||'A1'}catch{return 'A1'}});
+ const view=selectedView==='world'&&!worldEnabled?'home':selectedView;
  useLayoutEffect(()=>{if(opened.current){revealPracticeSection(screen.current)}opened.current=true},[view]);
  const [premium,setPremium]=useState(null);
  useEffect(()=>{
@@ -28,7 +29,7 @@ export default function PracticeStudio({user,attempts=[],language,onSpeaking,onA
   billingRequest().then(({membership})=>{if(active)setPremium(membership.premium)}).catch(()=>{if(active)setPremium(false)});
   return()=>{active=false};
  },[user?.id]);
- useEffect(()=>{if(view==='world'&&!worldEnabled)setView('home')},[view,worldEnabled]);
+ useEffect(()=>{if(selectedView==='world'&&!worldEnabled)setView('home')},[selectedView,worldEnabled]);
  const blocked=id=>features[{conversation:'aiConversation',review:'review',courses:'exclusiveCourses',focus:'focusedPractice',pronunciation:'selfStudy'}[id]]===false;
  const choices=[['conversation','AI conversation','Keep a natural conversation going and review your performance.',MessageCircle],['review','Vocabulary review','Revisit the words and expressions you missed.',RotateCcw],['courses','Exclusive courses','Explore practical situations with richer language and mixed exercises.',Sparkles],['focus','Focused practice','Train listening, writing or speaking for a specific situation.',Headphones]];
  const menu=[choices[0],['pronunciation','Pronunciation','Listen, record and compare.',Mic],choices[1],choices[3],['classes','From your classes','Assignments and teacher-guided practice.',Users],choices[2]];

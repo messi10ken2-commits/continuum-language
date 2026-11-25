@@ -23,7 +23,7 @@ export const worldLocations = [
       speech: "親しみやすい丁寧語",
       goal: "飲み物を注文する",
       x: 0,
-      z: -2.8,
+      z: -4.8,
       line: "いらっしゃいませ。窓際の席へどうぞ。",
     },
   },
@@ -47,7 +47,7 @@ export const worldLocations = [
       speech: "簡潔な丁寧語",
       goal: "買い物をする",
       x: 0,
-      z: -2.8,
+      z: -4.8,
       line: "こんにちは。お弁当は奥の棚にありますよ。",
     },
   },
@@ -138,7 +138,8 @@ export function worldAvailable({
 }) {
   return (
     (enabled === true || enabled === "true") &&
-    typeof user?.id === "string" && user.id.length > 0 &&
+    typeof user?.id === "string" &&
+    user.id.length > 0 &&
     user?.role === "learner" &&
     language === "ja" &&
     layout === "illustrated"
@@ -212,13 +213,29 @@ export function clearWorldSegment(scene, from, to, radius = PLAYER_RADIUS) {
 export function worldPath(scene, from, to) {
   if (!isWorldWalkable(scene, from) || !isWorldWalkable(scene, to)) return [];
   if (clearWorldSegment(scene, from, to)) return [to];
-  const start = { x: Math.round(from.x), z: Math.round(from.z) },
-    goal = { x: Math.round(to.x), z: Math.round(to.z) };
-  if (
-    !clearWorldSegment(scene, from, start) ||
-    !clearWorldSegment(scene, goal, to)
-  )
-    return [];
+  const gridPoint = (position) => {
+    const candidates = [];
+    for (
+      let x = Math.round(position.x) - 1;
+      x <= Math.round(position.x) + 1;
+      x++
+    )
+      for (
+        let z = Math.round(position.z) - 1;
+        z <= Math.round(position.z) + 1;
+        z++
+      )
+        if (clearWorldSegment(scene, position, { x, z }))
+          candidates.push({ x, z });
+    return candidates.sort(
+      (a, b) =>
+        Math.hypot(a.x - position.x, a.z - position.z) -
+        Math.hypot(b.x - position.x, b.z - position.z),
+    )[0];
+  };
+  const start = gridPoint(from),
+    goal = gridPoint(to);
+  if (!start || !goal) return [];
   const key = (p) => p.x + "," + p.z,
     queue = [start],
     parents = new Map([[key(start), null]]);

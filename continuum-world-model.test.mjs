@@ -83,7 +83,10 @@ test("movement clamps resumed-frame deltas and normalises diagonal controls", ()
       Math.hypot(forward.x, forward.z) - Math.hypot(diagonal.x, diagonal.z),
     ) < 1e-8,
   );
-  assert.deepEqual(movementVector({ x: 0, z: -1 }, 0, 50), movementVector({ x: 0, z: -1 }, 0, .1));
+  assert.deepEqual(
+    movementVector({ x: 0, z: -1 }, 0, 50),
+    movementVector({ x: 0, z: -1 }, 0, 0.1),
+  );
   assert.ok(
     Math.hypot(
       ...Object.values(movementVector({ x: 0, z: -1 }, 0, 0.05, true)),
@@ -92,6 +95,10 @@ test("movement clamps resumed-frame deltas and normalises diagonal controls", ()
   assert.deepEqual(movementVector({ x: 0, z: 0 }, 0, 0.05), { x: 0, z: 0 });
 });
 test("companion routing goes around buildings and each step stays walkable", () => {
+  assert.ok(
+    worldPath("outdoors", { x: 35.55, z: -13 }, { x: -17, z: -25 }).length,
+    "a rounded grid coordinate outside the boundary must not strand the companion",
+  );
   const route = worldPath("outdoors", { x: -17, z: 0 }, { x: -17, z: -25 });
   assert.ok(route.length > 3);
   for (const point of route) assert.ok(isWorldWalkable("outdoors", point));
@@ -100,7 +107,7 @@ test("companion routing goes around buildings and each step stays walkable", () 
       worldPath(scene, worldScenes[scene].spawn, { x: 0, z: -1 }).length,
     );
     assert.equal(worldInteraction(scene, { x: 0, z: 5 }).type, "exit");
-    assert.equal(worldInteraction(scene, { x: 0, z: -1 }).type, "talk");
+    assert.equal(worldInteraction(scene, { x: 0, z: -2 }).type, "talk");
   }
   assert.equal(worldInteraction("outdoors", worldScenes.outdoors.spawn), null);
 });

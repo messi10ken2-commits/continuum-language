@@ -138,6 +138,7 @@ export default function ContinuumWorld({ user, onBack }) {
     input = useRef({ x: 0, z: 0, run: false }),
     options = useRef(settings),
     ambience = useRef(null),
+    focused = useRef(document.hasFocus()),
     panelRef = useRef(null),
     returnFocus = useRef(null);
   options.current = { ...settings, destination, talking: !!dialogue };
@@ -179,27 +180,31 @@ export default function ContinuumWorld({ user, onBack }) {
   const paused = !!panel || !!dialogue || list;
   useEffect(() => {
     const sync = () => {
-      const active = !isAppHidden() && !paused;
+      const active = !isAppHidden() && !paused && focused.current;
       input.current = { x: 0, z: 0, run: false };
       engine.current?.setActive(active);
       ambience.current?.setActive(active);
       if (isAppHidden() && !save()) setStorageFailed(true);
     };
     sync();
-    window.addEventListener("blur", sync);
     document.addEventListener("visibilitychange", sync);
     window.addEventListener("continuum-native-visibility", sync);
     const blur = () => {
+      focused.current = false;
       input.current = { x: 0, z: 0, run: false };
       engine.current?.setActive(false);
       ambience.current?.setActive(false);
+      if (!save()) setStorageFailed(true);
     };
-    window.removeEventListener("blur", sync);
+    const focus = () => {
+      focused.current = true;
+      sync();
+    };
     window.addEventListener("blur", blur);
-    window.addEventListener("focus", sync);
+    window.addEventListener("focus", focus);
     return () => {
       window.removeEventListener("blur", blur);
-      window.removeEventListener("focus", sync);
+      window.removeEventListener("focus", focus);
       document.removeEventListener("visibilitychange", sync);
       window.removeEventListener("continuum-native-visibility", sync);
     };
@@ -241,7 +246,7 @@ export default function ContinuumWorld({ user, onBack }) {
         }
         engine.current = instance;
         setReady(true);
-        instance?.setActive(!isAppHidden() && !paused);
+        instance?.setActive(!isAppHidden() && !paused && focused.current);
       })
       .catch(() => {
         if (live) setFailure("renderer");

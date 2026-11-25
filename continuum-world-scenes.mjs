@@ -108,20 +108,25 @@ export function makeWorldPerson(
     meshes.shape(body, "box", 0xaf7253, [0, 1.15, -0.27], [0.42, 0.49, 0.18]);
     meshes.shape(body, "sphere", 0xf0ce81, [0, 1.92, 0], [0.34, 0.08, 0.32]);
   }
+  let gait = 0,
+    previousTime = 0;
   return {
     root,
     animate(time, speed, reduced) {
+      const seconds = Math.min(0.1, Math.max(0, time - previousTime));
+      previousTime = time;
+      gait += (speed - gait) * (1 - Math.exp(-seconds / 0.12));
       legs.forEach(
         (leg, i) =>
           (leg.rotation.x = reduced
             ? 0
-            : Math.sin(time * 9 + i * Math.PI) * Math.min(0.6, speed * 0.16)),
+            : Math.sin(time * 9 + i * Math.PI) * Math.min(0.6, gait * 0.16)),
       );
       arms.forEach(
         (arm, i) =>
           (arm.rotation.x = reduced
             ? 0
-            : Math.sin(time * 9 + i * Math.PI) * Math.min(0.4, speed * 0.12)),
+            : Math.sin(time * 9 + i * Math.PI) * Math.min(0.4, gait * 0.12)),
       );
     },
   };
