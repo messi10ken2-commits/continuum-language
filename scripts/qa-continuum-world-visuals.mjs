@@ -49,8 +49,12 @@ try {
     "http://127.0.0.1:" +
     server.httpServer.address().port +
     "/.media-build/continuum-world-art/index.html";
-  const widths=(process.env.QA_WORLD_VISUAL_WIDTHS||'1280,390').split(',').map(Number);
-  const onlyShots=(process.env.QA_WORLD_VISUAL_SHOTS||'').split(',').filter(Boolean);
+  const widths = (process.env.QA_WORLD_VISUAL_WIDTHS || "1280,390")
+    .split(",")
+    .map(Number);
+  const onlyShots = (process.env.QA_WORLD_VISUAL_SHOTS || "")
+    .split(",")
+    .filter(Boolean);
   for (const width of widths) {
     const page = await browser.newPage({
         viewport: { width, height: width === 390 ? 844 : 800 },
@@ -59,6 +63,14 @@ try {
     page.on("pageerror", (e) => {
       errors.push(e.message);
       console.error(e.message);
+    });
+    page.on("console", (message) => {
+      if (
+        /WebGL.*INVALID|texSubImage.*(?:error|invalid)|GL_INVALID|OUT_OF_MEMORY|THREE.WebGLProgram/i.test(
+          message.text(),
+        )
+      )
+        errors.push(message.text());
     });
     console.log("Opening", width);
     await page.goto(base);
@@ -72,7 +84,7 @@ try {
       ["cafe", { scene: "tokyo_cafe", position: { x: 0, z: 2 }, time: "day" }],
       ["market", { scene: "tokyo_konbini", time: "day" }],
     ]) {
-      if(onlyShots.length && !onlyShots.includes(shot))continue;
+      if (onlyShots.length && !onlyShots.includes(shot)) continue;
       const started = performance.now();
       console.log("Mounting", shot);
       await page.evaluate((settings) => window.mountWorld(settings), {

@@ -13,6 +13,9 @@ on:
       - '.github/workflows/continuum-world.yml'
 permissions:
   contents: read
+concurrency:
+  group: continuum-world-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   world:
     runs-on: ubuntu-latest

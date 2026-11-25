@@ -207,12 +207,20 @@ test("photo loading preserves the fallback, updates shared sources and ignores c
       (t) => textures.push(t),
       (t) => updates.push(t),
     );
+  let sharedMeshes;
   try {
     const paving = surfaces.texture("paving"),
       fallback = paving.image;
     assert.ok(fallback.getContext);
     assert.equal(surfaces.pending, 1);
+    let storageReset = 0;
+    paving.addEventListener("dispose", () => storageReset++);
     images[0].onload();
+    assert.equal(
+      storageReset,
+      1,
+      "resize releases immutable GPU storage before the larger image",
+    );
     assert.equal(paving.image, images[0]);
     assert.equal(surfaces.loaded, 1);
     assert.deepEqual(updates, [paving]);
@@ -225,7 +233,20 @@ test("photo loading preserves the fallback, updates shared sources and ignores c
     late();
     assert.equal(asphalt.image, old);
     assert.equal(updates.length, 1);
+    sharedMeshes = worldMeshes();
+    const clonedMap = sharedMeshes.surface("paving", 29).map;
+    let cloneReset = 0;
+    clonedMap.addEventListener("dispose", () => cloneReset++);
+    const photo = images.at(-1);
+    photo.onload();
+    assert.equal(
+      cloneReset,
+      1,
+      "repeated maps also release their old GPU storage",
+    );
+    assert.equal(clonedMap.image, photo);
   } finally {
+    sharedMeshes?.dispose();
     surfaces.dispose();
     textures.forEach((t) => t.dispose());
     globalThis.document = previousDocument;

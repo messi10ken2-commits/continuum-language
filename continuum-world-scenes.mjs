@@ -19,7 +19,10 @@ export function worldMeshes({ quality = "auto" } = {}) {
     (t) => textures.add(t),
     (source) => {
       for (const t of textures)
-        if (t.source === source.source) t.needsUpdate = true;
+        if (t.source === source.source) {
+          t.dispose();
+          t.needsUpdate = true;
+        }
     },
   );
   let disposed = false;

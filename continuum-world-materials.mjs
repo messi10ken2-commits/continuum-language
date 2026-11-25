@@ -140,6 +140,9 @@ export function makeWorldSurfaces(register, updated = () => {}) {
         pending.delete(image);
         if (live) {
           loaded.add(name);
+          // WebGL texture storage cannot grow from the 512px fallback to 1K.
+          // Release it before the replacement image and cloned maps are uploaded.
+          t.dispose();
           t.image = image;
           t.needsUpdate = true;
           updated(t);
