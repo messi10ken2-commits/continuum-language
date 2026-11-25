@@ -16,6 +16,23 @@ import drive_mirror
 
 
 class BackupSafetyTests(unittest.TestCase):
+    def test_drive_transport_preserves_resumable_upload_responses(self):
+        credentials = {
+            "DRIVE_REFRESH_TOKEN": "synthetic-refresh-token",
+            "DRIVE_CLIENT_ID": "synthetic-client-id",
+            "DRIVE_CLIENT_SECRET": "synthetic-client-secret",
+        }
+        with patch.dict(os.environ, credentials), patch("googleapiclient.discovery.build") as build:
+            files = build.return_value.files.return_value
+            files.list.return_value.execute.return_value = {"files": []}
+            files.create.return_value.execute.return_value = {"id": "synthetic-folder"}
+            job = drive_mirror.DriveMirror()
+            transport = build.call_args.kwargs["http"].http
+            self.assertNotIn(308, transport.redirect_codes)
+            self.assertIn(302, transport.redirect_codes)
+            self.assertEqual(transport.timeout, 120)
+            self.assertEqual(job.folder, "synthetic-folder")
+
     def test_drive_retention_is_scoped_and_preserves_unresolved_intents(self):
         now = datetime(2026, 11, 24, tzinfo=timezone.utc)
         item = {"parents": ["own-folder"], "appProperties": {"continuumKind": "archive", "continuumCreatedAt": (now-timedelta(days=7)).isoformat()}}
@@ -89,3 +106,4 @@ class BackupSafetyTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
