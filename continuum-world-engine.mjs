@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { callCompanionKind } from "./companion-call-models.mjs";
 import { makeWorldSky } from "./continuum-world-materials.mjs";
 import {
   worldRenderProfile,
@@ -167,6 +166,8 @@ export async function createWorldEngine(
     host.dataset.triangles = String(triangles);
     host.dataset.pixelRatio = String(renderer.getPixelRatio());
     host.dataset.drawCalls = String(renderer.info.render.calls);
+    host.dataset.materialsPending = String(meshes.pendingTextures);
+    host.dataset.photoSurfaces = String(meshes.photoSurfaces);
     onSnapshot({
       scene: initial.scene,
       position: { ...position },
@@ -514,6 +515,7 @@ export async function createWorldEngine(
       skyTexture?.dispose();
       sun.shadow.dispose();
       meshes.dispose();
+      scene.clear();
       marker.geometry.dispose();
       marker.material.dispose();
       beacon.geometry.dispose();

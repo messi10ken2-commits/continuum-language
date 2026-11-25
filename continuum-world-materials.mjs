@@ -7,8 +7,16 @@ export function worldRandom(seed = 39) {
     return seed / 4294967296;
   };
 }
-export function makeWorldSurfaces(register) {
-  const cache = new Map();
+export function makeWorldSurfaces(register, updated = () => {}) {
+  const cache = new Map(),
+    pending = new Set(),
+    loaded = new Set();
+  let live = true;
+  const photos = {
+    paving: "/world-tokyo/materials/pavement_04.jpg",
+    asphalt: "/world-tokyo/materials/asphalt_02.jpg",
+    wood: "/world-tokyo/materials/wood_planks.jpg",
+  };
   function texture(name) {
     if (cache.has(name)) return cache.get(name);
     const canvas = document.createElement("canvas");
@@ -124,9 +132,43 @@ export function makeWorldSurfaces(register) {
     t.anisotropy = 4;
     register(t);
     cache.set(name, t);
+    if (photos[name] && typeof Image !== "undefined") {
+      const image = new Image();
+      pending.add(image);
+      image.decoding = "async";
+      image.onload = () => {
+        pending.delete(image);
+        if (live) {
+          loaded.add(name);
+          t.image = image;
+          t.needsUpdate = true;
+          updated(t);
+        }
+      };
+      image.onerror = () => pending.delete(image);
+      image.src = photos[name];
+    }
     return t;
   }
-  return { texture };
+  return {
+    texture,
+    get pending() {
+      return pending.size;
+    },
+    get loaded() {
+      return loaded.size;
+    },
+    dispose() {
+      live = false;
+      for (const image of pending) {
+        image.onload = image.onerror = null;
+        image.src = "";
+      }
+      pending.clear();
+      cache.clear();
+      loaded.clear();
+    },
+  };
 }
 
 export function makeWorldSky() {

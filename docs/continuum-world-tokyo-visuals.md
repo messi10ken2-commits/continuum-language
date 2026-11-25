@@ -29,11 +29,11 @@
 
 Auto/Lowの建築影は、建物の寸法と太陽方向から生成した軽量な投影形状。Medium/Highでは影マップを使用する。動く人物を静的影へ焼き付けず、追従する接地影を使う。夜間の街灯は近い3灯だけを計算する。画質を変更すると必要な材質・形状・反射を作り直す。
 
-今回追加する材質は、独自の決定論的Canvas描画による舗装、木、コンクリート、金属、樹皮、葉、布、毛のテクスチャ。スキャン素材や写真を使ったPBRではない。新しい依存ライブラリや外部モデル生成APIは追加しない。
+道路、舗装、木材にはPoly HavenのCC0写真ベースの1K材質を同梱する。出典・取得URL・SHA-256は `public/world-tokyo/materials/SOURCES.md` に記録した。原本3枚の合計は約2.22MB。実行時は自分の配信元だけから取得し、外部サイトへは接続しない。読込失敗時は独自のCanvas材質へ戻る。その他のコンクリート、金属、樹皮、葉、布、毛は独自の決定論的Canvas描画。Normal/Roughnessの実測マップはまだ導入していない。新しい依存ライブラリや外部モデル生成APIは追加しない。
 
 ## 検証
 
-基準のWorld・音声・UI文言テスト13件は変更前に成功。新しい形状・衝突・描画予算・GPU資源破棄のテストを含む16件も成功。
+基準のWorld・音声・UI文言テスト13件は変更前に成功。新しい形状・衝突・描画予算・GPU資源破棄・写真素材の整合性・読込中断のテストを含む18件も成功。
 
 ```sh
 node --test continuum-world-visuals.test.mjs continuum-world-model.test.mjs continuum-world-audio.test.mjs interface-templates.test.mjs

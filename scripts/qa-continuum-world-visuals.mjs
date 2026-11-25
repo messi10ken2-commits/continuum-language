@@ -79,6 +79,15 @@ try {
       await page.waitForFunction(() => window.worldSnapshot?.draws > 10, null, {
         timeout: 90000,
       });
+      await page.waitForFunction(
+        () => document.getElementById("world").dataset.materialsPending === "0",
+      );
+      assert.ok(
+        Number(
+          await page.locator("#world").getAttribute("data-photo-surfaces"),
+        ) >= (settings.scene ? 1 : 3),
+        "bundled photo textures load",
+      );
       assert.ok(!(await page.evaluate(() => window.worldFailure)));
       await page.screenshot({
         path: new URL(width + "-" + shot + ".png", dir).pathname,

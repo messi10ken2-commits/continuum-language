@@ -1,6 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
+import { readFile } from "node:fs/promises";
+import { createHash } from "node:crypto";
+import { makeWorldSurfaces } from "./continuum-world-materials.mjs";
 import {
   worldMeshes,
   makeOutdoorWorld,
@@ -162,7 +165,70 @@ test("authored scenes and full-body companions fit fixed geometry budgets and di
     assert.equal(geometryDisposed, geometry.size);
     assert.equal(materialDisposed, material.size);
     assert.ok(instanceDisposed > 0);
+    meshes.dispose();
+    assert.equal(geometryDisposed, geometry.size);
+    assert.equal(materialDisposed, material.size);
   } finally {
     globalThis.document = previous;
+  }
+});
+
+test("bundled CC0 photographs match the recorded files and stay inside a bounded download budget", async () => {
+  const root = new URL("./public/world-tokyo/materials/", import.meta.url),
+    manifest = JSON.parse(
+      await readFile(new URL("manifest.json", root), "utf8"),
+    );
+  assert.equal(manifest.license, "CC0-1.0");
+  let total = 0;
+  for (const file of manifest.files) {
+    assert.match(file.asset, /^(pavement_04|asphalt_02|wood_planks)$/);
+    const bytes = await readFile(new URL(file.asset + ".jpg", root));
+    assert.equal(bytes.length, file.bytes);
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), file.sha256);
+    total += bytes.length;
+  }
+  assert.equal(manifest.files.length, 3);
+  assert.ok(total < 3_000_000);
+});
+
+test("photo loading preserves the fallback, updates shared sources and ignores completion after disposal", () => {
+  const previousDocument = globalThis.document,
+    previousImage = globalThis.Image,
+    images = [];
+  globalThis.document = canvasDocument();
+  globalThis.Image = class {
+    constructor() {
+      images.push(this);
+    }
+  };
+  const textures = [],
+    updates = [],
+    surfaces = makeWorldSurfaces(
+      (t) => textures.push(t),
+      (t) => updates.push(t),
+    );
+  try {
+    const paving = surfaces.texture("paving"),
+      fallback = paving.image;
+    assert.ok(fallback.getContext);
+    assert.equal(surfaces.pending, 1);
+    images[0].onload();
+    assert.equal(paving.image, images[0]);
+    assert.equal(surfaces.loaded, 1);
+    assert.deepEqual(updates, [paving]);
+    const asphalt = surfaces.texture("asphalt"),
+      old = asphalt.image,
+      late = images[1].onload;
+    surfaces.dispose();
+    assert.equal(surfaces.pending, 0);
+    assert.equal(images[1].onload, null);
+    late();
+    assert.equal(asphalt.image, old);
+    assert.equal(updates.length, 1);
+  } finally {
+    surfaces.dispose();
+    textures.forEach((t) => t.dispose());
+    globalThis.document = previousDocument;
+    globalThis.Image = previousImage;
   }
 });

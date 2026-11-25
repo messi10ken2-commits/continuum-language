@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'continuum-world*'
+      - 'public/world-tokyo/**'
       - 'ContinuumWorld.jsx'
       - 'PracticeStudio.jsx'
       - 'scripts/qa-continuum-world.mjs'

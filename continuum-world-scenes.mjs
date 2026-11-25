@@ -14,7 +14,14 @@ export function worldMeshes({ quality = "auto" } = {}) {
     materials = new Map(),
     textures = new Set(),
     batches = new Set();
-  const surfaces = makeWorldSurfaces((t) => textures.add(t));
+  const surfaces = makeWorldSurfaces(
+    (t) => textures.add(t),
+    (source) => {
+      for (const t of textures)
+        if (t.source === source.source) t.needsUpdate = true;
+    },
+  );
+  let disposed = false;
   const material = (color, glow = false) => {
     if (color?.isMaterial) return color;
     const key = color + ":" + glow;
@@ -279,6 +286,12 @@ export function worldMeshes({ quality = "auto" } = {}) {
     parent.add(shadow);
   };
   return {
+    get pendingTextures() {
+      return surfaces.pending;
+    },
+    get photoSurfaces() {
+      return surfaces.loaded;
+    },
     physical: quality === "high" || quality === "medium",
     shape,
     sign,
@@ -290,10 +303,24 @@ export function worldMeshes({ quality = "auto" } = {}) {
     foliage,
     buildingShade,
     dispose() {
+      if (disposed) return;
+      disposed = true;
+      surfaces.dispose();
       batches.forEach((b) => b.dispose());
       geometries.forEach((g) => g.dispose());
       materials.forEach((m) => m.dispose());
-      textures.forEach((t) => t.dispose());
+      textures.forEach((t) => {
+        const image = t.image;
+        if (image && typeof image.getContext === "function") {
+          image.width = image.height = 1;
+        }
+        t.dispose();
+        t.image = null;
+      });
+      batches.clear();
+      geometries.clear();
+      materials.clear();
+      textures.clear();
     },
   };
 }
@@ -521,7 +548,7 @@ export function makeOutdoorWorld(meshes) {
   const root = new THREE.Group(),
     { shape, sign, surface, contact } = meshes;
   root.name = "Tokyo authored streetscape";
-  shape(root, "box", surface("paving", 80), [0, -0.18, -3], [90, 0.3, 100]);
+  shape(root, "box", surface("paving", 29), [0, -0.18, -3], [90, 0.3, 100]);
   shape(root, "box", surface("asphalt", 22), [0, -0.005, -3], [8, 0.06, 86]);
   shape(root, "box", surface("asphalt", 22), [0, 0.002, 0], [86, 0.06, 8]);
   for (const side of [-1, 1]) {
