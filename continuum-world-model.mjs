@@ -1,0 +1,289 @@
+// World coordinates are metres. This prototype stores exploration only, never course progress.
+export const WORLD_ID = "tokyo";
+export const WORLD_VERSION = 1;
+export const PLAYER_RADIUS = 0.4;
+export const worldLocations = [
+  {
+    id: "tokyo_cafe",
+    title: "Komorebi Café",
+    sign: "こもれび珈琲",
+    x: -17,
+    z: -13,
+    width: 15,
+    depth: 13,
+    height: 9,
+    door: { x: -17, z: -5 },
+    interior: true,
+    color: 0xc89579,
+    npc: {
+      id: "aoi",
+      name: "葵",
+      role: "カフェ店員",
+      personality: "穏やかで好奇心がある",
+      speech: "親しみやすい丁寧語",
+      goal: "飲み物を注文する",
+      x: 0,
+      z: -2.8,
+      line: "いらっしゃいませ。窓際の席へどうぞ。",
+    },
+  },
+  {
+    id: "tokyo_konbini",
+    title: "Hoshi Market",
+    sign: "ほしマート",
+    x: 17,
+    z: -13,
+    width: 15,
+    depth: 13,
+    height: 7,
+    door: { x: 17, z: -5 },
+    interior: true,
+    color: 0xbfcbbf,
+    npc: {
+      id: "ren",
+      name: "蓮",
+      role: "コンビニ店員",
+      personality: "気さくで手際がよい",
+      speech: "簡潔な丁寧語",
+      goal: "買い物をする",
+      x: 0,
+      z: -2.8,
+      line: "こんにちは。お弁当は奥の棚にありますよ。",
+    },
+  },
+  {
+    id: "tokyo_station",
+    title: "Station information",
+    sign: "あさひ駅",
+    x: 0,
+    z: -32,
+    width: 15,
+    depth: 8,
+    height: 8,
+    door: { x: 0, z: -25.5 },
+    color: 0xc9c7b9,
+    npc: {
+      id: "yui",
+      name: "結衣",
+      role: "駅の案内係",
+      personality: "丁寧で頼りになる",
+      speech: "明瞭な丁寧語",
+      goal: "道順を尋ねる",
+      x: 3,
+      z: -24,
+      line: "こんにちは。駅の入口はこちらです。",
+    },
+  },
+  {
+    id: "tokyo_park",
+    title: "Sakura pocket park",
+    sign: "さくら公園",
+    x: 19,
+    z: 16,
+    width: 19,
+    depth: 17,
+    door: { x: 12, z: 14 },
+    color: 0x7eaa7d,
+    npc: {
+      id: "haru",
+      name: "春",
+      role: "近所の住民",
+      personality: "朗らかで散歩が好き",
+      speech: "やさしい日常の丁寧語",
+      goal: "自己紹介する",
+      x: 18,
+      z: 15,
+      line: "こんにちは。今日は散歩にぴったりですね。",
+    },
+  },
+];
+const outdoorBuildings = worldLocations
+  .filter((l) => l.id !== "tokyo_park")
+  .map((l) => ({ x: l.x, z: l.z, width: l.width, depth: l.depth }));
+export const worldScenes = {
+  outdoors: {
+    bounds: { minX: -36, maxX: 36, minZ: -40, maxZ: 34 },
+    spawn: { x: -8, z: 19 },
+    obstacles: [
+      ...outdoorBuildings,
+      { x: -27, z: 15, width: 12, depth: 18 },
+      { x: -30, z: -31, width: 8, depth: 12 },
+      { x: 29, z: -31, width: 10, depth: 12 },
+    ],
+  },
+  tokyo_cafe: {
+    bounds: { minX: -7, maxX: 7, minZ: -6, maxZ: 6 },
+    spawn: { x: 0, z: 4 },
+    obstacles: [
+      { x: 0, z: -3.6, width: 8, depth: 1.4 },
+      { x: -4.7, z: 0, width: 2, depth: 2 },
+      { x: 4.7, z: 0, width: 2, depth: 2 },
+    ],
+  },
+  tokyo_konbini: {
+    bounds: { minX: -7, maxX: 7, minZ: -6, maxZ: 6 },
+    spawn: { x: 0, z: 4 },
+    obstacles: [
+      { x: 0, z: -3.6, width: 8, depth: 1.4 },
+      { x: -4.4, z: -0.2, width: 1.5, depth: 5 },
+      { x: 4.4, z: -0.2, width: 1.5, depth: 5 },
+    ],
+  },
+};
+export function worldAvailable({
+  user,
+  language,
+  layout,
+  enabled = import.meta.env?.VITE_CONTINUUM_WORLD_TOKYO_BETA,
+}) {
+  return (
+    (enabled === true || enabled === "true") &&
+    typeof user?.id === "string" && user.id.length > 0 &&
+    user?.role === "learner" &&
+    language === "ja" &&
+    layout === "illustrated"
+  );
+}
+export function isWorldWalkable(scene, position, radius = PLAYER_RADIUS) {
+  const definition = worldScenes[scene];
+  if (
+    !definition ||
+    !Number.isFinite(position?.x) ||
+    !Number.isFinite(position?.z)
+  )
+    return false;
+  const b = definition.bounds;
+  return (
+    position.x >= b.minX + radius &&
+    position.x <= b.maxX - radius &&
+    position.z >= b.minZ + radius &&
+    position.z <= b.maxZ - radius &&
+    !definition.obstacles.some(
+      (o) =>
+        position.x > o.x - o.width / 2 - radius &&
+        position.x < o.x + o.width / 2 + radius &&
+        position.z > o.z - o.depth / 2 - radius &&
+        position.z < o.z + o.depth / 2 + radius,
+    )
+  );
+}
+export function moveWorldActor(scene, position, delta, radius = PLAYER_RADIUS) {
+  const next = { ...position },
+    steps = Math.max(1, Math.ceil(Math.hypot(delta.x, delta.z) / 0.18));
+  for (let i = 0; i < Math.min(steps, 1000); i++) {
+    const x = next.x + delta.x / steps,
+      z = next.z + delta.z / steps;
+    if (isWorldWalkable(scene, { x, z: next.z }, radius)) next.x = x;
+    if (isWorldWalkable(scene, { x: next.x, z }, radius)) next.z = z;
+  }
+  return next;
+}
+export function movementVector(input, yaw, seconds, running = false) {
+  const length = Math.hypot(input.x, input.z),
+    scale =
+      (Math.min(1, length) / Math.max(1, length)) *
+      (running ? 5.8 : 3.2) *
+      Math.min(0.1, Math.max(0, seconds));
+  return {
+    x: (input.x * Math.cos(yaw) + input.z * Math.sin(yaw)) * scale,
+    z: (-input.x * Math.sin(yaw) + input.z * Math.cos(yaw)) * scale,
+  };
+}
+export function clearWorldSegment(scene, from, to, radius = PLAYER_RADIUS) {
+  const steps = Math.max(
+    1,
+    Math.ceil(Math.hypot(to.x - from.x, to.z - from.z) / 0.25),
+  );
+  for (let i = 0; i <= steps; i++)
+    if (
+      !isWorldWalkable(
+        scene,
+        {
+          x: from.x + ((to.x - from.x) * i) / steps,
+          z: from.z + ((to.z - from.z) * i) / steps,
+        },
+        radius,
+      )
+    )
+      return false;
+  return true;
+}
+// Bounded grid search is used only when the companion's direct path is obstructed.
+export function worldPath(scene, from, to) {
+  if (!isWorldWalkable(scene, from) || !isWorldWalkable(scene, to)) return [];
+  if (clearWorldSegment(scene, from, to)) return [to];
+  const start = { x: Math.round(from.x), z: Math.round(from.z) },
+    goal = { x: Math.round(to.x), z: Math.round(to.z) };
+  if (
+    !clearWorldSegment(scene, from, start) ||
+    !clearWorldSegment(scene, goal, to)
+  )
+    return [];
+  const key = (p) => p.x + "," + p.z,
+    queue = [start],
+    parents = new Map([[key(start), null]]);
+  for (let i = 0; i < queue.length && i < 6500; i++) {
+    const point = queue[i];
+    if (point.x === goal.x && point.z === goal.z) {
+      const result = [to];
+      let cursor = point;
+      while (cursor) {
+        result.unshift(cursor);
+        cursor = parents.get(key(cursor));
+      }
+      return result;
+    }
+    for (const [dx, dz] of [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ]) {
+      const next = { x: point.x + dx, z: point.z + dz };
+      if (!parents.has(key(next)) && clearWorldSegment(scene, point, next)) {
+        parents.set(key(next), point);
+        queue.push(next);
+      }
+    }
+  }
+  return [];
+}
+export function worldInteraction(scene, position) {
+  const distance = (p) => Math.hypot(p.x - position.x, p.z - position.z);
+  if (scene !== "outdoors") {
+    if (distance({ x: 0, z: 5 }) < 2.1) return { type: "exit" };
+    const location = worldLocations.find((l) => l.id === scene);
+    return location && distance(location.npc) < 3
+      ? { type: "talk", location }
+      : null;
+  }
+  for (const location of worldLocations) {
+    if (location.interior && distance(location.door) < 2.7)
+      return { type: "enter", location };
+    if (!location.interior && distance(location.npc) < 3)
+      return { type: "talk", location };
+  }
+  return null;
+}
+export const worldStorageKey = (userId) => "continuumWorld:tokyo:v1:" + userId;
+export function restoreWorldState(value) {
+  const state = value && typeof value === "object" ? value : {},
+    scene = Object.hasOwn(worldScenes, state.scene) ? state.scene : "outdoors";
+  return {
+    version: WORLD_VERSION,
+    scene,
+    position: isWorldWalkable(scene, state.position)
+      ? { x: state.position.x, z: state.position.z }
+      : { ...worldScenes[scene].spawn },
+    yaw: Number.isFinite(state.yaw) ? state.yaw % (Math.PI * 2) : 0,
+    quality: ["auto", "low", "medium", "high"].includes(state.quality)
+      ? state.quality
+      : "auto",
+    time: ["auto", "day", "night"].includes(state.time) ? state.time : "auto",
+    sound: state.sound === true,
+    volume: Number.isFinite(state.volume)
+      ? Math.min(1, Math.max(0, state.volume))
+      : 0.2,
+    reduced: state.reduced === true,
+  };
+}
