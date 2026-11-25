@@ -89,12 +89,13 @@ try {
         "bundled photo textures load",
       );
       assert.ok(!(await page.evaluate(() => window.worldFailure)));
-      await page.screenshot({
-        path: new URL(width + "-" + shot + ".png", dir).pathname,
-      });
       const data = await page
         .locator("#world")
         .evaluate((e) => ({ ...e.dataset }));
+      await page.evaluate(() => window.worldEngine.setActive(false));
+      await page.screenshot({
+        path: new URL(width + "-" + shot + ".png", dir).pathname,
+      });
       results.push({
         width,
         shot,

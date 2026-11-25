@@ -161,6 +161,8 @@ export async function createWorldEngine(
     host.dataset.active = String(active);
     host.dataset.position = JSON.stringify(position);
     host.dataset.yaw = String(yaw);
+    host.dataset.pitch = String(pitch);
+    host.dataset.cameraY = String(camera.position.y);
     host.dataset.fps = String(fps);
     host.dataset.renderMs = String(renderMs);
     host.dataset.triangles = String(triangles);
@@ -422,6 +424,8 @@ export async function createWorldEngine(
       1.25 + Math.sin(pitch) * distanceCamera,
       position.z + Math.cos(yaw) * distanceCamera,
     );
+    // Detailed rooms have a ceiling. Keep the boom inside even at maximum tilt.
+    if (indoor) desiredCamera.y = Math.min(3.35, desiredCamera.y);
     // Shorten the camera boom before it crosses a wall, then keep it in the walkable volume.
     const ground = { x: desiredCamera.x, z: desiredCamera.z };
     for (let fraction = 1; fraction >= 0; fraction -= 0.08) {

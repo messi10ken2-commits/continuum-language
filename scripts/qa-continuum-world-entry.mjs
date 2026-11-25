@@ -111,9 +111,11 @@ try {
   await page.waitForFunction(
     () => document.querySelector(".cw-renderer")?.dataset.companion === "bird",
   );
+  await page.evaluate(() => window.dispatchEvent(new Event("blur")));
   await page.screenshot({
     path: ".media-build/continuum-world/full-app-entry.png",
   });
+  await page.evaluate(() => window.dispatchEvent(new Event("focus")));
   await page.getByRole("button", { name: "List view", exact: true }).click();
   await page
     .locator(".cw-place-list article")
