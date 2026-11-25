@@ -490,7 +490,7 @@ export async function createWorldEngine(
   update(0, performance.now());
   return {
     setActive(value) {
-      if (disposed || contextLost) return;
+      if (disposed || contextLost || active === value) return;
       active = value;
       clear();
       dragging = null;

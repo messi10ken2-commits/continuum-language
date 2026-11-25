@@ -189,6 +189,7 @@ try {
           await host.focus();
         }
         await page.keyboard.down("KeyW");
+        await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
         await page.waitForTimeout(900);
         await page.keyboard.up("KeyW");
         await page.waitForTimeout(220);
