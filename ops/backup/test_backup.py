@@ -22,7 +22,19 @@ class BackupSafetyTests(unittest.TestCase):
             "DRIVE_CLIENT_ID": "synthetic-client-id",
             "DRIVE_CLIENT_SECRET": "synthetic-client-secret",
         }
-        with patch.dict(os.environ, credentials), patch("googleapiclient.discovery.build") as build:
+        from unittest.mock import MagicMock
+        transport = types.SimpleNamespace(redirect_codes={301, 302, 303, 307, 308}, timeout=120)
+        build = MagicMock()
+        modules = {
+            "google": types.ModuleType("google"),
+            "google.oauth2": types.ModuleType("google.oauth2"),
+            "google.oauth2.credentials": types.SimpleNamespace(Credentials=MagicMock()),
+            "google_auth_httplib2": types.SimpleNamespace(AuthorizedHttp=lambda credentials, http: types.SimpleNamespace(http=http)),
+            "googleapiclient": types.ModuleType("googleapiclient"),
+            "googleapiclient.discovery": types.SimpleNamespace(build=build),
+            "httplib2": types.SimpleNamespace(Http=MagicMock(return_value=transport)),
+        }
+        with patch.dict(os.environ, credentials), patch.dict(sys.modules, modules):
             files = build.return_value.files.return_value
             files.list.return_value.execute.return_value = {"files": []}
             files.create.return_value.execute.return_value = {"id": "synthetic-folder"}
