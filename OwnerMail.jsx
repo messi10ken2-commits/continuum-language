@@ -20,7 +20,7 @@ export default function OwnerMail(){
   <p>Configuration checks confirm that settings are present. They do not prove Google authorization, successful sending or inbox arrival. Secrets stay in secure server settings.</p>
   <p>After sending one test, allow about a minute for the worker. Pending results refresh automatically. Confirm arrival only with the code from the actual email.</p>
   <button className="text-button" disabled={busy} onClick={()=>void run(async()=>{})}>{t('Refresh')}</button>
-  {error&&<p role="alert">{t(error)}</p>}{notice&&<p role="status">{notice}</p>}
+  {error&&<p role="alert">{t(error)}</p>}{notice&&<p role="status">{t(notice)}</p>}
   {data&&<>
    <p>Provider: {data.provider} · Sender: {data.from||'Not configured'} · Test inbox: {data.testRecipient||'Not configured'}</p>
    <p>Transport configured: {String(data.transportConfigured)} · Encrypted queue configured: {String(data.outboxConfigured)} · Worker enabled: {String(data.workerEnabled)}</p>
