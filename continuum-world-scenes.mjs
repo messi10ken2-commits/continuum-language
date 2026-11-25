@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { worldLocations } from "./continuum-world-model.mjs";
 import {
   makeWorldSurfaces,
@@ -93,13 +94,40 @@ export function worldMeshes({ quality = "auto" } = {}) {
               )
             : type === "detail"
               ? new THREE.SphereGeometry(1, 8, 6)
-              : type === "plane"
-                ? new THREE.PlaneGeometry(1, 1)
-                : type === "taper"
-                  ? new THREE.CylinderGeometry(0.78, 1, 1, 12)
-                  : type === "cone"
-                    ? new THREE.ConeGeometry(1, 1, 12)
-                    : new THREE.CylinderGeometry(1, 1, 1, 12);
+              : type === "rounded"
+                ? new RoundedBoxGeometry(1, 1, 1, 2, 0.12)
+                : type === "torso"
+                  ? new THREE.LatheGeometry(
+                      [
+                        [0.72, -0.5],
+                        [0.78, -0.32],
+                        [0.95, 0.05],
+                        [1, 0.3],
+                        [0.82, 0.4],
+                        [0.4, 0.47],
+                        [0.27, 0.5],
+                      ].map(([x, y]) => new THREE.Vector2(x, y)),
+                      16,
+                    )
+                  : type === "hair"
+                    ? new THREE.SphereGeometry(
+                        1,
+                        16,
+                        10,
+                        0,
+                        Math.PI * 2,
+                        0,
+                        Math.PI * 0.56,
+                      )
+                    : type === "sleeve"
+                      ? new THREE.CylinderGeometry(1, 0.72, 1, 12, 2)
+                      : type === "plane"
+                        ? new THREE.PlaneGeometry(1, 1)
+                        : type === "taper"
+                          ? new THREE.CylinderGeometry(0.78, 1, 1, 12)
+                          : type === "cone"
+                            ? new THREE.ConeGeometry(1, 1, 12)
+                            : new THREE.CylinderGeometry(1, 1, 1, 12);
       geometries.set(type, geometry);
     }
     const mesh = new THREE.Mesh(geometries.get(type), material(color, glow));

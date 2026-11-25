@@ -49,7 +49,9 @@ try {
     "http://127.0.0.1:" +
     server.httpServer.address().port +
     "/.media-build/continuum-world-art/index.html";
-  for (const width of [1280, 390]) {
+  const widths=(process.env.QA_WORLD_VISUAL_WIDTHS||'1280,390').split(',').map(Number);
+  const onlyShots=(process.env.QA_WORLD_VISUAL_SHOTS||'').split(',').filter(Boolean);
+  for (const width of widths) {
     const page = await browser.newPage({
         viewport: { width, height: width === 390 ? 844 : 800 },
       }),
@@ -70,6 +72,7 @@ try {
       ["cafe", { scene: "tokyo_cafe", position: { x: 0, z: 2 }, time: "day" }],
       ["market", { scene: "tokyo_konbini", time: "day" }],
     ]) {
+      if(onlyShots.length && !onlyShots.includes(shot))continue;
       const started = performance.now();
       console.log("Mounting", shot);
       await page.evaluate((settings) => window.mountWorld(settings), {

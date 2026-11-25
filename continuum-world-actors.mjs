@@ -15,12 +15,11 @@ export function makeWorldPerson(
     skin = meshes.material(0xc6a38b),
     hair = meshes.material(0x252722),
     shoe = meshes.material(0x303534);
-  shape(body, "sphere", cloth, [0, 1.21, 0], [0.205, 0.295, 0.125]);
-  shape(body, "taper", cloth, [0, 1.15, 0], [0.19, 0.39, 0.12]);
+  shape(body, "torso", cloth, [0, 1.21, 0], [0.215, 0.52, 0.13]);
   shape(body, "sphere", denim, [0, 0.96, 0], [0.175, 0.13, 0.115]);
   shape(body, "cylinder", skin, [0, 1.49, 0], [0.052, 0.12, 0.05]);
   shape(body, "sphere", skin, [0, 1.636, 0.005], [0.102, 0.133, 0.097]);
-  shape(body, "sphere", hair, [0, 1.72, -0.018], [0.107, 0.065, 0.101]);
+  shape(body, "hair", hair, [0, 1.636, -0.008], [0.106, 0.141, 0.101]);
   shape(body, "sphere", hair, [0, 1.64, -0.065], [0.104, 0.085, 0.047]);
   for (const side of [-1, 1]) {
     shape(body, "sphere", skin, [side * 0.105, 1.64, 0], [0.018, 0.032, 0.017]);
@@ -42,8 +41,8 @@ export function makeWorldPerson(
       body,
       "sphere",
       hair,
-      [side * 0.07, 1.721, 0.053],
-      [0.06, 0.04, 0.065],
+      [side * 0.045, 1.72, 0.053],
+      [0.04, 0.033, 0.05],
     );
     tuft.rotation.z = side * 0.25;
   }
@@ -71,11 +70,11 @@ export function makeWorldPerson(
       knee = new THREE.Group();
     hip.position.set(side * 0.094, 0.94, 0);
     body.add(hip);
-    shape(hip, "sphere", denim, [0, -0.205, 0], [0.082, 0.25, 0.085]);
+    shape(hip, "sleeve", denim, [0, -0.215, 0], [0.08, 0.43, 0.082]);
     knee.position.y = -0.43;
     hip.add(knee);
-    shape(knee, "sphere", denim, [0, -0.2, 0], [0.064, 0.23, 0.067]);
-    shape(knee, "sphere", shoe, [0, -0.427, 0.052], [0.075, 0.065, 0.145]);
+    shape(knee, "sleeve", denim, [0, -0.2, 0], [0.064, 0.4, 0.067]);
+    shape(knee, "rounded", shoe, [0, -0.427, 0.052], [0.15, 0.1, 0.27]);
     shape(knee, "box", 0xc6c9c0, [0, -0.468, 0.052], [0.15, 0.024, 0.26]);
     for (let i = 0; i < 3; i++)
       shape(
@@ -90,13 +89,13 @@ export function makeWorldPerson(
   const arms = [-1, 1].map((side) => {
     const shoulder = new THREE.Group(),
       elbow = new THREE.Group();
-    shoulder.position.set(side * 0.218, 1.4, 0);
+    shoulder.position.set(side * 0.207, 1.4, 0);
     shoulder.rotation.z = side * 0.06;
     body.add(shoulder);
-    shape(shoulder, "sphere", cloth, [0, -0.127, 0], [0.067, 0.172, 0.067]);
+    shape(shoulder, "sleeve", cloth, [0, -0.13, 0], [0.057, 0.26, 0.057]);
     elbow.position.y = -0.285;
     shoulder.add(elbow);
-    shape(elbow, "sphere", cloth, [0, -0.105, 0], [0.049, 0.14, 0.052]);
+    shape(elbow, "sleeve", cloth, [0, -0.12, 0], [0.046, 0.24, 0.05]);
     shape(elbow, "sphere", skin, [0, -0.26, 0.012], [0.039, 0.067, 0.032]);
     shape(
       elbow,
@@ -109,7 +108,7 @@ export function makeWorldPerson(
   });
   if (!npc) {
     const pack = surface("fabric", 2, 0xa99e85);
-    shape(body, "sphere", pack, [0, 1.19, -0.17], [0.152, 0.205, 0.08]);
+    shape(body, "rounded", pack, [0, 1.19, -0.17], [0.28, 0.38, 0.14]);
     shape(body, "box", 0x4a5146, [0, 1.17, -0.239], [0.18, 0.09, 0.018]);
     for (const side of [-1, 1]) {
       const strap = shape(
