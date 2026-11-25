@@ -107,6 +107,11 @@ try {
       const data = await page
         .locator("#world")
         .evaluate((e) => ({ ...e.dataset }));
+      const companionScreen = JSON.parse(data.companionScreen);
+      assert.ok(
+        Math.abs(companionScreen.x) < 0.85 && companionScreen.y > -0.95,
+        "full-body companion remains inside the initial portrait/landscape composition",
+      );
       await page.evaluate(() => window.worldEngine.setActive(false));
       await page.screenshot({
         path: new URL(width + "-" + shot + ".png", dir).pathname,

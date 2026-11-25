@@ -133,7 +133,10 @@ export async function createWorldEngine(
   let position = { ...initial.position },
     yaw = initial.yaw,
     pitch = 0.2,
-    companionPosition = { x: position.x + 1.1, z: position.z + 1.2 };
+    companionPosition = {
+      x: position.x + (indoor ? 0.6 : 0.7),
+      z: position.z + (indoor ? 0.6 : 0.7),
+    };
   if (!isWorldWalkable(initial.scene, companionPosition))
     companionPosition = { ...position };
   let disposed = false,
@@ -170,6 +173,15 @@ export async function createWorldEngine(
     host.dataset.drawCalls = String(renderer.info.render.calls);
     host.dataset.materialsPending = String(meshes.pendingTextures);
     host.dataset.photoSurfaces = String(meshes.photoSurfaces);
+    const companionScreen = new THREE.Vector3(
+      companionPosition.x,
+      0.4,
+      companionPosition.z,
+    ).project(camera);
+    host.dataset.companionScreen = JSON.stringify({
+      x: companionScreen.x,
+      y: companionScreen.y,
+    });
     onSnapshot({
       scene: initial.scene,
       position: { ...position },
@@ -207,6 +219,7 @@ export async function createWorldEngine(
     renderer.setPixelRatio(ratio);
     renderer.setSize(Math.max(1, box.width), Math.max(1, box.height), false);
     camera.aspect = box.width / Math.max(1, box.height);
+    camera.fov = box.width < 700 ? 63 : 55;
     camera.updateProjectionMatrix();
   };
   const observer = new ResizeObserver(resize);
@@ -316,7 +329,7 @@ export async function createWorldEngine(
       position.x - companionPosition.x,
       position.z - companionPosition.z,
     );
-    if (distance > 1.8) {
+    if (distance > 1.25) {
       const target = { x: position.x, z: position.z };
       if (now - lastPath > 650) {
         path = worldPath(initial.scene, companionPosition, target);
@@ -347,7 +360,7 @@ export async function createWorldEngine(
       companionPosition.x,
       reduced
         ? 0
-        : distance > 1.8
+        : distance > 1.25
           ? Math.abs(Math.sin(walkTime * 8)) * 0.035
           : 0,
       companionPosition.z,
