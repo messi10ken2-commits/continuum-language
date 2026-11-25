@@ -21,7 +21,7 @@ jobs:
           node-version-file: '.node-version'
           cache: npm
       - run: npm ci
-      - run: node --test continuum-world-model.test.mjs interface-templates.test.mjs
+      - run: node --test continuum-world-model.test.mjs continuum-world-audio.test.mjs interface-templates.test.mjs
       - run: npx playwright install --with-deps chromium webkit
       - run: node scripts/qa-continuum-world.mjs
       - run: npm run ios:sync && npm run test:native

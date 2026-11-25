@@ -78,7 +78,7 @@ Phase 1 のNPC台詞は公開の固定文で、ユーザーの会話入力は受
 | `continuum-world-scenes.mjs`、`continuum-world-interiors.mjs` | 独自の屋外街区と室内 |
 | `continuum-world-audio.mjs` | 初期OFFの生成環境音と停止・破棄 |
 | `continuum-world-copy.mjs`、`interface-copy.mjs` | 表示言語の文言 |
-| `continuum-world-model.test.mjs`、`scripts/qa-continuum-world.mjs` | 単体・ブラウザー検証 |
+| `continuum-world-model.test.mjs`、`continuum-world-audio.test.mjs`、`scripts/qa-continuum-world.mjs` | 単体・ブラウザー検証 |
 | `.github/workflows/continuum-world.yml`、本報告 | PR専用QAと監査記録 |
 
 ```sh
@@ -100,6 +100,7 @@ npm run test:native
 | --- | --- |
 | 変更前の単体テスト | 16成功、0失敗 |
 | 新モデル・表示文言の単体テスト | 10成功、0失敗 |
+| 環境音の停止・再開・破棄 | 3成功、0失敗 |
 | ローカル `test:qa` 先行回帰 | 647成功、0失敗、0スキップ。最終コミットのCI結果はPR参照 |
 | `ios:sync` と `test:native` | ベータOFFとONのビルドが成功。18成功、0失敗 |
 | Chromium 1280px／390px | 3D操作、実タッチ、施設往復、中断復帰、保存、WebGL再読込が成功 |

@@ -292,6 +292,11 @@ try {
           .getByLabel("Time of day", { exact: true })
           .selectOption("night");
         await page.getByLabel("Reduce motion", { exact: true }).check();
+        await page.getByLabel("Ambient sound", { exact: true }).check();
+        await page.getByLabel("Volume", { exact: true }).focus();
+        await page.keyboard.press('Home');
+        await page.keyboard.press('ArrowRight');
+        await page.keyboard.press('ArrowRight');
         await page.getByRole("button", { name: "Close", exact: true }).click();
         await page.waitForTimeout(800);
         await page.screenshot({

@@ -3,11 +3,13 @@ export function createWorldAmbience() {
   let context = null,
     gain = null,
     source = null,
+    disposed = false,
     enabled = false,
     active = true,
     volume = 0.2;
   function sync() {
     if (!context) return;
+    const current = context;
     gain.gain.setTargetAtTime(
       enabled && active ? volume * 0.08 : 0,
       context.currentTime,
@@ -17,13 +19,15 @@ export function createWorldAmbience() {
       context
         .resume()
         .then(() => {
-          if (!active || !enabled) void context.suspend();
+          if (context === current && (!active || !enabled))
+            void current.suspend().catch(() => {});
         })
         .catch(() => {});
     else void context.suspend().catch(() => {});
   }
   return {
     setEnabled(value, level = 0.2) {
+      if (disposed) return false;
       enabled = value;
       volume = level;
       if (value && !context) {
@@ -58,15 +62,20 @@ export function createWorldAmbience() {
       return true;
     },
     setActive(value) {
+      if (disposed) return;
       active = value;
       sync();
     },
     dispose() {
+      if (disposed) return;
+      disposed = true;
       source?.stop();
       source?.disconnect();
       gain?.disconnect();
       if (context) void context.close().catch(() => {});
       context = null;
+      source = null;
+      gain = null;
     },
   };
 }
