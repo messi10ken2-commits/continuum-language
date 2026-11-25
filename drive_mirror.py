@@ -40,7 +40,10 @@ class DriveMirror:
         credentials = Credentials(None, refresh_token=os.environ["DRIVE_REFRESH_TOKEN"],
             token_uri="https://oauth2.googleapis.com/token", client_id=os.environ["DRIVE_CLIENT_ID"],
             client_secret=os.environ["DRIVE_CLIENT_SECRET"])
-        self.drive = build("drive", "v3", http=AuthorizedHttp(credentials, http=httplib2.Http(timeout=120)), cache_discovery=False)
+        http = httplib2.Http(timeout=120)
+        # Drive uses 308 to acknowledge incomplete resumable uploads.
+        http.redirect_codes = http.redirect_codes - {308}
+        self.drive = build("drive", "v3", http=AuthorizedHttp(credentials, http=http), cache_discovery=False)
         folders = self.drive.files().list(q=ROOT_QUERY, fields="files(id)", pageSize=100).execute()["files"]
         if len(folders) > 1:
             raise ValueError("AMBIGUOUS_BACKUP_FOLDER")
