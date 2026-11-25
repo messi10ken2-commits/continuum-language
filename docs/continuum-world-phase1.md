@@ -78,12 +78,14 @@ Phase 1 のNPC台詞は公開の固定文で、ユーザーの会話入力は受
 | `continuum-world-scenes.mjs`、`continuum-world-interiors.mjs` | 独自の屋外街区と室内 |
 | `continuum-world-audio.mjs` | 初期OFFの生成環境音と停止・破棄 |
 | `continuum-world-copy.mjs`、`interface-copy.mjs` | 表示言語の文言 |
-| `continuum-world-model.test.mjs`、`continuum-world-audio.test.mjs`、`scripts/qa-continuum-world.mjs` | 単体・ブラウザー検証 |
+| `continuum-world-model.test.mjs`、`continuum-world-audio.test.mjs`、`scripts/qa-continuum-world.mjs`、`scripts/qa-continuum-world-entry.mjs` | 単体・ブラウザー・実アプリ導線検証 |
 | `.github/workflows/continuum-world.yml`、本報告 | PR専用QAと監査記録 |
 
 ```sh
 node --test continuum-world-model.test.mjs interface-templates.test.mjs
 node scripts/qa-continuum-world.mjs
+VITE_CONTINUUM_WORLD_TOKYO_BETA=true npm run build
+node scripts/qa-continuum-world-entry.mjs
 npm run test:qa
 npm run test:illustrated:browser
 npm run test:rpg:browser
@@ -104,6 +106,7 @@ npm run test:native
 | ローカル `test:qa` 先行回帰 | 647成功、0失敗、0スキップ。最終コミットのCI結果はPR参照 |
 | `ios:sync` と `test:native` | ベータOFFとONのビルドが成功。18成功、0失敗 |
 | Chromium 1280px／390px | 3D操作、実タッチ、施設往復、中断復帰、保存、WebGL再読込が成功 |
+| 実アプリとAPIの導線 | 無料学習者でPracticeからの入場、選択済みコンパニオン、施設、全画面の寸法、退出、Photoへの復帰、コース完了件数が増えないことを確認 |
 | WebKitと全体回帰の最終結果 | PRのチェック欄とCI証跡を参照 |
 | `test:rpg:browser` | 変更前・変更後とも同じ `.rpg-world-open` の待機で失敗 |
 | `test:illustrated:browser` | 同じ旧RPGスクリプトを呼ぶため、同じ入口の待機で失敗 |
