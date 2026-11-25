@@ -111,6 +111,7 @@
   color: #244139;
 }
 .cw-actions {
+  direction: ltr;
   position: absolute;
   inset-block-end: 22px;
   inset-inline: 24px;

@@ -407,6 +407,11 @@ try {
         await page
           .getByRole("button", { name: "Continuum World", exact: true })
           .click();
+        if (locale === "ar")
+          assert.ok(
+            (await page.locator(".cw-stick").boundingBox()).x < width / 2,
+            "RTL interface must preserve the physical left movement stick",
+          );
         await page
           .getByRole("button", {
             name: continuumWorldCopy["List view"][locale],
