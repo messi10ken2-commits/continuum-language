@@ -68,9 +68,14 @@ try {
         viewport: { width, height: width === 390 ? 844 : 850 },
         hasTouch: width === 390,
       });
+      let companionUnavailable = false;
       await context.route("**/api/**", (route) =>
         route.fulfill({
-          status: 200,
+          status:
+            companionUnavailable &&
+            route.request().url().includes("/api/adventure")
+              ? 503
+              : 200,
           contentType: "application/json",
           headers: {
             "access-control-allow-origin": new URL(route.request().url())
@@ -174,7 +179,7 @@ try {
             type: "touchMove",
             touchPoints: [{ ...point, y: point.y - 32 }],
           });
-          await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
+          await page.evaluate(() => window.dispatchEvent(new Event("focus")));
           await page.waitForTimeout(600);
           await session.send("Input.dispatchTouchEvent", {
             type: "touchEnd",
@@ -190,7 +195,7 @@ try {
           await host.focus();
         }
         await page.keyboard.down("KeyW");
-        await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
+        await page.evaluate(() => window.dispatchEvent(new Event("focus")));
         await page.waitForTimeout(900);
         await page.keyboard.up("KeyW");
         await page.waitForTimeout(220);
@@ -296,9 +301,9 @@ try {
         await page.getByLabel("Reduce motion", { exact: true }).check();
         await page.getByLabel("Ambient sound", { exact: true }).check();
         await page.getByLabel("Volume", { exact: true }).focus();
-        await page.keyboard.press('Home');
-        await page.keyboard.press('ArrowRight');
-        await page.keyboard.press('ArrowRight');
+        await page.keyboard.press("Home");
+        await page.keyboard.press("ArrowRight");
+        await page.keyboard.press("ArrowRight");
         await page.getByRole("button", { name: "Close", exact: true }).click();
         await page.waitForTimeout(800);
         await page.screenshot({
@@ -484,6 +489,17 @@ try {
           .count(),
         0,
       );
+      companionUnavailable = true;
+      await go(base + "?user=fallback-learner");
+      await page
+        .getByRole("button", { name: "Continuum World", exact: true })
+        .click();
+      if (webgl)
+        await page.waitForFunction(
+          () =>
+            document.querySelector(".cw-renderer")?.dataset.companion ===
+            "bird",
+        );
       assert.ok(
         !writes.some((url) =>
           /\/api\/(world|speaking|speech|learning)(?:\/|$)/.test(url),

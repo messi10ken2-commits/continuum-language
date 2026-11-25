@@ -9,6 +9,7 @@ import {
   worldInteraction,
 } from "./continuum-world-model.mjs";
 import { createWorldAmbience } from "./continuum-world-audio.mjs";
+import { callCompanionKind } from "./companion-call-models.mjs";
 import "./continuum-world.css";
 
 function WorldStick({ input, onFocus }) {
@@ -128,7 +129,7 @@ export default function ContinuumWorld({ user, onBack }) {
     [failure, setFailure] = useState(""),
     [storageFailed, setStorageFailed] = useState(false),
     [dialogue, setDialogue] = useState(null),
-    [kind, setKind] = useState("capybara"),
+    [kind, setKind] = useState("bird"),
     [destination, setDestination] = useState("tokyo_cafe"),
     [running, setRunning] = useState(false);
   const root = useRef(null),
@@ -186,7 +187,7 @@ export default function ContinuumWorld({ user, onBack }) {
     })
       .then((r) => (r.ok ? r.json() : null))
       .then((value) => {
-        if (value?.companion) setKind(value.companion);
+        if (value?.companion) setKind(callCompanionKind(value.companion));
       })
       .catch(() => {});
     return () => controller.abort();
@@ -202,7 +203,7 @@ export default function ContinuumWorld({ user, onBack }) {
   useEffect(() => {
     const sync = () => {
       const active = !isAppHidden() && !paused && focused.current;
-      if(!active) input.current = { x: 0, z: 0, run: false };
+      if (!active) input.current = { x: 0, z: 0, run: false };
       engine.current?.setActive(active);
       ambience.current?.setActive(active);
       if (isAppHidden() && !save()) setStorageFailed(true);

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { CALL_MODELS } from "./companion-call-models.mjs";
+import { CALL_MODELS, callCompanionKind } from "./companion-call-models.mjs";
 import { bindFaceRig } from "./companion-call-rig.mjs";
 import { FaceMotion } from "./companion-face-motion.mjs";
 import {
@@ -20,7 +20,7 @@ import {
 
 export async function createWorldEngine(
   host,
-  { initial, kind = "capybara", input, options, onSnapshot, onFailure, signal },
+  { initial, kind = "bird", input, options, onSnapshot, onFailure, signal },
 ) {
   const meshes = worldMeshes(),
     scene = new THREE.Scene(),
@@ -126,7 +126,7 @@ export async function createWorldEngine(
     keys = new Set(),
     cameraTarget = new THREE.Vector3(),
     desiredCamera = new THREE.Vector3();
-  const companionKind = Object.hasOwn(CALL_MODELS, kind) ? kind : "capybara";
+  const companionKind = callCompanionKind(kind);
   // Retain the original companion model and face motion. No external model provider.
   fetch(CALL_MODELS[companionKind], { signal })
     .then(async (response) => {
