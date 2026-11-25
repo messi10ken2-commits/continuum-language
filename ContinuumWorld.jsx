@@ -131,7 +131,8 @@ export default function ContinuumWorld({ user, onBack }) {
     [kind, setKind] = useState("capybara"),
     [destination, setDestination] = useState("tokyo_cafe"),
     [running, setRunning] = useState(false);
-  const host = useRef(null),
+  const root = useRef(null),
+    host = useRef(null),
     engine = useRef(null),
     last = useRef(initial.current),
     pendingTransition = useRef(null),
@@ -143,6 +144,26 @@ export default function ContinuumWorld({ user, onBack }) {
     returnFocus = useRef(null);
   options.current = { ...settings, destination, talking: !!dialogue };
   input.current.run = running;
+  useEffect(() => {
+    // Keep the fullscreen exploration's keyboard and screen-reader focus in its UI.
+    const previous = [];
+    for (
+      let element = root.current;
+      element?.parentElement && element !== document.body;
+      element = element.parentElement
+    ) {
+      for (const sibling of element.parentElement.children) {
+        if (sibling !== element && sibling instanceof HTMLElement) {
+          previous.push([sibling, sibling.inert]);
+          sibling.inert = true;
+        }
+      }
+    }
+    root.current?.querySelector("button")?.focus({ preventScroll: true });
+    return () => {
+      for (const [element, inert] of previous) element.inert = inert;
+    };
+  }, []);
   const save = useCallback(() => {
     const current =
       pendingTransition.current || engine.current?.getState() || last.current;
@@ -345,6 +366,7 @@ export default function ContinuumWorld({ user, onBack }) {
   };
   return (
     <section
+      ref={root}
       className="cw-world"
       aria-label={t("Continuum World")}
       onKeyDown={keyboard}

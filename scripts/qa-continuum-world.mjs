@@ -16,7 +16,7 @@ import '../../styles.css';import '../../features.css';import '../../journey.css'
 const params=new URLSearchParams(location.search),layout=params.get('layout')||'illustrated';
 setInterfaceLanguage(params.get('locale')||'en');
 const user={id:params.get('user')||'world-qa',role:params.get('role')||'learner'};
-function Harness(){const [enabled,setEnabled]=useState(params.get('flag')!=='off');useEffect(()=>{const disable=()=>setEnabled(false);window.addEventListener('qa-world-disable',disable);return()=>window.removeEventListener('qa-world-disable',disable)},[]);return <JourneyLayoutContext.Provider value={{layout}}><div className="app continuum-ui"><main><PracticeStudio user={user} language={params.get('language')||'ja'} features={{continuumWorldTokyoBeta:enabled?undefined:false}}/></main></div></JourneyLayoutContext.Provider>;}
+function Harness(){const [enabled,setEnabled]=useState(params.get('flag')!=='off');useEffect(()=>{const disable=()=>setEnabled(false);window.addEventListener('qa-world-disable',disable);return()=>window.removeEventListener('qa-world-disable',disable)},[]);return <JourneyLayoutContext.Provider value={{layout}}><div className="app continuum-ui"><aside><button>Outside world navigation</button></aside><main><PracticeStudio user={user} language={params.get('language')||'ja'} features={{continuumWorldTokyoBeta:enabled?undefined:false}}/></main></div></JourneyLayoutContext.Provider>;}
 createRoot(document.getElementById('root')).render(<Harness/>);
 `,
 );
@@ -129,6 +129,11 @@ try {
         .click();
       const host = page.locator(".cw-renderer");
       await host.waitFor();
+      assert.equal(
+        await page.locator(".app>aside").evaluate((element) => element.inert),
+        true,
+        "background navigation is excluded from focus while exploring",
+      );
       await page.waitForFunction(
         () =>
           document.querySelector(".cw-renderer")?.dataset.worldFrames ||
@@ -456,6 +461,11 @@ try {
         window.dispatchEvent(new Event("qa-world-disable")),
       );
       await page.locator(".studio-menu").waitFor();
+      assert.equal(
+        await page.locator(".app>aside").evaluate((element) => element.inert),
+        false,
+        "leaving the world restores existing navigation",
+      );
       assert.equal(
         await page.locator(".cw-canvas").count(),
         0,
