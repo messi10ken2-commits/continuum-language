@@ -106,7 +106,7 @@ export const worldScenes = {
     spawn: { x: -8, z: 19 },
     obstacles: [
       ...outdoorBuildings,
-      { x: -27, z: 15, width: 12, depth: 18 },
+      { x: -24, z: 15, width: 22, depth: 18 },
       { x: -30, z: -31, width: 8, depth: 12 },
       { x: 29, z: -31, width: 10, depth: 12 },
     ],

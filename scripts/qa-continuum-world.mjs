@@ -40,6 +40,7 @@ const server = await preview({
   preview: { host: "127.0.0.1", port: 0 },
 });
 let browser;
+let activePage;
 const results = [];
 try {
   const base =
@@ -90,6 +91,7 @@ try {
         }),
       );
       const page = await context.newPage();
+      activePage = page;
       page.setDefaultTimeout(20000);
       page.setDefaultNavigationTimeout(30000);
       const errors = [],
@@ -157,6 +159,14 @@ try {
         );
         const loadMs = performance.now() - openedAt;
         console.log("WebGL ready", name, width);
+        await page
+          .getByRole("button", { name: "World settings", exact: true })
+          .click();
+        await page
+          .getByLabel("Time of day", { exact: true })
+          .selectOption("day");
+        await page.getByRole("button", { name: "Close", exact: true }).click();
+        await page.waitForTimeout(350);
         await page.screenshot({
           path: new URL(name + "-" + width + "-outdoors.png", directory)
             .pathname,
@@ -524,6 +534,10 @@ try {
   );
   console.log(JSON.stringify(results, null, 2));
 } catch (error) {
+  if(activePage && !activePage.isClosed()) {
+    await activePage.screenshot({path:new URL('last-failure.png',directory).pathname}).catch(()=>{});
+    console.error('World failure state',await activePage.evaluate(()=>({renderer:{...document.querySelector('.cw-renderer')?.dataset},viewport:[innerWidth,innerHeight],header:document.querySelector('.cw-header')?.getBoundingClientRect().toJSON(),inert:document.querySelector('.cw-header')?.closest('[inert]')?.className})).catch(()=>null));
+  }
   console.error(error);
   throw error;
 } finally {

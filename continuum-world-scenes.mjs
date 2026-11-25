@@ -1,37 +1,106 @@
 import * as THREE from "three";
 import { worldLocations } from "./continuum-world-model.mjs";
+import {
+  makeWorldSurfaces,
+  worldRandom,
+} from "./continuum-world-materials.mjs";
+export {
+  makeWorldPerson,
+  makeWorldCompanion,
+} from "./continuum-world-actors.mjs";
 
-// Original procedural architecture and signs, using shared geometry/materials.
-export function worldMeshes() {
+export function worldMeshes({ quality = "auto" } = {}) {
   const geometries = new Map(),
     materials = new Map(),
-    textures = new Set();
+    textures = new Set(),
+    batches = new Set();
+  const surfaces = makeWorldSurfaces((t) => textures.add(t));
   const material = (color, glow = false) => {
+    if (color?.isMaterial) return color;
     const key = color + ":" + glow;
-    if (!materials.has(key))
-      materials.set(
-        key,
-        new THREE.MeshStandardMaterial({
-          color,
-          roughness: 0.88,
-          ...(glow ? { emissive: color, emissiveIntensity: 0.32 } : {}),
-        }),
-      );
+    if (!materials.has(key)) {
+      const surface =
+        typeof color === "string" && !color.startsWith("#") ? color : null;
+      const physical = quality === "high" || quality === "medium";
+      const Type = physical
+        ? THREE.MeshStandardMaterial
+        : THREE.MeshLambertMaterial;
+      const mat = new Type({
+        color: surface ? 0xffffff : color,
+        ...(physical
+          ? {
+              roughness: surface === "metal" ? 0.36 : 0.82,
+              metalness: surface === "metal" ? 0.7 : 0,
+            }
+          : {}),
+        ...(glow ? { emissive: color, emissiveIntensity: 0.6 } : {}),
+      });
+      if (surface) {
+        mat.map = surfaces.texture(surface);
+        if (quality === "high" || quality === "medium") {
+          mat.bumpMap = mat.map;
+          mat.bumpScale = ["paving", "bark"].includes(surface) ? 0.055 : 0.018;
+        }
+      }
+      materials.set(key, mat);
+    }
     return materials.get(key);
   };
+  const surface = (name, repeat = 1, tint = 0xffffff) => {
+    const key = `surface:${name}:${repeat}:${tint}`;
+    if (!materials.has(key)) {
+      const mat = material(name).clone(),
+        map = surfaces.texture(name).clone();
+      map.repeat.set(repeat, repeat);
+      textures.add(map);
+      mat.map = map;
+      if (mat.bumpMap) mat.bumpMap = map;
+      mat.color.set(tint);
+      materials.set(key, mat);
+    }
+    return materials.get(key);
+  };
+  const special = (name, parameters) => {
+    if (!materials.has(name)) {
+      if (quality === "high" || quality === "medium")
+        materials.set(name, new THREE.MeshStandardMaterial(parameters));
+      else {
+        const { roughness, metalness, envMapIntensity, ...diffuse } =
+          parameters;
+        materials.set(name, new THREE.MeshLambertMaterial(diffuse));
+      }
+    }
+    return materials.get(name);
+  };
   const shape = (parent, type, color, position, size, glow = false) => {
-    if (!geometries.has(type))
-      geometries.set(
-        type,
+    if (type === "sphere" && Math.max(...size) < 0.075) type = "detail";
+    if (!geometries.has(type)) {
+      const geometry =
         type === "box"
           ? new THREE.BoxGeometry(1, 1, 1)
           : type === "sphere"
-            ? new THREE.SphereGeometry(1, 12, 8)
-            : new THREE.CylinderGeometry(1, 1, 1, 12),
-      );
+            ? new THREE.SphereGeometry(
+                1,
+                quality === "high" ? 20 : 12,
+                quality === "high" ? 14 : 8,
+              )
+            : type === "detail"
+              ? new THREE.SphereGeometry(1, 8, 6)
+              : type === "plane"
+                ? new THREE.PlaneGeometry(1, 1)
+                : type === "taper"
+                  ? new THREE.CylinderGeometry(0.78, 1, 1, 12)
+                  : type === "cone"
+                    ? new THREE.ConeGeometry(1, 1, 12)
+                    : new THREE.CylinderGeometry(1, 1, 1, 12);
+      geometries.set(type, geometry);
+    }
     const mesh = new THREE.Mesh(geometries.get(type), material(color, glow));
     mesh.position.set(...position);
     mesh.scale.set(...size);
+    mesh.castShadow = type !== "plane";
+    mesh.receiveShadow = true;
+    mesh.userData.worldBatch = true;
     parent.add(mesh);
     return mesh;
   };
@@ -40,243 +109,637 @@ export function worldMeshes() {
     text,
     position,
     width = 5,
-    background = "#233d3b",
-    foreground = "#fff3d3",
+    background = "#283a38",
+    foreground = "#faf4e5",
   ) => {
-    const canvas = document.createElement("canvas");
-    canvas.width = 512;
-    canvas.height = 128;
-    const context = canvas.getContext("2d");
-    context.fillStyle = background;
-    context.fillRect(0, 0, 512, 128);
-    context.fillStyle = foreground;
-    context.font = "bold 62px sans-serif";
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillText(text, 256, 67, 485);
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.colorSpace = THREE.SRGBColorSpace;
-    textures.add(texture);
-    const geometry = new THREE.PlaneGeometry(width, width / 4),
-      mat = new THREE.MeshBasicMaterial({ map: texture });
-    geometries.set(canvas, geometry);
-    materials.set(canvas, mat);
-    const mesh = new THREE.Mesh(geometry, mat);
-    mesh.position.set(...position);
-    parent.add(mesh);
-    return mesh;
+    const key = `sign:${text}:${background}:${foreground}`;
+    if (!materials.has(key)) {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1024;
+      canvas.height = 256;
+      const c = canvas.getContext("2d");
+      c.fillStyle = background;
+      c.fillRect(0, 0, 1024, 256);
+      c.strokeStyle = foreground + "55";
+      c.lineWidth = 2;
+      c.strokeRect(14, 14, 996, 228);
+      c.fillStyle = foreground;
+      c.font = "500 104px sans-serif";
+      c.textAlign = "center";
+      c.textBaseline = "middle";
+      c.fillText(text, 512, 132, 940);
+      const t = new THREE.CanvasTexture(canvas);
+      t.colorSpace = THREE.SRGBColorSpace;
+      textures.add(t);
+      materials.set(
+        key,
+        new THREE.MeshLambertMaterial({
+          map: t,
+          emissiveMap: t,
+          emissive: 0xffffff,
+          emissiveIntensity: 0.22,
+        }),
+      );
+    }
+    return shape(parent, "plane", materials.get(key), position, [
+      width,
+      width / 4,
+      1,
+    ]);
+  };
+  const contact = (parent, x, z, width = 1, depth = 1, opacity = 0.3) => {
+    if (!materials.has("contact")) {
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 128;
+      const c = canvas.getContext("2d");
+      const g = c.createRadialGradient(64, 64, 5, 64, 64, 64);
+      g.addColorStop(0, "rgba(9,16,20,.6)");
+      g.addColorStop(0.45, "rgba(9,16,20,.28)");
+      g.addColorStop(1, "rgba(9,16,20,0)");
+      c.fillStyle = g;
+      c.fillRect(0, 0, 128, 128);
+      const t = new THREE.CanvasTexture(canvas);
+      textures.add(t);
+      materials.set(
+        "contact",
+        new THREE.MeshBasicMaterial({
+          map: t,
+          transparent: true,
+          depthWrite: false,
+          polygonOffset: true,
+          polygonOffsetFactor: -2,
+        }),
+      );
+    }
+    const m = shape(
+      parent,
+      "plane",
+      materials.get("contact"),
+      [x, 0.08, z],
+      [width, depth, 1],
+    );
+    m.rotation.x = -Math.PI / 2;
+    m.castShadow = false;
+    m.receiveShadow = false;
+    m.userData.worldBatch = false;
+    return m;
+  };
+  const batch = (root, recursive = true) => {
+    root.updateMatrixWorld(true);
+    const inverse = root.matrixWorld.clone().invert(),
+      groups = new Map();
+    const collect = (mesh) => {
+      if (!mesh.isMesh || !mesh.userData.worldBatch) return;
+      const key = mesh.geometry.uuid + mesh.material.uuid + mesh.castShadow;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(mesh);
+    };
+    if (recursive) root.traverse(collect);
+    else root.children.forEach(collect);
+    for (const group of groups.values()) {
+      if (group.length < 2) continue;
+      const first = group[0],
+        instances = new THREE.InstancedMesh(
+          first.geometry,
+          first.material,
+          group.length,
+        );
+      instances.castShadow = first.castShadow;
+      instances.receiveShadow = first.receiveShadow;
+      group.forEach((mesh, i) => {
+        instances.setMatrixAt(
+          i,
+          new THREE.Matrix4().multiplyMatrices(inverse, mesh.matrixWorld),
+        );
+        mesh.removeFromParent();
+      });
+      instances.computeBoundingSphere();
+      root.add(instances);
+      batches.add(instances);
+    }
+    return root;
+  };
+  const foliage = () => {
+    if (!materials.has("foliage"))
+      materials.set(
+        "foliage",
+        new THREE.MeshLambertMaterial({
+          map: surfaces.texture("leaves"),
+          alphaTest: 0.4,
+          side: THREE.DoubleSide,
+        }),
+      );
+    return materials.get("foliage");
+  };
+  const buildingShade = (parent, x, z, width, depth, height) => {
+    if (quality === "high" || quality === "medium") return;
+    const points = [];
+    for (const dx of [-width / 2, width / 2])
+      for (const dz of [-depth / 2, depth / 2])
+        for (const top of [0, 1])
+          points.push({
+            x: x + dx + (top * height * 25) / 36,
+            z: z + dz - (top * height * 18) / 36,
+          });
+    points.sort((a, b) => a.x - b.x || a.z - b.z);
+    const cross = (a, b, c) =>
+      (b.x - a.x) * (c.z - a.z) - (b.z - a.z) * (c.x - a.x);
+    const half = (items) => {
+      const result = [];
+      for (const p of items) {
+        while (result.length > 1 && cross(result.at(-2), result.at(-1), p) <= 0)
+          result.pop();
+        result.push(p);
+      }
+      return result;
+    };
+    const hull = [
+        ...half(points).slice(0, -1),
+        ...half([...points].reverse()).slice(0, -1),
+      ],
+      outline = new THREE.Shape(hull.map((p) => new THREE.Vector2(p.x, -p.z))),
+      geometry = new THREE.ShapeGeometry(outline);
+    geometries.set(geometry, geometry);
+    if (!materials.has("building-shade"))
+      materials.set(
+        "building-shade",
+        new THREE.MeshBasicMaterial({
+          color: 0x182a38,
+          transparent: true,
+          opacity: 0.18,
+          depthWrite: false,
+          polygonOffset: true,
+          polygonOffsetFactor: -1,
+        }),
+      );
+    const shadow = new THREE.Mesh(geometry, materials.get("building-shade"));
+    shadow.rotation.x = -Math.PI / 2;
+    shadow.position.y = 0.058;
+    shadow.userData.worldDayShade = true;
+    parent.add(shadow);
   };
   return {
+    physical: quality === "high" || quality === "medium",
     shape,
     sign,
     material,
+    surface,
+    special,
+    contact,
+    batch,
+    foliage,
+    buildingShade,
     dispose() {
+      batches.forEach((b) => b.dispose());
       geometries.forEach((g) => g.dispose());
       materials.forEach((m) => m.dispose());
       textures.forEach((t) => t.dispose());
     },
   };
 }
-export function makeWorldPerson(
-  meshes,
-  { color = 0xd8ad73, npc = false } = {},
-) {
-  const root = new THREE.Group(),
-    body = new THREE.Group();
-  root.add(body);
-  meshes.shape(body, "cylinder", color, [0, 1.03, 0], [0.29, 0.68, 0.23]);
-  meshes.shape(body, "sphere", 0xe8bd99, [0, 1.62, 0], [0.25, 0.29, 0.24]);
-  meshes.shape(body, "sphere", 0x383736, [0, 1.79, -0.035], [0.26, 0.17, 0.25]);
-  meshes.shape(body, "box", 0x333c46, [0, 1.69, 0.21], [0.27, 0.035, 0.025]);
-  const legs = [-1, 1].map((side) => {
-    const pivot = new THREE.Group();
-    pivot.position.set(side * 0.14, 0.77, 0);
-    body.add(pivot);
-    meshes.shape(pivot, "box", 0x354457, [0, -0.32, 0], [0.19, 0.64, 0.2]);
-    meshes.shape(pivot, "box", 0xe6dfd0, [0, -0.67, 0.055], [0.22, 0.13, 0.32]);
-    return pivot;
-  });
-  const arms = [-1, 1].map((side) => {
-    const pivot = new THREE.Group();
-    pivot.position.set(side * 0.35, 1.3, 0);
-    body.add(pivot);
-    meshes.shape(pivot, "cylinder", color, [0, -0.24, 0], [0.1, 0.5, 0.1]);
-    meshes.shape(pivot, "sphere", 0xe8bd99, [0, -0.52, 0], [0.1, 0.12, 0.1]);
-    return pivot;
-  });
-  if (!npc) {
-    meshes.shape(body, "box", 0xaf7253, [0, 1.15, -0.27], [0.42, 0.49, 0.18]);
-    meshes.shape(body, "sphere", 0xf0ce81, [0, 1.92, 0], [0.34, 0.08, 0.32]);
+
+function makeTree(meshes, parent, x, z, seed = 0) {
+  const { shape, surface, special, contact } = meshes,
+    random = worldRandom(seed + 91),
+    tree = new THREE.Group();
+  tree.position.set(x, 0, z);
+  parent.add(tree);
+  shape(tree, "taper", surface("bark", 2), [0, 2.5, 0], [0.16, 5, 0.16]);
+  for (let i = 0; i < 5; i++) {
+    const a = i * 2.4,
+      branch = shape(
+        tree,
+        "taper",
+        "bark",
+        [Math.sin(a) * 0.4, 3.4 + i * 0.22, Math.cos(a) * 0.4],
+        [0.06, 1.9, 0.06],
+      );
+    branch.rotation.z = Math.sin(a) * 0.65;
+    branch.rotation.x = Math.cos(a) * 0.65;
   }
-  let gait = 0,
-    previousTime = 0;
-  return {
-    root,
-    animate(time, speed, reduced) {
-      const seconds = Math.min(0.1, Math.max(0, time - previousTime));
-      previousTime = time;
-      gait += (speed - gait) * (1 - Math.exp(-seconds / 0.12));
-      legs.forEach(
-        (leg, i) =>
-          (leg.rotation.x = reduced
-            ? 0
-            : Math.sin(time * 9 + i * Math.PI) * Math.min(0.6, gait * 0.16)),
-      );
-      arms.forEach(
-        (arm, i) =>
-          (arm.rotation.x = reduced
-            ? 0
-            : Math.sin(time * 9 + i * Math.PI) * Math.min(0.4, gait * 0.12)),
-      );
-    },
-  };
+  // Leaf-shaped cutout clusters preserve the gaps in a real canopy.
+  const mat = meshes.foliage();
+  for (let i = 0; i < 90; i++) {
+    const a = random() * Math.PI * 2,
+      r = Math.sqrt(random()) * 2.1,
+      y = 4.2 + random() * 1.9;
+    const leaf = shape(
+      tree,
+      "plane",
+      mat,
+      [Math.sin(a) * r, y, Math.cos(a) * r],
+      [1.2, 1.2, 1],
+    );
+    leaf.rotation.set(random() * 2, a, random());
+    leaf.castShadow = true;
+  }
+  for (let i = 0; i < 3; i++) {
+    const a = (i * Math.PI * 2) / 3;
+    shape(
+      tree,
+      "cylinder",
+      0x7b6951,
+      [Math.sin(a) * 0.42, 1, Math.cos(a) * 0.42],
+      [0.035, 2, 0.035],
+    );
+  }
+  const grate = shape(
+    tree,
+    "cylinder",
+    0x303b3e,
+    [0, 0.07, 0],
+    [0.75, 0.025, 0.75],
+  );
+  grate.castShadow = false;
+  for (let i = 0; i < 8; i++) {
+    const a = (i * Math.PI) / 4;
+    const bar = shape(
+      tree,
+      "box",
+      0x6d7778,
+      [Math.sin(a) * 0.4, 0.09, Math.cos(a) * 0.4],
+      [0.025, 0.015, 0.65],
+    );
+    bar.rotation.y = a;
+  }
+  contact(parent, x, z, 5.7, 5.7);
 }
+
+function shopBuilding(
+  meshes,
+  parent,
+  { x, z, width, depth, height, sign: text, id, color, rotation = 0 },
+) {
+  const { shape, sign, surface, special, contact } = meshes,
+    group = new THREE.Group();
+  group.position.set(x, 0, z);
+  group.rotation.y = rotation;
+  parent.add(group);
+  const face = depth / 2,
+    skin = surface("concrete", 2, color || 0xc6c5be),
+    frame = surface("metal", 1, 0x536068);
+  // Real recesses, columns, glazing and floor slabs replace a single solid block.
+  shape(
+    group,
+    "box",
+    skin,
+    [0, (height + 3.6) / 2, 0],
+    [width, height - 3.6, depth],
+  );
+  shape(group, "box", skin, [0, 1.8, -depth / 2 + 0.3], [width, 3.6, 0.6]);
+  for (const dx of [-width / 2 + 0.2, width / 2 - 0.2])
+    shape(group, "box", skin, [dx, 1.8, 0], [0.4, 3.6, depth]);
+  shape(group, "box", surface("tile", 4), [0, 0.025, 0], [width, 0.08, depth]);
+  shape(group, "box", 0xbbb9af, [0, 3.55, 0], [width, 0.16, depth]);
+  const glass = special("glass", {
+    color: 0x6f929f,
+    metalness: 0.32,
+    roughness: 0.12,
+    transparent: true,
+    opacity: 0.34,
+    envMapIntensity: 1.1,
+    depthWrite: false,
+  });
+  for (const side of [-1, 1])
+    for (let edge = 1.12; edge < width / 2 - 0.3; edge += 2.4) {
+      const bay = Math.min(2.4, width / 2 - 0.25 - edge),
+        center = side * (edge + bay / 2);
+      shape(group, "box", frame, [side * edge, 1.8, face], [0.055, 3.4, 0.12]);
+      shape(
+        group,
+        "box",
+        glass,
+        [center, 1.8, face - 0.03],
+        [bay - 0.06, 2.9, 0.035],
+      );
+      shape(
+        group,
+        "box",
+        0x2e3535,
+        [center, 0.55, face - 1.2],
+        [bay - 0.15, 0.65, 0.5],
+      );
+      shape(
+        group,
+        "box",
+        id === "tokyo_cafe" ? 0x947455 : 0x869c89,
+        [center, 1.05, face - 1.1],
+        [bay - 0.12, 0.06, 0.6],
+      );
+      if (text.includes("書店")) {
+        for (let j = 0; j < 9; j++)
+          shape(
+            group,
+            "box",
+            [0xb8a67e, 0x759088, 0xa87c66, 0x9b9d8d][j % 4],
+            [center - bay / 2 + 0.13 + (j * (bay - 0.2)) / 9, 1.27, face - 1.1],
+            [0.11, 0.35 + (j % 3) * 0.035, 0.22],
+          );
+      } else
+        for (let j = 0; j < 4; j++)
+          shape(
+            group,
+            "cylinder",
+            [0xaab5a8, 0xd8c89c, 0x765749, 0xe1dad0][j],
+            [center - 0.4 + j * 0.25, 1.22, face - 1.1],
+            [0.07, 0.27, 0.07],
+          );
+    }
+  for (const dx of [-1, 1])
+    shape(group, "box", frame, [dx, 1.6, face + 0.02], [0.07, 3.15, 0.1]);
+  shape(group, "box", frame, [0, 3.14, face], [2.1, 0.07, 0.12]);
+  shape(group, "box", glass, [0, 1.6, face], [1.94, 3.05, 0.035]);
+  shape(group, "box", 0xd7d5bc, [0.7, 1.5, face + 0.1], [0.035, 0.42, 0.08]);
+  shape(group, "box", 0x252c2c, [0, 0.11, face + 0.02], [2, 0.12, 0.55]);
+  const fascia =
+    id === "tokyo_konbini"
+      ? "#19574f"
+      : id === "tokyo_station"
+        ? "#293b4b"
+        : "#353d37";
+  shape(
+    group,
+    "box",
+    0x242d2c,
+    [0, 3.86, face + 0.12],
+    [width + 0.1, 0.65, 0.28],
+  );
+  sign(group, text, [0, 3.86, face + 0.275], Math.min(width - 1, 7), fascia);
+  for (let y = 5.6; y < height - 1; y += 3) {
+    shape(group, "box", frame, [0, y - 1.05, face + 0.1], [width, 0.12, 0.2]);
+    for (let dx = -width / 2 + 1.3; dx < width / 2 - 0.5; dx += 2.4) {
+      shape(group, "box", 0x26343e, [dx, y, face + 0.025], [1.85, 1.8, 0.08]);
+      shape(group, "box", glass, [dx, y, face + 0.08], [1.8, 1.73, 0.05]);
+      shape(group, "box", frame, [dx, y, face + 0.12], [0.045, 1.8, 0.05]);
+      shape(group, "box", 0xc9c8ba, [dx, y - 1, face + 0.18], [2, 0.12, 0.4]);
+    }
+  }
+  shape(
+    group,
+    "box",
+    0x6e7778,
+    [0, height + 0.12, 0],
+    [width + 0.2, 0.24, depth + 0.2],
+  );
+  for (const dx of [-width / 2 + 0.3, width / 2 - 0.3])
+    shape(group, "box", 0xa3aaa8, [dx, height + 0.55, 0], [0.12, 0.8, depth]);
+  for (const dx of [-width * 0.25, width * 0.25]) {
+    shape(group, "box", 0xa2aaa8, [dx, height + 0.7, -1], [1.3, 1, 1.3]);
+    for (let i = 0; i < 5; i++)
+      shape(
+        group,
+        "box",
+        0x5a6569,
+        [dx, height + 0.43 + i * 0.11, -0.33],
+        [1.05, 0.035, 0.04],
+      );
+  }
+  // Vertical tenant signs and railings produce recognisable commercial-street density.
+  const board = sign(
+    group,
+    "珈琲  /  BOOKS",
+    [width / 2 - 0.25, Math.min(height - 1, 6.5), face + 0.4],
+    3.6,
+    "#eff0df",
+    "#344647",
+  );
+  board.rotation.z = Math.PI / 2;
+  for (let i = 0; i < 2; i++) {
+    const a = sign(
+      group,
+      ["喫茶・軽食", "文具と本"][i],
+      [-width / 2 + 0.8 + i * 2.1, Math.min(height - 1, 6.5), face + 0.18],
+      1.8,
+      i ? "#374e67" : "#a1473a",
+    );
+    a.scale.y = 1.8;
+  }
+  contact(group, 0, face + 0.2, width, 3, 0.3);
+}
+
 export function makeOutdoorWorld(meshes) {
   const root = new THREE.Group(),
-    { shape, sign } = meshes;
-  shape(root, "box", 0xe2d4bc, [0, -0.23, -3], [75, 0.4, 78]);
-  shape(root, "box", 0x657172, [0, 0.005, -3], [8, 0.08, 76]);
-  shape(root, "box", 0x657172, [0, 0.015, 0], [72, 0.08, 8]);
+    { shape, sign, surface, contact } = meshes;
+  root.name = "Tokyo authored streetscape";
+  shape(root, "box", surface("paving", 80), [0, -0.18, -3], [90, 0.3, 100]);
+  shape(root, "box", surface("asphalt", 22), [0, -0.005, -3], [8, 0.06, 86]);
+  shape(root, "box", surface("asphalt", 22), [0, 0.002, 0], [86, 0.06, 8]);
   for (const side of [-1, 1]) {
-    shape(root, "box", 0xf8ecd5, [side * 4.4, 0.05, -3], [0.35, 0.12, 76]);
-    shape(root, "box", 0xf8ecd5, [0, 0.05, side * 4.4], [72, 0.12, 0.35]);
-    for (let i = 0; i < 7; i++)
-      shape(root, "box", 0xf4efda, [side * 6.4, 0.07, -3 + i], [3, 0.02, 0.5]);
-    for (let i = 0; i < 7; i++)
-      shape(root, "box", 0xf4efda, [-3 + i, 0.07, side * 6.4], [0.5, 0.02, 3]);
-  }
-  for (const location of worldLocations.filter((l) => l.id !== "tokyo_park")) {
-    const { x, z, width, depth, height, color } = location;
-    shape(root, "box", color, [x, height / 2, z], [width, height, depth]);
+    for (const x of [side * 4.12, side * 4.35])
+      shape(root, "box", 0xbdbbb1, [x, 0.045, -3], [0.12, 0.1, 78]);
+    for (const z of [side * 4.12, side * 4.35])
+      shape(root, "box", 0xbdbbb1, [0, 0.045, z], [78, 0.1, 0.12]);
+    // Tactile strips and small kerb drain slots.
     shape(
       root,
       "box",
-      0xf2ddbb,
-      [x, 0.2, z + depth / 2 + 0.2],
-      [width + 0.5, 0.3, 0.8],
+      surface("tile", 18, 0xd2ba65),
+      [side * 5.3, 0.055, -3],
+      [0.4, 0.035, 76],
     );
-    shape(
-      root,
-      "box",
-      0x304b50,
-      [x, 1.7, z + depth / 2 + 0.025],
-      [2.2, 3.2, 0.09],
-      true,
-    );
-    shape(
-      root,
-      "box",
-      0xe9c583,
-      [x + 0.72, 1.6, z + depth / 2 + 0.11],
-      [0.06, 0.55, 0.07],
-      true,
-    );
-    for (const dx of [-4.7, 4.7]) {
+    for (let z = -35; z < 34; z += 5) {
+      shape(root, "box", 0xe8e4d6, [side * 3.7, 0.045, z], [0.08, 0.015, 2.6]);
+      shape(root, "box", 0x2d383b, [side * 4.2, 0.12, z], [0.25, 0.02, 0.6]);
+      for (let i = 0; i < 5; i++)
+        shape(
+          root,
+          "box",
+          0x818b8a,
+          [side * 4.2, 0.135, z - 0.23 + i * 0.11],
+          [0.21, 0.015, 0.025],
+        );
+    }
+    for (let i = 0; i < 7; i++) {
       shape(
         root,
         "box",
-        0x385d62,
-        [x + dx, 2.3, z + depth / 2 + 0.04],
-        [3.5, 2.5, 0.12],
-        true,
+        0xe1dfd2,
+        [side * 6.6, 0.043, -3 + i],
+        [3, 0.015, 0.5],
       );
       shape(
         root,
         "box",
-        0xe4bc87,
-        [x + dx, 2.3, z + depth / 2 + 0.12],
-        [0.08, 2.5, 0.06],
+        0xe1dfd2,
+        [-3 + i, 0.043, side * 6.6],
+        [0.5, 0.015, 3],
       );
     }
-    sign(
+  }
+  for (const location of worldLocations.filter((l) => l.id !== "tokyo_park"))
+    shopBuilding(meshes, root, location);
+  shopBuilding(meshes, root, {
+    x: -24,
+    z: 15,
+    width: 18,
+    depth: 22,
+    height: 18,
+    sign: "青葉書店",
+    color: 0xb4b7b4,
+    rotation: Math.PI / 2,
+  });
+  shopBuilding(meshes, root, {
+    x: -30,
+    z: -31,
+    width: 8,
+    depth: 12,
+    height: 25,
+    sign: "路地の音楽室",
+    color: 0xc5c0b7,
+  });
+  shopBuilding(meshes, root, {
+    x: 29,
+    z: -31,
+    width: 10,
+    depth: 12,
+    height: 22,
+    sign: "朝日ビル",
+    color: 0x929c9f,
+  });
+  for (const location of worldLocations.filter((l) => l.id !== "tokyo_park"))
+    meshes.buildingShade(
       root,
-      location.sign,
-      [x, 4.7, z + depth / 2 + 0.13],
-      width - 1,
-      location.id === "tokyo_konbini" ? "#2e6861" : "#614a3f",
+      location.x,
+      location.z,
+      location.width,
+      location.depth,
+      location.height,
     );
-    if (height > 8)
-      for (const dx of [-4.5, 0, 4.5])
-        shape(
-          root,
-          "box",
-          0x658481,
-          [x + dx, 7, z + depth / 2 + 0.05],
-          [2, 1.7, 0.1],
-          true,
-        );
+  meshes.buildingShade(root, -24, 15, 22, 18, 18);
+  // Non-walkable distant city sits beyond the movement boundary, with real skyline parallax.
+  const random = worldRandom(712);
+  for (let i = 0; i < 23; i++) {
+    const side = i % 2 ? -1 : 1,
+      x = side * (42 + random() * 20),
+      z = -62 + random() * 116,
+      w = 7 + random() * 8,
+      h = 17 + random() * 34;
     shape(
       root,
       "box",
-      0x485255,
-      [x, height + 0.2, z],
-      [width + 0.7, 0.4, depth + 0.7],
+      surface("concrete", 3, [0xa6b0b3, 0xb7b8b4, 0x8e9a9f][i % 3]),
+      [x, h / 2, z],
+      [w, h, 8],
     );
-    for (const dx of [-width / 2 + 0.9, width / 2 - 0.9]) {
-      shape(
-        root,
-        "cylinder",
-        0xa67d61,
-        [x + dx, 0.42, z + depth / 2 + 1],
-        [0.45, 0.8, 0.45],
-      );
-      shape(
-        root,
-        "sphere",
-        0x648866,
-        [x + dx, 1.05, z + depth / 2 + 1],
-        [0.65, 0.65, 0.65],
-      );
-    }
+    for (let y = 3; y < h - 1; y += 3.2)
+      shape(root, "box", 0x526b7a, [x, y, z + 4.025], [w - 0.7, 1.5, 0.04]);
   }
-  // Familiar Tokyo streetscape details are authored here, without external game assets.
-  for (const [x, z, width, depth, height, color] of [
-    [-27, 15, 12, 18, 14, 0xa7b2b0],
-    [-30, -31, 8, 12, 18, 0xc7b0a0],
-    [29, -31, 10, 12, 16, 0x9aa6a9],
-  ]) {
-    shape(root, "box", color, [x, height / 2, z], [width, height, depth]);
-    for (let floor = 3; floor < height; floor += 3)
-      for (let dx = -width / 2 + 1.5; dx < width / 2; dx += 2.4)
-        shape(
-          root,
-          "box",
-          0x49656b,
-          [x + dx, floor, z + depth / 2 + 0.02],
-          [1.5, 1.7, 0.06],
-          true,
-        );
+  for (let i = 0; i < 9; i++) {
+    const x = -36 + i * 9,
+      h = 18 + random() * 37;
+    shape(
+      root,
+      "box",
+      surface("concrete", 3, 0xa7b0b5),
+      [x, h / 2, -53],
+      [7, h, 9],
+    );
+    for (let y = 3; y < h - 1; y += 3.2)
+      for (let dx = -2; dx <= 2; dx += 2)
+        shape(root, "box", 0x647d8b, [x + dx, y, -48.45], [1.3, 1.7, 0.08]);
   }
-  shape(root, "box", 0x91a380, [19, 0.03, 16], [19, 0.13, 17]);
-  shape(root, "box", 0xccbda4, [17, 0.12, 16], [3, 0.06, 17]);
-  sign(root, "さくら公園", [23, 2.5, 8], 5, "#46634c");
-  for (const [x, z] of [
+  shape(root, "box", surface("grass", 10), [19, 0.005, 16], [19, 0.05, 17]);
+  shape(
+    root,
+    "box",
+    surface("paving", 8, 0xd1c6b4),
+    [17, 0.04, 16],
+    [3, 0.06, 17],
+  );
+  sign(root, "さくら公園", [23, 1.55, 8], 2.6, "#374840");
+  for (const [i, [x, z]] of [
     [12, 21],
     [25, 20],
     [25, 11],
     [-7, -19],
-    [-8, 10],
+    [-9, 10],
+    [-9, 25],
     [8, 27],
     [-16, 28],
-  ]) {
-    shape(root, "cylinder", 0x78614e, [x, 1.5, z], [0.22, 3, 0.22]);
-    shape(root, "sphere", 0x8bac85, [x, 4, z], [2, 2.4, 1.9]);
-    shape(root, "sphere", 0xbac8a2, [x - 0.7, 4.8, z], [1.5, 1.3, 1.5]);
-  }
+    [8, 7],
+  ].entries())
+    makeTree(meshes, root, x, z, i);
   for (const z of [13, 22]) {
-    shape(root, "box", 0x836747, [24, 0.75, z], [3, 0.18, 0.8]);
-    shape(root, "box", 0x836747, [24, 1.25, z + 0.35], [3, 0.75, 0.12]);
-    for (const x of [23, 25])
-      shape(root, "box", 0x394a48, [x, 0.35, z], [0.12, 0.7, 0.65]);
-  }
-  for (const x of [-7, 7])
-    for (const z of [-22, 9, 27]) {
-      shape(root, "cylinder", 0x435858, [x, 2.7, z], [0.08, 5.4, 0.08]);
-      shape(root, "sphere", 0xffe0a3, [x, 5.45, z], [0.35, 0.45, 0.35], true);
+    for (let i = 0; i < 5; i++)
+      shape(
+        root,
+        "box",
+        "wood",
+        [24, 0.48, z - 0.3 + i * 0.14],
+        [2, 0.055, 0.1],
+      );
+    for (let i = 0; i < 3; i++)
+      shape(
+        root,
+        "box",
+        "wood",
+        [24, 0.85 + i * 0.12, z + 0.36],
+        [2, 0.08, 0.055],
+      );
+    for (const x of [23.25, 24.75]) {
+      shape(root, "box", 0x374044, [x, 0.23, z], [0.055, 0.46, 0.6]);
+      shape(root, "box", 0x374044, [x, 0.7, z + 0.4], [0.055, 0.9, 0.055]);
     }
-  for (const side of [-1, 1]) {
-    shape(root, "box", 0xbf755b, [side * 27, 1.9, 3.9], [1.1, 3.6, 1]);
-    sign(root, "飲料", [side * 27, 2.2, 4.45], 0.85, "#b95047");
   }
-  return root;
+  for (const x of [-6.4, 6.4])
+    for (const z of [-22, 9, 27]) {
+      shape(root, "cylinder", "metal", [x, 2.9, z], [0.045, 5.8, 0.045]);
+      shape(root, "box", 0x3c494f, [x + 0.35, 5.8, z], [0.8, 0.1, 0.19]);
+      shape(
+        root,
+        "box",
+        0xffedc2,
+        [x + 0.35, 5.74, z],
+        [0.55, 0.015, 0.14],
+        true,
+      );
+      const lamp = new THREE.PointLight(0xffd19c, 0, 9, 2);
+      lamp.position.set(x + 0.35, 5.6, z);
+      lamp.userData.worldLamp = true;
+      root.add(lamp);
+    }
+  for (const x of [-8, 8]) {
+    shape(root, "cylinder", 0x414f53, [x, 3.1, 4.3], [0.06, 6.2, 0.06]);
+    shape(root, "box", 0x263538, [x, 3.7, 4.3], [0.48, 0.25, 0.22]);
+    for (let i = 0; i < 3; i++)
+      shape(
+        root,
+        "sphere",
+        [0x5f7163, 0x6d7468, 0xbf473b][i],
+        [x - 0.15 + i * 0.15, 3.7, 4.44],
+        [0.05, 0.05, 0.03],
+        i === 2,
+      );
+  }
+  for (const x of [-27, 27]) {
+    shape(root, "box", 0x9e3f35, [x, 1.04, 3.6], [0.9, 2.05, 0.65]);
+    shape(root, "box", 0x7f9aa6, [x, 1.3, 3.94], [0.69, 1.13, 0.025]);
+    sign(root, "DRINKS", [x, 1.9, 3.96], 0.7, "#cddad8", "#2b4655");
+    for (let y = 0.95; y < 1.8; y += 0.25)
+      for (let dx = -0.24; dx < 0.3; dx += 0.16)
+        shape(
+          root,
+          "cylinder",
+          [0xd9d4bd, 0x8bbaae, 0xd2a370][Math.round(y * 10) % 3],
+          [x + dx, y, 3.98],
+          [0.04, 0.15, 0.04],
+        );
+    shape(root, "box", 0x232e33, [x, 0.36, 3.96], [0.5, 0.12, 0.025]);
+  }
+  // Low street clutter belongs beside the facades, away from the movement corridor.
+  for (const x of [-22, -12, 12, 22]) {
+    const board = sign(root, "本日のおすすめ", [x, 1, -5.7], 0.72, "#253d38");
+    board.rotation.x = -0.12;
+    for (const dx of [-0.38, 0.38]) {
+      const leg = shape(
+        root,
+        "box",
+        0x816b50,
+        [x + dx, 0.57, -5.8],
+        [0.035, 1.14, 0.06],
+      );
+      leg.rotation.x = -0.12;
+    }
+  }
+  return meshes.batch(root);
 }
