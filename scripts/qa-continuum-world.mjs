@@ -40,6 +40,7 @@ const server = await preview({
   preview: { host: "127.0.0.1", port: 0 },
 });
 let browser;
+let activePage;
 const results = [];
 try {
   const base =
@@ -90,6 +91,15 @@ try {
         }),
       );
       const page = await context.newPage();
+      activePage = page;
+      const capture = async (options) => {
+        await page.evaluate(() => window.dispatchEvent(new Event("blur")));
+        try {
+          await page.screenshot(options);
+        } finally {
+          await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+        }
+      };
       page.setDefaultTimeout(20000);
       page.setDefaultNavigationTimeout(30000);
       const errors = [],
@@ -157,7 +167,15 @@ try {
         );
         const loadMs = performance.now() - openedAt;
         console.log("WebGL ready", name, width);
-        await page.screenshot({
+        await page
+          .getByRole("button", { name: "World settings", exact: true })
+          .click();
+        await page
+          .getByLabel("Time of day", { exact: true })
+          .selectOption("day");
+        await page.getByRole("button", { name: "Close", exact: true }).click();
+        await page.waitForTimeout(350);
+        await capture({
           path: new URL(name + "-" + width + "-outdoors.png", directory)
             .pathname,
         });
@@ -198,6 +216,11 @@ try {
         await page.evaluate(() => window.dispatchEvent(new Event("focus")));
         await page.waitForTimeout(900);
         await page.keyboard.up("KeyW");
+        assert.equal(
+          await host.getAttribute("data-held-keys"),
+          "0",
+          "key release is applied before the next rendered frame",
+        );
         await page.waitForTimeout(220);
         const moved = JSON.parse(await host.getAttribute("data-position"));
         assert.ok(moved.z < before.z - 0.3);
@@ -246,7 +269,7 @@ try {
               "Movement diagnostics",
               await host.evaluate((element) => ({ ...element.dataset })),
             );
-            await page.screenshot({
+            await capture({
               path: new URL(name + "-" + width + "-failure.png", directory)
                 .pathname,
             });
@@ -291,6 +314,26 @@ try {
         await page
           .getByRole("button", { name: "Continue exploring", exact: true })
           .click();
+        const indoorBox = await host.boundingBox();
+        await page.mouse.move(
+          indoorBox.x + indoorBox.width * 0.5,
+          indoorBox.y + indoorBox.height * 0.3,
+        );
+        await page.mouse.down();
+        await page.mouse.move(
+          indoorBox.x + indoorBox.width * 0.5,
+          indoorBox.y + indoorBox.height * 0.75,
+          { steps: 4 },
+        );
+        await page.mouse.up();
+        await page.waitForFunction(
+          () =>
+            Number(document.querySelector(".cw-renderer")?.dataset.pitch) > 0.8,
+        );
+        assert.ok(
+          Number(await host.getAttribute("data-camera-y")) < 3.5,
+          "maximum camera tilt stays below the interior ceiling",
+        );
         await page
           .getByRole("button", { name: "World settings", exact: true })
           .click();
@@ -306,7 +349,7 @@ try {
         await page.keyboard.press("ArrowRight");
         await page.getByRole("button", { name: "Close", exact: true }).click();
         await page.waitForTimeout(800);
-        await page.screenshot({
+        await capture({
           path: new URL(name + "-" + width + "-cafe.png", directory).pathname,
         });
         await page.evaluate(() => {
@@ -392,7 +435,7 @@ try {
         await page.getByRole("button", { name: "Close", exact: true }).click();
         await page.getByRole("button", { name: "Leave", exact: true }).click();
       }
-      await page.screenshot({
+      await capture({
         path: new URL(name + "-" + width + "-places.png", directory).pathname,
       });
       await page
@@ -449,7 +492,7 @@ try {
           true,
           locale + " overflow",
         );
-        await page.screenshot({
+        await capture({
           path: new URL(
             name + "-" + width + "-" + locale + "-places.png",
             directory,
@@ -524,6 +567,26 @@ try {
   );
   console.log(JSON.stringify(results, null, 2));
 } catch (error) {
+  if (activePage && !activePage.isClosed()) {
+    await activePage
+      .screenshot({ path: new URL("last-failure.png", directory).pathname })
+      .catch(() => {});
+    console.error(
+      "World failure state",
+      await activePage
+        .evaluate(() => ({
+          renderer: { ...document.querySelector(".cw-renderer")?.dataset },
+          viewport: [innerWidth, innerHeight],
+          header: document
+            .querySelector(".cw-header")
+            ?.getBoundingClientRect()
+            .toJSON(),
+          inert: document.querySelector(".cw-header")?.closest("[inert]")
+            ?.className,
+        }))
+        .catch(() => null),
+    );
+  }
   console.error(error);
   throw error;
 } finally {

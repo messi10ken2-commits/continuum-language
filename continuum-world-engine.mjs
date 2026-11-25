@@ -1,8 +1,9 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { CALL_MODELS, callCompanionKind } from "./companion-call-models.mjs";
-import { bindFaceRig } from "./companion-call-rig.mjs";
-import { FaceMotion } from "./companion-face-motion.mjs";
+import { makeWorldSky } from "./continuum-world-materials.mjs";
+import {
+  worldRenderProfile,
+  reducedWorldPixelRatio,
+} from "./continuum-world-render-policy.mjs";
 import {
   clearWorldSegment,
   isWorldWalkable,
@@ -11,20 +12,22 @@ import {
   worldInteraction,
   worldLocations,
   worldPath,
+  worldCompanionSpawn,
 } from "./continuum-world-model.mjs";
 import {
   worldMeshes,
   makeOutdoorWorld,
   makeWorldPerson,
+  makeWorldCompanion,
 } from "./continuum-world-scenes.mjs";
 
 export async function createWorldEngine(
   host,
   { initial, kind = "bird", input, options, onSnapshot, onFailure, signal },
 ) {
-  const meshes = worldMeshes(),
+  const meshes = worldMeshes({ quality: options().quality }),
     scene = new THREE.Scene(),
-    camera = new THREE.PerspectiveCamera(53, 1, 0.1, 100);
+    camera = new THREE.PerspectiveCamera(55, 1, 0.08, 220);
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({
@@ -63,8 +66,12 @@ export async function createWorldEngine(
   }
   scene.add(environment);
   const player = makeWorldPerson(meshes),
-    companion = new THREE.Group();
+    animal = makeWorldCompanion(meshes, kind),
+    companion = animal.root;
+  host.dataset.companion = animal.kind;
+  host.dataset.companionLod = "full-body";
   scene.add(player.root, companion);
+  player.root.rotation.y = companion.rotation.y = initial.yaw + Math.PI;
   const npcs = (
     indoor
       ? worldLocations.filter((l) => l.id === initial.scene)
@@ -87,26 +94,50 @@ export async function createWorldEngine(
     new THREE.MeshBasicMaterial({ color: 0xf6c66b }),
   );
   scene.add(marker, beacon);
-  scene.background = new THREE.Color(0xe8d5b8);
-  scene.fog = new THREE.Fog(0xe8d5b8, indoor ? 18 : 42, indoor ? 36 : 87);
-  const hemisphere = new THREE.HemisphereLight(0xffeacf, 0x6c7c82, 2.4),
-    sun = new THREE.DirectionalLight(0xffd7ad, 3);
-  sun.position.set(-12, 26, 8);
+  scene.background = new THREE.Color(0xc6d7e0);
+  scene.fog = new THREE.Fog(0xc6d7e0, indoor ? 22 : 60, indoor ? 48 : 150);
+  const hemisphere = new THREE.HemisphereLight(0xc9e3f1, 0x686151, 1.5),
+    sun = new THREE.DirectionalLight(0xffefce, 3.1);
+  sun.position.set(-25, 36, 18);
+  sun.shadow.camera.left = sun.shadow.camera.bottom = -42;
+  sun.shadow.camera.right = sun.shadow.camera.top = 42;
+  sun.shadow.camera.near = 0.5;
+  sun.shadow.camera.far = 100;
+  sun.shadow.normalBias = 0.035;
+  sun.shadow.bias = -0.0003;
+  sun.shadow.autoUpdate = false;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFShadowMap;
   scene.add(hemisphere, sun);
-  const fill = new THREE.PointLight(0xffd09c, indoor ? 20 : 0, 22, 1.5);
+  const fill = new THREE.PointLight(0xffe7cb, indoor ? 18 : 0, 22, 1.5);
   fill.position.set(0, 4, 0);
+  fill.visible = indoor;
   scene.add(fill);
+  const physical =
+    options().quality === "high" || options().quality === "medium";
+  const skyTexture = physical ? makeWorldSky() : null;
+  let reflection = null;
+  if (physical) {
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    reflection = pmrem.fromEquirectangular(skyTexture);
+    scene.environment = reflection.texture;
+    pmrem.dispose();
+  }
+  const lamps = [],
+    dayShadows = [];
+  environment.traverse((object) => {
+    if (object.userData.worldLamp) lamps.push(object);
+    if (object.userData.worldDayShade) dayShadows.push(object);
+  });
+  let lightingKey = "",
+    slowSamples = 0;
   let position = { ...initial.position },
     yaw = initial.yaw,
-    pitch = 0.44,
-    companionPosition = { x: position.x + 1.1, z: position.z + 1.2 };
+    pitch = 0.2,
+    companionPosition = worldCompanionSpawn(initial.scene, position);
   if (!isWorldWalkable(initial.scene, companionPosition))
     companionPosition = { ...position };
-  let companionModel = null,
-    companionSprite = null,
-    companionPortrait = null,
-    applyFace = null,
-    disposed = false,
+  let disposed = false,
     active = false,
     contextLost = false,
     frame = 0,
@@ -122,105 +153,34 @@ export async function createWorldEngine(
     fps = 0,
     renderMs = 0,
     triangles = 0;
-  const faceMotion = new FaceMotion(),
-    keys = new Set(),
+  const keys = new Set(),
     cameraTarget = new THREE.Vector3(),
     desiredCamera = new THREE.Vector3();
-  const companionKind = callCompanionKind(kind);
-  // Retain the original companion model and face motion. No external model provider.
-  fetch(CALL_MODELS[companionKind], { signal })
-    .then(async (response) => {
-      if (!response.ok) throw Error("Companion unavailable");
-      const gltf = await new GLTFLoader().parseAsync(
-        await response.arrayBuffer(),
-        "",
-      );
-      if (disposed || signal.aborted) {
-        disposeObject(gltf.scene);
-        return;
-      }
-      companionModel = gltf.scene;
-      applyFace = bindFaceRig(companionModel);
-      const bounds = new THREE.Box3().setFromObject(companionModel),
-        height = bounds.max.y - bounds.min.y,
-        scale = 1.25 / height;
-      companionModel.scale.setScalar(scale);
-      companionModel.position.y = -bounds.min.y * scale;
-      // Bake the existing model once for the low-detail companion LOD.
-      const portraitScene = new THREE.Scene();
-      portraitScene.add(companionModel);
-      portraitScene.add(new THREE.HemisphereLight(0xffeacf, 0x6c7c82, 2.4));
-      const portraitLight = new THREE.DirectionalLight(0xffd7ad, 3);
-      portraitLight.position.set(-3, 5, 4);
-      portraitScene.add(portraitLight);
-      const portraitCamera = new THREE.OrthographicCamera(
-        -0.8,
-        0.8,
-        0.8,
-        -0.8,
-        0.1,
-        10,
-      );
-      portraitCamera.position.set(0, 0.7, 4);
-      portraitCamera.lookAt(0, 0.7, 0);
-      companionPortrait = new THREE.WebGLRenderTarget(384, 384);
-      companionPortrait.texture.colorSpace = THREE.SRGBColorSpace;
-      const target = renderer.getRenderTarget(),
-        clearColor = renderer.getClearColor(new THREE.Color()),
-        alpha = renderer.getClearAlpha();
-      renderer.setRenderTarget(companionPortrait);
-      renderer.setClearColor(0, 0);
-      renderer.clear();
-      renderer.render(portraitScene, portraitCamera);
-      renderer.setRenderTarget(target);
-      renderer.setClearColor(clearColor, alpha);
-      portraitScene.remove(companionModel);
-      companionSprite = new THREE.Sprite(
-        new THREE.SpriteMaterial({
-          map: companionPortrait.texture,
-          transparent: true,
-          toneMapped: false,
-        }),
-      );
-      companionSprite.scale.set(1.6, 1.6, 1);
-      companionSprite.position.y = 0.7;
-      companion.add(companionSprite);
-      companion.add(companionModel);
-      host.dataset.companion = companionKind;
-    })
-    .catch((error) => {
-      if (!disposed && error.name !== "AbortError") {
-        host.dataset.companion = "unavailable";
-        onFailure("companion");
-      }
-    });
-  function disposeObject(object) {
-    const geometries = new Set(),
-      materials = new Set(),
-      textures = new Set();
-    object.traverse((child) => {
-      if (child.geometry) geometries.add(child.geometry);
-      if (child.material)
-        for (const material of [child.material].flat()) {
-          materials.add(material);
-          for (const value of Object.values(material))
-            if (value?.isTexture) textures.add(value);
-        }
-      if (child.isSkinnedMesh) child.skeleton.dispose();
-    });
-    textures.forEach((t) => t.dispose());
-    materials.forEach((m) => m.dispose());
-    geometries.forEach((g) => g.dispose());
-  }
   const publish = () => {
     host.dataset.worldFrames = String(draws);
     host.dataset.scene = initial.scene;
     host.dataset.active = String(active);
     host.dataset.position = JSON.stringify(position);
     host.dataset.yaw = String(yaw);
+    host.dataset.heldKeys = String(keys.size);
+    host.dataset.pitch = String(pitch);
+    host.dataset.cameraY = String(camera.position.y);
     host.dataset.fps = String(fps);
     host.dataset.renderMs = String(renderMs);
     host.dataset.triangles = String(triangles);
+    host.dataset.pixelRatio = String(renderer.getPixelRatio());
+    host.dataset.drawCalls = String(renderer.info.render.calls);
+    host.dataset.materialsPending = String(meshes.pendingTextures);
+    host.dataset.photoSurfaces = String(meshes.photoSurfaces);
+    const companionScreen = new THREE.Vector3(
+      companionPosition.x,
+      0.4,
+      companionPosition.z,
+    ).project(camera);
+    host.dataset.companionScreen = JSON.stringify({
+      x: companionScreen.x,
+      y: companionScreen.y,
+    });
     onSnapshot({
       scene: initial.scene,
       position: { ...position },
@@ -237,17 +197,28 @@ export async function createWorldEngine(
     if (disposed || contextLost) return;
     const box = host.getBoundingClientRect(),
       quality = options().quality;
-    const ratio =
-      quality === "high"
-        ? Math.min(devicePixelRatio, 1.75)
-        : quality === "medium"
-          ? 1.25
-          : quality === "low"
-            ? 0.75
-            : Math.min(devicePixelRatio, box.width < 700 ? 1 : 1.25);
+    const profile = worldRenderProfile(quality, box.width, devicePixelRatio);
+    const ratio = profile.pixelRatio;
+    slowSamples = 0;
+    host.dataset.visualProfile = profile.id;
+    host.dataset.shadowSize = String(profile.shadowSize);
+    if (
+      sun.shadow.mapSize.x !== profile.shadowSize ||
+      sun.castShadow !== !!profile.shadowSize
+    ) {
+      sun.castShadow = !!profile.shadowSize;
+      sun.shadow.mapSize.set(
+        profile.shadowSize || 512,
+        profile.shadowSize || 512,
+      );
+      sun.shadow.map?.dispose();
+      sun.shadow.map = null;
+      sun.shadow.needsUpdate = true;
+    }
     renderer.setPixelRatio(ratio);
     renderer.setSize(Math.max(1, box.width), Math.max(1, box.height), false);
     camera.aspect = box.width / Math.max(1, box.height);
+    camera.fov = box.width < 700 ? 63 : 55;
     camera.updateProjectionMatrix();
   };
   const observer = new ResizeObserver(resize);
@@ -272,7 +243,9 @@ export async function createWorldEngine(
       keys.add(event.code);
     }
   };
-  const keyup = (event) => keys.delete(event.code),
+  const keyup = (event) => {
+      if (keys.delete(event.code)) publish();
+    },
     clear = () => keys.clear();
   host.addEventListener("keydown", keydown);
   host.addEventListener("keyup", keyup);
@@ -357,7 +330,7 @@ export async function createWorldEngine(
       position.x - companionPosition.x,
       position.z - companionPosition.z,
     );
-    if (distance > 1.8) {
+    if (distance > 1.25) {
       const target = { x: position.x, z: position.z };
       if (now - lastPath > 650) {
         path = worldPath(initial.scene, companionPosition, target);
@@ -388,31 +361,28 @@ export async function createWorldEngine(
       companionPosition.x,
       reduced
         ? 0
-        : distance > 1.8
+        : distance > 1.25
           ? Math.abs(Math.sin(walkTime * 8)) * 0.035
           : 0,
       companionPosition.z,
     );
-    if (companionSprite && companionModel) {
-      const simplified =
-        settings.quality === "low" ||
-        (settings.quality === "auto" && host.clientWidth < 700);
-      companionSprite.visible = simplified;
-      companionModel.visible = !simplified;
-      host.dataset.companionLod = simplified ? "portrait" : "model";
-    }
-    if (applyFace && companionModel.visible)
-      applyFace(
-        faceMotion.update({
-          dt,
-          state: settings.talking
-            ? "listening"
-            : distance > 1.8
-              ? "thinking"
-              : "listening",
-          reduced,
-        }),
-      );
+    const previousCompanion =
+      animal.root.userData.previousPosition || companionPosition;
+    const companionSpeed =
+      Math.hypot(
+        companionPosition.x - previousCompanion.x,
+        companionPosition.z - previousCompanion.z,
+      ) / Math.max(0.001, dt);
+    animal.root.userData.previousPosition = { ...companionPosition };
+    animal.animate(
+      walkTime,
+      companionSpeed,
+      reduced,
+      Math.atan2(
+        position.x - companionPosition.x,
+        position.z - companionPosition.z,
+      ) - companion.rotation.y,
+    );
     for (const npc of npcs) npc.animate(walkTime, 0, reduced);
     const hour =
         settings.time === "night"
@@ -421,12 +391,34 @@ export async function createWorldEngine(
             ? 15
             : new Date().getHours(),
       night = hour < 6 || hour >= 19;
-    const sky = indoor ? 0xc7b798 : night ? 0x172f46 : 0xe8d5b8;
+    const sky = indoor ? 0xb4b4ab : night ? 0x172638 : 0xc6d7e0;
     scene.background.set(sky);
     scene.fog.color.set(sky);
-    hemisphere.intensity = night && !indoor ? 0.8 : 2.4;
-    sun.intensity = night && !indoor ? 0.35 : 3;
-    renderer.toneMappingExposure = night && !indoor ? 1.15 : 1;
+    scene.environmentIntensity = night && !indoor ? 0.15 : indoor ? 0.4 : 0.7;
+    hemisphere.intensity = night && !indoor ? 0.95 : indoor ? 1.35 : 1.55;
+    sun.intensity = night && !indoor ? 0.25 : indoor ? 1.6 : 3.1;
+    sun.color.set(night && !indoor ? 0xb9cfff : 0xffefce);
+    renderer.toneMappingExposure =
+      night && !indoor ? 1.2 : indoor ? 1.05 : 0.94;
+    if (lightingKey !== String(night)) {
+      lightingKey = String(night);
+      sun.shadow.needsUpdate = true;
+      lamps.forEach((lamp) => {
+        lamp.intensity = night ? 65 : 0;
+        lamp.distance = 19;
+      });
+      dayShadows.forEach((shadow) => (shadow.visible = !night));
+    }
+    const nearestLamps = night
+      ? [...lamps]
+          .sort(
+            (a, b) =>
+              Math.hypot(a.position.x - position.x, a.position.z - position.z) -
+              Math.hypot(b.position.x - position.x, b.position.z - position.z),
+          )
+          .slice(0, 3)
+      : [];
+    lamps.forEach((lamp) => (lamp.visible = nearestLamps.includes(lamp)));
     const destination = worldLocations.find(
       (l) => l.id === settings.destination,
     )?.door;
@@ -439,13 +431,15 @@ export async function createWorldEngine(
         destination.z,
       );
     }
-    cameraTarget.set(position.x, 1.3, position.z);
-    const distanceCamera = indoor ? 5.4 : 7.5;
+    cameraTarget.set(position.x, 1.25, position.z);
+    const distanceCamera = indoor ? 3.8 : 4.6;
     desiredCamera.set(
       position.x + Math.sin(yaw) * distanceCamera,
-      1.3 + Math.sin(pitch) * distanceCamera,
+      1.25 + Math.sin(pitch) * distanceCamera,
       position.z + Math.cos(yaw) * distanceCamera,
     );
+    // Detailed rooms have a ceiling. Keep the boom inside even at maximum tilt.
+    if (indoor) desiredCamera.y = Math.min(3.35, desiredCamera.y);
     // Shorten the camera boom before it crosses a wall, then keep it in the walkable volume.
     const ground = { x: desiredCamera.x, z: desiredCamera.z };
     for (let fraction = 1; fraction >= 0; fraction -= 0.08) {
@@ -467,6 +461,19 @@ export async function createWorldEngine(
     frameCount++;
     if (now - frameStart >= 1000) {
       fps = (frameCount * 1000) / (now - frameStart);
+      slowSamples = fps < 22 ? slowSamples + 1 : 0;
+      if (settings.quality === "auto" && slowSamples >= 2) {
+        const nextRatio = reducedWorldPixelRatio(renderer.getPixelRatio(), fps);
+        if (nextRatio !== renderer.getPixelRatio()) {
+          renderer.setPixelRatio(nextRatio);
+          renderer.setSize(
+            Math.max(1, host.clientWidth),
+            Math.max(1, host.clientHeight),
+            false,
+          );
+        }
+        slowSamples = 0;
+      }
       frameCount = 0;
       frameStart = now;
     }
@@ -522,10 +529,11 @@ export async function createWorldEngine(
       canvas.removeEventListener("lostpointercapture", pointerup);
       canvas.removeEventListener("webglcontextlost", lost);
       canvas.removeEventListener("webglcontextrestored", restored);
-      if (companionModel) disposeObject(companionModel);
-      companionSprite?.material.dispose();
-      companionPortrait?.dispose();
+      reflection?.dispose();
+      skyTexture?.dispose();
+      sun.shadow.dispose();
       meshes.dispose();
+      scene.clear();
       marker.geometry.dispose();
       marker.material.dispose();
       beacon.geometry.dispose();

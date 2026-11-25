@@ -106,7 +106,7 @@ export const worldScenes = {
     spawn: { x: -8, z: 19 },
     obstacles: [
       ...outdoorBuildings,
-      { x: -27, z: 15, width: 12, depth: 18 },
+      { x: -24, z: 15, width: 22, depth: 18 },
       { x: -30, z: -31, width: 8, depth: 12 },
       { x: 29, z: -31, width: 10, depth: 12 },
     ],
@@ -143,6 +143,27 @@ export function worldAvailable({
     user?.role === "learner" &&
     language === "ja" &&
     layout === "illustrated"
+  );
+}
+export function worldCompanionSpawn(scene, position) {
+  const offsets =
+    scene === "outdoors"
+      ? [
+          [0.7, 0.7],
+          [-0.7, 0.7],
+          [0.7, -0.7],
+          [-0.7, -0.7],
+        ]
+      : [
+          [0.4, -0.6],
+          [-0.4, -0.6],
+          [0.6, 0.6],
+          [-0.6, 0.6],
+        ];
+  return (
+    offsets
+      .map(([x, z]) => ({ x: position.x + x, z: position.z + z }))
+      .find((p) => isWorldWalkable(scene, p)) || { ...position }
   );
 }
 export function isWorldWalkable(scene, position, radius = PLAYER_RADIUS) {

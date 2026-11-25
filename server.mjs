@@ -335,6 +335,11 @@ function acceptsGzip(header=''){
 const publicPages=new Map([['/terms','terms'],['/privacy','privacy'],['/help','help']]);
 async function serve(req,res,route){
  if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});
+ // Only the bundled World photo maps need cross-origin WebGL access in iOS.
+ if(/^\/world-tokyo\/materials\/(?:pavement_04|asphalt_02|wood_planks)\.jpg$/.test(route)){
+  res.setHeader('Vary','Origin');
+  if(nativeOrigins.has(req.headers.origin))res.setHeader('Access-Control-Allow-Origin',req.headers.origin);
+ }
  const page=publicPages.get(route);
  if(page){
   const query=new URL(req.url,'http://localhost').searchParams.get('q')?.slice(0,120)||'';

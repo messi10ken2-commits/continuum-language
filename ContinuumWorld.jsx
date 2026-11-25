@@ -280,7 +280,7 @@ export default function ContinuumWorld({ user, onBack }) {
       engine.current?.dispose();
       engine.current = null;
     };
-  }, [settings.scene, retry, kind, list, save]);
+  }, [settings.scene, settings.quality, retry, kind, list, save]);
   useEffect(() => {
     engine.current?.refresh();
     ambience.current?.setEnabled(settings.sound, settings.volume);

@@ -376,3 +376,99 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Keep the street full-screen; the HUD occupies transparent edges of the view. */
+.cw-header {
+  position: absolute;
+  inset: 0 0 auto;
+  background: linear-gradient(#14222de8, #14222d99, transparent);
+  color: #f6f4e9;
+  box-shadow: none;
+  padding-bottom: 24px;
+  pointer-events: none;
+}
+.cw-header button {
+  pointer-events: auto;
+}
+.cw-world .cw-header h1 {
+  color: #f6f4e9;
+  font-family: inherit;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+.cw-world .cw-header button,
+.cw-world .cw-view-actions button,
+.cw-world .cw-actions button {
+  background: #23343cdb;
+  color: #f4f3e8;
+  border-color: #d3d7cc50;
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+}
+.cw-stage {
+  min-height: 100%;
+}
+.cw-navigation {
+  inset-block-start: 100px;
+  background: #f5f1e1e0;
+  width: 132px;
+  border-radius: 10px;
+}
+.cw-view-actions {
+  inset-block-start: 100px;
+}
+.cw-footer {
+  position: absolute;
+  inset: auto 0 0;
+  background: linear-gradient(transparent, #15242cdd);
+  color: #f1f2e6;
+  padding-top: 24px;
+  pointer-events: none;
+}
+.cw-actions {
+  inset-block-end: max(70px, calc(48px + env(safe-area-inset-bottom)));
+}
+.cw-world .cw-actions .cw-interact {
+  background: #325c4ee8;
+}
+.cw-place-list {
+  background: #e6e7dd;
+  padding-top: 180px;
+}
+.cw-place-list article,
+.cw-place-list h2 {
+  color: #244139;
+}
+@media (max-width: 600px) {
+  .cw-header {
+    padding-top: calc(10px + env(safe-area-inset-top));
+  }
+  .cw-world .cw-header h1 {
+    font-size: 0.85rem;
+  }
+  .cw-header button {
+    max-width: 100px;
+  }
+  .cw-navigation {
+    width: 100px;
+    inset-block-start: 112px;
+  }
+  .cw-view-actions {
+    inset-block-start: 112px;
+  }
+  .cw-actions {
+    inset-block-end: max(76px, calc(50px + env(safe-area-inset-bottom)));
+  }
+}
+@media (max-height: 530px) {
+  .cw-navigation,
+  .cw-view-actions {
+    inset-block-start: 70px;
+  }
+  .cw-actions {
+    inset-block-end: 14px;
+  }
+  .cw-footer {
+    display: none;
+  }
+}
