@@ -36,6 +36,34 @@ try {
     adult: true,
   });
   const user = registered.data.user;
+  for (const name of ["pavement_04", "asphalt_02", "wood_planks"]) {
+    const path = "/world-tokyo/materials/" + name + ".jpg";
+    const native = await fetch(origin + path, {
+      method: "HEAD",
+      headers: { Origin: "capacitor://localhost" },
+    });
+    assert.equal(native.status, 200);
+    assert.equal(
+      native.headers.get("access-control-allow-origin"),
+      "capacitor://localhost",
+    );
+    assert.equal(native.headers.get("access-control-allow-credentials"), null);
+    assert.match(native.headers.get("vary"), /Origin/);
+    const foreign = await fetch(origin + path, {
+      method: "HEAD",
+      headers: { Origin: "https://untrusted.example" },
+    });
+    assert.equal(foreign.headers.get("access-control-allow-origin"), null);
+  }
+  const manifest = await fetch(
+    origin + "/world-tokyo/materials/manifest.json",
+    { method: "HEAD", headers: { Origin: "capacitor://localhost" } },
+  );
+  assert.equal(
+    manifest.headers.get("access-control-allow-origin"),
+    null,
+    "native CORS exception is limited to the three public photo maps",
+  );
   await api(
     "/profile",
     "PUT",

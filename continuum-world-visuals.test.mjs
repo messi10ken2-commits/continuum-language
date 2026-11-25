@@ -213,6 +213,11 @@ test("photo loading preserves the fallback, updates shared sources and ignores c
       fallback = paving.image;
     assert.ok(fallback.getContext);
     assert.equal(surfaces.pending, 1);
+    assert.equal(
+      images[0].crossOrigin,
+      "anonymous",
+      "native remote media must remain usable as WebGL textures",
+    );
     let storageReset = 0;
     paving.addEventListener("dispose", () => storageReset++);
     images[0].onload();

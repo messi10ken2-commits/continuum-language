@@ -16,7 +16,9 @@
 | カメラとHUD | 視点を低くして人物へ近づける。街を全画面に描画し、操作UIを画面の縁へ重ねる |
 | 安定性 | 繰り返す形状はInstancedMeshでまとめる。画質変更時はレンダラを作り直し、位置は保持する。材質、テクスチャ、インスタンス、影、反射のGPU資源を退出時に破棄する |
 
-西側書店の見た目と衝突範囲を一致させた。以前の保存位置が拡張した建物の中に入る場合は、既存の安全位置復帰が適用される。施設ID、既存進捗、DB、Learning Memory、権限、課金、他モードのデータ構造は変更しない。
+西側書店の見た目と衝突範囲を一致させた。以前の保存位置が拡張した建物の中に入る場合は、既存の安全位置復帰が適用される。施設ID、既存進捗、DB、Learning Memory、権限、課金、他モードのデータ構造は変更しない。室内の入口付近では、コンパニオンをカメラの手前へ置かず、少し先の歩行可能な位置から選ぶ。
+
+iOSのWebGLでも写真を使えるよう画像をanonymous CORSで読み込む。サーバーは3枚の公開JPEGに限って、既存の `capacitor://localhost` へAccess-Control-Allow-Originを返す。Vary: Originを付け、資格情報は許可しない。他の静的ファイルやAPI認証の許可は広げない。実アプリQAでHTTPヘッダーを確認する。
 
 ## 画質の方針
 
@@ -33,10 +35,10 @@ Auto/Lowの建築影は、建物の寸法と太陽方向から生成した軽量
 
 ## 検証
 
-基準のWorld・音声・UI文言テスト13件は変更前に成功。新しい形状・衝突・描画予算・GPU資源破棄・写真素材の整合性・読込中断のテストを含む18件も成功。
+基準のWorld・音声・UI文言テスト13件は変更前に成功。新しい形状・衝突・描画予算・GPU資源破棄・写真素材の整合性・読込中断のテストを含む19件と、native-originの3件、計22件が成功。
 
 ```sh
-node --test continuum-world-visuals.test.mjs continuum-world-model.test.mjs continuum-world-audio.test.mjs interface-templates.test.mjs
+node --test continuum-world-visuals.test.mjs continuum-world-model.test.mjs continuum-world-audio.test.mjs interface-templates.test.mjs native-policy.test.mjs
 node scripts/qa-continuum-world.mjs
 node scripts/qa-continuum-world-visuals.mjs
 VITE_CONTINUUM_WORLD_TOKYO_BETA=true npm run build

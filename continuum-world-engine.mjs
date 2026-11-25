@@ -12,6 +12,7 @@ import {
   worldInteraction,
   worldLocations,
   worldPath,
+  worldCompanionSpawn,
 } from "./continuum-world-model.mjs";
 import {
   worldMeshes,
@@ -133,10 +134,7 @@ export async function createWorldEngine(
   let position = { ...initial.position },
     yaw = initial.yaw,
     pitch = 0.2,
-    companionPosition = {
-      x: position.x + (indoor ? 0.6 : 0.7),
-      z: position.z + (indoor ? 0.6 : 0.7),
-    };
+    companionPosition = worldCompanionSpawn(initial.scene, position);
   if (!isWorldWalkable(initial.scene, companionPosition))
     companionPosition = { ...position };
   let disposed = false,

@@ -145,6 +145,27 @@ export function worldAvailable({
     layout === "illustrated"
   );
 }
+export function worldCompanionSpawn(scene, position) {
+  const offsets =
+    scene === "outdoors"
+      ? [
+          [0.7, 0.7],
+          [-0.7, 0.7],
+          [0.7, -0.7],
+          [-0.7, -0.7],
+        ]
+      : [
+          [0.4, -0.6],
+          [-0.4, -0.6],
+          [0.6, 0.6],
+          [-0.6, 0.6],
+        ];
+  return (
+    offsets
+      .map(([x, z]) => ({ x: position.x + x, z: position.z + z }))
+      .find((p) => isWorldWalkable(scene, p)) || { ...position }
+  );
+}
 export function isWorldWalkable(scene, position, radius = PLAYER_RADIUS) {
   const definition = worldScenes[scene];
   if (

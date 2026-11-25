@@ -9,11 +9,36 @@ import {
   movementVector,
   worldPath,
   worldInteraction,
+  worldCompanionSpawn,
   restoreWorldState,
   worldStorageKey,
 } from "./continuum-world-model.mjs";
 import { continuumWorldCopy } from "./continuum-world-copy.mjs";
 import { CALL_MODELS } from "./companion-call-models.mjs";
+
+test("companion entry placement stays walkable and moves ahead of an indoor doorway camera", () => {
+  for (const [id, scene] of Object.entries(worldScenes)) {
+    const companion = worldCompanionSpawn(id, scene.spawn);
+    assert.ok(isWorldWalkable(id, companion));
+    assert.ok(
+      Math.hypot(companion.x - scene.spawn.x, companion.z - scene.spawn.z) >
+        0.5,
+    );
+    if (id !== "outdoors") assert.ok(companion.z < scene.spawn.z);
+  }
+  for (const p of [
+    { x: 0, z: -2.4 },
+    { x: 6.3, z: 5.4 },
+  ]) {
+    const companion = worldCompanionSpawn("tokyo_cafe", p);
+    assert.ok(isWorldWalkable("tokyo_cafe", companion));
+    assert.notDeepEqual(
+      companion,
+      p,
+      "blocked preferred offset selects a free alternative",
+    );
+  }
+});
 
 test("Tokyo is opt-in, Japanese learner-only and illustrated-only", () => {
   const eligible = {

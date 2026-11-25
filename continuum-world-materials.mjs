@@ -135,6 +135,7 @@ export function makeWorldSurfaces(register, updated = () => {}) {
     if (photos[name] && typeof Image !== "undefined") {
       const image = new Image();
       pending.add(image);
+      image.crossOrigin = "anonymous";
       image.decoding = "async";
       image.onload = () => {
         pending.delete(image);
