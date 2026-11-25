@@ -216,6 +216,11 @@ try {
         await page.evaluate(() => window.dispatchEvent(new Event("focus")));
         await page.waitForTimeout(900);
         await page.keyboard.up("KeyW");
+        assert.equal(
+          await host.getAttribute("data-held-keys"),
+          "0",
+          "key release is applied before the next rendered frame",
+        );
         await page.waitForTimeout(220);
         const moved = JSON.parse(await host.getAttribute("data-position"));
         assert.ok(moved.z < before.z - 0.3);

@@ -164,6 +164,7 @@ export async function createWorldEngine(
     host.dataset.active = String(active);
     host.dataset.position = JSON.stringify(position);
     host.dataset.yaw = String(yaw);
+    host.dataset.heldKeys = String(keys.size);
     host.dataset.pitch = String(pitch);
     host.dataset.cameraY = String(camera.position.y);
     host.dataset.fps = String(fps);
@@ -244,7 +245,9 @@ export async function createWorldEngine(
       keys.add(event.code);
     }
   };
-  const keyup = (event) => keys.delete(event.code),
+  const keyup = (event) => {
+      if (keys.delete(event.code)) publish();
+    },
     clear = () => keys.clear();
   host.addEventListener("keydown", keydown);
   host.addEventListener("keyup", keyup);
