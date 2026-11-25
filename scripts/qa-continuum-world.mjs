@@ -174,6 +174,7 @@ try {
             type: "touchMove",
             touchPoints: [{ ...point, y: point.y - 32 }],
           });
+          await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
           await page.waitForTimeout(600);
           await session.send("Input.dispatchTouchEvent", {
             type: "touchEnd",

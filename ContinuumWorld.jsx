@@ -202,7 +202,7 @@ export default function ContinuumWorld({ user, onBack }) {
   useEffect(() => {
     const sync = () => {
       const active = !isAppHidden() && !paused && focused.current;
-      input.current = { x: 0, z: 0, run: false };
+      if(!active) input.current = { x: 0, z: 0, run: false };
       engine.current?.setActive(active);
       ambience.current?.setActive(active);
       if (isAppHidden() && !save()) setStorageFailed(true);
