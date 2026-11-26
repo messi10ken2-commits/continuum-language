@@ -16,7 +16,7 @@ import '../../styles.css';import '../../features.css';import '../../journey.css'
 const params=new URLSearchParams(location.search),layout=params.get('layout')||'illustrated';
 setInterfaceLanguage(params.get('locale')||'en');
 const user={id:params.get('user')||'world-qa',role:params.get('role')||'learner'};
-function Harness(){const [enabled,setEnabled]=useState(params.get('flag')!=='off');useEffect(()=>{const disable=()=>setEnabled(false);window.addEventListener('qa-world-disable',disable);return()=>window.removeEventListener('qa-world-disable',disable)},[]);return <JourneyLayoutContext.Provider value={{layout}}><div className="app continuum-ui"><aside><button>Outside world navigation</button></aside><main><PracticeStudio user={user} language={params.get('language')||'ja'} features={{continuumWorldTokyoBeta:enabled?undefined:false}}/></main></div></JourneyLayoutContext.Provider>;}
+function Harness(){const [enabled,setEnabled]=useState(params.get('flag')!=='off');useEffect(()=>{const disable=()=>setEnabled(false);window.addEventListener('qa-world-disable',disable);return()=>window.removeEventListener('qa-world-disable',disable)},[]);return <JourneyLayoutContext.Provider value={{layout}}><div className={"app journey-app learner-journey continuum-ui"+(layout==="illustrated"?" illustrated-world approved-illustrated ui-illustrated":" ui-photo")}><aside><button>Outside world navigation</button></aside><main><div className="content" style={{transform:"translateZ(0)"}}><PracticeStudio user={user} language={params.get('language')||'ja'} features={{continuumWorldTokyoBeta:enabled?undefined:false}}/></div></main></div></JourneyLayoutContext.Provider>;}
 createRoot(document.getElementById('root')).render(<Harness/>);
 `,
 );
@@ -146,10 +146,44 @@ try {
       await page
         .getByRole("button", { name: "Continuum World", exact: true })
         .click();
+      const checkHud = async () => {
+        const measured = await page.evaluate(() => {
+          const rect = (selector) => document.querySelector(selector).getBoundingClientRect();
+          const selectors = [".cw-world", ".cw-header", ".cw-stick", ".cw-action-panel", ".cw-interact", ".cw-navigation", ".cw-view-actions"];
+          const boxes = selectors.map((selector) => ({selector, ...rect(selector).toJSON()}));
+          const actions = rect(".cw-actions"), footer = rect(".cw-footer"), stick = rect(".cw-stick"), panel = rect(".cw-action-panel"), header = rect(".cw-header"), nav = rect(".cw-navigation");
+          return {boxes, width: innerWidth, height: innerHeight, headerClear: nav.top >= header.bottom, controlGap: stick.right <= panel.left, footerClear: !footer.height || actions.bottom <= footer.top, portal: document.querySelector(".cw-world").parentElement === document.body};
+        });
+        assert.ok(measured.portal, "world escapes transformed app cards");
+        for (const box of measured.boxes) {
+          assert.ok(box.x >= -1 && box.y >= -1 && box.right <= measured.width + 1 && box.bottom <= measured.height + 1, "HUD remains within visible viewport: " + JSON.stringify(box));
+        }
+        assert.ok(measured.headerClear, "navigation stays below translated header");
+        assert.ok(measured.controlGap, "joystick and action buttons do not overlap");
+        assert.ok(measured.footerClear, "footer does not cover controls");
+        for (const selector of [".cw-navigation label", ".cw-action-panel button"]) {
+          assert.ok(await page.locator(selector).evaluateAll(elements => elements.every(e => e.scrollWidth <= e.clientWidth + 1)), selector + " text stays inside its control");
+        }
+        if (await page.locator(".cw-leave").count()) {
+          assert.ok(await page.locator(".cw-leave").evaluate(element => {
+            const range = document.createRange();
+            range.selectNodeContents(element.lastChild);
+            return range.getBoundingClientRect().height <= parseFloat(getComputedStyle(element).lineHeight) + 2;
+          }), "Leave label stays readable on one line, including large text");
+        }
+        for (const selector of [".cw-stick", ".cw-interact", ".cw-leave"]) {
+          if (!(await page.locator(selector).count())) continue;
+          const hittable = await page.locator(selector).evaluate((element) => {
+            const b = element.getBoundingClientRect();
+            return element.contains(document.elementFromPoint(b.x+b.width/2, b.y+b.height/2));
+          });
+          assert.ok(hittable, selector + " is reachable without scrolling");
+        }
+      };
       const host = page.locator(".cw-renderer");
       await host.waitFor();
       assert.equal(
-        await page.locator(".app>aside").evaluate((element) => element.inert),
+        await page.locator(".app>aside").evaluate((element) => !!element.closest("[inert]")),
         true,
         "background navigation is excluded from focus while exploring",
       );
@@ -180,6 +214,7 @@ try {
             document.querySelector(".cw-renderer")?.dataset.companion ===
             "capybara",
         );
+        await checkHud();
         const loadMs = performance.now() - openedAt;
         console.log("WebGL ready", name, width);
         await page
@@ -395,6 +430,20 @@ try {
           height: width === 390 ? 390 : 800,
         });
         await page.waitForTimeout(250);
+        await checkHud();
+        if (width === 390) {
+          for (const viewport of [{width:390,height:640},{width:320,height:568}]) {
+            await page.setViewportSize(viewport);
+            await page.waitForTimeout(150);
+            await checkHud();
+          }
+          await page.setViewportSize({width:390,height:844});
+          await page.evaluate(() => document.documentElement.style.fontSize = "200%");
+          await page.waitForTimeout(150);
+          await checkHud();
+          await capture({path: new URL(name + "-large-text-controls.png", directory).pathname});
+          await page.evaluate(() => document.documentElement.style.fontSize = "");
+        }
         assert.equal(
           await page.evaluate(
             () => document.documentElement.scrollWidth <= innerWidth,
@@ -418,9 +467,8 @@ try {
           };
         });
         results.push({ engine: name, width, webgl: true, loadMs, ...metrics });
-        await page
-          .getByRole("button", { name: "Safe return", exact: true })
-          .click();
+        // Leave must work from the counter, without first walking to the door.
+        await checkHud();
         await page.getByRole("button", { name: "Leave", exact: true }).click();
         await page.waitForFunction(
           () =>
@@ -430,6 +478,17 @@ try {
           () =>
             document.querySelector(".cw-renderer")?.dataset.active === "true",
         );
+        await page.getByRole("button", {name:"List view",exact:true}).click();
+        await page.locator(".cw-place-list article").filter({has:page.getByRole("heading",{name:"Hoshi Market",exact:true})}).getByRole("button",{name:"Enter",exact:true}).click();
+        await page.getByRole("button", {name:"3D view",exact:true}).click();
+        await page.waitForFunction(() => document.querySelector(".cw-renderer")?.dataset.active === "true");
+        await walkUntil("KeyW", "z", -2);
+        await checkHud();
+        await page.getByRole("button",{name:"Talk",exact:true}).click();
+        assert.ok((await page.locator(".cw-dialogue").innerText()).includes("お弁当"));
+        await page.getByRole("button",{name:"Close",exact:true}).click();
+        await page.getByRole("button",{name:"Leave",exact:true}).click();
+        await page.waitForFunction(() => document.querySelector(".cw-world")?.dataset.scene === "outdoors" && document.querySelector(".cw-renderer")?.dataset.active === "true");
         await page.evaluate(() =>
           document
             .querySelector(".cw-canvas")
@@ -459,6 +518,12 @@ try {
         await page.getByRole("dialog").waitFor();
         await page.getByRole("button", { name: "Close", exact: true }).click();
         await page.getByRole("button", { name: "Leave", exact: true }).click();
+      }
+      for (const title of ["Station information", "Sakura pocket park"]) {
+        const place = page.locator(".cw-place-list article").filter({has: page.getByRole("heading", {name:title,exact:true})});
+        await place.getByRole("button", {name:"Talk",exact:true}).click();
+        await page.getByRole("dialog").waitFor();
+        await page.getByRole("button", {name:"Close",exact:true}).click();
       }
       await capture({
         path: new URL(name + "-" + width + "-places.png", directory).pathname,

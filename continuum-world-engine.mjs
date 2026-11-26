@@ -11,6 +11,7 @@ import {
   moveWorldActor,
   movementVector,
   worldInteraction,
+  worldDestinationPoint,
   worldLocations,
   worldPath,
   worldCompanionSpawn,
@@ -446,9 +447,7 @@ export async function createWorldEngine(
           .slice(0, 3)
       : [];
     lamps.forEach((lamp) => (lamp.visible = nearestLamps.includes(lamp)));
-    const destination = worldLocations.find(
-      (l) => l.id === settings.destination,
-    )?.door;
+    const destination = worldDestinationPoint(settings.destination);
     marker.visible = beacon.visible = !indoor && !!destination;
     if (destination) {
       marker.position.set(destination.x, 0.11, destination.z);

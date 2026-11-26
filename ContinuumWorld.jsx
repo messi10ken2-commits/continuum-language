@@ -1,4 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { ArrowLeft, Settings, DoorOpen, MessageCircle, LogOut } from "lucide-react";
 import { t } from "./interface-runtime.mjs";
 import { isAppHidden } from "./native-platform.mjs";
 import {
@@ -7,12 +9,13 @@ import {
   worldLocations,
   worldStorageKey,
   worldInteraction,
+  worldDestinationPoint,
 } from "./continuum-world-model.mjs";
 import { createWorldAmbience } from "./continuum-world-audio.mjs";
 import { callCompanionKind } from "./companion-call-models.mjs";
 import "./continuum-world.css";
 
-function WorldStick({ input, onFocus }) {
+function WorldStick({ input, onFocus, active }) {
   const [offset, setOffset] = useState({ x: 0, z: 0 }),
     pointer = useRef(null);
   const update = (event) => {
@@ -29,6 +32,7 @@ function WorldStick({ input, onFocus }) {
     input.current = { ...input.current, x: 0, z: 0 };
     setOffset({ x: 0, z: 0 });
   };
+  useEffect(() => { if (!active) stop(); }, [active]);
   return (
     <div
       className="cw-stick"
@@ -36,6 +40,7 @@ function WorldStick({ input, onFocus }) {
       aria-label={t("Move")}
       onPointerDown={(event) => {
         event.preventDefault();
+        if (!active || pointer.current !== null) return;
         pointer.current = event.pointerId;
         event.currentTarget.setPointerCapture(event.pointerId);
         onFocus();
@@ -80,8 +85,9 @@ function WorldMinimap({ snapshot }) {
       for (const location of worldLocations) {
         ctx.fillStyle =
           location.id === snapshot.destination ? "#bd5b39" : "#36675b";
+        const point = worldDestinationPoint(location.id);
         ctx.beginPath();
-        ctx.arc(px(location.door.x), pz(location.door.z), 4, 0, Math.PI * 2);
+        ctx.arc(px(point.x), pz(point.z), 4, 0, Math.PI * 2);
         ctx.fill();
       }
     ctx.fillStyle = "#c26c28";
@@ -199,6 +205,21 @@ export default function ContinuumWorld({ user, onBack }) {
       ambience.current = null;
     };
   }, []);
+  // Measure the actual translated HUD: large text and safe areas must not push
+  // controls below the viewport or place navigation over the header.
+  useEffect(() => {
+    const element = root.current;
+    const measure = () => {
+      for (const [selector, name] of [[".cw-header", "header"], [".cw-footer", "footer"]]) {
+        element.style.setProperty(`--cw-${name}-height`, `${element.querySelector(selector).getBoundingClientRect().height}px`);
+      }
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(element.querySelector(".cw-header"));
+    observer.observe(element.querySelector(".cw-footer"));
+    measure();
+    return () => observer.disconnect();
+  }, []);
   const paused = !!panel || !!dialogue || list;
   useEffect(() => {
     const sync = () => {
@@ -311,18 +332,22 @@ export default function ContinuumWorld({ user, onBack }) {
     setPanel("");
   };
   const interaction = worldInteraction(snapshot.scene, snapshot.position);
+  const indoorLocation = worldLocations.find((location) => location.id === snapshot.scene);
+  const targetLocation = interaction?.location || indoorLocation || worldLocations.find((location) => location.id === destination);
+  const actionType = indoorLocation ? "talk" : interaction?.type || (targetLocation?.interior ? "enter" : "talk");
+  const actionLabel = actionType === "enter" ? "Enter" : "Talk";
+  const actionReady = ready && !paused && interaction?.type === actionType;
+  const leaveBuilding = () => {
+    if (!indoorLocation) return;
+    transition("outdoors", { ...indoorLocation.door, z: -3.6 });
+  };
   const act = () => {
     if (!interaction) return;
     if (interaction.type === "enter")
       transition(interaction.location.id, {
         ...worldScenes[interaction.location.id].spawn,
       });
-    else if (interaction.type === "exit")
-      transition("outdoors", {
-        ...worldLocations.find((location) => location.id === snapshot.scene)
-          .door,
-        z: -3.6,
-      });
+    else if (interaction.type === "exit") leaveBuilding();
     else setDialogue(interaction.location.npc);
   };
   const update = (key, value) =>
@@ -365,7 +390,7 @@ export default function ContinuumWorld({ user, onBack }) {
       }
     }
   };
-  return (
+  return createPortal(
     <section
       ref={root}
       className="cw-world"
@@ -382,7 +407,8 @@ export default function ContinuumWorld({ user, onBack }) {
             onBack();
           }}
         >
-          {t("Back to Practice Studio")}
+          <ArrowLeft size={20} aria-hidden="true" />
+          <span className="cw-header-button-label">{t("Back to Practice Studio")}</span>
         </button>
         <div>
           <h1>{t("Continuum World")}</h1>
@@ -391,7 +417,8 @@ export default function ContinuumWorld({ user, onBack }) {
           </span>
         </div>
         <button type="button" onClick={() => setPanel("settings")}>
-          {t("World settings")}
+          <Settings size={20} aria-hidden="true" />
+          <span className="cw-header-button-label">{t("World settings")}</span>
         </button>
       </header>
       <div className="cw-stage">
@@ -448,19 +475,17 @@ export default function ContinuumWorld({ user, onBack }) {
                 <span lang="ja">{location.sign}</span>
                 <button
                   type="button"
-                  onClick={() =>
+                  onClick={() => {
                     transition(
                       location.interior ? location.id : "outdoors",
-                      location.interior
-                        ? worldScenes[location.id].spawn
-                        : { x: location.npc.x, z: location.npc.z + 1.5 },
-                    )
-                  }
+                      location.interior ? worldScenes[location.id].spawn : { x: location.npc.x, z: location.npc.z + 1.5 },
+                    );
+                    if (!location.interior) setDialogue(location.npc);
+                  }}
                 >
                   {t(location.interior ? "Enter" : "Talk")}
                 </button>
-                {snapshot.scene ===
-                  (location.interior ? location.id : "outdoors") && (
+                {location.interior && snapshot.scene === location.id && (
                   <button
                     type="button"
                     onClick={() => setDialogue(location.npc)}
@@ -503,30 +528,40 @@ export default function ContinuumWorld({ user, onBack }) {
             <div className="cw-actions">
               <WorldStick
                 input={input}
+                active={ready && !paused && !failure}
                 onFocus={() => host.current?.focus({ preventScroll: true })}
               />
-              <div>
-                <button
-                  type="button"
-                  aria-pressed={running}
-                  onClick={() => setRunning((value) => !value)}
-                >
-                  {t(running ? "Run" : "Walk")}
-                </button>
+              <div className="cw-action-panel">
+                <p id="cw-action-target" className="cw-action-target">
+                  {actionType === "talk" ? <span lang="ja">{targetLocation?.npc.name} · {targetLocation?.npc.role}</span> : t(targetLocation?.title)}
+                </p>
                 <button
                   type="button"
                   className="cw-interact"
-                  disabled={!interaction || !ready || paused}
+                  aria-describedby="cw-action-target cw-interaction-hint"
+                  disabled={!actionReady}
                   onClick={act}
                 >
-                  {t(
-                    interaction?.type === "enter"
-                      ? "Enter"
-                      : interaction?.type === "exit"
-                        ? "Leave"
-                        : "Talk",
-                  )}
+                  {actionType === "enter" ? <DoorOpen size={20} aria-hidden="true" /> : <MessageCircle size={20} aria-hidden="true" />}
+                  {t(actionLabel)}
                 </button>
+                <p id="cw-interaction-hint" className="cw-interaction-hint" role="status">
+                  {!actionReady && t(indoorLocation ? "Approach the counter to talk." : "Move closer to enter or talk.")}
+                </p>
+                <div className="cw-secondary-controls">
+                  <button
+                    type="button"
+                    aria-pressed={running}
+                    onClick={() => setRunning((value) => !value)}
+                  >
+                    {t(running ? "Run" : "Walk")}
+                  </button>
+                  {indoorLocation && (
+                    <button type="button" className="cw-leave" disabled={!ready || paused} onClick={leaveBuilding}>
+                      <LogOut size={18} aria-hidden="true" />{t("Leave")}
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </>
@@ -676,6 +711,7 @@ export default function ContinuumWorld({ user, onBack }) {
           </section>
         </div>
       )}
-    </section>
+    </section>,
+    document.body,
   );
 }

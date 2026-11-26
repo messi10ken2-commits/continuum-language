@@ -9,6 +9,7 @@ import {
   movementVector,
   worldPath,
   worldInteraction,
+  worldDestinationPoint,
   worldCompanionSpawn,
   restoreWorldState,
   worldStorageKey,
@@ -165,4 +166,16 @@ test("every world interface source has offline copy in every existing display la
   for (const [source, translations] of Object.entries(continuumWorldCopy))
     for (const locale of ["ja", "es", "pt", "zh", "fr", "ko", "id", "ru", "ar"])
       assert.ok(translations[locale]?.trim(), source + " " + locale);
+});
+
+test("destination markers lead within interaction range of the correct door or NPC", () => {
+  for (const location of worldLocations) {
+    const point = worldDestinationPoint(location.id);
+    assert.ok(isWorldWalkable("outdoors", point));
+    const action = worldInteraction("outdoors", point);
+    assert.equal(action?.location.id, location.id);
+    assert.equal(action?.type, location.interior ? "enter" : "talk");
+    assert.ok(worldPath("outdoors", worldScenes.outdoors.spawn, point).length);
+  }
+  assert.equal(worldDestinationPoint("missing"), null);
 });

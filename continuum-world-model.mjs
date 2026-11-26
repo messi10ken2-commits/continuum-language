@@ -303,6 +303,13 @@ export function worldInteraction(scene, position) {
   }
   return null;
 }
+// Outdoor information points lead to the person; enterable shops lead to a door.
+export function worldDestinationPoint(id) {
+  const location = worldLocations.find((location) => location.id === id);
+  if (!location) return null;
+  const point = location.interior ? location.door : location.npc;
+  return { x: point.x, z: point.z };
+}
 export const worldStorageKey = (userId) => "continuumWorld:tokyo:v1:" + userId;
 export function restoreWorldState(value) {
   const state = value && typeof value === "object" ? value : {},
