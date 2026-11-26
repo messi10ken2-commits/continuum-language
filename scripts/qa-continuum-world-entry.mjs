@@ -138,7 +138,7 @@ try {
     "full app wrappers must not clip the World",
   );
   assert.equal(
-    await page.locator(".app>aside").evaluate((element) => element.inert),
+    await page.locator(".app>aside").evaluate((element) => !!element.closest("[inert]")),
     true,
   );
   await page.waitForFunction(
@@ -170,7 +170,7 @@ try {
     .click();
   await page.locator(".studio-menu").waitFor();
   assert.equal(
-    await page.locator(".app>aside").evaluate((element) => element.inert),
+    await page.locator(".app>aside").evaluate((element) => !!element.closest("[inert]")),
     false,
   );
   await page
@@ -204,3 +204,4 @@ try {
   await new Promise((resolve) => testServer.close(resolve));
   await db.close();
 }
+
