@@ -9,6 +9,7 @@ import {
   worldLocations,
   worldStorageKey,
   worldInteraction,
+  worldDestinationPoint,
 } from "./continuum-world-model.mjs";
 import { createWorldAmbience } from "./continuum-world-audio.mjs";
 import { callCompanionKind } from "./companion-call-models.mjs";
@@ -84,8 +85,9 @@ function WorldMinimap({ snapshot }) {
       for (const location of worldLocations) {
         ctx.fillStyle =
           location.id === snapshot.destination ? "#bd5b39" : "#36675b";
+        const point = worldDestinationPoint(location.id);
         ctx.beginPath();
-        ctx.arc(px(location.door.x), pz(location.door.z), 4, 0, Math.PI * 2);
+        ctx.arc(px(point.x), pz(point.z), 4, 0, Math.PI * 2);
         ctx.fill();
       }
     ctx.fillStyle = "#c26c28";
