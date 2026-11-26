@@ -161,6 +161,16 @@ try {
         assert.ok(measured.headerClear, "navigation stays below translated header");
         assert.ok(measured.controlGap, "joystick and action buttons do not overlap");
         assert.ok(measured.footerClear, "footer does not cover controls");
+        for (const selector of [".cw-navigation label", ".cw-action-panel button"]) {
+          assert.ok(await page.locator(selector).evaluateAll(elements => elements.every(e => e.scrollWidth <= e.clientWidth + 1)), selector + " text stays inside its control");
+        }
+        if (await page.locator(".cw-leave").count()) {
+          assert.ok(await page.locator(".cw-leave").evaluate(element => {
+            const range = document.createRange();
+            range.selectNodeContents(element.lastChild);
+            return range.getBoundingClientRect().height <= parseFloat(getComputedStyle(element).lineHeight) + 2;
+          }), "Leave label stays readable on one line, including large text");
+        }
         for (const selector of [".cw-stick", ".cw-interact", ".cw-leave"]) {
           if (!(await page.locator(selector).count())) continue;
           const hittable = await page.locator(selector).evaluate((element) => {

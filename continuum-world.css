@@ -101,8 +101,8 @@
 .cw-actions .cw-interact { width: 100%; min-height: 48px; background: #326c58; border-color: #97c8aa; font-weight: 700; }
 .cw-interaction-hint { margin: 0; font-size: .7rem; line-height: 1.4; color: #f5e6c6; }
 .cw-interaction-hint:empty { display: none; }
-.cw-secondary-controls { display: flex; gap: 6px; }
-.cw-secondary-controls button { flex: 1; min-width: 0; padding: 8px; font-size: .8rem; }
+.cw-secondary-controls { display: flex; flex-wrap: wrap; gap: 6px; }
+.cw-secondary-controls button { flex: 1 1 auto; min-width: 0; padding: 8px; font-size: .8rem; overflow-wrap: normal; }
 .cw-stick { width: 116px; height: 116px; flex: 0 0 116px; border: 2px solid #fff9e6bf; border-radius: 50%; background: #fff7e752; position: relative; touch-action: none; box-shadow: 0 8px 20px #14232d50; }
 .cw-stick span { position: absolute; left: calc(50% - 22px); top: calc(50% - 22px); width: 44px; height: 44px; border-radius: 50%; background: #fff4d7; box-shadow: 0 3px 12px #14232d80; pointer-events: none; }
 .cw-view-actions { position: absolute; inset-block-start: calc(var(--cw-header-height, 88px) + 8px); inset-inline-start: max(16px, env(safe-area-inset-left)); display: flex; flex-direction: column; gap: 8px; max-width: 145px; }
@@ -134,7 +134,7 @@
   .cw-header-button-label { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .cw-world .cw-header h1 { font-size: .9rem; }
   .cw-header span { font-size: .7rem; }
-  .cw-navigation { width: 118px; inset-inline-end: max(10px, env(safe-area-inset-right)); }
+  .cw-navigation { width: clamp(118px, 7.375rem, 160px); inset-inline-end: max(10px, env(safe-area-inset-right)); }
   .cw-view-actions { inset-inline-start: max(10px, env(safe-area-inset-left)); max-width: 125px; }
   .cw-view-actions button { padding: 8px; font-size: .75rem; }
   .cw-actions { inset-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right)); gap: 12px; }
