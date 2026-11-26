@@ -82,25 +82,63 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
         regions.append(2 if hand > .55 or (exposed > .55 and p[1] > neck_y) else 5 if p[1] < .12 else 4 if p[1] < 1.01 else 3)
     # Crop covered body faces, then compact their vertices. Only exposed face,
     # neck and hands remain; clothing is independent geometry below.
+    rows_by_attribute = {key: values(index) for key, index in attrs.items()}
+    skin_rows = {key: [] for key in attrs}
     selected = []
+    skin_vertex_cache = {}
+    cutoff = 1.54 if gender == 'Male' else 1.48
+    head_weights = [sum(w for j, w in zip(js, ws) if bone_names[j] == 'Head' or bone_names[j].startswith('neck')) for js, ws in zip(joints, weights)]
+
+    def source_vertex(index):
+        return {key: rows[index] for key, rows in rows_by_attribute.items()}
+
+    def interpolate(a, b, t):
+        result = {key: tuple(x + (y - x) * t for x, y in zip(a[key], b[key])) for key in attrs if key not in ['JOINTS_0', 'WEIGHTS_0']}
+        influences = {}
+        for vertex, factor in [(a, 1 - t), (b, t)]:
+            for joint, weight in zip(vertex['JOINTS_0'], vertex['WEIGHTS_0']):
+                influences[joint] = influences.get(joint, 0) + weight * factor
+        chosen = sorted(influences.items(), key=lambda pair: pair[1], reverse=True)[:4]
+        chosen += [(0, 0)] * (4 - len(chosen))
+        total = sum(w for j, w in chosen)
+        result['JOINTS_0'] = tuple(j for j, w in chosen)
+        result['WEIGHTS_0'] = tuple(w / total for j, w in chosen)
+        return result
+
     for i in range(0, len(indices), 3):
         tri = indices[i:i + 3]
-        if all(regions[v] == 2 for v in tri):
-            selected.extend(tri)
-    used = sorted(set(selected))
-    remap = {v: i for i, v in enumerate(used)}
+        polygon = [source_vertex(v) for v in tri]
+        if any(head_weights[v] > .5 for v in tri):
+            # Clip the crossing triangles instead of deleting the whole neck ring.
+            # UVs/normals and normalized bone weights follow the exact intersection.
+            clipped = []
+            for a, b in zip(polygon, polygon[1:] + polygon[:1]):
+                inside_a, inside_b = a['POSITION'][1] >= cutoff, b['POSITION'][1] >= cutoff
+                if inside_a:
+                    clipped.append(a)
+                if inside_a != inside_b:
+                    t = (cutoff - a['POSITION'][1]) / (b['POSITION'][1] - a['POSITION'][1])
+                    clipped.append(interpolate(a, b, t))
+            polygon = clipped
+        elif not all(regions[v] == 2 for v in tri):
+            continue
+        for corner in range(1, len(polygon) - 1):
+            for vertex in [polygon[0], polygon[corner], polygon[corner + 1]]:
+                cache_key = tuple((key, tuple(round(value, 7) for value in vertex[key])) for key in attrs)
+                if cache_key not in skin_vertex_cache:
+                    skin_vertex_cache[cache_key] = len(skin_rows['POSITION'])
+                    for key in attrs:
+                        skin_rows[key].append(vertex[key])
+                selected.append(skin_vertex_cache[cache_key])
     skin_attributes = {}
-    for key, index in attrs.items():
-        old = gltf['accessors'][index]
-        rows = values(index)
-        rows = [rows[i] for i in used]
+    for key, rows in skin_rows.items():
+        old = gltf['accessors'][attrs[key]]
         flat = [v for row in rows for v in row]
         fmt = {5121: 'B', 5123: 'H', 5126: 'f'}[old['componentType']]
         bounds = None
         if key == 'POSITION':
             bounds = ([min(p[i] for p in rows) for i in range(3)], [max(p[i] for p in rows) for i in range(3)])
         skin_attributes[key] = append(struct.pack('<' + fmt * len(flat), *flat), old['type'], len(rows[0]), len(rows), old['componentType'], bounds)
-    selected = [remap[v] for v in selected]
     primitives = [{'attributes': skin_attributes, 'material': 2, 'indices': append(struct.pack('<' + 'H' * len(selected), *selected), 'SCALAR', 1, len(selected), 5123)}]
     gltf['meshes'][2]['name'] = 'Clothed Tokyo traveller' if gender == 'Male' else 'Clothed Tokyo resident'
     sx, sy, sz = (1, 1, 1) if gender == 'Male' else (.88, .96, .92)
@@ -114,7 +152,7 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
             return blend('pelvis', 'spine_02', (y - .95) / .23)
         return blend('spine_02', 'spine_03', (y - 1.18) / .15)
 
-    def add_loft(rings, material, weights_fn, axis='y', segments=24):
+    def add_loft(rings, material, weights_fn, axis='y', segments=24, waist_side=None):
         pos, joints_out, weights_out, idx = [], [], [], []
         for center, r1, r2 in rings:
             for j in range(segments):
@@ -124,6 +162,10 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
                     x += r1 * math.cos(a); z += r2 * math.sin(a)
                 else:
                     z += r1 * math.cos(a); y += r2 * math.sin(a)
+                if waist_side is not None and y > .84:
+                    t = min(1, (y - .84) / .185)
+                    x = (1 - t) * x + t * waist_side * max(0, waist_side * .18 * math.cos(a))
+                    z = (1 - t) * z + t * (-.04 + .14 * math.sin(a))
                 p = (x * sx, y * sy, z * sz)
                 js, ws = weights_fn(p)
                 pos.extend(p); joints_out.extend(js); weights_out.extend(ws)
@@ -140,23 +182,25 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
         }
         primitives.append({'attributes': attributes, 'material': material, 'indices': append(struct.pack('<' + 'H' * len(idx), *idx), 'SCALAR', 1, len(idx), 5123)})
 
-    add_loft([((0, y, -.025), rx, rz) for y, rx, rz in [(1.0, .178, .135), (1.035, .18, .137), (1.14, .176, .135), (1.31, .204, .145), (1.43, .215, .13), (1.49, .078, .075)]], 3, torso_weights)
-    add_loft([((0, y, -.025), .08, .077) for y in [1.47, 1.525]], 3, torso_weights)
+    add_loft([((0, y, -.025), rx, rz) for y, rx, rz in [(1.0, .178, .135), (1.035, .18, .137), (1.14, .176, .135), (1.31, .204, .145), (1.43, .23, .135), (1.47, .225, .13), (1.525, .13, .10)]], 3, torso_weights)
+    add_loft([((0, y, -.055), rx, rz) for y, rx, rz in [(1.515, .15, .105), (1.54, .13, .095), (1.565, .108, .085)]], 3, torso_weights)
     for side, suffix in [(1, 'l'), (-1, 'r')]:
         arm = lambda p, s=suffix: blend('upperarm_' + s, 'lowerarm_' + s, (abs(p[0] / sx) - .40) / .10)
-        rings = [((side * x, 1.4555, -.067), rz, ry) for x, rz, ry in [(.195, .078, .083), (.25, .07, .072), (.4, .061, .065), (.46, .058, .06), (.59, .052, .054), (.69, .045, .047)]]
+        rings = [((side * x, 1.4555, -.067), rz, ry) for x, rz, ry in [(.19, .001, .001), (.23, .07, .072), (.30, .067, .07), (.4, .061, .065), (.46, .058, .06), (.59, .052, .054), (.69, .045, .047)]]
         if side < 0:
             rings.reverse()
         add_loft(rings, 3, arm, 'x', 16)
-        leg = lambda p, s=suffix: blend('calf_' + s, 'thigh_' + s, (p[1] / sy - .48) / .13)
-        add_loft([((side * .1143, y, -.04), rx, rz) for y, rx, rz in [(.11, .067, .066), (.16, .071, .07), (.40, .078, .079), (.54, .08, .082), (.72, .091, .095), (.88, .105, .106), (.98, .108, .108)]], 4, leg, segments=20)
+        leg = lambda p, s=suffix: blend('thigh_' + s, 'pelvis', (p[1] / sy - .84) / .185) if p[1] / sy > .84 else blend('calf_' + s, 'thigh_' + s, (p[1] / sy - .48) / .13)
+        add_loft([((side * .1143, y, -.04), rx, rz) for y, rx, rz in [(.11, .067, .066), (.16, .071, .07), (.40, .078, .079), (.54, .08, .082), (.72, .091, .095), (.84, .105, .106), (.93, .108, .108), (1.025, .108, .108)]], 4, leg, segments=24, waist_side=side)
         foot = lambda p, s=suffix: blend('foot_' + s, 'foot_' + s, 0)
         add_loft([((side * .1143, y, -.005), rx, rz) for y, rx, rz in [(.005, .069, .15), (.025, .076, .155), (.07, .075, .151), (.105, .061, .12), (.14, .052, .07)]], 5, foot, segments=20)
-    add_loft([((0, y, -.04), .19, .14) for y in [.88, .96, 1.025]], 4, torso_weights)
     # A rounded commuter backpack is part of the traveller silhouette.
     if gender == 'Male':
         gltf['materials'].append({'name': 'World backpack', 'pbrMetallicRoughness': {'baseColorFactor': [.18, .145, .105, 1], 'metallicFactor': 0, 'roughnessFactor': .93}})
         add_loft([((0, y, -.188), rx, rz) for y, rx, rz in [(1.05, .08, .045), (1.09, .125, .068), (1.35, .125, .068), (1.41, .07, .04)]], 6, torso_weights, segments=16)
+        for side in [-1, 1]:
+            for path in [[(1.08, .11), (1.28, .125), (1.40, .10), (1.46, -.04)], [(1.10, -.22), (1.30, -.23), (1.41, -.18), (1.46, -.04)]]:
+                add_loft([((side * .14, y, z), .014, .009) for y, z in path], 6, torso_weights, segments=8)
     # One primitive per garment material keeps each person to eight draw calls.
     merged = [p for p in primitives if p['material'] == 2]
     for material in sorted({p['material'] for p in primitives if p['material'] != 2}):
