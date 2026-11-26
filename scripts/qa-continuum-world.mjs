@@ -72,6 +72,8 @@ try {
     ",",
   )) {
     const engine = { chromium, webkit }[name];
+    for (const width of [1280, 390]) {
+    // Each viewport gets a fresh GPU/browser process, especially WebKit.
     browser = await engine.launch({
       headless: true,
       ...(name === "chromium"
@@ -85,7 +87,6 @@ try {
           }
         : {}),
     });
-    for (const width of [1280, 390]) {
       const context = await browser.newContext({
         viewport: { width, height: width === 390 ? 844 : 850 },
         hasTouch: width === 390,
@@ -291,15 +292,15 @@ try {
           "0",
           "key release is applied before the next rendered frame",
         );
-        await page.waitForTimeout(220);
+        const releasedPosition=JSON.parse(await host.getAttribute("data-position"));
+        const releaseFrame=Number(await host.getAttribute("data-world-frames"));
+        await page.waitForFunction(frame=>Number(document.querySelector('.cw-renderer').dataset.worldFrames)>=frame+10,releaseFrame,{timeout:15000});
         const moved = JSON.parse(await host.getAttribute("data-position"));
         assert.ok(moved.z < before.z - 0.3);
-        await page.waitForTimeout(250);
-        assert.deepEqual(
-          JSON.parse(await host.getAttribute("data-position")),
-          moved,
-          "key release stops movement",
-        );
+        assert.ok(Math.hypot(moved.x-releasedPosition.x,moved.z-releasedPosition.z)<.08,'walking deceleration stops within eight centimetres');
+        const settledFrame=Number(await host.getAttribute("data-world-frames"));
+        await page.waitForFunction(frame=>Number(document.querySelector('.cw-renderer').dataset.worldFrames)>=frame+4,settledFrame,{timeout:15000});
+        assert.deepEqual(JSON.parse(await host.getAttribute("data-position")),moved,"no drift after the bounded stop");
         const yaw = Number(await host.getAttribute("data-yaw")),
           box = await host.boundingBox();
         await page.mouse.move(
@@ -659,9 +660,9 @@ try {
         width,
         "world flag isolation, exploration, facilities, lifecycle and restoration",
       );
-    }
     await browser.close();
     browser = null;
+    }
   }
   await writeFile(
     new URL("results.json", directory),
