@@ -34,7 +34,28 @@ await build({
     rollupOptions: { input: new URL("entry.html", directory).pathname },
   },
 });
+let companionUnavailable = false;
+const apiFixture = {
+  name: "world-same-origin-qa-api",
+  configurePreviewServer(server) {
+    server.middlewares.use((req, res, next) => {
+      if (!req.url.startsWith("/api/")) return next();
+      res.statusCode =
+        companionUnavailable && req.url.includes("/api/adventure") ? 503 : 200;
+      res.setHeader("Content-Type", "application/json");
+      res.setHeader("Cache-Control", "no-store");
+      res.end(
+        JSON.stringify(
+          req.url.includes("/billing")
+            ? { membership: { premium: false } }
+            : { companion: "capybara" },
+        ),
+      );
+    });
+  },
+};
 const server = await preview({
+  plugins: [apiFixture],
   configFile: false,
   build: { outDir: ".media-build/continuum-world/dist" },
   preview: { host: "127.0.0.1", port: 0 },
@@ -69,27 +90,7 @@ try {
         viewport: { width, height: width === 390 ? 844 : 850 },
         hasTouch: width === 390,
       });
-      let companionUnavailable = false;
-      await context.route("**/api/**", (route) =>
-        route.fulfill({
-          status:
-            companionUnavailable &&
-            route.request().url().includes("/api/adventure")
-              ? 503
-              : 200,
-          contentType: "application/json",
-          headers: {
-            "access-control-allow-origin": new URL(route.request().url())
-              .origin,
-            "access-control-allow-credentials": "true",
-          },
-          body: JSON.stringify(
-            route.request().url().includes("/billing")
-              ? { membership: { premium: false } }
-              : { companion: "capybara" },
-          ),
-        }),
-      );
+      companionUnavailable = false;
       const page = await context.newPage();
       activePage = page;
       const capture = async (options) => {
