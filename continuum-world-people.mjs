@@ -112,7 +112,7 @@ export function upgradeWorldPeople(
             material.name = old.name;
             o.material = material;
             resources.add(material);
-            if (cloth) {
+            if (cloth || !o.geometry.attributes.normal) {
               o.geometry = o.geometry.clone();
               o.geometry.computeVertexNormals();
               resources.add(o.geometry);
@@ -143,6 +143,17 @@ export function worldPersonPose(body) {
     if (o.isBone) bones.set(o.name, o);
   });
   body.updateMatrixWorld(true);
+  for (const [name, bone] of bones) {
+    if (/^(index|middle|ring|pinky)_0[123]_[lr]$/.test(name)) {
+      const curl = name.includes("_01_") ? 0.08 : 0.24;
+      bone.quaternion.multiply(
+        new THREE.Quaternion().setFromAxisAngle(
+          new THREE.Vector3(1, 0, 0),
+          curl,
+        ),
+      );
+    }
+  }
   const worldAxis = new THREE.Vector3(0, 0, 1);
   // The CC0 source is in a T pose. Lower both arms in world space before gait.
   for (const [name, angle] of [

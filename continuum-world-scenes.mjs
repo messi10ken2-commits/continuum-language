@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import {
   makeStreetTree,
   dressShopfront,
@@ -30,6 +31,8 @@ export function worldMeshes({ quality = "auto" } = {}) {
     },
   );
   let disposed = false;
+  let signAtlas, signContext, signTexture;
+  const signSlots = new Map();
   const material = (color, glow = false) => {
     if (color?.isMaterial) return color;
     const key = color + ":" + glow;
@@ -157,39 +160,64 @@ export function worldMeshes({ quality = "auto" } = {}) {
     foreground = "#faf4e5",
   ) => {
     const key = `sign:${text}:${background}:${foreground}`;
-    if (!materials.has(key)) {
-      const canvas = document.createElement("canvas");
-      canvas.width = 1024;
-      canvas.height = 256;
-      const c = canvas.getContext("2d");
-      c.fillStyle = background;
-      c.fillRect(0, 0, 1024, 256);
-      c.strokeStyle = foreground + "55";
-      c.lineWidth = 2;
-      c.strokeRect(14, 14, 996, 228);
-      c.fillStyle = foreground;
-      c.font = "500 104px sans-serif";
-      c.textAlign = "center";
-      c.textBaseline = "middle";
-      c.fillText(text, 512, 132, 940);
-      const t = new THREE.CanvasTexture(canvas);
-      t.colorSpace = THREE.SRGBColorSpace;
-      textures.add(t);
+    if (!signAtlas) {
+      signAtlas = document.createElement("canvas");
+      signAtlas.width = signAtlas.height = 2048;
+      signContext = signAtlas.getContext("2d");
+      signTexture = new THREE.CanvasTexture(signAtlas);
+      signTexture.colorSpace = THREE.SRGBColorSpace;
+      textures.add(signTexture);
       materials.set(
-        key,
+        "sign-atlas",
         new THREE.MeshLambertMaterial({
-          map: t,
-          emissiveMap: t,
+          map: signTexture,
+          emissiveMap: signTexture,
           emissive: 0xffffff,
           emissiveIntensity: 0.22,
         }),
       );
     }
-    return shape(parent, "plane", materials.get(key), position, [
-      width,
-      width / 4,
-      1,
-    ]);
+    if (!signSlots.has(key)) {
+      if (signSlots.size >= 64)
+        throw new Error("World sign atlas budget exceeded");
+      const slot = signSlots.size,
+        x = (slot % 4) * 512,
+        y = Math.floor(slot / 4) * 128,
+        c = signContext;
+      c.save();
+      c.translate(x, y);
+      c.fillStyle = background;
+      c.fillRect(0, 0, 512, 128);
+      c.strokeStyle = foreground + "55";
+      c.lineWidth = 1;
+      c.strokeRect(7, 7, 498, 114);
+      c.fillStyle = foreground;
+      c.font = "500 52px sans-serif";
+      c.textAlign = "center";
+      c.textBaseline = "middle";
+      c.fillText(text, 256, 66, 470);
+      c.restore();
+      signTexture.needsUpdate = true;
+      const geometry = new THREE.PlaneGeometry(1, 1),
+        uv = geometry.attributes.uv;
+      for (let i = 0; i < uv.count; i++)
+        uv.setXY(
+          i,
+          (x + 1 + uv.getX(i) * 510) / 2048,
+          1 - (y + 1 + (1 - uv.getY(i)) * 126) / 2048,
+        );
+      geometries.set(key, geometry);
+      signSlots.set(key, slot);
+    }
+    const mesh = new THREE.Mesh(
+      geometries.get(key),
+      materials.get("sign-atlas"),
+    );
+    mesh.position.set(...position);
+    mesh.scale.set(width, width / 4, 1);
+    mesh.userData.worldBatch = mesh.userData.worldSign = true;
+    parent.add(mesh);
+    return mesh;
   };
   const contact = (parent, x, z, width = 1, depth = 1, opacity = 0.3) => {
     if (!materials.has("contact")) {
@@ -235,7 +263,7 @@ export function worldMeshes({ quality = "auto" } = {}) {
     const collect = (mesh) => {
       if (!mesh.isMesh || !mesh.userData.worldBatch) return;
       const key =
-        mesh.geometry.uuid +
+        (mesh.userData.worldSign ? "sign" : mesh.geometry.uuid) +
         mesh.material.uuid +
         mesh.castShadow +
         !!mesh.userData.worldDayShade;
@@ -246,6 +274,23 @@ export function worldMeshes({ quality = "auto" } = {}) {
     else root.children.forEach(collect);
     for (const group of groups.values()) {
       if (group.length < 2) continue;
+      if (group[0].userData.worldSign) {
+        const pieces = group.map((mesh) =>
+            mesh.geometry
+              .clone()
+              .applyMatrix4(
+                new THREE.Matrix4().multiplyMatrices(inverse, mesh.matrixWorld),
+              ),
+          ),
+          geometry = mergeGeometries(pieces),
+          merged = new THREE.Mesh(geometry, group[0].material);
+        pieces.forEach((g) => g.dispose());
+        geometries.set(geometry.uuid, geometry);
+        group.forEach((mesh) => mesh.removeFromParent());
+        merged.name = "Batched Tokyo sign atlas";
+        root.add(merged);
+        continue;
+      }
       const first = group[0],
         instances = new THREE.InstancedMesh(
           first.geometry,

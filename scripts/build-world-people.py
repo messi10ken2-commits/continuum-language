@@ -85,7 +85,7 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
     selected = []
     for i in range(0, len(indices), 3):
         tri = indices[i:i + 3]
-        if sorted(regions[v] for v in tri)[1] == 2:
+        if all(regions[v] == 2 for v in tri):
             selected.extend(tri)
     used = sorted(set(selected))
     remap = {v: i for i, v in enumerate(used)}

@@ -4,15 +4,15 @@
   "files": [
     {
       "name": "traveller",
-      "bytes": 1872440,
-      "sha256": "107db1b2e33fc8cb97a31b8862278c90a65023c3eb45986695164ce240048410",
-      "triangles": 10857
+      "bytes": 1868496,
+      "sha256": "9d393aa4024fa7683904c5e2bbd6a052c0ade97a1a618a6b5c22a60fbaa52dee",
+      "triangles": 10789
     },
     {
       "name": "resident",
-      "bytes": 1941128,
-      "sha256": "2586a56cbb0db2356c16bb6c0fcbec33e0bb78e25b4c61a3298e73853bb93e2e",
-      "triangles": 12708
+      "bytes": 1937656,
+      "sha256": "6a7682c10f15ac00721fa7262fb1f2c04051e57b8a370d8039c8d3fec2863e08",
+      "triangles": 12632
     }
   ]
 }
