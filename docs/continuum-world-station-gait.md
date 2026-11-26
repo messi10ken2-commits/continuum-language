@@ -12,6 +12,6 @@ Walking is 1.55 m/s and running 4.2 m/s with bounded acceleration/deceleration. 
 - New CPU tests load both shipped GLBs, measure planted support feet and swing clearance through walk/run transitions, verify rest/reduced motion and finite coordinates.
 - New model checks cover station routing, island/shelter/rail-site blocking, information interaction, movement acceleration/stopping and ground heights.
 - Static outdoor budget capped at 150 draw groups / 68,000 triangles (previous cap 125 / 60,000), including station and six additional street trees. No additional downloaded art or dependencies. Existing nearest-three night-light budget remains.
-- CI: pending real Chromium/WebKit controls, rendered station/day/night/platform/walk/run captures, full app entry, native sync and application validation.
+- First CI pass: 21 real Chromium scene captures passed, including station/day/night/platform and walk/run; the application unit/API suite passed. Final revision adds the road apron and platform lighting and corrects the control harness to click the existing current-state “Walk” button when enabling running. Final browser/native/application validation is pending.
 
 The reference image remains an art direction target, not a claim of visual parity. Physical iPhone motion/performance still needs device review. Phase 2 AI conversation and personal memory are unchanged.

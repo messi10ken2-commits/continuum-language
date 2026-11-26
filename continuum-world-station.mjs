@@ -18,6 +18,9 @@ export function makeStationDistrict(meshes,parent) {
   const plaza=surface('paving',[11,7.5],0xd6d5cc);
   shape(root,'box',plaza,[0,.04,plan.forecourt.z],[22,.03,15]).castShadow=false;
   const r=plan.rotary,i=plan.island;
+  // Road apron joins the loop to the existing street, without a paving gap.
+  shape(root,'box',surface('asphalt',[8/3,4/3]),[0,.054,-14.6],[8,.02,4]).castShadow=false;
+  for(let x=-3;x<=3;x++)shape(root,'box',0xe8e3d1,[x,.077,-14],[.48,.012,1.8]).castShadow=false;
   disc(meshes,root,r.rx+.18,r.rz+.18,r.x,r.z,.061,0xbdbbb1,[r.rx,r.rz]);
   disc(meshes,root,r.rx,r.rz,r.x,r.z,.063,surface('asphalt',[1/3,1/3]),[i.rx+.18,i.rz+.18]);
   disc(meshes,root,i.rx+.18,i.rz+.18,i.x,i.z,.07,0xbdbbb1);
@@ -55,6 +58,7 @@ export function makeStationDistrict(meshes,parent) {
     shape(station,'box',metal,[side*7.4,.6,0],[.12,.07,7.8]);
     for(const z of [-3.9,-1.3,1.3,3.9])shape(station,'box',metal,[side*7.4,2.2,z],[.07,4.2,.07]);
     shape(station,'box',glass,[side*4.8,2,3.95],[4.4,3.5,.035]);
+    shape(station,'box',glass,[side*2,1.65,4],[1.2,3.15,.035]);
   }
   // Closed glass entry is visually distinct from the outdoor information point.
   for(const x of [-.72,.72]) {
@@ -71,6 +75,8 @@ export function makeStationDistrict(meshes,parent) {
     shape(station,'box',0x597b89,[side*5.1,1.05,1.45],[.75,.46,.02]);
   }
   const gate=sign(station,'改札口  →  1番線',[0,3,-.45],4.5,'#293b4b');gate.scale.y=.6;
+  const led=special('station-led',{color:0xf2ead8,emissive:0xffe9c4,emissiveIntensity:.6,roughness:.5});
+  for(const x of [-5,0,5])shape(station,'box',led,[x,4.72,1],[2.1,.035,.14]).castShadow=false;
   const light=new THREE.PointLight(0xffe7cb,0,16,2);light.position.set(0,3.5,2.5);light.userData.worldLamp=true;light.userData.worldLampIntensity=10;light.userData.worldLampDistance=14;station.add(light);
   // Raised platforms and real rail geometry extend behind the concourse.
   // Stairs rise from the concourse to the raised platform behind the gates.
@@ -84,6 +90,9 @@ export function makeStationDistrict(meshes,parent) {
     shape(root,'box',metal,[x,4.47,p.z],[.14,.16,4.1]);
   }
   shape(root,'box',0xa3aaa8,[0,4.65,p.z],[27,.14,4.4]);
+  for(const x of [-8,0,8])shape(root,'box',led,[x,4.54,p.z],[2.2,.035,.14]).castShadow=false;
+  const platformLight=new THREE.PointLight(0xffefda,0,13,2);platformLight.position.set(0,3.8,p.z);
+  platformLight.userData.worldLamp=true;platformLight.userData.worldLampIntensity=14;platformLight.userData.worldLampDistance=13;root.add(platformLight);
   const platformSign=sign(root,'1番線　東京方面',[0,3.5,p.z+1.1],5,'#293b4b');platformSign.scale.y=.65;
   for(const z of plan.tracks) {
     shape(root,'box',surface('asphalt',[23,1]),[0,.015,z],[72,.1,2.8]);

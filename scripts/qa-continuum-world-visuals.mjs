@@ -84,7 +84,7 @@ try {
         ["walking",{position:{x:-8,z:19},time:"day",motion:"walk"}],
         ["running",{position:{x:-8,z:19},time:"day",motion:"run"}],
       ] : []),
-      ["station-day", {position:{x:6,z:-15},yaw:.08,time:"day"}],
+      ["station-day", {position:{x:0,z:-10},yaw:0,time:"day"}],
       ["station-platform", {position:{x:17,z:-33},yaw:1.1,time:"day"}],
       ["station-night", {position:{x:6,z:-15},yaw:.08,time:"night"}],
       ["street-night", { position: { x: -8, z: 19 }, time: "night" }],

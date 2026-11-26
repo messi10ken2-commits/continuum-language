@@ -266,7 +266,7 @@ try {
             touchPoints: [{ ...point, y: point.y - 32 }],
           });
           await page.evaluate(() => window.dispatchEvent(new Event("focus")));
-          await page.waitForTimeout(600);
+          await page.waitForFunction(z=>JSON.parse(document.querySelector(".cw-renderer").dataset.position).z<z-.25,before.z,{timeout:15000});
           await session.send("Input.dispatchTouchEvent", {
             type: "touchEnd",
             touchPoints: [],
@@ -282,7 +282,7 @@ try {
         }
         await page.keyboard.down("KeyW");
         await page.evaluate(() => window.dispatchEvent(new Event("focus")));
-        await page.waitForTimeout(900);
+        await page.waitForFunction(z=>JSON.parse(document.querySelector(".cw-renderer").dataset.position).z<z-.6,before.z,{timeout:15000});
         await page.keyboard.up("KeyW");
         assert.equal(
           await host.getAttribute("data-held-keys"),
@@ -348,7 +348,7 @@ try {
           await page.waitForTimeout(200);
         };
         // Walking/touch and key release were checked above. Run for the long traversal.
-        await page.getByRole("button", {name:"Run", exact:true}).click();
+        await page.getByRole("button", {name:"Walk", exact:true}).click();
         await walkUntil("KeyW", "z", -4.3);
         await walkUntil("KeyA", "x", -16.8);
         await host.focus();
