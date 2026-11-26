@@ -141,8 +141,7 @@ export async function createWorldEngine(
   fill.position.set(0, 4, 0);
   fill.visible = indoor;
   scene.add(fill);
-  const physical =
-    options().quality === "high" || options().quality === "medium";
+  const physical = meshes.physical;
   const skyTexture = physical ? makeWorldSky() : null;
   let reflection = null;
   if (physical) {

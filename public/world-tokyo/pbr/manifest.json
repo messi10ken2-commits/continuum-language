@@ -1,0 +1,78 @@
+{
+  "license": "CC0-1.0",
+  "resolution": 1024,
+  "files": [
+    {
+      "filename": "concrete_wall_001_color.jpg",
+      "asset": "concrete_wall_001",
+      "channel": "color",
+      "bytes": 79320,
+      "sha256": "c3c936da86d57997d9fc4022371c3798c8d438aeecb8f41546104da6d3947c02",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_001/concrete_wall_001_diff_1k.jpg"
+    },
+    {
+      "filename": "concrete_wall_001_normal.jpg",
+      "asset": "concrete_wall_001",
+      "channel": "normal",
+      "bytes": 179270,
+      "sha256": "6f10711d123c8dff26375555196eae9e16d874c137acdacd44d1ba90168b6d46",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_001/concrete_wall_001_nor_gl_1k.jpg"
+    },
+    {
+      "filename": "concrete_wall_001_roughness.jpg",
+      "asset": "concrete_wall_001",
+      "channel": "roughness",
+      "bytes": 156479,
+      "sha256": "d0964c690a8de99fb4f6657e0d3474eea9f9f293d080f4e5c871a55857d9448b",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/concrete_wall_001/concrete_wall_001_rough_1k.jpg"
+    },
+    {
+      "filename": "pavement_04_normal.jpg",
+      "asset": "pavement_04",
+      "channel": "normal",
+      "bytes": 609931,
+      "sha256": "f5c7a2c797e229cba4d79c8015bf70255cc4ebc3407751159b9e7f059189ceb5",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/pavement_04/pavement_04_nor_gl_1k.jpg"
+    },
+    {
+      "filename": "pavement_04_roughness.jpg",
+      "asset": "pavement_04",
+      "channel": "roughness",
+      "bytes": 260901,
+      "sha256": "ebf144c38f6fc97b233327d6a5dd774be6cdcd7c909ff2aa40db0c521520b9c7",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/pavement_04/pavement_04_rough_1k.jpg"
+    },
+    {
+      "filename": "asphalt_02_normal.jpg",
+      "asset": "asphalt_02",
+      "channel": "normal",
+      "bytes": 1240122,
+      "sha256": "42a1c381b53204e83a982db2864479a30bc127bbdeebb1006f8ee51bff099df3",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_nor_gl_1k.jpg"
+    },
+    {
+      "filename": "asphalt_02_roughness.jpg",
+      "asset": "asphalt_02",
+      "channel": "roughness",
+      "bytes": 544032,
+      "sha256": "70ba3edc65525eb4dc366cf010ca7ae0bd34e0251ff0225c2dad627a873d0712",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_rough_1k.jpg"
+    },
+    {
+      "filename": "wood_planks_normal.jpg",
+      "asset": "wood_planks",
+      "channel": "normal",
+      "bytes": 652441,
+      "sha256": "d02abf113e17a8abe97e1be3e9d6d88add242e8c2291e2200d37aa8c68909f25",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_planks/wood_planks_nor_gl_1k.jpg"
+    },
+    {
+      "filename": "wood_planks_roughness.jpg",
+      "asset": "wood_planks",
+      "channel": "roughness",
+      "bytes": 299757,
+      "sha256": "1b7f115bfa25619b0a2db554eb1ab88a6fc5ef0b74ba4890611eae04d00b9829",
+      "source": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/wood_planks/wood_planks_rough_1k.jpg"
+    }
+  ]
+}

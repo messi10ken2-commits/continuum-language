@@ -5,6 +5,7 @@ import {
   makeStreetTree,
   dressShopfront,
 } from "./continuum-world-street-art.mjs";
+import { dressTokyoBlock, makeTokyoRoadMarkings } from "./continuum-world-tokyo-block.mjs";
 import { worldLocations } from "./continuum-world-model.mjs";
 import {
   makeWorldSurfaces,
@@ -31,15 +32,39 @@ export function worldMeshes({ quality = "auto" } = {}) {
     },
   );
   let disposed = false;
+  const physical = quality !== "low";
+  const fullPbr = quality === "high" || quality === "medium";
   let signAtlas, signContext, signTexture;
   const signSlots = new Map();
+  const detailMaps = (mat, name, repeat = 1) => {
+    if (!physical) return;
+    const tile = Array.isArray(repeat) ? repeat : [repeat, repeat];
+    const cloned = (channel) => {
+      const source = surfaces.detail(name, channel);
+      if (!source) return null;
+      const map = source.clone();
+      map.repeat.set(...tile);
+      textures.add(map);
+      return map;
+    };
+    if (fullPbr || name === "paving" || name === "concrete") {
+      mat.normalMap = cloned("normal");
+      if (mat.normalMap) {
+        mat.normalScale.set(0.6, 0.6);
+        mat.bumpMap = null;
+      }
+    }
+    if (fullPbr) {
+      mat.roughnessMap = cloned("roughness");
+      if (mat.roughnessMap) mat.roughness = 1;
+    }
+  };
   const material = (color, glow = false) => {
     if (color?.isMaterial) return color;
     const key = color + ":" + glow;
     if (!materials.has(key)) {
       const surface =
         typeof color === "string" && !color.startsWith("#") ? color : null;
-      const physical = quality === "high" || quality === "medium";
       const Type = physical
         ? THREE.MeshStandardMaterial
         : THREE.MeshLambertMaterial;
@@ -55,11 +80,12 @@ export function worldMeshes({ quality = "auto" } = {}) {
       });
       if (surface) {
         mat.map = surfaces.texture(surface);
-        if (quality === "high" || quality === "medium") {
+        if (physical) {
           mat.bumpMap = mat.map;
           mat.bumpScale = ["paving", "bark"].includes(surface) ? 0.055 : 0.018;
         }
       }
+      if (surface) detailMaps(mat, surface);
       materials.set(key, mat);
     }
     return materials.get(key);
@@ -69,10 +95,11 @@ export function worldMeshes({ quality = "auto" } = {}) {
     if (!materials.has(key)) {
       const mat = material(name).clone(),
         map = surfaces.texture(name).clone();
-      map.repeat.set(repeat, repeat);
+      map.repeat.set(...(Array.isArray(repeat) ? repeat : [repeat, repeat]));
       textures.add(map);
       mat.map = map;
       if (mat.bumpMap) mat.bumpMap = map;
+      detailMaps(mat, name, repeat);
       mat.color.set(tint);
       materials.set(key, mat);
     }
@@ -80,7 +107,7 @@ export function worldMeshes({ quality = "auto" } = {}) {
   };
   const special = (name, parameters) => {
     if (!materials.has(name)) {
-      if (quality === "high" || quality === "medium")
+      if (physical)
         materials.set(name, new THREE.MeshStandardMaterial(parameters));
       else {
         const { roughness, metalness, envMapIntensity, ...diffuse } =
@@ -174,6 +201,7 @@ export function worldMeshes({ quality = "auto" } = {}) {
           emissiveMap: signTexture,
           emissive: 0xffffff,
           emissiveIntensity: 0.22,
+          alphaTest: 0.15,
         }),
       );
     }
@@ -190,9 +218,9 @@ export function worldMeshes({ quality = "auto" } = {}) {
       c.fillRect(0, 0, 512, 128);
       c.strokeStyle = foreground + "55";
       c.lineWidth = 1;
-      c.strokeRect(7, 7, 498, 114);
+      if (background !== "#00000000") c.strokeRect(7, 7, 498, 114);
       c.fillStyle = foreground;
-      c.font = "500 52px sans-serif";
+      c.font = `500 ${text.length === 1 ? 100 : 52}px sans-serif`;
       c.textAlign = "center";
       c.textBaseline = "middle";
       c.fillText(text, 256, 66, 470);
@@ -263,9 +291,11 @@ export function worldMeshes({ quality = "auto" } = {}) {
     const collect = (mesh) => {
       if (!mesh.isMesh || !mesh.userData.worldBatch) return;
       const key =
-        (mesh.userData.worldSign ? "sign" : mesh.geometry.uuid) +
+        // Joint-local actor batches retain their original geometry grouping.
+        (recursive ? "" : mesh.geometry.uuid) +
         mesh.material.uuid +
         mesh.castShadow +
+        mesh.receiveShadow +
         !!mesh.userData.worldDayShade;
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key).push(mesh);
@@ -274,7 +304,7 @@ export function worldMeshes({ quality = "auto" } = {}) {
     else root.children.forEach(collect);
     for (const group of groups.values()) {
       if (group.length < 2) continue;
-      if (group[0].userData.worldSign) {
+      if (group[0].userData.worldSign || new Set(group.map(mesh => mesh.geometry)).size > 1) {
         const pieces = group.map((mesh) =>
             mesh.geometry
               .clone()
@@ -287,7 +317,10 @@ export function worldMeshes({ quality = "auto" } = {}) {
         pieces.forEach((g) => g.dispose());
         geometries.set(geometry.uuid, geometry);
         group.forEach((mesh) => mesh.removeFromParent());
-        merged.name = "Batched Tokyo sign atlas";
+        merged.name = "Merged static Tokyo surfaces";
+        merged.castShadow = group[0].castShadow;
+        merged.receiveShadow = group[0].receiveShadow;
+        if (group[0].userData.worldDayShade) merged.userData.worldDayShade = true;
         root.add(merged);
         continue;
       }
@@ -379,7 +412,8 @@ export function worldMeshes({ quality = "auto" } = {}) {
     get photoSurfaces() {
       return surfaces.loaded;
     },
-    physical: quality === "high" || quality === "medium",
+    physical,
+    bakedShadows: !fullPbr,
     shape,
     sign,
     material,
@@ -423,7 +457,7 @@ function shopBuilding(
   group.rotation.y = rotation;
   parent.add(group);
   const face = depth / 2,
-    skin = surface("concrete", 2, color || 0xc6c5be),
+    skin = surface("concrete", [width / 1.5, (height - 3.6) / 1.5], color || 0xc6c5be),
     frame = surface("metal", 1, 0x536068);
   // Real recesses, columns, glazing and floor slabs replace a single solid block.
   shape(
@@ -576,6 +610,7 @@ function shopBuilding(
     a.scale.y = 1.8;
   }
   dressShopfront(meshes, group, { width, depth, id, sign: text });
+  if (id === "tokyo_cafe" || id === "tokyo_konbini") dressTokyoBlock(meshes, group, {width, depth, height, id});
   contact(group, 0, face + 0.2, width, 3, 0.3);
 }
 
@@ -583,9 +618,9 @@ export function makeOutdoorWorld(meshes) {
   const root = new THREE.Group(),
     { shape, sign, surface, contact } = meshes;
   root.name = "Tokyo authored streetscape";
-  shape(root, "box", surface("paving", 29), [0, -0.18, -3], [90, 0.3, 100]);
-  shape(root, "box", surface("asphalt", 22), [0, -0.005, -3], [8, 0.06, 86]);
-  shape(root, "box", surface("asphalt", 22), [0, 0.002, 0], [86, 0.06, 8]);
+  shape(root, "box", surface("paving", [45, 50]), [0, -0.18, -3], [90, 0.3, 100]);
+  shape(root, "box", surface("asphalt", [8 / 3, 86 / 3]), [0, -0.005, -3], [8, 0.06, 86]);
+  shape(root, "box", surface("asphalt", [86 / 3, 8 / 3]), [0, 0.002, 0], [86, 0.06, 8]);
   for (const side of [-1, 1]) {
     for (const x of [side * 4.12, side * 4.35])
       shape(root, "box", 0xbdbbb1, [x, 0.045, -3], [0.12, 0.1, 78]);
@@ -803,5 +838,6 @@ export function makeOutdoorWorld(meshes) {
       leg.rotation.x = -0.12;
     }
   }
+  makeTokyoRoadMarkings(meshes, root);
   return meshes.batch(root);
 }

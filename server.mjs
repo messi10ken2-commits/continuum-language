@@ -335,8 +335,8 @@ function acceptsGzip(header=''){
 const publicPages=new Map([['/terms','terms'],['/privacy','privacy'],['/help','help']]);
 async function serve(req,res,route){
  if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});
- // Only the five named public World art files need cross-origin access in iOS.
- if(/^\/world-tokyo\/(?:materials\/(?:pavement_04|asphalt_02|wood_planks)\.jpg|people\/(?:traveller|resident)\.glb)$/.test(route)){
+ // Only named bundled World model/surface files allow native WebGL access.
+ if(/^\/world-tokyo\/(?:materials\/(?:pavement_04|asphalt_02|wood_planks)\.jpg|people\/(?:traveller|resident)\.glb|pbr\/(?:concrete_wall_001_(?:color|normal|roughness)|(?:pavement_04|asphalt_02|wood_planks)_(?:normal|roughness))\.jpg)$/.test(route)){
   res.setHeader('Vary','Origin');
   if(nativeOrigins.has(req.headers.origin))res.setHeader('Access-Control-Allow-Origin',req.headers.origin);
  }
