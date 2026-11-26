@@ -1,6 +1,7 @@
 import * as THREE from "three";
+import { worldPbrAssets } from "./continuum-world-pbr-assets.mjs";
 
-// All surfaces are original, deterministic canvas artwork. No downloaded game art.
+// Original deterministic fallbacks plus bundled, unmodified CC0 surface scans.
 export function worldRandom(seed = 39) {
   return () => {
     seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
@@ -16,7 +17,50 @@ export function makeWorldSurfaces(register, updated = () => {}) {
     paving: "/world-tokyo/materials/pavement_04.jpg",
     asphalt: "/world-tokyo/materials/asphalt_02.jpg",
     wood: "/world-tokyo/materials/wood_planks.jpg",
+    concrete: worldPbrAssets.concrete.color,
   };
+  function request(t, name, url) {
+    if (!url || typeof Image === "undefined") return;
+    const image = new Image();
+    pending.add(image);
+    image.crossOrigin = "anonymous";
+    image.decoding = "async";
+    image.onload = () => {
+      pending.delete(image);
+      if (live) {
+        loaded.add(name);
+        t.dispose();
+        t.image = image;
+        t.needsUpdate = true;
+        updated(t);
+      }
+    };
+    image.onerror = () => pending.delete(image);
+    image.src = url;
+  }
+  function detail(name, channel) {
+    const url = worldPbrAssets[name]?.[channel];
+    if (!url) return null;
+    const key = name + ":" + channel;
+    if (cache.has(key)) return cache.get(key);
+    // Neutral one-texel data stays valid while offline or after a failed fetch.
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 1;
+    const context = canvas.getContext("2d");
+    context.fillStyle = channel === "normal" ? "rgb(128,128,255)" : "#ffffff";
+    context.fillRect(0, 0, 1, 1);
+    const t = new THREE.CanvasTexture(canvas);
+    t.colorSpace = THREE.NoColorSpace;
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.minFilter = THREE.LinearMipmapLinearFilter;
+    t.generateMipmaps = true;
+    t.anisotropy = 2;
+    t.needsUpdate = true;
+    register(t);
+    cache.set(key, t);
+    request(t, name, url);
+    return t;
+  }
   function texture(name) {
     if (cache.has(name)) return cache.get(name);
     const canvas = document.createElement("canvas");
@@ -152,30 +196,12 @@ export function makeWorldSurfaces(register, updated = () => {}) {
     t.anisotropy = 4;
     register(t);
     cache.set(name, t);
-    if (photos[name] && typeof Image !== "undefined") {
-      const image = new Image();
-      pending.add(image);
-      image.crossOrigin = "anonymous";
-      image.decoding = "async";
-      image.onload = () => {
-        pending.delete(image);
-        if (live) {
-          loaded.add(name);
-          // WebGL texture storage cannot grow from the 512px fallback to 1K.
-          // Release it before the replacement image and cloned maps are uploaded.
-          t.dispose();
-          t.image = image;
-          t.needsUpdate = true;
-          updated(t);
-        }
-      };
-      image.onerror = () => pending.delete(image);
-      image.src = photos[name];
-    }
+    request(t, name, photos[name]);
     return t;
   }
   return {
     texture,
+    detail,
     get pending() {
       return pending.size;
     },

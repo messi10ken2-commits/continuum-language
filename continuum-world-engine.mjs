@@ -42,7 +42,7 @@ export async function createWorldEngine(
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({
-      antialias: options().quality === "high",
+      antialias: options().quality !== "low",
       powerPreference: "low-power",
       // Standalone art QA pauses before a screenshot. Keep that buffer only
       // when explicitly requested; normal app rendering keeps the default off.
@@ -141,8 +141,7 @@ export async function createWorldEngine(
   fill.position.set(0, 4, 0);
   fill.visible = indoor;
   scene.add(fill);
-  const physical =
-    options().quality === "high" || options().quality === "medium";
+  const physical = meshes.physical;
   const skyTexture = physical ? makeWorldSky() : null;
   let reflection = null;
   if (physical) {
@@ -154,7 +153,10 @@ export async function createWorldEngine(
   const lamps = [],
     dayShadows = [];
   environment.traverse((object) => {
-    if (object.userData.worldLamp) lamps.push(object);
+    if (object.userData.worldLamp) {
+      object.userData.worldLampPosition = object.getWorldPosition(new THREE.Vector3());
+      lamps.push(object);
+    }
     if (object.userData.worldDayShade) dayShadows.push(object);
   });
   let lightingKey = "",
@@ -432,8 +434,8 @@ export async function createWorldEngine(
       lightingKey = String(night);
       sun.shadow.needsUpdate = true;
       lamps.forEach((lamp) => {
-        lamp.intensity = night ? 65 : 0;
-        lamp.distance = 19;
+        lamp.intensity = night ? (lamp.userData.worldLampIntensity ?? 65) : 0;
+        lamp.distance = lamp.userData.worldLampDistance ?? 19;
       });
       dayShadows.forEach((shadow) => (shadow.visible = !night));
     }
@@ -441,8 +443,8 @@ export async function createWorldEngine(
       ? [...lamps]
           .sort(
             (a, b) =>
-              Math.hypot(a.position.x - position.x, a.position.z - position.z) -
-              Math.hypot(b.position.x - position.x, b.position.z - position.z),
+              Math.hypot(a.userData.worldLampPosition.x - position.x, a.userData.worldLampPosition.z - position.z) -
+              Math.hypot(b.userData.worldLampPosition.x - position.x, b.userData.worldLampPosition.z - position.z),
           )
           .slice(0, 3)
       : [];

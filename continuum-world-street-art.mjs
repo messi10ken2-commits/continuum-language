@@ -121,7 +121,7 @@ export function makeStreetTree(meshes, parent, x, z, seed = 0) {
     bar.rotation.y = a;
   }
   contact(parent, x, z, 6.2, 6.2);
-  if (!meshes.physical) {
+  if (meshes.bakedShadows) {
     const shadow = shape(
       parent,
       "plane",

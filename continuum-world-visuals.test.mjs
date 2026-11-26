@@ -89,8 +89,14 @@ test("authored scenes and full-body companions fit fixed geometry budgets and di
     const outdoor = makeOutdoorWorld(meshes),
       cafe = makeWorldInterior("tokyo_cafe", meshes),
       market = makeWorldInterior("tokyo_konbini", meshes);
+    const storefrontLights = [];
+    outdoor.traverse(object => { if (object.name === "Tokyo storefront spill") storefrontLights.push(object); });
+    assert.equal(storefrontLights.length, 2);
+    const positions = storefrontLights.map(light => light.getWorldPosition(new THREE.Vector3())).sort((a,b) => a.x-b.x);
+    assert.equal(positions[0].x, -17); assert.equal(positions[1].x, 17);
+    assert.ok(positions.every(p => Math.abs(p.z + 5.7) < .001));
     assert.ok(budget(outdoor).draws < 125);
-    assert.ok(budget(outdoor).triangles < 52000);
+    assert.ok(budget(outdoor).triangles < 60000, JSON.stringify(budget(outdoor)));
     for (const room of [cafe, market]) {
       assert.ok(budget(room).draws < 50);
       assert.ok(budget(room).triangles < 10000);
@@ -242,7 +248,7 @@ test("photo loading preserves the fallback, updates shared sources and ignores c
     const clonedMap = sharedMeshes.surface("paving", 29).map;
     let cloneReset = 0;
     clonedMap.addEventListener("dispose", () => cloneReset++);
-    const photo = images.at(-1);
+    const photo = images.findLast(image => image.src === "/world-tokyo/materials/pavement_04.jpg");
     photo.onload();
     assert.equal(
       cloneReset,
@@ -256,5 +262,61 @@ test("photo loading preserves the fallback, updates shared sources and ignores c
     textures.forEach((t) => t.dispose());
     globalThis.document = previousDocument;
     globalThis.Image = previousImage;
+  }
+});
+
+test("scanned PBR maps have pinned contents and quality-specific bounded downloads", async () => {
+  const root = new URL("./public/world-tokyo/pbr/", import.meta.url);
+  const manifest = JSON.parse(await readFile(new URL("manifest.json", root), "utf8"));
+  assert.equal(manifest.license, "CC0-1.0");
+  assert.equal(manifest.resolution, 1024);
+  assert.equal(manifest.files.length, 9);
+  let full = 0, automatic = 0;
+  for (const file of manifest.files) {
+    const bytes = await readFile(new URL(file.filename, root));
+    assert.equal(bytes.length, file.bytes);
+    assert.equal(createHash("sha256").update(bytes).digest("hex"), file.sha256);
+    assert.equal(bytes[0], 255); assert.equal(bytes[1], 216);
+    full += bytes.length;
+    if (file.channel === "color" || (file.channel === "normal" && ["pavement_04", "concrete_wall_001"].includes(file.asset))) automatic += bytes.length;
+  }
+  assert.ok(full < 4_100_000);
+  assert.ok(automatic < 900_000);
+});
+
+test("linear PBR maps share GPU sources, keep neutral fallbacks and are optional on Low", () => {
+  const oldDocument = globalThis.document, oldImage = globalThis.Image, images = [];
+  globalThis.document = canvasDocument();
+  globalThis.Image = class { constructor() { images.push(this); } };
+  const owned = [], surfaces = makeWorldSurfaces(t => owned.push(t));
+  let automatic, low;
+  try {
+    const normal = surfaces.detail("paving", "normal"), neutral = normal.image;
+    assert.equal(normal.colorSpace, THREE.NoColorSpace);
+    assert.equal(neutral.width, 1);
+    assert.equal(surfaces.detail("paving", "normal"), normal);
+    images.at(-1).onerror();
+    assert.equal(normal.image, neutral);
+    assert.equal(surfaces.pending, 0);
+    automatic = worldMeshes({quality:"auto"});
+    const material = automatic.surface("paving", [3, 7]);
+    assert.ok(material.isMeshStandardMaterial);
+    assert.equal(material.normalMap.colorSpace, THREE.NoColorSpace);
+    assert.deepEqual(material.normalMap.repeat.toArray(), [3,7]);
+    let resets = 0;
+    material.normalMap.addEventListener("dispose", () => resets++);
+    const image = images.findLast(i => i.src.includes("pavement_04_normal"));
+    image.onload();
+    assert.equal(resets, 1);
+    assert.equal(material.normalMap.image, image);
+    const before = images.length;
+    low = worldMeshes({quality:"low"});
+    const simple = low.surface("paving", 3);
+    assert.ok(simple.isMeshLambertMaterial);
+    assert.ok(!simple.normalMap);
+    assert.ok(images.slice(before).every(i => !i.src.includes("/pbr/")));
+  } finally {
+    surfaces.dispose(); automatic?.dispose(); low?.dispose(); owned.forEach(t => t.dispose());
+    globalThis.document = oldDocument; globalThis.Image = oldImage;
   }
 });

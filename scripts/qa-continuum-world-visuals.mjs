@@ -78,9 +78,11 @@ try {
     for (const [shot, settings] of [
       ["street-day", { position: { x: -8, z: 19 }, time: "day" }],
       ...(width === 1280
-        ? [["street-materials", { quality: "medium", time: "day" }]]
+        ? [["street-materials", { quality: "medium", time: "day", position: {x:-16,z:0}, yaw:.18 }]]
         : []),
       ["street-night", { position: { x: -8, z: 19 }, time: "night" }],
+      ["block-day", {quality:"auto", position:{x:-16,z:0}, yaw:.18, time:"day"}],
+      ["block-night", {quality:"auto", position:{x:17,z:0}, yaw:-.15, time:"night"}],
       ["cafe", { scene: "tokyo_cafe", position: { x: 0, z: 2 }, time: "day" }],
       ["market", { scene: "tokyo_konbini", time: "day" }],
     ]) {

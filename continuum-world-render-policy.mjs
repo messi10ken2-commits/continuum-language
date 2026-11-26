@@ -19,7 +19,7 @@ export function worldRenderProfile(quality = "auto", width = 390, dpr = 1) {
         ? Math.min(Math.max(1, dpr), 1.75)
         : quality === "medium"
           ? Math.min(Math.max(1, dpr), 1.25)
-          : Math.min(Math.max(1, dpr), mobile ? 1 : 1.25),
+          : Math.min(Math.max(1, dpr), 1.25),
     shadowSize: low ? 0 : high ? 2048 : quality === "medium" ? 1024 : 0,
   };
 }

@@ -1,6 +1,7 @@
 // Full application entry, real API and a disposable database. Build with the beta ON first.
 import assert from "node:assert/strict";
 import { mkdir } from "node:fs/promises";
+import { worldPbrAssets } from "../continuum-world-pbr-assets.mjs";
 process.env.NODE_ENV = "development";
 delete process.env.OPENAI_API_KEY;
 delete process.env.GEMINI_API_KEY;
@@ -42,6 +43,7 @@ try {
     ),
     "/world-tokyo/people/traveller.glb",
     "/world-tokyo/people/resident.glb",
+    ...Object.values(worldPbrAssets).flatMap(maps => Object.values(maps)),
   ]) {
     const native = await fetch(origin + path, {
       method: "HEAD",
@@ -67,7 +69,7 @@ try {
   assert.equal(
     manifest.headers.get("access-control-allow-origin"),
     null,
-    "native CORS exception is limited to the five named public art files",
+    "native CORS exception is limited to the named bundled public art files",
   );
   await api(
     "/profile",
