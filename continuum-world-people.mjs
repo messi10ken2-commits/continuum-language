@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 
+import { makeGroundedGait } from "./continuum-world-gait.mjs";
 import { worldPeopleAssets } from "./continuum-world-people-assets.mjs";
 export { worldPeopleAssets };
 
@@ -152,60 +153,5 @@ export function worldPersonPose(body) {
       );
     }
   }
-  const worldAxis = new THREE.Vector3(0, 0, 1);
-  // The CC0 source is in a T pose. Lower both arms in world space before gait.
-  for (const [name, angle] of [
-    ["upperarm_l", -1.36],
-    ["upperarm_r", 1.36],
-  ]) {
-    const bone = bones.get(name);
-    if (!bone) continue;
-    const parent = bone.parent
-      .getWorldQuaternion(new THREE.Quaternion())
-      .invert();
-    bone.quaternion.premultiply(
-      new THREE.Quaternion().setFromAxisAngle(
-        worldAxis.clone().applyQuaternion(parent),
-        angle,
-      ),
-    );
-    body.updateMatrixWorld(true);
-  }
-  const rest = new Map();
-  for (const [name, bone] of bones) {
-    rest.set(name, {
-      q: bone.quaternion.clone(),
-      axis: new THREE.Vector3(1, 0, 0).applyQuaternion(
-        bone.parent.getWorldQuaternion(new THREE.Quaternion()).invert(),
-      ),
-    });
-  }
-  const rotate = (name, angle) => {
-    const bone = bones.get(name),
-      r = rest.get(name);
-    if (bone)
-      bone.quaternion
-        .copy(r.q)
-        .premultiply(new THREE.Quaternion().setFromAxisAngle(r.axis, angle));
-  };
-  let previous = 0,
-    phase = 0,
-    gait = 0;
-  return (time, speed, reduced) => {
-    const dt = Math.min(0.1, Math.max(0, time - previous));
-    previous = time;
-    gait += (speed - gait) * (1 - Math.exp(-dt / 0.14));
-    phase += dt * (gait > 4 ? 11 : 8);
-    const a = reduced ? 0 : Math.min(0.48, gait * 0.1);
-    for (const [i, side] of ["l", "r"].entries()) {
-      const step = Math.sin(phase + i * Math.PI);
-      rotate("thigh_" + side, step * a);
-      rotate("calf_" + side, -Math.max(0, -step) * a * 1.15);
-      rotate("upperarm_" + side, -step * a * 0.7);
-      rotate("lowerarm_" + side, -0.1 - Math.max(0, step) * a * 0.18);
-    }
-    body.position.y = reduced
-      ? 0
-      : Math.abs(Math.sin(phase)) * Math.min(0.018, gait * 0.004);
-  };
+  return makeGroundedGait(body, bones);
 }

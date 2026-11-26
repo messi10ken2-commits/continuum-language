@@ -74,13 +74,20 @@ function WorldMinimap({ snapshot }) {
     ctx.fillStyle = "#ede1ca";
     ctx.fillRect(0, 0, w, h);
     ctx.fillStyle = "#7f9691";
-    for (const o of worldScenes[snapshot.scene].obstacles)
+    for (const o of worldScenes[snapshot.scene].obstacles) {
+      if (o.type === "ellipse") {
+        ctx.beginPath();
+        ctx.ellipse(px(o.x), pz(o.z), o.rx/(bounds.maxX-bounds.minX)*w, o.rz/(bounds.maxZ-bounds.minZ)*h, 0, 0, Math.PI*2);
+        ctx.fill();
+        continue;
+      }
       ctx.fillRect(
         px(o.x - o.width / 2),
         pz(o.z - o.depth / 2),
         (o.width / (bounds.maxX - bounds.minX)) * w,
         (o.depth / (bounds.maxZ - bounds.minZ)) * h,
       );
+    }
     if (snapshot.scene === "outdoors")
       for (const location of worldLocations) {
         ctx.fillStyle =

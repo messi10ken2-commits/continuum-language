@@ -15,7 +15,7 @@ import {createWorldEngine} from '../../continuum-world-engine.mjs';
 import {restoreWorldState,worldScenes} from '../../continuum-world-model.mjs';
 let engine,controller;window.worldInput={x:0,z:0,run:false};
 window.mountWorld=async({scene='outdoors',kind='capybara',quality='auto',time='day',position,yaw=0}={})=>{
-controller?.abort();engine?.dispose();controller=new AbortController();
+controller?.abort();engine?.dispose();controller=new AbortController();window.worldInput={x:0,z:0,run:false};
 const settings={...restoreWorldState(),scene,quality,time,reduced:false,sound:false};
 engine=await createWorldEngine(document.getElementById('world'),{capture:true,initial:{...settings,position:position||worldScenes[scene].spawn,yaw},kind,input:()=>window.worldInput,options:()=>settings,signal:controller.signal,onSnapshot:s=>window.worldSnapshot=s,onFailure:r=>window.worldFailure=r});
 engine.setActive(true);window.worldEngine=engine;return true;};
@@ -80,6 +80,13 @@ try {
       ...(width === 1280
         ? [["street-materials", { quality: "medium", time: "day", position: {x:-16,z:0}, yaw:.18 }]]
         : []),
+      ...(width === 1280 ? [
+        ["walking",{position:{x:-8,z:19},time:"day",motion:"walk"}],
+        ["running",{position:{x:-8,z:19},time:"day",motion:"run"}],
+      ] : []),
+      ["station-day", {position:{x:6,z:-15},yaw:.08,time:"day"}],
+      ["station-platform", {position:{x:17,z:-33},yaw:1.1,time:"day"}],
+      ["station-night", {position:{x:6,z:-15},yaw:.08,time:"night"}],
       ["street-night", { position: { x: -8, z: 19 }, time: "night" }],
       ["block-day", {quality:"auto", position:{x:-16,z:0}, yaw:.18, time:"day"}],
       ["block-night", {quality:"auto", position:{x:17,z:0}, yaw:-.15, time:"night"}],
@@ -122,6 +129,10 @@ try {
         readyFrame,
         { timeout: 90000 },
       );
+      if(settings.motion) {
+        await page.evaluate(run=>{window.worldInput={x:0,z:-1,run};},settings.motion==='run');
+        await page.waitForFunction(z=>JSON.parse(document.getElementById('world').dataset.position).z<z-1.3,settings.position.z,{timeout:30000});
+      }
       assert.ok(!(await page.evaluate(() => window.worldFailure)));
       const data = await page
         .locator("#world")

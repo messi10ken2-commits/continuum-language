@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { makeStationDistrict } from "./continuum-world-station.mjs";
+import { stationLayout } from "./continuum-world-station-layout.mjs";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
 import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import {
@@ -414,6 +416,14 @@ export function worldMeshes({ quality = "auto" } = {}) {
     },
     physical,
     bakedShadows: !fullPbr,
+    custom(parent, geometry, color) {
+      geometries.set(geometry.uuid, geometry);
+      const mesh = new THREE.Mesh(geometry, material(color));
+      mesh.castShadow = mesh.receiveShadow = true;
+      mesh.userData.worldBatch = true;
+      parent.add(mesh);
+      return mesh;
+    },
     shape,
     sign,
     material,
@@ -626,7 +636,7 @@ export function makeOutdoorWorld(meshes) {
   shape(root, "box", surface("asphalt", [86 / 3, 8 / 3]), [0, 0.002, 0], [86, 0.06, 8]);
   for (const side of [-1, 1]) {
     for (const x of [side * 4.12, side * 4.35])
-      shape(root, "box", 0xbdbbb1, [x, 0.045, -3], [0.12, 0.1, 78]);
+      shape(root, "box", 0xbdbbb1, [x, 0.045, 11.5], [0.12, 0.1, 49]);
     for (const z of [side * 4.12, side * 4.35])
       shape(root, "box", 0xbdbbb1, [0, 0.045, z], [78, 0.1, 0.12]);
     // Tactile strips and small kerb drain slots.
@@ -634,10 +644,10 @@ export function makeOutdoorWorld(meshes) {
       root,
       "box",
       surface("tile", 18, 0xd2ba65),
-      [side * 5.3, 0.055, -3],
-      [0.4, 0.035, 76],
+      [side * 5.3, 0.055, 11.5],
+      [0.4, 0.035, 49],
     );
-    for (let z = -35; z < 34; z += 5) {
+    for (let z = -10; z < 34; z += 5) {
       shape(root, "box", 0xe8e4d6, [side * 3.7, 0.045, z], [0.08, 0.015, 2.6]);
       shape(root, "box", 0x2d383b, [side * 4.2, 0.12, z], [0.25, 0.02, 0.6]);
       for (let i = 0; i < 5; i++)
@@ -659,7 +669,7 @@ export function makeOutdoorWorld(meshes) {
       );
     }
   }
-  for (const location of worldLocations.filter((l) => l.id !== "tokyo_park"))
+  for (const location of worldLocations.filter((l) => l.id !== "tokyo_park" && l.id !== "tokyo_station"))
     shopBuilding(meshes, root, location);
   shopBuilding(meshes, root, {
     x: -24,
@@ -834,6 +844,8 @@ export function makeOutdoorWorld(meshes) {
       leg.rotation.x = -0.12;
     }
   }
+  makeStationDistrict(meshes, root);
+  stationLayout.streetTrees.forEach((point, index) => makeStreetTree(meshes, root, point.x, point.z, index + 44));
   makeTokyoRoadMarkings(meshes, root);
   return meshes.batch(root);
 }

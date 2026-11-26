@@ -347,6 +347,8 @@ try {
           }
           await page.waitForTimeout(200);
         };
+        // Walking/touch and key release were checked above. Run for the long traversal.
+        await page.getByRole("button", {name:"Run", exact:true}).click();
         await walkUntil("KeyW", "z", -4.3);
         await walkUntil("KeyA", "x", -16.8);
         await host.focus();
@@ -358,7 +360,7 @@ try {
           JSON.parse(await host.getAttribute("data-position")).z >= -6.11,
           "building collision stops walking through its facade",
         );
-        // A real keyboard walk reaches the café entrance from the outdoor spawn.
+        // A real keyboard traversal reaches the café entrance from the outdoor spawn.
         await page.getByRole("button", { name: "Enter", exact: true }).click();
         await page.waitForFunction(
           () =>

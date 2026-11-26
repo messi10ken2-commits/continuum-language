@@ -40,6 +40,10 @@ jobs:
           retention-days: 7
           path: |
             .media-build/continuum-world-art/390-block-day.png
+            .media-build/continuum-world-art/390-station-day.png
+            .media-build/continuum-world-art/1280-station-platform.png
+            .media-build/continuum-world-art/1280-walking.png
+            .media-build/continuum-world-art/1280-running.png
             .media-build/continuum-world-art/390-block-night.png
             .media-build/continuum-world-art/1280-street-materials.png
             .media-build/continuum-world-art/results.json
