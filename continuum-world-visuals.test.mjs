@@ -89,6 +89,12 @@ test("authored scenes and full-body companions fit fixed geometry budgets and di
     const outdoor = makeOutdoorWorld(meshes),
       cafe = makeWorldInterior("tokyo_cafe", meshes),
       market = makeWorldInterior("tokyo_konbini", meshes);
+    const storefrontLights = [];
+    outdoor.traverse(object => { if (object.name === "Tokyo storefront spill") storefrontLights.push(object); });
+    assert.equal(storefrontLights.length, 2);
+    const positions = storefrontLights.map(light => light.getWorldPosition(new THREE.Vector3())).sort((a,b) => a.x-b.x);
+    assert.equal(positions[0].x, -17); assert.equal(positions[1].x, 17);
+    assert.ok(positions.every(p => Math.abs(p.z + 5.7) < .001));
     assert.ok(budget(outdoor).draws < 125);
     assert.ok(budget(outdoor).triangles < 60000, JSON.stringify(budget(outdoor)));
     for (const room of [cafe, market]) {

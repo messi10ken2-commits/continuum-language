@@ -1,3 +1,5 @@
+import * as THREE from "three";
+
 // Art is concentrated on the two playable shopfronts. New solid props remain
 // behind their existing facade colliders; doorways and pedestrian routes stay clear.
 export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
@@ -7,6 +9,13 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
   const grout = surface('concrete', [width / 1.5, 1], 0xaaa89e);
   const dark = 0x36474b;
   group.userData.tokyoDetailBlock = true;
+  // Shares the existing nearest-three-light budget; it does not add an
+  // unbounded per-shop light cost. The engine caches these static world positions.
+  const spill = new THREE.PointLight(cafe ? 0xffd5a0 : 0xe6f2e5, 0, 19, 2);
+  spill.name = "Tokyo storefront spill";
+  spill.position.set(0, 3.05, face + .8);
+  spill.userData.worldLamp = true;
+  group.add(spill);
   // Recessed tiled plinth, drainage joints and individual vertical facade ribs.
   for (const side of [-1, 1]) {
     const center = side * (width / 4 + .55), bay = width / 2 - 1.5;

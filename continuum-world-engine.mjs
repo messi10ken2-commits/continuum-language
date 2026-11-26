@@ -153,7 +153,10 @@ export async function createWorldEngine(
   const lamps = [],
     dayShadows = [];
   environment.traverse((object) => {
-    if (object.userData.worldLamp) lamps.push(object);
+    if (object.userData.worldLamp) {
+      object.userData.worldLampPosition = object.getWorldPosition(new THREE.Vector3());
+      lamps.push(object);
+    }
     if (object.userData.worldDayShade) dayShadows.push(object);
   });
   let lightingKey = "",
@@ -440,8 +443,8 @@ export async function createWorldEngine(
       ? [...lamps]
           .sort(
             (a, b) =>
-              Math.hypot(a.position.x - position.x, a.position.z - position.z) -
-              Math.hypot(b.position.x - position.x, b.position.z - position.z),
+              Math.hypot(a.userData.worldLampPosition.x - position.x, a.userData.worldLampPosition.z - position.z) -
+              Math.hypot(b.userData.worldLampPosition.x - position.x, b.userData.worldLampPosition.z - position.z),
           )
           .slice(0, 3)
       : [];
