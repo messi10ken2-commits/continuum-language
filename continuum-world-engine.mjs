@@ -434,8 +434,8 @@ export async function createWorldEngine(
       lightingKey = String(night);
       sun.shadow.needsUpdate = true;
       lamps.forEach((lamp) => {
-        lamp.intensity = night ? 65 : 0;
-        lamp.distance = 19;
+        lamp.intensity = night ? (lamp.userData.worldLampIntensity ?? 65) : 0;
+        lamp.distance = lamp.userData.worldLampDistance ?? 19;
       });
       dayShadows.forEach((shadow) => (shadow.visible = !night));
     }

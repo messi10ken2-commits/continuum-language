@@ -15,6 +15,8 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
   spill.name = "Tokyo storefront spill";
   spill.position.set(0, 3.05, face + .8);
   spill.userData.worldLamp = true;
+  spill.userData.worldLampIntensity = cafe ? 12 : 6;
+  spill.userData.worldLampDistance = 11;
   group.add(spill);
   // Recessed tiled plinth, drainage joints and individual vertical facade ribs.
   for (const side of [-1, 1]) {
@@ -92,13 +94,13 @@ export function makeTokyoRoadMarkings(meshes, root) {
     shape(root, "box", paving, [x,.045,0], [22,.02,8]).castShadow = false;
   // Flush paint: geometry adds no new obstruction to movement.
   for(const [i,letter] of ['止','ま','れ'].entries()) {
-    const mark=sign(root,letter,[2.1,.076,8.5+i*.85],3,'#00000000','#e4e0ca');
+    const mark=sign(root,letter,[-2.1,.076,10+i*.85],3,'#00000000','#e4e0ca');
     mark.scale.y=.72;
     mark.rotation.x=-Math.PI/2;
     mark.castShadow=false;
   }
   // Stop line, a worn lane guide and the edge of the commercial street.
-  shape(root,'box',0xe2dfcf,[2,.072,7.5],[3.15,.008,.18]).castShadow=false;
+  shape(root,'box',0xe2dfcf,[-2,.072,8.8],[3.15,.008,.18]).castShadow=false;
   for(const x of [-28,-24,-20,-16,-12,12,16,20,24,28]) {
     shape(root,'box',0x353f42,[x,.073,-5.8],[.54,.018,.28]).castShadow=false;
     for(let n=0;n<5;n++)shape(root,'box',0x89918e,[x-.2+n*.1,.085,-5.8],[.025,.008,.22]).castShadow=false;
