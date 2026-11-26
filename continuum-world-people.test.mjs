@@ -37,7 +37,7 @@ test("shipped people are bounded, clothed, self-contained CC0 derivatives with r
     assert.ok(g.images.every((i) => i.bufferView !== undefined && !i.uri));
     assert.ok(g.buffers.every((b) => !b.uri));
     const binaryStart = 20 + data.readUInt32LE(12) + 8;
-    const component = (index, vertex, lane) => {
+    const component = (index, vertex, lane, arity = 4) => {
       const a = g.accessors[index],
         view = g.bufferViews[a.bufferView],
         size = a.componentType === 5121 ? 1 : a.componentType === 5123 ? 2 : 4,
@@ -45,7 +45,7 @@ test("shipped people are bounded, clothed, self-contained CC0 derivatives with r
           binaryStart +
           (view.byteOffset || 0) +
           (a.byteOffset || 0) +
-          vertex * (view.byteStride || size * 4) +
+          vertex * (view.byteStride || size * arity) +
           lane * size;
       return a.componentType === 5121
         ? data.readUInt8(offset)
@@ -74,6 +74,28 @@ test("shipped people are bounded, clothed, self-contained CC0 derivatives with r
           );
         }
       }
+    const neckY = file.name === "traveller" ? 1.54 : 1.48;
+    const scaleY = file.name === "traveller" ? 1 : .96;
+    const pelvis = g.skins[0].joints.findIndex(i => g.nodes[i].name === "pelvis");
+    let neckConnected = false, waistVertices = 0;
+    for (const mesh of g.meshes) for (const p of mesh.primitives) {
+      const material = g.materials[p.material].name, position = p.attributes.POSITION;
+      for (let i = 0; i < g.accessors[position].count; i++) {
+        const x = component(position, i, 0, 3), y = component(position, i, 1, 3);
+        if (material === "World skin" && Math.abs(x) < .18 && Math.abs(y - neckY) < .001)
+          neckConnected = true;
+        if (material === "World trousers" && y > 1.02 * scaleY) {
+          waistVertices++;
+          let anchored = false;
+          for (let lane = 0; lane < 4; lane++)
+            if (component(p.attributes.JOINTS_0, i, lane) === pelvis && component(p.attributes.WEIGHTS_0, i, lane) > .99)
+              anchored = true;
+          assert.ok(anchored, "the shared waist stays on the pelvis while either leg swings");
+        }
+      }
+    }
+    assert.ok(neckConnected, "clipped neck triangles reach inside the collar without a floating head");
+    assert.ok(waistVertices >= 40, "both trouser legs join the shared waist");
     const used = new Set(
       g.meshes.flatMap((m) =>
         m.primitives.map((p) => g.materials[p.material].name),
