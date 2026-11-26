@@ -105,7 +105,10 @@ try {
       const errors = [],
         requests = [],
         writes = [];
-      page.on("pageerror", (error) => errors.push(error.message));
+      page.on("pageerror", (error) => {
+        errors.push(error.message);
+        console.error("World page error:", error.message);
+      });
       page.on("request", (request) => {
         requests.push(request.url());
         if (request.method() !== "GET") writes.push(request.url());

@@ -95,7 +95,7 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
         rows = values(index)
         rows = [rows[i] for i in used]
         flat = [v for row in rows for v in row]
-        fmt = 'H' if old['componentType'] == 5123 else 'f'
+        fmt = {5121: 'B', 5123: 'H', 5126: 'f'}[old['componentType']]
         bounds = None
         if key == 'POSITION':
             bounds = ([min(p[i] for p in rows) for i in range(3)], [max(p[i] for p in rows) for i in range(3)])

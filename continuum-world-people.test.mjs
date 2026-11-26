@@ -29,6 +29,44 @@ test("shipped people are bounded, clothed, self-contained CC0 derivatives with r
     assert.ok(g.skins[0].joints.length > 50);
     assert.ok(g.images.every((i) => i.bufferView !== undefined && !i.uri));
     assert.ok(g.buffers.every((b) => !b.uri));
+    const binaryStart = 20 + data.readUInt32LE(12) + 8;
+    const component = (index, vertex, lane) => {
+      const a = g.accessors[index],
+        view = g.bufferViews[a.bufferView],
+        size = a.componentType === 5121 ? 1 : a.componentType === 5123 ? 2 : 4,
+        offset =
+          binaryStart +
+          (view.byteOffset || 0) +
+          (a.byteOffset || 0) +
+          vertex * (view.byteStride || size * 4) +
+          lane * size;
+      return a.componentType === 5121
+        ? data.readUInt8(offset)
+        : a.componentType === 5123
+          ? data.readUInt16LE(offset)
+          : data.readFloatLE(offset);
+    };
+    for (const m of g.meshes)
+      for (const p of m.primitives) {
+        const joints = p.attributes.JOINTS_0,
+          weights = p.attributes.WEIGHTS_0;
+        for (let i = 0; i < g.accessors[joints].count; i++) {
+          let total = 0;
+          for (let lane = 0; lane < 4; lane++) {
+            assert.ok(
+              component(joints, i, lane) < g.skins[0].joints.length,
+              "every packed joint index addresses a real bone",
+            );
+            const weight = component(weights, i, lane);
+            assert.ok(Number.isFinite(weight) && weight >= 0 && weight <= 1);
+            total += weight;
+          }
+          assert.ok(
+            Math.abs(total - 1) < 0.001,
+            "skin weights remain normalized after export",
+          );
+        }
+      }
     const used = new Set(
       g.meshes.flatMap((m) =>
         m.primitives.map((p) => g.materials[p.material].name),

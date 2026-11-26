@@ -24,7 +24,16 @@ import {
 
 export async function createWorldEngine(
   host,
-  { initial, kind = "bird", input, options, onSnapshot, onFailure, signal },
+  {
+    initial,
+    kind = "bird",
+    input,
+    options,
+    onSnapshot,
+    onFailure,
+    signal,
+    capture = false,
+  },
 ) {
   const meshes = worldMeshes({ quality: options().quality }),
     scene = new THREE.Scene(),
@@ -34,6 +43,9 @@ export async function createWorldEngine(
     renderer = new THREE.WebGLRenderer({
       antialias: options().quality === "high",
       powerPreference: "low-power",
+      // Standalone art QA pauses before a screenshot. Keep that buffer only
+      // when explicitly requested; normal app rendering keeps the default off.
+      preserveDrawingBuffer: capture,
     });
   } catch (error) {
     meshes.dispose();

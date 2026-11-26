@@ -17,7 +17,7 @@ let engine,controller;window.worldInput={x:0,z:0,run:false};
 window.mountWorld=async({scene='outdoors',kind='capybara',quality='auto',time='day',position,yaw=0}={})=>{
 controller?.abort();engine?.dispose();controller=new AbortController();
 const settings={...restoreWorldState(),scene,quality,time,reduced:false,sound:false};
-engine=await createWorldEngine(document.getElementById('world'),{initial:{...settings,position:position||worldScenes[scene].spawn,yaw},kind,input:()=>window.worldInput,options:()=>settings,signal:controller.signal,onSnapshot:s=>window.worldSnapshot=s,onFailure:r=>window.worldFailure=r});
+engine=await createWorldEngine(document.getElementById('world'),{capture:true,initial:{...settings,position:position||worldScenes[scene].spawn,yaw},kind,input:()=>window.worldInput,options:()=>settings,signal:controller.signal,onSnapshot:s=>window.worldSnapshot=s,onFailure:r=>window.worldFailure=r});
 engine.setActive(true);window.worldEngine=engine;return true;};
 `,
 );
@@ -110,6 +110,16 @@ try {
         null,
         { timeout: 90000 },
       );
+      const readyFrame = await page
+        .locator("#world")
+        .getAttribute("data-world-frames");
+      await page.waitForFunction(
+        (n) =>
+          Number(document.getElementById("world").dataset.worldFrames) >=
+          Number(n) + 3,
+        readyFrame,
+        { timeout: 90000 },
+      );
       assert.ok(!(await page.evaluate(() => window.worldFailure)));
       const data = await page
         .locator("#world")
@@ -120,9 +130,27 @@ try {
         "full-body companion remains inside the initial portrait/landscape composition",
       );
       await page.evaluate(() => window.worldEngine.setActive(false));
-      await page.screenshot({
+      const png = await page.screenshot({
         path: new URL(width + "-" + shot + ".png", dir).pathname,
       });
+      const visiblePixels = await page.evaluate(async (base64) => {
+        const img = new Image();
+        img.src = "data:image/png;base64," + base64;
+        await img.decode();
+        const c = document.createElement("canvas");
+        c.width = c.height = 32;
+        const ctx = c.getContext("2d");
+        ctx.drawImage(img, 0, 0, 32, 32);
+        const data = ctx.getImageData(0, 0, 32, 32).data,
+          colors = new Set();
+        for (let i = 0; i < data.length; i += 4)
+          colors.add(data[i] + ":" + data[i + 1] + ":" + data[i + 2]);
+        return colors.size;
+      }, png.toString("base64"));
+      assert.ok(
+        visiblePixels > 32,
+        "captured scene must contain rendered detail, not a blank buffer",
+      );
       results.push({
         width,
         shot,
