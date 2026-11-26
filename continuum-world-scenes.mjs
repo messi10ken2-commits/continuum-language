@@ -654,13 +654,6 @@ export function makeOutdoorWorld(meshes) {
         root,
         "box",
         0xe1dfd2,
-        [side * 6.6, 0.043, -3 + i],
-        [3, 0.015, 0.5],
-      );
-      shape(
-        root,
-        "box",
-        0xe1dfd2,
         [-3 + i, 0.043, side * 6.6],
         [0.5, 0.015, 3],
       );

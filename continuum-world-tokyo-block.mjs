@@ -1,7 +1,7 @@
 // Art is concentrated on the two playable shopfronts. New solid props remain
 // behind their existing facade colliders; doorways and pedestrian routes stay clear.
 export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
-  const {shape, surface, sign, contact} = meshes;
+  const {shape, surface, sign} = meshes;
   const cafe = id === 'tokyo_cafe', face = depth / 2;
   const metal = surface('metal', 1, 0x7b8586);
   const grout = surface('concrete', [width / 1.5, 1], 0xaaa89e);
@@ -32,7 +32,6 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
       shape(group,'box',metal,[x-.18+j*.065,y,face+.59],[.016,.45,.016]);
     for(const dx of [-.42,.42]) shape(group,'box',dark,[x+dx,y-.4,face+.24],[.045,.12,.5]);
     shape(group,'cylinder',0xc4c0ab,[x+.59,3.5,face+.14],[.035,2.15,.035]);
-    contact(group, x, face-.2, 2.1, .8);
   }
   // A white fascia and slim illuminated bands read as a Japanese convenience
   // store without borrowing any chain's branding or trademarks.
@@ -77,6 +76,11 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
 
 export function makeTokyoRoadMarkings(meshes, root) {
   const {shape, sign}=meshes;
+  // Human-scale pedestrian shopping approaches on either side of the main
+  // north/south road. Existing routes/colliders stay unchanged.
+  const paving = meshes.surface("paving", [11, 4], 0xd6d5cc);
+  for (const x of [-18, 18])
+    shape(root, "box", paving, [x,.045,0], [22,.02,8]).castShadow = false;
   // Flush paint: geometry adds no new obstruction to movement.
   for(const [i,letter] of ['止','ま','れ'].entries()) {
     const mark=sign(root,letter,[2.1,.076,8.5+i*.85],3,'#00000000','#e4e0ca');
