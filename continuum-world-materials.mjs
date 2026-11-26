@@ -108,21 +108,41 @@ export function makeWorldSurfaces(register, updated = () => {}) {
     }
     if (name === "leaves") {
       c.clearRect(0, 0, 512, 512);
-      for (let i = 0; i < 15; i++) {
-        const x = 50 + random() * 410,
-          y = 50 + random() * 410;
+      // Compound sprigs: small, pointed leaves follow visible stems rather than
+      // isolated dots on a mostly empty card. Each tree varies card angle/scale.
+      for (let branch = 0; branch < 5; branch++) {
         c.save();
-        c.translate(x, y);
-        c.rotate(random() * 6.28);
-        c.fillStyle = ["#677c4d", "#819367", "#435d3e", "#6a8157"][i % 4];
+        c.translate(90 + random() * 330, 90 + random() * 330);
+        c.rotate(random() * Math.PI * 2);
+        c.strokeStyle = "#4c5b37";
+        c.lineWidth = 3;
         c.beginPath();
-        c.ellipse(0, 0, 20 + random() * 25, 9 + random() * 13, 0, 0, 6.29);
-        c.fill();
-        c.strokeStyle = "#bec48c77";
-        c.beginPath();
-        c.moveTo(-20, 0);
-        c.lineTo(20, 0);
+        c.moveTo(-85, 0);
+        c.quadraticCurveTo(0, -16, 85, 0);
         c.stroke();
+        for (let j = 0; j < 9; j++)
+          for (const side of [-1, 1]) {
+            const x = -72 + j * 18,
+              y = side * (15 + random() * 9);
+            c.save();
+            c.translate(x, y);
+            c.rotate(side * 0.7);
+            c.fillStyle = ["#526f3e", "#6e8750", "#395735", "#839666"][
+              (j + branch) % 4
+            ];
+            c.beginPath();
+            c.moveTo(-24, 0);
+            c.quadraticCurveTo(0, -15, 25, 0);
+            c.quadraticCurveTo(0, 14, -24, 0);
+            c.fill();
+            c.strokeStyle = "#b0bb7c88";
+            c.lineWidth = 1;
+            c.beginPath();
+            c.moveTo(-20, 0);
+            c.lineTo(20, 0);
+            c.stroke();
+            c.restore();
+          }
         c.restore();
       }
     }

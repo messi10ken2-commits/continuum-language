@@ -161,6 +161,17 @@ try {
         assert.ok(webgl, "Chromium must exercise the real 3D renderer");
       if (webgl) {
         await page.waitForFunction(
+          () => {
+            const data = document.querySelector(".cw-renderer")?.dataset;
+            return (
+              Number(data?.peopleLoaded) > 0 &&
+              data.peopleLoaded === data.peopleTotal
+            );
+          },
+          null,
+          { timeout: 90000 },
+        );
+        await page.waitForFunction(
           () =>
             document.querySelector(".cw-renderer")?.dataset.companion ===
             "capybara",
@@ -174,6 +185,16 @@ try {
           .getByLabel("Time of day", { exact: true })
           .selectOption("day");
         await page.getByRole("button", { name: "Close", exact: true }).click();
+        // New skin/eye textures compile on their first real frame. Start the
+        // timed input check after those frames, rather than timing shader setup.
+        await page.waitForFunction(
+          () =>
+            Number(
+              document.querySelector(".cw-renderer")?.dataset.worldFrames,
+            ) >= 12,
+          null,
+          { timeout: 90000 },
+        );
         await page.waitForTimeout(350);
         await capture({
           path: new URL(name + "-" + width + "-outdoors.png", directory)

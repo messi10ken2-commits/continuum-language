@@ -89,8 +89,8 @@ test("authored scenes and full-body companions fit fixed geometry budgets and di
     const outdoor = makeOutdoorWorld(meshes),
       cafe = makeWorldInterior("tokyo_cafe", meshes),
       market = makeWorldInterior("tokyo_konbini", meshes);
-    assert.ok(budget(outdoor).draws < 110);
-    assert.ok(budget(outdoor).triangles < 40000);
+    assert.ok(budget(outdoor).draws < 125);
+    assert.ok(budget(outdoor).triangles < 52000);
     for (const room of [cafe, market]) {
       assert.ok(budget(room).draws < 50);
       assert.ok(budget(room).triangles < 10000);

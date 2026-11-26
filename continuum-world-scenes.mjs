@@ -1,5 +1,9 @@
 import * as THREE from "three";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
+import {
+  makeStreetTree,
+  dressShopfront,
+} from "./continuum-world-street-art.mjs";
 import { worldLocations } from "./continuum-world-model.mjs";
 import {
   makeWorldSurfaces,
@@ -126,11 +130,13 @@ export function worldMeshes({ quality = "auto" } = {}) {
                       ? new THREE.CylinderGeometry(1, 0.72, 1, 12, 2)
                       : type === "plane"
                         ? new THREE.PlaneGeometry(1, 1)
-                        : type === "taper"
-                          ? new THREE.CylinderGeometry(0.78, 1, 1, 12)
-                          : type === "cone"
-                            ? new THREE.ConeGeometry(1, 1, 12)
-                            : new THREE.CylinderGeometry(1, 1, 1, 12);
+                        : type === "branch"
+                          ? new THREE.CylinderGeometry(0.72, 1, 1, 6)
+                          : type === "taper"
+                            ? new THREE.CylinderGeometry(0.78, 1, 1, 12)
+                            : type === "cone"
+                              ? new THREE.ConeGeometry(1, 1, 12)
+                              : new THREE.CylinderGeometry(1, 1, 1, 12);
       geometries.set(type, geometry);
     }
     const mesh = new THREE.Mesh(geometries.get(type), material(color, glow));
@@ -228,7 +234,11 @@ export function worldMeshes({ quality = "auto" } = {}) {
       groups = new Map();
     const collect = (mesh) => {
       if (!mesh.isMesh || !mesh.userData.worldBatch) return;
-      const key = mesh.geometry.uuid + mesh.material.uuid + mesh.castShadow;
+      const key =
+        mesh.geometry.uuid +
+        mesh.material.uuid +
+        mesh.castShadow +
+        !!mesh.userData.worldDayShade;
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key).push(mesh);
     };
@@ -244,6 +254,7 @@ export function worldMeshes({ quality = "auto" } = {}) {
         );
       instances.castShadow = first.castShadow;
       instances.receiveShadow = first.receiveShadow;
+      if (first.userData.worldDayShade) instances.userData.worldDayShade = true;
       group.forEach((mesh, i) => {
         instances.setMatrixAt(
           i,
@@ -354,73 +365,6 @@ export function worldMeshes({ quality = "auto" } = {}) {
       textures.clear();
     },
   };
-}
-
-function makeTree(meshes, parent, x, z, seed = 0) {
-  const { shape, surface, special, contact } = meshes,
-    random = worldRandom(seed + 91),
-    tree = new THREE.Group();
-  tree.position.set(x, 0, z);
-  parent.add(tree);
-  shape(tree, "taper", surface("bark", 2), [0, 2.5, 0], [0.16, 5, 0.16]);
-  for (let i = 0; i < 5; i++) {
-    const a = i * 2.4,
-      branch = shape(
-        tree,
-        "taper",
-        "bark",
-        [Math.sin(a) * 0.4, 3.4 + i * 0.22, Math.cos(a) * 0.4],
-        [0.06, 1.9, 0.06],
-      );
-    branch.rotation.z = Math.sin(a) * 0.65;
-    branch.rotation.x = Math.cos(a) * 0.65;
-  }
-  // Leaf-shaped cutout clusters preserve the gaps in a real canopy.
-  const mat = meshes.foliage();
-  for (let i = 0; i < 90; i++) {
-    const a = random() * Math.PI * 2,
-      r = Math.sqrt(random()) * 2.1,
-      y = 4.2 + random() * 1.9;
-    const leaf = shape(
-      tree,
-      "plane",
-      mat,
-      [Math.sin(a) * r, y, Math.cos(a) * r],
-      [1.2, 1.2, 1],
-    );
-    leaf.rotation.set(random() * 2, a, random());
-    leaf.castShadow = true;
-  }
-  for (let i = 0; i < 3; i++) {
-    const a = (i * Math.PI * 2) / 3;
-    shape(
-      tree,
-      "cylinder",
-      0x7b6951,
-      [Math.sin(a) * 0.42, 1, Math.cos(a) * 0.42],
-      [0.035, 2, 0.035],
-    );
-  }
-  const grate = shape(
-    tree,
-    "cylinder",
-    0x303b3e,
-    [0, 0.07, 0],
-    [0.75, 0.025, 0.75],
-  );
-  grate.castShadow = false;
-  for (let i = 0; i < 8; i++) {
-    const a = (i * Math.PI) / 4;
-    const bar = shape(
-      tree,
-      "box",
-      0x6d7778,
-      [Math.sin(a) * 0.4, 0.09, Math.cos(a) * 0.4],
-      [0.025, 0.015, 0.65],
-    );
-    bar.rotation.y = a;
-  }
-  contact(parent, x, z, 5.7, 5.7);
 }
 
 function shopBuilding(
@@ -555,7 +499,15 @@ function shopBuilding(
   // Vertical tenant signs and railings produce recognisable commercial-street density.
   const board = sign(
     group,
-    "珈琲  /  BOOKS",
+    id === "tokyo_station"
+      ? "駅案内 / TICKETS"
+      : id === "tokyo_konbini"
+        ? "食品 / DAILY GOODS"
+        : text.includes("書店")
+          ? "本 / STATIONERY"
+          : id === "tokyo_cafe"
+            ? "珈琲 / COFFEE"
+            : "店舗案内 / SHOPS",
     [width / 2 - 0.25, Math.min(height - 1, 6.5), face + 0.4],
     3.6,
     "#eff0df",
@@ -565,13 +517,20 @@ function shopBuilding(
   for (let i = 0; i < 2; i++) {
     const a = sign(
       group,
-      ["喫茶・軽食", "文具と本"][i],
+      (id === "tokyo_station"
+        ? ["乗換案内", "きっぷ"]
+        : id === "tokyo_konbini"
+          ? ["日用品", "お弁当"]
+          : text.includes("書店")
+            ? ["新刊・文具", "文庫"]
+            : ["喫茶・軽食", "自家焙煎"])[i],
       [-width / 2 + 0.8 + i * 2.1, Math.min(height - 1, 6.5), face + 0.18],
       1.8,
       i ? "#374e67" : "#a1473a",
     );
     a.scale.y = 1.8;
   }
+  dressShopfront(meshes, group, { width, depth, id, sign: text });
   contact(group, 0, face + 0.2, width, 3, 0.3);
 }
 
@@ -716,7 +675,7 @@ export function makeOutdoorWorld(meshes) {
     [-16, 28],
     [8, 7],
   ].entries())
-    makeTree(meshes, root, x, z, i);
+    makeStreetTree(meshes, root, x, z, i);
   for (const z of [13, 22]) {
     for (let i = 0; i < 5; i++)
       shape(

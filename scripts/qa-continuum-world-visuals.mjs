@@ -103,6 +103,13 @@ try {
         ) >= (settings.scene ? 1 : 3),
         "bundled photo textures load",
       );
+      await page.waitForFunction(
+        () =>
+          Number(document.getElementById("world").dataset.peopleLoaded) ===
+          Number(document.getElementById("world").dataset.peopleTotal),
+        null,
+        { timeout: 90000 },
+      );
       assert.ok(!(await page.evaluate(() => window.worldFailure)));
       const data = await page
         .locator("#world")
@@ -128,6 +135,22 @@ try {
         window.worldSnapshot = null;
       });
     }
+    await page.route("**/world-tokyo/people/*.glb", (route) =>
+      route.fulfill({ status: 503, body: "Synthetic model outage" }),
+    );
+    await page.evaluate(() => window.mountWorld({ quality: "low" }));
+    await page.waitForFunction(
+      () => Number(document.getElementById("world").dataset.worldFrames) > 3,
+    );
+    assert.equal(
+      await page.locator("#world").getAttribute("data-people-loaded"),
+      "0",
+    );
+    assert.equal(
+      await page.locator("#world").getAttribute("data-active"),
+      "true",
+    );
+    console.log("PASS model outage retains playable fallback", width);
     assert.deepEqual(errors, []);
     await page.close();
   }

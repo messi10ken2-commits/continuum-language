@@ -1,0 +1,18 @@
+{
+  "license": "CC0-1.0",
+  "sourceArchiveSha256": "fdbf1804c90dfc1ea03e992bff7da2dfd1a79318e13270a660180f9308455f40",
+  "files": [
+    {
+      "name": "traveller",
+      "bytes": 1917284,
+      "sha256": "c609a39e7e6b4f37ad6f8896f8c06e20e8e0d6faea97f59aac4fa848203aba60",
+      "triangles": 10857
+    },
+    {
+      "name": "resident",
+      "bytes": 1984592,
+      "sha256": "d354176827177eed468c4524b8e8c43d2ee41424dc5ad9e35bab7d5f4bd47e2e",
+      "triangles": 12708
+    }
+  ]
+}
