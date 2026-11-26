@@ -15,16 +15,16 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
       shape(group, 'box', cafe ? 0x6e7770 : 0xc4cdc5, [center+x+.1, .31, face+.06], [.205,.55,.025]);
     // Closed upper-floor aluminium frames with a deep sill and irregular blinds.
     for (let j=0; j<2; j++) {
-      const x = center + (j-.5)*2.1, y = Math.min(height-1.6, 5.7);
-      shape(group,'box',dark,[x,y,face+.13],[1.8,1.48,.06]);
-      shape(group,'box',0x6f8b92,[x,y,face+.17],[1.68,1.36,.025]);
-      shape(group,'box',metal,[x,y,face+.2],[.036,1.4,.045]);
-      shape(group,'box',metal,[x,y-.76,face+.29],[1.92,.08,.36]);
+      const x = center + (j-.5)*2.1, y = Math.min(height-1.3, 5.7);
+      shape(group,'box',dark,[x,y,face+.13],[1.8,1.2,.06]);
+      shape(group,'box',0x6f8b92,[x,y,face+.17],[1.68,1.08,.025]);
+      shape(group,'box',metal,[x,y,face+.2],[.036,1.12,.045]);
+      shape(group,'box',metal,[x,y-.63,face+.29],[1.92,.08,.36]);
       for(let slat=0; slat<6; slat++)
-        shape(group,'box',cafe?0xc1bca9:0xaaa99d,[x,y+.54-slat*.15,face+.22],[1.58,.085,.015]);
+        shape(group,'box',cafe?0xc1bca9:0xaaa99d,[x,y+.42-slat*.13,face+.22],[1.58,.085,.015]);
     }
     // Condenser, fan grille, mounting brackets and insulated service pipe.
-    const x = side*(width/2-1.1), y=4.58;
+    const x = side*(width/2-1.7), y=4.58;
     shape(group,'box',0xaab0aa,[x,y,face+.3],[1.15,.7,.48]);
     const fan=shape(group,'cylinder',dark,[x-.18,y,face+.56],[.23,.035,.23]);
     fan.rotation.x=Math.PI/2;
@@ -37,10 +37,12 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
   // A white fascia and slim illuminated bands read as a Japanese convenience
   // store without borrowing any chain's branding or trademarks.
   if (!cafe) {
-    shape(group,'box',0xe3e6db,[0,3.62,face+.31],[width-.5,.5,.1]);
-    shape(group,'box',0x238574,[0,3.94,face+.33],[width-.4,.085,.12]);
-    shape(group,'box',0x527998,[0,3.29,face+.33],[width-.4,.065,.12]);
-    sign(group,'ほしマート  /  24時間営業',[0,3.64,face+.38],width-1.2,'#e4e8de','#24554b');
+    shape(group,'box',0xe3e6db,[0,3.65,face+.31],[width-.5,1.25,.1]);
+    shape(group,'box',0x238574,[0,4.31,face+.33],[width-.4,.085,.12]);
+    shape(group,'box',0x527998,[0,2.99,face+.33],[width-.4,.065,.12]);
+    sign(group,'ほしマート',[0,3.65,face+.38],5,'#e4e8de','#24554b');
+    sign(group,'24時間営業',[5.5,3.7,face+.38],2.4,'#e4e8de','#24554b');
+    sign(group,'ATM・コピー',[-5.3,3.7,face+.38],2.8,'#e4e8de','#24554b');
     sign(group,'ATM ・ コピー ・ 公共料金',[width*.28,2.54,face+.12],3.7,'#eef0de','#33554b');
     sign(group,'おにぎり 150円  /  お弁当 580円',[-width*.27,2.54,face+.12],3.8,'#ede4cb','#6c4335');
   } else {
@@ -62,7 +64,14 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
     shape(group,'box',0x687674,[x,1,face-.17],[.25,.5,.2]);
   }
   // Upper tenant signage and shallow wire conduits break the perfectly clean box.
-  sign(group,cafe?'2F  語学教室 ・ 受付':'2F  歯科 ・ 予約受付',[0,6.45,face+.17],5.5,cafe?'#465e6a':'#737b65','#f0ead7');
+  const tenant = sign(group,cafe?'2F  語学教室 ・ 受付':'2F  歯科 ・ 予約受付',[0,Math.min(height-.4,6.6),face+.17],5.5,cafe?'#465e6a':'#737b65','#f0ead7');
+  tenant.scale.y=.3;
+  const columnX=width/2-.25;
+  shape(group,'box',0xe7e2d1,[columnX,6,face+.5],[.55,2.2,.15]);
+  for(const [i,glyph] of (cafe?['自','家','焙','煎']:['食','品','雑','貨']).entries()) {
+    const panel=sign(group,glyph,[columnX,6.7-i*.45,face+.59],1.5,'#00000000','#344647');
+    panel.scale.y=.38;
+  }
   shape(group,'box',dark,[0,4.08,face+.17],[width-.25,.035,.06]);
 }
 

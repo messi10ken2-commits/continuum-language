@@ -42,7 +42,7 @@ export async function createWorldEngine(
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({
-      antialias: options().quality === "high",
+      antialias: options().quality !== "low",
       powerPreference: "low-power",
       // Standalone art QA pauses before a screenshot. Keep that buffer only
       // when explicitly requested; normal app rendering keeps the default off.

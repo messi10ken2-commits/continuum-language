@@ -456,6 +456,7 @@ function shopBuilding(
   group.position.set(x, 0, z);
   group.rotation.y = rotation;
   parent.add(group);
+  const detailed = id === "tokyo_cafe" || id === "tokyo_konbini";
   const face = depth / 2,
     skin = surface("concrete", [width / 1.5, (height - 3.6) / 1.5], color || 0xc6c5be),
     frame = surface("metal", 1, 0x536068);
@@ -545,10 +546,10 @@ function shopBuilding(
     [0, 3.86, face + 0.12],
     [width + 0.1, 0.65, 0.28],
   );
-  sign(group, text, [0, 3.86, face + 0.275], Math.min(width - 1, 7), fascia);
+  if (id !== "tokyo_konbini") sign(group, text, [0, 3.86, face + 0.275], Math.min(width - 1, 7), fascia);
   for (let y = 5.6; y < height - 1; y += 3) {
     shape(group, "box", frame, [0, y - 1.05, face + 0.1], [width, 0.12, 0.2]);
-    for (let dx = -width / 2 + 1.3; dx < width / 2 - 0.5; dx += 2.4) {
+    if (!detailed) for (let dx = -width / 2 + 1.3; dx < width / 2 - 0.5; dx += 2.4) {
       shape(group, "box", 0x26343e, [dx, y, face + 0.025], [1.85, 1.8, 0.08]);
       shape(group, "box", glass, [dx, y, face + 0.08], [1.8, 1.73, 0.05]);
       shape(group, "box", frame, [dx, y, face + 0.12], [0.045, 1.8, 0.05]);
@@ -575,7 +576,8 @@ function shopBuilding(
         [1.05, 0.035, 0.04],
       );
   }
-  // Vertical tenant signs and railings produce recognisable commercial-street density.
+  // Detailed shopfronts provide their own correctly spaced upright lettering.
+  if (!detailed) {
   const board = sign(
     group,
     id === "tokyo_station"
@@ -609,8 +611,9 @@ function shopBuilding(
     );
     a.scale.y = 1.8;
   }
+  }
   dressShopfront(meshes, group, { width, depth, id, sign: text });
-  if (id === "tokyo_cafe" || id === "tokyo_konbini") dressTokyoBlock(meshes, group, {width, depth, height, id});
+  if (detailed) dressTokyoBlock(meshes, group, {width, depth, height, id});
   contact(group, 0, face + 0.2, width, 3, 0.3);
 }
 

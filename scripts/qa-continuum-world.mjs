@@ -220,10 +220,18 @@ try {
         await page
           .getByRole("button", { name: "World settings", exact: true })
           .click();
+        // Exercise control/collision timing on the real Low renderer. The
+        // separate art suite verifies Auto/Medium PBR rendering without timing
+        // movement against a software GPU's shader/antialias throughput.
+        await page.getByLabel("Graphics", {exact:true}).selectOption("low");
         await page
           .getByLabel("Time of day", { exact: true })
           .selectOption("day");
         await page.getByRole("button", { name: "Close", exact: true }).click();
+        await page.waitForFunction(() => {
+          const d=document.querySelector(".cw-renderer")?.dataset;
+          return Number(d?.peopleLoaded)>0 && d.peopleLoaded===d.peopleTotal;
+        }, null, {timeout:90000});
         // New skin/eye textures compile on their first real frame. Start the
         // timed input check after those frames, rather than timing shader setup.
         await page.waitForFunction(
