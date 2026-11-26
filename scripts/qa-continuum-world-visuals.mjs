@@ -130,9 +130,13 @@ try {
         "full-body companion remains inside the initial portrait/landscape composition",
       );
       await page.evaluate(() => window.worldEngine.setActive(false));
-      const png = await page.screenshot({
-        path: new URL(width + "-" + shot + ".png", dir).pathname,
-      });
+      const png = Buffer.from(
+        (
+          await page.locator("canvas").evaluate((c) => c.toDataURL("image/png"))
+        ).split(",")[1],
+        "base64",
+      );
+      await writeFile(new URL(width + "-" + shot + ".png", dir), png);
       const visiblePixels = await page.evaluate(async (base64) => {
         const img = new Image();
         img.src = "data:image/png;base64," + base64;
@@ -163,7 +167,7 @@ try {
         window.worldSnapshot = null;
       });
     }
-    await page.route("**/world-tokyo/people/*.glb", (route) =>
+    await page.route("**/world-tokyo/people/*.glb*", (route) =>
       route.fulfill({ status: 503, body: "Synthetic model outage" }),
     );
     await page.evaluate(() => window.mountWorld({ quality: "low" }));

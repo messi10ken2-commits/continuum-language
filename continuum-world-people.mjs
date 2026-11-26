@@ -2,10 +2,8 @@ import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 
-export const worldPeopleAssets = {
-  traveller: "/world-tokyo/people/traveller.glb",
-  resident: "/world-tokyo/people/resident.glb",
-};
+import { worldPeopleAssets } from "./continuum-world-people-assets.mjs";
+export { worldPeopleAssets };
 
 // Every World owns its downloads, clones and GPU resources. No cross-account cache.
 export function upgradeWorldPeople(

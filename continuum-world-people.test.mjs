@@ -3,7 +3,10 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import * as THREE from "three";
-import { upgradeWorldPeople } from "./continuum-world-people.mjs";
+import {
+  upgradeWorldPeople,
+  worldPeopleAssets,
+} from "./continuum-world-people.mjs";
 
 test("shipped people are bounded, clothed, self-contained CC0 derivatives with real skeletons", async () => {
   const root = new URL("./public/world-tokyo/people/", import.meta.url),
@@ -18,6 +21,10 @@ test("shipped people are bounded, clothed, self-contained CC0 derivatives with r
     assert.equal(data.readUInt32LE(8), data.length);
     assert.equal(data.length, file.bytes);
     assert.equal(createHash("sha256").update(data).digest("hex"), file.sha256);
+    const url = new URL(worldPeopleAssets[file.name], "https://app.example");
+    assert.equal(url.origin, "https://app.example");
+    assert.equal(url.pathname, "/world-tokyo/people/" + file.name + ".glb");
+    assert.equal(url.searchParams.get("v"), file.sha256.slice(0, 16));
     const g = JSON.parse(
       data.subarray(20, 20 + data.readUInt32LE(12)).toString(),
     );
