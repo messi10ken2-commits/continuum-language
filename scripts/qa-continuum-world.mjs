@@ -101,7 +101,9 @@ try {
           await page.evaluate(() => window.dispatchEvent(new Event("focus")));
         }
       };
-      page.setDefaultTimeout(20000);
+      // Real software WebGL can spend >20s recompiling on a quality switch.
+      // Keep actionability checks and actual input; allow the GPU reset to finish.
+      page.setDefaultTimeout(90000);
       page.setDefaultNavigationTimeout(30000);
       const errors = [],
         requests = [],
