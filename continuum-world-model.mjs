@@ -1,3 +1,5 @@
+import { stationLayout } from "./continuum-world-station-layout.mjs";
+
 // World coordinates are metres. This prototype stores exploration only, never course progress.
 export const WORLD_ID = "tokyo";
 export const WORLD_VERSION = 1;
@@ -59,8 +61,8 @@ export const worldLocations = [
     z: -32,
     width: 15,
     depth: 8,
-    height: 8,
-    door: { x: 0, z: -25.5 },
+    height: 5.2,
+    door: { x: 0, z: -26.5 },
     color: 0xc9c7b9,
     npc: {
       id: "yui",
@@ -70,7 +72,7 @@ export const worldLocations = [
       speech: "明瞭な丁寧語",
       goal: "道順を尋ねる",
       x: 3,
-      z: -24,
+      z: -26.5,
       line: "こんにちは。駅の入口はこちらです。",
     },
   },
@@ -106,6 +108,10 @@ export const worldScenes = {
     spawn: { x: -8, z: 19 },
     obstacles: [
       ...outdoorBuildings,
+      {...stationLayout.island, type:"ellipse"},
+      {...stationLayout.railSite},
+      ...stationLayout.shelters,
+      ...stationLayout.streetTrees.map(p => ({...p,type:"ellipse",rx:.28,rz:.28})),
       { x: -24, z: 15, width: 22, depth: 18 },
       { x: -30, z: -31, width: 8, depth: 12 },
       { x: 29, z: -31, width: 10, depth: 12 },
@@ -181,8 +187,9 @@ export function isWorldWalkable(scene, position, radius = PLAYER_RADIUS) {
     position.z >= b.minZ + radius &&
     position.z <= b.maxZ - radius &&
     !definition.obstacles.some(
-      (o) =>
-        position.x > o.x - o.width / 2 - radius &&
+      (o) => o.type === "ellipse"
+        ? ((position.x-o.x)/(o.rx+radius))**2 + ((position.z-o.z)/(o.rz+radius))**2 < 1
+        : position.x > o.x - o.width / 2 - radius &&
         position.x < o.x + o.width / 2 + radius &&
         position.z > o.z - o.depth / 2 - radius &&
         position.z < o.z + o.depth / 2 + radius,
@@ -204,7 +211,7 @@ export function movementVector(input, yaw, seconds, running = false) {
   const length = Math.hypot(input.x, input.z),
     scale =
       (Math.min(1, length) / Math.max(1, length)) *
-      (running ? 5.8 : 3.2) *
+      (running ? 4.2 : 1.55) *
       Math.min(0.1, Math.max(0, seconds));
   return {
     x: (input.x * Math.cos(yaw) + input.z * Math.sin(yaw)) * scale,
@@ -331,4 +338,24 @@ export function restoreWorldState(value) {
       : 0.2,
     reduced: state.reduced === true,
   };
+}
+
+// Visible walkable surfaces use metre heights; actors and contact shadows follow.
+export function worldFloorHeight(scene, {x,z}) {
+  if(scene !== 'outdoors') return 0;
+  if(Math.abs(x)<=11 && z>=-28 && z<=-13) return .063;
+  if((x>=-29 && x<=-7 || x>=7 && x<=29) && Math.abs(z)<=4) return .055;
+  if(x>=15.5 && x<=18.5 && z>=7.5 && z<=24.5) return .07;
+  if(x>=9.5 && x<=28.5 && z>=7.5 && z<=24.5) return .03;
+  if(Math.abs(z)<=4) return .032;
+  if(Math.abs(x)<=4) return .025;
+  return -.03;
+}
+
+// Bounded acceleration keeps start/stop and walk/run changes continuous.
+export function worldVelocity(previous, target, seconds) {
+  const dx=target.x-previous.x, dz=target.z-previous.z, length=Math.hypot(dx,dz);
+  const stopping=Math.hypot(target.x,target.z)<Math.hypot(previous.x,previous.z);
+  const amount=Math.min(1,(stopping?22:10)*Math.min(.1,Math.max(0,seconds))/Math.max(length,.000001));
+  return {x:previous.x+dx*amount,z:previous.z+dz*amount};
 }

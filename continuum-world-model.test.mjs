@@ -179,3 +179,28 @@ test("destination markers lead within interaction range of the correct door or N
   }
   assert.equal(worldDestinationPoint("missing"), null);
 });
+
+test('station forecourt routes around the island, railway and shelters without losing its information point',()=>{
+  const island={x:0,z:-20.5};
+  assert.equal(isWorldWalkable('outdoors',island),false);
+  assert.equal(isWorldWalkable('outdoors',{x:12,z:-38}),false);
+  assert.equal(isWorldWalkable('outdoors',{x:-10.7,z:-24}),false);
+  const destination=worldDestinationPoint('tokyo_station');
+  const path=worldPath('outdoors',worldScenes.outdoors.spawn,destination);
+  assert.ok(path.length>0);
+  assert.ok(path.every(p=>isWorldWalkable('outdoors',p)));
+  assert.equal(worldInteraction('outdoors',destination)?.type,'talk');
+  assert.ok(moveWorldActor('outdoors',{x:0,z:-16},{x:0,z:-10}).z>-18.2);
+});
+
+test('walking has metre-scale speed, smooth acceleration, bounded stops and surface grounding',async()=>{
+  const {worldVelocity,worldFloorHeight}=await import('./continuum-world-model.mjs');
+  assert.ok(Math.abs(movementVector({x:0,z:1},0,.1).z-.155)<1e-9);
+  assert.ok(movementVector({x:0,z:1},0,.1,true).z>.4);
+  let v=worldVelocity({x:0,z:0},{x:0,z:4.2},1/60);
+  assert.ok(v.z>0 && v.z<.18);
+  for(let i=0;i<12;i++)v=worldVelocity(v,{x:0,z:0},1/60);
+  assert.equal(v.z,0);
+  assert.equal(worldFloorHeight('outdoors',{x:3,z:-26.5}),.063);
+  assert.equal(worldFloorHeight('tokyo_cafe',{x:0,z:0}),0);
+});

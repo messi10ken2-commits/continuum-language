@@ -72,6 +72,8 @@ try {
     ",",
   )) {
     const engine = { chromium, webkit }[name];
+    for (const width of [1280, 390]) {
+    // Each viewport gets a fresh GPU/browser process, especially WebKit.
     browser = await engine.launch({
       headless: true,
       ...(name === "chromium"
@@ -85,7 +87,6 @@ try {
           }
         : {}),
     });
-    for (const width of [1280, 390]) {
       const context = await browser.newContext({
         viewport: { width, height: width === 390 ? 844 : 850 },
         hasTouch: width === 390,
@@ -101,7 +102,9 @@ try {
           await page.evaluate(() => window.dispatchEvent(new Event("focus")));
         }
       };
-      page.setDefaultTimeout(20000);
+      // Real software WebGL can spend >20s recompiling on a quality switch.
+      // Keep actionability checks and actual input; allow the GPU reset to finish.
+      page.setDefaultTimeout(90000);
       page.setDefaultNavigationTimeout(30000);
       const errors = [],
         requests = [],
@@ -266,7 +269,7 @@ try {
             touchPoints: [{ ...point, y: point.y - 32 }],
           });
           await page.evaluate(() => window.dispatchEvent(new Event("focus")));
-          await page.waitForTimeout(600);
+          await page.waitForFunction(z=>JSON.parse(document.querySelector(".cw-renderer").dataset.position).z<z-.25,before.z,{timeout:15000});
           await session.send("Input.dispatchTouchEvent", {
             type: "touchEnd",
             touchPoints: [],
@@ -282,22 +285,22 @@ try {
         }
         await page.keyboard.down("KeyW");
         await page.evaluate(() => window.dispatchEvent(new Event("focus")));
-        await page.waitForTimeout(900);
+        await page.waitForFunction(z=>JSON.parse(document.querySelector(".cw-renderer").dataset.position).z<z-.6,before.z,{timeout:15000});
         await page.keyboard.up("KeyW");
         assert.equal(
           await host.getAttribute("data-held-keys"),
           "0",
           "key release is applied before the next rendered frame",
         );
-        await page.waitForTimeout(220);
+        const releasedPosition=JSON.parse(await host.getAttribute("data-position"));
+        const releaseFrame=Number(await host.getAttribute("data-world-frames"));
+        await page.waitForFunction(frame=>Number(document.querySelector('.cw-renderer').dataset.worldFrames)>=frame+10,releaseFrame,{timeout:15000});
         const moved = JSON.parse(await host.getAttribute("data-position"));
         assert.ok(moved.z < before.z - 0.3);
-        await page.waitForTimeout(250);
-        assert.deepEqual(
-          JSON.parse(await host.getAttribute("data-position")),
-          moved,
-          "key release stops movement",
-        );
+        assert.ok(Math.hypot(moved.x-releasedPosition.x,moved.z-releasedPosition.z)<.08,'walking deceleration stops within eight centimetres');
+        const settledFrame=Number(await host.getAttribute("data-world-frames"));
+        await page.waitForFunction(frame=>Number(document.querySelector('.cw-renderer').dataset.worldFrames)>=frame+4,settledFrame,{timeout:15000});
+        assert.deepEqual(JSON.parse(await host.getAttribute("data-position")),moved,"no drift after the bounded stop");
         const yaw = Number(await host.getAttribute("data-yaw")),
           box = await host.boundingBox();
         await page.mouse.move(
@@ -347,6 +350,8 @@ try {
           }
           await page.waitForTimeout(200);
         };
+        // Walking/touch and key release were checked above. Run for the long traversal.
+        await page.getByRole("button", {name:"Walk", exact:true}).click();
         await walkUntil("KeyW", "z", -4.3);
         await walkUntil("KeyA", "x", -16.8);
         await host.focus();
@@ -358,7 +363,7 @@ try {
           JSON.parse(await host.getAttribute("data-position")).z >= -6.11,
           "building collision stops walking through its facade",
         );
-        // A real keyboard walk reaches the café entrance from the outdoor spawn.
+        // A real keyboard traversal reaches the café entrance from the outdoor spawn.
         await page.getByRole("button", { name: "Enter", exact: true }).click();
         await page.waitForFunction(
           () =>
@@ -655,9 +660,9 @@ try {
         width,
         "world flag isolation, exploration, facilities, lifecycle and restoration",
       );
-    }
     await browser.close();
     browser = null;
+    }
   }
   await writeFile(
     new URL("results.json", directory),

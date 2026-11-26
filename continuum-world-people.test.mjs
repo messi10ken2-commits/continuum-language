@@ -250,3 +250,45 @@ test("a model decoded after exit is released once and never attached", async () 
   assert.equal(person.root.children.length, 1);
   assert.equal(person.root.children[0].visible, true);
 });
+
+test('real shipped rigs plant support feet, clear swing feet and remain heading independent',async()=>{
+  const {GLTFLoader}=await import('three/examples/jsm/loaders/GLTFLoader.js');
+  const {worldPersonPose}=await import('./continuum-world-people.mjs');
+  const oldSelf=globalThis.self,oldBitmap=globalThis.createImageBitmap;
+  globalThis.self=globalThis;
+  // CPU kinematics only: embedded images are not needed to measure the real bones.
+  globalThis.createImageBitmap=async()=>({width:1,height:1,close(){}});
+  try {
+    for(const variant of Object.keys(worldPeopleAssets)) {
+      const bytes=await readFile(new URL('./public/world-tokyo/people/'+variant+'.glb',import.meta.url));
+      const {scene}=await new GLTFLoader().parseAsync(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),'');
+      const root=new THREE.Group();root.rotation.y=1.2;root.add(scene);root.updateMatrixWorld(true);
+      const feet=[];scene.traverse(o=>{if(/^foot_[lr]$/.test(o.name))feet.push(o);});
+      const restY=feet.map(f=>f.getWorldPosition(new THREE.Vector3()).y);
+      const animate=worldPersonPose(scene);let maximumLift=0,stationarySteps=0,previous;
+      let t=0;
+      for(const speed of [1.55,4.2,1.55])for(let i=0;i<120;i++) {
+        t+=1/60;
+        root.position.x+=Math.sin(root.rotation.y)*speed/60;
+        root.position.z+=Math.cos(root.rotation.y)*speed/60;
+        animate(t,speed,false);root.updateMatrixWorld(true);
+        const positions=feet.map(f=>f.getWorldPosition(new THREE.Vector3()));
+        positions.forEach((p,n)=>{
+          assert.ok(p.toArray().every(Number.isFinite));
+          assert.ok(p.y>=restY[n]-.003,'soles do not sink through the ground');
+          maximumLift=Math.max(maximumLift,p.y-restY[n]);
+          if(i>25 && previous && Math.abs(p.y-restY[n])<.00001 && Math.abs(previous[n].y-restY[n])<.00001) {
+            assert.ok(p.distanceTo(previous[n])<.008,'support foot stays planted rather than skating '+JSON.stringify({speed,i,d:p.distanceTo(previous[n])}));stationarySteps++;
+          }
+        });
+        previous=positions;
+        if(speed<2 && i>25)assert.ok(positions.some((p,n)=>Math.abs(p.y-restY[n])<.003),'walk always has a grounded support leg');
+      }
+      assert.ok(maximumLift>.14 && maximumLift<.21);
+      assert.ok(stationarySteps>100);
+      for(let i=0;i<120;i++){t+=1/60;animate(t,0,false);}
+      animate(t+.1,0,true);root.updateMatrixWorld(true);
+      feet.forEach((f,n)=>assert.ok(Math.abs(f.getWorldPosition(new THREE.Vector3()).y-restY[n])<.00001));
+    }
+  }finally{globalThis.self=oldSelf;globalThis.createImageBitmap=oldBitmap;}
+});

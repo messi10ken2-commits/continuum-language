@@ -10,6 +10,8 @@ import {
   isWorldWalkable,
   moveWorldActor,
   movementVector,
+  worldFloorHeight,
+  worldVelocity,
   worldInteraction,
   worldDestinationPoint,
   worldLocations,
@@ -96,7 +98,7 @@ export async function createWorldEngine(
       npc: true,
     });
     actor.color = location.id === "tokyo_station" ? 0x597b89 : 0xa9997b;
-    actor.root.position.set(location.npc.x, 0, location.npc.z);
+    actor.root.position.set(location.npc.x, worldFloorHeight(initial.scene, location.npc), location.npc.z);
     scene.add(actor.root);
     return actor;
   });
@@ -183,6 +185,7 @@ export async function createWorldEngine(
     fps = 0,
     renderMs = 0,
     triangles = 0;
+  let velocity = {x:0,z:0};
   const keys = new Set(),
     cameraTarget = new THREE.Vector3(),
     desiredCamera = new THREE.Vector3();
@@ -276,7 +279,7 @@ export async function createWorldEngine(
   const keyup = (event) => {
       if (keys.delete(event.code)) publish();
     },
-    clear = () => keys.clear();
+    clear = () => { keys.clear(); velocity = {x:0,z:0}; };
   host.addEventListener("keydown", keydown);
   host.addEventListener("keyup", keyup);
   host.addEventListener("blur", clear, true);
@@ -334,21 +337,23 @@ export async function createWorldEngine(
           Number(keys.has("KeyS") || keys.has("ArrowDown")) -
           Number(keys.has("KeyW") || keys.has("ArrowUp")),
       };
-    const delta = movementVector(
+    const requested = movementVector(
         vector,
         yaw,
-        dt,
+        1 / 10,
         controls.run || keys.has("ShiftLeft") || keys.has("ShiftRight"),
       ),
       before = position;
+    velocity = worldVelocity(velocity, {x:requested.x*10,z:requested.z*10}, dt);
+    const delta = {x:velocity.x*dt,z:velocity.z*dt};
     position = moveWorldActor(initial.scene, position, delta);
     const speed =
       Math.hypot(position.x - before.x, position.z - before.z) /
       Math.max(0.001, dt);
     walkTime += dt;
-    player.root.position.set(position.x, 0, position.z);
+    player.root.position.set(position.x, worldFloorHeight(initial.scene, position), position.z);
     if (speed > 0.05) {
-      const target = Math.atan2(delta.x, delta.z),
+      const target = Math.atan2(position.x - before.x, position.z - before.z),
         difference = Math.atan2(
           Math.sin(target - player.root.rotation.y),
           Math.cos(target - player.root.rotation.y),
@@ -389,11 +394,11 @@ export async function createWorldEngine(
     }
     companion.position.set(
       companionPosition.x,
-      reduced
+      worldFloorHeight(initial.scene, companionPosition) + (reduced
         ? 0
         : distance > 1.25
           ? Math.abs(Math.sin(walkTime * 8)) * 0.035
-          : 0,
+          : 0),
       companionPosition.z,
     );
     const previousCompanion =
