@@ -36,8 +36,13 @@ try {
     adult: true,
   });
   const user = registered.data.user;
-  for (const name of ["pavement_04", "asphalt_02", "wood_planks"]) {
-    const path = "/world-tokyo/materials/" + name + ".jpg";
+  for (const path of [
+    ...["pavement_04", "asphalt_02", "wood_planks"].map(
+      (name) => "/world-tokyo/materials/" + name + ".jpg",
+    ),
+    "/world-tokyo/people/traveller.glb",
+    "/world-tokyo/people/resident.glb",
+  ]) {
     const native = await fetch(origin + path, {
       method: "HEAD",
       headers: { Origin: "capacitor://localhost" },
@@ -62,7 +67,7 @@ try {
   assert.equal(
     manifest.headers.get("access-control-allow-origin"),
     null,
-    "native CORS exception is limited to the three public photo maps",
+    "native CORS exception is limited to the five named public art files",
   );
   await api(
     "/profile",
@@ -138,6 +143,14 @@ try {
   );
   await page.waitForFunction(
     () => document.querySelector(".cw-renderer")?.dataset.companion === "bird",
+  );
+  await page.waitForFunction(
+    () => {
+      const d = document.querySelector(".cw-renderer")?.dataset;
+      return Number(d?.peopleLoaded) > 0 && d.peopleLoaded === d.peopleTotal;
+    },
+    null,
+    { timeout: 90000 },
   );
   await page.evaluate(() => window.dispatchEvent(new Event("blur")));
   await page.screenshot({

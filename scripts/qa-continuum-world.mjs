@@ -34,7 +34,28 @@ await build({
     rollupOptions: { input: new URL("entry.html", directory).pathname },
   },
 });
+let companionUnavailable = false;
+const apiFixture = {
+  name: "world-same-origin-qa-api",
+  configurePreviewServer(server) {
+    server.middlewares.use((req, res, next) => {
+      if (!req.url.startsWith("/api/")) return next();
+      res.statusCode =
+        companionUnavailable && req.url.includes("/api/adventure") ? 503 : 200;
+      res.setHeader("Content-Type", "application/json");
+      res.setHeader("Cache-Control", "no-store");
+      res.end(
+        JSON.stringify(
+          req.url.includes("/billing")
+            ? { membership: { premium: false } }
+            : { companion: "capybara" },
+        ),
+      );
+    });
+  },
+};
 const server = await preview({
+  plugins: [apiFixture],
   configFile: false,
   build: { outDir: ".media-build/continuum-world/dist" },
   preview: { host: "127.0.0.1", port: 0 },
@@ -69,27 +90,7 @@ try {
         viewport: { width, height: width === 390 ? 844 : 850 },
         hasTouch: width === 390,
       });
-      let companionUnavailable = false;
-      await context.route("**/api/**", (route) =>
-        route.fulfill({
-          status:
-            companionUnavailable &&
-            route.request().url().includes("/api/adventure")
-              ? 503
-              : 200,
-          contentType: "application/json",
-          headers: {
-            "access-control-allow-origin": new URL(route.request().url())
-              .origin,
-            "access-control-allow-credentials": "true",
-          },
-          body: JSON.stringify(
-            route.request().url().includes("/billing")
-              ? { membership: { premium: false } }
-              : { companion: "capybara" },
-          ),
-        }),
-      );
+      companionUnavailable = false;
       const page = await context.newPage();
       activePage = page;
       const capture = async (options) => {
@@ -105,7 +106,10 @@ try {
       const errors = [],
         requests = [],
         writes = [];
-      page.on("pageerror", (error) => errors.push(error.message));
+      page.on("pageerror", (error) => {
+        errors.push(error.message);
+        console.error("World page error:", error.message);
+      });
       page.on("request", (request) => {
         requests.push(request.url());
         if (request.method() !== "GET") writes.push(request.url());
@@ -161,6 +165,17 @@ try {
         assert.ok(webgl, "Chromium must exercise the real 3D renderer");
       if (webgl) {
         await page.waitForFunction(
+          () => {
+            const data = document.querySelector(".cw-renderer")?.dataset;
+            return (
+              Number(data?.peopleLoaded) > 0 &&
+              data.peopleLoaded === data.peopleTotal
+            );
+          },
+          null,
+          { timeout: 90000 },
+        );
+        await page.waitForFunction(
           () =>
             document.querySelector(".cw-renderer")?.dataset.companion ===
             "capybara",
@@ -174,6 +189,16 @@ try {
           .getByLabel("Time of day", { exact: true })
           .selectOption("day");
         await page.getByRole("button", { name: "Close", exact: true }).click();
+        // New skin/eye textures compile on their first real frame. Start the
+        // timed input check after those frames, rather than timing shader setup.
+        await page.waitForFunction(
+          () =>
+            Number(
+              document.querySelector(".cw-renderer")?.dataset.worldFrames,
+            ) >= 12,
+          null,
+          { timeout: 90000 },
+        );
         await page.waitForTimeout(350);
         await capture({
           path: new URL(name + "-" + width + "-outdoors.png", directory)

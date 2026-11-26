@@ -9,6 +9,7 @@ on:
       - 'PracticeStudio.jsx'
       - 'server.mjs'
       - 'native-policy.mjs'
+      - 'scripts/build-world-people.py'
       - 'scripts/qa-continuum-world.mjs'
       - 'scripts/qa-continuum-world-entry.mjs'
       - 'scripts/qa-continuum-world-visuals.mjs'
@@ -29,7 +30,7 @@ jobs:
           node-version-file: '.node-version'
           cache: npm
       - run: npm ci
-      - run: node --test continuum-world-model.test.mjs continuum-world-audio.test.mjs continuum-world-visuals.test.mjs interface-templates.test.mjs native-policy.test.mjs
+      - run: node --test continuum-world-model.test.mjs continuum-world-audio.test.mjs continuum-world-visuals.test.mjs continuum-world-people.test.mjs interface-templates.test.mjs native-policy.test.mjs
       - run: npx playwright install --with-deps chromium webkit
       - run: node scripts/qa-continuum-world.mjs
       - run: node scripts/qa-continuum-world-visuals.mjs

@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { upgradeWorldPeople } from "./continuum-world-people.mjs";
 import { makeWorldSky } from "./continuum-world-materials.mjs";
 import {
   worldRenderProfile,
@@ -23,7 +24,16 @@ import {
 
 export async function createWorldEngine(
   host,
-  { initial, kind = "bird", input, options, onSnapshot, onFailure, signal },
+  {
+    initial,
+    kind = "bird",
+    input,
+    options,
+    onSnapshot,
+    onFailure,
+    signal,
+    capture = false,
+  },
 ) {
   const meshes = worldMeshes({ quality: options().quality }),
     scene = new THREE.Scene(),
@@ -33,6 +43,9 @@ export async function createWorldEngine(
     renderer = new THREE.WebGLRenderer({
       antialias: options().quality === "high",
       powerPreference: "low-power",
+      // Standalone art QA pauses before a screenshot. Keep that buffer only
+      // when explicitly requested; normal app rendering keeps the default off.
+      preserveDrawingBuffer: capture,
     });
   } catch (error) {
     meshes.dispose();
@@ -81,10 +94,24 @@ export async function createWorldEngine(
       color: location.id === "tokyo_station" ? 0x597b89 : 0xa9997b,
       npc: true,
     });
+    actor.color = location.id === "tokyo_station" ? 0x597b89 : 0xa9997b;
     actor.root.position.set(location.npc.x, 0, location.npc.z);
     scene.add(actor.root);
     return actor;
   });
+  npcs.forEach((actor, i) => {
+    actor.variant = i % 2 === 0 ? "resident" : "traveller";
+  });
+  const people = upgradeWorldPeople([player, ...npcs], {
+    signal,
+    physical: meshes.physical,
+    onStatus: (loaded, total) => {
+      host.dataset.peopleLoaded = String(loaded);
+      host.dataset.peopleTotal = String(total);
+    },
+  });
+  host.dataset.peopleLoaded = "0";
+  host.dataset.peopleTotal = String(1 + npcs.length);
   const marker = new THREE.Mesh(
     new THREE.CylinderGeometry(0.55, 0.55, 0.04, 24),
     new THREE.MeshBasicMaterial({ color: 0xf6c66b }),
@@ -532,6 +559,7 @@ export async function createWorldEngine(
       reflection?.dispose();
       skyTexture?.dispose();
       sun.shadow.dispose();
+      people.dispose();
       meshes.dispose();
       scene.clear();
       marker.geometry.dispose();
