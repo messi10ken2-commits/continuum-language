@@ -225,7 +225,7 @@ try {
         await page.waitForFunction(()=>window.qaWorldAudio.some(a=>a.context.state==='running'));
         assert.equal(await page.getByRole('button',{name:'Mute music',exact:true}).getAttribute('aria-pressed'),'true');
         await page.getByRole('button',{name:'Mute music',exact:true}).click();
-        await page.waitForTimeout(350);
+        await page.waitForFunction(()=>window.qaWorldAudio.every(a=>a.context.state==='suspended'),null,{timeout:5000});
         assert.ok(await page.evaluate(()=>window.qaWorldAudio.every(a=>a.context.state==='suspended')),'music mute suspends the one audio context');
         await page.waitForFunction(()=>JSON.parse(localStorage.getItem('continuumWorld:tokyo:v1:world-qa')).music===false);
         await page.getByRole('button',{name:'Play music',exact:true}).click();

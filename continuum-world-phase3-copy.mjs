@@ -1,5 +1,6 @@
 const languages=['ja','es','pt','zh','fr','ko','id','ru','ar'];
-const rows=`Select an option|選択してください|Selecciona una opción|Selecione uma opção|请选择|Sélectionnez une option|선택하세요|Pilih opsi|Выберите вариант|اختر خيارًا
+const rows=`Complete the preceding mission first|先に前のミッションを完了してください。|Completa primero la misión anterior.|Conclua primeiro a missão anterior.|请先完成上一个任务。|Terminez d’abord la mission précédente.|먼저 이전 미션을 완료하세요.|Selesaikan misi sebelumnya terlebih dahulu.|Сначала завершите предыдущее задание.|أكمل المهمة السابقة أولًا.
+Select an option|選択してください|Selecciona una opción|Selecione uma opção|请选择|Sélectionnez une option|선택하세요|Pilih opsi|Выберите вариант|اختر خيارًا
 Shared activities|一緒に取り組んだ活動|Actividades compartidas|Atividades compartilhadas|共同活动|Activités partagées|함께한 활동|Kegiatan bersama|Совместные занятия|الأنشطة المشتركة
 Your journey|あなたの旅|Tu viaje|Sua viagem|你的旅程|Votre voyage|나의 여정|Perjalanan Anda|Ваше путешествие|رحلتك
 Unlock the buildings in Tokyo, then travel to Osaka.|東京の建物を解放し、大阪への旅へ進みましょう。|Desbloquea los edificios de Tokio y viaja a Osaka.|Desbloqueie os edifícios de Tóquio e viaje para Osaka.|解锁东京的建筑，再前往大阪。|Débloquez les bâtiments de Tokyo, puis voyagez à Osaka.|도쿄의 건물을 개방한 뒤 오사카로 여행하세요.|Buka bangunan di Tokyo, lalu bepergian ke Osaka.|Открывайте здания Токио, затем отправляйтесь в Осаку.|افتح مباني طوكيو ثم سافر إلى أوساكا.
