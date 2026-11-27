@@ -1,3 +1,4 @@
+import {tokyoLightingMaterials,setTokyoNight} from './continuum-world-tokyo-atmosphere.mjs';
 import * as THREE from "three";
 import { upgradeWorldPeople } from "./continuum-world-people.mjs";
 import { makeWorldSky } from "./continuum-world-materials.mjs";
@@ -170,6 +171,7 @@ export async function createWorldEngine(
     }
     if (object.userData.worldDayShade) dayShadows.push(object);
   });
+  const nightMaterials=tokyoLightingMaterials(environment);
   let lightingKey = "",
     slowSamples = 0;
   let position = { ...initial.position },
@@ -410,11 +412,7 @@ export async function createWorldEngine(
     }
     companion.position.set(
       companionPosition.x,
-      worldFloorHeight(initial.scene, companionPosition) + (reduced
-        ? 0
-        : distance > 1.25
-          ? Math.abs(Math.sin(walkTime * 8)) * 0.035
-          : 0),
+      worldFloorHeight(initial.scene, companionPosition),
       companionPosition.z,
     );
     const previousCompanion =
@@ -461,6 +459,7 @@ export async function createWorldEngine(
       night && !indoor ? 1.2 : indoor ? 1.05 : 0.94;
     if (lightingKey !== String(night)) {
       lightingKey = String(night);
+      setTokyoNight(nightMaterials,night);
       sun.shadow.needsUpdate = true;
       lamps.forEach((lamp) => {
         lamp.intensity = night ? (lamp.userData.worldLampIntensity ?? 65) : 0;
