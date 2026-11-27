@@ -192,3 +192,12 @@
 @keyframes cw-line-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
 @media(max-height:500px){.cw-immersive-dialog .cw-conversation{gap:5px}.cw-speech-bubble{max-height:23dvh}.cw-conversation-dock{max-height:47dvh;padding:6px 10px}.cw-mic-state{margin-bottom:3px}.cw-conversation-tools{margin-top:3px}.cw-conversation-tools button{font-size:.7rem}}
 @media(prefers-reduced-motion:reduce){.cw-speech-bubble{animation:none}}
+.cw-mic-state:empty{display:none}
+.cw-conversation-dock>.cw-conversation-actions{flex-wrap:wrap;align-items:stretch}
+.cw-conversation-dock>.cw-conversation-actions>button{flex:1 1 0;min-width:0;font-size:.9rem;padding:8px}
+.cw-conversation-dock>.cw-conversation-actions>.cw-tools-toggle{flex:0 0 44px;font-size:1.5rem;line-height:1}
+.cw-conversation-dock>.cw-finish{display:flex;margin:6px auto 0;font-size:.75rem;padding:6px 10px;background:transparent}
+.cw-conversation-sheet .cw-conversation-tools{justify-content:flex-start;margin-top:12px}
+.cw-conversation-sheet .cw-conversation-tools button{background:#23343ced;font-size:.9rem}
+@media(max-height:500px){.cw-speech-bubble{padding:8px 12px}.cw-world .cw-speech-bubble .cw-dialogue{margin-bottom:0}}
+.cw-conversation-header>.cw-close{width:44px;flex:0 0 44px;font-size:1.5rem;padding:6px}

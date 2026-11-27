@@ -512,7 +512,7 @@ export async function createWorldEngine(
     if(talking){
       const npcPoint={x:talking.x,z:talking.z};
       const dx=position.x-npcPoint.x,dz=position.z-npcPoint.z,length=Math.max(.01,Math.hypot(dx,dz));
-      cameraTarget.set(npcPoint.x,worldFloorHeight(initial.scene,npcPoint)+1.3,npcPoint.z);
+      cameraTarget.set(npcPoint.x,worldFloorHeight(initial.scene,npcPoint)+(camera.aspect>1.5?1.85:1.3),npcPoint.z);
       // Stay on the learner's side of the counter and inside the room.
       const candidate={x:position.x+dx/length*.35,z:position.z+dz/length*.35};
       const safe=clearWorldCameraSegment(initial.scene,position,candidate,.18)?candidate:position;
