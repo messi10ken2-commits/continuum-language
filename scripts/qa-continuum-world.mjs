@@ -95,7 +95,7 @@ try {
       await context.addInitScript(()=>{
         const Native=window.AudioContext||window.webkitAudioContext;
         window.qaWorldAudio=[];
-        if(Native){const Wrapped=function(...args){const instance=new Native(...args),gains=[];const original=instance.createGain.bind(instance);instance.createGain=()=>{const node=original();gains.push(node);const target=node.gain.setTargetAtTime.bind(node.gain);node.gain.setTargetAtTime=(v,...args)=>{node.qaTarget=v;return target(v,...args);};return node;};window.qaWorldAudio.push({context:instance,gains});return instance;};Wrapped.prototype=Native.prototype;window.AudioContext=Wrapped;}
+        if(Native){const Wrapped=function(...args){const instance=new Native(...args),gains=[];const original=instance.createGain.bind(instance);instance.createGain=()=>{const node=original();gains.push(node);return node;};window.qaWorldAudio.push({context:instance,gains});return instance;};Wrapped.prototype=Native.prototype;window.AudioContext=Wrapped;}
       });
       const page = await context.newPage();
       activePage = page;
@@ -394,6 +394,7 @@ try {
         assert.equal(Number(await host.getAttribute('data-people-decodes')),2,'both people are decoded once per World');
         await page.waitForFunction(()=>!document.querySelector('.cw-transition-frame'));
         await walkUntil("KeyW", "z", -2);
+        await page.waitForFunction(()=>window.qaWorldAudio[0].context.state==='running'&&window.qaWorldAudio[0].gains[1].gain.value>.08,null,{timeout:5000});
         await page.getByRole("button", { name: "Talk", exact: true }).click();
         await page.getByRole("dialog").waitFor();
         assert.ok(
@@ -401,10 +402,10 @@ try {
             "いらっしゃいませ",
           ),
         );
-        // WebKit can paint the dialog before React flushes the audio effect.
-        // Observe the same real gain target after that effect, not the DOM paint.
-        await page.waitForFunction(()=>window.qaWorldAudio[0].gains[1].qaTarget<=.011,null,{timeout:5000});
-        assert.ok(await page.evaluate(()=>window.qaWorldAudio[0].gains[1].qaTarget<=.011),'music ducks at least 20 dB for NPC interactions');
+        // Observe the actual native envelope after it settles, independently
+        // of method instrumentation or when the dialog first paints.
+        await page.waitForFunction(()=>window.qaWorldAudio[0].context.state==='running'&&window.qaWorldAudio[0].gains[1].gain.value<=.011,null,{timeout:5000});
+        assert.ok(await page.evaluate(()=>window.qaWorldAudio[0].gains[1].gain.value<=.011),'music ducks at least 20 dB for NPC interactions');
         const paused = await host.getAttribute("data-world-frames");
         await page.waitForTimeout(250);
         assert.equal(await host.getAttribute("data-world-frames"), paused);
@@ -703,6 +704,9 @@ try {
       await activePage
         .evaluate(() => ({
           renderer: { ...document.querySelector(".cw-renderer")?.dataset },
+          audio:window.qaWorldAudio?.map(a=>({state:a.context.state,gains:a.gains.map(g=>g.gain.value)})),
+          dialogue:!!document.querySelector('.cw-dialogue'),
+          music:document.querySelector('.cw-music')?.getAttribute('aria-pressed'),
           viewport: [innerWidth, innerHeight],
           header: document
             .querySelector(".cw-header")
