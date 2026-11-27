@@ -56,7 +56,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: node scripts/qa-continuum-world-visuals.mjs && node scripts/qa-continuum-world-gait.mjs
+      - run: QA_WORLD_VISUAL_SHOTS=market,market-front,market-counter,market-aisle node scripts/qa-continuum-world-visuals.mjs && node scripts/qa-continuum-world-gait.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -78,6 +78,7 @@ jobs:
             .media-build/continuum-world-art/1280-street-materials.png
             .media-build/continuum-world-art/results.json
           if-no-files-found: ignore
+      - run: node scripts/qa-continuum-world-visuals.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
