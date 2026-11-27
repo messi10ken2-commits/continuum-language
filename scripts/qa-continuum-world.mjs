@@ -401,6 +401,9 @@ try {
             "いらっしゃいませ",
           ),
         );
+        // WebKit can paint the dialog before React flushes the audio effect.
+        // Observe the same real gain target after that effect, not the DOM paint.
+        await page.waitForFunction(()=>window.qaWorldAudio[0].gains[1].qaTarget<=.011,null,{timeout:5000});
         assert.ok(await page.evaluate(()=>window.qaWorldAudio[0].gains[1].qaTarget<=.011),'music ducks at least 20 dB for NPC interactions');
         const paused = await host.getAttribute("data-world-frames");
         await page.waitForTimeout(250);
