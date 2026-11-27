@@ -61,6 +61,14 @@ try{
  await db.query("INSERT INTO speech_cache(cache_key,audio,provider,model,owner_id) VALUES('world-expiry-test',$1,'synthetic','synthetic',$2)",[Buffer.from('synthetic'),uid]);
  p=(await api('/world/profile','GET',null,a.cookie)).data;assert.equal(p.memories.length,4);assert.equal((await db.query('SELECT count(*)::int n FROM speech_cache WHERE owner_id=$1',[uid])).rows[0].n,0);
  await api('/world/memory-consent','PUT',{enabled:false,version:p.consent.version},a.cookie);
+ // Free users share the existing allowance; resuming cannot silently re-enable class context.
+ const free=await reg('world-free-note-choice');const freeVisit=async(classContext)=>api('/world/visits','POST',{startKey:crypto.randomUUID(),missionId:'cafe-permission',level:'A1',classContext,accessible:true},free.cookie);
+ const fv=await freeVisit(true),fs=(await api('/speaking','POST',{...fv.data,language:'ja',level:'A1',displayLanguage:'ja',aiConsent:true},free.cookie)).data.session;assert.equal(fs.worldClassContext,true);
+ let ft=await api('/speaking/'+fs.id+'/turn','POST',{text:'この席に座ってもいいですか。',turnKey:crypto.randomUUID(),revision:0,aiConsent:true},free.cookie);assert.equal(ft.status,200);
+ const changed=await freeVisit(false);assert.equal((await api('/speaking','POST',{...changed.data,language:'ja',level:'A1',displayLanguage:'ja',aiConsent:true},free.cookie)).status,409);
+ assert.equal((await api('/speaking?language=ja','GET',null,free.cookie)).data.sessions.length,0);assert.equal((await api('/speaking?language=ja&world=true','GET',null,free.cookie)).data.sessions.length,1);
+ ft=await api('/speaking/'+fs.id+'/turn','POST',{text:'静かな席がいいです。',turnKey:crypto.randomUUID(),revision:ft.data.session.revision,aiConsent:true},free.cookie);assert.equal(ft.status,200);assert.equal((await api('/speaking/'+fs.id+'/review','POST',{revision:ft.data.session.revision,aiConsent:true},free.cookie)).status,200);
+ const freeProfile=(await api('/world/profile','GET',null,free.cookie)).data;assert.equal(freeProfile.consent.enabled,false);assert.equal(freeProfile.xp,30);assert.equal(freeProfile.memories.length,0);
  process.env.CONTINUUM_WORLD_PHASE2_ENABLED='false';assert.equal((await api('/world/profile','GET',null,a.cookie)).data.enabled,false);assert.equal((await api('/world/learning?language=ja','GET',null,a.cookie)).data.records.length,2);
  console.log('PASS World E2E: class→NPC→verified Learning Memory; missions/XP idempotence; consent, revocation race, deletion, ownership and teacher language/sharing scope.');
 }finally{releaseBlocked?.();globalThis.fetch=realFetch;await new Promise(r=>testServer.close(r));await db.close();}
