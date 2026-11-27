@@ -1,6 +1,8 @@
 // Offline interface copy. Japanese mission names and learner quotes are learning content.
 const languages=['ja','es','pt','zh','fr','ko','id','ru','ar'];
-const rows=`World practice|Worldでの実践|Práctica en el mundo|Prática no mundo|世界实践|Pratique dans le monde|월드 실전 연습|Latihan di dunia|Практика в мире|التدريب في العالم
+const rows=`Listening…|聞き取り中…|Escuchando…|Ouvindo…|正在聆听…|Écoute…|듣는 중…|Mendengarkan…|Слушаю…|جارٍ الاستماع…
+Speaking…|発話中…|Hablando…|Falando…|正在说话…|Prise de parole…|말하는 중…|Berbicara…|Говорю…|جارٍ التحدث…
+World practice|Worldでの実践|Práctica en el mundo|Prática no mundo|世界实践|Pratique dans le monde|월드 실전 연습|Latihan di dunia|Практика в мире|التدريب في العالم
 Resuming a conversation keeps its saved class-note choice.|会話を再開する場合は、保存時と同じ授業メモの設定への同意が必要です。|Al reanudar se mantiene la opción guardada de notas de clase.|Ao retomar, mantém-se a opção salva de notas de aula.|继续对话需同意使用之前保存的课堂笔记设置。|La reprise conserve le choix enregistré pour les notes de cours.|대화를 재개하려면 저장된 수업 메모 설정에 동의해야 합니다.|Melanjutkan percakapan mempertahankan pilihan catatan kelas yang tersimpan.|При продолжении сохраняется прежний выбор учебных заметок.|استئناف المحادثة يحتفظ بخيار ملاحظات الدرس المحفوظ.
 World mission|ワールドミッション|Misión del mundo|Missão do mundo|世界任务|Mission du monde|월드 미션|Misi dunia|Миссия мира|مهمة العالم
 Conversation difficulty|会話の難易度|Dificultad de conversación|Dificuldade da conversa|会话难度|Difficulté de conversation|대화 난이도|Tingkat percakapan|Сложность разговора|صعوبة المحادثة
