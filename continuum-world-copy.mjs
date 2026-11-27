@@ -1,5 +1,8 @@
 // Reviewed offline interface copy. Japanese NPC dialogue remains learning content.
 const rows = [
+  ["Background music","BGM","Música de fondo","Música de fundo","背景音乐","Musique de fond","배경 음악","Musik latar","Фоновая музыка","موسيقى خلفية"],
+  ["Mute music","BGMをミュート","Silenciar música","Silenciar música","静音背景音乐","Couper la musique","음악 음소거","Bisukan musik","Выключить музыку","كتم الموسيقى"],
+  ["Play music","BGMを再生","Reproducir música","Reproduzir música","播放背景音乐","Activer la musique","음악 재생","Putar musik","Включить музыку","تشغيل الموسيقى"],
   ["Move closer to enter or talk.", "入口や相手に近づくと操作できます。", "Acércate para entrar o hablar.", "Aproxime-se para entrar ou conversar.", "走近入口或人物即可互动。", "Approchez-vous pour entrer ou parler.", "가까이 가서 입장하거나 대화하세요.", "Mendekatlah untuk masuk atau bicara.", "Подойдите ближе, чтобы войти или поговорить.", "اقترب للدخول أو التحدث."],
   ["Approach the counter to talk.", "カウンターに近づくと話せます。", "Acércate al mostrador para hablar.", "Aproxime-se do balcão para conversar.", "走近柜台即可交谈。", "Approchez du comptoir pour parler.", "카운터에 가까이 가면 대화할 수 있어요.", "Dekati konter untuk berbicara.", "Подойдите к стойке, чтобы поговорить.", "اقترب من المنضدة للتحدث."],
 

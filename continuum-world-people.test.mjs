@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import * as THREE from "three";
 import {
   upgradeWorldPeople,
+  createWorldPeoplePool,
   worldPeopleAssets,
 } from "./continuum-world-people.mjs";
 
@@ -331,4 +332,22 @@ test('immutable public model bytes survive scene disposal without retaining skel
     assert.equal(downloads,1,'re-entering does not fetch the same public bytes twice');
     assert.equal(decodes,2,'decoded GPU/skeleton ownership stays isolated per World');
   }finally{globalThis.fetch=originalFetch;}
+});
+
+test('World-scoped people pool decodes once across buildings without sharing mutable skeletons or disposing live geometry',async()=>{
+ let fetched=0,parsed=0,released=0;const original=source();original.mesh.geometry.addEventListener('dispose',()=>released++);
+ const pool=createWorldPeoplePool({fetchAsset:async()=>{fetched++;return {ok:true,arrayBuffer:async()=>new ArrayBuffer(1)};},parseAsset:async()=>{parsed++;return original;}});
+ const first=actor(),a=upgradeWorldPeople([first],{pool});await a.ready;
+ let firstRig;first.root.traverse(o=>{if(o.isSkinnedMesh)firstRig=o.skeleton;});a.dispose();assert.equal(released,0);
+ const next=actor(),b=upgradeWorldPeople([next],{pool});await b.ready;
+ let secondRig;next.root.traverse(o=>{if(o.isSkinnedMesh)secondRig=o.skeleton;});
+ assert.notEqual(firstRig,secondRig);assert.equal(fetched,1);assert.equal(parsed,1);assert.equal(pool.decodes,1);
+ next.animate(.2,1,false);b.dispose();assert.equal(released,0);pool.dispose();await Promise.resolve();assert.equal(released,1);pool.dispose();assert.equal(released,1);
+ await assert.rejects(pool.load('traveller'),/closed/);
+});
+
+test('closing a World during pooled parsing releases the late art once and never retains it',async()=>{
+ let finish,started,released=0;const began=new Promise(r=>started=r),original=source();original.mesh.geometry.addEventListener('dispose',()=>released++);
+ const pool=createWorldPeoplePool({fetchAsset:async()=>({ok:true,arrayBuffer:async()=>new ArrayBuffer(1)}),parseAsset:()=>{started();return new Promise(resolve=>finish=resolve);}});
+ const pending=pool.load('traveller');await began;const rejection=assert.rejects(pending,/closed/);pool.dispose();finish(original);await rejection;await Promise.resolve();assert.equal(released,1);pool.dispose();assert.equal(released,1);
 });

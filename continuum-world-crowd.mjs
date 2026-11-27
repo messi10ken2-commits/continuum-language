@@ -21,7 +21,7 @@ export function makeTokyoPedestrian(actor,index) {
   const blocked=nearby.some(q=>Math.hypot(q.x-p.x,q.z-p.z)<1.25);
   const turn=Math.atan2(Math.sin(Math.atan2(dx,dz)-actor.root.rotation.y),Math.cos(Math.atan2(dx,dz)-actor.root.rotation.y));
   if(!reduced)actor.root.rotation.y+=turn*(1-Math.exp(-dt*3.5));
-  const desired=reduced||blocked||hold>0?0:(.92+(index%3)*.13)*Math.max(0,Math.cos(turn));
+  const desired=reduced||blocked||hold>0?0:Math.min(.92+(index%3)*.13,d*1.8)*Math.max(0,Math.cos(turn));
   speed+=(desired-speed)*(1-Math.exp(-dt/.23));
   const step=reduced||blocked||hold>0?0:Math.min(d,speed*dt);
   if(d>.001){p.x+=dx/d*step;p.z+=dz/d*step;}

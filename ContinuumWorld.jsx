@@ -1,7 +1,7 @@
 import {worldRequest} from './continuum-world-request.mjs';
 import React, { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
 import { createPortal } from "react-dom";
-import { ArrowLeft, Settings, DoorOpen, MessageCircle, LogOut } from "lucide-react";
+import { ArrowLeft, Settings, DoorOpen, MessageCircle, LogOut, Volume2, VolumeX } from "lucide-react";
 import { t } from "./interface-runtime.mjs";
 import { isAppHidden } from "./native-platform.mjs";
 import {
@@ -147,6 +147,7 @@ export default function ContinuumWorld({ user, onBack }) {
     [storageFailed, setStorageFailed] = useState(false),
     [dialogue, setDialogue] = useState(null),
     [kind, setKind] = useState("bird"),
+    [companionReady,setCompanionReady]=useState(false),
     [destination, setDestination] = useState("tokyo_cafe"),
     [running, setRunning] = useState(false),
     [worldProfile,setWorldProfile]=useState(null),
@@ -165,7 +166,8 @@ export default function ContinuumWorld({ user, onBack }) {
     ambience = useRef(null),
     focused = useRef(document.hasFocus()),
     panelRef = useRef(null),
-    returnFocus = useRef(null);
+    returnFocus = useRef(null),
+    resources=useRef(null),creation=useRef(Promise.resolve()),transitionFrame=useRef(null),transitionTimer=useRef(null);
   options.current = { ...settings, celebrateUntil:joyUntil.current, destination, talking: worldProfile?.enabled ? dialogue : null };
   input.current.run = running;
   useEffect(() => {
@@ -203,17 +205,19 @@ export default function ContinuumWorld({ user, onBack }) {
     }
   }, [storageKey]);
   useEffect(() => {
-    const controller = new AbortController();
+    const controller = new AbortController();let live=true;
+    const timeout=setTimeout(()=>{if(live)setCompanionReady(true);},2200);
     fetch("/api/adventure?language=ja", {
       credentials: "same-origin",
       signal: controller.signal,
     })
       .then((r) => (r.ok ? r.json() : null))
       .then((value) => {
-        if (value?.companion) setKind(callCompanionKind(value.companion));
+        if (live&&value?.companion) setKind(callCompanionKind(value.companion));
       })
-      .catch(() => {});
-    return () => controller.abort();
+      .catch(() => {})
+      .finally(()=>{clearTimeout(timeout);if(live)setCompanionReady(true);});
+    return () => {live=false;clearTimeout(timeout);controller.abort();};
   }, [user.id]);
   useEffect(() => {
     ambience.current = createWorldAmbience();
@@ -222,6 +226,15 @@ export default function ContinuumWorld({ user, onBack }) {
       ambience.current = null;
     };
   }, []);
+  useEffect(()=>()=>{
+    clearTimeout(transitionTimer.current);transitionFrame.current?.remove();
+    const session=resources.current;void creation.current.finally(()=>session?.dispose());
+  },[]);
+  useEffect(()=>{
+    if(snapshot.scene!=='outdoors')return;
+    const near=worldLocations.some(l=>l.interior&&Math.hypot(snapshot.position.x-l.door.x,snapshot.position.z-l.door.z)<9);
+    if(near)void import('./continuum-world-engine.mjs').then(m=>m.preloadWorldInterior()).catch(()=>{});
+  },[snapshot.scene,snapshot.position.x,snapshot.position.z]);
   // Measure the actual translated HUD: large text and safe areas must not push
   // controls below the viewport or place navigation over the header.
   useEffect(() => {
@@ -243,7 +256,8 @@ export default function ContinuumWorld({ user, onBack }) {
       const active = !isAppHidden() && !panel && !list && (!dialogue || worldProfile?.enabled) && focused.current;
       if (!active || dialogue) input.current = { x: 0, z: 0, run: false };
       engine.current?.setActive(active);
-      ambience.current?.setActive(active);
+      ambience.current?.setActive(!isAppHidden()&&!list&&focused.current);
+      ambience.current?.setDucked(!!dialogue);
       if (isAppHidden() && !save()) setStorageFailed(true);
     };
     sync();
@@ -274,14 +288,16 @@ export default function ContinuumWorld({ user, onBack }) {
     const controller = new AbortController();
     setReady(false);
     setFailure("");
-    if (list) return () => controller.abort();
+    if (list||!companionReady) return () => controller.abort();
     const element = host.current,
       start = pendingTransition.current || last.current;
     pendingTransition.current = null;
-    import("./continuum-world-engine.mjs")
+    const operation=creation.current.catch(()=>{}).then(()=>import("./continuum-world-engine.mjs"))
       .then(async (module) => {
         if (!live) return;
+        if(!resources.current||resources.current.disposed)resources.current=module.createWorldSession();
         const instance = await module.createWorldEngine(element, {
+          session:resources.current,
           initial: restoreWorldState({ ...options.current, ...start }),
           kind,
           input: () => input.current,
@@ -304,24 +320,39 @@ export default function ContinuumWorld({ user, onBack }) {
           instance?.dispose();
           return;
         }
+        resources.current.releaseRetired();
         engine.current = instance;
-        setReady(true);
+        setReady(!!instance);
+        if(instance&&transitionFrame.current){
+          const preview=transitionFrame.current;preview.classList.add('cw-transition-frame-ready');
+          clearTimeout(transitionTimer.current);transitionTimer.current=setTimeout(()=>{preview.remove();if(transitionFrame.current===preview)transitionFrame.current=null;},240);
+        }
         instance?.setActive(!isAppHidden() && !panel && !list && (!dialogue || worldProfile?.enabled) && focused.current);
       })
       .catch(() => {
         if (live) setFailure("renderer");
       });
+    creation.current=operation;
     return () => {
       live = false;
-      controller.abort();
+      if(element?.isConnected&&engine.current&&(!transitionFrame.current||transitionFrame.current.classList.contains('cw-transition-frame-ready'))){
+        clearTimeout(transitionTimer.current);transitionFrame.current?.remove();
+        transitionFrame.current=engine.current.captureFrame();
+        if(transitionFrame.current)element.append(transitionFrame.current);
+      }
       save();
-      engine.current?.dispose();
+      const previous=engine.current;
+      if(previous&&resources.current){
+        previous.setActive(false);
+        resources.current.retire({dispose(){controller.abort();previous.dispose();}});
+      }else{controller.abort();previous?.dispose();}
       engine.current = null;
     };
-  }, [settings.scene, settings.quality, retry, kind, list, save]);
+  }, [settings.scene, settings.quality, retry, kind, companionReady, list, save]);
   useEffect(() => {
     engine.current?.refresh();
     ambience.current?.setEnabled(settings.sound, settings.volume);
+    ambience.current?.setMusicEnabled(settings.music,settings.volume);
     if (!save()) setStorageFailed(true);
   }, [settings, save]);
   useEffect(() => {
@@ -340,6 +371,10 @@ export default function ContinuumWorld({ user, onBack }) {
   }, [panel, dialogue]);
   const transition = (scene, position) => {
     save();
+    clearTimeout(transitionTimer.current);transitionFrame.current?.remove();
+    transitionFrame.current=engine.current?.captureFrame()||null;
+    if(transitionFrame.current)host.current?.append(transitionFrame.current);
+    input.current={x:0,z:0,run:false};setRunning(false);engine.current?.setActive(false);
     pendingTransition.current = { scene, position: { ...position }, yaw: 0 };
     last.current = pendingTransition.current;
     setSnapshot({ ...last.current });
@@ -416,6 +451,9 @@ export default function ContinuumWorld({ user, onBack }) {
       data-talking={!!dialogue&&!!worldProfile?.enabled}
       aria-label={t("Continuum World")}
       onKeyDown={keyboard}
+      onPointerDownCapture={()=>ambience.current?.unlock()}
+      onKeyDownCapture={()=>ambience.current?.unlock()}
+      data-reduced={settings.reduced}
       data-scene={snapshot.scene}
       data-list={list}
       data-phase2={!!worldProfile?.enabled}
@@ -437,6 +475,9 @@ export default function ContinuumWorld({ user, onBack }) {
             {t("Tokyo exploration beta")} · {t(label)}
           </span>
         </div>
+        <button type="button" className="cw-music-toggle" aria-label={t(settings.music?'Mute music':'Play music')} aria-pressed={settings.music} onClick={()=>{const value=!settings.music;ambience.current?.setMusicEnabled(value,settings.volume);update('music',value);}}>
+          {settings.music?<Volume2 size={20} aria-hidden="true"/>:<VolumeX size={20} aria-hidden="true"/>}
+        </button>
         <button type="button" onClick={() => setPanel("settings")}>
           <Settings size={20} aria-hidden="true" />
           <span className="cw-header-button-label">{t("World settings")}</span>
@@ -710,6 +751,10 @@ export default function ContinuumWorld({ user, onBack }) {
                     }}
                   />
                   {t("Ambient sound")}
+                </label>
+                <label>
+                  <input type="checkbox" checked={settings.music} onChange={event=>{const value=event.target.checked;ambience.current?.setMusicEnabled(value,settings.volume);update('music',value);}}/>
+                  {t("Background music")}
                 </label>
                 <label>
                   {t("Volume")}
