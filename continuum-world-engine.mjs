@@ -1,3 +1,5 @@
+import {makeTokyoPedestrian} from './continuum-world-crowd.mjs';
+import {tokyoLightingMaterials,setTokyoNight} from './continuum-world-tokyo-atmosphere.mjs';
 import * as THREE from "three";
 import { upgradeWorldPeople } from "./continuum-world-people.mjs";
 import { makeWorldSky } from "./continuum-world-materials.mjs";
@@ -108,16 +110,22 @@ export async function createWorldEngine(
   npcs.forEach((actor, i) => {
     actor.variant = i % 2 === 0 ? "resident" : "traveller";
   });
-  const people = upgradeWorldPeople([player, ...npcs], {
+  const pedestrians=indoor?[]:Array.from({length:meshes.physical?4:2},(_,i)=>{
+    const actor=makeWorldPerson(meshes,{npc:true,color:[0x6b7280,0xc1b2a0,0x426065,0x907275][i]});
+    actor.color=[0x6b7280,0xc1b2a0,0x426065,0x907275][i];actor.variant=i%2?'traveller':'resident';
+    scene.add(actor.root);return makeTokyoPedestrian(actor,i);
+  });
+  const people = upgradeWorldPeople([player, ...npcs,...pedestrians.map(p=>p.actor)], {
     signal,
     physical: meshes.physical,
+    fabric: meshes.surface("fabric",3),
     onStatus: (loaded, total) => {
       host.dataset.peopleLoaded = String(loaded);
       host.dataset.peopleTotal = String(total);
     },
   });
   host.dataset.peopleLoaded = "0";
-  host.dataset.peopleTotal = String(1 + npcs.length);
+  host.dataset.peopleTotal = String(1 + npcs.length+pedestrians.length);
   const marker = new THREE.Mesh(
     new THREE.CylinderGeometry(0.55, 0.55, 0.04, 24),
     new THREE.MeshBasicMaterial({ color: 0xf6c66b }),
@@ -170,6 +178,7 @@ export async function createWorldEngine(
     }
     if (object.userData.worldDayShade) dayShadows.push(object);
   });
+  const nightMaterials=tokyoLightingMaterials(environment);
   let lightingKey = "",
     slowSamples = 0;
   let position = { ...initial.position },
@@ -410,11 +419,7 @@ export async function createWorldEngine(
     }
     companion.position.set(
       companionPosition.x,
-      worldFloorHeight(initial.scene, companionPosition) + (reduced
-        ? 0
-        : distance > 1.25
-          ? Math.abs(Math.sin(walkTime * 8)) * 0.035
-          : 0),
+      worldFloorHeight(initial.scene, companionPosition),
       companionPosition.z,
     );
     const previousCompanion =
@@ -435,13 +440,14 @@ export async function createWorldEngine(
         position.z - companionPosition.z,
       ) - companion.rotation.y,
     );
-    for (const npc of npcs) {
+    for(const pedestrian of pedestrians)pedestrian.update(dt,walkTime,reduced,[position,companionPosition]);
+    for (const [npcIndex,npc] of npcs.entries()) {
       if(settings.talking&&Math.hypot(npc.root.position.x-settings.talking.x,npc.root.position.z-settings.talking.z)<.1){
         const target=Math.atan2(position.x-npc.root.position.x,position.z-npc.root.position.z);
         const delta=Math.atan2(Math.sin(target-npc.root.rotation.y),Math.cos(target-npc.root.rotation.y));
         npc.root.rotation.y+=delta*(reduced?1:1-Math.exp(-dt*8));
       }
-      npc.animate(walkTime,0,reduced);
+      npc.animate(walkTime+npcIndex*2.3,0,reduced);
     }
     const hour =
         settings.time === "night"
@@ -461,6 +467,7 @@ export async function createWorldEngine(
       night && !indoor ? 1.2 : indoor ? 1.05 : 0.94;
     if (lightingKey !== String(night)) {
       lightingKey = String(night);
+      setTokyoNight(nightMaterials,night);
       sun.shadow.needsUpdate = true;
       lamps.forEach((lamp) => {
         lamp.intensity = night ? (lamp.userData.worldLampIntensity ?? 65) : 0;

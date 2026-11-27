@@ -10,7 +10,7 @@ Base faces, exposed hands, humanoid skeletons, eyes and hairstyles: **Quaternius
 
 The source archive's own `License_Standard.txt` confirms CC0. The mirror's repository license is not used as the model license. No Source/paid kit content is included.
 
-Continuum adaptation: original clothed shirt, collar, sleeves, trousers, sneakers and commuter backpack; exposed-body crop; combined materials; embedded original unmodified skin/eye images; head-bound source hairstyles; runtime resting-arm pose and joint-based locomotion. The delivered GLBs are clothed. The original underwear-only bodies are not shipped as selectable models. Clothing has independent geometry rather than coloring anatomy. This art remains stylized, not a scan of a real person.
+Continuum adaptation: original short-sleeved travel T-shirt, fitted collar, trousers, flexible ankle socks, sneakers and commuter backpack; exposed-body crop; combined materials; embedded original unmodified skin/eye images; head-bound source hairstyles; runtime resting-arm pose and joint-based locomotion. The delivered GLBs are clothed. The original underwear-only bodies are not shipped as selectable models. Clothing has independent geometry, woven bump UVs, and restrained folds rather than coloring anatomy. Exposed forearms and a shaped neck base connect to the shirt; ankle cloth blends between calf and foot joints during toe-off. This art remains stylized, not a scan of a real person.
 
 Build from the pinned ZIP using Python's standard library:
 

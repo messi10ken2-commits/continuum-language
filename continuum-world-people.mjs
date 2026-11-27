@@ -14,6 +14,7 @@ export function upgradeWorldPeople(
   {
     signal,
     physical = false,
+    fabric = null,
     onStatus = () => {},
     fetchAsset = fetch,
     parseAsset = (bytes) => new GLTFLoader().parseAsync(bytes, ""),
@@ -104,12 +105,13 @@ export function upgradeWorldPeople(
             const material = new Material({
               color:
                 old.name === "World shirt"
-                  ? actor.color || 0x637d79
+                  ? actor.color || 0xdedbd2
                   : old.color,
               map: old.map || null,
               side: THREE.FrontSide,
               ...(physical
-                ? { roughness: old.roughness ?? 0.85, metalness: 0 }
+                ? { roughness: old.roughness ?? 0.85, metalness: 0,
+                    ...(/shirt|trousers|backpack/.test(old.name) && o.geometry.attributes.uv && fabric?.map ? {bumpMap:fabric.map,bumpScale:.002}: {}) }
                 : {}),
             });
             material.name = old.name;

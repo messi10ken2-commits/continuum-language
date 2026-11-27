@@ -69,11 +69,22 @@ export function makeGroundedGait(body,bones) {
     const run=THREE.MathUtils.smoothstep(smoothSpeed,2,3.8),cycle=THREE.MathUtils.lerp(1.25,2.6,run),stance=THREE.MathUtils.lerp(.62,.35,run);
     phase=(phase+Math.max(0,speed)*dt/cycle)%1;
     const weight=reduced?0:Math.min(1,smoothSpeed/.55);
-    if(weight<.00001 && resting)return;
     for(const [name,bone] of bones){bone.quaternion.copy(rest.get(name).q);bone.position.copy(rest.get(name).p);}
     body.position.y=baseY;
     resting=weight<.00001;
-    if(resting){body.updateMatrixWorld(true);return;}
+    if(resting){
+      if(!reduced){
+        // Chest breath and small independent gaze shifts leave the pelvis and
+        // planted feet still. They fade into locomotion rather than bobbing a rig.
+        swing('spine_03',Math.sin(time*1.8)*.009);
+        swing('Head',Math.sin(time*.51)*.055,new THREE.Vector3(0,1,0));
+        swing('neck_01',Math.sin(time*.83)*.015);
+        swing('upperarm_l',Math.sin(time*1.13)*.012);
+        swing('upperarm_r',Math.sin(time*1.07+1.8)*.012);
+        swing('lowerarm_l',-.11);swing('lowerarm_r',-.10);
+      }
+      body.updateMatrixWorld(true);return;
+    }
     const wave=Math.cos(phase*2*Math.PI),twist=-run*.035*wave*weight;
     if(pelvis){
       rotateWorld(pelvis,new THREE.Vector3(0,1,0).applyQuaternion(body.getWorldQuaternion(scratch)),twist);

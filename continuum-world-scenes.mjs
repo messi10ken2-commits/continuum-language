@@ -1,3 +1,4 @@
+import {dressTokyoAtmosphere} from './continuum-world-tokyo-atmosphere.mjs';
 import {dressCafeExterior} from './continuum-world-cafe.mjs';
 import * as THREE from "three";
 import { dressHoshiExterior } from "./continuum-world-konbini.mjs";
@@ -127,6 +128,8 @@ export function worldMeshes({ quality = "auto" } = {}) {
       const geometry =
         type === "box"
           ? new THREE.BoxGeometry(1, 1, 1)
+          : type === "organic"
+            ? new THREE.SphereGeometry(1,18,12)
           : type === "sphere"
             ? new THREE.SphereGeometry(
                 1,
@@ -867,5 +870,6 @@ export function makeOutdoorWorld(meshes) {
   makeStationDistrict(meshes, root);
   stationLayout.streetTrees.forEach((point, index) => makeStreetTree(meshes, root, point.x, point.z, index + 44));
   makeTokyoRoadMarkings(meshes, root);
+  dressTokyoAtmosphere(meshes,root);
   return meshes.batch(root);
 }

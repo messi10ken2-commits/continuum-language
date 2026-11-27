@@ -80,13 +80,14 @@ export function makeWorldSurfaces(register, updated = () => {}) {
         tile: "#d4d3ca",
         bark: "#5b5950",
         fabric: "#778087",
-        fur: "#a18d72",
+        fur: "#eee5d9",
         grass: "#606950",
         metal: "#92999c",
       }[name] || "#888888";
     c.fillStyle = base;
     c.fillRect(0, 0, 512, 512);
     if(surfaceCanvases.has(name)){
+      if(name==='leaves')c.clearRect(0,0,512,512);
       c.drawImage(surfaceCanvases.get(name),0,0);
     }else{
     for (let i = 0; i < 6500; i++) {
