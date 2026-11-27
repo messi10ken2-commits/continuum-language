@@ -10,7 +10,7 @@ import SentenceAudio,{stopSentenceAudio} from './SentenceAudio.jsx';
 import {useStudyActivity} from './LearningActivity.jsx';
 import {createConversationPulse} from './activity-heartbeat.mjs';
 import {isAppHidden} from './native-platform.mjs';
-export default function WorldConversation({user,location,profile,onProfile,initialMission,scene,position,accessible=false,onClose,onSettings}){
+export default function WorldConversation({user,location,profile,onProfile,initialMission,scene,position,time='auto',accessible=false,onClose,onSettings}){
  const choices=profile.missions.filter(m=>m.location===location.id&&!m.locked),mission=choices.find(m=>m.id===initialMission)?.id||choices.find(m=>!m.completed)?.id||choices[0]?.id;
  const preferences=profile.settings||{},level=preferences.level&&preferences.level!=='auto'?preferences.level:profile.level;
  const [session,setSession]=useState(null),[text,setText]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState(''),[voiceState,setVoiceState]=useState('idle'),[sheet,setSheet]=useState(''),[typing,setTyping]=useState(false),[saved,setSaved]=useState(false),[translation,setTranslation]=useState('');
@@ -32,7 +32,7 @@ export default function WorldConversation({user,location,profile,onProfile,initi
   const previous=await speakingRequest('?language=ja&world=true',undefined,signal);
   const resume=previous.sessions?.find(s=>s.scenario==='world-'+mission&&!s.review&&s.worldClassContext===preferences.classContext&&s.level===level);
   if(resume){if(!signal.aborted)accept(resume);return;}
-  const v=await worldRequest('/visits',{startKey:startKey.current,missionId:mission,level,classContext:preferences.classContext===true,scene,position,accessible},'POST',signal);
+  const v=await worldRequest('/visits',{startKey:startKey.current,missionId:mission,level,classContext:preferences.classContext===true,scene,position,time,accessible},'POST',signal);
   const d=await speakingRequest('',{...v,language:'ja',level,displayLanguage:interfaceLanguage(),aiConsent:true},signal);if(!signal.aborted)accept(d.session);
  };
  useEffect(()=>{live.current=true;const c=new AbortController();controller.current=c;pending.current=true;setBusy(true);void start(c.signal).catch(e=>{if(!c.signal.aborted&&live.current)setError(e.message);}).finally(()=>{if(controller.current===c&&live.current){pending.current=false;setBusy(false);notifyAIAllowance('conversation');}});return()=>{live.current=false;c.abort();voice.current?.stop();stopSentenceAudio();};},[]);

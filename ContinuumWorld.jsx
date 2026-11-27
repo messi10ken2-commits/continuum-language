@@ -11,6 +11,10 @@ import {
   worldStorageKey,
   worldInteraction,
   worldDestinationPoint,
+  locationsForScene,
+  isOutdoorScene,
+  districtForScene,
+  outdoorForLocation,
 } from "./continuum-world-model.mjs";
 import { createWorldAmbience } from "./continuum-world-audio.mjs";
 import { callCompanionKind } from "./companion-call-models.mjs";
@@ -92,8 +96,8 @@ function WorldMinimap({ snapshot }) {
         (o.depth / (bounds.maxZ - bounds.minZ)) * h,
       );
     }
-    if (snapshot.scene === "outdoors")
-      for (const location of worldLocations) {
+    if (isOutdoorScene(snapshot.scene))
+      for (const location of locationsForScene(snapshot.scene)) {
         ctx.fillStyle =
           location.id === snapshot.destination ? "#bd5b39" : "#36675b";
         const point = worldDestinationPoint(location.id);
@@ -148,7 +152,7 @@ export default function ContinuumWorld({ user, onBack }) {
     [dialogue, setDialogue] = useState(null),
     [kind, setKind] = useState("bird"),
     [companionReady,setCompanionReady]=useState(false),
-    [destination, setDestination] = useState("tokyo_cafe"),
+    [destination, setDestination] = useState(()=>districtForScene(initial.current.scene)==='osaka'?'osaka_takoyaki':'tokyo_cafe'),
     [running, setRunning] = useState(false),
     [worldProfile,setWorldProfile]=useState(null),
     [chosenMission,setChosenMission]=useState(null);
@@ -231,8 +235,8 @@ export default function ContinuumWorld({ user, onBack }) {
     const session=resources.current;void creation.current.finally(()=>session?.dispose());
   },[]);
   useEffect(()=>{
-    if(snapshot.scene!=='outdoors')return;
-    const near=worldLocations.some(l=>l.interior&&Math.hypot(snapshot.position.x-l.door.x,snapshot.position.z-l.door.z)<9);
+    if(!isOutdoorScene(snapshot.scene))return;
+    const near=locationsForScene(snapshot.scene).some(l=>l.interior&&Math.hypot(snapshot.position.x-l.door.x,snapshot.position.z-l.door.z)<9);
     if(near)void import('./continuum-world-engine.mjs').then(m=>m.preloadWorldInterior()).catch(()=>{});
   },[snapshot.scene,snapshot.position.x,snapshot.position.z]);
   // Measure the actual translated HUD: large text and safe areas must not push
@@ -369,32 +373,39 @@ export default function ContinuumWorld({ user, onBack }) {
     returnFocus.current = document.activeElement;
     panelRef.current?.querySelector("button,input,select,textarea")?.focus();
   }, [panel, dialogue]);
-  const transition = (scene, position) => {
+  const transition = (scene, position, yaw=0) => {
     save();
     clearTimeout(transitionTimer.current);transitionFrame.current?.remove();
     transitionFrame.current=engine.current?.captureFrame()||null;
     if(transitionFrame.current)host.current?.append(transitionFrame.current);
     input.current={x:0,z:0,run:false};setRunning(false);engine.current?.setActive(false);
-    pendingTransition.current = { scene, position: { ...position }, yaw: 0 };
+    pendingTransition.current = { scene, position: { ...position }, yaw };
     last.current = pendingTransition.current;
     setSnapshot({ ...last.current });
-    setSettings((previous) => ({ ...previous, scene, position, yaw: 0 }));
+    setSettings((previous) => ({ ...previous, scene, position, yaw }));
     setRetry((value) => value + 1);
     setDialogue(null);
     setPanel("");
   };
+  const currentDistrict=districtForScene(snapshot.scene);
+  const placeUnlocked=location=>!location?.requires||worldProfile?.journey?.places?.some(p=>p.id===location.id&&p.unlocked);
+  useEffect(()=>{
+    if(!worldProfile)return;
+    const place=worldLocations.find(l=>l.id===settings.scene),district=worldProfile.journey?.districts?.find(d=>d.id===districtForScene(settings.scene));
+    if(place&&!placeUnlocked(place)||districtForScene(settings.scene)!=='tokyo'&&!district?.unlocked){setDestination('tokyo_cafe');transition('outdoors',worldScenes.outdoors.spawn);}
+  },[worldProfile,settings.scene]);
   const interaction = worldInteraction(snapshot.scene, snapshot.position);
   const indoorLocation = worldLocations.find((location) => location.id === snapshot.scene);
   const targetLocation = interaction?.location || indoorLocation || worldLocations.find((location) => location.id === destination);
   const actionType = indoorLocation ? "talk" : interaction?.type || (targetLocation?.interior ? "enter" : "talk");
   const actionLabel = actionType === "enter" ? "Enter" : "Talk";
-  const actionReady = ready && !paused && interaction?.type === actionType;
+  const actionReady = ready && !paused && interaction?.type === actionType && placeUnlocked(interaction?.location);
   const leaveBuilding = () => {
     if (!indoorLocation) return;
-    transition("outdoors", { ...indoorLocation.door, z: -3.6 });
+    transition(outdoorForLocation(indoorLocation), { ...indoorLocation.door });
   };
   const act = () => {
-    if (!interaction) return;
+    if (!interaction || !placeUnlocked(interaction.location)) return;
     if (interaction.type === "enter")
       transition(interaction.location.id, {
         ...worldScenes[interaction.location.id].spawn,
@@ -406,7 +417,7 @@ export default function ContinuumWorld({ user, onBack }) {
   const update = (key, value) =>
     setSettings((previous) => ({ ...previous, [key]: value }));
   const label =
-    snapshot.scene === "outdoors"
+    isOutdoorScene(snapshot.scene)
       ? "Outdoors"
       : worldLocations.find((location) => location.id === snapshot.scene)
           ?.title;
@@ -472,7 +483,7 @@ export default function ContinuumWorld({ user, onBack }) {
         <div>
           <h1>{t("Continuum World")}</h1>
           <span>
-            {t("Tokyo exploration beta")} · {t(label)}
+            {t(currentDistrict==='osaka'?'Osaka exploration beta':'Tokyo exploration beta')} · {t(label)}
           </span>
         </div>
         <button type="button" className="cw-music-toggle" aria-label={t(settings.music?'Mute music':'Play music')} aria-pressed={settings.music} onClick={()=>{const value=!settings.music;ambience.current?.setMusicEnabled(value,settings.volume);update('music',value);}}>
@@ -490,13 +501,13 @@ export default function ContinuumWorld({ user, onBack }) {
             className="cw-renderer"
             tabIndex={0}
             role="application"
-            aria-label={t("Tokyo 3D exploration")}
+            aria-label={t(currentDistrict==='osaka'?'Osaka 3D exploration':'Tokyo 3D exploration')}
             aria-describedby="cw-controls"
           />
         )}
         {!list && !ready && !failure && (
           <p className="cw-loading" role="status">
-            {t("Loading Tokyo…")}
+            {t(currentDistrict==='osaka'?'Loading Osaka…':'Loading Tokyo…')}
           </p>
         )}
         {failure && (
@@ -531,21 +542,23 @@ export default function ContinuumWorld({ user, onBack }) {
         {list ? (
           <div className="cw-place-list">
             <h2>{t("Places")}</h2>
-            {worldLocations.map((location) => (
+            {locationsForScene(snapshot.scene).map((location) => (
               <article key={location.id}>
                 <h3>{t(location.title)}</h3>
                 <span lang="ja">{location.sign}</span>
+                {!placeUnlocked(location)&&<p>{t("Unlock after")}: <span lang="ja">{worldProfile?.missions?.find(m=>m.id===location.requires)?.title}</span></p>}
                 <button
                   type="button"
+                  disabled={!placeUnlocked(location)}
                   onClick={() => {
                     transition(
-                      location.interior ? location.id : "outdoors",
+                      location.interior ? location.id : outdoorForLocation(location),
                       location.interior ? worldScenes[location.id].spawn : { x: location.npc.x, z: location.npc.z + 1.5 },
                     );
                     if (!location.interior) setDialogue(location.npc);
                   }}
                 >
-                  {t(location.interior ? "Enter" : "Talk")}
+                  {t(placeUnlocked(location)?location.interior ? "Enter" : "Talk":"Locked")}
                 </button>
                 {location.interior && snapshot.scene === location.id && (
                   <button
@@ -557,11 +570,11 @@ export default function ContinuumWorld({ user, onBack }) {
                 )}
               </article>
             ))}
-            {snapshot.scene !== "outdoors" && (
+            {!isOutdoorScene(snapshot.scene) && (
               <button
                 type="button"
                 onClick={() =>
-                  transition("outdoors", worldScenes.outdoors.spawn)
+                  transition(currentDistrict==='osaka'?'osaka':'outdoors', worldScenes[currentDistrict==='osaka'?'osaka':'outdoors'].spawn)
                 }
               >
                 {t("Leave")}
@@ -579,8 +592,8 @@ export default function ContinuumWorld({ user, onBack }) {
                   value={destination}
                   onChange={(event) => setDestination(event.target.value)}
                 >
-                  {worldLocations.map((location) => (
-                    <option key={location.id} value={location.id}>
+                  {locationsForScene(snapshot.scene).map((location) => (
+                    <option key={location.id} value={location.id} disabled={!placeUnlocked(location)}>
                       {t(location.title)}
                     </option>
                   ))}
@@ -608,7 +621,7 @@ export default function ContinuumWorld({ user, onBack }) {
                   {t(actionLabel)}
                 </button>
                 <p id="cw-interaction-hint" className="cw-interaction-hint" role="status">
-                  {!actionReady && t(indoorLocation ? "Approach the counter to talk." : "Move closer to enter or talk.")}
+                  {!actionReady && t(!placeUnlocked(targetLocation)?"Complete the preceding mission first":indoorLocation ? "Approach the counter to talk." : "Move closer to enter or talk.")}
                 </p>
                 <div className="cw-secondary-controls">
                   <button
@@ -679,9 +692,9 @@ export default function ContinuumWorld({ user, onBack }) {
               {t("Close")}
             </button>}
             {dialogue&&worldProfile?.enabled?(
-              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldConversation key={dialogue.id} user={user} location={worldLocations.find(l=>l.npc.id===dialogue.id)} profile={worldProfile} onProfile={acceptWorldProfile} initialMission={chosenMission} scene={snapshot.scene} position={snapshot.position} accessible={list} onClose={close} onSettings={()=>{setDialogue(null);setPanel("settings");}}/></Suspense>
+              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldConversation key={dialogue.id} user={user} location={worldLocations.find(l=>l.npc.id===dialogue.id)} profile={worldProfile} onProfile={acceptWorldProfile} initialMission={chosenMission} scene={snapshot.scene} position={snapshot.position} time={settings.time} accessible={list} onClose={close} onSettings={()=>{setDialogue(null);setPanel("settings");}}/></Suspense>
             ):panel==='missions'&&worldProfile?.enabled?(
-              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldProgress profile={worldProfile} onProfile={acceptWorldProfile} onDestination={(location,mission)=>{setDestination(location);setChosenMission(mission);close();}}/></Suspense>
+              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldProgress profile={worldProfile} onProfile={acceptWorldProfile} district={currentDistrict} onTravel={async district=>{const trip=await worldRequest('/travel',{district,scene:snapshot.scene,position:snapshot.position,accessible:list});setDestination(district==='osaka'?'osaka_takoyaki':'tokyo_cafe');transition(trip.scene,trip.position,trip.yaw||0);}} onDestination={(location,mission)=>{const place=worldLocations.find(l=>l.id===location);setDestination(districtForScene(location)!==currentDistrict?(currentDistrict==='tokyo'?'tokyo_station_hall':'osaka_arcade'):place.id);setChosenMission(mission);close();}}/></Suspense>
             ):dialogue ? (
               <>
                 <h2 lang="ja">

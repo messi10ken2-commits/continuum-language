@@ -13,6 +13,7 @@ on:
       - 'speaking-api.mjs'
       - 'speaking-ai.mjs'
       - 'scripts/qa-continuum-world-phase2.mjs'
+      - 'scripts/qa-continuum-world-phase3.mjs'
       - 'public/world-tokyo/**'
       - 'ContinuumWorld.jsx'
       - 'PracticeStudio.jsx'
@@ -125,4 +126,26 @@ jobs:
             .media-build/world-phase2/*.png
             .media-build/world-phase2/results.json
             .media-build/world-phase2/failure.txt
+          if-no-files-found: ignore
+
+  phase3:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: node --test continuum-world-phase3.test.mjs
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/qa-continuum-world-phase3.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: continuum-world-phase3-evidence
+          path: |
+            .media-build/world-phase3/*.png
+            .media-build/world-phase3/results.json
           if-no-files-found: ignore

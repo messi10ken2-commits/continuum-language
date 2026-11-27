@@ -8,12 +8,13 @@ export const tokyoPedestrianRoutes=[
  [{x:11,z:-5.25},{x:31,z:-5.25}],
  [{x:-31,z:-5.25},{x:-10,z:-5.25}],
 ];
-export function makeTokyoPedestrian(actor,index) {
- const route=tokyoPedestrianRoutes[index%tokyoPedestrianRoutes.length];
- if(!clearWorldSegment('outdoors',route[0],route[1],.35))throw new Error('Pedestrian route intersects architecture');
+export function makeTokyoPedestrian(actor,index,scene='outdoors') {
+ const routes=scene==='osaka'?[[{x:-9,z:18},{x:-9,z:-20}],[{x:9,z:-20},{x:9,z:18}],[{x:-24,z:3},{x:-5,z:3}],[{x:5,z:-3},{x:24,z:-3}]]:tokyoPedestrianRoutes;
+ const route=routes[index%routes.length];
+ if(!clearWorldSegment(scene,route[0],route[1],.35))throw new Error('Pedestrian route intersects architecture');
  let target=1,hold=index*.37,speed=0;
  const p={...route[0]};
- actor.root.position.set(p.x,worldFloorHeight('outdoors',p),p.z);
+ actor.root.position.set(p.x,worldFloorHeight(scene,p),p.z);
  actor.root.rotation.y=Math.atan2(route[1].x-p.x,route[1].z-p.z);
  return {actor,update(dt,time,reduced,nearby=[]) {
   dt=Math.max(0,Math.min(.1,dt));hold=Math.max(0,hold-dt);
@@ -26,7 +27,7 @@ export function makeTokyoPedestrian(actor,index) {
   const step=reduced||blocked||hold>0?0:Math.min(d,speed*dt);
   if(d>.001){p.x+=dx/d*step;p.z+=dz/d*step;}
   if(d<.035){target=1-target;hold=1.1+index*.21;speed=0;}
-  actor.root.position.set(p.x,worldFloorHeight('outdoors',p),p.z);
+  actor.root.position.set(p.x,worldFloorHeight(scene,p),p.z);
   actor.animate(time+index*1.71,step/Math.max(.001,dt),reduced);
  }};
 }

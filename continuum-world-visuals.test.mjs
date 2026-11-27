@@ -1,3 +1,5 @@
+import {makeOsakaWorld} from './continuum-world-osaka.mjs';
+import {expansionLocations} from './continuum-world-districts.mjs';
 import test from "node:test";
 import assert from "node:assert/strict";
 import * as THREE from "three";
@@ -6,6 +8,7 @@ import { createHash } from "node:crypto";
 import { makeWorldSurfaces } from "./continuum-world-materials.mjs";
 import {
   worldMeshes,
+  shopBuilding,
   makeOutdoorWorld,
   makeWorldPerson,
   makeWorldCompanion,
@@ -350,4 +353,31 @@ test('re-entering reuses CPU surface painting while keeping scene canvases dispo
     assert.ok(fills<10,'warm scene avoids thousands of per-speckle paint calls');
     assert.equal(copies,1,'copy retained CPU source into a scene-owned canvas');second.dispose();
   }finally{globalThis.document=previous;}
+});
+
+test('new districts and interiors fit independent fixed geometry budgets and release their GPU resources',()=>{
+ const previous=globalThis.document;globalThis.document=canvasDocument();
+ try{
+  for(const quality of ['low','auto'])for(const id of ['osaka',...expansionLocations.map(l=>l.id)]){
+   const meshes=worldMeshes({quality});try{
+    const root=id==='osaka'?makeOsakaWorld(meshes):makeWorldInterior(id,meshes),b=budget(root);
+    assert.ok(b.draws<(id==='osaka'?100:50),id+' '+JSON.stringify(b));
+    assert.ok(b.triangles<(id==='osaka'?50000:12000),id+' '+JSON.stringify(b));
+    const geometries=new Set(),materials=new Set();root.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)materials.add(o.material);});
+    let released=0;materials.forEach(m=>m.addEventListener('dispose',()=>released++));meshes.dispose();assert.equal(released,materials.size);meshes.dispose();assert.equal(released,materials.size);
+   }finally{meshes.dispose();}
+  }
+ }finally{globalThis.document=previous;}
+});
+
+test('side-wall rays resolve the facade and recessed slab at separate depths near the reported flicker seam',()=>{
+ const previous=globalThis.document;globalThis.document=canvasDocument();
+ try{for(const [width,depth,height]of [[15,13,9],[15,13,7],[18,22,18],[8,12,25],[10,12,22]]){
+  const meshes=worldMeshes({quality:'low'}),root=new THREE.Group();try{
+   shopBuilding(meshes,root,{id:'tokyo_cafe',x:0,z:0,width,depth,height,sign:'検証用',color:0xbfcbbf});root.updateMatrixWorld(true);
+   const ray=new THREE.Raycaster(new THREE.Vector3(width/2+2,3.61,.21),new THREE.Vector3(-1,0,0));
+   const hits=ray.intersectObject(root,true).filter(h=>h.face.normal.x>.9);
+   assert.ok(hits.length>=2);assert.ok(hits[1].distance-hits[0].distance>.02,'opaque slab must not share the exterior wall depth');
+  }finally{meshes.dispose();}
+ }}finally{globalThis.document=previous;}
 });

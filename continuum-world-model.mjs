@@ -1,3 +1,5 @@
+import {expansionLocations,expansionScenes,worldDistricts,districtForScene,outdoorForLocation} from './continuum-world-districts.mjs';
+export {worldDistricts,districtForScene,outdoorForLocation} from './continuum-world-districts.mjs';
 import { hoshiInteriorFixtures } from "./continuum-world-konbini-layout.mjs";
 import { stationLayout } from "./continuum-world-station-layout.mjs";
 
@@ -100,10 +102,14 @@ export const worldLocations = [
     },
   },
 ];
+worldLocations.push(...expansionLocations);
+export const locationsForScene=scene=>worldLocations.filter(l=>(l.district||'tokyo')===districtForScene(scene));
+export const isOutdoorScene=scene=>worldDistricts.some(d=>d.scene===scene);
 const outdoorBuildings = worldLocations
-  .filter((l) => l.id !== "tokyo_park")
-  .map((l) => ({ x: l.x, z: l.z, width: l.width, depth: l.depth }));
+  .filter(l=>(l.district||'tokyo')==='tokyo'&&l.id!=='tokyo_park'&&l.model!==false)
+  .map(l=>({x:l.x,z:l.z,width:l.rotation?l.depth:l.width,depth:l.rotation?l.width:l.depth}));
 export const worldScenes = {
+  ...expansionScenes,
   outdoors: {
     bounds: { minX: -36, maxX: 36, minZ: -40, maxZ: 34 },
     spawn: { x: -8, z: 19 },
@@ -113,9 +119,6 @@ export const worldScenes = {
       {...stationLayout.railSite},
       ...stationLayout.shelters,
       ...stationLayout.streetTrees.map(p => ({...p,type:"ellipse",rx:.28,rz:.28})),
-      { x: -24, z: 15, width: 22, depth: 18 },
-      { x: -30, z: -31, width: 8, depth: 12 },
-      { x: 29, z: -31, width: 10, depth: 12 },
     ],
   },
   tokyo_cafe: {
@@ -154,7 +157,7 @@ export function worldAvailable({
 }
 export function worldCompanionSpawn(scene, position) {
   const offsets =
-    scene === "outdoors"
+    isOutdoorScene(scene)
       ? [
           [0.7, 0.7],
           [-0.7, 0.7],
@@ -241,7 +244,7 @@ export function clearWorldSegment(scene, from, to, radius = PLAYER_RADIUS) {
 // The store camera can look through its entrance from the rendered apron.
 // Player navigation remains bounded to the room and other walls still block it.
 export function clearWorldCameraSegment(scene, from, to, radius=.18) {
-  if(scene==='outdoors')return clearWorldSegment(scene,from,to,radius);
+  if(isOutdoorScene(scene))return clearWorldSegment(scene,from,to,radius);
   const bounds=worldScenes[scene]?.bounds;if(!bounds)return false;
   // Indoor camera sits above low furniture: ground-level actor collision was
   // pulling it into the character in front of every shelf/table.
@@ -319,20 +322,21 @@ export function worldPath(scene, from, to) {
 }
 export function worldInteraction(scene, position) {
   const distance = (p) => Math.hypot(p.x - position.x, p.z - position.z);
-  if (scene !== "outdoors") {
+  if (!isOutdoorScene(scene)) {
     if (distance({ x: 0, z: 5 }) < 2.1) return { type: "exit" };
     const location = worldLocations.find((l) => l.id === scene);
     return location && distance(location.npc) < 3
       ? { type: "talk", location }
       : null;
   }
-  for (const location of worldLocations) {
-    if (location.interior && distance(location.door) < 2.7)
-      return { type: "enter", location };
-    if (!location.interior && distance(location.npc) < 3)
-      return { type: "talk", location };
+  // At the station the doorway and information guide are neighbours. Choose
+  // the nearest eligible target so neither masks the other within its radius.
+  let nearest=null,best=Infinity;
+  for(const location of locationsForScene(scene)){
+    const d=distance(location.interior?location.door:location.npc);
+    if(d<(location.interior?2.7:3)&&d<best){best=d;nearest={type:location.interior?'enter':'talk',location};}
   }
-  return null;
+  return nearest;
 }
 // Outdoor information points lead to the person; enterable shops lead to a door.
 export function worldDestinationPoint(id) {
@@ -367,6 +371,7 @@ export function restoreWorldState(value) {
 
 // Visible walkable surfaces use metre heights; actors and contact shadows follow.
 export function worldFloorHeight(scene, {x,z}) {
+  if(scene === 'osaka')return .06;
   if(scene !== 'outdoors') return 0;
   if(Math.abs(x)<=11 && z>=-28 && z<=-13) return .063;
   if((x>=-29 && x<=-7 || x>=7 && x<=29) && Math.abs(z)<=4) return .055;
