@@ -20,9 +20,10 @@ export async function migrateSpeaking(pool){await pool.query(`CREATE TABLE IF NO
  messages jsonb NOT NULL DEFAULT '[]',review jsonb,status text NOT NULL DEFAULT 'active',revision integer NOT NULL DEFAULT 0,
  lease_token uuid,lease_until timestamptz,created_at timestamptz NOT NULL DEFAULT now(),updated_at timestamptz NOT NULL DEFAULT now());
  ALTER TABLE speaking_sessions ADD COLUMN IF NOT EXISTS start_key uuid;
+ ALTER TABLE speaking_sessions ADD COLUMN IF NOT EXISTS world_class_context boolean NOT NULL DEFAULT false;
  CREATE UNIQUE INDEX IF NOT EXISTS speaking_start_key ON speaking_sessions(user_id,start_key) WHERE start_key IS NOT NULL;
  CREATE INDEX IF NOT EXISTS speaking_user_language ON speaking_sessions(user_id,language,updated_at DESC);`);await migrateConversationBudget(pool);}
-export const publicSpeaking=s=>({id:s.id,language:s.language,level:s.level,scenario:s.scenario,displayLanguage:s.display_language,messages:s.messages,review:s.review,status:s.status,revision:s.revision,at:s.updated_at});
+export const publicSpeaking=s=>({...((scenarioById(s.scenario)?.worldLocation)?{worldClassContext:!!s.world_class_context}:{}),id:s.id,language:s.language,level:s.level,scenario:s.scenario,displayLanguage:s.display_language,messages:s.messages,review:s.review,status:s.status,revision:s.revision,at:s.updated_at});
 const audioValid=r=>r&&typeof r.audio==='string'&&r.audio.length<=1400000&&/^data:audio\/(webm|mp4|ogg|wav)(;codecs=(?:[a-zA-Z0-9.,-]+|"[a-zA-Z0-9., -]+"))?;base64,[A-Za-z0-9+/]+=*$/.test(r.audio)&&Number.isFinite(r.seconds)&&r.seconds>=1&&r.seconds<=90;
 const turnFingerprint=d=>crypto.createHash('sha256').update(JSON.stringify(d.audio?{audio:d.audio.audio,seconds:d.audio.seconds}:{text:typeof d.text==='string'?d.text.trim():null})).digest('hex');
 export async function handleSpeaking({route,req,res,pool,required,json,send,fail,limited,reply=replySpeaking,review=reviewSpeaking,reassessCommunication=reassessCommunicationSpeaking,refreshFeedback=refreshSpeakingFeedback,voiceTurn=voiceTurnSpeaking,serveAudio=serveStudioSpeech}){
@@ -43,7 +44,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   const r=await pool.query('SELECT * FROM speaking_sessions WHERE user_id=$1 AND language=$2 ORDER BY updated_at DESC LIMIT 30',[user.id,language]);
   const daily=!premium?(await pool.query('SELECT s.* FROM speaking_daily_allowance a JOIN speaking_sessions s ON s.id=a.session_id WHERE a.user_id=$1 AND a.day=$2',[user.id,conversationDay()])).rows[0]:null;
   const sessions=daily?[daily,...r.rows.filter(s=>s.id!==daily.id)]:r.rows;
-  send(res,200,{available:aiConfigured(),scenarios:speakingScenarios,sessions:sessions.map(visible),premium,limitSeconds:conversationLimit(premium)});return true;
+  send(res,200,{available:aiConfigured(),scenarios:speakingScenarios,sessions:sessions.filter(s=>url.searchParams.get('world')==='true'||!scenarioById(s.scenario)?.worldLocation||s.status==='completed').map(visible),premium,limitSeconds:conversationLimit(premium)});return true;
  }
  if(route==='/api/speaking'&&req.method==='POST'){
   limited(req,'speaking-start',30);const d=await json(req),s=scenarioById(d.scenario);
@@ -68,7 +69,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
     const {rows:[old]}=await c.query('SELECT s.* FROM speaking_daily_allowance a JOIN speaking_sessions s ON s.id=a.session_id WHERE a.user_id=$1 AND a.day=$2',[user.id,day]);
     if(old){
      if(old.status==='completed')return {denied:true};
-     if(old.messages.some(m=>m.role==='user')||Date.parse(old.lease_until)>Date.now()){if((s.immersive||s.worldLocation)&&old.scenario!==s.id)return {denied:true};return {row:old,reused:true};}
+     if(old.messages.some(m=>m.role==='user')||Date.parse(old.lease_until)>Date.now()){if((s.immersive||s.worldLocation||scenarioById(old.scenario)?.worldLocation)&&old.scenario!==s.id)return {denied:true};if(s.worldLocation&&old.world_class_context!==worldStart.classContext)fail(409,'Resuming this conversation requires its saved class-note choice.');return {row:old,reused:true};}
      await c.query('DELETE FROM speaking_daily_allowance WHERE user_id=$1 AND day=$2',[user.id,day]);
      await c.query("DELETE FROM ai_operations WHERE user_id=$1 AND bucket='conversation' AND operation_key=$2 AND completed_at IS NULL",[user.id,old.id+':'+day]);
     }
@@ -76,7 +77,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
    const id=crypto.randomUUID();
    const slot=await reserveAI(c,{userId:user.id,bucket:'conversation',feature:'conversation',key:id+':'+day,premium,day});
    if(slot.denied)return slot;
-   const {rows:[row]}=await c.query('INSERT INTO speaking_sessions(id,user_id,language,level,scenario,display_language,messages,start_key) VALUES($1,$2,$3,$4,$5,$6,$7::jsonb,$8) RETURNING *',[id,user.id,d.language,d.level,s.id,d.displayLanguage,JSON.stringify([{role:'assistant',text:worldStart?.opening||s.opening[d.language],mode:'text'}]),d.startKey??null]);
+   const {rows:[row]}=await c.query('INSERT INTO speaking_sessions(id,user_id,language,level,scenario,display_language,messages,start_key,world_class_context) VALUES($1,$2,$3,$4,$5,$6,$7::jsonb,$8,$9) RETURNING *',[id,user.id,d.language,d.level,s.id,d.displayLanguage,JSON.stringify([{role:'assistant',text:worldStart?.opening||s.opening[d.language],mode:'text'}]),d.startKey??null,worldStart?.classContext??false]);
    if(!premium)await c.query('INSERT INTO speaking_daily_allowance(user_id,day,session_id) VALUES($1,$2,$3)',[user.id,day,row.id]);
    return {row};
   });

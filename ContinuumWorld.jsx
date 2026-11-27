@@ -414,6 +414,7 @@ export default function ContinuumWorld({ user, onBack }) {
       onKeyDown={keyboard}
       data-scene={snapshot.scene}
       data-list={list}
+      data-phase2={!!worldProfile?.enabled}
     >
       <header className="cw-header">
         <button
@@ -600,9 +601,10 @@ export default function ContinuumWorld({ user, onBack }) {
           >
             {t("Safe return")}
           </button>
+{worldProfile?.enabled&&<button type="button" className="cw-missions-button" onClick={()=>setPanel('missions')}>{t('Missions and NPC memory')} · {worldProfile.xp} XP</button>}
         </div>
       </div>
-      {worldProfile?.enabled&&<button type="button" className="cw-missions-button" onClick={()=>setPanel('missions')}>{t('Missions and NPC memory')} · {worldProfile.xp} XP</button>}
+
       <footer className="cw-footer">
         <p id="cw-controls">
           {t(

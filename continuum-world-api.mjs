@@ -43,7 +43,7 @@ export async function authorizeWorldSpeaking(c,userId,d,scenario){
  const p=await policy(c,userId);
  const place=worldLocations.find(l=>l.id===scenario.worldLocation);
  const memories=p.memory_enabled?(await c.query('SELECT summary FROM world_npc_memories WHERE user_id=$1 AND npc_id=$2 AND expires_at>now() ORDER BY created_at DESC LIMIT 5',[userId,place.npc.id])).rows:[];
- return {opening:memories.length?`またお会いできてうれしいです。${memories[0].summary} ${place.npc.line}`:place.npc.line};
+ return {classContext:visit.class_context,opening:memories.length?`またお会いできてうれしいです。${memories[0].summary} ${place.npc.line}`:place.npc.line};
 }
 export async function worldSpeakingContext(c,s){
  const scenario=worldScenario(s.scenario);if(!scenario)return null;

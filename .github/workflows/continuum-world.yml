@@ -116,4 +116,5 @@ jobs:
           path: |
             .media-build/world-phase2/*.png
             .media-build/world-phase2/results.json
+            .media-build/world-phase2/failure.txt
           if-no-files-found: ignore

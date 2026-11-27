@@ -20,7 +20,7 @@ createRoot(document.getElementById('root')).render(<App/>);
 `);
 await build({configFile:false,root:dir.pathname,publicDir:new URL('../public/',import.meta.url).pathname,build:{outDir:new URL('../dist/',import.meta.url).pathname,emptyOutDir:true}});
 const {testServer,db}=await import('../test-server.mjs'),base='http://127.0.0.1:'+testServer.address().port;
-let browser;const results=[];
+let browser,currentPage;const results=[];
 async function api(path,body,cookie,method=body?'POST':'GET'){const r=await realFetch(base+'/api'+path,{method,headers:{'Content-Type':'application/json',...(cookie?{cookie}:{})},...(body?{body:JSON.stringify(body)}:{})});return {status:r.status,data:await r.json(),cookie:r.headers.get('set-cookie')?.split(';')[0]};}
 try{
  for(const name of ['chromium','webkit'])for(const width of [1280,390]){
@@ -29,10 +29,10 @@ try{
   browser=await {chromium,webkit}[name].launch({headless:true,...(name==='chromium'?{args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']}: {})});
   const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'});await context.addCookies([{name:'continuum_session',value:account.cookie.split('=')[1],url:base}]);
   await context.addInitScript(()=>{Object.defineProperty(navigator,'mediaDevices',{configurable:true,value:{getUserMedia:()=>Promise.reject(new DOMException('Synthetic microphone denied','NotAllowedError'))}});localStorage.setItem('continuumInterfaceLanguage','en');});
-  const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(45000);
+  const page=await context.newPage(),errors=[];currentPage=page;page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(45000);
   await page.goto(base+'/?user='+uid);await page.getByRole('button',{name:'List view',exact:true}).last().click();
-  const missions=page.getByRole('button',{name:/Missions and NPC memory/});await missions.click();await page.getByRole('button',{name:'Enable NPC memory',exact:true}).click();await page.getByRole('button',{name:'Turn NPC memory off',exact:true}).waitFor();await page.screenshot({path:new URL(name+'-'+width+'-consent.png',dir).pathname});await page.locator('.cw-close').click();
-  const cafe=page.locator('.cw-place-list article').filter({hasText:'こもれび珈琲'});await cafe.getByRole('button',{name:'Enter',exact:true}).click();await cafe.getByRole('button',{name:/Talk/}).click();
+  console.log('World UI opened',name,width);const missions=page.getByRole('button',{name:/Missions and NPC memory/});await missions.click();await page.getByRole('button',{name:'Enable NPC memory',exact:true}).click();await page.getByRole('button',{name:'Turn NPC memory off',exact:true}).waitFor();await page.screenshot({path:new URL(name+'-'+width+'-consent.png',dir).pathname});await page.locator('.cw-close').click();
+  console.log('Consent enabled',name,width);const cafe=page.locator('.cw-place-list article').filter({hasText:'こもれび珈琲'});await cafe.getByRole('button',{name:'Enter',exact:true}).click();await cafe.getByRole('button',{name:/Talk/}).click();
   const chat=page.locator('.cw-conversation');await chat.getByRole('combobox').first().selectOption('cafe-permission');
   await chat.getByRole('checkbox').first().check();await chat.getByRole('button',{name:'Start conversation',exact:true}).click();await chat.getByRole('textbox').waitFor();
   await chat.getByRole('button',{name:'Speak with microphone',exact:true}).click();await chat.getByRole('alert').waitFor();assert.ok(await chat.getByRole('textbox').isEnabled());await chat.getByRole('alert').getByRole('button',{name:'Close',exact:true}).click();
@@ -45,4 +45,4 @@ try{
   assert.deepEqual(errors,[]);results.push({browser:name,width,missionXP:30,voiceDeniedTextFallback:true,review:true,confirmedMemory:true,revisit:true,deletion:true,learningEvidence:true,reloginPersistence:true});await browser.close();browser=null;
  }
  await writeFile(new URL('results.json',dir),JSON.stringify({results,syntheticProviderCalls:calls},null,2));console.log('PASS World Phase 2 UI',JSON.stringify(results));
-}finally{await browser?.close();globalThis.fetch=realFetch;await new Promise(r=>testServer.close(r));await db.close();}
+}catch(error){if(currentPage){await currentPage.screenshot({path:new URL('failure.png',dir).pathname,timeout:15000}).catch(()=>{});await writeFile(new URL('failure.txt',dir),await currentPage.locator('body').innerText().catch(()=>''));}throw error;}finally{await browser?.close();globalThis.fetch=realFetch;await new Promise(r=>testServer.close(r));await db.close();}
