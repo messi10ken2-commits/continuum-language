@@ -1,4 +1,4 @@
-import {authorizeWorldSpeaking,worldSpeakingContext,finishWorldSession,worldPhase2Enabled} from './continuum-world-api.mjs';
+import {authorizeWorldSpeaking,worldSpeakingContext,finishWorldSession,worldPhase2Enabled,worldAudioGuard} from './continuum-world-api.mjs';
 import {aiTier,dailyAIUsage,denyAI,reserveAI,settleAI} from './ai-operations.mjs';
 import {aiContext} from './ai-metering.mjs';
 import {refreshSpeakingFeedback,needsSpeakingFeedback} from './speaking-feedback.mjs';
@@ -35,7 +35,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  const prefetch=row=>{
   // Start before returning the saved session. Playback joins the same cache key
   // and in-flight task; this never creates a second provider generation.
-  void Promise.resolve().then(()=>serveAudio({req,res:{writeHead(){},end(){}},pool,ownerId:row.user_id,text:row.messages.at(-1).text,locale:languageInfo(row.language).locale,voiceProfile:conversationPartner(row.language,row.scenario).voice,privateAudio:true,send(){},fail:(status,message)=>{throw Object.assign(Error(message),{status})},limited})).catch(()=>{});
+  void Promise.resolve().then(async()=>serveAudio({cacheGuard:await worldAudioGuard(pool,row,row.messages.length-1),req,res:{writeHead(){},end(){}},pool,ownerId:row.user_id,text:row.messages.at(-1).text,locale:languageInfo(row.language).locale,voiceProfile:conversationPartner(row.language,row.scenario).voice,privateAudio:true,send(){},fail:(status,message)=>{throw Object.assign(Error(message),{status})},limited})).catch(()=>{});
  };
  const usage=()=>dailyAIUsage(pool,user.id,'conversation',premium);
  if(route==='/api/speaking/usage'&&req.method==='GET'){send(res,200,{usage:await usage()});return true;}
@@ -96,7 +96,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   const text=part.startsWith('alternative/')?(premium?safeSavedCorrections(row.review,row.language)?.naturalAlternatives?.[index]?.improved:null):part.startsWith('review/')?(premium?safeSavedCorrections(row.review,row.language)?.corrections?.[index]?.improved:null):row.messages[index]?.role==='assistant'?row.messages[index].text:null;
   if(!text)fail(404,'Conversation audio not found');
   if(url.searchParams.get('format')==='text'){send(res,200,{text,locale:languageInfo(row.language).locale});return true;}
-  return aiContext('conversation',{tier:aiTier(premium),operationId:row.id},()=>serveAudio({req,res,pool,ownerId:user.id,text,locale:languageInfo(row.language).locale,send,fail,limited,privateAudio:true,voiceProfile:conversationPartner(row.language,row.scenario).voice}));
+  return aiContext('conversation',{tier:aiTier(premium),operationId:row.id},async()=>serveAudio({cacheGuard:await worldAudioGuard(pool,row,index),req,res,pool,ownerId:user.id,text,locale:languageInfo(row.language).locale,send,fail,limited,privateAudio:true,voiceProfile:conversationPartner(row.language,row.scenario).voice}));
  }
  const match=route.match(/^\/api\/speaking\/([a-f0-9-]{36})(?:\/(turn|review|activity))?$/);if(!match)fail(404,'Conversation endpoint not found');
  const r=await pool.query('SELECT * FROM speaking_sessions WHERE id=$1 AND user_id=$2',[match[1],user.id]),s=r.rows[0];if(!s)fail(404,'Conversation not found');

@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';import crypto from 'node:crypto';
 process.env.CONTINUUM_WORLD_PHASE2_ENABLED='true';process.env.GEMINI_API_KEY='synthetic-world-key';delete process.env.OPENAI_API_KEY;
-const realFetch=globalThis.fetch;let lastContext,lastVoiceContext,blockReply,providerStarted,releaseBlocked;const sessionIds=[];
+const realFetch=globalThis.fetch;let lastContext,lastVoiceContext,blockReply,providerStarted,releaseBlocked,blockSpeech,speechStarted,releaseSpeech;const sessionIds=[];
 globalThis.fetch=async(url,options)=>{
  if(String(url).startsWith('https://generativelanguage.googleapis.com/')){
+  if(String(url).endsWith('/interactions')){speechStarted?.();if(blockSpeech)await blockSpeech;return Response.json({steps:[{content:[{type:'audio',data:Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])).toString('base64')}]}]});}
   const b=JSON.parse(options.body),system=b.systemInstruction?.parts?.[0]?.text||'',context=b.contents?.[0]?.parts?.[0]?.text||'{}';let value={items:[]};
   if(system.startsWith('Review this')){const c=JSON.parse(context),q=c.messages.filter(m=>m.role==='user');value={summary:'許可を丁寧に尋ねられました。',strengths:['状況に合う質問です。'],corrections:[],goals:c.goals.map((_,i)=>({achieved:i<2,evidence:i<2?q[i]?.text||'':''})),nextStep:'おすすめも聞いてみましょう。',ratings:[3,3,3,3],scoreTurnIds:['L1','L2','L1','L2'],communicationAssessable:true};}
   else if(system.startsWith('You are a friendly adult')){lastVoiceContext=JSON.parse(context);value={audible:true,transcript:'カードで払えますか。',reply:'はい、カードでお支払いいただけます。'};}
@@ -37,7 +38,8 @@ try{
  const mem=await api('/world/npc-memories','POST',{sessionId:s.id,version:p.consent.version,confirm:true},a.cookie);assert.equal(mem.status,201,JSON.stringify(mem.data));assert.ok(!mem.data.memory.summary.includes('ここに座って'));assert.equal((await api('/world/profile','GET',null,b.cookie)).data.memories.length,0);
  const oldSession=s.id;s=await make();assert.ok(s.messages[0].text.includes('前回'));await turn('おすすめは何ですか。');assert.equal(lastContext.worldContext.memories.length,1);
  let release;blockReply=new Promise(r=>{release=r;releaseBlocked=r;});const started=new Promise(r=>providerStarted=r);const inFlight=turn('お茶はありますか。');await started;
- assert.equal((await api('/world/npc-memories/'+mem.data.memory.id,'DELETE',null,a.cookie)).status,200);release();assert.equal((await inFlight).status,409);blockReply=null;providerStarted=null;
+ blockSpeech=new Promise(r=>releaseSpeech=r);const audioStarted=new Promise(r=>speechStarted=r);const audioPending=realFetch(base+'/api/speaking/'+s.id+'/audio/0',{headers:{cookie:a.cookie}}).then(async r=>({status:r.status,bytes:await r.arrayBuffer()}));await audioStarted;
+ assert.equal((await api('/world/npc-memories/'+mem.data.memory.id,'DELETE',null,a.cookie)).status,200);release();releaseSpeech();assert.equal((await inFlight).status,409);assert.equal((await audioPending).status,410);assert.equal((await db.query('SELECT count(*)::int n FROM speech_cache WHERE owner_id=$1',[uid])).rows[0].n,0);blockReply=null;providerStarted=null;blockSpeech=null;speechStarted=null;
  p=(await api('/world/profile','GET',null,a.cookie)).data;assert.equal((await api('/world/npc-memories','POST',{sessionId:oldSession,version:p.consent.version,confirm:true},a.cookie)).status,409,'deleted memories cannot be restored from stale sessions');
  assert.equal((await turn('お茶はありますか。')).status,200);assert.equal(lastContext.worldContext.memories.length,0);assert.equal(lastContext.history.length,0,'revoked memory does not leak through old assistant history');
  await api('/world/memory-consent','PUT',{enabled:false,version:p.consent.version},a.cookie);p=(await api('/world/profile','GET',null,a.cookie)).data;assert.equal(p.memories.length,0);assert.equal(p.consent.enabled,false);
@@ -61,7 +63,6 @@ try{
  await db.query("UPDATE world_npc_memories SET expires_at=now()-interval '1 minute' WHERE id=$1",[p.memories[0].id]);
  await db.query("INSERT INTO speech_cache(cache_key,audio,provider,model,owner_id) VALUES('world-expiry-test',$1,'synthetic','synthetic',$2)",[Buffer.from('synthetic'),uid]);
  p=(await api('/world/profile','GET',null,a.cookie)).data;assert.equal(p.memories.length,4);assert.equal((await db.query('SELECT count(*)::int n FROM speech_cache WHERE owner_id=$1',[uid])).rows[0].n,0);
- await api('/world/memory-consent','PUT',{enabled:false,version:p.consent.version},a.cookie);
  // Free users share the existing allowance; resuming cannot silently re-enable class context.
  const free=await reg('world-free-note-choice');const freeVisit=async(classContext)=>api('/world/visits','POST',{startKey:crypto.randomUUID(),missionId:'cafe-permission',level:'A1',classContext,accessible:true},free.cookie);
  const fv=await freeVisit(true),fs=(await api('/speaking','POST',{...fv.data,language:'ja',level:'A1',displayLanguage:'ja',aiConsent:true},free.cookie)).data.session;assert.equal(fs.worldClassContext,true);
@@ -70,6 +71,6 @@ try{
  assert.equal((await api('/speaking?language=ja','GET',null,free.cookie)).data.sessions.length,0);assert.equal((await api('/speaking?language=ja&world=true','GET',null,free.cookie)).data.sessions.length,1);
  ft=await api('/speaking/'+fs.id+'/turn','POST',{text:'静かな席がいいです。',turnKey:crypto.randomUUID(),revision:ft.data.session.revision,aiConsent:true},free.cookie);assert.equal(ft.status,200);assert.equal((await api('/speaking/'+fs.id+'/review','POST',{revision:ft.data.session.revision,aiConsent:true},free.cookie)).status,200);
  const freeProfile=(await api('/world/profile','GET',null,free.cookie)).data;assert.equal(freeProfile.consent.enabled,false);assert.equal(freeProfile.xp,30);assert.equal(freeProfile.memories.length,0);
- process.env.CONTINUUM_WORLD_PHASE2_ENABLED='false';assert.equal((await api('/world/profile','GET',null,a.cookie)).data.enabled,false);assert.equal((await api('/world/learning?language=ja','GET',null,a.cookie)).data.records.length,2);
+ process.env.CONTINUUM_WORLD_PHASE2_ENABLED='false';const privateSettings=(await api('/privacy/settings','GET',null,a.cookie)).data;assert.equal(privateSettings.worldNpcMemory.memories.length,4);assert.equal((await api('/world/npc-memories','DELETE',null,a.cookie)).status,200);const privacyAfter=(await api('/privacy/settings','GET',null,a.cookie)).data;assert.equal(privacyAfter.worldNpcMemory.memories.length,0);assert.equal((await api('/world/memory-consent','PUT',{enabled:false,version:privacyAfter.worldNpcMemory.version},a.cookie)).status,200);assert.equal((await api('/world/profile','GET',null,a.cookie)).data.enabled,false);assert.equal((await api('/world/learning?language=ja','GET',null,a.cookie)).data.records.length,2);
  console.log('PASS World E2E: class→NPC→verified Learning Memory; missions/XP idempotence; consent, revocation race, deletion, ownership and teacher language/sharing scope.');
-}finally{releaseBlocked?.();globalThis.fetch=realFetch;await new Promise(r=>testServer.close(r));await db.close();}
+}finally{releaseBlocked?.();releaseSpeech?.();globalThis.fetch=realFetch;await new Promise(r=>testServer.close(r));await db.close();}
