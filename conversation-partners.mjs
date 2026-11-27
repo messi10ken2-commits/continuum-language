@@ -1,3 +1,5 @@
+import {worldScenario} from './continuum-world-missions.mjs';
+import {worldLocations} from './continuum-world-model.mjs';
 // Original AI-generated personas, not profiles of real teachers. Keep selection
 // stable when reopening a session and independent of the display language.
 export const conversationPartners={
@@ -14,4 +16,7 @@ const cast={
  ja:{living:'hana',free:'hana',cafe:'mira',directions:'rafael',shopping:'theo',plans:'lucia',appointment:'hana',work:'mira'}
 };
 for(const language of ['zh','ko','fr','de','ar','it'])cast[language]={living:'mira',free:'hana',cafe:'theo',directions:'mira',shopping:'lucia',plans:'rafael',appointment:'hana',work:'theo'};
-export const conversationPartner=(language,scenario)=>conversationPartners[cast[language]?.[scenario]||'mira'];
+export const conversationPartner=(language,scenario)=>{
+ const w=worldScenario(scenario);if(w){const npc=worldLocations.find(l=>l.id===w.worldLocation).npc;return {...conversationPartners[['aoi','yui'].includes(npc.id)?'hana':'theo'],name:npc.name};}
+ return conversationPartners[cast[language]?.[scenario]||'mira'];
+};

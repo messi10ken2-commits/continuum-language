@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import {worldRequest} from './continuum-world-request.mjs';
+import React, { useCallback, useEffect, useRef, useState, lazy, Suspense } from "react";
 import { createPortal } from "react-dom";
 import { ArrowLeft, Settings, DoorOpen, MessageCircle, LogOut } from "lucide-react";
 import { t } from "./interface-runtime.mjs";
@@ -15,6 +16,8 @@ import { createWorldAmbience } from "./continuum-world-audio.mjs";
 import { callCompanionKind } from "./companion-call-models.mjs";
 import "./continuum-world.css";
 
+const WorldConversation=lazy(()=>import('./WorldConversation.jsx'));
+const WorldProgress=lazy(()=>import('./WorldProgress.jsx'));
 function WorldStick({ input, onFocus, active }) {
   const [offset, setOffset] = useState({ x: 0, z: 0 }),
     pointer = useRef(null);
@@ -144,7 +147,12 @@ export default function ContinuumWorld({ user, onBack }) {
     [dialogue, setDialogue] = useState(null),
     [kind, setKind] = useState("bird"),
     [destination, setDestination] = useState("tokyo_cafe"),
-    [running, setRunning] = useState(false);
+    [running, setRunning] = useState(false),
+    [worldProfile,setWorldProfile]=useState(null),
+    [chosenMission,setChosenMission]=useState(null);
+  const previousWorldXP=useRef(null),pendingJoy=useRef(false),joyUntil=useRef(0);
+  const acceptWorldProfile=useCallback(p=>{if(previousWorldXP.current!==null&&p.xp>previousWorldXP.current)pendingJoy.current=true;previousWorldXP.current=p.xp;setWorldProfile(p);},[]);
+  useEffect(()=>{const c=new AbortController();worldRequest("/profile",null,"GET",c.signal).then(acceptWorldProfile).catch(()=>{});return()=>c.abort();},[user.id]);
   const root = useRef(null),
     host = useRef(null),
     engine = useRef(null),
@@ -156,7 +164,7 @@ export default function ContinuumWorld({ user, onBack }) {
     focused = useRef(document.hasFocus()),
     panelRef = useRef(null),
     returnFocus = useRef(null);
-  options.current = { ...settings, destination, talking: !!dialogue };
+  options.current = { ...settings, celebrateUntil:joyUntil.current, destination, talking: !!dialogue };
   input.current.run = running;
   useEffect(() => {
     // Keep the fullscreen exploration's keyboard and screen-reader focus in its UI.
@@ -326,7 +334,7 @@ export default function ContinuumWorld({ user, onBack }) {
       return;
     }
     returnFocus.current = document.activeElement;
-    panelRef.current?.querySelector("button,input,select")?.focus();
+    panelRef.current?.querySelector("button,input,select,textarea")?.focus();
   }, [panel, dialogue]);
   const transition = (scene, position) => {
     save();
@@ -365,6 +373,7 @@ export default function ContinuumWorld({ user, onBack }) {
       : worldLocations.find((location) => location.id === snapshot.scene)
           ?.title;
   const close = () => {
+    if(pendingJoy.current){joyUntil.current=Date.now()+2500;pendingJoy.current=false;}
     setPanel("");
     setDialogue(null);
   };
@@ -384,8 +393,8 @@ export default function ContinuumWorld({ user, onBack }) {
     }
     if (event.key === "Tab" && (panel || dialogue)) {
       const controls = [
-          ...panelRef.current.querySelectorAll("button,input,select"),
-        ].filter((element) => !element.disabled),
+          ...panelRef.current.querySelectorAll("button,input,select,textarea"),
+        ].filter((element) => !element.disabled && element.getClientRects().length>0),
         first = controls[0],
         end = controls.at(-1);
       if (event.shiftKey && document.activeElement === first) {
@@ -593,6 +602,7 @@ export default function ContinuumWorld({ user, onBack }) {
           </button>
         </div>
       </div>
+      {worldProfile?.enabled&&<button type="button" className="cw-missions-button" onClick={()=>setPanel('missions')}>{t('Missions and NPC memory')} · {worldProfile.xp} XP</button>}
       <footer className="cw-footer">
         <p id="cw-controls">
           {t(
@@ -621,7 +631,11 @@ export default function ContinuumWorld({ user, onBack }) {
             <button type="button" className="cw-close" onClick={close}>
               {t("Close")}
             </button>
-            {dialogue ? (
+            {dialogue&&worldProfile?.enabled?(
+              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldConversation key={dialogue.id} user={user} location={worldLocations.find(l=>l.npc.id===dialogue.id)} profile={worldProfile} onProfile={acceptWorldProfile} initialMission={chosenMission} scene={snapshot.scene} position={snapshot.position} accessible={list}/></Suspense>
+            ):panel==='missions'&&worldProfile?.enabled?(
+              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldProgress profile={worldProfile} onProfile={acceptWorldProfile} onDestination={(location,mission)=>{setDestination(location);setChosenMission(mission);close();}}/></Suspense>
+            ):dialogue ? (
               <>
                 <h2 lang="ja">
                   {dialogue.name} · {dialogue.role}

@@ -4,6 +4,12 @@ on:
     branches: [main]
     paths:
       - 'continuum-world*'
+      - 'WorldConversation.jsx'
+      - 'WorldProgress.jsx'
+      - 'WorldLearningEvidence.jsx'
+      - 'speaking-api.mjs'
+      - 'speaking-ai.mjs'
+      - 'scripts/qa-continuum-world-phase2.mjs'
       - 'public/world-tokyo/**'
       - 'ContinuumWorld.jsx'
       - 'PracticeStudio.jsx'
@@ -89,4 +95,25 @@ jobs:
           path: |
             .media-build/continuum-world-art/*.png
             .media-build/continuum-world-art/results.json
+          if-no-files-found: ignore
+
+  phase2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - run: node scripts/qa-continuum-world-phase2.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: continuum-world-phase2-evidence
+          path: |
+            .media-build/world-phase2/*.png
+            .media-build/world-phase2/results.json
           if-no-files-found: ignore

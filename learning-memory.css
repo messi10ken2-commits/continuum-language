@@ -2,3 +2,5 @@
 @media(max-width:700px){.record-recent{align-items:start;flex-direction:column}.record-evidence-layout{display:flex;flex-direction:column}.record-evidence-layout>section{width:100%;min-width:0}.live-patterns .section-title{flex-wrap:wrap;gap:8px}.record-detail{scroll-margin-top:100px}.pattern-ai-controls{padding:16px}.pattern-row-heading h3{font-size:17px}.unified-learning-record .memory-hero{padding:24px}.unified-learning-record .memory-hero>div{flex-wrap:wrap;gap:20px}}
 
 .record-evidence-layout .record-lesson-label{flex:1;min-width:0}.record-evidence-layout .pattern-list>button>strong,.record-evidence-layout .pattern-list>button>svg{flex-shrink:0}.record-evidence-layout .record-lesson-label b{font-size:13px;line-height:1.5;overflow-wrap:anywhere}.record-evidence-layout .record-lesson-label small{font-size:11px}
+
+.world-learning-evidence article{padding:15px 0;border-bottom:1px solid #d3d9d5}.world-learning-evidence blockquote{white-space:pre-wrap;overflow-wrap:anywhere}

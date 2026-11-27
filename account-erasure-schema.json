@@ -508,5 +508,35 @@
     "column_name": "user_id",
     "delete_rule": "NO ACTION",
     "strategy": "delete"
+  },
+  {
+    "table_name": "world_awards",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "world_learning_events",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "world_npc_memories",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "world_profiles",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
+  },
+  {
+    "table_name": "world_visits",
+    "column_name": "user_id",
+    "delete_rule": "CASCADE",
+    "strategy": "cascade"
   }
 ]
