@@ -87,6 +87,7 @@ export function makeWorldSurfaces(register, updated = () => {}) {
     c.fillStyle = base;
     c.fillRect(0, 0, 512, 512);
     if(surfaceCanvases.has(name)){
+      if(name==='leaves')c.clearRect(0,0,512,512);
       c.drawImage(surfaceCanvases.get(name),0,0);
     }else{
     for (let i = 0; i < 6500; i++) {

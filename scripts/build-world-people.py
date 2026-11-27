@@ -78,8 +78,9 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
         names = [(bone_names[j], w) for j, w in zip(js, ws)]
         exposed = sum(w for n, w in names if n == 'Head' or n.startswith(('neck', 'hand', 'index', 'middle', 'ring', 'pinky', 'thumb')))
         hand = sum(w for n, w in names if n.startswith(('hand', 'index', 'middle', 'ring', 'pinky', 'thumb')))
+        forearm = sum(w for n, w in names if n.startswith(('lowerarm','upperarm'))) if abs(p[0]) > .34 else 0
         neck_y = 1.515 if gender == 'Male' else 1.455
-        regions.append(2 if hand > .55 or (exposed > .55 and p[1] > neck_y) else 5 if p[1] < .12 else 4 if p[1] < 1.01 else 3)
+        regions.append(2 if hand > .55 or forearm > .45 or (exposed > .55 and p[1] > neck_y) else 5 if p[1] < .12 else 4 if p[1] < 1.01 else 3)
     # Crop covered body faces, then compact their vertices. Only exposed face,
     # neck and hands remain; clothing is independent geometry below.
     rows_by_attribute = {key: values(index) for key, index in attrs.items()}
@@ -137,6 +138,11 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
         fmt = {5121: 'B', 5123: 'H', 5126: 'f'}[old['componentType']]
         bounds = None
         if key == 'POSITION':
+            # The superhero source includes the edge of the trapezius at this
+            # clipping plane. Shape that hidden neck base into the T-shirt opening.
+            rows = [((max(-(.076+(p[1]-cutoff)*.8),min(.076+(p[1]-cutoff)*.8,p[0])),p[1],p[2]) if cutoff-.001 <= p[1] < cutoff+.06 and abs(p[0])<.20 else p) for p in rows]
+            skin_rows[key] = rows
+            flat = [v for row in rows for v in row]
             bounds = ([min(p[i] for p in rows) for i in range(3)], [max(p[i] for p in rows) for i in range(3)])
         skin_attributes[key] = append(struct.pack('<' + fmt * len(flat), *flat), old['type'], len(rows[0]), len(rows), old['componentType'], bounds)
     primitives = [{'attributes': skin_attributes, 'material': 2, 'indices': append(struct.pack('<' + 'H' * len(selected), *selected), 'SCALAR', 1, len(selected), 5123)}]
@@ -152,8 +158,8 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
             return blend('pelvis', 'spine_02', (y - .95) / .23)
         return blend('spine_02', 'spine_03', (y - 1.18) / .15)
 
-    def add_loft(rings, material, weights_fn, axis='y', segments=24, waist_side=None):
-        pos, joints_out, weights_out, idx = [], [], [], []
+    def add_loft(rings, material, weights_fn, axis='y', segments=16, waist_side=None):
+        pos, joints_out, weights_out, idx, uv = [], [], [], [], []
         for center, r1, r2 in rings:
             for j in range(segments):
                 a = j * math.tau / segments
@@ -169,6 +175,7 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
                 p = (x * sx, y * sy, z * sz)
                 js, ws = weights_fn(p)
                 pos.extend(p); joints_out.extend(js); weights_out.extend(ws)
+                uv.extend([j / segments * 3, (y if axis == 'y' else x) * 3])
         for k in range(len(rings) - 1):
             for j in range(segments):
                 a, b = k * segments + j, k * segments + (j + 1) % segments
@@ -176,24 +183,28 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
                 idx.extend([a, c, b, b, c, d])
         count = len(pos) // 3
         attributes = {
+            'TEXCOORD_0': append(struct.pack('<' + 'f' * len(uv), *uv), 'VEC2', 2, count),
             'POSITION': append(struct.pack('<' + 'f' * len(pos), *pos), 'VEC3', 3, count, bounds=([min(pos[i::3]) for i in range(3)], [max(pos[i::3]) for i in range(3)])),
             'JOINTS_0': append(struct.pack('<' + 'H' * len(joints_out), *joints_out), 'VEC4', 4, count, 5123),
             'WEIGHTS_0': append(struct.pack('<' + 'f' * len(weights_out), *weights_out), 'VEC4', 4, count),
         }
         primitives.append({'attributes': attributes, 'material': material, 'indices': append(struct.pack('<' + 'H' * len(idx), *idx), 'SCALAR', 1, len(idx), 5123)})
 
-    add_loft([((0, y, -.025), rx, rz) for y, rx, rz in [(1.0, .178, .135), (1.035, .18, .137), (1.14, .176, .135), (1.31, .204, .145), (1.43, .23, .135), (1.47, .225, .13), (1.525, .13, .10)]], 3, torso_weights)
-    add_loft([((0, y, -.055), rx, rz) for y, rx, rz in [(1.515, .15, .105), (1.54, .13, .095), (1.565, .108, .085)]], 3, torso_weights)
+    add_loft([((0, y, -.025), rx, rz) for y, rx, rz in [(1.0, .178, .135), (1.02, .183, .139), (1.045, .177, .134), (1.08, .181, .137), (1.14, .176, .135), (1.18, .183, .14), (1.31, .204, .145), (1.43, .23, .135), (1.47, .225, .13), (1.49, .155, .100), (1.54, .085, .075)]], 3, torso_weights)
+    add_loft([((0, y, -.055), rx, rz) for y, rx, rz in [(1.530, .088, .077), (1.54, .089, .078), (1.548, .085, .075)]], 3, torso_weights)
     for side, suffix in [(1, 'l'), (-1, 'r')]:
         arm = lambda p, s=suffix: blend('upperarm_' + s, 'lowerarm_' + s, (abs(p[0] / sx) - .40) / .10)
-        rings = [((side * x, 1.4555, -.067), rz, ry) for x, rz, ry in [(.19, .001, .001), (.23, .07, .072), (.30, .067, .07), (.4, .061, .065), (.46, .058, .06), (.59, .052, .054), (.69, .045, .047)]]
+        rings = [((side * x, 1.4555, -.067), rz, ry) for x, rz, ry in [(.19, .001, .001), (.23, .07, .072), (.30, .067, .07), (.40, .079, .081), (.43, .080, .082), (.445, .077, .079)]]
         if side < 0:
             rings.reverse()
-        add_loft(rings, 3, arm, 'x', 16)
+        add_loft(rings, 3, arm, 'x', 12)
         leg = lambda p, s=suffix: blend('thigh_' + s, 'pelvis', (p[1] / sy - .84) / .185) if p[1] / sy > .84 else blend('calf_' + s, 'thigh_' + s, (p[1] / sy - .48) / .13)
-        add_loft([((side * .1143, y, -.04), rx, rz) for y, rx, rz in [(.11, .067, .066), (.16, .071, .07), (.40, .078, .079), (.54, .08, .082), (.72, .091, .095), (.84, .105, .106), (.93, .108, .108), (1.025, .108, .108)]], 4, leg, segments=24, waist_side=side)
+        add_loft([((side * .1143, y, -.04), rx, rz) for y, rx, rz in [(.11, .067, .066), (.16, .071, .07), (.38, .078, .079), (.43, .080, .081), (.46, .075, .078), (.49, .084, .083), (.52, .077, .080), (.54, .08, .082), (.72, .091, .095), (.84, .105, .106), (.93, .108, .108), (1.025, .108, .108)]], 4, leg, segments=20, waist_side=side)
+        # Flexible sock bridges cuff and shoe while the foot rolls at toe-off.
+        sock = lambda p, s=suffix: blend('foot_' + s, 'calf_' + s, (p[1] / sy - .10) / .10)
+        add_loft([((side * .1143, y, -.04), rx, rz) for y, rx, rz in [(.08,.057,.07),(.14,.053,.063),(.21,.055,.06)]], 4, sock, segments=12)
         foot = lambda p, s=suffix: blend('foot_' + s, 'foot_' + s, 0)
-        add_loft([((side * .1143, y, -.005), rx, rz) for y, rx, rz in [(.005, .069, .15), (.025, .076, .155), (.07, .075, .151), (.105, .061, .12), (.14, .052, .07)]], 5, foot, segments=20)
+        add_loft([((side * .1143, y, -.005), rx, rz) for y, rx, rz in [(.005, .069, .15), (.025, .076, .155), (.07, .075, .151), (.105, .061, .12), (.14, .052, .07)]], 5, foot, segments=16)
     # A rounded commuter backpack is part of the traveller silhouette.
     if gender == 'Male':
         gltf['materials'].append({'name': 'World backpack', 'pbrMetallicRoughness': {'baseColorFactor': [.18, .145, .105, 1], 'metallicFactor': 0, 'roughnessFactor': .93}})
@@ -204,17 +215,19 @@ for gender, name, hair in [('Male', 'traveller', 'Hair_SimpleParted'), ('Female'
     # One primitive per garment material keeps each person to eight draw calls.
     merged = [p for p in primitives if p['material'] == 2]
     for material in sorted({p['material'] for p in primitives if p['material'] != 2}):
-        pos, js, ws, index_out = [], [], [], []
+        pos, js, ws, index_out, uv = [], [], [], [], []
         for primitive in [p for p in primitives if p['material'] == material]:
             offset = len(pos)
             pos.extend(values(primitive['attributes']['POSITION']))
             js.extend(values(primitive['attributes']['JOINTS_0']))
             ws.extend(values(primitive['attributes']['WEIGHTS_0']))
+            uv.extend(values(primitive['attributes']['TEXCOORD_0']))
             index_out.extend(v[0] + offset for v in values(primitive['indices']))
         def pack(rows, fmt):
             flat = [v for row in rows for v in row]
             return struct.pack('<' + fmt * len(flat), *flat)
         attributes = {
+            'TEXCOORD_0': append(pack(uv, 'f'), 'VEC2', 2, len(pos)),
             'POSITION': append(pack(pos, 'f'), 'VEC3', 3, len(pos), bounds=([min(p[i] for p in pos) for i in range(3)], [max(p[i] for p in pos) for i in range(3)])),
             'JOINTS_0': append(pack(js, 'H'), 'VEC4', 4, len(pos), 5123),
             'WEIGHTS_0': append(pack(ws, 'f'), 'VEC4', 4, len(pos)),

@@ -22,10 +22,10 @@ export function makeWorldCompanion(meshes,requested='bird') {
  const eye=special('companion-living-eye',{color:0x211c21,roughness:.17,metalness:0});
  const scarf=surface('fabric',3,0x861850),leather=surface('fabric',2,0x92603c),gold=meshes.material(0xeac15d);
  const ball=(parent,mat,p,s)=>shape(parent,'sphere',mat,p,s);
- const hull=ball(body,coat,[0,.36,-.015],[rx,.285,.18]);
+ const hull=shape(body,'organic',coat,[0,.36,-.015],[rx,.285,.18]);hull.userData.worldBatch=false;
  ball(body,light,[0,.32,.133],[rx*.79,.20,.075]);
  const head=new THREE.Group();head.position.set(0,.67,.028);body.add(head);
- ball(head,coat,[0,0,0],[rx*1.1,hy,.18]);
+ shape(head,'organic',coat,[0,0,0],[rx*1.1,hy,.18]);
  const muzzle=kind==='capybara'?[.139,.106,.08]:kind==='bird'?[.07,.045,.09]:[.11,.065,.065];
  ball(head,kind==='capybara'?dark:light,[0,-.055,.154],muzzle);
  if(kind!=='bird') {
@@ -80,7 +80,7 @@ export function makeWorldCompanion(meshes,requested='bird') {
   const leg=new THREE.Group();leg.position.set(side*rx*.51,.145,0);body.add(leg);
   ball(leg,kind==='panda'?dark:coat,[0,-.035,0],[.079,.105,.075]);
   const ankle=new THREE.Group();ankle.position.set(0,-.095,0);leg.add(ankle);
-  ball(ankle,kind==='bird'?dark:kind==='fox'?dark:coat,[0,-.016,.041],[.075,.039,.115]);
+  ball(ankle,kind==='bird'?dark:kind==='fox'?dark:coat,[0,-.011,.041],[.075,.039,.115]);
   for(let toe=-1;toe<=1;toe++)ball(ankle,dark,[toe*.025,-.016,.132],[.01,.017,.017]);
   legs.push({leg,ankle});
   const arm=new THREE.Group();arm.position.set(side*rx*.9,.475,.004);body.add(arm);
@@ -110,7 +110,9 @@ export function makeWorldCompanion(meshes,requested='bird') {
   legs.forEach(({leg,ankle},i)=>{
    const swing=Math.sin(phase+i*Math.PI);leg.rotation.x=swing*.35*amount;
    // Toe recovery and a soft knee/ankle response avoid rigid pendulum feet.
-   ankle.rotation.x=-leg.rotation.x*.6;leg.position.y=.145+Math.max(0,-swing)*.025*amount;
+   ankle.rotation.x=-leg.rotation.x;
+   const lift=Math.max(0,-swing)**2*.055*amount;
+   leg.position.y=.05+.095*Math.cos(leg.rotation.x)+lift-body.position.y;
   });
   arms.forEach((arm,i)=>{arm.rotation.x=-Math.sin(phase+i*Math.PI)*.27*amount;arm.rotation.z=(i?1:-1)*.07+(reduced?0:Math.sin(time*1.4+i)*.018);});
   ears.forEach((ear,i)=>{ear.rotation.x=reduced?0:Math.sin(time*2.1+i)*.028+Math.sin(phase-.5)*.035*amount;});

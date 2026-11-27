@@ -19,7 +19,7 @@ export function dressTokyoAtmosphere(meshes,root) {
   });
  },{color:0xffffff,emissive:0xffffff,emissiveIntensity:.10,roughness:.5});
  atlas.emissiveMap=atlas.map;atlas.userData.tokyoNight={day:.10,night:1.9};
- const trim=palette.map((color,i)=>{
+ const trim=palette.slice(0,2).map((color,i)=>{
   const mat=special('tokyo-neon-'+i,{color,emissive:color,emissiveIntensity:.1,roughness:.32});
   mat.userData.tokyoNight={day:.1,night:2.6};return mat;
  });
@@ -37,20 +37,20 @@ export function dressTokyoAtmosphere(meshes,root) {
  }
  // Closest streets retain warm shop lighting; cyan/magenta are accents above
  // eye level. Different mounting heights create a dense, legible skyline.
- [[-10.7,-6.75,6.4,0,0],[10.8,-6.75,7.1,4,0],[-21.9,-6.75,9,3,0],
-  [21.7,-6.75,10.5,5,0],[-25.7,-24.8,10,2,0],[25.5,-24.8,12,1,0],
-  [-14.7,9.3,6.5,7,Math.PI/2],[-14.7,21.4,9,3,Math.PI/2],
+ [[-10.7,-6.02,6.4,0,0],[10.8,-6.02,5.1,4,0],[-21.9,-6.02,6.5,3,0],
+  [21.7,-6.02,5.1,5,0],[-25.7,-24.8,10,2,0],[25.5,-24.8,12,1,0],
+  [-12.55,9.3,6.5,7,Math.PI/2],[-12.55,21.4,9,3,Math.PI/2],
   [-33.1,-24.8,17,5,0],[32.2,-24.8,17.6,6,0]].forEach(args=>blade(...args));
  // A restrained ribbon of sign light, not every wall painted neon.
- for(const [x,z,width,color] of [[-17,-6.70,11,2],[17,-6.70,11,1],[-30,-24.75,7,0],[29,-24.75,9,1]]) {
-  shape(root,'box',trim[color],[x,4.42,z],[width,.055,.055]);
-  shape(root,'box',trim[color],[x-width/2,5.15,z],[.045,1.45,.045]);
+ for(const [x,z,width,color] of [[-17,-6.02,11,2],[17,-6.02,11,1],[-30,-24.75,7,0],[29,-24.75,9,1]]) {
+  shape(root,'box',trim[color%2],[x,4.42,z],[width,.055,.055]);
+  shape(root,'box',trim[color%2],[x-width/2,5.15,z],[.045,1.45,.045]);
   const lamp=new THREE.PointLight(palette[color],0,11,2);lamp.position.set(x,3.9,z+.35);
   lamp.name='Tokyo sign spill';lamp.userData.worldLamp=true;lamp.userData.worldLampIntensity=34;lamp.userData.worldLampDistance=11;root.add(lamp);
  }
  // Individually lit rooms mixed with dark glass; mullions and deep sills read
  // as offices above small businesses instead of a single luminous billboard.
- for(const [x,z,width,height] of [[-17,-6.92,13,16],[17,-6.92,13,15],[-30,-24.92,8,25],[29,-24.92,10,22]]) {
+ for(const [x,z,width,height] of [[-17,-6.39,13,9],[17,-6.39,13,7],[-30,-24.92,8,25],[29,-24.92,10,22]]) {
   for(let y=5.65;y<height-1;y+=3)for(let dx=-width/2+1.3,col=0;dx<width/2-.5;dx+=2.4,col++) {
    if((Math.round(y)+col+Math.abs(x))%4===0)continue;
    shape(root,'plane',(col+Math.round(y))%3?warm:cool,[x+dx,y,z],[1.70,1.50,1]);
@@ -64,8 +64,21 @@ export function dressTokyoAtmosphere(meshes,root) {
   for(let y=3;y<18;y+=3.2)for(let dx=-2;dx<=2;dx+=2)if((i+dx+Math.round(y))%3)
    shape(root,'plane',(i+dx)%2?warm:cool,[x+dx,y,-48.36],[1.12,1.45,1]);
  }
+ // Small overhead service runs sag between utility poles along the east
+ // sidewalk. These never enter the camera/player collision volume.
+ for(const z of [-22,9,27]) {
+  shape(root,'cylinder',frame,[7.9,3.9,z],[.085,7.8,.085]);
+  shape(root,'box',frame,[7.9,7.25,z],[1.1,.09,.09]);
+ }
+ for(const [from,to] of [[-22,9],[9,27]])for(const x of [7.55,7.9,8.25])for(let i=0;i<4;i++) {
+  const a=i/4,b=(i+1)/4;
+  const p=new THREE.Vector3(x,7.3-Math.sin(a*Math.PI)*.55,from+(to-from)*a);
+  const q=new THREE.Vector3(x,7.3-Math.sin(b*Math.PI)*.55,from+(to-from)*b);
+  const direction=q.clone().sub(p),wire=shape(root,'branch',frame,p.clone().add(q).multiplyScalar(.5).toArray(),[.012,direction.length(),.012]);
+  wire.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),direction.normalize());
+ }
  // Roof rails, downpipes and compact electrical runs add a usable scale cue.
- for(const [x,z,height] of [[-23.1,-6.7,16],[23.1,-6.7,15],[-33.6,-24.7,25],[33.5,-24.7,22]]) {
+ for(const [x,z,height] of [[-23.1,-6.4,9],[23.1,-6.4,7],[-33.6,-24.7,25],[33.5,-24.7,22]]) {
   shape(root,'cylinder',frame,[x,height/2,z],[.045,height,.045]);
   for(let y=2;y<height;y+=3)shape(root,'box',frame,[x,y,z-.12],[.18,.05,.26]);
  }

@@ -128,6 +128,8 @@ export function worldMeshes({ quality = "auto" } = {}) {
       const geometry =
         type === "box"
           ? new THREE.BoxGeometry(1, 1, 1)
+          : type === "organic"
+            ? new THREE.SphereGeometry(1,18,12)
           : type === "sphere"
             ? new THREE.SphereGeometry(
                 1,

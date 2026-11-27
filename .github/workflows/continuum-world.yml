@@ -23,6 +23,7 @@ on:
       - 'scripts/qa-continuum-world-entry.mjs'
       - 'scripts/qa-continuum-world-visuals.mjs'
       - 'scripts/qa-continuum-world-gait.mjs'
+      - 'scripts/qa-continuum-world-characters.mjs'
       - '.github/workflows/continuum-world.yml'
 permissions:
   contents: read
@@ -40,7 +41,7 @@ jobs:
           node-version-file: '.node-version'
           cache: npm
       - run: npm ci
-      - run: node --test continuum-world-model.test.mjs continuum-world-audio.test.mjs continuum-world-visuals.test.mjs continuum-world-people.test.mjs interface-templates.test.mjs native-policy.test.mjs
+      - run: node --test continuum-world-model.test.mjs continuum-world-audio.test.mjs continuum-world-visuals.test.mjs continuum-world-people.test.mjs continuum-world-atmosphere.test.mjs interface-templates.test.mjs native-policy.test.mjs
       - run: npx playwright install --with-deps chromium webkit
       - run: node scripts/qa-continuum-world.mjs
       - run: VITE_CONTINUUM_WORLD_TOKYO_BETA=true npm run build && node scripts/qa-continuum-world-entry.mjs
@@ -65,7 +66,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: QA_WORLD_VISUAL_SHOTS=cafe,cafe-entry,cafe-counter,block-day,market node scripts/qa-continuum-world-visuals.mjs && node scripts/qa-continuum-world-gait.mjs
+      - run: QA_WORLD_VISUAL_SHOTS=cafe,cafe-entry,cafe-counter,block-day,market node scripts/qa-continuum-world-visuals.mjs && node scripts/qa-continuum-world-gait.mjs && node scripts/qa-continuum-world-characters.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -81,6 +82,7 @@ jobs:
             .media-build/continuum-world-art/1280-walking.png
             .media-build/continuum-world-art/1280-running.png
             .media-build/continuum-world-art/running-cycle.png
+            .media-build/world-characters/*.png
             .media-build/continuum-world-art/1280-market.png
             .media-build/continuum-world-art/390-market.png
             .media-build/continuum-world-art/1280-market-counter.png
