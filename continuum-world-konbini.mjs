@@ -85,7 +85,7 @@ function rack(meshes,root,goods,x,z,width,depth,category) {
     const index=4+(level+category+side+2)%4,{size,kind}=hoshiPackage(index);
     goods(rack,index,[side*width*.27,.275+level*.335+size[1]/2,end*(depth/2-size[2]/2-.05)],size,kind,end<0?Math.PI:0);
   }
-  const board=sign(rack,category%2?'お菓子 ・ カップ麺':'飲料 ・ 日用品',[0,2.08,depth/2+.04],Math.max(1,width+.2),'#f0f2e6','#315b52');board.scale.y=.30;
+  const board=sign(rack,category%2?'お菓子 ・ チョコレート':'飲料 ・ 日用品',[0,2.08,depth/2+.04],Math.max(1,width+.2),'#f0f2e6','#315b52');board.scale.y=.30;
 }
 function refrigeratedWall(meshes,root,goods,glass,led,side) {
   const {shape,sign}=meshes, yaw=-side*Math.PI/2;
@@ -163,7 +163,7 @@ function shapeFreezer(meshes,root,goods,glass,x,z) {
   shape(root,'box',0x9daea7,[x,.74,z],[2,.025,.8]);
   shape(root,'box',0x687e80,[x,.86,z],[2.12,.055,.93]);
   shape(root,'box',glass,[x,.9,z],[2.02,.025,.8]);
-  for(let n=0;n<9;n++)goods(root,12+n%4,[x-.87+n*.215,.78,z],[.18,.025,.57]);
+  for(let n=0;n<9;n++)goods(root,13+n%3,[x-.87+n*.215,.78,z],[.18,.025,.57]);
   sign(root,'アイス ・ 冷凍食品',[x,.55,z+.46],1.75,'#ecf2e7','#486653').scale.y=.25;
 }
 

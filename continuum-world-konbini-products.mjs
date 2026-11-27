@@ -16,16 +16,16 @@ export const hoshiGoods = [
   ['幕の内弁当','MAKUNOUCHI','#292c2c','#e9d4a1'],
   ['焼きたてパン','BAKERY','#e4b36e','#68452b'],
   ['ヨーグルト','YOGURT','#f0f1e7','#457ba4'],
-  ['東京さんぽ','TOKYO DAYS','#ede0c4','#bd5444'],
-  ['カップ麺','しょうゆ','#bf4235','#f8e8b1'],
-  ['フルーツ','FRUIT MIX','#f4d266','#4c813e'],
+  ['アイス','ICE CREAM','#edf3e7','#518899'],
+  ['冷凍ごはん','FROZEN RICE','#eee9d2','#97714d'],
+  ['冷凍フルーツ','FROZEN FRUIT','#f4d266','#4c813e'],
 ];
 // Physical pack dimensions: width, height, depth (metres).
 const hoshiPackages=[
     ['bottle',[.065,.205,.065]],['can',[.055,.105,.055]],['bottle',[.07,.23,.07]],['box',[.075,.22,.075]],
     ['bag',[.17,.25,.06]],['bag',[.15,.23,.065]],['box',[.10,.18,.035]],['box',[.13,.23,.07]],
     ['bag',[.105,.12,.045]],['box',[.13,.16,.055]],['box',[.20,.045,.15]],['bag',[.15,.12,.06]],
-    ['can',[.08,.09,.08]],['box',[.18,.25,.012]],['can',[.10,.12,.10]],['box',[.075,.22,.075]],
+    ['can',[.08,.09,.08]],['box',[.14,.045,.10]],['box',[.16,.035,.12]],['bag',[.17,.14,.07]],
   ];
 export function hoshiPackage(index) {
   const [kind,size]=hoshiPackages[(index+16)%16];return {kind,size};
