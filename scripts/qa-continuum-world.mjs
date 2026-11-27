@@ -72,7 +72,7 @@ try {
     ",",
   )) {
     const engine = { chromium, webkit }[name];
-    for (const width of [1280, 390]) {
+    for (const width of (process.env.QA_WORLD_WIDTHS||"1280,390").split(",").map(Number)) {
     // Each viewport gets a fresh GPU/browser process, especially WebKit.
     browser = await engine.launch({
       headless: true,
@@ -92,6 +92,11 @@ try {
         hasTouch: width === 390,
       });
       companionUnavailable = false;
+      await context.addInitScript(()=>{
+        const Native=window.AudioContext||window.webkitAudioContext;
+        window.qaWorldAudio=[];
+        if(Native){const Wrapped=function(...args){const instance=new Native(...args),gains=[];const original=instance.createGain.bind(instance);instance.createGain=()=>{const node=original();gains.push(node);return node;};window.qaWorldAudio.push({context:instance,gains});return instance;};Wrapped.prototype=Native.prototype;window.AudioContext=Wrapped;}
+      });
       const page = await context.newPage();
       activePage = page;
       const capture = async (options) => {
@@ -217,6 +222,15 @@ try {
             document.querySelector(".cw-renderer")?.dataset.companion ===
             "capybara",
         );
+        await page.waitForFunction(()=>window.qaWorldAudio.some(a=>a.context.state==='running'));
+        assert.equal(await page.getByRole('button',{name:'Mute music',exact:true}).getAttribute('aria-pressed'),'true');
+        await page.getByRole('button',{name:'Mute music',exact:true}).click();
+        await page.waitForTimeout(350);
+        assert.ok(await page.evaluate(()=>window.qaWorldAudio.every(a=>a.context.state==='suspended')),'music mute suspends the one audio context');
+        await page.waitForFunction(()=>JSON.parse(localStorage.getItem('continuumWorld:tokyo:v1:world-qa')).music===false);
+        await page.getByRole('button',{name:'Play music',exact:true}).click();
+        await page.waitForFunction(()=>window.qaWorldAudio.some(a=>a.context.state==='running'));
+        assert.equal(await page.evaluate(()=>window.qaWorldAudio.length),1,'gesture priming and screen mounting share one audio context');
         await checkHud();
         const loadMs = performance.now() - openedAt;
         console.log("WebGL ready", name, width);
@@ -363,6 +377,8 @@ try {
           JSON.parse(await host.getAttribute("data-position")).z >= -6.11,
           "building collision stops walking through its facade",
         );
+        const rendererCreates=await host.getAttribute('data-renderer-creates');
+        const oldCanvas=await page.locator('.cw-canvas').elementHandle();
         // A real keyboard traversal reaches the café entrance from the outdoor spawn.
         await page.getByRole("button", { name: "Enter", exact: true }).click();
         await page.waitForFunction(
@@ -373,7 +389,12 @@ try {
           () =>
             document.querySelector(".cw-renderer")?.dataset.active === "true",
         );
+        assert.equal(await host.getAttribute('data-renderer-creates'),rendererCreates,'entering keeps the same GPU context');
+        assert.ok(await oldCanvas.evaluate(c=>c===document.querySelector('.cw-canvas')),'the same canvas survives the doorway');
+        assert.equal(Number(await host.getAttribute('data-people-decodes')),2,'both people are decoded once per World');
+        await page.waitForFunction(()=>!document.querySelector('.cw-transition-frame'));
         await walkUntil("KeyW", "z", -2);
+        await page.waitForFunction(()=>window.qaWorldAudio[0].context.state==='running'&&window.qaWorldAudio[0].gains[1].gain.value>.08,null,{timeout:5000});
         await page.getByRole("button", { name: "Talk", exact: true }).click();
         await page.getByRole("dialog").waitFor();
         assert.ok(
@@ -381,6 +402,10 @@ try {
             "いらっしゃいませ",
           ),
         );
+        // Observe the actual native envelope after it settles, independently
+        // of method instrumentation or when the dialog first paints.
+        await page.waitForFunction(()=>window.qaWorldAudio[0].context.state==='running'&&window.qaWorldAudio[0].gains[1].gain.value<=.011,null,{timeout:5000});
+        assert.ok(await page.evaluate(()=>window.qaWorldAudio[0].gains[1].gain.value<=.011),'music ducks at least 20 dB for NPC interactions');
         const paused = await host.getAttribute("data-world-frames");
         await page.waitForTimeout(250);
         assert.equal(await host.getAttribute("data-world-frames"), paused);
@@ -679,6 +704,9 @@ try {
       await activePage
         .evaluate(() => ({
           renderer: { ...document.querySelector(".cw-renderer")?.dataset },
+          audio:window.qaWorldAudio?.map(a=>({state:a.context.state,gains:a.gains.map(g=>g.gain.value)})),
+          dialogue:!!document.querySelector('.cw-dialogue'),
+          music:document.querySelector('.cw-music')?.getAttribute('aria-pressed'),
           viewport: [innerWidth, innerHeight],
           header: document
             .querySelector(".cw-header")

@@ -201,3 +201,12 @@
 .cw-conversation-sheet .cw-conversation-tools button{background:#23343ced;font-size:.9rem}
 @media(max-height:500px){.cw-speech-bubble{padding:8px 12px}.cw-world .cw-speech-bubble .cw-dialogue{margin-bottom:0}}
 .cw-conversation-header>.cw-close{width:44px;flex:0 0 44px;font-size:1.5rem;padding:6px}
+
+/* Keep the last rendered view while an interior warms, then reveal its first
+   complete frame. The preview is a short-lived bitmap, never another WebGL context. */
+.cw-transition-frame {position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:1;transition:opacity .22s ease-out;}
+.cw-transition-frame-ready {opacity:0;}
+.cw-world .cw-header>div {flex:1;}
+.cw-world .cw-music-toggle {width:40px;min-width:40px;max-width:40px;padding:8px;flex:0 0 40px;}
+@media(prefers-reduced-motion:reduce){.cw-transition-frame {transition:none;}}
+.cw-world[data-reduced=true] .cw-transition-frame {transition:none;}

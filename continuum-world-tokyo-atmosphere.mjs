@@ -21,7 +21,7 @@ export function dressTokyoAtmosphere(meshes,root) {
  atlas.emissiveMap=atlas.map;atlas.userData.tokyoNight={day:.10,night:1.9};
  const trim=palette.slice(0,2).map((color,i)=>{
   const mat=special('tokyo-neon-'+i,{color,emissive:color,emissiveIntensity:.1,roughness:.32});
-  mat.userData.tokyoNight={day:.1,night:2.6};return mat;
+  mat.userData.tokyoNight={day:.1,night:2.6};mat.userData.tokyoFlicker=i*7.31+2.7;return mat;
  });
  const warm=special('tokyo-window-warm',{color:0x637585,emissive:0xffd598,emissiveIntensity:0,roughness:.38});
  const cool=special('tokyo-window-cool',{color:0x617482,emissive:0xb6d7ef,emissiveIntensity:0,roughness:.4});
@@ -40,9 +40,11 @@ export function dressTokyoAtmosphere(meshes,root) {
  [[-10.7,-6.02,6.4,0,0],[10.8,-6.02,5.1,4,0],[-21.9,-6.02,6.5,3,0],
   [21.7,-6.02,5.1,5,0],[-25.7,-24.8,10,2,0],[25.5,-24.8,12,1,0],
   [-12.55,9.3,6.5,7,Math.PI/2],[-12.55,21.4,9,3,Math.PI/2],
-  [-33.1,-24.8,17,5,0],[32.2,-24.8,17.6,6,0]].forEach(args=>blade(...args));
+  [-33.1,-24.8,17,5,0],[32.2,-24.8,17.6,6,0],
+  [-28,-24.8,7.1,6,0],[29,-24.8,7.7,4,0],[-12.55,17.8,7.2,2,Math.PI/2],[12.1,-6.02,5.15,7,0]].forEach(args=>blade(...args));
  // A restrained ribbon of sign light, not every wall painted neon.
- for(const [x,z,width,color] of [[-17,-6.02,11,2],[17,-6.02,11,1],[-30,-24.75,7,0],[29,-24.75,9,1]]) {
+ for(const [x,z,width,color] of [[-17,-6.02,11,2],[17,-6.02,11,1],[-30,-24.75,7,0],[29,-24.75,9,1],[-12.45,16,5,0]]) {
+  if(x===-12.45){shape(root,'box',trim[color%2],[x,4.42,z],[.055,.055,width]);continue;}
   shape(root,'box',trim[color%2],[x,4.42,z],[width,.055,.055]);
   shape(root,'box',trim[color%2],[x-width/2,5.15,z],[.045,1.45,.045]);
   const lamp=new THREE.PointLight(palette[color],0,11,2);lamp.position.set(x,3.9,z+.35);
@@ -54,7 +56,7 @@ export function dressTokyoAtmosphere(meshes,root) {
   for(let y=5.65;y<height-1;y+=3)for(let dx=-width/2+1.3,col=0;dx<width/2-.5;dx+=2.4,col++) {
    if((Math.round(y)+col+Math.abs(x))%4===0)continue;
    shape(root,'plane',(col+Math.round(y))%3?warm:cool,[x+dx,y,z],[1.70,1.50,1]);
-   shape(root,'box',frame,[x+dx,y,z+.035],[.035,1.54,.06]);
+   shape(root,'plane',frame,[x+dx,y,z+.035],[.035,1.54,1]).castShadow=true;
    shape(root,'box',concrete,[x+dx,y-.82,z+.11],[1.88,.10,.26]);
   }
  }
@@ -92,4 +94,19 @@ export function tokyoLightingMaterials(root) {
 }
 export function setTokyoNight(materials,night) {
  for(const m of materials)m.emissiveIntensity=m.userData.tokyoNight[night?'night':'day'];
+}
+
+// Brief soft dips suggest ageing neon; only accent circuits fluctuate, never
+// room windows, the whole street or a full dark frame. Reduce motion is steady.
+export function neonEnvelope(time,phase=0) {
+ const u=((time+phase)%19+19)%19;
+ const dip=Math.max(0,1-Math.abs(u-15.1)/.20);
+ return 1-.24*Math.sin(dip*Math.PI/2)**2+.018*Math.sin(time*.83+phase);
+}
+export function updateTokyoNeon(materials,time,night,reduced=false) {
+ for(const m of materials){
+  const phase=m.userData.tokyoFlicker;
+  if(!Number.isFinite(phase))continue;
+  m.emissiveIntensity=m.userData.tokyoNight[night?'night':'day']*(night&&!reduced?neonEnvelope(time,phase):1);
+ }
 }

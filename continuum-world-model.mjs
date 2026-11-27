@@ -357,6 +357,7 @@ export function restoreWorldState(value) {
       : "auto",
     time: ["auto", "day", "night"].includes(state.time) ? state.time : "auto",
     sound: state.sound === true,
+    music: state.music !== false,
     volume: Number.isFinite(state.volume)
       ? Math.min(1, Math.max(0, state.volume))
       : 0.2,

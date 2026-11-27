@@ -24,6 +24,7 @@ on:
       - 'scripts/qa-continuum-world-visuals.mjs'
       - 'scripts/qa-continuum-world-gait.mjs'
       - 'scripts/qa-continuum-world-characters.mjs'
+      - 'scripts/qa-continuum-world-flow.mjs'
       - '.github/workflows/continuum-world.yml'
 permissions:
   contents: read
@@ -41,9 +42,10 @@ jobs:
           node-version-file: '.node-version'
           cache: npm
       - run: npm ci
-      - run: node --test continuum-world-model.test.mjs continuum-world-audio.test.mjs continuum-world-visuals.test.mjs continuum-world-people.test.mjs continuum-world-atmosphere.test.mjs interface-templates.test.mjs native-policy.test.mjs
+      - run: node --test continuum-world-model.test.mjs continuum-world-audio.test.mjs continuum-world-visuals.test.mjs continuum-world-people.test.mjs continuum-world-atmosphere.test.mjs continuum-world-session.test.mjs interface-templates.test.mjs native-policy.test.mjs
       - run: npx playwright install --with-deps chromium webkit
       - run: node scripts/qa-continuum-world.mjs
+      - run: node scripts/qa-continuum-world-flow.mjs
       - run: VITE_CONTINUUM_WORLD_TOKYO_BETA=true npm run build && node scripts/qa-continuum-world-entry.mjs
       - run: npm run ios:sync && npm run test:native
       - uses: actions/upload-artifact@v4
@@ -53,6 +55,7 @@ jobs:
           path: |
             .media-build/continuum-world/*.png
             .media-build/continuum-world/results.json
+            .media-build/world-flow/results.json
           if-no-files-found: ignore
 
   art:

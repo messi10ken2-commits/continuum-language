@@ -1,5 +1,6 @@
+export {createWorldSession} from './continuum-world-session.mjs';
 import {makeTokyoPedestrian} from './continuum-world-crowd.mjs';
-import {tokyoLightingMaterials,setTokyoNight} from './continuum-world-tokyo-atmosphere.mjs';
+import {tokyoLightingMaterials,setTokyoNight,updateTokyoNeon} from './continuum-world-tokyo-atmosphere.mjs';
 import * as THREE from "three";
 import { upgradeWorldPeople } from "./continuum-world-people.mjs";
 import { makeWorldSky } from "./continuum-world-materials.mjs";
@@ -28,6 +29,12 @@ import {
   makeWorldCompanion,
 } from "./continuum-world-scenes.mjs";
 
+let interiorModule;
+export function preloadWorldInterior(){
+ if(!interiorModule){const pending=import('./continuum-world-interiors.mjs').catch(error=>{if(interiorModule===pending)interiorModule=null;throw error;});interiorModule=pending;}
+ return interiorModule;
+}
+
 export async function createWorldEngine(
   host,
   {
@@ -39,6 +46,7 @@ export async function createWorldEngine(
     onFailure,
     signal,
     capture = false,
+    session = null,
   },
 ) {
   const mountStarted=performance.now();
@@ -47,7 +55,7 @@ export async function createWorldEngine(
     camera = new THREE.PerspectiveCamera(55, 1, 0.08, 220);
   let renderer;
   try {
-    renderer = new THREE.WebGLRenderer({
+    renderer = session ? session.renderer(host,options().quality,capture) : new THREE.WebGLRenderer({
       antialias: options().quality !== "low",
       powerPreference: "low-power",
       // Standalone art QA pauses before a screenshot. Keep that buffer only
@@ -68,20 +76,18 @@ export async function createWorldEngine(
   let environment;
   try {
     environment = indoor
-      ? (await import("./continuum-world-interiors.mjs")).makeWorldInterior(
+      ? (await preloadWorldInterior()).makeWorldInterior(
           initial.scene,
           meshes,
         )
       : makeOutdoorWorld(meshes);
   } catch (error) {
-    renderer.dispose();
-    canvas.remove();
+    if(!session){renderer.dispose();canvas.remove();}
     meshes.dispose();
     throw error;
   }
   if (signal.aborted) {
-    renderer.dispose();
-    canvas.remove();
+    if(!session){renderer.dispose();canvas.remove();}
     meshes.dispose();
     return null;
   }
@@ -119,6 +125,7 @@ export async function createWorldEngine(
     signal,
     physical: meshes.physical,
     fabric: meshes.surface("fabric",3),
+    pool: session?.people,
     onStatus: (loaded, total) => {
       host.dataset.peopleLoaded = String(loaded);
       host.dataset.peopleTotal = String(total);
@@ -156,9 +163,10 @@ export async function createWorldEngine(
   if (convenienceStore) { fill.color.set(0xf3f8ff); fill.intensity=22; }
   scene.add(fill);
   const physical = meshes.physical;
-  const skyTexture = physical ? makeWorldSky() : null;
+  const skyTexture = physical&&!session ? makeWorldSky() : null;
   let reflection = null;
-  if (physical) {
+  if(physical&&session)scene.environment=session.environment(makeWorldSky);
+  else if (physical) {
     const pmrem = new THREE.PMREMGenerator(renderer);
     reflection = pmrem.fromEquirectangular(skyTexture);
     scene.environment = reflection.texture;
@@ -184,6 +192,7 @@ export async function createWorldEngine(
   let position = { ...initial.position },
     yaw = initial.yaw,
     pitch = 0.2,
+    cameraYaw = initial.yaw, cameraPitch = .2, followSpeed = 0, joyWeight = 0,
     companionPosition = worldCompanionSpawn(initial.scene, position);
   if (!isWorldWalkable(initial.scene, companionPosition))
     companionPosition = { ...position };
@@ -209,6 +218,8 @@ export async function createWorldEngine(
     desiredCamera = new THREE.Vector3();
   const publish = () => {
     host.dataset.worldFrames = String(draws);
+    host.dataset.rendererCreates=String(session?.rendererCreates||1);
+    host.dataset.peopleDecodes=String(session?.people.decodes||0);
     host.dataset.scene = initial.scene;
     host.dataset.active = String(active);
     host.dataset.position = JSON.stringify(position);
@@ -329,6 +340,7 @@ export async function createWorldEngine(
   const lost = (event) => {
     event.preventDefault();
     contextLost = true;
+    session?.invalidateEnvironment();
     active = false;
     clear();
     cancelAnimationFrame(frame);
@@ -340,7 +352,7 @@ export async function createWorldEngine(
   };
   canvas.addEventListener("webglcontextlost", lost);
   canvas.addEventListener("webglcontextrestored", restored);
-  const update = (dt, now) => {
+  const update = (dt, now, paint = true) => {
     const settings = options(),
       reduced =
         settings.reduced ||
@@ -358,7 +370,7 @@ export async function createWorldEngine(
       };
     const requested = movementVector(
         settings.talking?{x:0,z:0}:vector,
-        yaw,
+        cameraYaw,
         1 / 10,
         controls.run || keys.has("ShiftLeft") || keys.has("ShiftRight"),
       ),
@@ -378,7 +390,7 @@ export async function createWorldEngine(
           Math.sin(target - player.root.rotation.y),
           Math.cos(target - player.root.rotation.y),
         );
-      player.root.rotation.y += difference * Math.min(1, dt * 12);
+      player.root.rotation.y += difference * (1-Math.exp(-dt/.085));
     }
     player.animate(walkTime, speed, reduced);
     const openStoreDoor=Math.hypot(position.x,6-position.z)<3.8;
@@ -390,7 +402,9 @@ export async function createWorldEngine(
       position.x - companionPosition.x,
       position.z - companionPosition.z,
     );
-    if (distance > 1.25) {
+    const desiredFollow=Math.min(distance>4?5.5:3.7,Math.max(0,(distance-1.15)*2.6));
+    followSpeed+=(desiredFollow-followSpeed)*(1-Math.exp(-dt/.18));
+    if (distance > 1.15) {
       const target = { x: position.x, z: position.z };
       if (now - lastPath > 650) {
         path = worldPath(initial.scene, companionPosition, target);
@@ -403,7 +417,7 @@ export async function createWorldEngine(
         const dx = next.x - companionPosition.x,
           dz = next.z - companionPosition.z,
           length = Math.hypot(dx, dz),
-          step = Math.min(length, dt * (distance > 4 ? 5.5 : 3.7));
+          step = Math.min(length, Math.max(0,distance-1.1), dt * followSpeed);
         companionPosition = moveWorldActor(initial.scene, companionPosition, {
           x: (dx / Math.max(0.001, length)) * step,
           z: (dz / Math.max(0.001, length)) * step,
@@ -414,7 +428,7 @@ export async function createWorldEngine(
             Math.sin(targetAngle - companion.rotation.y),
             Math.cos(targetAngle - companion.rotation.y),
           );
-        companion.rotation.y += turn * Math.min(1, dt * 8);
+        companion.rotation.y += turn * (1-Math.exp(-dt/.13));
       }
     }
     companion.position.set(
@@ -430,7 +444,11 @@ export async function createWorldEngine(
         companionPosition.z - previousCompanion.z,
       ) / Math.max(0.001, dt);
     animal.root.userData.previousPosition = { ...companionPosition };
-    if(!reduced && (settings.celebrateUntil||0)>Date.now()){companion.position.y+=Math.max(0,Math.sin(walkTime*7))*.1;companion.rotation.z=Math.sin(walkTime*7)*.04;}else companion.rotation.z=0;
+    const celebrating=!reduced&&(settings.celebrateUntil||0)>Date.now();
+    joyWeight+=((celebrating?1:0)-joyWeight)*(1-Math.exp(-dt/.16));
+    if(reduced)joyWeight=0;
+    companion.position.y+=Math.sin(walkTime*7)**2*.1*joyWeight;
+    companion.rotation.z=Math.sin(walkTime*7)*.04*joyWeight;
     animal.animate(
       walkTime,
       companionSpeed,
@@ -449,6 +467,9 @@ export async function createWorldEngine(
       }
       npc.animate(walkTime+npcIndex*2.3,0,reduced);
     }
+    const turn=Math.atan2(Math.sin(yaw-cameraYaw),Math.cos(yaw-cameraYaw));
+    cameraYaw+=turn*(reduced?1:1-Math.exp(-dt/.07));
+    cameraPitch+=(pitch-cameraPitch)*(reduced?1:1-Math.exp(-dt/.07));
     const hour =
         settings.time === "night"
           ? 22
@@ -475,6 +496,7 @@ export async function createWorldEngine(
       });
       dayShadows.forEach((shadow) => (shadow.visible = !night));
     }
+    updateTokyoNeon(nightMaterials,walkTime,night,reduced);
     const nearestLamps = night
       ? [...lamps]
           .sort(
@@ -498,9 +520,9 @@ export async function createWorldEngine(
     cameraTarget.set(position.x, 1.25, position.z);
     const distanceCamera = indoor ? 5.8 : 4.6;
     desiredCamera.set(
-      position.x + Math.sin(yaw) * distanceCamera,
-      1.25 + Math.sin(pitch) * distanceCamera,
-      position.z + Math.cos(yaw) * distanceCamera,
+      position.x + Math.sin(cameraYaw) * distanceCamera,
+      1.25 + Math.sin(cameraPitch) * distanceCamera,
+      position.z + Math.cos(cameraYaw) * distanceCamera,
     );
     // Detailed rooms have a ceiling. Keep the boom inside even at maximum tilt.
     if (indoor) desiredCamera.y = Math.min(3.35, desiredCamera.y);
@@ -527,9 +549,14 @@ export async function createWorldEngine(
       player.root.visible=false;marker.visible=beacon.visible=false;
     }else player.root.visible=true;
     host.dataset.conversationCamera=String(!!talking);
-    if(talking&&!reduced&&draws>0)camera.position.lerp(desiredCamera,1-Math.exp(-dt*10));
-    else camera.position.copy(desiredCamera);
+    if(!reduced&&draws>0){
+      const candidate=camera.position.clone().lerp(desiredCamera,1-Math.exp(-dt/(talking ? .1 : .055)));
+      // Damping must never drag the boom through a wall after a sharp turn.
+      if(clearWorldCameraSegment(initial.scene,position,candidate,.18))camera.position.copy(candidate);
+      else camera.position.copy(desiredCamera);
+    }else camera.position.copy(desiredCamera);
     camera.lookAt(cameraTarget);
+    if(!paint)return;
     const started = performance.now();
     renderer.render(scene, camera);
     renderMs = performance.now() - started;
@@ -562,18 +589,17 @@ export async function createWorldEngine(
   const tick = (now) => {
     frame = 0;
     if (disposed || !active || contextLost) return;
-    const interval = options().quality === "high" ? 1000 / 60 : 1000 / 30;
-    if (now - lastPaint >= interval) {
+    const interval = options().quality === "low" ? 1000 / 30 : 1000 / 60;
+    if (now - lastPaint >= interval-.4) {
       const dt = Math.min(0.1, (now - last) / 1000);
       last = now;
-      lastPaint = now - ((now - lastPaint) % interval);
+      const elapsed=now-lastPaint;
+      lastPaint = elapsed<interval?now:now-(elapsed%interval);
       update(dt, now);
     }
     frame = requestAnimationFrame(tick);
   };
-  update(0, performance.now());
-  host.dataset.mountMs=String(performance.now()-mountStarted);
-  return {
+  const instance = {
     setActive(value) {
       if (disposed || contextLost || active === value) return;
       active = value;
@@ -589,6 +615,17 @@ export async function createWorldEngine(
       if (active) frame = requestAnimationFrame(tick);
     },
     refresh: resize,
+    captureFrame(){
+      if(disposed||contextLost)return null;
+      try{
+        renderer.render(scene,camera);
+        const preview=document.createElement('canvas'),scale=Math.min(1,1600/canvas.width,1000/canvas.height);
+        preview.width=Math.max(1,Math.round(canvas.width*scale));preview.height=Math.max(1,Math.round(canvas.height*scale));
+        preview.className='cw-transition-frame';preview.setAttribute('aria-hidden','true');
+        const context=preview.getContext('2d');if(!context)return null;
+        context.drawImage(canvas,0,0,preview.width,preview.height);return preview;
+      }catch{return null;}
+    },
     getState: () => ({ scene: initial.scene, position: { ...position }, yaw }),
     dispose() {
       if (disposed) return;
@@ -617,10 +654,31 @@ export async function createWorldEngine(
       marker.material.dispose();
       beacon.geometry.dispose();
       beacon.material.dispose();
-      renderer.dispose();
-      renderer.forceContextLoss();
-      canvas.remove();
+      if(!session){renderer.dispose();renderer.forceContextLoss();canvas.remove();}
       host.dataset.active = "false";
     },
   };
+  try {
+    if(session&&(indoor||session.people.warmReady)&&!signal.aborted){
+      // Cached rigs normally resolve immediately; offline art never holds a door.
+      let timer;await Promise.race([people.ready,new Promise(resolve=>{timer=setTimeout(resolve,700);})]);clearTimeout(timer);
+    }
+    if(signal.aborted){instance.dispose();return null;}
+    update(0,performance.now(),false);
+    // Three compiles hidden meshes too. Exclude hidden fallback bodies from
+    // preparation without removing their recoverable geometry or changing the
+    // material registry. Restore synchronously before any async work can run.
+    const hidden=[];
+    scene.traverse(object=>{
+      if(!object.isMesh||!object.material)return;
+      let visible=true;for(let parent=object;parent;parent=parent.parent)if(!parent.visible){visible=false;break;}
+      if(!visible){hidden.push([object,object.material]);object.material=null;}
+    });
+    let prepared;
+    try{prepared=renderer.compileAsync(scene,camera);}finally{for(const [object,material]of hidden)object.material=material;}
+    await prepared;
+    if(signal.aborted){instance.dispose();return null;}
+    update(0,performance.now());host.dataset.mountMs=String(performance.now()-mountStarted);
+    return instance;
+  } catch(error){instance.dispose();throw error;}
 }

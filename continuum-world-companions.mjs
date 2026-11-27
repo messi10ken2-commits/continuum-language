@@ -122,7 +122,8 @@ export function makeWorldCompanion(meshes,requested='bird') {
   const amount=reduced?0:Math.min(1,gait/.5),breathe=reduced?0:Math.sin(time*2.2)*.004;
   body.position.y=reduced?0:Math.abs(Math.sin(phase))*.012*amount;
   hull.scale.y=.285+breathe;body.rotation.z=reduced?0:Math.sin(phase)*.025*amount;
-  head.rotation.y=reduced?0:THREE.MathUtils.clamp(looking,-.55,.55)*.55+Math.sin(time*.73)*.035*(1-amount);
+  const gaze=THREE.MathUtils.clamp(Math.atan2(Math.sin(looking),Math.cos(looking)),-.55,.55)*.55+Math.sin(time*.73)*.035*(1-amount);
+  head.rotation.y=reduced?0:head.rotation.y+(gaze-head.rotation.y)*(1-Math.exp(-dt/.12));
   head.rotation.x=reduced?0:Math.sin(phase)*.035*amount+Math.sin(time*1.7)*.012;
   const blink=(time%5.7),open=reduced?1:1-Math.max(0,1-Math.abs(blink-4.8)/.105)*.94;
   eyes.forEach(e=>e.scale.y=open);
