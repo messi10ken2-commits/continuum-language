@@ -17,7 +17,21 @@ export function makeWorldCompanion(meshes,requested='bird') {
  const kind=callCompanionKind(requested),[fur,cream,rx,hy,earSize]=styles[kind];
  const root=new THREE.Group(),body=new THREE.Group();root.add(body);root.name='World full-body '+kind;
  const {shape,surface,special}=meshes;
- const coat=surface(kind==='bird'?'fabric':'fur',3,fur),light=surface('fur',3,cream);
+ let coat=surface('fur',3,fur);
+ if(kind==='cat'||kind==='guinea-pig')coat=meshes.canvasMaterial('world-companion-coat-'+kind,(ctx,s)=>{
+  ctx.fillStyle=kind==='cat'?'#ede2f0':'#fff0db';ctx.fillRect(0,0,s,s);
+  if(kind==='cat'){
+   ctx.strokeStyle='#79617f';ctx.lineWidth=s*.035;
+   for(let i=0;i<8;i++){
+    ctx.beginPath();ctx.moveTo(i*s/8,-20);
+    ctx.bezierCurveTo((i+.9)*s/8,s*.25,(i-.5)*s/8,s*.62,(i+.3)*s/8,s+20);ctx.stroke();
+   }
+  }else{
+   ctx.fillStyle='#cd883f';ctx.fillRect(0,0,s*.20,s);
+   ctx.fillStyle='#6d4937';ctx.fillRect(s*.39,0,s*.24,s);
+  }
+ },{color:kind==='cat'?0xc9b5d3:0xffffff,roughness:.94});
+ const light=surface('fur',3,cream);
  const dark=surface('fur',3,kind==='panda'?0x363335:0x815234);
  const eye=special('companion-living-eye',{color:0x211c21,roughness:.17,metalness:0});
  const scarf=surface('fabric',3,0x861850),leather=surface('fabric',2,0x92603c),gold=meshes.material(0xeac15d);
@@ -29,7 +43,7 @@ export function makeWorldCompanion(meshes,requested='bird') {
  const muzzle=kind==='capybara'?[.139,.106,.08]:kind==='bird'?[.07,.045,.09]:[.11,.065,.065];
  ball(head,kind==='capybara'?dark:light,[0,-.055,.154],muzzle);
  if(kind!=='bird') {
-  ball(head,eye,[0,-.027,.215],[kind==='capybara'?.032:.027,.019,.014]);
+  ball(head,['cat','guinea-pig'].includes(kind)?0xd8929a:eye,[0,-.027,.215],[kind==='capybara'?.032:.027,.019,.014]);
   // A small smile and divided muzzle, without a human mouth or teeth.
   const smile=shape(head,'box',0x694635,[0,-.106,.222],[.032,.006,.006]);
   smile.rotation.z=.08;
@@ -44,18 +58,22 @@ export function makeWorldCompanion(meshes,requested='bird') {
   ball(socket,0xfff5df,[-.007,.009,.014],[.007,.008,.004]);eyes.push(socket);
   const brow=ball(head,dark,[side*rx*.63,.071,.147],[.032,.008,.009]);brow.rotation.z=-side*.18;
   if(kind!=='bird') {
-   const ear=new THREE.Group();ear.position.set(side*rx*.87,hy*.73,-.018);head.add(ear);
+   const ear=new THREE.Group();ear.position.set(side*rx*.87,kind==='dog'?hy*.2:hy*.73,-.018);head.add(ear);
    if(kind==='fox'||kind==='cat') {
     const outside=shape(ear,'cone',coat,[0,.05,0],[earSize*.63,earSize,earSize*.42]);outside.rotation.z=-side*.18;
     shape(ear,'cone',light,[0,.055,.035],[earSize*.38,earSize*.72,earSize*.15]);
    } else {
-    ball(ear,kind==='panda'?dark:coat,[0,0,0],[earSize*.65,earSize,earSize*.45]);
-    ball(ear,light,[0,0,earSize*.28],[earSize*.37,earSize*.64,earSize*.13]);
-    if(kind==='dog')ear.rotation.z=side*.7;
+    ball(ear,kind==='panda'?dark:coat,[0,kind==='dog'?-.07:0,0],[earSize*.65,earSize,earSize*.45]);
+    if(kind!=='dog')ball(ear,kind==='guinea-pig'?0xd79893:light,[0,0,earSize*.28],[earSize*.37,earSize*.64,earSize*.13]);
+    if(kind==='dog')ear.rotation.z=side*.13;
    }ears.push(ear);
   }
  }
  if(kind==='bird')for(let i=0;i<3;i++)ball(head,coat,[(i-1)*.043,.18,-.02-i*.02],[.045,.056,.07]).rotation.z=.45;
+ if(kind==='cat')for(const side of [-1,1])for(let i=0;i<3;i++) {
+  const whisker=shape(head,'box',0x645466,[side*.15,-.05-i*.017,.18],[.10,.003,.003]);whisker.rotation.z=side*(.17-i*.17);
+ }
+
  // Purple neckerchief: a folded collar and a pointed woven front, like Light.
  ball(body,scarf,[0,.529,.015],[rx*1.025,.045,.186]);
  const g=new THREE.BufferGeometry();
@@ -80,12 +98,13 @@ export function makeWorldCompanion(meshes,requested='bird') {
   const leg=new THREE.Group();leg.position.set(side*rx*.51,.145,0);body.add(leg);
   const calf=ball(leg,kind==='panda'?dark:coat,[0,-.035,0],[.079,.105,.075]);calf.userData.worldBatch=false;
   const ankle=new THREE.Group();ankle.name="Companion planted foot";ankle.position.set(0,-.095,0);leg.add(ankle);
-  ball(ankle,kind==='bird'?dark:kind==='fox'?dark:coat,[0,-.011,.041],[.075,.039,.115]);
+  const paw=['panda','fox','capybara','quokka','bird'].includes(kind)?dark:kind==='cat'?light:kind==='guinea-pig'?meshes.material(0xda9b98):coat;
+  ball(ankle,paw,[0,kind==='bird'?-.028:-.011,.041],kind==='bird'?[.045,.022,.09]:[.075,.039,.115]);
   for(let toe=-1;toe<=1;toe++)ball(ankle,dark,[toe*.025,-.016,.132],[.01,.017,.017]);
   legs.push({leg,ankle,calf});
   const arm=new THREE.Group();arm.position.set(side*rx*.9,.475,.004);body.add(arm);
   ball(arm,kind==='panda'?dark:coat,[side*.023,-.08,0],[.064,.135,.07]);
-  ball(arm,kind==='fox'?dark:coat,[side*.026,-.185,.024],[.063,.063,.066]);arms.push(arm);
+  ball(arm,['panda','fox','capybara','quokka'].includes(kind)?dark:kind==='cat'?light:kind==='guinea-pig'?0xda9b98:coat,[side*.026,-.185,.024],[.063,.063,.066]);arms.push(arm);
  }
  const tail=new THREE.Group();tail.position.set(0,.23,-.17);body.add(tail);
  if(['fox','cat','dog','quokka','bird'].includes(kind)) {

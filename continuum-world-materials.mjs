@@ -80,7 +80,7 @@ export function makeWorldSurfaces(register, updated = () => {}) {
         tile: "#d4d3ca",
         bark: "#5b5950",
         fabric: "#778087",
-        fur: "#a18d72",
+        fur: "#eee5d9",
         grass: "#606950",
         metal: "#92999c",
       }[name] || "#888888";
