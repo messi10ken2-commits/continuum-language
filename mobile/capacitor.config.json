@@ -1,0 +1,9 @@
+{
+  "appId": "com.continuumlanguage.staging",
+  "appName": "Continuum Staging",
+  "webDir": "web",
+  "server": {
+    "url": "https://unique-contentment-staging.up.railway.app",
+    "errorPath": "index.html"
+  }
+}
