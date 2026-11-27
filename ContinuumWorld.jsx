@@ -17,6 +17,7 @@ import { callCompanionKind } from "./companion-call-models.mjs";
 import "./continuum-world.css";
 
 const WorldConversation=lazy(()=>import('./WorldConversation.jsx'));
+const WorldConversationSettings=lazy(()=>import('./WorldConversationSettings.jsx'));
 const WorldProgress=lazy(()=>import('./WorldProgress.jsx'));
 function WorldStick({ input, onFocus, active }) {
   const [offset, setOffset] = useState({ x: 0, z: 0 }),
@@ -153,6 +154,7 @@ export default function ContinuumWorld({ user, onBack }) {
   const previousWorldXP=useRef(null),pendingJoy=useRef(false),joyUntil=useRef(0);
   const acceptWorldProfile=useCallback(p=>{if(previousWorldXP.current!==null&&p.xp>previousWorldXP.current)pendingJoy.current=true;previousWorldXP.current=p.xp;setWorldProfile(p);},[]);
   useEffect(()=>{const c=new AbortController();worldRequest("/profile",null,"GET",c.signal).then(acceptWorldProfile).catch(()=>{});return()=>c.abort();},[user.id]);
+  useEffect(()=>{if(worldProfile?.enabled&&!worldProfile.settings?.onboarded)setPanel('welcome');},[worldProfile?.enabled,worldProfile?.settings?.onboarded]);
   const root = useRef(null),
     host = useRef(null),
     engine = useRef(null),
@@ -164,7 +166,7 @@ export default function ContinuumWorld({ user, onBack }) {
     focused = useRef(document.hasFocus()),
     panelRef = useRef(null),
     returnFocus = useRef(null);
-  options.current = { ...settings, celebrateUntil:joyUntil.current, destination, talking: !!dialogue };
+  options.current = { ...settings, celebrateUntil:joyUntil.current, destination, talking: worldProfile?.enabled ? dialogue : null };
   input.current.run = running;
   useEffect(() => {
     // Keep the fullscreen exploration's keyboard and screen-reader focus in its UI.
@@ -238,8 +240,8 @@ export default function ContinuumWorld({ user, onBack }) {
   const paused = !!panel || !!dialogue || list;
   useEffect(() => {
     const sync = () => {
-      const active = !isAppHidden() && !paused && focused.current;
-      if (!active) input.current = { x: 0, z: 0, run: false };
+      const active = !isAppHidden() && !panel && !list && (!dialogue || worldProfile?.enabled) && focused.current;
+      if (!active || dialogue) input.current = { x: 0, z: 0, run: false };
       engine.current?.setActive(active);
       ambience.current?.setActive(active);
       if (isAppHidden() && !save()) setStorageFailed(true);
@@ -266,7 +268,7 @@ export default function ContinuumWorld({ user, onBack }) {
       document.removeEventListener("visibilitychange", sync);
       window.removeEventListener("continuum-native-visibility", sync);
     };
-  }, [paused, ready, save]);
+  }, [panel, dialogue, list, ready, save, worldProfile?.enabled]);
   useEffect(() => {
     let live = true;
     const controller = new AbortController();
@@ -304,7 +306,7 @@ export default function ContinuumWorld({ user, onBack }) {
         }
         engine.current = instance;
         setReady(true);
-        instance?.setActive(!isAppHidden() && !paused && focused.current);
+        instance?.setActive(!isAppHidden() && !panel && !list && (!dialogue || worldProfile?.enabled) && focused.current);
       })
       .catch(() => {
         if (live) setFailure("renderer");
@@ -363,6 +365,7 @@ export default function ContinuumWorld({ user, onBack }) {
         ...worldScenes[interaction.location.id].spawn,
       });
     else if (interaction.type === "exit") leaveBuilding();
+    else if(worldProfile?.enabled&&!worldProfile.settings?.aiConsent)setPanel('settings');
     else setDialogue(interaction.location.npc);
   };
   const update = (key, value) =>
@@ -394,7 +397,7 @@ export default function ContinuumWorld({ user, onBack }) {
     if (event.key === "Tab" && (panel || dialogue)) {
       const controls = [
           ...panelRef.current.querySelectorAll("button,input,select,textarea"),
-        ].filter((element) => !element.disabled && element.getClientRects().length>0),
+        ].filter((element) => !element.matches(":disabled") && !element.closest("[inert]") && element.getClientRects().length>0),
         first = controls[0],
         end = controls.at(-1);
       if (event.shiftKey && document.activeElement === first) {
@@ -410,6 +413,7 @@ export default function ContinuumWorld({ user, onBack }) {
     <section
       ref={root}
       className="cw-world"
+      data-talking={!!dialogue&&!!worldProfile?.enabled}
       aria-label={t("Continuum World")}
       onKeyDown={keyboard}
       data-scene={snapshot.scene}
@@ -622,19 +626,19 @@ export default function ContinuumWorld({ user, onBack }) {
         </span>
       </footer>
       {(panel || dialogue) && (
-        <div className="cw-dialog-backdrop">
+        <div className={dialogue&&worldProfile?.enabled?"cw-dialog-backdrop cw-immersive-backdrop":"cw-dialog-backdrop"}>
           <section
             ref={panelRef}
-            className="cw-dialog"
+            className={dialogue&&worldProfile?.enabled?"cw-dialog cw-immersive-dialog":"cw-dialog"}
             role="dialog"
             aria-modal="true"
             aria-label={dialogue ? dialogue.name : t(panel==='missions'?"Missions and NPC memory":"World settings")}
           >
-            <button type="button" className="cw-close" onClick={close}>
+            {!(dialogue&&worldProfile?.enabled)&&<button type="button" className="cw-close" onClick={close}>
               {t("Close")}
-            </button>
+            </button>}
             {dialogue&&worldProfile?.enabled?(
-              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldConversation key={dialogue.id} user={user} location={worldLocations.find(l=>l.npc.id===dialogue.id)} profile={worldProfile} onProfile={acceptWorldProfile} initialMission={chosenMission} scene={snapshot.scene} position={snapshot.position} accessible={list}/></Suspense>
+              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldConversation key={dialogue.id} user={user} location={worldLocations.find(l=>l.npc.id===dialogue.id)} profile={worldProfile} onProfile={acceptWorldProfile} initialMission={chosenMission} scene={snapshot.scene} position={snapshot.position} accessible={list} onClose={close} onSettings={()=>{setDialogue(null);setPanel("settings");}}/></Suspense>
             ):panel==='missions'&&worldProfile?.enabled?(
               <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldProgress profile={worldProfile} onProfile={acceptWorldProfile} onDestination={(location,mission)=>{setDestination(location);setChosenMission(mission);close();}}/></Suspense>
             ):dialogue ? (
@@ -656,7 +660,8 @@ export default function ContinuumWorld({ user, onBack }) {
               </>
             ) : (
               <>
-                <h2>{t("World settings")}</h2>
+                <h2>{t(panel==='welcome'?'Welcome to Tokyo':'World settings')}</h2>
+                {worldProfile?.enabled&&<Suspense fallback={<p>{t('Preparing…')}</p>}><WorldConversationSettings profile={worldProfile} onProfile={acceptWorldProfile} welcome={panel==='welcome'} onDone={close} onMemory={()=>setPanel("missions")}/></Suspense>}
                 <label>
                   {t("Graphics")}
                   <select

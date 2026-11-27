@@ -1,3 +1,4 @@
+import {worldImmersiveCopy} from './continuum-world-immersive-copy.mjs';
 import {worldPhase2Copy} from './continuum-world-phase2-copy.mjs';
 import {continuumWorldCopy} from './continuum-world-copy.mjs';
 import {immersiveCopy} from './immersive-copy.mjs';
@@ -228,4 +229,4 @@ for(const [source,translations] of Object.entries(additionalDisplayCopy))if(inte
 for(const [source,translations] of Object.entries(displayLanguageSeed))if(interfaceCopy[source])Object.assign(interfaceCopy[source],translations);
 
 Object.assign(interfaceCopy,immersiveCopy);
-Object.assign(interfaceCopy,continuumWorldCopy,worldPhase2Copy);
+Object.assign(interfaceCopy,continuumWorldCopy,worldPhase2Copy,worldImmersiveCopy);

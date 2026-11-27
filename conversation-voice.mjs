@@ -143,9 +143,10 @@ export class ConversationVoiceLoop{
   const chunks=[],started=Date.now(),window=newVoiceWindow(started),samples=new Uint8Array(this.micMeter.fftSize);let decision='idle';
   const finish=value=>{decision=value;if(recorder.state==='recording')recorder.stop();};
   this.cancelListen=()=>finish('idle');
+  this.sendListen=()=>finish('send');
   recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
   recorder.onerror=()=>{clearInterval(this.listenTimer);reject(Error('Microphone recording stopped. Please resume the conversation.'));};
-  recorder.onstop=()=>{clearInterval(this.listenTimer);this.cancelListen=null;this.recorder=null;this.stopMeter();if(!this.valid(epoch)||decision!=='send'){resolve(null);return;}
+  recorder.onstop=()=>{clearInterval(this.listenTimer);this.cancelListen=null;this.sendListen=null;this.recorder=null;this.stopMeter();if(!this.valid(epoch)||decision!=='send'){resolve(null);return;}
    const blob=new Blob(chunks,{type:(recorder.mimeType||mime||'audio/mp4').split(';')[0]}),seconds=Math.min(90,(Date.now()-started)/1000);
    if(blob.size<100||blob.size>1000000){reject(Error('The recording could not be heard clearly. Please try again.'));return;}
    const reader=new this.host.FileReader();reader.onerror=()=>reject(Error('The recording could not be prepared. Please try again.'));reader.onload=()=>resolve({audio:reader.result,seconds});reader.readAsDataURL(blob);
@@ -155,9 +156,10 @@ export class ConversationVoiceLoop{
    this.micMeter.getByteTimeDomainData(samples);const rms=Math.sqrt(samples.reduce((sum,b)=>sum+((b-128)/128)**2,0)/samples.length);this.onLevel?.(Math.min(1,rms*9));const next=detectVoiceEnd(window,rms,Date.now(),{silenceMs:this.silenceMs});if(next!=='listen')finish(next);
   },50);
  });}
+ sendRecording(){if(this.active&&this.recorder?.state==='recording')this.sendListen?.();}
  fail(error){this.stop();this.state('error');this.onError?.(error);}
  stop(){
-  this.active=false;this.epoch++;this.abort?.abort();clearTimeout(this.retryTimer);this.cancelRetry?.();this.cancelRetry=null;this.cancelVoices?.();clearTimeout(this.deviceStartTimer);clearTimeout(this.deviceEndTimer);clearInterval(this.playbackWatch);if(this.player){this.player.pause();this.player.removeAttribute('src');this.player.load();}this.player=null;clearTimeout(this.delay);this.cancelDelay?.();this.cancelDelay=null;clearTimeout(this.boundary);clearInterval(this.listenTimer);this.cancelListen?.();this.cancelListen=null;
+  this.active=false;this.epoch++;this.abort?.abort();clearTimeout(this.retryTimer);this.cancelRetry?.();this.cancelRetry=null;this.cancelVoices?.();clearTimeout(this.deviceStartTimer);clearTimeout(this.deviceEndTimer);clearInterval(this.playbackWatch);if(this.player){this.player.pause();this.player.removeAttribute('src');this.player.load();}this.player=null;clearTimeout(this.delay);this.cancelDelay?.();this.cancelDelay=null;clearTimeout(this.boundary);clearInterval(this.listenTimer);this.cancelListen?.();this.cancelListen=null;this.sendListen=null;
   if(this.recorder?.state==='recording')try{this.recorder.stop()}catch{}this.recorder=null;
   try{this.source?.stop()}catch{}this.endPlayback?.();this.endPlayback=null;if(this.utterance)this.host.speechSynthesis?.cancel();this.utterance=null;
   this.stream?.getTracks().forEach(t=>t.stop());this.stream=null;this.mic?.disconnect();this.stopMeter();this.context?.close().catch(()=>{});this.context=null;

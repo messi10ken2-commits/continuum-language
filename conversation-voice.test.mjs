@@ -96,3 +96,17 @@ test('premature media ending is an explicit retry error, never a completed turn'
 test('a cancelled natural playback cannot reuse its saved bytes through a stale epoch',async()=>{
  const loop=new ConversationVoiceLoop({});loop.preparedClip={url:'/cached',bytes:new ArrayBuffer(10),buffer:{duration:1}};loop.player={};loop.playMedia=()=>assert.fail('No playback after cancellation');await loop.speak('/cached',1);
 });
+
+test('manual recording send returns the captured clip once; cancelling discards it',async()=>{
+ const make=()=>{
+  const loop=new ConversationVoiceLoop({host:{MediaRecorder:class{
+   static isTypeSupported(){return true;}
+   constructor(){this.state='inactive';this.mimeType='audio/webm';}
+   start(){this.state='recording';this.ondataavailable({data:new Blob(['x'.repeat(200)])});}
+   stop(){this.state='inactive';this.onstop();}
+  },FileReader:class{readAsDataURL(){this.result='data:audio/webm;base64,c3ludGhldGlj';this.onload();}}}});
+  loop.active=true;loop.epoch=1;loop.stream={getTracks:()=>[],getAudioTracks:()=>[]};loop.micMeter={fftSize:4,getByteTimeDomainData:()=>{}};return loop;
+ };
+ const sent=make(),clip=sent.listen(1);sent.sendRecording();sent.sendRecording();assert.equal((await clip).audio,'data:audio/webm;base64,c3ludGhldGlj');assert.equal(sent.sendListen,null);
+ const cancelled=make(),discard=cancelled.listen(1);cancelled.stop();assert.equal(await discard,null);assert.equal(cancelled.sendListen,null);
+});

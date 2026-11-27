@@ -5,7 +5,8 @@ globalThis.fetch=async(url,options)=>{
  if(String(url).startsWith('https://generativelanguage.googleapis.com/')){
   if(String(url).endsWith('/interactions')){speechStarted?.();if(blockSpeech)await blockSpeech;return Response.json({steps:[{content:[{type:'audio',data:Buffer.from(Array.from({length:4800},(_,i)=>[0,12,0,244][i%4])).toString('base64')}]}]});}
   const b=JSON.parse(options.body),system=b.systemInstruction?.parts?.[0]?.text||'',context=b.contents?.[0]?.parts?.[0]?.text||'{}';let value={items:[]};
-  if(system.startsWith('Review this')){const c=JSON.parse(context),q=c.messages.filter(m=>m.role==='user');value={summary:'許可を丁寧に尋ねられました。',strengths:['状況に合う質問です。'],corrections:[],goals:c.goals.map((_,i)=>({achieved:i<2,evidence:i<2?q[i]?.text||'':''})),nextStep:'おすすめも聞いてみましょう。',ratings:[3,3,3,3],scoreTurnIds:['L1','L2','L1','L2'],communicationAssessable:true};}
+  if(system.startsWith('Translate the supplied Japanese NPC line'))value={translation:'You may use that seat.'};
+  else if(system.startsWith('Review this')){const c=JSON.parse(context),q=c.messages.filter(m=>m.role==='user');value={summary:'許可を丁寧に尋ねられました。',strengths:['状況に合う質問です。'],corrections:[],goals:c.goals.map((_,i)=>({achieved:i<2,evidence:i<2?q[i]?.text||'':''})),nextStep:'おすすめも聞いてみましょう。',ratings:[3,3,3,3],scoreTurnIds:['L1','L2','L1','L2'],communicationAssessable:true};}
   else if(system.startsWith('You are a friendly adult')){lastVoiceContext=JSON.parse(context);value={audible:true,transcript:'カードで払えますか。',reply:'はい、カードでお支払いいただけます。'};}
   else if(system.startsWith('You are a supportive')){lastContext=JSON.parse(context);providerStarted?.();if(blockReply)await blockReply;value={reply:'はい、窓際の席をお使いください。何になさいますか？'};}
   return Response.json({candidates:[{content:{parts:[{text:JSON.stringify(value)}]}}]});
@@ -20,6 +21,12 @@ try{
  await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[uid]);
  assert.equal((await api('/world/profile')).status,401);assert.equal((await api('/world/profile','GET',null,teacher.cookie)).status,403);
  let p=(await api('/world/profile','GET',null,a.cookie)).data;assert.equal(p.consent.enabled,false);assert.equal(p.missions.filter(m=>m.type==='main').length,4);assert.equal(p.missions.filter(m=>m.type==='side').length,8);assert.equal(p.missions.filter(m=>m.type==='daily').length,2);
+ assert.deepEqual(p.settings,{onboarded:false,aiConsent:false,classContext:false,level:'auto'});
+ assert.equal((await api('/world/settings','PUT',{onboarded:true,aiConsent:'yes',classContext:true,level:'B2'},a.cookie)).status,400);
+ const settings={onboarded:true,aiConsent:true,classContext:true,level:'B2'};
+ assert.deepEqual((await api('/world/settings','PUT',settings,a.cookie)).data.settings,settings);
+ assert.deepEqual((await api('/world/profile','GET',null,a.cookie)).data.settings,settings);
+ assert.equal((await api('/world/profile','GET',null,b.cookie)).data.settings.aiConsent,false);
  const note=(await db.query("INSERT INTO class_notes(learner_id,teacher_id,language,focus,note) VALUES($1,$2,'ja','〜てもいいですか','許可を尋ねる場面で使います。') RETURNING id",[uid,teacher.data.user.id])).rows[0];
  await db.query("INSERT INTO teacher_links(teacher_id,learner_id,languages) VALUES($1,$2,ARRAY['ja']),($3,$2,ARRAY['es'])",[teacher.data.user.id,uid,wrong.data.user.id]);
  const visit=async(extra={})=>{const startKey=crypto.randomUUID();return api('/world/visits','POST',{startKey,missionId:'cafe-permission',level:'A1',classContext:true,scene:'tokyo_cafe',position:{x:0,z:-2.4},...extra},a.cookie);};
@@ -28,6 +35,14 @@ try{
  await api('/world/memory-consent','PUT',{enabled:true,version:p.consent.version},a.cookie);
  const make=async()=>{const v=await visit();assert.equal(v.status,201,JSON.stringify(v.data));const r=await api('/speaking','POST',{...v.data,language:'ja',level:'A1',displayLanguage:'ja',aiConsent:true},a.cookie);assert.equal(r.status,201,JSON.stringify(r.data));sessionIds.push(r.data.session.id);return r.data.session;};
  let s=await make();
+ assert.equal((await api('/world/translation','POST',{sessionId:s.id,index:0,locale:'en',aiConsent:true},b.cookie)).status,404);
+ assert.equal((await api('/world/translation','POST',{sessionId:s.id,index:0,locale:'en',aiConsent:false},a.cookie)).status,400);
+ assert.equal((await api('/world/translation','POST',{sessionId:s.id,index:0,locale:'en',aiConsent:true},a.cookie)).data.translation,'You may use that seat.');
+ await db.query("UPDATE world_profiles SET translation_requests=60 WHERE user_id=$1",[uid]);
+ assert.equal((await api('/world/translation','POST',{sessionId:s.id,index:0,locale:'en',aiConsent:true},a.cookie)).status,429);
+ await db.query("UPDATE world_profiles SET translation_day=(now() AT TIME ZONE 'UTC')::date-1 WHERE user_id=$1",[uid]);
+ assert.equal((await api('/world/translation','POST',{sessionId:s.id,index:0,locale:'en',aiConsent:true},a.cookie)).status,200);
+
  const turn=async(text,key=crypto.randomUUID())=>{const r=await api('/speaking/'+s.id+'/turn','POST',{text,turnKey:key,revision:s.revision,aiConsent:true},a.cookie);if(r.status===200)s=r.data.session;return r;};
  const key=crypto.randomUUID();assert.equal((await turn('ここに座ってもいいですか。',key)).status,200);assert.ok(JSON.stringify(lastContext.worldContext.classLearning).includes('〜てもいいですか'));
  const count=s.messages.length;assert.equal((await turn('ここに座ってもいいですか。',key)).status,200);assert.equal(s.messages.length,count);
