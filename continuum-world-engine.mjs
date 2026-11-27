@@ -424,6 +424,7 @@ export async function createWorldEngine(
         companionPosition.z - previousCompanion.z,
       ) / Math.max(0.001, dt);
     animal.root.userData.previousPosition = { ...companionPosition };
+    if(!reduced && (settings.celebrateUntil||0)>Date.now()){companion.position.y+=Math.max(0,Math.sin(walkTime*7))*.1;companion.rotation.z=Math.sin(walkTime*7)*.04;}else companion.rotation.z=0;
     animal.animate(
       walkTime,
       companionSpeed,

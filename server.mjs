@@ -1,3 +1,4 @@
+import {migrateWorld,handleWorld,worldLearningRecords,startWorldRetention} from './continuum-world-api.mjs';
 import {staticEncodings} from './static-encoding.mjs';
 import {migrateMailOperations,handleMailOperations} from './mail-operations.mjs';
 import {migratePush,handlePush} from './push-api.mjs';
@@ -100,7 +101,7 @@ async function migrate(){
  await migrateSpeech(pool);
  await migrateReview(pool);
  await migrateLocalization(pool);
- await migrateSpeaking(pool);
+ await migrateSpeaking(pool);await migrateWorld(pool);
  await migrateClassroom(pool);await migrateTeacherRanking(pool);
  await migrateClassSafety(pool);
  await migrateBilling(pool);
@@ -201,6 +202,7 @@ async function handle(req,res){
  if(await handleBilling({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleLocalization({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleClassroom({route,req,res,pool,required,json,send,fail,limited}))return;
+ if(await handleWorld({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleSpeaking({route,req,res,pool,required,json,send,fail,limited}))return;
  if(await handleReview({route,req,res,pool,required,json,send,fail}))return;
  if(await handleAdventure({route,req,res,pool,required,json,send,fail}))return;
@@ -317,7 +319,7 @@ async function handle(req,res){
    ]):[{rows:[]},[],{rows:[]}];
    const learnerMembership=await membership(pool,learnerId,{actual:true});
    const history=assessments.flat().map(a=>({...a,result:visiblePlacement(a.result,learnerMembership.premium)})).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));
-   return send(res,200,{learner:learner.rows[0],membership:{tier:learnerMembership.tier},attempts:r.rows.filter(inScope).slice(0,50),assessment:history[0]||null,pronunciation:pronunciation.rows.filter(inScope).slice(0,20),sharing:{selfLearning:scope.selfLearning,languages:scope.languages},language:allowed.length===1?allowed[0]:null});
+   return send(res,200,{worldRecords:scope.selfLearning&&allowed.includes('ja')?await worldLearningRecords(pool,learnerId):[],learner:learner.rows[0],membership:{tier:learnerMembership.tier},attempts:r.rows.filter(inScope).slice(0,50),assessment:history[0]||null,pronunciation:pronunciation.rows.filter(inScope).slice(0,20),sharing:{selfLearning:scope.selfLearning,languages:scope.languages},language:allowed.length===1?allowed[0]:null});
   }
   if(match[2]==='notes'&&req.method==='GET'){const r=await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.revision,n.suggested_lesson_id AS "lessonId",(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 AND n.language=ANY($2::text[]) ORDER BY n.created_at DESC LIMIT 50',[learnerId,allowed]);return send(res,200,{notes:r.rows})}
   if(match[2]==='notes'&&req.method==='POST'){const data=await json(req),focus=String(data.focus||'').trim(),note=String(data.note||'').trim(),language=data.language;if(!scope.languages.includes(language))fail(403,'This language is not shared with you');if(focus.length<2||focus.length>100||note.length<3||note.length>3000)fail(400,'Enter a focus and note (3–3000 characters)');const r=await pool.query('INSERT INTO class_notes(learner_id,teacher_id,focus,note,language) VALUES($1,$2,$3,$4,$5) RETURNING id,teacher_id AS "teacherId",revision,language,focus,note,created_at AS at',[learnerId,teacher.id,focus,note,language]);return send(res,201,{note:r.rows[0]})}
@@ -390,7 +392,7 @@ async function trackedRequest(req,res){
   return handle(req,res);
  },{getTier:async id=>(await membership(pool,id)).premium?'premium':'free'});
 }
-startReadinessMaintenance(pool);
+startReadinessMaintenance(pool);startWorldRetention(pool);
 http.createServer((req,res)=>trackedRequest(req,res).catch(err=>{
  if(res.headersSent||res.destroyed){res.destroy();return;}
  if(err.retryAfter)res.setHeader('Retry-After',String(err.retryAfter));

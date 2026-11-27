@@ -1,3 +1,4 @@
+import WorldLearningEvidence from './WorldLearningEvidence.jsx';
 import {destinationFromURL,queueAppDestination,consumeAppDestination,clearAppDestination} from './app-destinations.mjs';
 import {LessonPromotion} from './LessonMilestone.jsx';
 import {CompanionAvatar} from './CompanionAvatar.jsx';
@@ -297,7 +298,7 @@ function ConnectedTeacher({section='Overview',onNavigate,user}){
  {record?.membership&&<p className="learner-plan">{uiText('Learner membership')}: {uiText(record.membership.tier==='premium'?'Premium':'Free')}</p>}
  {record?.sharing?.selfLearning===false&&<div className="privacy-banner"><Users size={18}/><div><b>{uiText("Self-study activity is private")}</b><p>{uiText("This learner has hidden lesson activity, scores and assessment results. Class notes and your connection are still available.")}</p></div></div>}
  {!language?<section className="panel"><h2>{uiText("Language access has not been set")}</h2><p>{uiText("Ask the learner to select the language they study with you in Account → Connected teachers. Learning records remain hidden until then.")}</p></section>:!record?<section className="panel account-loading">{uiText(error?'Shared record unavailable. Check the learner’s language sharing settings.':'Loading learner record…')}</section>:section==='Full report'?<TeacherReportLive record={record} onNavigate={onNavigate}/>:section==='Assignments'?<ClassWorkspace key={selected+language} user={user} initialLearner={selected} initialLanguage={language} initialTab="assignments" onAccount={()=>onNavigate('Account')}/>:section==='Learning memory'?<TeacherMemoryLive key={selected+language} record={record} notes={notes} onNavigate={onNavigate}/>:section==='Class notes'?<TeacherNotesLive user={user} onNotesChanged={async()=>{const r=await api('/teacher/learners/'+selected+'/notes?language='+language);setNotes(r.notes)}} noteLanguage={noteLanguage} setNoteLanguage={setNoteLanguage} record={record} notes={notes} focus={focus} setFocus={setFocus} note={note} setNote={setNote} onSave={save} onNavigate={onNavigate} saving={saving}/>:<TeacherOverviewLive record={record} notes={notes} onNavigate={onNavigate}/>}
- {record&&record.sharing?.selfLearning!==false&&['Class notes','Learning memory','Full report'].includes(section)&&<SkillRecord key={selected+'-'+section+'-'+language} learnerId={selected} language={language}/>}
+ {record&&record.sharing?.selfLearning!==false&&section==='Learning memory'&&<WorldLearningEvidence language={language} records={record.worldRecords||[]}/>}{record&&record.sharing?.selfLearning!==false&&['Class notes','Learning memory','Full report'].includes(section)&&<SkillRecord key={selected+'-'+section+'-'+language} learnerId={selected} language={language}/>}
  </>}</>;
 }
 

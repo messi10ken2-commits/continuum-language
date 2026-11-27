@@ -1,11 +1,12 @@
+import {worldPrivacyState} from './continuum-world-api.mjs';
 import {learningLanguageIds} from './languages.mjs';
 // Account controls expose existing permissions; optional device media is browser-local.
 export async function handlePrivacySettings({route,req,res,pool,required,json,send,fail}){
  if(route==='/api/privacy/settings'&&req.method==='GET'){
   const user=await required(req);
   if(user.role!=='learner'){send(res,200,{role:user.role,shareSelfLearning:null,patterns:[]});return true;}
-  const [u,p]=await Promise.all([pool.query('SELECT share_self_learning FROM users WHERE id=$1',[user.id]),pool.query('SELECT language,enabled FROM learning_pattern_reports WHERE user_id=$1',[user.id])]);
-  send(res,200,{role:user.role,shareSelfLearning:u.rows[0].share_self_learning,patterns:learningLanguageIds.map(language=>({language,enabled:p.rows.some(r=>r.language===language&&r.enabled)}))});return true;
+  const [u,p,worldNpcMemory]=await Promise.all([pool.query('SELECT share_self_learning FROM users WHERE id=$1',[user.id]),pool.query('SELECT language,enabled FROM learning_pattern_reports WHERE user_id=$1',[user.id]),worldPrivacyState(pool,user.id)]);
+  send(res,200,{role:user.role,worldNpcMemory,shareSelfLearning:u.rows[0].share_self_learning,patterns:learningLanguageIds.map(language=>({language,enabled:p.rows.some(r=>r.language===language&&r.enabled)}))});return true;
  }
  if(route==='/api/privacy/patterns'&&req.method==='DELETE'){
   const user=await required(req,'learner'),d=await json(req);if(d.language!=='all'&&!learningLanguageIds.includes(d.language))fail(400,'Choose a supported language or all languages');

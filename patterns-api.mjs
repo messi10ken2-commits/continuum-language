@@ -1,3 +1,4 @@
+import {worldLearningRecords} from './continuum-world-api.mjs';
 import {validInterfaceLanguage} from './interface-languages.mjs';
 import {safeSavedCorrections} from './correction-integrity.mjs';
 import {requestPatternBatch} from './pattern-provider.mjs';
@@ -29,15 +30,16 @@ export async function handlePatterns({route,req,res,pool,required,json,send,fail
  if(!languages.some(l=>l.id===language))fail(400,'Unknown language');
  if(req.method!=='GET'&&req.method!=='POST'&&req.method!=='DELETE')fail(405,'Method not allowed');
  if(req.method==='DELETE'){await pool.query('UPDATE learning_pattern_reports SET enabled=false,report=NULL,fingerprint=NULL,request_token=NULL WHERE user_id=$1 AND language=$2',[user.id,language]);send(res,200,{ok:true});return true;}
- const [a,n,s,t,p,cache,light]=await Promise.all([
+ const [a,n,s,t,p,cache,light,world]=await Promise.all([
   pool.query('SELECT id,lesson_id AS lesson,score,total,source,evidence,created_at AS at FROM practice_attempts WHERE user_id=$1 ORDER BY created_at,id',[user.id]),
   pool.query('SELECT id,language,focus,note,created_at AS at FROM class_notes WHERE learner_id=$1 AND language=$2 ORDER BY created_at,id',[user.id,language]),
   pool.query('SELECT id,task_id AS task,result,created_at AS at FROM skill_submissions WHERE user_id=$1 ORDER BY created_at,id',[user.id]),
   pool.query('SELECT id,language,form,version,answers,completed_at AS at FROM assessments WHERE user_id=$1 AND language=$2 AND completed_at IS NOT NULL ORDER BY completed_at,id',[user.id,language]),
   pool.query('SELECT id,lesson_id AS lesson,score,created_at AS at FROM pronunciation_attempts WHERE user_id=$1 ORDER BY created_at,id',[user.id]),
   pool.query('SELECT * FROM learning_pattern_reports WHERE user_id=$1 AND language=$2',[user.id,language]),
-  pool.query('SELECT id,lesson_id AS lesson,state,completed_at AS at FROM light_learning_sessions WHERE user_id=$1 AND completed_at IS NOT NULL AND lesson_id LIKE $2 ORDER BY completed_at,id',[user.id,language+'-immersive-%'])]);
- const evidence=buildPatternEvidence({language,attempts:a.rows,lightRecords:light.rows,notes:n.rows,submissions:s.rows.map(s=>({...s,result:s.result?.aiAssessment?{...s.result,aiAssessment:safeSavedCorrections(s.result.aiAssessment,language)}:s.result?.status==='ai-reviewed'?safeSavedCorrections(s.result,language):s.result})),assessments:t.rows,pronunciation:p.rows});
+  pool.query('SELECT id,lesson_id AS lesson,state,completed_at AS at FROM light_learning_sessions WHERE user_id=$1 AND completed_at IS NOT NULL AND lesson_id LIKE $2 ORDER BY completed_at,id',[user.id,language+'-immersive-%']),
+  language==='ja'?worldLearningRecords(pool,user.id):Promise.resolve([])]);
+ const evidence=buildPatternEvidence({language,worldRecords:world,attempts:a.rows,lightRecords:light.rows,notes:n.rows,submissions:s.rows.map(s=>({...s,result:s.result?.aiAssessment?{...s.result,aiAssessment:safeSavedCorrections(s.result.aiAssessment,language)}:s.result?.status==='ai-reviewed'?safeSavedCorrections(s.result,language):s.result})),assessments:t.rows,pronunciation:p.rows});
  const fingerprint=crypto.createHash('sha256').update(JSON.stringify({displayLanguage,evidence})).digest('hex'),old=cache.rows[0];
  const payload={...evidence,displayLanguage,revision:fingerprint,provider:process.env.GEMINI_API_KEY?'Gemini':'OpenAI',available:aiConfigured(),enabled:!!old?.enabled,stale:old?.fingerprint!==fingerprint,analysis:old?.fingerprint===fingerprint?old.report:null};
  if(req.method==='GET'){send(res,200,payload);return true;}

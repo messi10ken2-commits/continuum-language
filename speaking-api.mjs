@@ -1,3 +1,4 @@
+import {authorizeWorldSpeaking,worldSpeakingContext,finishWorldSession,worldPhase2Enabled,worldAudioGuard} from './continuum-world-api.mjs';
 import {aiTier,dailyAIUsage,denyAI,reserveAI,settleAI} from './ai-operations.mjs';
 import {aiContext} from './ai-metering.mjs';
 import {refreshSpeakingFeedback,needsSpeakingFeedback} from './speaking-feedback.mjs';
@@ -19,9 +20,10 @@ export async function migrateSpeaking(pool){await pool.query(`CREATE TABLE IF NO
  messages jsonb NOT NULL DEFAULT '[]',review jsonb,status text NOT NULL DEFAULT 'active',revision integer NOT NULL DEFAULT 0,
  lease_token uuid,lease_until timestamptz,created_at timestamptz NOT NULL DEFAULT now(),updated_at timestamptz NOT NULL DEFAULT now());
  ALTER TABLE speaking_sessions ADD COLUMN IF NOT EXISTS start_key uuid;
+ ALTER TABLE speaking_sessions ADD COLUMN IF NOT EXISTS world_class_context boolean NOT NULL DEFAULT false;
  CREATE UNIQUE INDEX IF NOT EXISTS speaking_start_key ON speaking_sessions(user_id,start_key) WHERE start_key IS NOT NULL;
  CREATE INDEX IF NOT EXISTS speaking_user_language ON speaking_sessions(user_id,language,updated_at DESC);`);await migrateConversationBudget(pool);}
-export const publicSpeaking=s=>({id:s.id,language:s.language,level:s.level,scenario:s.scenario,displayLanguage:s.display_language,messages:s.messages,review:s.review,status:s.status,revision:s.revision,at:s.updated_at});
+export const publicSpeaking=s=>({...((scenarioById(s.scenario)?.worldLocation)?{worldClassContext:!!s.world_class_context}:{}),id:s.id,language:s.language,level:s.level,scenario:s.scenario,displayLanguage:s.display_language,messages:s.messages,review:s.review,status:s.status,revision:s.revision,at:s.updated_at});
 const audioValid=r=>r&&typeof r.audio==='string'&&r.audio.length<=1400000&&/^data:audio\/(webm|mp4|ogg|wav)(;codecs=(?:[a-zA-Z0-9.,-]+|"[a-zA-Z0-9., -]+"))?;base64,[A-Za-z0-9+/]+=*$/.test(r.audio)&&Number.isFinite(r.seconds)&&r.seconds>=1&&r.seconds<=90;
 const turnFingerprint=d=>crypto.createHash('sha256').update(JSON.stringify(d.audio?{audio:d.audio.audio,seconds:d.audio.seconds}:{text:typeof d.text==='string'?d.text.trim():null})).digest('hex');
 export async function handleSpeaking({route,req,res,pool,required,json,send,fail,limited,reply=replySpeaking,review=reviewSpeaking,reassessCommunication=reassessCommunicationSpeaking,refreshFeedback=refreshSpeakingFeedback,voiceTurn=voiceTurnSpeaking,serveAudio=serveStudioSpeech}){
@@ -33,7 +35,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  const prefetch=row=>{
   // Start before returning the saved session. Playback joins the same cache key
   // and in-flight task; this never creates a second provider generation.
-  void Promise.resolve().then(()=>serveAudio({req,res:{writeHead(){},end(){}},pool,ownerId:row.user_id,text:row.messages.at(-1).text,locale:languageInfo(row.language).locale,voiceProfile:conversationPartner(row.language,row.scenario).voice,privateAudio:true,send(){},fail:(status,message)=>{throw Object.assign(Error(message),{status})},limited})).catch(()=>{});
+  void Promise.resolve().then(async()=>serveAudio({cacheGuard:await worldAudioGuard(pool,row,row.messages.length-1),req,res:{writeHead(){},end(){}},pool,ownerId:row.user_id,text:row.messages.at(-1).text,locale:languageInfo(row.language).locale,voiceProfile:conversationPartner(row.language,row.scenario).voice,privateAudio:true,send(){},fail:(status,message)=>{throw Object.assign(Error(message),{status})},limited})).catch(()=>{});
  };
  const usage=()=>dailyAIUsage(pool,user.id,'conversation',premium);
  if(route==='/api/speaking/usage'&&req.method==='GET'){send(res,200,{usage:await usage()});return true;}
@@ -42,7 +44,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   const r=await pool.query('SELECT * FROM speaking_sessions WHERE user_id=$1 AND language=$2 ORDER BY updated_at DESC LIMIT 30',[user.id,language]);
   const daily=!premium?(await pool.query('SELECT s.* FROM speaking_daily_allowance a JOIN speaking_sessions s ON s.id=a.session_id WHERE a.user_id=$1 AND a.day=$2',[user.id,conversationDay()])).rows[0]:null;
   const sessions=daily?[daily,...r.rows.filter(s=>s.id!==daily.id)]:r.rows;
-  send(res,200,{available:aiConfigured(),scenarios:speakingScenarios,sessions:sessions.map(visible),premium,limitSeconds:conversationLimit(premium)});return true;
+  send(res,200,{available:aiConfigured(),scenarios:speakingScenarios,sessions:sessions.filter(s=>url.searchParams.get('world')==='true'||!scenarioById(s.scenario)?.worldLocation||s.status==='completed').map(visible),premium,limitSeconds:conversationLimit(premium)});return true;
  }
  if(route==='/api/speaking'&&req.method==='POST'){
   limited(req,'speaking-start',30);const d=await json(req),s=scenarioById(d.scenario);
@@ -62,11 +64,12 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
      return {row:same,reused:true};
     }
    }
+   const worldStart=await authorizeWorldSpeaking(c,user.id,d,s);
    if(!premium){
     const {rows:[old]}=await c.query('SELECT s.* FROM speaking_daily_allowance a JOIN speaking_sessions s ON s.id=a.session_id WHERE a.user_id=$1 AND a.day=$2',[user.id,day]);
     if(old){
      if(old.status==='completed')return {denied:true};
-     if(old.messages.some(m=>m.role==='user')||Date.parse(old.lease_until)>Date.now()){if(s.immersive&&old.scenario!==s.id)return {denied:true};return {row:old,reused:true};}
+     if(old.messages.some(m=>m.role==='user')||Date.parse(old.lease_until)>Date.now()){if((s.immersive||s.worldLocation||scenarioById(old.scenario)?.worldLocation)&&old.scenario!==s.id)return {denied:true};if(s.worldLocation&&old.world_class_context!==worldStart.classContext)fail(409,'Resuming this conversation requires its saved class-note choice.');return {row:old,reused:true};}
      await c.query('DELETE FROM speaking_daily_allowance WHERE user_id=$1 AND day=$2',[user.id,day]);
      await c.query("DELETE FROM ai_operations WHERE user_id=$1 AND bucket='conversation' AND operation_key=$2 AND completed_at IS NULL",[user.id,old.id+':'+day]);
     }
@@ -74,7 +77,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
    const id=crypto.randomUUID();
    const slot=await reserveAI(c,{userId:user.id,bucket:'conversation',feature:'conversation',key:id+':'+day,premium,day});
    if(slot.denied)return slot;
-   const {rows:[row]}=await c.query('INSERT INTO speaking_sessions(id,user_id,language,level,scenario,display_language,messages,start_key) VALUES($1,$2,$3,$4,$5,$6,$7::jsonb,$8) RETURNING *',[id,user.id,d.language,d.level,s.id,d.displayLanguage,JSON.stringify([{role:'assistant',text:s.opening[d.language],mode:'text'}]),d.startKey??null]);
+   const {rows:[row]}=await c.query('INSERT INTO speaking_sessions(id,user_id,language,level,scenario,display_language,messages,start_key,world_class_context) VALUES($1,$2,$3,$4,$5,$6,$7::jsonb,$8,$9) RETURNING *',[id,user.id,d.language,d.level,s.id,d.displayLanguage,JSON.stringify([{role:'assistant',text:worldStart?.opening||s.opening[d.language],mode:'text'}]),d.startKey??null,worldStart?.classContext??false]);
    if(!premium)await c.query('INSERT INTO speaking_daily_allowance(user_id,day,session_id) VALUES($1,$2,$3)',[user.id,day,row.id]);
    return {row};
   });
@@ -87,14 +90,17 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   if(req.method!=='GET')fail(405,'Use GET for conversation audio');
   const record=await pool.query('SELECT * FROM speaking_sessions WHERE id=$1 AND user_id=$2',[audioRoute[1],user.id]),row=record.rows[0];
   if(!row)fail(404,'Conversation not found');
+  if(scenarioById(row.scenario)?.worldLocation&&!worldPhase2Enabled())fail(404,'World conversations are not enabled');
   const part=audioRoute[2],index=Number(part.split('/').at(-1));
+  if(scenarioById(row.scenario)?.worldLocation){const context=await worldSpeakingContext(pool,row);if(context.historyFrom>0&&(part.includes('/')||index<context.historyFrom))fail(410,'This audio was cleared after NPC memory settings changed.');}
   const text=part.startsWith('alternative/')?(premium?safeSavedCorrections(row.review,row.language)?.naturalAlternatives?.[index]?.improved:null):part.startsWith('review/')?(premium?safeSavedCorrections(row.review,row.language)?.corrections?.[index]?.improved:null):row.messages[index]?.role==='assistant'?row.messages[index].text:null;
   if(!text)fail(404,'Conversation audio not found');
   if(url.searchParams.get('format')==='text'){send(res,200,{text,locale:languageInfo(row.language).locale});return true;}
-  return aiContext('conversation',{tier:aiTier(premium),operationId:row.id},()=>serveAudio({req,res,pool,ownerId:user.id,text,locale:languageInfo(row.language).locale,send,fail,limited,privateAudio:true,voiceProfile:conversationPartner(row.language,row.scenario).voice}));
+  return aiContext('conversation',{tier:aiTier(premium),operationId:row.id},async()=>serveAudio({cacheGuard:await worldAudioGuard(pool,row,index),req,res,pool,ownerId:user.id,text,locale:languageInfo(row.language).locale,send,fail,limited,privateAudio:true,voiceProfile:conversationPartner(row.language,row.scenario).voice}));
  }
  const match=route.match(/^\/api\/speaking\/([a-f0-9-]{36})(?:\/(turn|review|activity))?$/);if(!match)fail(404,'Conversation endpoint not found');
  const r=await pool.query('SELECT * FROM speaking_sessions WHERE id=$1 AND user_id=$2',[match[1],user.id]),s=r.rows[0];if(!s)fail(404,'Conversation not found');
+ if(scenarioById(s.scenario)?.worldLocation&&!worldPhase2Enabled())fail(404,'World conversations are not enabled');
  if(!match[2]&&req.method==='GET'){send(res,200,{session:visible(s)});return true;}
  if(req.method!=='POST'||!match[2])fail(404,'Conversation endpoint not found');
  const d=await json(req);
@@ -122,6 +128,7 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
  const token=crypto.randomUUID();
  const locked=await pool.query("UPDATE speaking_sessions SET lease_token=$3,lease_until=now()+interval '5 minutes' WHERE id=$1 AND user_id=$2 AND revision=$4 AND (lease_until IS NULL OR lease_until<now()) RETURNING id",[s.id,user.id,token,s.revision]);
  if(!locked.rows.length)fail(409,'A conversation response is already running. Please wait or reload.');
+ const workAbort=new AbortController(),disconnect=()=>{if(!res.writableEnded)workAbort.abort();};res.once?.('close',disconnect);
  let quotaToken,completed=false;
  try{
   if(!turns||match[2]==='turn'&&!premium){
@@ -140,14 +147,17 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
    quotaToken=slot.token;
   }
   const updated=await aiContext('conversation',{tier:aiTier(premium),operationId:s.id},async()=>{
+   const worldContext=await worldSpeakingContext(pool,s),practice={...s,worldContext,abortSignal:workAbort.signal};
    let messages=s.messages,result=s.review;
    if(match[2]==='turn'){
-    const turn=d.audio?await voiceTurn(s,d.audio):{transcript:d.text.trim(),reply:await reply(s,d.text.trim())};
+    const turn=d.audio?await voiceTurn(practice,d.audio):{transcript:d.text.trim(),reply:await reply(practice,d.text.trim())};
     messages=[...messages,{role:'user',text:turn.transcript,mode:d.audio?'voice':'text',key:d.turnKey,inputHash:turnFingerprint(d),...(d.audio&&turn.speechEvidence?{speechEvidence:turn.speechEvidence}:{})},{role:'assistant',text:turn.reply,mode:'text'}];
-   }else result=refreshCoaching?await refreshFeedback(s):refreshScores?await reassessCommunication(s):await review(s);
+   }else result=refreshCoaching?await refreshFeedback(s):refreshScores?await reassessCommunication(s):await review(practice);
    return billingTransaction(pool,async c=>{
+    if(worldContext){const p=(await c.query('SELECT memory_version FROM world_profiles WHERE user_id=$1 FOR UPDATE',[user.id])).rows[0];if(p?.memory_version!==worldContext.version)fail(409,'NPC memory changed. Retry this reply with the current settings.');}
     const saved=await c.query('UPDATE speaking_sessions SET messages=$3::jsonb,review=$4::jsonb,status=$5,revision=revision+1,lease_token=NULL,lease_until=NULL,updated_at=now() WHERE id=$1 AND user_id=$2 AND lease_token=$6 RETURNING *',[s.id,user.id,JSON.stringify(messages),JSON.stringify(result),result?'completed':'active',token]);
     if(!saved.rows.length)fail(409,'The conversation changed. Reload it before continuing.');
+    await finishWorldSession(c,saved.rows[0]);
     await settleAI(c,quotaToken,true);
     return saved;
    });
@@ -156,5 +166,5 @@ export async function handleSpeaking({route,req,res,pool,required,json,send,fail
   if(d.audio&&d.prefetchAudio===true)aiContext('conversation',{tier:aiTier(premium),operationId:s.id},()=>prefetch(updated.rows[0]));
   send(res,200,{session:visible(updated.rows[0])});return true;
  }catch(e){if(e.status&&e.status<500)throw e;console.warn('Speaking provider unavailable',JSON.stringify({operation:match[2],kind:e.name||'Error',code:/^[A-Z_]{1,50}$/.test(e.code||'')?e.code:undefined,providerStatus:e.providerStatus}));fail(503,match[2]==='review'?'Your conversation is saved, but the review could not be created. Please try creating the review again.':'AI conversation could not finish. Your saved conversation is unchanged; your unsent reply remains on this page. Please try again.');}
- finally{if(!completed)await settleAI(pool,quotaToken,false);await pool.query('UPDATE speaking_sessions SET lease_token=NULL,lease_until=NULL WHERE id=$1 AND user_id=$2 AND lease_token=$3',[s.id,user.id,token]);}
+ finally{res.removeListener?.('close',disconnect);if(!completed)await settleAI(pool,quotaToken,false);await pool.query('UPDATE speaking_sessions SET lease_token=NULL,lease_until=NULL WHERE id=$1 AND user_id=$2 AND lease_token=$3',[s.id,user.id,token]);}
 }
