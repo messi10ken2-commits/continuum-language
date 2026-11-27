@@ -22,9 +22,9 @@ const people=['traveller','resident'].map((variant,i)=>{const a=makeWorldPerson(
 const manager=upgradeWorldPeople(people,{physical:true,fabric:meshes.surface('fabric',3)});await manager.ready;
 if(people.some(a=>a.root.userData.worldPerson!=='skinned'))throw Error('Character art requires shipped rigs');
 window.characterShot=(mode,time=2.0,reduced=false)=>{
- animals.forEach(a=>a.root.visible=mode==='companions');people.forEach(a=>a.root.visible=mode!=='companions');
- camera.position.set(0,mode==='companions'?3.1:1.6,mode==='companions'?7.3:4.6);camera.lookAt(0,mode==='companions'?.32:.95,0);
- animals.forEach(a=>{for(let n=1;n<=144;n++)a.animate(time+n/60,mode==='companions'?0:1.2,reduced,.2);});
+ animals.forEach(a=>a.root.visible=mode.startsWith('companions'));people.forEach(a=>a.root.visible=mode!=='companions');
+ camera.position.set(0,mode.startsWith('companions')?3.1:1.6,mode.startsWith('companions')?7.3:4.6);camera.lookAt(0,mode.startsWith('companions')?.32:.95,0);
+ animals.forEach(a=>{for(let n=1;n<=144;n++)a.animate(time+n/60,mode==='companions-walk'?1:0,reduced,.2);});
  people.forEach((a,i)=>{a.root.rotation.y=mode==='people-back'?Math.PI:0;for(let n=1;n<=144;n++)a.animate(time+n/60,mode==='people-walk'?1.3:0,reduced);});
  renderer.render(scene,camera);return renderer.info.render.triangles;
 };window.characterReady=true;
@@ -39,7 +39,7 @@ try{
  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(/GL_INVALID|OUT_OF_MEMORY|THREE.WebGLProgram/i.test(m.text()))errors.push(m.text());});
  await page.goto('http://127.0.0.1:'+server.httpServer.address().port+'/.media-build/world-characters/index.html');
  await page.waitForFunction(()=>window.characterReady,null,{timeout:90000});
- for(const mode of ['companions','people-front','people-back','people-walk']){
+ for(const mode of ['companions','companions-walk','people-front','people-back','people-walk']){
   const triangles=await page.evaluate(mode=>window.characterShot(mode),mode);assert.ok(triangles>1000);
   const png=Buffer.from((await page.locator('canvas').evaluate(c=>c.toDataURL('image/png'))).split(',')[1],'base64');
   assert.ok(png.length>30000);await writeFile(new URL(mode+'.png',dir),png);console.log('PASS rendered '+mode);

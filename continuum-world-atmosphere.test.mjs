@@ -31,3 +31,25 @@ test('pedestrians walk at real speed, turn at endpoints, stay on verified sidewa
   pedestrian.update(.1,72,true);assert.equal(stopped.distanceTo(actor.root.position),0);
  }
 });
+
+// Inspect animated foot joints and geometry rather than internal gait phases.
+import {worldMeshes,makeWorldCompanion} from './continuum-world-scenes.mjs';
+test('companion stance feet cancel root travel and reduced motion restores the pose',()=>{
+ const old=globalThis.document;
+ globalThis.document={createElement(){return {width:512,height:512,getContext(){return new Proxy({},{get:(_,key)=>key==='createRadialGradient'?()=>({addColorStop(){}}):()=>{}});}};}};
+ const meshes=worldMeshes();
+ try{
+  const actor=makeWorldCompanion(meshes,'capybara'),feet=[];actor.root.traverse(o=>{if(o.name==='Companion planted foot')feet.push(o);});assert.equal(feet.length,2);
+  let planted=0,previous=[];
+  for(let i=1;i<=240;i++){
+   const time=i/120;actor.root.position.z=time;actor.animate(time,1,false);actor.root.updateMatrixWorld(true);
+   const positions=feet.map(f=>f.getWorldPosition(new THREE.Vector3()));
+   for(const foot of feet)assert.ok(new THREE.Box3().setFromObject(foot).min.y>=-.002,'toes/soles do not penetrate the pavement');
+   positions.forEach((p,j)=>{if(i>120&&previous[j]&&Math.abs(p.y-.05)<.001&&Math.abs(previous[j].y-.05)<.001){assert.ok(Math.abs(p.z-previous[j].z)<.006);planted++;}});
+   previous=positions;
+  }
+  assert.ok(planted>100);
+  actor.animate(3,0,true);actor.root.updateMatrixWorld(true);
+  for(const f of feet)assert.ok(Math.abs(f.getWorldPosition(new THREE.Vector3()).y-.05)<.00001);
+ }finally{meshes.dispose();globalThis.document=old;}
+});

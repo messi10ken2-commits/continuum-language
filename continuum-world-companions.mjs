@@ -78,11 +78,11 @@ export function makeWorldCompanion(meshes,requested='bird') {
  const legs=[],arms=[];
  for(const side of [-1,1]) {
   const leg=new THREE.Group();leg.position.set(side*rx*.51,.145,0);body.add(leg);
-  ball(leg,kind==='panda'?dark:coat,[0,-.035,0],[.079,.105,.075]);
-  const ankle=new THREE.Group();ankle.position.set(0,-.095,0);leg.add(ankle);
+  const calf=ball(leg,kind==='panda'?dark:coat,[0,-.035,0],[.079,.105,.075]);calf.userData.worldBatch=false;
+  const ankle=new THREE.Group();ankle.name="Companion planted foot";ankle.position.set(0,-.095,0);leg.add(ankle);
   ball(ankle,kind==='bird'?dark:kind==='fox'?dark:coat,[0,-.011,.041],[.075,.039,.115]);
   for(let toe=-1;toe<=1;toe++)ball(ankle,dark,[toe*.025,-.016,.132],[.01,.017,.017]);
-  legs.push({leg,ankle});
+  legs.push({leg,ankle,calf});
   const arm=new THREE.Group();arm.position.set(side*rx*.9,.475,.004);body.add(arm);
   ball(arm,kind==='panda'?dark:coat,[side*.023,-.08,0],[.064,.135,.07]);
   ball(arm,kind==='fox'?dark:coat,[side*.026,-.185,.024],[.063,.063,.066]);arms.push(arm);
@@ -99,7 +99,7 @@ export function makeWorldCompanion(meshes,requested='bird') {
  let previous=0,gait=0,phase=0;
  return {kind,root,animate(time,speed,reduced,looking=0){
   const dt=Math.min(.1,Math.max(0,time-previous));previous=time;
-  gait+=(Math.max(0,speed)-gait)*(1-Math.exp(-dt/.18));phase+=dt*gait/ .58*2*Math.PI;
+  gait+=(Math.max(0,speed)-gait)*(1-Math.exp(-dt/.18));phase+=dt*Math.max(0,speed)/ .48*2*Math.PI;
   const amount=reduced?0:Math.min(1,gait/.5),breathe=reduced?0:Math.sin(time*2.2)*.004;
   body.position.y=reduced?0:Math.abs(Math.sin(phase))*.012*amount;
   hull.scale.y=.285+breathe;body.rotation.z=reduced?0:Math.sin(phase)*.025*amount;
@@ -107,12 +107,17 @@ export function makeWorldCompanion(meshes,requested='bird') {
   head.rotation.x=reduced?0:Math.sin(phase)*.035*amount+Math.sin(time*1.7)*.012;
   const blink=(time%5.7),open=reduced?1:1-Math.max(0,1-Math.abs(blink-4.8)/.105)*.94;
   eyes.forEach(e=>e.scale.y=open);
-  legs.forEach(({leg,ankle},i)=>{
-   const swing=Math.sin(phase+i*Math.PI);leg.rotation.x=swing*.35*amount;
-   // Toe recovery and a soft knee/ankle response avoid rigid pendulum feet.
-   ankle.rotation.x=-leg.rotation.x;
-   const lift=Math.max(0,-swing)**2*.055*amount;
-   leg.position.y=.05+.095*Math.cos(leg.rotation.x)+lift-body.position.y;
+  legs.forEach(({leg,ankle,calf},i)=>{
+   const u=(phase/(2*Math.PI)+i*.5)%1,stance=.58,s=(u-stance)/(1-stance),span=.48*stance;
+   const z=(u<stance?span*(.5-u/stance):-span*.5+span*(3*s*s-2*s*s*s)-.48*(1-stance)*(2*s*s*s-3*s*s+s))*amount;
+   const lift=u<stance?0:Math.sin(Math.PI*s)**2*.07*amount;
+   const targetY=(.05+lift-body.position.y-Math.sin(body.rotation.z)*leg.position.x)/Math.cos(body.rotation.z);
+   const down=.145-targetY,length=Math.hypot(down,z);
+   // During stance, local foot travel exactly cancels root travel. Flight uses
+   // a Hermite return matching stance velocity; the ankle stays level at touchdown.
+   leg.rotation.x=-Math.atan2(z,down);leg.position.y=.145;
+   ankle.position.y=-length;ankle.rotation.x=-leg.rotation.x;ankle.rotation.z=-body.rotation.z;
+   calf.position.y=-length*.4;calf.scale.y=length*.65+.04325;
   });
   arms.forEach((arm,i)=>{arm.rotation.x=-Math.sin(phase+i*Math.PI)*.27*amount;arm.rotation.z=(i?1:-1)*.07+(reduced?0:Math.sin(time*1.4+i)*.018);});
   ears.forEach((ear,i)=>{ear.rotation.x=reduced?0:Math.sin(time*2.1+i)*.028+Math.sin(phase-.5)*.035*amount;});
