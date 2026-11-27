@@ -7,6 +7,7 @@ import {
 } from "./continuum-world-render-policy.mjs";
 import {
   clearWorldSegment,
+  clearWorldCameraSegment,
   isWorldWalkable,
   moveWorldActor,
   movementVector,
@@ -155,11 +156,16 @@ export async function createWorldEngine(
     pmrem.dispose();
   }
   const lamps = [],
-    dayShadows = [];
+    dayShadows = [],
+    slidingDoors = [];
   environment.traverse((object) => {
     if (object.userData.worldLamp) {
       object.userData.worldLampPosition = object.getWorldPosition(new THREE.Vector3());
       lamps.push(object);
+    }
+    if (object.userData.hoshiDoorSide) {
+      slidingDoors.push(object);
+      if(Math.hypot(initial.position.x,6-initial.position.z)<3.8)object.position.x=object.userData.hoshiDoorSide*1.86;
     }
     if (object.userData.worldDayShade) dayShadows.push(object);
   });
@@ -363,6 +369,11 @@ export async function createWorldEngine(
       player.root.rotation.y += difference * Math.min(1, dt * 12);
     }
     player.animate(walkTime, speed, reduced);
+    const openStoreDoor=Math.hypot(position.x,6-position.z)<3.8;
+    for(const door of slidingDoors) {
+      const target=door.userData.hoshiDoorSide*(openStoreDoor?1.86:.62);
+      door.position.x+=(target-door.position.x)*(reduced?1:1-Math.exp(-dt*8));
+    }
     const distance = Math.hypot(
       position.x - companionPosition.x,
       position.z - companionPosition.z,
@@ -480,7 +491,7 @@ export async function createWorldEngine(
     for (let fraction = 1; fraction >= 0; fraction -= 0.08) {
       ground.x = position.x + (desiredCamera.x - position.x) * fraction;
       ground.z = position.z + (desiredCamera.z - position.z) * fraction;
-      if (clearWorldSegment(initial.scene, position, ground, 0.18)) {
+      if (clearWorldCameraSegment(initial.scene, position, ground, 0.18)) {
         desiredCamera.x = ground.x;
         desiredCamera.z = ground.z;
         break;

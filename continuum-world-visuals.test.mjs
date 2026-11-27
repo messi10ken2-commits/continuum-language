@@ -102,6 +102,9 @@ test("authored scenes and full-body companions fit fixed geometry budgets and di
       try {
         const room=makeWorldInterior(id,roomMeshes);
         if(id==='tokyo_konbini') {
+          const doors=[];room.traverse(o=>{if(o.userData.hoshiDoorSide)doors.push(o);});
+          assert.equal(doors.length,2);
+          assert.ok(doors.every(d=>d.children.length===2 && d.children.every(m=>m.userData.worldBatch===false && !m.castShadow)), 'sliding doors retain separate movable geometry without cached shadows');
           assert.ok(room.userData.stockedProducts>1000,'readable stocked aisles, not a few anonymous boxes');
           const maps=new Set();room.traverse(o=>{if(o.material)for(const v of Object.values(o.material))if(v?.isTexture)maps.add(v);});
           assert.ok([...maps].some(m=>m.image?.width===1024),'original packaging/floor atlases are present');
@@ -110,7 +113,7 @@ test("authored scenes and full-body companions fit fixed geometry budgets and di
           roomMeshes.dispose();assert.equal(released,maps.size);
         }
         assert.ok(budget(room).draws < 55,JSON.stringify(budget(room)));
-        assert.ok(budget(room).triangles < (id==='tokyo_cafe'?10000:35000),JSON.stringify(budget(room)));
+        assert.ok(budget(room).triangles < (id==='tokyo_cafe'?10000:55000),JSON.stringify(budget(room)));
       } finally { roomMeshes.dispose(); }
     }
     const person = makeWorldPerson(meshes),

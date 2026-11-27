@@ -74,7 +74,7 @@ export function makeGroundedGait(body,bones) {
     body.position.y=baseY;
     resting=weight<.00001;
     if(resting){body.updateMatrixWorld(true);return;}
-    const wave=Math.cos(phase*2*Math.PI),twist=run*.035*wave*weight;
+    const wave=Math.cos(phase*2*Math.PI),twist=-run*.035*wave*weight;
     if(pelvis){
       rotateWorld(pelvis,new THREE.Vector3(0,1,0).applyQuaternion(body.getWorldQuaternion(scratch)),twist);
       pelvis.position.addScaledVector(parentAxes[1],run*.013*Math.sin(phase*2*Math.PI)*weight);
@@ -116,6 +116,13 @@ export function makeGroundedGait(body,bones) {
       const flat=body.getWorldQuaternion(new THREE.Quaternion()).multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0),target.pitch)).multiply(leg.q);
       leg.foot.quaternion.copy(leg.foot.parent.getWorldQuaternion(inverse).invert().multiply(flat));leg.foot.updateWorldMatrix(false,true);
     });
+    // Relaxed cupped hands, with the thumb resting beside the curled fingers.
+    for(const [name,bone] of bones) {
+      if(/^(index|middle|ring|pinky)_0[123]_[lr]$/.test(name))
+        bone.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0),run*weight*(name.includes('_01_')?.18:.30)));
+      else if(/^thumb_0[23]_[lr]$/.test(name))
+        bone.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(1,0,0),run*weight*.10));
+    }
     swing('spine_01',run*.14*weight);
     swing('spine_02',-twist*1.5,new THREE.Vector3(0,1,0));
     swing('spine_03',run*.022*Math.sin(phase*2*Math.PI)*weight,new THREE.Vector3(0,0,1));

@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import {hoshiProductFactory} from './continuum-world-konbini-products.mjs';
+import {hoshiProductFactory,hoshiPackage} from './continuum-world-konbini-products.mjs';
 
 import {hoshiInteriorFixtures} from "./continuum-world-konbini-layout.mjs";
 function floorPaint(c,size) {
@@ -16,7 +16,7 @@ function shell(meshes,root) {
   const floor=meshes.canvasMaterial('Hoshi polished ceramic floor',floorPaint,{roughness:.27,metalness:.04});
   shape(root,'box',floor,[0,-.1,0],[14,.2,12]);
   const wall=surface('concrete',[7,2],0xf1eee4), metal=0x9babae;
-  shape(root,'box',wall,[0,1.9,-6],[14,3.8,.18]);
+  shape(root,'box',surface('wood',[7,2],0xcdb995),[0,1.9,-6],[14,3.8,.18]);
   shape(root,'box',0xe8e9e3,[0,3.78,0],[14,.15,12]);
   for(const side of [-1,1]) {
     shape(root,'box',wall,[side*7,1.9,0],[.18,3.8,12]);
@@ -27,9 +27,12 @@ function shell(meshes,root) {
   for(const side of [-1,1])shape(root,'box',glass,[side*4.35,1.75,5.98],[5.2,2.45,.025]);
   for(const x of [-6.9,-4.3,-1.65,-1.25,1.25,1.65,4.3,6.9])shape(root,'box',metal,[x,1.6,5.94],[.045,3.1,.065]);
   // Broad entry glazing, metal door rails and an outside pavement with depth.
-  for(const x of [-.62,.62]) {
-    shape(root,'box',glass,[x,1.43,5.98],[1.18,2.8,.025]);
-    shape(root,'box',metal,[x+.59,1.43,5.94],[.035,2.8,.055]);
+  for(const side of [-1,1]) {
+    const door=new THREE.Group();door.name='Hoshi automatic sliding door';
+    door.position.x=side*.62;door.userData.hoshiDoorSide=side;root.add(door);
+    const pane=shape(door,'box',glass,[0,1.43,5.98],[1.18,2.8,.025]);
+    const stile=shape(door,'box',metal,[side*.59,1.43,5.94],[.035,2.8,.055]);
+    for(const part of [pane,stile]){part.userData.worldBatch=false;part.castShadow=false;}
   }
   shape(root,'box',metal,[0,2.87,5.96],[2.55,.1,.14]);
   shape(root,'box',0x35434a,[0,.012,4.95],[2.2,.02,1.15]);
@@ -56,7 +59,7 @@ function rack(meshes,root,goods,x,z,width,depth,category) {
   shape(rack,'box',0xe4e8e0,[0,.12,0],[width,.22,depth]);
   shape(rack,'box',metal,[0,1.05,0],[.055,1.95,depth]);
   for(const end of [-depth/2,depth/2]) {
-    shape(rack,'box',0xe6e9df,[0,.95,end],[width,1.9,.055]);
+    shape(rack,'box',0xe6e9df,[0,.18,end],[width,.12,.055]);
     for(const dx of [-width/2,width/2])shape(rack,'box',metal,[dx,.95,end],[.035,1.9,.035]);
   }
   for(let level=0;level<5;level++) {
@@ -64,15 +67,23 @@ function rack(meshes,root,goods,x,z,width,depth,category) {
     shape(rack,'box',0xf1f2e9,[0,y,0],[width,.035,depth]);
     for(const side of [-1,1]) {
       shape(rack,'box',0xc2cdc9,[side*(width/2-.015),y-.035,0],[.025,.075,depth]);
-      const label=sign(rack,level%2?'¥158　¥198　¥128':'¥138　¥178　¥218',[side*(width/2+.003),y-.03,0],depth*.86,'#f4f1e5','#454d42');
-      label.scale.y=.085;label.rotation.y=side*Math.PI/2;
-      for(let n=0;n<Math.floor(depth/.24);n++) {
-        const kind=level===0?'can':level===4?'box':'bag', index=level===0?n%4:4+(n+level+category)%4;
-        const h=level===0?.22:.24+(n%3)*.016;
-        goods(rack,index,[side*width*.28,y+.025+h/2,-depth/2+.15+n*.24],[.17,h,.13],kind,side*Math.PI/2);
-        if(n%3!==1)goods(rack,index,[side*width*.12,y+.025+h/2,-depth/2+.15+n*.24],[.17,h,.13],kind,side*Math.PI/2);
+      for(let labelZ=-depth/2+.22;labelZ<depth/2;labelZ+=.48) {
+        const label=sign(rack,level%2?'¥158':'¥138',[side*(width/2+.003),y-.03,labelZ],.22,'#f4f1e5','#454d42');
+        label.scale.y=.055;label.rotation.y=side*Math.PI/2;
+      }
+      const spacing=level===0?.11:.24;
+      for(let n=0;n<Math.floor(depth/spacing);n++) {
+        const index=level===0?n%4:4+(n+level+category)%4;
+        const {size,kind}=hoshiPackage(index),h=size[1],front=width/2-.07-size[2]/2;
+        const z=-depth/2+spacing*.6+n*spacing;
+        goods(rack,index,[side*front,y+.025+h/2,z],size,kind,side*Math.PI/2);
+        if(n%3!==1)goods(rack,index,[side*(front-size[2]-.04),y+.025+h/2,z],size,kind,side*Math.PI/2);
       }
     }
+  }
+  for(const end of [-1,1])for(let level=0;level<5;level++)for(const side of [-1,1]) {
+    const index=4+(level+category+side+2)%4,{size,kind}=hoshiPackage(index);
+    goods(rack,index,[side*width*.27,.275+level*.335+size[1]/2,end*(depth/2-size[2]/2-.05)],size,kind,end<0?Math.PI:0);
   }
   const board=sign(rack,category%2?'お菓子 ・ カップ麺':'飲料 ・ 日用品',[0,2.08,depth/2+.04],Math.max(1,width+.2),'#f0f2e6','#315b52');board.scale.y=.30;
 }
@@ -86,9 +97,10 @@ function refrigeratedWall(meshes,root,goods,glass,led,side) {
     const z=-3.4+bay*1.2;
     for(const y of [.38,.84,1.30,1.76,2.22]) {
       shape(root,'box',0xc8d2ce,[side*6.48,y,z],[.43,.035,1.14]);
-      for(let n=0;n<5;n++) {
-        const index=side>0?(bay+n)%4:8+(bay+n)%5;
-        goods(root,index,[side*6.43,y+.17,z-.43+n*.215],[.135,side>0?.27:.19,.135],side>0?'bottle':'box',yaw);
+      const count=side>0?12:5,spacing=side>0?.092:.215;
+      for(let n=0;n<count;n++) {
+        const index=side>0?(bay+n)%4:8+(bay+n)%5,{size,kind}=hoshiPackage(index);
+        goods(root,index,[side*(6.29+size[2]/2+.035),y+.025+size[1]/2,z-(count-1)*spacing/2+n*spacing],size,kind,yaw);
       }
     }
     shape(root,'box',glass,[side*6.28,1.38,z],[.022,2.25,1.14]);
@@ -158,7 +170,7 @@ function shapeFreezer(meshes,root,goods,glass,x,z) {
 // Visible through the street glazing; independent light-weight display geometry
 // uses the same packaging as the enterable room without rendering a second room.
 export function dressHoshiExterior(meshes,group,{width,depth}) {
-  const {shape,surface,special,sign}=meshes,face=depth/2,goods=hoshiProductFactory(meshes);
+  const {shape,surface,special,sign}=meshes,face=depth/2,goods=hoshiProductFactory(meshes,{radialSegments:6});
   const metal=surface('metal',1,0xa6b5b4);
   const led=special('Hoshi storefront LED',{color:0xffffff,emissive:0xe8fff2,emissiveIntensity:1.8,toneMapped:false});
   for(const side of [-1,1]) {
@@ -171,7 +183,11 @@ export function dressHoshiExterior(meshes,group,{width,depth}) {
       const y=.28+row*.52;
       shape(group,'box',0xe6ece5,[x,y,face-1.8],[w,.035,.65]);
       shape(group,'box',metal,[x,y-.025,face-1.46],[w,.065,.025]);
-      for(let n=0;n<Math.floor(w/.28);n++)goods(group,row<2?8+(n+row)%5:n%4,[x-w/2+.17+n*.28,y+.17,face-1.73],[.20,.28,.16],row<2?'box':'bottle');
+      const count=Math.floor(w/(row<2?.24:.12)),spacing=w/count;
+      for(let n=0;n<count;n++) {
+        const index=row<2?8+(n+row)%5:n%4,{size,kind}=hoshiPackage(index);
+        goods(group,index,[x-w/2+spacing/2+n*spacing,y+.025+size[1]/2,face-1.73],size,kind);
+      }
     }
     // Reflective mullions and a small service decal remain on the real glazing.
     for(const edge of [-w/2,w/2])shape(group,'box',metal,[x+edge,1.7,face+.055],[.045,3.1,.065]);

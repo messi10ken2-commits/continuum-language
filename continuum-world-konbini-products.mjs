@@ -20,6 +20,16 @@ export const hoshiGoods = [
   ['カップ麺','しょうゆ','#bf4235','#f8e8b1'],
   ['フルーツ','FRUIT MIX','#f4d266','#4c813e'],
 ];
+// Physical pack dimensions: width, height, depth (metres).
+const hoshiPackages=[
+    ['bottle',[.065,.205,.065]],['can',[.055,.105,.055]],['bottle',[.07,.23,.07]],['box',[.075,.22,.075]],
+    ['bag',[.17,.25,.06]],['bag',[.15,.23,.065]],['box',[.10,.18,.035]],['box',[.13,.23,.07]],
+    ['bag',[.105,.12,.045]],['box',[.13,.16,.055]],['box',[.20,.045,.15]],['bag',[.15,.12,.06]],
+    ['can',[.08,.09,.08]],['box',[.18,.25,.012]],['can',[.10,.12,.10]],['box',[.075,.22,.075]],
+  ];
+export function hoshiPackage(index) {
+  const [kind,size]=hoshiPackages[(index+16)%16];return {kind,size};
+}
 function paintAtlas(c,size) {
   const tile=size/4;
   hoshiGoods.forEach(([title,sub,bg,fg],index)=>{
@@ -34,11 +44,11 @@ function paintAtlas(c,size) {
     // Food illustrations give the refrigerated trays readable ingredients.
     c.fillStyle=index===10?'#f3e9ce':index===8?'#faf8e9':index===9?'#ead39b':fg;
     c.beginPath();c.ellipse(91,161,index>=8&&index<=11?63:46,36,0,0,Math.PI*2);c.fill();
-    if(index===8){c.fillStyle='#273b2b';c.fillRect(69,160,44,35);c.fillStyle='#d47862';c.fillRect(81,138,22,12);}
+    if(index===8){c.fillStyle=bg;c.fillRect(25,120,140,80);c.fillStyle='#faf8e9';c.beginPath();c.moveTo(47,190);c.lineTo(91,130);c.lineTo(135,190);c.closePath();c.fill();c.fillStyle='#273b2b';c.fillRect(69,160,44,35);c.fillStyle='#d47862';c.fillRect(81,138,22,12);}
     else if(index===10){for(let n=0;n<24;n++){c.fillStyle=['#de9153','#617d3c','#faf5d7','#b85940'][n%4];c.fillRect(38+n%6*18,136+Math.floor(n/6)*14,15,10);}}
     else if(index===9){c.fillStyle='#f6f0db';c.beginPath();c.moveTo(38,190);c.lineTo(141,190);c.lineTo(89,132);c.closePath();c.fill();c.strokeStyle='#75924e';c.lineWidth=6;c.beginPath();c.moveTo(43,184);c.lineTo(136,184);c.stroke();}
     else {c.fillStyle=bg;c.font='bold 25px sans-serif';c.fillText(index<4?'★':'SELECT',92,170,100);}
-    c.fillStyle=fg;c.font='10px sans-serif';c.fillText(index<4?'内容量 350ml':'おいしさを、毎日に。',92,213,155);
+    c.fillStyle=fg;c.font='10px sans-serif';c.fillText(index<4?['500ml','185ml','500ml','1000ml'][index]:'おいしさを、毎日に。',92,213,155);
     // Side panel, ingredients, barcode and crimped wrapper edges.
     c.fillStyle='#eee9dc';c.fillRect(192,16,55,218);c.fillStyle='#43483e';c.textAlign='left';c.font='7px sans-serif';
     for(let n=0;n<13;n++)c.fillText(n%3===0?'栄養成分表示':'原材料・保存方法',196,28+n*8,47);
@@ -48,7 +58,7 @@ function paintAtlas(c,size) {
     c.restore();
   });
 }
-export function hoshiProductFactory(meshes) {
+export function hoshiProductFactory(meshes,{radialSegments=8}={}) {
   const material=meshes.canvasMaterial('Hoshi original packaging atlas',paintAtlas,{roughness:.48});
   const cache=new Map();
   let count=0;
@@ -57,8 +67,8 @@ export function hoshiProductFactory(meshes) {
     const key=index+':'+kind;
     if(!cache.has(key)) {
       let geometry;
-      if(kind==='bottle')geometry=new THREE.LatheGeometry([[.29,-.5],[.46,-.43],[.46,.20],[.22,.39],[.20,.5]].map(p=>new THREE.Vector2(...p)),8);
-      else if(kind==='can')geometry=new THREE.CylinderGeometry(.5,.5,1,10);
+      if(kind==='bottle')geometry=new THREE.LatheGeometry([[.29,-.5],[.46,-.43],[.46,.20],[.22,.39],[.20,.5]].map(p=>new THREE.Vector2(...p)),radialSegments);
+      else if(kind==='can')geometry=new THREE.CylinderGeometry(.5,.5,1,radialSegments+2);
       else {
         geometry=new THREE.BoxGeometry(1,1,1);
         if(kind==='bag') {

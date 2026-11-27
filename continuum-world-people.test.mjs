@@ -280,6 +280,11 @@ test('real shipped rigs plant support feet, clear swing feet and remain heading 
       const soleRest=soleHeights();
       assert.ok(soleRest.every(Number.isFinite),'test measures the actual shipped shoe vertices');
       const animate=worldPersonPose(scene);let maximumLift=0,stationarySteps=0,flightFrames=0,previous;
+      const handReach=()=>['l','r'].map(side=>['index','middle','ring','pinky'].reduce((sum,finger)=>{
+        const hand=scene.getObjectByName('hand_'+side),tip=scene.getObjectByName(finger+'_03_'+side);
+        return sum+hand.worldToLocal(tip.getWorldPosition(new THREE.Vector3())).length();
+      },0)/4);
+      scene.updateMatrixWorld(true);const restHands=handReach();
       let t=0;
       for(const speed of [1.55,4.2,1.55])for(let i=0;i<120;i++) {
         t+=1/60;
@@ -295,6 +300,7 @@ test('real shipped rigs plant support feet, clear swing feet and remain heading 
             assert.ok(p.distanceTo(previous[n])<.008,'support foot stays planted rather than skating '+JSON.stringify({speed,i,d:p.distanceTo(previous[n])}));stationarySteps++;
           }
         });
+        if(speed>4 && i>25)handReach().forEach((reach,n)=>assert.ok(reach<restHands[n]*.995,'running hands are relaxed and cupped rather than spread flat'));
         const soles=soleHeights();
         soles.forEach((y,n)=>assert.ok(y>=soleRest[n]-.003,'actual shoe soles do not sink through the floor: '+JSON.stringify({variant,speed,i,y,rest:soleRest[n]})));
         if(speed>4 && i>25 && soles.every((y,n)=>y>soleRest[n]+.012))flightFrames++;
@@ -307,6 +313,7 @@ test('real shipped rigs plant support feet, clear swing feet and remain heading 
       for(let i=0;i<120;i++){t+=1/60;animate(t,0,false);}
       animate(t+.1,0,true);root.updateMatrixWorld(true);
       feet.forEach((f,n)=>assert.ok(Math.abs(f.getWorldPosition(new THREE.Vector3()).y-restY[n])<.00001));
+      handReach().forEach((reach,n)=>assert.ok(Math.abs(reach-restHands[n])<.00001,'reduced motion restores the resting hand pose'));
     }
   }finally{globalThis.self=oldSelf;globalThis.createImageBitmap=oldBitmap;}
 });

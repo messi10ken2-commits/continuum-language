@@ -239,6 +239,16 @@ export function clearWorldSegment(scene, from, to, radius = PLAYER_RADIUS) {
       return false;
   return true;
 }
+// The store camera can look through its entrance from the rendered apron.
+// Player navigation remains bounded to the room and other walls still block it.
+export function clearWorldCameraSegment(scene, from, to, radius=.18) {
+  if(scene!=='tokyo_konbini' || to.z<=6-radius)return clearWorldSegment(scene,from,to,radius);
+  if(to.z>9 || Math.abs(to.x)>1.05 || to.z<=from.z)return false;
+  const edge=6-radius-.01,t=(edge-from.z)/(to.z-from.z);
+  if(t<0 || t>1)return false;
+  const threshold={x:from.x+(to.x-from.x)*t,z:edge};
+  return Math.abs(threshold.x)<=1.05 && clearWorldSegment(scene,from,threshold,radius);
+}
 // Bounded grid search is used only when the companion's direct path is obstructed.
 export function worldPath(scene, from, to) {
   if (!isWorldWalkable(scene, from) || !isWorldWalkable(scene, to)) return [];

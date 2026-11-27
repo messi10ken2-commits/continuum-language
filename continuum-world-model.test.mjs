@@ -219,3 +219,12 @@ test('stocked Hoshi aisles keep entry, checkout, side aisles and exit accessible
   const saved=restoreWorldState({...restoreWorldState(),scene:id,position:{x:1.85,z:1.25}});
   assert.deepEqual(saved.position,start,'old saves inside new shelving return to the safe entry');
 });
+
+test('Hoshi entrance camera has a clear apron view while the player stays inside',async()=>{
+  const {clearWorldCameraSegment}=await import('./continuum-world-model.mjs');
+  assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:0,z:7.8}),true);
+  assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:3,z:8}),false,'camera cannot cross the side glazing/walls');
+  assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:0,z:10}),false);
+  assert.equal(clearWorldCameraSegment('tokyo_cafe',{x:0,z:4},{x:0,z:7.8}),false,'café camera policy stays unchanged');
+  assert.equal(isWorldWalkable('tokyo_konbini',{x:0,z:7.8}),false,'camera space is not new player movement space');
+});
