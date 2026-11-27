@@ -192,6 +192,8 @@ test('station forecourt routes around the island, railway and shelters without l
   assert.ok(path.length>0);
   assert.ok(path.every(p=>isWorldWalkable('outdoors',p)));
   assert.equal(worldInteraction('outdoors',destination)?.type,'talk');
+  assert.equal(worldInteraction('outdoors',{x:.5,z:-26.5})?.location.id,'tokyo_station_hall');
+  assert.equal(worldInteraction('outdoors',{x:2.6,z:-26.5})?.location.id,'tokyo_station');
   assert.ok(moveWorldActor('outdoors',{x:0,z:-16},{x:0,z:-10}).z>-18.2);
 });
 

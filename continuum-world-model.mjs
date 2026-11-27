@@ -329,12 +329,14 @@ export function worldInteraction(scene, position) {
       ? { type: "talk", location }
       : null;
   }
-  const places=locationsForScene(scene);
-  // A real entrance wins over a nearby outdoor information point. The station
-  // guide remains reachable at her own marker beside the central doorway.
-  for(const location of places)if(location.interior&&distance(location.door)<2.7)return {type:'enter',location};
-  for(const location of places)if(!location.interior&&distance(location.npc)<3)return {type:'talk',location};
-  return null;
+  // At the station the doorway and information guide are neighbours. Choose
+  // the nearest eligible target so neither masks the other within its radius.
+  let nearest=null,best=Infinity;
+  for(const location of locationsForScene(scene)){
+    const d=distance(location.interior?location.door:location.npc);
+    if(d<(location.interior?2.7:3)&&d<best){best=d;nearest={type:location.interior?'enter':'talk',location};}
+  }
+  return nearest;
 }
 // Outdoor information points lead to the person; enterable shops lead to a door.
 export function worldDestinationPoint(id) {
