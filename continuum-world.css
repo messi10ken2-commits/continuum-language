@@ -210,3 +210,5 @@
 .cw-world .cw-music-toggle {width:40px;min-width:40px;max-width:40px;padding:8px;flex:0 0 40px;}
 @media(prefers-reduced-motion:reduce){.cw-transition-frame {transition:none;}}
 .cw-world[data-reduced=true] .cw-transition-frame {transition:none;}
+
+.cw-journey article{display:flex;flex-wrap:wrap;align-items:center;gap:.65rem;margin:.7rem 0;padding:.8rem;border:1px solid #4c635f;border-radius:.8rem}.cw-journey article b{flex:1 1 12rem}.cw-journey article small{flex-basis:100%}.cw-journey label{display:grid;gap:.35rem;margin:.8rem 0}.cw-journey select{max-width:100%;width:100%;min-height:44px}.cw-journey button:disabled,.cw-place-list button:disabled{opacity:.55}

@@ -19,6 +19,8 @@ import {
   worldInteraction,
   worldDestinationPoint,
   worldLocations,
+  locationsForScene,
+  isOutdoorScene,
   worldPath,
   worldCompanionSpawn,
 } from "./continuum-world-model.mjs";
@@ -71,7 +73,7 @@ export async function createWorldEngine(
   host.append(canvas);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  const indoor = initial.scene !== "outdoors";
+  const indoor = !isOutdoorScene(initial.scene);
   const convenienceStore = initial.scene === "tokyo_konbini";
   let environment;
   try {
@@ -80,7 +82,7 @@ export async function createWorldEngine(
           initial.scene,
           meshes,
         )
-      : makeOutdoorWorld(meshes);
+      : initial.scene==='osaka' ? (await import('./continuum-world-osaka.mjs')).makeOsakaWorld(meshes) : makeOutdoorWorld(meshes);
   } catch (error) {
     if(!session){renderer.dispose();canvas.remove();}
     meshes.dispose();
@@ -102,13 +104,14 @@ export async function createWorldEngine(
   const npcs = (
     indoor
       ? worldLocations.filter((l) => l.id === initial.scene)
-      : worldLocations.filter((l) => !l.interior)
+      : locationsForScene(initial.scene).filter((l) => !l.interior)
   ).map((location) => {
+    const color=({tokyo_station:0x597b89,tokyo_station_hall:0x597b89,tokyo_bookshop:0x7a8b65,tokyo_music:0x896b7c,tokyo_asahi:0x637c86,osaka_takoyaki:0xb89b72,osaka_arcade:0x6b8d89})[location.id]||0xa9997b;
     const actor = makeWorldPerson(meshes, {
-      color: location.id === "tokyo_station" ? 0x597b89 : 0xa9997b,
+      color,
       npc: true,
     });
-    actor.color = location.id === "tokyo_station" ? 0x597b89 : 0xa9997b;
+    actor.color = color;
     actor.root.position.set(location.npc.x, worldFloorHeight(initial.scene, location.npc), location.npc.z);
     scene.add(actor.root);
     return actor;
@@ -119,7 +122,7 @@ export async function createWorldEngine(
   const pedestrians=indoor?[]:Array.from({length:meshes.physical?4:2},(_,i)=>{
     const actor=makeWorldPerson(meshes,{npc:true,color:[0x6b7280,0xc1b2a0,0x426065,0x907275][i]});
     actor.color=[0x6b7280,0xc1b2a0,0x426065,0x907275][i];actor.variant=i%2?'traveller':'resident';
-    scene.add(actor.root);return makeTokyoPedestrian(actor,i);
+    scene.add(actor.root);return makeTokyoPedestrian(actor,i,initial.scene);
   });
   const people = upgradeWorldPeople([player, ...npcs,...pedestrians.map(p=>p.actor)], {
     signal,
@@ -458,7 +461,9 @@ export async function createWorldEngine(
         position.z - companionPosition.z,
       ) - companion.rotation.y,
     );
-    for(const pedestrian of pedestrians)pedestrian.update(dt,walkTime,reduced,[position,companionPosition]);
+    const hourForCrowd=settings.time==='night'?22:settings.time==='day'?15:new Date().getHours();
+    const quietHours=hourForCrowd<6||hourForCrowd>=19;
+    pedestrians.forEach((pedestrian,i)=>{pedestrian.actor.root.visible=!quietHours||i<Math.max(1,Math.ceil(pedestrians.length/2));if(pedestrian.actor.root.visible)pedestrian.update(dt,walkTime,reduced,[position,companionPosition]);});
     for (const [npcIndex,npc] of npcs.entries()) {
       if(settings.talking&&Math.hypot(npc.root.position.x-settings.talking.x,npc.root.position.z-settings.talking.z)<.1){
         const target=Math.atan2(position.x-npc.root.position.x,position.z-npc.root.position.z);

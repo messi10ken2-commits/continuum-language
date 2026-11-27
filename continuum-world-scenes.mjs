@@ -475,7 +475,7 @@ export function worldMeshes({ quality = "auto" } = {}) {
   };
 }
 
-function shopBuilding(
+export function shopBuilding(
   meshes,
   parent,
   { x, z, width, depth, height, sign: text, id, color, rotation = 0 },
@@ -501,7 +501,9 @@ function shopBuilding(
   for (const dx of [-width / 2 + 0.2, width / 2 - 0.2])
     shape(group, "box", skin, [dx, 1.8, 0], [0.4, 3.6, depth]);
   shape(group, "box", surface("tile", 4), [0, 0.025, 0], [width, 0.08, depth]);
-  shape(group, "box", 0xbbb9af, [0, 3.55, 0], [width, 0.16, depth]);
+  // Recess the slab edges 4 cm. Their former coplanar overlap with the side
+  // walls caused the moving bright stripe in narrow-angle/mobile views.
+  shape(group, "box", 0xbbb9af, [0, 3.55, 0], [width - .08, 0.16, depth - .08]);
   const glass = special("glass", {
     color: 0x6f929f,
     metalness: 0.32,
@@ -692,37 +694,8 @@ export function makeOutdoorWorld(meshes) {
       );
     }
   }
-  for (const location of worldLocations.filter((l) => l.id !== "tokyo_park" && l.id !== "tokyo_station"))
-    shopBuilding(meshes, root, location);
-  shopBuilding(meshes, root, {
-    x: -24,
-    z: 15,
-    width: 18,
-    depth: 22,
-    height: 18,
-    sign: "青葉書店",
-    color: 0xb4b7b4,
-    rotation: Math.PI / 2,
-  });
-  shopBuilding(meshes, root, {
-    x: -30,
-    z: -31,
-    width: 8,
-    depth: 12,
-    height: 25,
-    sign: "路地の音楽室",
-    color: 0xc5c0b7,
-  });
-  shopBuilding(meshes, root, {
-    x: 29,
-    z: -31,
-    width: 10,
-    depth: 12,
-    height: 22,
-    sign: "朝日ビル",
-    color: 0x929c9f,
-  });
-  for (const location of worldLocations.filter((l) => l.id !== "tokyo_park"))
+  for(const location of worldLocations.filter(l=>l.interior&&(l.district||'tokyo')==='tokyo'&&l.model!==false))shopBuilding(meshes,root,location);
+  for (const location of worldLocations.filter((l) => ["tokyo_cafe","tokyo_konbini","tokyo_station"].includes(l.id)))
     meshes.buildingShade(
       root,
       location.x,

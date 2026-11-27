@@ -17,17 +17,32 @@ const rows=[
  ['daily-station','tokyo_station','daily','今日のひとこと：案内',['Ask about a fictional destination.','Clarify one detail.','Thank the staff.']],
  ['daily-park','tokyo_park','daily','今日のひとこと：公園',['Start a short friendly conversation.','Share a non-sensitive preference.','Ask a follow-up question.']],
 ];
+for(const row of [
+ ['book-find','tokyo_bookshop','main','自分に合う一冊',['Explain what kind of book interests you.','Discuss a recommendation or reading difficulty.','Choose a book and explain your reason.'],'park-meet'],
+ ['music-rehearse','tokyo_music','main','路地の音楽体験',['Ask about a fictional music workshop.','Explain a preference or your experience.','Confirm an activity and its time.'],'book-find'],
+ ['asahi-plan','tokyo_asahi','main','街の交流会を計画',['Ask about a community event.','Suggest an activity and give a reason.','Agree on a fictional plan.'],'music-rehearse'],
+ ['station-journey','tokyo_station_hall','main','大阪への旅支度',['Ask about a fictional trip to Osaka.','Clarify route, timing or ticket options.','Confirm a suitable travel plan without real booking or payment.'],'asahi-plan'],
+ ['osaka-order','osaka_takoyaki','main','大阪で味を楽しむ',['Order a fictional food item politely.','Explain a flavour preference or ask about an ingredient.','Confirm your choice.'],'station-journey'],
+ ['osaka-culture','osaka_arcade','main','商店街で会話を広げる',['Ask about the fictional shopping arcade.','Discuss a local activity and explain your interest.','Confirm your plan or ask a follow-up.'],'osaka-order'],
+ ['book-compare','tokyo_bookshop','side','二冊を比べる',['Compare two fictional books.','Explain what you find easier or more interesting.','Ask a relevant follow-up question.']],
+ ['music-preference','tokyo_music','side','音楽の好みを伝える',['Explain a musical preference.','Ask about an activity.','Respond to the suggestion.']],
+ ['asahi-clarify','tokyo_asahi','side','イベントの条件を確かめる',['Ask about an event detail.','Clarify a condition or time.','Restate your understanding.']],
+ ['station-ticket','tokyo_station_hall','side','駅舎できっぷを相談',['Ask about fictional ticket options.','Compare two options.','Confirm the useful information.']],
+ ['osaka-flavour','osaka_takoyaki','side','だしとソースを相談',['Ask how two flavours differ.','Explain your preference.','Confirm an option politely.']],
+ ['osaka-expression','osaka_arcade','side','大阪のことばを聞いてみる',['Ask about a short local expression.','Clarify its meaning and appropriate context.','Try using it in the fictional conversation.']],
+])rows.push(row);
+for(const place of worldLocations.filter(l=>l.requires))rows.push(['daily-'+place.id,place.id,'daily','今日の街歩き：'+place.sign,['Ask a relevant question about this fictional place today.','Explain a preference or clarify a detail.','Respond and close naturally.']]);
 export const worldMissions=rows.map(([id,location,type,title,goals,requires])=>({id,location,type,title,goals,requires:requires||null,xp:type==='main'?80:type==='side'?30:15}));
 export const worldMission=id=>worldMissions.find(m=>m.id===id);
 export function worldScenario(id){
  const mission=worldMissions.find(m=>'world-'+m.id===id);if(!mission)return null;
  const place=worldLocations.find(l=>l.id===mission.location),npc=place.npc;
- return {id,worldLocation:place.id,missionId:mission.id,title:mission.title,role:`${npc.name}, a ${npc.role} at fictional ${place.title} in Tokyo; ${npc.personality}; ${npc.speech}. Never request addresses, contacts, secrets or real payment.`,goals:mission.goals,opening:{ja:npc.line}};
+ return {id,worldLocation:place.id,missionId:mission.id,title:mission.title,role:`${npc.name}, a ${npc.role} at fictional ${place.title} in ${place.district==='osaka'?'Osaka':'Tokyo'}; ${npc.personality}; ${npc.speech}. Never request addresses, contacts, secrets or real payment.`,goals:mission.goals,opening:{ja:npc.line}};
 }
 export const worldDay=(at=Date.now())=>new Date(at+9*3600000).toISOString().slice(0,10);
 export function availableWorldMissions(awards=[],day=worldDay()){
- const done=new Set(awards.map(a=>a.mission_id)),daily=worldMissions.filter(m=>m.type==='daily'),index=Math.floor(Date.parse(day)/86400000)%daily.length;
- return worldMissions.filter(m=>m.type!=='daily'||[daily[index].id,daily[(index+1)%daily.length].id].includes(m.id)).map(m=>({...m,locked:!!m.requires&&!done.has(m.requires),completed:awards.some(a=>a.mission_id===m.id&&(m.type!=='daily'||a.day===day))}));
+ const done=new Set(awards.map(a=>a.mission_id)),placeLocked=m=>{const r=worldLocations.find(l=>l.id===m.location)?.requires;return !!r&&!done.has(r);},daily=worldMissions.filter(m=>m.type==='daily'&&!placeLocked(m)),index=Math.floor(Date.parse(day)/86400000)%daily.length;
+ return worldMissions.filter(m=>m.type!=='daily'||[daily[index].id,daily[(index+1)%daily.length].id].includes(m.id)).map(m=>({...m,locked:placeLocked(m)||!!m.requires&&!done.has(m.requires),completed:awards.some(a=>a.mission_id===m.id&&(m.type!=='daily'||a.day===day))}));
 }
 export function worldGoalEvidence(review,messages){
  const words=messages.filter(m=>m.role==='user').map(m=>m.text);
@@ -43,4 +58,4 @@ const memoryTopics={
  'park-meet':'自己紹介','park-weather':'季節のお話','park-plan':'近くのお出かけ先',
  'daily-cafe':'今日のメニュー','daily-shop':'商品の選び方','daily-station':'街の道案内','daily-park':'公園での過ごし方'
 };
-export const memorySummary=mission=>`前回は${memoryTopics[mission.id]}についてお話ししましたね。`;
+export const memorySummary=mission=>`前回は${memoryTopics[mission.id]||(worldLocations.find(l=>l.id===mission.location)?.sign||'街')+'での活動'}についてお話ししましたね。`;

@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   worldAvailable,
+  isOutdoorScene,
+  outdoorForLocation,
   worldLocations,
   worldScenes,
   isWorldWalkable,
@@ -25,7 +27,7 @@ test("companion entry placement stays walkable and moves ahead of an indoor door
       Math.hypot(companion.x - scene.spawn.x, companion.z - scene.spawn.z) >
         0.5,
     );
-    if (id !== "outdoors") assert.ok(companion.z < scene.spawn.z);
+    if (!isOutdoorScene(id)) assert.ok(companion.z < scene.spawn.z);
   }
   for (const p of [
     { x: 0, z: -2.4 },
@@ -61,17 +63,17 @@ test("Tokyo is opt-in, Japanese learner-only and illustrated-only", () => {
   ])
     assert.equal(worldAvailable({ ...eligible, ...override }), false);
 });
-test("four authored places have safe doors, four distinct NPCs and two enterable interiors", () => {
-  assert.equal(worldLocations.length, 4);
-  assert.equal(worldLocations.filter((l) => l.interior).length, 2);
-  assert.equal(new Set(worldLocations.map((l) => l.npc.id)).size, 4);
+test("both districts have safe doors, distinct NPCs and enterable interiors", () => {
+  assert.equal(worldLocations.length, 10);
+  assert.equal(worldLocations.filter((l) => l.interior).length, 8);
+  assert.equal(new Set(worldLocations.map((l) => l.npc.id)).size, 10);
   for (const location of worldLocations) {
-    assert.ok(isWorldWalkable("outdoors", location.door));
+    assert.ok(isWorldWalkable(outdoorForLocation(location), location.door));
     assert.ok(
-      worldPath("outdoors", worldScenes.outdoors.spawn, location.door).length,
+      worldPath(outdoorForLocation(location), worldScenes[outdoorForLocation(location)].spawn, location.door).length,
     );
     if (location.interior)
-      assert.equal(worldInteraction("outdoors", location.door)?.type, "enter");
+      assert.equal(worldInteraction(outdoorForLocation(location), location.door)?.type, "enter");
   }
 });
 test("collision stops tunneling, slides along walls and bounds every scene", () => {
@@ -171,11 +173,11 @@ test("every world interface source has offline copy in every existing display la
 test("destination markers lead within interaction range of the correct door or NPC", () => {
   for (const location of worldLocations) {
     const point = worldDestinationPoint(location.id);
-    assert.ok(isWorldWalkable("outdoors", point));
-    const action = worldInteraction("outdoors", point);
+    assert.ok(isWorldWalkable(outdoorForLocation(location), point));
+    const action = worldInteraction(outdoorForLocation(location), point);
     assert.equal(action?.location.id, location.id);
     assert.equal(action?.type, location.interior ? "enter" : "talk");
-    assert.ok(worldPath("outdoors", worldScenes.outdoors.spawn, point).length);
+    assert.ok(worldPath(outdoorForLocation(location), worldScenes[outdoorForLocation(location)].spawn, point).length);
   }
   assert.equal(worldDestinationPoint("missing"), null);
 });

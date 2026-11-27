@@ -3,7 +3,7 @@ import{worldMissions,worldScenario,availableWorldMissions,worldGoalEvidence,worl
 import{worldImmersiveCopy}from'./continuum-world-immersive-copy.mjs';
 import{worldPhase2Copy}from'./continuum-world-phase2-copy.mjs';import{requestConversation}from'./conversation-provider.mjs';
 test('Tokyo has authored main/side/daily goals and progressive missions without locking free exploration',()=>{
- assert.equal(worldMissions.filter(m=>m.type==='main').length,4);assert.equal(worldMissions.filter(m=>m.type==='side').length,8);assert.equal(worldMissions.filter(m=>m.type==='daily').length,4);assert.equal(new Set(worldMissions.map(m=>m.id)).size,16);
+ assert.equal(worldMissions.filter(m=>m.type==='main').length,10);assert.equal(worldMissions.filter(m=>m.type==='side').length,14);assert.equal(worldMissions.filter(m=>m.type==='daily').length,10);assert.equal(new Set(worldMissions.map(m=>m.id)).size,34);
  for(const m of worldMissions){const s=worldScenario('world-'+m.id);assert.equal(s.goals.length,3);assert.equal(s.worldLocation,m.location);assert.ok(s.opening.ja);}
  const a=availableWorldMissions([], '2026-11-27');assert.ok(a.find(m=>m.id==='shop-buy').locked);assert.equal(availableWorldMissions([{mission_id:'cafe-order',day:'once'}]).find(m=>m.id==='shop-buy').locked,false);
  assert.notDeepEqual(a.filter(m=>m.type==='daily').map(m=>m.id),availableWorldMissions([],'2026-11-28').filter(m=>m.type==='daily').map(m=>m.id));
