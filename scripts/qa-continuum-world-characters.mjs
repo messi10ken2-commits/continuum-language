@@ -22,7 +22,7 @@ const people=['traveller','resident'].map((variant,i)=>{const a=makeWorldPerson(
 const manager=upgradeWorldPeople(people,{physical:true,fabric:meshes.surface('fabric',3)});await manager.ready;
 if(people.some(a=>a.root.userData.worldPerson!=='skinned'))throw Error('Character art requires shipped rigs');
 window.characterShot=(mode,time=2.0,reduced=false)=>{
- animals.forEach(a=>a.root.visible=mode.startsWith('companions'));people.forEach(a=>a.root.visible=mode!=='companions');
+ animals.forEach(a=>a.root.visible=mode.startsWith('companions'));people.forEach(a=>a.root.visible=!mode.startsWith('companions'));
  camera.position.set(0,mode.startsWith('companions')?3.1:1.6,mode.startsWith('companions')?7.3:4.6);camera.lookAt(0,mode.startsWith('companions')?.32:.95,0);
  animals.forEach(a=>{for(let n=1;n<=144;n++)a.animate(time+n/60,mode==='companions-walk'?1:0,reduced,.2);});
  people.forEach((a,i)=>{a.root.rotation.y=mode==='people-back'?Math.PI:0;for(let n=1;n<=144;n++)a.animate(time+n/60,mode==='people-walk'?1.3:0,reduced);});
