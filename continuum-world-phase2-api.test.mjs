@@ -42,6 +42,7 @@ try{
  assert.equal((await turn('お茶はありますか。')).status,200);assert.equal(lastContext.worldContext.memories.length,0);assert.equal(lastContext.history.length,0,'revoked memory does not leak through old assistant history');
  await api('/world/memory-consent','PUT',{enabled:false,version:p.consent.version},a.cookie);p=(await api('/world/profile','GET',null,a.cookie)).data;assert.equal(p.memories.length,0);assert.equal(p.consent.enabled,false);
  assert.equal((await db.query('SELECT count(*)::int n FROM practice_attempts WHERE user_id=$1',[uid])).rows[0].n,0);
+ const patterns=await api('/patterns?language=ja','GET',null,a.cookie);assert.equal(patterns.status,200);assert.equal(patterns.data.coverage.world,1);assert.ok(patterns.data.topics.some(t=>t.kind==='World practice'&&t.evidence.some(e=>e.text.includes('ここに座ってもいいですか。'))));assert.ok(!(await api('/patterns?language=en','GET',null,a.cookie)).data.topics.some(t=>t.kind==='World practice'));
  const shared=await api('/teacher/learners/'+uid+'?language=ja','GET',null,teacher.cookie);assert.equal(shared.status,200);assert.equal(shared.data.worldRecords.length,1);assert.ok(!JSON.stringify(shared.data).includes('memorySuggestion'));
  const denied=await api('/teacher/learners/'+uid+'?language=ja','GET',null,wrong.cookie);assert.equal(denied.status,403);
  await db.query('UPDATE users SET share_self_learning=false WHERE id=$1',[uid]);assert.equal((await api('/teacher/learners/'+uid+'?language=ja','GET',null,teacher.cookie)).data.worldRecords.length,0);

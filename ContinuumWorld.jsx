@@ -628,7 +628,7 @@ export default function ContinuumWorld({ user, onBack }) {
             className="cw-dialog"
             role="dialog"
             aria-modal="true"
-            aria-label={dialogue ? dialogue.name : t("World settings")}
+            aria-label={dialogue ? dialogue.name : t(panel==='missions'?"Missions and NPC memory":"World settings")}
           >
             <button type="button" className="cw-close" onClick={close}>
               {t("Close")}

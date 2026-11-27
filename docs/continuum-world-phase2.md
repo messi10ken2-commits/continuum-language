@@ -8,9 +8,22 @@ World scenarios reuse speaking_sessions, the validated reply/review/real audio p
 
 ## Data flow
 
-Practice → existing World → nearby NPC (or accessible place list) → server-authorized visit → existing speaking start/turn/audio/review → transactional World evidence and reward → learner Learning Memory and scoped teacher view. Optional class context requires an additional checkbox. World UI and dialogue are lazy loaded. Outside a dialogue there are no NPC AI calls.
+Practice → existing World → nearby NPC (or accessible place list) → server-authorized visit → existing speaking start/turn/audio/review → transactional World evidence and reward → learner Learning Memory, the existing recurring-pattern evidence model, and the scoped teacher view. World evidence is unscored observation data; AI study recommendations can cite it under the existing analysis-consent rules. Optional class context requires an additional checkbox. World UI and dialogue are lazy loaded. Outside a dialogue there are no NPC AI calls.
 
 Four NPCs/locations use A1–C1 scenarios. Four main, eight side and four rotating daily mission definitions each carry three practical communication goals. At least the first goal and two total goals must have exact learner quotes verified by the existing AI review validator. Keywords alone cannot complete a mission. Per-user mission/day reward keys prevent duplicate XP; no practice_attempts/course completions or paid balances are written. Main missions unlock the next story mission while all four original places remain freely explorable. XP/achievement state is server-owned; the companion reacts after a new award when returning to exploration, respecting reduced motion.
+
+```mermaid
+flowchart TD
+  A["Nearby NPC / accessible place list"] --> B["Owned World visit"]
+  B --> C["Existing conversation and audio service"]
+  C --> D["Verified learner evidence"]
+  D --> E["Learning Memory and study analysis"]
+  E --> F["Scoped teacher view"]
+  D --> G["Idempotent World rewards"]
+  D --> H["Authored summary preview"]
+  H -->|"Opt-in and confirmation"| I["Private NPC memories"]
+  I -->|"Current consent only"| C
+```
 
 ## Consent and memory
 

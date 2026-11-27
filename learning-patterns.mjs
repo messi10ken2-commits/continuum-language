@@ -9,7 +9,7 @@ export function questionEvidence(id,answers,seed,resolved=null){
  lesson.questions.forEach((q,i)=>{const topic=getLesson(q.sourceLesson)?q.sourceLesson:id;const row=byTopic.get(topic)||{lesson:topic,correct:0,total:0,items:[]};row.total++;const correct=isCorrect(q,answers[i]);if(correct)row.correct++;row.items.push({prompt:q.prompt,correct,response:q.type==='text'?answers[i]:q.options[answers[i]],expected:q.type==='text'?q.answer:q.options[q.answer],explanation:q.note||''});byTopic.set(topic,row);});
  return [...byTopic.values()];
 }
-export function buildPatternEvidence({language='es',attempts=[],notes=[],submissions=[],assessments=[],pronunciation=[],lightRecords=[]}){
+export function buildPatternEvidence({language='es',attempts=[],notes=[],submissions=[],assessments=[],pronunciation=[],lightRecords=[],worldRecords=[]}){
  attempts=[...attempts,...immersiveLightEvidence(lightRecords)];
  const topics=new Map(),coverage={lessons:0,classes:0,skills:0,assessments:0,pronunciation:0};
  const add=(id,title,kind,lessonId,event)=>{const row=topics.get(id)||{id,title,kind,lessonId:lessonId||null,events:[]};row.events.push(event);topics.set(id,row);};
@@ -25,6 +25,12 @@ export function buildPatternEvidence({language='es',attempts=[],notes=[],submiss
   else if(Number.isFinite(r.score))add('task:'+task.id,task.title,'Task accuracy',task.lessonId,{id:'skill:'+s.id,at:s.at,score:r.score,correct:r.score,total:100,text:r.feedback||'Saved task score.'});
  }
  for(const p of pronunciation){if(languageOf(p.lesson)!==language)continue;coverage.pronunciation++;const l=getLesson(p.lesson);if(!l)continue;add('pronunciation:'+p.lesson,l.title+' · pronunciation','Speech-match score',lessonList.some(x=>x.id===l.id)?l.id:null,{id:'pronunciation:'+p.id,at:p.at,score:p.score,correct:p.score,total:100,text:'Saved browser speech-match result. This checks recognized words, not a professional pronunciation rating.'});}
+ for(const r of worldRecords){
+  if(r.language!==language||r.source!=='world_npc_conversation')continue;
+  coverage.world=(coverage.world||0)+1;
+  const lessonId=(r.evidence?.relatedLessonIds||[]).find(id=>languageOf(id)===language&&getLesson(id));
+  add('world:'+r.missionId,r.title,'World practice',lessonId,{id:'world:'+r.id,at:r.at,score:null,text:r.detail?.slice(0,2200)||''});
+ }
  for(const n of notes){if((n.language||'es')!==language)continue;coverage.classes++;add('note:'+n.focus.trim().toLowerCase(),n.focus,'Class observation',null,{id:'note:'+n.id,at:n.at,score:null,text:n.note});}
  for(const a of assessments){if((a.language||'es')!==language)continue;coverage.assessments++;let items;try{items=assessmentItems(a.form,a.version)}catch{continue;}
   const groups=new Map();items.forEach((q,i)=>{if(i>=(a.answers?.length||0))return;const kind=q.skill||'Knowledge';const r=groups.get(kind)||{correct:0,total:0};r.total++;if(a.answers[i]===q.answer)r.correct++;groups.set(kind,r);});
@@ -35,7 +41,7 @@ export function buildPatternEvidence({language='es',attempts=[],notes=[],submiss
   const scored=t.events.filter(e=>Number.isFinite(e.score)),recent=scored.slice(-5),allTotal=scored.reduce((s,e)=>s+e.total,0);
   const average=xs=>xs.length?Math.round(xs.reduce((s,e)=>s+e.correct,0)/xs.reduce((s,e)=>s+e.total,0)*100):null;
   const score=average(recent),previous=average(scored.slice(Math.max(0,scored.length-10),Math.max(0,scored.length-5))),low=recent.filter(e=>e.score<80).length;
-  return {...t,count:t.events.length,scoredCount:scored.length,score,previous,allTimeScore:allTotal?average(scored):null,lowCount:low,recurring:low>=2,status:score===null?'Class observation':score>=80?'On track':low>=2?'Recurring difficulty':'Review suggested',priority:score===null?35:100-score+(low>=2?15:0),evidence:t.events.slice(-5).reverse()};
+  return {...t,count:t.events.length,scoredCount:scored.length,score,previous,allTimeScore:allTotal?average(scored):null,lowCount:low,recurring:low>=2,status:score===null?(t.kind==='World practice'?'World practice':'Class observation'):score>=80?'On track':low>=2?'Recurring difficulty':'Review suggested',priority:score===null?35:100-score+(low>=2?15:0),evidence:t.events.slice(-5).reverse()};
  }).sort((a,b)=>b.priority-a.priority||a.id.localeCompare(b.id));
  return {language,coverage,topics:result.map(({events,...row})=>row)};
 }
