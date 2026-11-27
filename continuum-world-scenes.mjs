@@ -1,3 +1,4 @@
+import {dressCafeExterior} from './continuum-world-cafe.mjs';
 import * as THREE from "three";
 import { dressHoshiExterior } from "./continuum-world-konbini.mjs";
 import { makeStationDistrict } from "./continuum-world-station.mjs";
@@ -519,7 +520,7 @@ function shopBuilding(
         [center, 1.8, face - 0.03],
         [bay - 0.06, 2.9, 0.035],
       );
-      if (id !== "tokyo_konbini") {
+      if (!detailed) {
       shape(
         group,
         "box",
@@ -573,7 +574,7 @@ function shopBuilding(
     [0, 3.86, face + 0.12],
     [width + 0.1, 0.65, 0.28],
   );
-  if (id !== "tokyo_konbini") sign(group, text, [0, 3.86, face + 0.275], Math.min(width - 1, 7), fascia);
+  if (!detailed) sign(group, text, [0, 3.86, face + 0.275], Math.min(width - 1, 7), fascia);
   for (let y = 5.6; y < height - 1; y += 3) {
     shape(group, "box", frame, [0, y - 1.05, face + 0.1], [width, 0.12, 0.2]);
     if (!detailed) for (let dx = -width / 2 + 1.3; dx < width / 2 - 0.5; dx += 2.4) {
@@ -640,6 +641,7 @@ function shopBuilding(
   }
   }
   if (id === "tokyo_konbini") dressHoshiExterior(meshes,group,{width,depth});
+  else if(id === "tokyo_cafe") dressCafeExterior(meshes,group,{width,depth});
   else dressShopfront(meshes, group, { width, depth, id, sign: text });
   if (detailed) dressTokyoBlock(meshes, group, {width, depth, height, id});
   contact(group, 0, face + 0.2, width, 3, 0.3);

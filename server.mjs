@@ -1,3 +1,4 @@
+import {staticEncodings} from './static-encoding.mjs';
 import {migrateMailOperations,handleMailOperations} from './mail-operations.mjs';
 import {migratePush,handlePush} from './push-api.mjs';
 import {handleAppAssociation} from './app-links-api.mjs';
@@ -324,14 +325,6 @@ async function handle(req,res){
  if(route==='/api/notes'&&req.method==='GET'){const user=await required(req,'learner');const r=await pool.query('SELECT n.id,n.teacher_id AS "teacherId",n.revision,n.suggested_lesson_id AS "lessonId",(SELECT id FROM class_assignments a WHERE a.note_id=n.id LIMIT 1) AS "assignmentId",n.language,n.focus,n.note,n.created_at AS at,u.name AS teacher FROM class_notes n JOIN users u ON u.id=n.teacher_id WHERE n.learner_id=$1 ORDER BY n.created_at DESC LIMIT 50',[user.id]);return send(res,200,{notes:r.rows})}
  fail(404,'Not found');
 }
-function acceptsGzip(header=''){
- const encodings=new Map(header.toLowerCase().split(',').map(value=>{
-  const [name,...parameters]=value.trim().split(';');
-  const quality=parameters.find(part=>part.trim().startsWith('q='));
-  return [name.trim(),quality?Number(quality.trim().slice(2)):1];
- }));
- return (encodings.get('gzip')??encodings.get('*')??0)>0;
-}
 const publicPages=new Map([['/terms','terms'],['/privacy','privacy'],['/help','help']]);
 async function serve(req,res,route){
  if(req.method!=='GET'&&req.method!=='HEAD')return send(res,405,{error:'Method not allowed'});
@@ -353,19 +346,19 @@ async function serve(req,res,route){
  if(route==='/'||!path.extname(route))filename=path.join(dist,'index.html');
  const type=mime[path.extname(filename)]||'application/octet-stream';
  const media=type==='audio/mp4'||type==='video/mp4';
- const compressible=filename.startsWith(path.join(dist,'assets')+path.sep)&&['.js','.css'].includes(path.extname(filename));
- let file,gzip=false;
+ const compressible=(filename.startsWith(path.join(dist,'assets')+path.sep)&&['.js','.css'].includes(path.extname(filename)))||/^\/world-tokyo\/people\/(?:traveller|resident)\.glb$/.test(route);
+ let file,encoding;
  try{
-  if(compressible&&acceptsGzip(req.headers['accept-encoding'])){
-   file=await fs.open(filename+'.gz','r').catch(error=>{if(error.code!=='ENOENT')throw error;});
-   gzip=!!file;
+  if(compressible)for(const candidate of staticEncodings(req.headers['accept-encoding'])){
+   file=await fs.open(filename+(candidate==='br'?'.br':'.gz'),'r').catch(error=>{if(error.code!=='ENOENT')throw error;});
+   if(file){encoding=candidate;break;}
   }
   file??=await fs.open(filename,'r');
   const info=await file.stat();
   if(!info.isFile())return send(res,404,{error:'Not found'});
   const headers={'Content-Type':type,'Cache-Control':filename.endsWith('index.html')||route==='/legal.css'?'no-cache':'public, max-age=31536000, immutable'};
-  if(compressible)headers.Vary='Accept-Encoding';
-  if(gzip)headers['Content-Encoding']='gzip';
+  if(compressible)headers.Vary=res.getHeader('Vary')?res.getHeader('Vary')+', Accept-Encoding':'Accept-Encoding';
+  if(encoding)headers['Content-Encoding']=encoding;
   if(media)headers['Accept-Ranges']='bytes';
   const range=media&&req.headers.range&&!req.headers['if-range']?videoRange(req.headers.range,info.size):undefined;
   if(range===null){

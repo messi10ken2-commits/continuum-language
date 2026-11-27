@@ -1,6 +1,10 @@
 import * as THREE from "three";
 import { worldPbrAssets } from "./continuum-world-pbr-assets.mjs";
 
+// CPU-only source canvases are bounded to authored surface names. Each scene
+// receives its own copy; GPU disposal cannot shrink a future scene's source.
+const surfaceCanvases=new Map();
+const authoredSurfaces=new Set(['paving','asphalt','concrete','wood','tile','bark','fabric','fur','grass','metal','leaves']);
 // Original deterministic fallbacks plus bundled, unmodified CC0 surface scans.
 export function worldRandom(seed = 39) {
   return () => {
@@ -82,7 +86,10 @@ export function makeWorldSurfaces(register, updated = () => {}) {
       }[name] || "#888888";
     c.fillStyle = base;
     c.fillRect(0, 0, 512, 512);
-    for (let i = 0; i < 26000; i++) {
+    if(surfaceCanvases.has(name)){
+      c.drawImage(surfaceCanvases.get(name),0,0);
+    }else{
+    for (let i = 0; i < 6500; i++) {
       const v = random() > 0.5 ? 255 : 0;
       c.fillStyle = `rgba(${v},${v},${v},${random() * 0.09})`;
       c.fillRect(
@@ -189,6 +196,11 @@ export function makeWorldSurfaces(register, updated = () => {}) {
           }
         c.restore();
       }
+    }
+    if(authoredSurfaces.has(name)){
+      const source=document.createElement('canvas');source.width=source.height=512;
+      source.getContext('2d').drawImage(canvas,0,0);surfaceCanvases.set(name,source);
+    }
     }
     const t = new THREE.CanvasTexture(canvas);
     t.colorSpace = THREE.SRGBColorSpace;

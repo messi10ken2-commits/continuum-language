@@ -65,12 +65,23 @@ try{
  const index=await (await fetch(base)).text();
  const asset=index.match(/src="(\/assets\/[^"]+\.js)"/)[1];
  const compressed=await fetch(base+asset,{method:'HEAD',headers:{'Accept-Encoding':'gzip'}});
- const identity=await fetch(base+asset,{method:'HEAD',headers:{'Accept-Encoding':'gzip;q=0, *;q=1'}});
+ const identity=await fetch(base+asset,{method:'HEAD',headers:{'Accept-Encoding':'identity'}});
  assert.equal(compressed.headers.get('content-encoding'),'gzip');
  assert.equal(compressed.headers.get('vary'),'Accept-Encoding');
  assert.equal(identity.headers.get('content-encoding'),null);
  assert.ok(Number(compressed.headers.get('content-length'))<Number(identity.headers.get('content-length')));
  assert.deepEqual(await (await fetch(base+asset)).arrayBuffer(),await (await fetch(base+asset,{headers:{'Accept-Encoding':'identity'}})).arrayBuffer());
+ const brotli=await fetch(base+asset,{method:'HEAD',headers:{'Accept-Encoding':'br, gzip'}});
+ assert.equal(brotli.headers.get('content-encoding'),'br');
+ assert.ok(Number(brotli.headers.get('content-length'))<Number(compressed.headers.get('content-length')));
+ const model='/world-tokyo/people/traveller.glb';
+ const modelHead=await fetch(base+model,{method:'HEAD',headers:{'Accept-Encoding':'br',Origin:'capacitor://localhost'}});
+ assert.equal(modelHead.headers.get('content-encoding'),'br');
+ assert.ok(modelHead.headers.get('vary').includes('Accept-Encoding'));
+ assert.ok(modelHead.headers.get('vary').includes('Origin'));
+ assert.equal(modelHead.headers.get('access-control-allow-origin'),'capacitor://localhost');
+ assert.deepEqual(Buffer.from(await (await fetch(base+model,{headers:{'Accept-Encoding':'br'}})).arrayBuffer()),await readFile(new URL('./dist'+model,import.meta.url)));
+
  const ad='/membership/premium-promotion-v2.mp4';
  const expected=await readFile(new URL('./dist'+ad,import.meta.url));
  const probe=await fetch(base+ad,{headers:{Range:'bytes=0-1'}});

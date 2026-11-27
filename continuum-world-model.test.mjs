@@ -224,7 +224,17 @@ test('Hoshi entrance camera has a clear apron view while the player stays inside
   const {clearWorldCameraSegment}=await import('./continuum-world-model.mjs');
   assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:0,z:7.8}),true);
   assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:3,z:8}),false,'camera cannot cross the side glazing/walls');
-  assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:0,z:10}),false);
-  assert.equal(clearWorldCameraSegment('tokyo_cafe',{x:0,z:4},{x:0,z:7.8}),false,'café camera policy stays unchanged');
+  assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:0,z:10.5}),false);
+  assert.equal(clearWorldCameraSegment('tokyo_cafe',{x:0,z:4},{x:0,z:7.8}),true,'café also has an entrance apron');
   assert.equal(isWorldWalkable('tokyo_konbini',{x:0,z:7.8}),false,'camera space is not new player movement space');
+});
+
+
+test('coffee bar seating leaves central route and both service points accessible',()=>{
+  const id='tokyo_cafe',start=worldScenes[id].spawn;
+  for(const target of [{x:0,z:-2},{x:2.3,z:1},{x:-2.3,z:1},{x:0,z:5}]){
+    assert.ok(worldPath(id,start,target).length>0);
+  }
+  for(const x of [-4.65,4.65])for(const z of [-.9,1.55])assert.equal(isWorldWalkable(id,{x,z}),false);
+  assert.equal(worldInteraction(id,moveWorldActor(id,start,{x:0,z:-20}))?.type,'talk');
 });

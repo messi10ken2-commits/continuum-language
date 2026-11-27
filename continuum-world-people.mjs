@@ -6,7 +6,9 @@ import { makeGroundedGait } from "./continuum-world-gait.mjs";
 import { worldPeopleAssets } from "./continuum-world-people-assets.mjs";
 export { worldPeopleAssets };
 
-// Every World owns its downloads, clones and GPU resources. No cross-account cache.
+// Only immutable public model bytes are retained (two known URLs, <4.1 MB).
+// Skeletons, decoded images and GPU resources still belong to each World.
+const publicModelBytes=new Map();
 export function upgradeWorldPeople(
   actors,
   {
@@ -65,12 +67,13 @@ export function upgradeWorldPeople(
       );
       if (!selected.length || disposed) return;
       try {
-        const response = await fetchAsset(url, {
-          signal: controller.signal,
-          credentials: "omit",
-        });
-        if (!response.ok) throw new Error("World model unavailable");
-        const bytes = await response.arrayBuffer();
+        let bytes=fetchAsset===fetch?publicModelBytes.get(url):null;
+        if(!bytes){
+          const response=await fetchAsset(url,{signal:controller.signal,credentials:'omit'});
+          if(!response.ok)throw new Error('World model unavailable');
+          bytes=await response.arrayBuffer();
+          if(fetchAsset===fetch && !controller.signal.aborted && bytes.byteLength<2_050_000)publicModelBytes.set(url,bytes);
+        }
         if (disposed || controller.signal.aborted) return;
         const gltf = await parseAsset(bytes);
         if (disposed || controller.signal.aborted) {
@@ -81,6 +84,8 @@ export function upgradeWorldPeople(
           release(late, rigs);
           return;
         }
+        // Cloth normals are identical for every clone: calculate once per decode.
+        gltf.scene.traverse(o=>{if(o.isMesh && (/shirt|trousers|shoes/.test(o.material?.name)||!o.geometry.attributes.normal))o.geometry.computeVertexNormals();});
         track(gltf.scene);
         for (const actor of selected) {
           const body = clone(gltf.scene);
@@ -93,7 +98,6 @@ export function upgradeWorldPeople(
             // Conservative skinned bounds avoid disappearing arms/feet during a turn.
             o.frustumCulled = false;
             const old = o.material;
-            const cloth = /shirt|trousers|shoes/.test(old.name);
             const Material = physical
               ? THREE.MeshStandardMaterial
               : THREE.MeshLambertMaterial;
@@ -111,11 +115,7 @@ export function upgradeWorldPeople(
             material.name = old.name;
             o.material = material;
             resources.add(material);
-            if (cloth || !o.geometry.attributes.normal) {
-              o.geometry = o.geometry.clone();
-              o.geometry.computeVertexNormals();
-              resources.add(o.geometry);
-            }
+
           });
           track(body);
           const animate = worldPersonPose(body);
