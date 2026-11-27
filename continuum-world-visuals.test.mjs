@@ -86,20 +86,32 @@ test("authored scenes and full-body companions fit fixed geometry budgets and di
   globalThis.document = canvasDocument();
   const meshes = worldMeshes();
   try {
-    const outdoor = makeOutdoorWorld(meshes),
-      cafe = makeWorldInterior("tokyo_cafe", meshes),
-      market = makeWorldInterior("tokyo_konbini", meshes);
+    const outdoor = makeOutdoorWorld(meshes);
     const storefrontLights = [];
     outdoor.traverse(object => { if (object.name === "Tokyo storefront spill") storefrontLights.push(object); });
     assert.equal(storefrontLights.length, 2);
     const positions = storefrontLights.map(light => light.getWorldPosition(new THREE.Vector3())).sort((a,b) => a.x-b.x);
     assert.equal(positions[0].x, -17); assert.equal(positions[1].x, 17);
     assert.ok(positions.every(p => Math.abs(p.z + 5.7) < .001));
-    assert.ok(budget(outdoor).draws < 150, JSON.stringify(budget(outdoor)));
+    assert.ok(budget(outdoor).draws < 170, JSON.stringify(budget(outdoor)));
     assert.ok(budget(outdoor).triangles < 68000, JSON.stringify(budget(outdoor)));
-    for (const room of [cafe, market]) {
-      assert.ok(budget(room).draws < 50);
-      assert.ok(budget(room).triangles < 10000);
+    // The engine creates a fresh factory per scene, including its 64-slot sign
+    // atlas; separate interiors never accumulate signs in an outdoor factory.
+    for (const id of ["tokyo_cafe","tokyo_konbini"]) {
+      const roomMeshes=worldMeshes();
+      try {
+        const room=makeWorldInterior(id,roomMeshes);
+        if(id==='tokyo_konbini') {
+          assert.ok(room.userData.stockedProducts>1000,'readable stocked aisles, not a few anonymous boxes');
+          const maps=new Set();room.traverse(o=>{if(o.material)for(const v of Object.values(o.material))if(v?.isTexture)maps.add(v);});
+          assert.ok([...maps].some(m=>m.image?.width===1024),'original packaging/floor atlases are present');
+          let released=0;maps.forEach(m=>m.addEventListener('dispose',()=>released++));
+          roomMeshes.dispose();assert.equal(released,maps.size,'store atlas and floor maps are released once');
+          roomMeshes.dispose();assert.equal(released,maps.size);
+        }
+        assert.ok(budget(room).draws < 55,JSON.stringify(budget(room)));
+        assert.ok(budget(room).triangles < (id==='tokyo_cafe'?10000:35000),JSON.stringify(budget(room)));
+      } finally { roomMeshes.dispose(); }
     }
     const person = makeWorldPerson(meshes),
       size = new THREE.Box3()

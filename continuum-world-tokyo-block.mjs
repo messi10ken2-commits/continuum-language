@@ -15,7 +15,7 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
   spill.name = "Tokyo storefront spill";
   spill.position.set(0, 3.05, face + .8);
   spill.userData.worldLamp = true;
-  spill.userData.worldLampIntensity = cafe ? 12 : 6;
+  spill.userData.worldLampIntensity = cafe ? 12 : 10;
   spill.userData.worldLampDistance = 11;
   group.add(spill);
   // Recessed tiled plinth, drainage joints and individual vertical facade ribs.

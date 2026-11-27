@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { dressHoshiExterior } from "./continuum-world-konbini.mjs";
 import { makeStationDistrict } from "./continuum-world-station.mjs";
 import { stationLayout } from "./continuum-world-station-layout.mjs";
 import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
@@ -416,6 +417,20 @@ export function worldMeshes({ quality = "auto" } = {}) {
     },
     physical,
     bakedShadows: !fullPbr,
+    canvasMaterial(name, paint, parameters = {}) {
+      if (!materials.has(name)) {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = 1024;
+        paint(canvas.getContext("2d"), canvas.width);
+        const map = new THREE.CanvasTexture(canvas);
+        map.colorSpace = THREE.SRGBColorSpace;
+        map.anisotropy = 4;
+        textures.add(map);
+        special(name, {map, roughness: .6, ...parameters});
+      }
+      materials.get(name).name=name;
+      return materials.get(name);
+    },
     custom(parent, geometry, color) {
       geometries.set(geometry.uuid, geometry);
       const mesh = new THREE.Mesh(geometry, material(color));
@@ -504,6 +519,7 @@ function shopBuilding(
         [center, 1.8, face - 0.03],
         [bay - 0.06, 2.9, 0.035],
       );
+      if (id !== "tokyo_konbini") {
       shape(
         group,
         "box",
@@ -536,6 +552,7 @@ function shopBuilding(
             [center - 0.4 + j * 0.25, 1.22, face - 1.1],
             [0.07, 0.27, 0.07],
           );
+    }
     }
   for (const dx of [-1, 1])
     shape(group, "box", frame, [dx, 1.6, face + 0.02], [0.07, 3.15, 0.1]);
@@ -622,7 +639,8 @@ function shopBuilding(
     a.scale.y = 1.8;
   }
   }
-  dressShopfront(meshes, group, { width, depth, id, sign: text });
+  if (id === "tokyo_konbini") dressHoshiExterior(meshes,group,{width,depth});
+  else dressShopfront(meshes, group, { width, depth, id, sign: text });
   if (detailed) dressTokyoBlock(meshes, group, {width, depth, height, id});
   contact(group, 0, face + 0.2, width, 3, 0.3);
 }

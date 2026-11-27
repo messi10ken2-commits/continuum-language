@@ -60,6 +60,7 @@ export async function createWorldEngine(
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   const indoor = initial.scene !== "outdoors";
+  const convenienceStore = initial.scene === "tokyo_konbini";
   let environment;
   try {
     environment = indoor
@@ -142,6 +143,7 @@ export async function createWorldEngine(
   const fill = new THREE.PointLight(0xffe7cb, indoor ? 18 : 0, 22, 1.5);
   fill.position.set(0, 4, 0);
   fill.visible = indoor;
+  if (convenienceStore) { fill.color.set(0xf3f8ff); fill.intensity=22; }
   scene.add(fill);
   const physical = meshes.physical;
   const skyTexture = physical ? makeWorldSky() : null;
@@ -429,9 +431,9 @@ export async function createWorldEngine(
     const sky = indoor ? 0xb4b4ab : night ? 0x172638 : 0xc6d7e0;
     scene.background.set(sky);
     scene.fog.color.set(sky);
-    scene.environmentIntensity = night && !indoor ? 0.15 : indoor ? 0.4 : 0.7;
-    hemisphere.intensity = night && !indoor ? 0.95 : indoor ? 1.35 : 1.55;
-    sun.intensity = night && !indoor ? 0.25 : indoor ? 1.6 : 3.1;
+    scene.environmentIntensity = night && !indoor ? 0.15 : indoor ? (convenienceStore ? .65 : .4) : .7;
+    hemisphere.intensity = night && !indoor ? 0.95 : indoor ? (convenienceStore ? 1.9 : 1.35) : 1.55;
+    sun.intensity = night && !indoor ? 0.25 : indoor ? (convenienceStore ? 1.1 : 1.6) : 3.1;
     sun.color.set(night && !indoor ? 0xb9cfff : 0xffefce);
     renderer.toneMappingExposure =
       night && !indoor ? 1.2 : indoor ? 1.05 : 0.94;

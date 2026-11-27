@@ -92,6 +92,9 @@ try {
       ["block-night", {quality:"auto", position:{x:17,z:0}, yaw:-.15, time:"night"}],
       ["cafe", { scene: "tokyo_cafe", position: { x: 0, z: 2 }, time: "day" }],
       ["market", { scene: "tokyo_konbini", time: "day" }],
+      ["market-front",{quality:"auto",position:{x:17,z:0},yaw:0,time:"day"}],
+      ["market-counter",{scene:"tokyo_konbini",position:{x:0,z:-1.8},time:"day"}],
+      ["market-aisle",{scene:"tokyo_konbini",position:{x:3,z:0},time:"day"}],
     ]) {
       if (onlyShots.length && !onlyShots.includes(shot)) continue;
       const started = performance.now();

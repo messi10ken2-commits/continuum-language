@@ -265,7 +265,21 @@ test('real shipped rigs plant support feet, clear swing feet and remain heading 
       const root=new THREE.Group();root.rotation.y=1.2;root.add(scene);root.updateMatrixWorld(true);
       const feet=[];scene.traverse(o=>{if(/^foot_[lr]$/.test(o.name))feet.push(o);});
       const restY=feet.map(f=>f.getWorldPosition(new THREE.Vector3()).y);
-      const animate=worldPersonPose(scene);let maximumLift=0,stationarySteps=0,previous;
+      const shoes=[];
+      scene.traverse(mesh=>{if(mesh.isSkinnedMesh && mesh.material?.name==='World shoes')shoes.push(mesh);});
+      const soleHeights=()=>{
+        const minima=[Infinity,Infinity];
+        for(const mesh of shoes)for(let n=0;n<mesh.geometry.attributes.position.count;n++) {
+          const joint=mesh.skeleton.bones[mesh.geometry.attributes.skinIndex.getX(n)].name;
+          const foot=joint.endsWith('_l')?0:1;
+          const p=mesh.getVertexPosition(n,new THREE.Vector3());mesh.localToWorld(p);
+          minima[foot]=Math.min(minima[foot],p.y);
+        }
+        return minima;
+      };
+      const soleRest=soleHeights();
+      assert.ok(soleRest.every(Number.isFinite),'test measures the actual shipped shoe vertices');
+      const animate=worldPersonPose(scene);let maximumLift=0,stationarySteps=0,flightFrames=0,previous;
       let t=0;
       for(const speed of [1.55,4.2,1.55])for(let i=0;i<120;i++) {
         t+=1/60;
@@ -277,14 +291,18 @@ test('real shipped rigs plant support feet, clear swing feet and remain heading 
           assert.ok(p.toArray().every(Number.isFinite));
           assert.ok(p.y>=restY[n]-.003,'soles do not sink through the ground');
           maximumLift=Math.max(maximumLift,p.y-restY[n]);
-          if(i>25 && previous && Math.abs(p.y-restY[n])<.00001 && Math.abs(previous[n].y-restY[n])<.00001) {
+          if(speed<2 && i>25 && previous && Math.abs(p.y-restY[n])<.00001 && Math.abs(previous[n].y-restY[n])<.00001) {
             assert.ok(p.distanceTo(previous[n])<.008,'support foot stays planted rather than skating '+JSON.stringify({speed,i,d:p.distanceTo(previous[n])}));stationarySteps++;
           }
         });
+        const soles=soleHeights();
+        soles.forEach((y,n)=>assert.ok(y>=soleRest[n]-.003,'actual shoe soles do not sink through the floor: '+JSON.stringify({variant,speed,i,y,rest:soleRest[n]})));
+        if(speed>4 && i>25 && soles.every((y,n)=>y>soleRest[n]+.012))flightFrames++;
         previous=positions;
         if(speed<2 && i>25)assert.ok(positions.some((p,n)=>Math.abs(p.y-restY[n])<.003),'walk always has a grounded support leg');
       }
-      assert.ok(maximumLift>.14 && maximumLift<.21);
+      assert.ok(maximumLift>.32 && maximumLift<.50, String(maximumLift));
+      assert.ok(flightFrames>8,"running has a real flight phase with both shoes off the ground");
       assert.ok(stationarySteps>100);
       for(let i=0;i<120;i++){t+=1/60;animate(t,0,false);}
       animate(t+.1,0,true);root.updateMatrixWorld(true);
