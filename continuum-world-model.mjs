@@ -1,3 +1,4 @@
+import { hoshiInteriorFixtures } from "./continuum-world-konbini-layout.mjs";
 import { stationLayout } from "./continuum-world-station-layout.mjs";
 
 // World coordinates are metres. This prototype stores exploration only, never course progress.
@@ -50,7 +51,7 @@ export const worldLocations = [
       goal: "買い物をする",
       x: 0,
       z: -4.8,
-      line: "こんにちは。お弁当は奥の棚にありますよ。",
+      line: "こんにちは。お弁当は左手の冷蔵ケースにありますよ。",
     },
   },
   {
@@ -130,6 +131,7 @@ export const worldScenes = {
     bounds: { minX: -7, maxX: 7, minZ: -6, maxZ: 6 },
     spawn: { x: 0, z: 4 },
     obstacles: [
+      ...hoshiInteriorFixtures,
       { x: 0, z: -3.6, width: 8, depth: 1.4 },
       { x: -4.4, z: -0.2, width: 1.5, depth: 5 },
       { x: 4.4, z: -0.2, width: 1.5, depth: 5 },
@@ -237,24 +239,37 @@ export function clearWorldSegment(scene, from, to, radius = PLAYER_RADIUS) {
       return false;
   return true;
 }
+// The store camera can look through its entrance from the rendered apron.
+// Player navigation remains bounded to the room and other walls still block it.
+export function clearWorldCameraSegment(scene, from, to, radius=.18) {
+  if(scene!=='tokyo_konbini' || to.z<=6-radius)return clearWorldSegment(scene,from,to,radius);
+  if(to.z>9 || Math.abs(to.x)>1.05 || to.z<=from.z)return false;
+  const edge=6-radius-.01,t=(edge-from.z)/(to.z-from.z);
+  if(t<0 || t>1)return false;
+  const threshold={x:from.x+(to.x-from.x)*t,z:edge};
+  return Math.abs(threshold.x)<=1.05 && clearWorldSegment(scene,from,threshold,radius);
+}
 // Bounded grid search is used only when the companion's direct path is obstructed.
 export function worldPath(scene, from, to) {
   if (!isWorldWalkable(scene, from) || !isWorldWalkable(scene, to)) return [];
   if (clearWorldSegment(scene, from, to)) return [to];
+  // Quarter-metre cells resolve narrow retail aisles without increasing the
+  // outdoor search cost. Search remains bounded to the small room.
+  const step=scene==="tokyo_konbini"?.25:1;
   const gridPoint = (position) => {
     const candidates = [];
     for (
-      let x = Math.round(position.x) - 1;
-      x <= Math.round(position.x) + 1;
+      let x = Math.round(position.x/step) - 1;
+      x <= Math.round(position.x/step) + 1;
       x++
     )
       for (
-        let z = Math.round(position.z) - 1;
-        z <= Math.round(position.z) + 1;
+        let z = Math.round(position.z/step) - 1;
+        z <= Math.round(position.z/step) + 1;
         z++
       )
-        if (clearWorldSegment(scene, position, { x, z }))
-          candidates.push({ x, z });
+        if (clearWorldSegment(scene, position, { x:x*step, z:z*step }))
+          candidates.push({ x:x*step, z:z*step });
     return candidates.sort(
       (a, b) =>
         Math.hypot(a.x - position.x, a.z - position.z) -
@@ -276,7 +291,14 @@ export function worldPath(scene, from, to) {
         result.unshift(cursor);
         cursor = parents.get(key(cursor));
       }
-      return result;
+      if(step===1)return result;
+      const sparse=[];let anchor=from,index=0;
+      while(index<result.length) {
+        let end=result.length-1;
+        while(end>index && !clearWorldSegment(scene,anchor,result[end]))end--;
+        sparse.push(result[end]);anchor=result[end];index=end+1;
+      }
+      return sparse;
     }
     for (const [dx, dz] of [
       [1, 0],
@@ -284,7 +306,7 @@ export function worldPath(scene, from, to) {
       [0, 1],
       [0, -1],
     ]) {
-      const next = { x: point.x + dx, z: point.z + dz };
+      const next = { x: point.x + dx*step, z: point.z + dz*step };
       if (!parents.has(key(next)) && clearWorldSegment(scene, point, next)) {
         parents.set(key(next), point);
         queue.push(next);

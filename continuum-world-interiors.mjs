@@ -1,8 +1,10 @@
 import * as THREE from "three";
+import {makeHoshiInterior} from "./continuum-world-konbini.mjs";
 import { worldLocations } from "./continuum-world-model.mjs";
 
 // Metre-scale furniture, actual window recesses and original shop dressing.
 export function makeWorldInterior(id, meshes) {
+  if (id === "tokyo_konbini") return makeHoshiInterior(meshes);
   const root = new THREE.Group(),
     { shape, sign, surface, special } = meshes,
     location = worldLocations.find((l) => l.id === id),
@@ -187,68 +189,6 @@ export function makeWorldInterior(id, meshes) {
         0xbf9561,
         [0.4 + i * 0.25, 1.18, -3.6],
         [0.09, 0.045, 0.065],
-      );
-  } else {
-    for (const side of [-1, 1]) {
-      for (const y of [0.28, 0.91, 1.54, 2.17]) {
-        shape(root, "box", 0xd1d7d1, [side * 4.4, y, -0.2], [1.5, 0.045, 5]);
-        for (let z = -2.2; z <= 2; z += 0.34) {
-          const color = [0x80998b, 0xc9b77a, 0xb9795c, 0xd0d0b5][
-            Math.abs(Math.round(z * 10)) % 4
-          ];
-          shape(
-            root,
-            "box",
-            color,
-            [side * 4.4, y + 0.21, z],
-            [0.65, 0.37, 0.26],
-          );
-          shape(
-            root,
-            "box",
-            0xf0e9d6,
-            [side * 4.4, y + 0.24, z + 0.135],
-            [0.4, 0.1, 0.008],
-          );
-          shape(
-            root,
-            "box",
-            0x333c3c,
-            [side * 4.4, y + 0.245, z + 0.141],
-            [0.2, 0.02, 0.008],
-          );
-        }
-        // Shelf-edge labels face the centre aisle on either side.
-        const label = sign(
-          root,
-          "おすすめ  ¥180",
-          [side * 3.63, y + 0.01, 0],
-          0.8,
-          "#f5eedc",
-          "#48544d",
-        );
-        label.rotation.y = (-side * Math.PI) / 2;
-      }
-      shape(root, "box", steel, [side * 6.4, 1.4, -4.7], [0.7, 2.8, 1.8]);
-      shape(root, "box", glass, [side * 6, 1.5, -4.7], [0.03, 2.3, 1.5]);
-      for (let y = 0.6; y < 2.7; y += 0.48)
-        for (let z = -5.2; z < -4; z += 0.23)
-          shape(
-            root,
-            "cylinder",
-            0xb2c7b1,
-            [side * 6.1, y, z],
-            [0.06, 0.27, 0.06],
-          );
-    }
-    for (const x of [-4, 4])
-      sign(
-        root,
-        "お弁当 ・ おにぎり ・ 飲み物",
-        [x, 3.15, -5.83],
-        3.2,
-        "#e4ebdf",
-        "#2e6050",
       );
   }
   return meshes.batch(root);

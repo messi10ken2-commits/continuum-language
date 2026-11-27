@@ -204,3 +204,27 @@ test('walking has metre-scale speed, smooth acceleration, bounded stops and surf
   assert.equal(worldFloorHeight('outdoors',{x:3,z:-26.5}),.063);
   assert.equal(worldFloorHeight('tokyo_cafe',{x:0,z:0}),0);
 });
+
+test('stocked Hoshi aisles keep entry, checkout, side aisles and exit accessible',()=>{
+  const id='tokyo_konbini',start=worldScenes[id].spawn;
+  for(const target of [{x:0,z:-2},{x:3,z:0},{x:-3,z:0},{x:5.7,z:0},{x:-5.7,z:0},{x:0,z:5}]) {
+    assert.ok(isWorldWalkable(id,target));
+    const route=worldPath(id,start,target);
+    assert.ok(route.length>0,'route to '+JSON.stringify(target));
+    assert.ok(route.every(p=>isWorldWalkable(id,p)));
+  }
+  for(const target of [{x:1.85,z:1.25},{x:-1.85,z:1.25},{x:4.8,z:4.65},{x:6.65,z:0},{x:5.75,z:-5.35}])assert.equal(isWorldWalkable(id,target),false,'solid shop fixture blocks the player');
+  const counter=moveWorldActor(id,start,{x:0,z:-20});
+  assert.equal(worldInteraction(id,counter)?.type,'talk');
+  const saved=restoreWorldState({...restoreWorldState(),scene:id,position:{x:1.85,z:1.25}});
+  assert.deepEqual(saved.position,start,'old saves inside new shelving return to the safe entry');
+});
+
+test('Hoshi entrance camera has a clear apron view while the player stays inside',async()=>{
+  const {clearWorldCameraSegment}=await import('./continuum-world-model.mjs');
+  assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:0,z:7.8}),true);
+  assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:3,z:8}),false,'camera cannot cross the side glazing/walls');
+  assert.equal(clearWorldCameraSegment('tokyo_konbini',{x:0,z:4},{x:0,z:10}),false);
+  assert.equal(clearWorldCameraSegment('tokyo_cafe',{x:0,z:4},{x:0,z:7.8}),false,'café camera policy stays unchanged');
+  assert.equal(isWorldWalkable('tokyo_konbini',{x:0,z:7.8}),false,'camera space is not new player movement space');
+});

@@ -13,6 +13,7 @@ on:
       - 'scripts/qa-continuum-world.mjs'
       - 'scripts/qa-continuum-world-entry.mjs'
       - 'scripts/qa-continuum-world-visuals.mjs'
+      - 'scripts/qa-continuum-world-gait.mjs'
       - '.github/workflows/continuum-world.yml'
 permissions:
   contents: read
@@ -55,7 +56,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: node scripts/qa-continuum-world-visuals.mjs
+      - run: QA_WORLD_VISUAL_SHOTS=market,market-front,market-counter,market-aisle node scripts/qa-continuum-world-visuals.mjs && node scripts/qa-continuum-world-gait.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -67,10 +68,17 @@ jobs:
             .media-build/continuum-world-art/1280-station-platform.png
             .media-build/continuum-world-art/1280-walking.png
             .media-build/continuum-world-art/1280-running.png
+            .media-build/continuum-world-art/running-cycle.png
+            .media-build/continuum-world-art/1280-market.png
+            .media-build/continuum-world-art/390-market.png
+            .media-build/continuum-world-art/1280-market-counter.png
+            .media-build/continuum-world-art/1280-market-aisle.png
+            .media-build/continuum-world-art/390-market-front.png
             .media-build/continuum-world-art/390-block-night.png
             .media-build/continuum-world-art/1280-street-materials.png
             .media-build/continuum-world-art/results.json
           if-no-files-found: ignore
+      - run: node scripts/qa-continuum-world-visuals.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

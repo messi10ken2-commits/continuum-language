@@ -7,6 +7,7 @@ import {
 } from "./continuum-world-render-policy.mjs";
 import {
   clearWorldSegment,
+  clearWorldCameraSegment,
   isWorldWalkable,
   moveWorldActor,
   movementVector,
@@ -60,6 +61,7 @@ export async function createWorldEngine(
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   const indoor = initial.scene !== "outdoors";
+  const convenienceStore = initial.scene === "tokyo_konbini";
   let environment;
   try {
     environment = indoor
@@ -142,6 +144,7 @@ export async function createWorldEngine(
   const fill = new THREE.PointLight(0xffe7cb, indoor ? 18 : 0, 22, 1.5);
   fill.position.set(0, 4, 0);
   fill.visible = indoor;
+  if (convenienceStore) { fill.color.set(0xf3f8ff); fill.intensity=22; }
   scene.add(fill);
   const physical = meshes.physical;
   const skyTexture = physical ? makeWorldSky() : null;
@@ -153,11 +156,16 @@ export async function createWorldEngine(
     pmrem.dispose();
   }
   const lamps = [],
-    dayShadows = [];
+    dayShadows = [],
+    slidingDoors = [];
   environment.traverse((object) => {
     if (object.userData.worldLamp) {
       object.userData.worldLampPosition = object.getWorldPosition(new THREE.Vector3());
       lamps.push(object);
+    }
+    if (object.userData.hoshiDoorSide) {
+      slidingDoors.push(object);
+      if(Math.hypot(initial.position.x,6-initial.position.z)<3.8)object.position.x=object.userData.hoshiDoorSide*1.86;
     }
     if (object.userData.worldDayShade) dayShadows.push(object);
   });
@@ -361,6 +369,11 @@ export async function createWorldEngine(
       player.root.rotation.y += difference * Math.min(1, dt * 12);
     }
     player.animate(walkTime, speed, reduced);
+    const openStoreDoor=Math.hypot(position.x,6-position.z)<3.8;
+    for(const door of slidingDoors) {
+      const target=door.userData.hoshiDoorSide*(openStoreDoor?1.86:.62);
+      door.position.x+=(target-door.position.x)*(reduced?1:1-Math.exp(-dt*8));
+    }
     const distance = Math.hypot(
       position.x - companionPosition.x,
       position.z - companionPosition.z,
@@ -429,9 +442,9 @@ export async function createWorldEngine(
     const sky = indoor ? 0xb4b4ab : night ? 0x172638 : 0xc6d7e0;
     scene.background.set(sky);
     scene.fog.color.set(sky);
-    scene.environmentIntensity = night && !indoor ? 0.15 : indoor ? 0.4 : 0.7;
-    hemisphere.intensity = night && !indoor ? 0.95 : indoor ? 1.35 : 1.55;
-    sun.intensity = night && !indoor ? 0.25 : indoor ? 1.6 : 3.1;
+    scene.environmentIntensity = night && !indoor ? 0.15 : indoor ? (convenienceStore ? .65 : .4) : .7;
+    hemisphere.intensity = night && !indoor ? 0.95 : indoor ? (convenienceStore ? 1.9 : 1.35) : 1.55;
+    sun.intensity = night && !indoor ? 0.25 : indoor ? (convenienceStore ? 1.1 : 1.6) : 3.1;
     sun.color.set(night && !indoor ? 0xb9cfff : 0xffefce);
     renderer.toneMappingExposure =
       night && !indoor ? 1.2 : indoor ? 1.05 : 0.94;
@@ -478,7 +491,7 @@ export async function createWorldEngine(
     for (let fraction = 1; fraction >= 0; fraction -= 0.08) {
       ground.x = position.x + (desiredCamera.x - position.x) * fraction;
       ground.z = position.z + (desiredCamera.z - position.z) * fraction;
-      if (clearWorldSegment(initial.scene, position, ground, 0.18)) {
+      if (clearWorldCameraSegment(initial.scene, position, ground, 0.18)) {
         desiredCamera.x = ground.x;
         desiredCamera.z = ground.z;
         break;
