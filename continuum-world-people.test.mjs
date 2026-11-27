@@ -317,3 +317,18 @@ test('real shipped rigs plant support feet, clear swing feet and remain heading 
     }
   }finally{globalThis.self=oldSelf;globalThis.createImageBitmap=oldBitmap;}
 });
+
+test('immutable public model bytes survive scene disposal without retaining skeletons',async()=>{
+  const originalFetch=globalThis.fetch;let downloads=0,decodes=0;
+  globalThis.fetch=async()=>{downloads++;return {ok:true,arrayBuffer:async()=>new ArrayBuffer(16)};};
+  try{
+    for(let i=0;i<2;i++){
+      const person=actor();
+      const manager=upgradeWorldPeople([person],{parseAsset:async()=>{decodes++;return source();}});
+      await manager.ready;assert.equal(person.root.userData.worldPerson,'skinned');
+      manager.dispose();assert.equal(person.root.children.length,1);
+    }
+    assert.equal(downloads,1,'re-entering does not fetch the same public bytes twice');
+    assert.equal(decodes,2,'decoded GPU/skeleton ownership stays isolated per World');
+  }finally{globalThis.fetch=originalFetch;}
+});

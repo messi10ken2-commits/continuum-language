@@ -56,13 +56,16 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: QA_WORLD_VISUAL_SHOTS=market,market-front,market-counter,market-aisle node scripts/qa-continuum-world-visuals.mjs && node scripts/qa-continuum-world-gait.mjs
+      - run: QA_WORLD_VISUAL_SHOTS=cafe,cafe-entry,cafe-counter,block-day,market node scripts/qa-continuum-world-visuals.mjs && node scripts/qa-continuum-world-gait.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: continuum-world-art-preview
           retention-days: 7
           path: |
+            .media-build/continuum-world-art/1280-cafe*.png
+            .media-build/continuum-world-art/390-cafe*.png
+            .media-build/continuum-world-art/1280-block-day.png
             .media-build/continuum-world-art/390-block-day.png
             .media-build/continuum-world-art/390-station-day.png
             .media-build/continuum-world-art/1280-station-platform.png

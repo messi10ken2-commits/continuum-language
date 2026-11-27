@@ -335,3 +335,19 @@ test("linear PBR maps share GPU sources, keep neutral fallbacks and are optional
     globalThis.document = oldDocument; globalThis.Image = oldImage;
   }
 });
+
+test('re-entering reuses CPU surface painting while keeping scene canvases disposable',()=>{
+  const previous=globalThis.document;let fills=0,copies=0;
+  const context=new Proxy({},{get:(_,k)=>k==='fillRect'?()=>fills++:k==='drawImage'?()=>copies++:k==='createLinearGradient'||k==='createRadialGradient'?()=>({addColorStop(){}}):()=>{},set:()=>true});
+  globalThis.document={createElement:()=>({width:0,height:0,getContext:()=>context})};
+  try{
+    const first=makeWorldSurfaces(()=>{});const a=first.texture('fabric');first.dispose();
+    // Mirrors scene disposal: the previously owned canvas may be shrunk.
+    a.image.width=a.image.height=1;
+    fills=0;copies=0;
+    const second=makeWorldSurfaces(()=>{});const b=second.texture('fabric');
+    assert.notEqual(a.image,b.image);assert.equal(b.image.width,512);
+    assert.ok(fills<10,'warm scene avoids thousands of per-speckle paint calls');
+    assert.equal(copies,1,'copy retained CPU source into a scene-owned canvas');second.dispose();
+  }finally{globalThis.document=previous;}
+});

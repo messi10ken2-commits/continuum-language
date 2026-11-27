@@ -91,6 +91,8 @@ try {
       ["block-day", {quality:"auto", position:{x:-16,z:0}, yaw:.18, time:"day"}],
       ["block-night", {quality:"auto", position:{x:17,z:0}, yaw:-.15, time:"night"}],
       ["cafe", { scene: "tokyo_cafe", position: { x: 0, z: 2 }, time: "day" }],
+      ["cafe-entry",{scene:"tokyo_cafe",time:"day"}],
+      ["cafe-counter",{scene:"tokyo_cafe",position:{x:0,z:-1.8},time:"day"}],
       ["market", { scene: "tokyo_konbini", time: "day" }],
       ["market-front",{quality:"auto",position:{x:17,z:0},yaw:0,time:"day"}],
       ["market-counter",{scene:"tokyo_konbini",position:{x:0,z:-1.8},time:"day"}],
@@ -140,6 +142,7 @@ try {
       const data = await page
         .locator("#world")
         .evaluate((e) => ({ ...e.dataset }));
+      if(settings.scene && ['market','cafe','cafe-entry'].includes(shot))assert.ok(Number(data.cameraDistance)>4.5,'wide interior camera stays away from the character');
       const companionScreen = JSON.parse(data.companionScreen);
       assert.ok(
         Math.abs(companionScreen.x) < 0.85 && companionScreen.y > -0.95,
@@ -186,6 +189,11 @@ try {
     await page.route("**/world-tokyo/people/*.glb*", (route) =>
       route.fulfill({ status: 503, body: "Synthetic model outage" }),
     );
+    // A previously downloaded immutable model must survive a network outage.
+    await page.evaluate(() => window.mountWorld({quality:'low'}));
+    await page.waitForFunction(()=>Number(document.getElementById('world').dataset.peopleLoaded)===Number(document.getElementById('world').dataset.peopleTotal),null,{timeout:90000});
+    // Reload the module realm to test the genuinely cold, offline fallback too.
+    await page.reload();await page.waitForFunction(()=>window.mountWorld);
     await page.evaluate(() => window.mountWorld({ quality: "low" }));
     await page.waitForFunction(
       () => Number(document.getElementById("world").dataset.worldFrames) > 3,

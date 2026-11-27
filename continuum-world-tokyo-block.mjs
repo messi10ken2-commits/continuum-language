@@ -56,13 +56,9 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
     sign(group,'ATM ・ コピー ・ 公共料金',[width*.28,2.54,face+.12],3.7,'#eef0de','#33554b');
     sign(group,'おにぎり 150円  /  お弁当 580円',[-width*.27,2.54,face+.12],3.8,'#ede4cb','#6c4335');
   } else {
-    // Separate noren panels and a recessed menu give a human-scale entrance.
-    for(const x of [-.53,0,.53]) {
-      shape(group,'box',0x3c5448,[x,2.65,face+.13],[.48,.54,.025]);
-      sign(group,x<0?'珈':x>0?'処':'琲',[x,2.65,face+.16],1.1,'#00000000','#e6ddbf').scale.y=.4;
-    }
-    sign(group,'自家焙煎  /  喫茶・軽食',[-width*.27,2.45,face+.11],3.5,'#e2dbc6','#33453a');
-    sign(group,'COFFEE 450円  /  本日のケーキ',[width*.27,2.45,face+.11],3.7,'#304038','#e9dfc4');
+    // A shallow metal canopy and warm light above a clear coffee-bar entrance.
+    shape(group,'box',0x3a3832,[0,2.95,face+.3],[2.3,.055,.65]);
+    shape(group,'box',0xffddb0,[0,2.91,face+.34],[1.85,.015,.16],true);
   }
   sign(group,'東京 ・ こもれび通り',[width/2-.5,1.8,face+.13],.75,'#315e68','#edf0de').scale.y=.6;
   // An accessible route stays in the middle; all notices are on the facade.
@@ -78,7 +74,7 @@ export function dressTokyoBlock(meshes, group, {width, depth, height, id}) {
   tenant.scale.y=.3;
   const columnX=width/2-.25;
   shape(group,'box',0xe7e2d1,[columnX,6,face+.5],[.55,2.2,.15]);
-  for(const [i,glyph] of (cafe?['自','家','焙','煎']:['食','品','雑','貨']).entries()) {
+  for(const [i,glyph] of (cafe?['珈','琲','軽','食']:['食','品','雑','貨']).entries()) {
     const panel=sign(group,glyph,[columnX,6.7-i*.45,face+.59],1.5,'#00000000','#344647');
     panel.scale.y=.38;
   }

@@ -39,6 +39,7 @@ export async function createWorldEngine(
     capture = false,
   },
 ) {
+  const mountStarted=performance.now();
   const meshes = worldMeshes({ quality: options().quality }),
     scene = new THREE.Scene(),
     camera = new THREE.PerspectiveCamera(55, 1, 0.08, 220);
@@ -206,6 +207,7 @@ export async function createWorldEngine(
     host.dataset.heldKeys = String(keys.size);
     host.dataset.pitch = String(pitch);
     host.dataset.cameraY = String(camera.position.y);
+    host.dataset.cameraDistance = String(camera.position.distanceTo(cameraTarget));
     host.dataset.fps = String(fps);
     host.dataset.renderMs = String(renderMs);
     host.dataset.triangles = String(triangles);
@@ -259,7 +261,7 @@ export async function createWorldEngine(
     renderer.setPixelRatio(ratio);
     renderer.setSize(Math.max(1, box.width), Math.max(1, box.height), false);
     camera.aspect = box.width / Math.max(1, box.height);
-    camera.fov = box.width < 700 ? 63 : 55;
+    camera.fov = indoor ? (box.width < 700 ? 69 : 60) : (box.width < 700 ? 63 : 55);
     camera.updateProjectionMatrix();
   };
   const observer = new ResizeObserver(resize);
@@ -478,7 +480,7 @@ export async function createWorldEngine(
       );
     }
     cameraTarget.set(position.x, 1.25, position.z);
-    const distanceCamera = indoor ? 3.8 : 4.6;
+    const distanceCamera = indoor ? 5.8 : 4.6;
     desiredCamera.set(
       position.x + Math.sin(yaw) * distanceCamera,
       1.25 + Math.sin(pitch) * distanceCamera,
@@ -541,6 +543,7 @@ export async function createWorldEngine(
     frame = requestAnimationFrame(tick);
   };
   update(0, performance.now());
+  host.dataset.mountMs=String(performance.now()-mountStarted);
   return {
     setActive(value) {
       if (disposed || contextLost || active === value) return;

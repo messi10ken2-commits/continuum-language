@@ -123,8 +123,7 @@ export const worldScenes = {
     spawn: { x: 0, z: 4 },
     obstacles: [
       { x: 0, z: -3.6, width: 8, depth: 1.4 },
-      { x: -4.7, z: 0, width: 2, depth: 2 },
-      { x: 4.7, z: 0, width: 2, depth: 2 },
+      ...[-1,1].flatMap(side=>[-.9,1.55].map(z=>({x:side*4.65,z,width:3.5,depth:1.05}))),
     ],
   },
   tokyo_konbini: {
@@ -242,12 +241,15 @@ export function clearWorldSegment(scene, from, to, radius = PLAYER_RADIUS) {
 // The store camera can look through its entrance from the rendered apron.
 // Player navigation remains bounded to the room and other walls still block it.
 export function clearWorldCameraSegment(scene, from, to, radius=.18) {
-  if(scene!=='tokyo_konbini' || to.z<=6-radius)return clearWorldSegment(scene,from,to,radius);
-  if(to.z>9 || Math.abs(to.x)>1.05 || to.z<=from.z)return false;
-  const edge=6-radius-.01,t=(edge-from.z)/(to.z-from.z);
-  if(t<0 || t>1)return false;
-  const threshold={x:from.x+(to.x-from.x)*t,z:edge};
-  return Math.abs(threshold.x)<=1.05 && clearWorldSegment(scene,from,threshold,radius);
+  if(scene==='outdoors')return clearWorldSegment(scene,from,to,radius);
+  const bounds=worldScenes[scene]?.bounds;if(!bounds)return false;
+  // Indoor camera sits above low furniture: ground-level actor collision was
+  // pulling it into the character in front of every shelf/table.
+  if(to.x<bounds.minX+radius||to.x>bounds.maxX-radius||to.z<bounds.minZ+radius)return false;
+  if(to.z<=bounds.maxZ-radius)return true;
+  if(to.z>10.2||Math.abs(to.x)>1.02||to.z<=from.z)return false;
+  const t=(6-radius-from.z)/(to.z-from.z),x=from.x+(to.x-from.x)*t;
+  return t>=0&&t<=1&&Math.abs(x)<=1.02;
 }
 // Bounded grid search is used only when the companion's direct path is obstructed.
 export function worldPath(scene, from, to) {
