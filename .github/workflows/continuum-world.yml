@@ -5,6 +5,9 @@ on:
     paths:
       - 'continuum-world*'
       - 'WorldConversation.jsx'
+      - 'WorldConversationSettings.jsx'
+      - 'conversation-voice.mjs'
+      - 'conversation-voice.test.mjs'
       - 'WorldProgress.jsx'
       - 'WorldLearningEvidence.jsx'
       - 'speaking-api.mjs'

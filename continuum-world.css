@@ -161,3 +161,34 @@
 .cw-world .cw-missions-button{position:static;max-width:100%;font-size:.78rem}.cw-world[data-phase2=true] .cw-place-list{padding-block-start:calc(var(--cw-header-height,88px) + 200px)}.cw-world textarea{font:inherit}
 .cw-conversation label,.cw-progress label{display:flex;gap:10px;align-items:start;margin:12px 0;flex-wrap:wrap;line-height:1.5}.cw-conversation input[type=checkbox]{width:20px;height:20px;flex:none}.cw-conversation select,.cw-conversation textarea{max-width:100%;width:100%;background:#f7f3e9;color:#183339;padding:10px;border-radius:10px}.cw-conversation textarea{resize:vertical;min-height:80px}.cw-conversation-actions{display:flex;gap:8px;flex-wrap:wrap}.cw-conversation [role=alert],.cw-progress [role=alert]{color:#8d341c}.cw-conversation .conversation-review{background:#f5f0e5;color:#233939;padding:18px;border-radius:12px}.cw-conversation .conversation-review p,.cw-conversation .conversation-review h2,.cw-conversation .conversation-review h3{color:inherit}.cw-memory-preview{border:1px solid #c2bd92;padding:16px;border-radius:12px;margin-block:16px}.cw-progress article{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid #697e7d}.cw-progress article>span{flex:1;min-width:120px}.cw-progress li{margin:12px 0}.cw-conversation details p{overflow-wrap:anywhere}.world-learning-evidence article{padding:15px 0;border-bottom:1px solid #d3d9d5}.world-learning-evidence blockquote{white-space:pre-wrap;overflow-wrap:anywhere}.cw-conversation button:disabled{opacity:.55}.cw-dialog:has(.cw-conversation){width:min(670px,94vw);max-height:75dvh}.cw-dialog:has(.cw-progress){width:min(720px,94vw)}
 @media(max-width:699px){.cw-world .cw-missions-button{font-size:11px;padding:6px 9px}.cw-dialog:has(.cw-conversation){max-height:70dvh}.cw-conversation .cw-dialogue{font-size:18px}.cw-progress button{min-height:44px}}
+
+/* Keep Tokyo visible while a single current line is shown above the controls. */
+.cw-world[data-talking=true] :is(.cw-header,.cw-footer,.cw-navigation,.cw-actions,.cw-view-actions,.cw-place-list){visibility:hidden;pointer-events:none}
+.cw-world .cw-immersive-backdrop{background:transparent;padding:0;pointer-events:none}
+.cw-world .cw-immersive-dialog:has(.cw-conversation){width:100%;height:100%;max-height:100%;padding:0;border-radius:0;overflow:hidden;background:transparent;box-shadow:none;color:#fffaf0;pointer-events:none}
+.cw-immersive-dialog .cw-conversation{height:100%;display:flex;flex-direction:column;align-items:center;gap:12px;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+.cw-conversation-header{display:flex;justify-content:space-between;align-items:center;width:100%;gap:12px;background:linear-gradient(#14232dc9,transparent);pointer-events:auto}
+.cw-conversation-header>span{padding:8px;border-radius:8px;background:#14232ddd}
+.cw-speech-bubble{pointer-events:auto;width:min(600px,100%);max-height:28dvh;overflow:auto;padding:12px 18px;background:#fff9ebf2;color:#244139;border:1px solid #ffffff80;border-radius:20px;box-shadow:0 8px 24px #102a2a30;animation:cw-line-in .2s ease-out}
+.cw-world .cw-speech-bubble .cw-dialogue{padding:0;background:none;border-radius:0;font-size:clamp(1rem,2vw,1.3rem);line-height:1.6;margin:0 0 6px}
+.cw-conversation-dock{pointer-events:auto;margin-top:auto;width:min(760px,100%);max-height:48dvh;overflow:auto;background:#14232deb;padding:10px 14px;border:1px solid #fff6d94d;border-radius:18px;box-shadow:0 8px 30px #14232d70}
+.cw-mic-state{font-size:.8rem;line-height:1.4;margin:0 0 8px;color:#f5e6c6}
+.cw-mic-state[data-state=listening]::before{content:'●';color:#a9e0ba;margin-inline-end:6px}
+.cw-conversation-actions{justify-content:center}
+.cw-conversation-tools{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-top:8px}
+.cw-conversation-tools button{font-size:.75rem;padding:6px 9px;background:transparent}
+.cw-conversation-dock label{margin:8px 0}
+.cw-conversation-dock textarea{min-height:54px;max-height:18dvh;resize:none}
+.cw-conversation-dock form{display:flex;align-items:end;gap:8px}
+.cw-conversation-dock form label{flex:1;min-width:0}
+.cw-conversation-sheet{pointer-events:auto;position:absolute;inset:auto max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));width:min(720px,calc(100% - 24px));margin-inline:auto;max-height:72dvh;overflow:auto;overscroll-behavior:contain;background:#fff9eb;color:#244139;padding:18px;border:1px solid #b8c6b9;border-radius:18px;box-shadow:0 12px 80px #102a2a99;z-index:2}
+.cw-conversation-sheet p{overflow-wrap:anywhere}
+.cw-conversation-ended{pointer-events:auto;margin-top:auto;padding:18px;background:#14232deb;border-radius:16px;width:min(600px,100%)}
+.cw-conversation-ended button{margin:4px}
+.cw-conversation-error{pointer-events:auto;color:#fff4df;background:#682f24f5;padding:10px;border-radius:12px;max-height:24dvh;overflow:auto;width:min(700px,100%)}
+.cw-conversation-settings fieldset{margin:0;padding:0;border:0;min-width:0}
+.cw-conversation-settings label{line-height:1.5;align-items:start}
+.cw-conversation-settings input[type=checkbox]{flex-shrink:0}
+@keyframes cw-line-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@media(max-height:500px){.cw-immersive-dialog .cw-conversation{gap:5px}.cw-speech-bubble{max-height:23dvh}.cw-conversation-dock{max-height:47dvh;padding:6px 10px}.cw-mic-state{margin-bottom:3px}.cw-conversation-tools{margin-top:3px}.cw-conversation-tools button{font-size:.7rem}}
+@media(prefers-reduced-motion:reduce){.cw-speech-bubble{animation:none}}

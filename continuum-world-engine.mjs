@@ -295,7 +295,7 @@ export async function createWorldEngine(
   host.addEventListener("blur", clear, true);
   let dragging = null;
   const pointerdown = (event) => {
-    if (event.button !== 0) return;
+    if (event.button !== 0 || options().talking) return;
     host.focus({ preventScroll: true });
     dragging = { id: event.pointerId, x: event.clientX, y: event.clientY };
     canvas.setPointerCapture(event.pointerId);
@@ -336,7 +336,7 @@ export async function createWorldEngine(
       reduced =
         settings.reduced ||
         matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const controls = input(),
+    const controls = settings.talking?{x:0,z:0,run:false}:input(),
       vector = {
         x:
           controls.x +
@@ -348,12 +348,13 @@ export async function createWorldEngine(
           Number(keys.has("KeyW") || keys.has("ArrowUp")),
       };
     const requested = movementVector(
-        vector,
+        settings.talking?{x:0,z:0}:vector,
         yaw,
         1 / 10,
         controls.run || keys.has("ShiftLeft") || keys.has("ShiftRight"),
       ),
       before = position;
+    if(settings.talking)velocity={x:0,z:0};
     velocity = worldVelocity(velocity, {x:requested.x*10,z:requested.z*10}, dt);
     const delta = {x:velocity.x*dt,z:velocity.z*dt};
     position = moveWorldActor(initial.scene, position, delta);
@@ -434,7 +435,14 @@ export async function createWorldEngine(
         position.z - companionPosition.z,
       ) - companion.rotation.y,
     );
-    for (const npc of npcs) npc.animate(walkTime, 0, reduced);
+    for (const npc of npcs) {
+      if(settings.talking&&Math.hypot(npc.root.position.x-settings.talking.x,npc.root.position.z-settings.talking.z)<.1){
+        const target=Math.atan2(position.x-npc.root.position.x,position.z-npc.root.position.z);
+        const delta=Math.atan2(Math.sin(target-npc.root.rotation.y),Math.cos(target-npc.root.rotation.y));
+        npc.root.rotation.y+=delta*(reduced?1:1-Math.exp(-dt*8));
+      }
+      npc.animate(walkTime,0,reduced);
+    }
     const hour =
         settings.time === "night"
           ? 22
@@ -500,7 +508,20 @@ export async function createWorldEngine(
         break;
       }
     }
-    camera.position.copy(desiredCamera);
+    const talking=settings.talking;
+    if(talking){
+      const npcPoint={x:talking.x,z:talking.z};
+      const dx=position.x-npcPoint.x,dz=position.z-npcPoint.z,length=Math.max(.01,Math.hypot(dx,dz));
+      cameraTarget.set(npcPoint.x,worldFloorHeight(initial.scene,npcPoint)+1.3,npcPoint.z);
+      // Stay on the learner's side of the counter and inside the room.
+      const candidate={x:position.x+dx/length*.35,z:position.z+dz/length*.35};
+      const safe=clearWorldCameraSegment(initial.scene,position,candidate,.18)?candidate:position;
+      desiredCamera.set(safe.x,worldFloorHeight(initial.scene,position)+1.65,safe.z);
+      player.root.visible=false;marker.visible=beacon.visible=false;
+    }else player.root.visible=true;
+    host.dataset.conversationCamera=String(!!talking);
+    if(talking&&!reduced&&draws>0)camera.position.lerp(desiredCamera,1-Math.exp(-dt*10));
+    else camera.position.copy(desiredCamera);
     camera.lookAt(cameraTarget);
     const started = performance.now();
     renderer.render(scene, camera);
