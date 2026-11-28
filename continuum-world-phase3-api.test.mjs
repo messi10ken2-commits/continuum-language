@@ -27,7 +27,7 @@ try{
   const v=await visit(id,true,undefined,undefined,id==='station-journey'?'night':'auto');assert.equal(v.status,201,JSON.stringify(v.data));
   let r=await call('/speaking','POST',{...v.data,language:'ja',level:'B1',displayLanguage:'en',aiConsent:true});assert.equal(r.status,201,JSON.stringify(r.data));let session=r.data.session;if(id==='station-journey')assert.ok(session.messages[0].text.startsWith('こんばんは。'));
   for(const text of ['おすすめについて教えていただけますか。','静かな場所で楽しみたいです。']){r=await call('/speaking/'+session.id+'/turn','POST',{text,revision:session.revision,turnKey:crypto.randomUUID(),aiConsent:true});assert.equal(r.status,200,JSON.stringify(r.data));session=r.data.session;}
-  if(id==='station-journey')assert.equal(context.scene.period,'evening');if(id==='music-rehearse')assert.ok(context.scene.playerChoices.includes('旅や街の文化を知りたい'));
+  if(id==='station-journey'){assert.equal(context.scene.period,'evening');assert.equal((await call('/world/travel','POST',{district:'tokyo',scene:'osaka_station_hall',position:{x:8,z:-15.8}})).status,200);assert.equal((await call('/world/travel','POST',{district:'tokyo',accessible:true})).status,200);}if(id==='music-rehearse')assert.ok(context.scene.playerChoices.includes('旅や街の文化を知りたい'));
   assert.equal(context.memories.length,0);assert.ok(context.scene.mission===id);assert.ok(!JSON.stringify(context).includes('phase3-other'));
   r=await call('/speaking/'+session.id+'/review','POST',{revision:session.revision,aiConsent:true});assert.equal(r.status,200,JSON.stringify(r.data));total+=80;
   const after=await profile();assert.equal(after.xp,total);assert.equal(after.records.length,total/80);assert.equal(after.consent.enabled,false);assert.equal(after.memories.length,0);
@@ -38,6 +38,9 @@ try{
  const p=await profile();assert.ok(p.journey.places.every(x=>x.unlocked));assert.equal(p.achievements.length,10);assert.equal(p.xp,800);
  assert.equal((await call('/world/travel','POST',{district:'osaka',scene:'outdoors',position:{x:0,z:0}})).status,409);
  assert.equal((await call('/world/travel','POST',{district:'osaka',scene:'tokyo_station_hall',position:{x:0,z:-2.4}})).status,409);
+ assert.equal((await call('/world/travel','POST',{district:'tokyo',scene:'osaka_station_hall',position:{x:8,z:-15.8}})).status,200);
+ assert.equal((await call('/world/travel','POST',{district:'tokyo',scene:'osaka_station_hall',position:{x:0,z:-2.4}})).status,409);
+ assert.equal((await call('/world/travel','POST',{district:'osaka',scene:'osaka_station_hall',position:{x:8,z:-15.8}})).status,409);
  const trip=await call('/world/travel','POST',{district:'osaka',scene:'tokyo_station_hall',position:{x:8,z:-15.8}});assert.equal(trip.status,200);assert.equal(trip.data.scene,'osaka');
  assert.equal((await call('/world/travel','POST',{district:'tokyo',scene:'osaka_arcade',position:{x:0,z:-2.4}})).status,200);
  const login=await api('/auth/login','POST',{email:'phase3-owner@example.test',password:'synthetic-phase3-password'});assert.equal(login.status,200);const relog=(await api('/world/profile','GET',null,login.cookie)).data;assert.equal(relog.xp,800);assert.equal(relog.journey.choices.find(c=>c.id==='reading').selected,'travel');

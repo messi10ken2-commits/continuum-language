@@ -1,3 +1,4 @@
+import {worldRailRoutes} from './continuum-world-transit.mjs';
 import {worldStory,allowedWorldChoice,storyConversation,storyOpening} from './continuum-world-story.mjs';
 import {worldDistricts} from './continuum-world-districts.mjs';
 import crypto from 'node:crypto';
@@ -132,8 +133,9 @@ export async function handleWorld({route,req,res,pool,required,json,send,fail,li
   if(!district)fail(400,'Choose a valid World destination');
   const awards=(await pool.query('SELECT mission_id,day FROM world_awards WHERE user_id=$1',[user.id])).rows;
   if(district.requires&&!awards.some(a=>a.mission_id===district.requires))fail(409,'Complete the preceding mission first');
-  if(d.accessible!==true){const terminal=district.id==='osaka'?'tokyo_station_hall':'osaka_arcade';
-   if(d.scene!==terminal||!isWorldWalkable(d.scene,d.position)||worldInteraction(d.scene,d.position)?.type!==(district.id==='osaka'?'board':'talk'))fail(409,'Follow the station signs and board the train, or use list view');}
+  const legacyReturn=district.id==='tokyo'&&d.scene==='osaka_arcade'&&isWorldWalkable(d.scene,d.position)&&worldInteraction(d.scene,d.position)?.type==='talk';
+  if(d.accessible!==true&&!legacyReturn){const route=worldRailRoutes.find(r=>r.to===district.id),interaction=worldInteraction(d.scene,d.position||{});
+   if(d.scene!==route?.scene||!isWorldWalkable(d.scene,d.position)||interaction?.type!=='board'||interaction.district!==district.id)fail(409,'Follow the station signs and board the train, or use list view');}
   send(res,200,{scene:district.scene,position:{...worldScenes[district.scene].spawn},yaw:district.id==='osaka'?-.55:0});return true;
  }
  if(route==='/api/world/settings'&&req.method==='PUT'){

@@ -1,4 +1,4 @@
-import {stationBoarding} from './continuum-world-transit.mjs';
+import {stationBoarding,worldRailRoutes} from './continuum-world-transit.mjs';
 import {expansionLocations,expansionScenes,worldDistricts,districtForScene,outdoorForLocation} from './continuum-world-districts.mjs';
 export {worldDistricts,districtForScene,outdoorForLocation} from './continuum-world-districts.mjs';
 import { hoshiInteriorFixtures } from "./continuum-world-konbini-layout.mjs";
@@ -261,7 +261,7 @@ export function worldPath(scene, from, to) {
   if (clearWorldSegment(scene, from, to)) return [to];
   // Quarter-metre cells resolve narrow retail aisles without increasing the
   // outdoor search cost. Search remains bounded to the small room.
-  const step=["tokyo_konbini","tokyo_station_hall"].includes(scene)?.25:1;
+  const step=["tokyo_konbini",...worldRailRoutes.map(r=>r.scene)].includes(scene)?.25:1;
   const gridPoint = (position) => {
     const candidates = [];
     for (
@@ -324,7 +324,8 @@ export function worldPath(scene, from, to) {
 export function worldInteraction(scene, position) {
   const distance = (p) => Math.hypot(p.x - position.x, p.z - position.z);
   if (!isOutdoorScene(scene)) {
-    if(scene==='tokyo_station_hall'&&distance(stationBoarding)<1.3)return {type:'board',district:'osaka'};
+    const route=worldRailRoutes.find(r=>r.scene===scene);
+    if(route&&distance(stationBoarding)<1.3)return {type:'board',district:route.to};
     if (distance({ x: 0, z: 5 }) < 2.1) return { type: "exit" };
     const location = worldLocations.find((l) => l.id === scene);
     return location && distance(location.npc) < 3

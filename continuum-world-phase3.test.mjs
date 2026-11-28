@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as THREE from 'three';
-import {worldLocations,worldScenes,worldPath,isWorldWalkable,worldInteraction,outdoorForLocation,clearWorldCameraSegment} from './continuum-world-model.mjs';
+import {worldLocations,worldScenes,worldPath,isWorldWalkable,worldInteraction,outdoorForLocation,clearWorldCameraSegment,restoreWorldState} from './continuum-world-model.mjs';
 import {worldDistricts,expansionLocations} from './continuum-world-districts.mjs';
 import {worldMissions,availableWorldMissions,worldScenario} from './continuum-world-missions.mjs';
 import {worldStory,allowedWorldChoice,storyConversation,storyOpening} from './continuum-world-story.mjs';
@@ -57,15 +57,27 @@ test('Osaka canals, bridge and pedestrian routes obey the shared collision model
  }
 });
 test('expansion UI copy covers all display languages and NPC roles are distinct',()=>{
- assert.equal(new Set(expansionLocations.map(l=>l.npc.id)).size,6);
+ assert.equal(new Set(expansionLocations.map(l=>l.npc.id)).size,7);
  for(const [source,copy]of Object.entries(worldPhase3Copy))for(const locale of ['ja','es','pt','zh','fr','ko','id','ru','ar'])assert.ok(copy[locale]?.trim(),source+' '+locale);
 });
 
-test('station has an unbroken gate-platform-carriage route and boarding is confined to the open door',()=>{
- const waypoints=[worldScenes.tokyo_station_hall.spawn,{x:4.8,z:-4.8},{x:4.8,z:-11.5},{x:8,z:-12},{x:8,z:-15.8}];
- for(let i=1;i<waypoints.length;i++)assert.ok(worldPath('tokyo_station_hall',waypoints[i-1],waypoints[i]).length,JSON.stringify(waypoints[i]));
- assert.equal(worldInteraction('tokyo_station_hall',waypoints.at(-1))?.type,'board');
- assert.equal(worldInteraction('tokyo_station_hall',{x:0,z:-2.4})?.type,'talk');
- assert.equal(isWorldWalkable('tokyo_station_hall',{x:4,z:-14}),false);
- assert.equal(isWorldWalkable('tokyo_station_hall',{x:8,z:-18.4}),false);
+test('both stations have an unbroken gate-platform-carriage route and boarding is confined to the open door',()=>{
+ for(const scene of ['tokyo_station_hall','osaka_station_hall']){
+ const waypoints=[worldScenes[scene].spawn,{x:4.8,z:-4.8},{x:4.8,z:-11.5},{x:8,z:-12},{x:8,z:-15.8}];
+ for(let i=1;i<waypoints.length;i++)assert.ok(worldPath(scene,waypoints[i-1],waypoints[i]).length,JSON.stringify(waypoints[i]));
+ assert.equal(worldInteraction(scene,waypoints.at(-1))?.type,'board');
+ assert.equal(worldInteraction(scene,{x:0,z:-2.4})?.type,'talk');
+ assert.equal(isWorldWalkable(scene,{x:4,z:-14}),false);
+ assert.equal(isWorldWalkable(scene,{x:8,z:-18.4}),false);
+}
+});
+
+test('Osaka station is available immediately on arrival, with no return-mission lock',()=>{
+ const arrival=[{mission_id:'station-journey'}],story=worldStory(arrival);
+ assert.equal(story.places.find(p=>p.id==='osaka_station_hall').unlocked,true);
+ assert.equal(story.districts.find(d=>d.id==='osaka').station,'osaka_station_hall');
+ assert.ok(worldPath('osaka',worldScenes.osaka.spawn,worldLocations.find(l=>l.id==='osaka_station_hall').door).length);
+ assert.equal(worldInteraction('osaka_station_hall',{x:8,z:-15.8}).district,'tokyo');
+ assert.equal(worldInteraction('tokyo_station_hall',{x:8,z:-15.8}).district,'osaka');
+ assert.equal(restoreWorldState({scene:'osaka_station_hall',position:{x:8,z:-15.8}}).scene,'osaka_station_hall');
 });

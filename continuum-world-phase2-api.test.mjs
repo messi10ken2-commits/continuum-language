@@ -20,7 +20,7 @@ try{
  const a=await reg('world-owner'),b=await reg('world-other'),teacher=await reg('world-teacher','teacher'),wrong=await reg('world-wrong-teacher','teacher');const uid=a.data.user.id;
  await db.query("INSERT INTO billing_memberships(user_id,status,paid_until) VALUES($1,'active',now()+interval '1 day')",[uid]);
  assert.equal((await api('/world/profile')).status,401);assert.equal((await api('/world/profile','GET',null,teacher.cookie)).status,403);
- let p=(await api('/world/profile','GET',null,a.cookie)).data;assert.equal(p.consent.enabled,false);assert.equal(p.missions.filter(m=>m.type==='main').length,10);assert.equal(p.missions.filter(m=>m.type==='side').length,14);assert.equal(p.missions.filter(m=>m.type==='daily').length,2);
+ let p=(await api('/world/profile','GET',null,a.cookie)).data;assert.equal(p.consent.enabled,false);assert.equal(p.missions.filter(m=>m.type==='main').length,10);assert.equal(p.missions.filter(m=>m.type==='side').length,15);assert.equal(p.missions.filter(m=>m.type==='daily').length,2);
  assert.deepEqual(p.settings,{onboarded:false,aiConsent:false,classContext:false,level:'auto'});
  assert.equal((await api('/world/settings','PUT',{onboarded:true,aiConsent:'yes',classContext:true,level:'B2'},a.cookie)).status,400);
  const settings={onboarded:true,aiConsent:true,classContext:true,level:'B2'};

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {mkdir,writeFile} from 'node:fs/promises';
 import {build,preview} from 'vite';
 import {chromium,webkit} from 'playwright';
-import {worldLocations,worldScenes} from '../continuum-world-model.mjs';
+import {worldLocations,worldScenes,isWorldWalkable,worldInteraction} from '../continuum-world-model.mjs';
 import {worldMissions,availableWorldMissions,worldMission} from '../continuum-world-missions.mjs';
 import {worldStory} from '../continuum-world-story.mjs';
 const dir=new URL('../.media-build/world-phase3/',import.meta.url);await mkdir(dir,{recursive:true});
@@ -22,13 +22,13 @@ try{
  for(const name of (process.env.QA_BROWSERS||'chromium,webkit').split(','))for(const width of (process.env.QA_WORLD_WIDTHS||'390,1280').split(',').map(Number)){
   browser=await({chromium,webkit})[name].launch({headless:true,...(name==='chromium'?{executablePath:process.env.QA_BROWSER_EXECUTABLE,args:['--no-sandbox','--use-angle=swiftshader','--enable-unsafe-swiftshader']}:{} )});
   const ctx=await browser.newContext({viewport:{width,height:844},hasTouch:width===390});page=await ctx.newPage();page.setDefaultTimeout(90000);
-  let awards=[{mission_id:'cafe-order'},{mission_id:'shop-buy'}],choices={},lastMission;const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  let travelCalls=0;let awards=[{mission_id:'cafe-order'},{mission_id:'shop-buy'}],choices={},lastMission;const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.route('**/api/**',async route=>{
    const request=route.request(),path=new URL(request.url()).pathname,d=request.method()==='GET'?{}:request.postDataJSON()||{};let value={};
    if(path==='/api/adventure')value={companion:'capybara'};
    else if(path==='/api/world/profile')value={enabled:true,available:true,level:'B1',settings:{onboarded:true,aiConsent:true,classContext:false,level:'auto'},consent:{enabled:false,version:0},missions:availableWorldMissions(awards),journey:worldStory(awards,choices),xp:awards.length*80,achievements:awards.map(a=>a.mission_id),memories:[],records:[]};
    else if(path==='/api/world/journey-choice'){choices[d.choiceId]=d.optionId;value={saved:true};}
-   else if(path==='/api/world/travel')value={scene:d.district==='osaka'?'osaka':'outdoors',position:worldScenes[d.district==='osaka'?'osaka':'outdoors'].spawn,yaw:d.district==='osaka'?-.55:0};
+   else if(path==='/api/world/travel'){travelCalls++;assert.ok(d.accessible===true||(isWorldWalkable(d.scene,d.position)&&worldInteraction(d.scene,d.position)?.district===d.district),'travel must originate from the matching train doorway');value={scene:d.district==='osaka'?'osaka':'outdoors',position:worldScenes[d.district==='osaka'?'osaka':'outdoors'].spawn,yaw:d.district==='osaka'?-.55:0};}
    else if(path==='/api/world/visits'){lastMission=d.missionId;value={startKey:d.startKey,scenario:'world-'+d.missionId};}
    else if(path==='/api/speaking'&&request.method()==='GET')value={sessions:[]};
    else if(path==='/api/speaking'&&request.method()==='POST'){const place=worldLocations.find(l=>l.id===worldMission(lastMission).location);value={session:{id:crypto.randomUUID(),scenario:'world-'+lastMission,level:'B1',language:'ja',revision:0,messages:[{role:'assistant',text:place.npc.line}]}};}
@@ -64,8 +64,10 @@ try{
   await page.getByRole('button',{name:'Close',exact:true}).click();
   await page.locator('.cw-place-list article').filter({has:page.getByRole('heading',{name:'Asahi station concourse',exact:true})}).getByRole('button',{name:'Enter',exact:true}).click();await graphics();
   async function walk(key,axis,value,greater){
+   const start=JSON.parse(await page.locator('.cw-renderer').getAttribute('data-position'));
+   const timeout=Math.max(25000,Math.ceil(Math.abs(start[axis]-value)*3000));
    await page.locator('.cw-renderer').focus();await page.keyboard.down(key);
-   try{await page.waitForFunction(({axis,value,greater})=>{const p=JSON.parse(document.querySelector('.cw-renderer').dataset.position);return greater?p[axis]>value:p[axis]<value;},{axis,value,greater},{timeout:25000});}catch(error){console.log('Walk failed',key,await page.locator('.cw-renderer').getAttribute('data-position'));throw error;}finally{await page.keyboard.up(key);await page.waitForTimeout(350);}
+   try{await page.waitForFunction(({axis,value,greater})=>{const p=JSON.parse(document.querySelector('.cw-renderer').dataset.position);return greater?p[axis]>value:p[axis]<value;},{axis,value,greater},{timeout});}catch(error){console.log('Walk failed',key,await page.locator('.cw-renderer').getAttribute('data-position'));throw error;}finally{await page.keyboard.up(key);await page.waitForTimeout(350);}
   }
   await walk('KeyD','x',4.65,true);await walk('KeyW','z',-11.7,false);await walk('KeyD','x',7.95,true);
   await page.screenshot({path:new URL(name+'-'+width+'-shinkansen-platform.png',dir).pathname});
@@ -78,12 +80,37 @@ try{
   for(const place of worldLocations.filter(l=>l.district==='osaka'))await room(place);
   await page.getByRole('button',{name:'World settings',exact:true}).click();await page.getByLabel('Time of day',{exact:true}).selectOption('night');await page.getByRole('button',{name:'Close',exact:true}).click();await ready();
   await page.screenshot({path:new URL(name+'-'+width+'-osaka-night.png',dir).pathname});
-  await list();await page.getByRole('button',{name:/Missions and NPC memory/}).click();await page.locator('.cw-journey article').filter({has:page.getByText('Tokyo · Komorebi Street',{exact:true})}).getByRole('button',{name:'Travel',exact:true}).click();await graphics();
-  assert.equal(await page.locator('.cw-world').getAttribute('data-scene'),'outdoors');
+  // Reproduce the reported 8/10 arrival state. Returning must never depend
+  // on completing the two Osaka activities or the new optional station task.
+  awards=awards.filter(a=>!['osaka-order','osaka-culture'].includes(a.mission_id));
+  await page.reload();await ready();
+  await page.getByRole('button',{name:/Missions and NPC memory/}).click();
+  const before=travelCalls;
+  await page.locator('.cw-journey article').filter({has:page.getByText('Tokyo · Komorebi Street',{exact:true})}).getByRole('button',{name:'Travel',exact:true}).click();
+  await page.locator('.cw-journey').waitFor({state:'detached'});
+  assert.equal(travelCalls,before,'street Travel guides to the station without sending an invalid request');
+  assert.equal(await page.getByLabel('Destination',{exact:true}).inputValue(),'osaka_station_hall');
+  // Walk along the bank, around the station footprint and through its door.
+  await walk('KeyA','x',9.1,false);await walk('KeyS','z',20.4,true);await walk('KeyD','x',16.9,true);
+  await page.getByRole('button',{name:'Enter',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.cw-world')?.dataset.scene==='osaka_station_hall');await ready();
+  await walk('KeyD','x',4.65,true);await walk('KeyW','z',-11.7,false);await walk('KeyD','x',7.95,true);await walk('KeyW','z',-15.6,false);
+  await page.reload();await ready();assert.equal(await page.locator('.cw-world').getAttribute('data-scene'),'osaka_station_hall');
+  await page.screenshot({path:new URL(name+'-'+width+'-osaka-return-boarding.png',dir).pathname});
+  await page.getByRole('button',{name:'Board Shinkansen',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.cw-world')?.dataset.scene==='outdoors');await ready();
+  assert.equal(await page.getByLabel('Destination',{exact:true}).inputValue(),'tokyo_cafe');
+  // Accessible travel remains available in both directions, independent of 3D.
+  await list();await page.getByRole('button',{name:/Missions and NPC memory/}).click();
+  await page.locator('.cw-journey article').filter({has:page.getByText('Osaka · Akari Canal',{exact:true})}).getByRole('button',{name:'Travel',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.cw-world')?.dataset.scene==='osaka');
+  await page.getByRole('button',{name:/Missions and NPC memory/}).click();
+  await page.locator('.cw-journey article').filter({has:page.getByText('Tokyo · Komorebi Street',{exact:true})}).getByRole('button',{name:'Travel',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.cw-world')?.dataset.scene==='outdoors');await graphics();
   await page.goto(base+'?wall=true');await ready();assert.ok(await page.locator('.cw-renderer').evaluate(e=>Math.abs(JSON.parse(e.dataset.position).x-7.3)<.01));
   for(let n=0;n<3;n++){await page.screenshot({path:new URL(name+'-'+width+'-wall-angle-'+n+'.png',dir).pathname});const box=await page.locator('.cw-renderer').boundingBox();await page.mouse.move(box.x+box.width*.55,box.y+box.height*.42);await page.mouse.down();await page.mouse.move(box.x+box.width*.55+22,box.y+box.height*.42,{steps:8});await page.mouse.up();}
   for(const locale of ['ja','ar']){await page.goto(base+'?locale='+locale);await ready();await noOverflow();await page.evaluate(()=>document.documentElement.style.fontSize='200%');await noOverflow();await page.screenshot({path:new URL(name+'-'+width+'-'+locale+'-large.png',dir).pathname});await page.locator('.cw-missions-button').click();await page.locator('.cw-journey').waitFor();await noOverflow();assert.ok(await page.locator('.cw-dialog').evaluate(e=>e.scrollWidth<=e.clientWidth+2),'journey panel fits at large text');await page.screenshot({path:new URL(name+'-'+width+'-'+locale+'-journey.png',dir).pathname});}
-  assert.deepEqual(errors,[]);results.push({browser:name,width,rooms,lockedBeforeAwards:true,storyChoicePersisted:true,osakaRoundTrip:true,rendererReuse:true,locales:['ja','ar']});console.log('PASS Phase 3 UI',name,width);await browser.close();browser=null;
+  assert.deepEqual(errors,[]);results.push({browser:name,width,rooms,lockedBeforeAwards:true,storyChoicePersisted:true,osakaRoundTrip:true,physicalOsakaReturnAtEightMissions:true,returnReloadPersisted:true,accessibleRoundTrip:true,rendererReuse:true,locales:['ja','ar']});console.log('PASS Phase 3 UI',name,width);await browser.close();browser=null;
  }
  await writeFile(new URL('results.json',dir),JSON.stringify(results,null,2));
 }catch(e){await page?.screenshot({path:new URL('failure.png',dir).pathname}).catch(()=>{});console.error(await page?.locator('body').innerText().catch(()=>''));throw e;}finally{await browser?.close();await new Promise(r=>server.httpServer.close(r));}
