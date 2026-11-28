@@ -61,7 +61,18 @@ try{
   await page.getByLabel('Choose your reading interest',{exact:true}).selectOption('travel');await page.waitForFunction(()=>!document.querySelector('select[aria-label="Choose your reading interest"]').disabled);
   await page.getByRole('button',{name:'Close',exact:true}).click();await page.reload();await ready();canvas=await page.locator('.cw-canvas').elementHandle();await list();await page.getByRole('button',{name:/Missions and NPC memory/}).click();
   assert.equal(await page.getByLabel('Choose your reading interest',{exact:true}).inputValue(),'travel');
-  await page.locator('.cw-journey article').filter({has:page.getByText('Osaka · Akari Canal',{exact:true})}).getByRole('button',{name:'Travel',exact:true}).click();
+  await page.getByRole('button',{name:'Close',exact:true}).click();
+  await page.locator('.cw-place-list article').filter({has:page.getByRole('heading',{name:'Asahi station concourse',exact:true})}).getByRole('button',{name:'Enter',exact:true}).click();await graphics();
+  async function walk(key,axis,value,greater){
+   await page.locator('.cw-renderer').focus();await page.keyboard.down(key);
+   try{await page.waitForFunction(({axis,value,greater})=>{const p=JSON.parse(document.querySelector('.cw-renderer').dataset.position);return greater?p[axis]>value:p[axis]<value;},{axis,value,greater},{timeout:25000});}catch(error){console.log('Walk failed',key,await page.locator('.cw-renderer').getAttribute('data-position'));throw error;}finally{await page.keyboard.up(key);await page.waitForTimeout(350);}
+  }
+  await walk('KeyD','x',4.65,true);await walk('KeyW','z',-11.7,false);await walk('KeyD','x',7.95,true);
+  await page.screenshot({path:new URL(name+'-'+width+'-shinkansen-platform.png',dir).pathname});
+  await walk('KeyW','z',-15.6,false);
+  await page.screenshot({path:new URL(name+'-'+width+'-shinkansen-boarding.png',dir).pathname});
+  await page.getByRole('button',{name:'Board Shinkansen',exact:true}).click();
+
   await graphics();assert.equal(await page.locator('.cw-world').getAttribute('data-scene'),'osaka');await page.reload();await ready();canvas=await page.locator('.cw-canvas').elementHandle();assert.equal(await page.getByLabel('Destination',{exact:true}).inputValue(),'osaka_takoyaki');await page.screenshot({path:new URL(name+'-'+width+'-osaka-day.png',dir).pathname});
   for(const place of worldLocations.filter(l=>l.district==='osaka'))await room(place);
   await page.getByRole('button',{name:'World settings',exact:true}).click();await page.getByLabel('Time of day',{exact:true}).selectOption('night');await page.getByRole('button',{name:'Close',exact:true}).click();await ready();

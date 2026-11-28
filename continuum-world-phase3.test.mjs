@@ -60,3 +60,12 @@ test('expansion UI copy covers all display languages and NPC roles are distinct'
  assert.equal(new Set(expansionLocations.map(l=>l.npc.id)).size,6);
  for(const [source,copy]of Object.entries(worldPhase3Copy))for(const locale of ['ja','es','pt','zh','fr','ko','id','ru','ar'])assert.ok(copy[locale]?.trim(),source+' '+locale);
 });
+
+test('station has an unbroken gate-platform-carriage route and boarding is confined to the open door',()=>{
+ const waypoints=[worldScenes.tokyo_station_hall.spawn,{x:4.8,z:-4.8},{x:4.8,z:-11.5},{x:8,z:-12},{x:8,z:-15.8}];
+ for(let i=1;i<waypoints.length;i++)assert.ok(worldPath('tokyo_station_hall',waypoints[i-1],waypoints[i]).length,JSON.stringify(waypoints[i]));
+ assert.equal(worldInteraction('tokyo_station_hall',waypoints.at(-1))?.type,'board');
+ assert.equal(worldInteraction('tokyo_station_hall',{x:0,z:-2.4})?.type,'talk');
+ assert.equal(isWorldWalkable('tokyo_station_hall',{x:4,z:-14}),false);
+ assert.equal(isWorldWalkable('tokyo_station_hall',{x:8,z:-18.4}),false);
+});
