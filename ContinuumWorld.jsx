@@ -7,6 +7,7 @@ import { isAppHidden } from "./native-platform.mjs";
 import {
   restoreWorldState,
   worldScenes,
+  worldDistricts,
   worldLocations,
   worldStorageKey,
   worldInteraction,
@@ -401,7 +402,7 @@ export default function ContinuumWorld({ user, onBack }) {
   const targetLocation = interaction?.location || indoorLocation || worldLocations.find((location) => location.id === destination);
   const actionType = interaction?.type==="board" ? "board" : indoorLocation ? "talk" : interaction?.type || (targetLocation?.interior ? "enter" : "talk");
   const actionLabel = actionType === "board" ? "Board Shinkansen" : actionType === "enter" ? "Enter" : "Talk";
-  const actionReady = ready && !paused && !boarding && (actionType!=="board"||worldProfile?.journey?.districts?.some(d=>d.id==="osaka"&&d.unlocked)) && interaction?.type === actionType && placeUnlocked(interaction?.location);
+  const actionReady = ready && !paused && !boarding && (actionType!=="board"||worldProfile?.journey?.districts?.some(d=>d.id===interaction?.district&&d.unlocked)) && interaction?.type === actionType && placeUnlocked(interaction?.location);
   const leaveBuilding = () => {
     if (!indoorLocation) return;
     transition(outdoorForLocation(indoorLocation), { ...indoorLocation.door });
@@ -409,7 +410,7 @@ export default function ContinuumWorld({ user, onBack }) {
   const act = async () => {
     if (!interaction || !placeUnlocked(interaction.location)) return;
     if(interaction.type==='board'){
-      setBoarding(true);setTravelError('');try{const trip=await worldRequest('/travel',{district:interaction.district,scene:snapshot.scene,position:snapshot.position});setDestination('osaka_takoyaki');transition(trip.scene,trip.position,trip.yaw||0);}catch(error){setTravelError(error.message);}finally{setBoarding(false);}return;
+      setBoarding(true);setTravelError('');try{const trip=await worldRequest('/travel',{district:interaction.district,scene:snapshot.scene,position:snapshot.position});setDestination(interaction.district==='osaka'?'osaka_takoyaki':'tokyo_cafe');transition(trip.scene,trip.position,trip.yaw||0);}catch(error){setTravelError(error.message);}finally{setBoarding(false);}return;
     }
     if (interaction.type === "enter")
       transition(interaction.location.id, {
@@ -699,7 +700,7 @@ export default function ContinuumWorld({ user, onBack }) {
             {dialogue&&worldProfile?.enabled?(
               <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldConversation key={dialogue.id} user={user} location={worldLocations.find(l=>l.npc.id===dialogue.id)} profile={worldProfile} onProfile={acceptWorldProfile} initialMission={chosenMission} scene={snapshot.scene} position={snapshot.position} time={settings.time} accessible={list} onClose={close} onSettings={()=>{setDialogue(null);setPanel("settings");}}/></Suspense>
             ):panel==='missions'&&worldProfile?.enabled?(
-              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldProgress profile={worldProfile} onProfile={acceptWorldProfile} district={currentDistrict} onTravel={async district=>{const trip=await worldRequest('/travel',{district,scene:snapshot.scene,position:snapshot.position,accessible:list});setDestination(district==='osaka'?'osaka_takoyaki':'tokyo_cafe');transition(trip.scene,trip.position,trip.yaw||0);}} onDestination={(location,mission)=>{const place=worldLocations.find(l=>l.id===location);setDestination(districtForScene(location)!==currentDistrict?(currentDistrict==='tokyo'?'tokyo_station_hall':'osaka_arcade'):place.id);setChosenMission(mission);close();}}/></Suspense>
+              <Suspense fallback={<p role="status">{t('Preparing…')}</p>}><WorldProgress profile={worldProfile} onProfile={acceptWorldProfile} district={currentDistrict} onTravel={async district=>{if(!list&&(interaction?.type!=='board'||interaction.district!==district)){setDestination(worldDistricts.find(d=>d.id===currentDistrict).station);close();return;}const trip=await worldRequest('/travel',{district,scene:snapshot.scene,position:snapshot.position,accessible:list});setDestination(district==='osaka'?'osaka_takoyaki':'tokyo_cafe');transition(trip.scene,trip.position,trip.yaw||0);}} onDestination={(location,mission)=>{const place=worldLocations.find(l=>l.id===location);setDestination(districtForScene(location)!==currentDistrict?worldDistricts.find(d=>d.id===currentDistrict).station:place.id);setChosenMission(mission);close();}}/></Suspense>
             ):dialogue ? (
               <>
                 <h2 lang="ja">

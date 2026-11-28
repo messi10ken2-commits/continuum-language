@@ -64,9 +64,9 @@ test("Tokyo is opt-in, Japanese learner-only and illustrated-only", () => {
     assert.equal(worldAvailable({ ...eligible, ...override }), false);
 });
 test("both districts have safe doors, distinct NPCs and enterable interiors", () => {
-  assert.equal(worldLocations.length, 10);
-  assert.equal(worldLocations.filter((l) => l.interior).length, 8);
-  assert.equal(new Set(worldLocations.map((l) => l.npc.id)).size, 10);
+  assert.equal(worldLocations.length, 11);
+  assert.equal(worldLocations.filter((l) => l.interior).length, 9);
+  assert.equal(new Set(worldLocations.map((l) => l.npc.id)).size, 11);
   for (const location of worldLocations) {
     assert.ok(isWorldWalkable(outdoorForLocation(location), location.door));
     assert.ok(

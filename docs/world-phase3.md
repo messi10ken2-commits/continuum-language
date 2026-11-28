@@ -12,7 +12,7 @@ The original six buildings within the playable Tokyo block now have navigable ro
 | Osaka · Akari Canal | `station-journey`, following `asahi-plan` | A new canal/bridge shopping district |
 | Akari Takoyaki / shopping arcade | Osaka unlocked | Flavours, shopping plans and optional local expressions |
 
-There are 10 main, 14 side and 10 daily mission definitions, with two eligible daily variations shown at a time. Course completions and membership rules are unchanged. Awarded evidence, not accumulated daily XP or NPC-memory consent, unlocks places. The original four main missions retain their IDs and awards.
+There are 10 main, 15 side and 11 daily mission definitions, with two eligible daily variations shown at a time. Course completions and membership rules are unchanged. Awarded evidence, not accumulated daily XP or NPC-memory consent, unlocks places. The original four main missions retain their IDs and awards.
 
 ## Shared data and scene contract
 
@@ -46,3 +46,9 @@ Software-browser measurements are not iPhone device guarantees. Physical iPhone 
 ## Rollback
 
 Revert the release commit and redeploy. Leave the two additive columns in place; earlier code ignores them. Do not remove earned awards or learning evidence. The existing World feature flag can hide the entry, and the server conversation flag stops new conversations while retaining privacy deletion controls.
+
+## Osaka return station
+
+Osaka now has an enterable Akari Osaka station at (17,14), door (17,20.5), immediately available with `station-journey`. Its ticket gates, platform and Tokyo-bound carriage share the Tokyo station collision contract. The optional return-route conversation does not gate departure. In 3D the district Travel button selects the local station; in list view it still travels directly. Both physical directions use the matching train doorway. The legacy Osaka arcade counter return remains accepted for cached clients.
+
+The return regression tests reproduce arrival at 8/10 main missions, walk from the Osaka bank through the station into the train, reload inside the train, then board for Tokyo. List-view travel is also tested in both directions.

@@ -1,3 +1,4 @@
+export const worldRailRoutes=[{scene:'tokyo_station_hall',from:'tokyo',to:'osaka',platform:'14  新大阪 / Shin-Osaka',boarding:'大阪へ / Board for Osaka'},{scene:'osaka_station_hall',from:'osaka',to:'tokyo',platform:'18  東京 / Tokyo',boarding:'東京へ / Board for Tokyo'}];
 // Ground-level accessible connector: gates → signed concourse → platform →
 // open train doorway. Rendered solids and colliders use these same coordinates.
 export const stationBoarding={x:8,z:-15.8};
@@ -10,7 +11,8 @@ export const stationTransitObstacles=[
  {x:-5.9,z:-16.2,width:2.2,depth:4.4},{x:20.7,z:-16.2,width:.2,depth:4.4},
  ...[-2,1,4,12,15,18].map(x=>({x,z:-17.4,width:1.5,depth:.8})),
 ];
-export function makeStationBoarding(root,meshes){
+export function makeStationBoarding(root,meshes,scene='tokyo_station_hall'){
+ const route=worldRailRoutes.find(r=>r.scene===scene);if(!route)throw Error('Unknown station');
  const {shape,surface,sign}=meshes,steel=surface('metal',1,0x8d999b),wall=surface('concrete',3,0xd6d8cf);
  const b=(m,p,s)=>shape(root,'box',m,p,s);
  b(surface('tile',8,0xc6cbc7),[4.8,-.1,-8],[3.4,.2,4]);
@@ -37,7 +39,7 @@ export function makeStationBoarding(root,meshes){
  b(steel,[7,5,-12],[28,.12,5]);
  for(const x of [-2,6,14]){
   shape(root,'box',0xf4f0d4,[x,4.86,-12],[4,.04,.35],true);
-  sign(root,'14  新大阪 / Shin-Osaka',[x,3.6,-12.5],3.6,'#173f58');
+  sign(root,route.platform,[x,3.6,-12.5],3.6,'#173f58');
  }
  // Shinkansen carriage: blue waistline, recessed windows, open sliding-door
  // pocket, interior luggage racks and seats. The door is a real walkable gap.
@@ -63,5 +65,5 @@ export function makeStationBoarding(root,meshes){
   b(0xd8d5c8,[x,1.4,-17.76],[1.3,.18,.12]);b(steel,[x,.22,-17.4],[.7,.4,.5]);
  }
  b(steel,[8,2.7,-17.8],[24,.08,.7]);
- sign(root,'大阪へ / Board for Osaka',[8,2,-18.3],3,'#244b68');
+ sign(root,route.boarding,[8,2,-18.3],3,'#244b68');
 }

@@ -40,7 +40,7 @@ export function makeOsakaWorld(meshes){
    shape(g,'box',0xb3b3a1,[x,y-1,.15],[2.2,.1,.35]);
   }
   for(const x of [-4.7,4.7])shape(g,'cylinder',0x626f6c,[x,3.5,.15],[.04,7,.04]);
-  sign(g,p.style==='food'?'たこ焼き ・ 大阪の味':'大阪みやげ ・ 商い',[0,7.3,.13],7,p.style==='food'?'#973c2b':'#34645d');
+  sign(g,p.style==='station'?'東京行き ・ 新幹線':p.style==='food'?'たこ焼き ・ 大阪の味':'大阪みやげ ・ 商い',[0,7.3,.13],7,p.style==='food'?'#973c2b':'#34645d');
  }
  // Lantern-lined covered arcade, red noren, upright original signage.
  for(const x of [-21,-17,-13,13,17,21]){

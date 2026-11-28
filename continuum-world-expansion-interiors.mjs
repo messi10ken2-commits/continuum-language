@@ -100,7 +100,7 @@ export function makeExpansionInterior(id,meshes){
    shape(g,'box',0x1d292e,[0,.82,.01],[.65,.12,.05]);
    for(let n=0;n<3;n++)shape(g,'box',0xcdd4c9,[-.3+n*.3,1.02,.04],[.18,.07,.04]);
   }
-  makeStationBoarding(root,meshes);
+  makeStationBoarding(root,meshes,id);
  }else if(place.style==='community'){
   panel('交流サロン ・ 2F / 学習室 ・ 3F',[0,2.65,-5.94],4.7,'#525f68');
   // Brushed lift doors, call button and floor indicator make this read as a

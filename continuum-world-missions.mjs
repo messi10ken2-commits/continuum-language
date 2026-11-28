@@ -24,6 +24,7 @@ for(const row of [
  ['station-journey','tokyo_station_hall','main','大阪への旅支度',['Ask about a fictional trip to Osaka.','Clarify route, timing or ticket options.','Confirm a suitable travel plan without real booking or payment.'],'asahi-plan'],
  ['osaka-order','osaka_takoyaki','main','大阪で味を楽しむ',['Order a fictional food item politely.','Explain a flavour preference or ask about an ingredient.','Confirm your choice.'],'station-journey'],
  ['osaka-culture','osaka_arcade','main','商店街で会話を広げる',['Ask about the fictional shopping arcade.','Discuss a local activity and explain your interest.','Confirm your plan or ask a follow-up.'],'osaka-order'],
+ ['osaka-return','osaka_station_hall','side','東京への帰路を確かめる',['Ask about the fictional train to Tokyo.','Clarify the platform or ticket information.','Confirm the return route politely.']],
  ['book-compare','tokyo_bookshop','side','二冊を比べる',['Compare two fictional books.','Explain what you find easier or more interesting.','Ask a relevant follow-up question.']],
  ['music-preference','tokyo_music','side','音楽の好みを伝える',['Explain a musical preference.','Ask about an activity.','Respond to the suggestion.']],
  ['asahi-clarify','tokyo_asahi','side','イベントの条件を確かめる',['Ask about an event detail.','Clarify a condition or time.','Restate your understanding.']],
