@@ -64,8 +64,10 @@ try{
   await page.getByRole('button',{name:'Close',exact:true}).click();
   await page.locator('.cw-place-list article').filter({has:page.getByRole('heading',{name:'Asahi station concourse',exact:true})}).getByRole('button',{name:'Enter',exact:true}).click();await graphics();
   async function walk(key,axis,value,greater){
+   const start=JSON.parse(await page.locator('.cw-renderer').getAttribute('data-position'));
+   const timeout=Math.max(25000,Math.ceil(Math.abs(start[axis]-value)*3000));
    await page.locator('.cw-renderer').focus();await page.keyboard.down(key);
-   try{await page.waitForFunction(({axis,value,greater})=>{const p=JSON.parse(document.querySelector('.cw-renderer').dataset.position);return greater?p[axis]>value:p[axis]<value;},{axis,value,greater},{timeout:25000});}catch(error){console.log('Walk failed',key,await page.locator('.cw-renderer').getAttribute('data-position'));throw error;}finally{await page.keyboard.up(key);await page.waitForTimeout(350);}
+   try{await page.waitForFunction(({axis,value,greater})=>{const p=JSON.parse(document.querySelector('.cw-renderer').dataset.position);return greater?p[axis]>value:p[axis]<value;},{axis,value,greater},{timeout});}catch(error){console.log('Walk failed',key,await page.locator('.cw-renderer').getAttribute('data-position'));throw error;}finally{await page.keyboard.up(key);await page.waitForTimeout(350);}
   }
   await walk('KeyD','x',4.65,true);await walk('KeyW','z',-11.7,false);await walk('KeyD','x',7.95,true);
   await page.screenshot({path:new URL(name+'-'+width+'-shinkansen-platform.png',dir).pathname});
