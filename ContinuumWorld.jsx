@@ -148,6 +148,8 @@ export default function ContinuumWorld({ user, onBack }) {
     [retry, setRetry] = useState(0),
     [ready, setReady] = useState(false),
     [failure, setFailure] = useState(""),
+    [travelError,setTravelError]=useState(""),
+    [boarding,setBoarding]=useState(false),
     [storageFailed, setStorageFailed] = useState(false),
     [dialogue, setDialogue] = useState(null),
     [kind, setKind] = useState("bird"),
@@ -397,15 +399,18 @@ export default function ContinuumWorld({ user, onBack }) {
   const interaction = worldInteraction(snapshot.scene, snapshot.position);
   const indoorLocation = worldLocations.find((location) => location.id === snapshot.scene);
   const targetLocation = interaction?.location || indoorLocation || worldLocations.find((location) => location.id === destination);
-  const actionType = indoorLocation ? "talk" : interaction?.type || (targetLocation?.interior ? "enter" : "talk");
-  const actionLabel = actionType === "enter" ? "Enter" : "Talk";
-  const actionReady = ready && !paused && interaction?.type === actionType && placeUnlocked(interaction?.location);
+  const actionType = interaction?.type==="board" ? "board" : indoorLocation ? "talk" : interaction?.type || (targetLocation?.interior ? "enter" : "talk");
+  const actionLabel = actionType === "board" ? "Board Shinkansen" : actionType === "enter" ? "Enter" : "Talk";
+  const actionReady = ready && !paused && !boarding && (actionType!=="board"||worldProfile?.journey?.districts?.some(d=>d.id==="osaka"&&d.unlocked)) && interaction?.type === actionType && placeUnlocked(interaction?.location);
   const leaveBuilding = () => {
     if (!indoorLocation) return;
     transition(outdoorForLocation(indoorLocation), { ...indoorLocation.door });
   };
-  const act = () => {
+  const act = async () => {
     if (!interaction || !placeUnlocked(interaction.location)) return;
+    if(interaction.type==='board'){
+      setBoarding(true);setTravelError('');try{const trip=await worldRequest('/travel',{district:interaction.district,scene:snapshot.scene,position:snapshot.position});setDestination('osaka_takoyaki');transition(trip.scene,trip.position,trip.yaw||0);}catch(error){setTravelError(error.message);}finally{setBoarding(false);}return;
+    }
     if (interaction.type === "enter")
       transition(interaction.location.id, {
         ...worldScenes[interaction.location.id].spawn,
@@ -617,11 +622,11 @@ export default function ContinuumWorld({ user, onBack }) {
                   disabled={!actionReady}
                   onClick={act}
                 >
-                  {actionType === "enter" ? <DoorOpen size={20} aria-hidden="true" /> : <MessageCircle size={20} aria-hidden="true" />}
+                  {["enter","board"].includes(actionType) ? <DoorOpen size={20} aria-hidden="true" /> : <MessageCircle size={20} aria-hidden="true" />}
                   {t(actionLabel)}
                 </button>
                 <p id="cw-interaction-hint" className="cw-interaction-hint" role="status">
-                  {!actionReady && t(!placeUnlocked(targetLocation)?"Complete the preceding mission first":indoorLocation ? "Approach the counter to talk." : "Move closer to enter or talk.")}
+                  {travelError || (!actionReady && t(!placeUnlocked(targetLocation)||actionType==="board"?"Complete the preceding mission first":indoorLocation ? "Approach the counter to talk." : "Move closer to enter or talk."))}
                 </p>
                 <div className="cw-secondary-controls">
                   <button

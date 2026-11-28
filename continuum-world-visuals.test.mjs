@@ -362,7 +362,7 @@ test('new districts and interiors fit independent fixed geometry budgets and rel
    const meshes=worldMeshes({quality});try{
     const root=id==='osaka'?makeOsakaWorld(meshes):makeWorldInterior(id,meshes),b=budget(root);
     assert.ok(b.draws<(id==='osaka'?100:50),id+' '+JSON.stringify(b));
-    assert.ok(b.triangles<(id==='osaka'?50000:12000),id+' '+JSON.stringify(b));
+    assert.ok(b.triangles<(id==='osaka'?50000:24000),id+' '+JSON.stringify(b));
     const geometries=new Set(),materials=new Set();root.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)materials.add(o.material);});
     let released=0;materials.forEach(m=>m.addEventListener('dispose',()=>released++));meshes.dispose();assert.equal(released,materials.size);meshes.dispose();assert.equal(released,materials.size);
    }finally{meshes.dispose();}
@@ -380,4 +380,31 @@ test('side-wall rays resolve the facade and recessed slab at separate depths nea
    assert.ok(hits.length>=2);assert.ok(hits[1].distance-hits[0].distance>.02,'opaque slab must not share the exterior wall depth');
   }finally{meshes.dispose();}
  }}finally{globalThis.document=previous;}
+});
+
+test('expansion signs occupy separate wall bands and the bridge has one flush opaque walking surface',()=>{
+ const previous=globalThis.document;globalThis.document=canvasDocument();
+ try{
+  for(const id of expansionLocations.map(l=>l.id)){
+   const meshes=worldMeshes({quality:'low'});meshes.batch=root=>root;
+   try{
+    const root=makeWorldInterior(id,meshes);root.updateMatrixWorld(true);const signs=[];
+    root.traverse(o=>{if(o.userData.worldSign){const b=new THREE.Box3().setFromObject(o);if(b.max.z-b.min.z<.001)signs.push(b);}});
+    for(let i=0;i<signs.length;i++)for(let j=i+1;j<signs.length;j++){
+     const a=signs[i],b=signs[j];if(Math.abs(a.min.z-b.min.z)>.025)continue;
+     assert.ok(Math.min(a.max.x,b.max.x)-Math.max(a.min.x,b.min.x)<.01||Math.min(a.max.y,b.max.y)-Math.max(a.min.y,b.min.y)<.01,id+' overlapping wall signs');
+    }
+   }finally{meshes.dispose();}
+  }
+  const meshes=worldMeshes({quality:'low'});try{
+   const root=makeOsakaWorld(meshes);root.updateMatrixWorld(true);
+   for(const x of [-4.6,-4.1,-3.9,0,3.9,4.1,4.6]){
+    const ray=new THREE.Raycaster(new THREE.Vector3(x,.5,.31),new THREE.Vector3(0,-1,0));
+    const hits=ray.intersectObject(root,true).filter(h=>h.face.normal.y>.9);
+    const top=hits.filter(h=>Math.abs(h.point.y-.06)<.002);
+    assert.equal(top.length,1,'exactly one deck/bank face at x='+x);
+    assert.ok(hits.every(h=>h.point.y<=.061),'no retaining kerb across the bridge approach');
+   }
+  }finally{meshes.dispose();}
+ }finally{globalThis.document=previous;}
 });

@@ -37,7 +37,8 @@ try{
  }
  const p=await profile();assert.ok(p.journey.places.every(x=>x.unlocked));assert.equal(p.achievements.length,10);assert.equal(p.xp,800);
  assert.equal((await call('/world/travel','POST',{district:'osaka',scene:'outdoors',position:{x:0,z:0}})).status,409);
- const trip=await call('/world/travel','POST',{district:'osaka',scene:'tokyo_station_hall',position:{x:0,z:-2.4}});assert.equal(trip.status,200);assert.equal(trip.data.scene,'osaka');
+ assert.equal((await call('/world/travel','POST',{district:'osaka',scene:'tokyo_station_hall',position:{x:0,z:-2.4}})).status,409);
+ const trip=await call('/world/travel','POST',{district:'osaka',scene:'tokyo_station_hall',position:{x:8,z:-15.8}});assert.equal(trip.status,200);assert.equal(trip.data.scene,'osaka');
  assert.equal((await call('/world/travel','POST',{district:'tokyo',scene:'osaka_arcade',position:{x:0,z:-2.4}})).status,200);
  const login=await api('/auth/login','POST',{email:'phase3-owner@example.test',password:'synthetic-phase3-password'});assert.equal(login.status,200);const relog=(await api('/world/profile','GET',null,login.cookie)).data;assert.equal(relog.xp,800);assert.equal(relog.journey.choices.find(c=>c.id==='reading').selected,'travel');
  const other=(await api('/world/profile','GET',null,b.cookie)).data;assert.equal(other.xp,0);assert.equal(other.journey.choices.find(c=>c.id==='reading').selected,null);assert.equal(other.journey.districts.find(d=>d.id==='osaka').unlocked,false);

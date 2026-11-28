@@ -1,3 +1,4 @@
+import {stationTransitObstacles} from './continuum-world-transit.mjs';
 // Shared city/scene contract. A world adds data and one outdoor renderer;
 // movement, conversations, consent, missions and learning evidence stay shared.
 export const worldDistricts=[
@@ -14,9 +15,14 @@ export const expansionLocations=[
  {id:'osaka_arcade',district:'osaka',title:'Akari shopping arcade',sign:'あかり商店街・案内所',x:17,z:-14,width:11,depth:10,height:10,door:{x:17,z:-7.5},interior:true,requires:'station-journey',style:'arcade',color:0x829792,npc:npc('mio','澪','商店街の案内係','商店街での過ごし方を相談する','ようこそ、あかり商店街へ。食べ歩きとお買い物、何に興味がありますか。')},
 ];
 export const expansionScenes=Object.fromEntries(expansionLocations.map(l=>[l.id,{
- district:l.district,bounds:{minX:-7,maxX:7,minZ:-6,maxZ:6},spawn:{x:0,z:4},
+ district:l.district,bounds:{minX:-7,maxX:7,minZ:-6,maxZ:6},spawn:{x:0,z:0},
  obstacles:[{x:0,z:-3.6,width:8,depth:1.4},...[-1,1].map(side=>({x:side*5.8,z:0,width:1.2,depth:6}))],
 }]));
+for(const l of expansionLocations.filter(l=>['books','community','arcade','food'].includes(l.style)))expansionScenes[l.id].obstacles.push(...[-1,1].map(side=>({x:side*3.6,z:1.4,width:2,depth:1.4})));
+for(const o of expansionScenes.tokyo_station_hall.obstacles)if(Math.abs(o.x)===5.8)o.x=Math.sign(o.x)*6.3;
+expansionScenes.tokyo_asahi.obstacles.push(...[-1,1].map(side=>({x:side*6.3,z:-4.8,width:.7,depth:.7})));
+expansionScenes.tokyo_station_hall.bounds={minX:-7,maxX:21,minZ:-18.5,maxZ:6};
+expansionScenes.tokyo_station_hall.obstacles.push(...stationTransitObstacles);
 expansionScenes.osaka={district:'osaka',outdoor:true,bounds:{minX:-26,maxX:26,minZ:-25,maxZ:24},spawn:{x:-7,z:6},obstacles:[
  {x:0,z:-14.5,width:8,depth:21},{x:0,z:14.5,width:8,depth:21},
  ...expansionLocations.filter(l=>l.district==='osaka').map(l=>({x:l.x,z:l.z,width:l.width,depth:l.depth})),
