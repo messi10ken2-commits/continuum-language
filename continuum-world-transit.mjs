@@ -25,7 +25,7 @@ export function makeStationBoarding(root,meshes){
  for(const z of [-8,-10])b(0xd6b651,[4.8,.008,z],[.6,.016,1.8]);
  // Platform is flush with the room floor. The track sits below it, beyond
  // continuous barriers; there is no unsupported step across the walking route.
- b(surface('paving',12,0x9da69f),[7,-.15,-12],[28,.3,4]);
+ b(meshes.special('station-platform',{color:0xb2bbb5,roughness:.9,emissive:0x28352f,emissiveIntensity:.3}),[7,-.15,-12],[28,.3,4]);
  b(0xc9aa43,[7,.008,-13.35],[27,.016,.45]);
  b(0x374b51,[7,-.6,-16.2],[28,.2,4.4]);
  for(const z of [-15.25,-17.15])b(steel,[7,-.32,z],[28,.12,.09]);
@@ -41,7 +41,7 @@ export function makeStationBoarding(root,meshes){
  }
  // Shinkansen carriage: blue waistline, recessed windows, open sliding-door
  // pocket, interior luggage racks and seats. The door is a real walkable gap.
- const white=surface('metal',4,0xe5e9e5),blue=0x235991;
+ const white=meshes.special('shinkansen-enamel',{color:0xe9eded,roughness:.3,metalness:.18,emissive:0x263439,emissiveIntensity:.16}),blue=0x235991;
  b(white,[8,-.06,-16.2],[25.4,.12,4.3]);
  b(white,[8,3.5,-16.2],[25.4,.2,4.4]);
  b(white,[8,1.75,-18.45],[25.4,3.5,.18]);

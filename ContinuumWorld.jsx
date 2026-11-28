@@ -622,7 +622,7 @@ export default function ContinuumWorld({ user, onBack }) {
                   disabled={!actionReady}
                   onClick={act}
                 >
-                  {actionType === "enter" ? <DoorOpen size={20} aria-hidden="true" /> : <MessageCircle size={20} aria-hidden="true" />}
+                  {["enter","board"].includes(actionType) ? <DoorOpen size={20} aria-hidden="true" /> : <MessageCircle size={20} aria-hidden="true" />}
                   {t(actionLabel)}
                 </button>
                 <p id="cw-interaction-hint" className="cw-interaction-hint" role="status">

@@ -72,6 +72,7 @@ try{
   await walk('KeyW','z',-15.6,false);
   await page.screenshot({path:new URL(name+'-'+width+'-shinkansen-boarding.png',dir).pathname});
   await page.getByRole('button',{name:'Board Shinkansen',exact:true}).click();
+  await page.waitForFunction(()=>document.querySelector('.cw-world')?.dataset.scene==='osaka');
 
   await graphics();assert.equal(await page.locator('.cw-world').getAttribute('data-scene'),'osaka');await page.reload();await ready();canvas=await page.locator('.cw-canvas').elementHandle();assert.equal(await page.getByLabel('Destination',{exact:true}).inputValue(),'osaka_takoyaki');await page.screenshot({path:new URL(name+'-'+width+'-osaka-day.png',dir).pathname});
   for(const place of worldLocations.filter(l=>l.district==='osaka'))await room(place);
