@@ -103,10 +103,26 @@ export function makeExpansionInterior(id,meshes){
   makeStationBoarding(root,meshes);
  }else if(place.style==='community'){
   panel('交流サロン ・ 2F / 学習室 ・ 3F',[0,2.65,-5.94],4.7,'#525f68');
+  // Brushed lift doors, call button and floor indicator make this read as a
+  // real mixed-use building lobby, alongside the staffed event reception.
+  box(steel,[5.55,1.45,-5.85],[2.25,2.9,.15]);
+  for(const x of [5.02,6.08])box(0xb0b9b7,[x,1.4,-5.75],[1.02,2.75,.035]);
+  box(0x304245,[5.55,1.4,-5.72],[.035,2.7,.015]);
+  panel('1F  ▲',[5.55,3.15,-5.74],1.4,'#243c42');
+  box(0x38494b,[4.23,1.2,-5.72],[.15,.3,.06]);
+  shape(root,'sphere',0xe0c59a,[4.23,1.25,-5.68],[.035,.035,.012],true);
+  for(const side of [-1,1]){
+   shape(root,'cylinder',surface('stone',1,0xa39b82),[side*6.3,.28,-4.8],[.3,.56,.3]);
+   for(let i=0;i<7;i++){
+    const a=i*2.4;shape(root,'cylinder',0x607a4d,[side*6.3+Math.sin(a)*.13,.95,-4.8+Math.cos(a)*.13],[.018,.9,.018]);
+    const leaf=shape(root,'sphere',0x608059,[side*6.3+Math.sin(a)*.27,1.2+i*.065,-4.8+Math.cos(a)*.27],[.2,.11,.35]);leaf.rotation.y=a;
+   }
+  }
+
   for(const side of [-1,1]){
    box(wood,[side*5.8,.38,0],[1.1,.76,.6]);
    for(const z of [-1.6,1.6]){
-    chair(side*5.75,z);box(wood,[side*5.8,.77,z],[1.05,.08,1.3]);
+    chair(side*5.75,z+.65);box(wood,[side*5.8,.77,z],[1.05,.08,1.3]);
     box(0xded6bd,[side*5.8,.83,z],[.45,.025,.6]);
    }
    panel(side<0?'地域のイベント ・ 参加受付':'朝日ビル / フロアガイド',[side*5.14,2.8,0],3,'#686b56').rotation.y=-side*Math.PI/2;
